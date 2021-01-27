@@ -1,0 +1,13 @@
+asm/init_80004000.s
+asm/extab_80006460.s
+asm/extabindex_80006a20.s
+asm/text_800072c0.s
+asm/ctors_80244de0.s
+asm/dtors_80244ea4.s
+asm/rodata_80244ec0.s
+asm/data_80258580.s
+asm/bss_802a4080.s
+asm/sdata_80384c00.s
+asm/sbss_80385fc0.s
+asm/sdata2_80386fa0.s
+asm/sbss2_80389140.s
