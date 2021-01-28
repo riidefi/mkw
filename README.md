@@ -1,5 +1,7 @@
 # mkw
-An in-development, matching decompilation of Mario Kart Wii. All code in this repository will compile 1:1 to the original game.
+A matching decompilation of Mario Kart Wii. All code in this repository will compile 1:1 to the original game.
+It produces the following .dol:
+mkw_pal.dol: `sha1: ac7d72448630ade7655fc8bc5fd7a6543cb53a49`
 
 ## Accuracy
 The primary priority is to maintain absolute code accuracy. To automate verification of this, a special linker setup is used to emplace compiled code back into the original executable, forming a new executable. This new executable is hashed to ensure it matches the original. Once all code is decompiled, this setup will build a new executable from scratch, sampling none of the original.
@@ -12,3 +14,6 @@ While the original game was written and compiled as C++03, several modern C++ fe
 
 ## Documentation
 Every fully understood piece of reverse engineered data has been documented in a consistent doxygen style.
+
+## Building
+Create a root-level folder named `tools`. Place elf2dol, mwldeppc and mwcceppc in it. Then run `python3 build.py` 
