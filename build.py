@@ -50,17 +50,17 @@ def build():
 	try:
 		os.mkdir("target")
 	except: pass
-	command(ELF2DOL + " out/built.elf target/built.dol -v -v")
+	command(ELF2DOL + " out/built.elf target/mkw_pal.dol -v -v")
 
 	# This is a bug with elf2dol; this works fine with makedol
 	# for now I'll just patch it...
-	with open('target/built.dol', 'r+b') as dol:
+	with open('target/mkw_pal.dol', 'r+b') as dol:
 		dol.seek(0xDC)
 		# bss_size
 		dol.write(bytes([0x00, 0x0E, 0x50, 0xFC]))
 
 	import hashlib
-	ctx = hashlib.sha1(open('target/built.dol', 'rb').read())
+	ctx = hashlib.sha1(open('target/mkw_pal.dol', 'rb').read())
 	digest = ctx.hexdigest()
 	if digest.lower() == 'ac7d72448630ade7655fc8bc5fd7a6543cb53a49':
 		print("Everything went okay! Output is matching! ^^")
