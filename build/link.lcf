@@ -45,13 +45,3 @@ frsqrt__Q23EGG5MathfFf=0x8022F85C;
 __dt__Q23EGG8Vector3fFv=0x80009B40;
 __dt__Q23EGG8Vector2fFv=0x80009B80;
 }
-
-FORCEFILES 
-{
-extab_80006460.o
-extabindex_80006a20.o
-dwc_error.o
-rxArchive.o
-rxList.o
-eggVector.o
-}
