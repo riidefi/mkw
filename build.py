@@ -114,6 +114,7 @@ def build():
 	compile_source("source/rx/rxArchive.c", "out/rxArchive.o", '4199_60831')
 	compile_source("source/rx/rxList.c", "out/rxList.o", '4199_60831')
 	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831')
+	compile_source("source/egg/math/eggVector.cpp", "out/eggVector.o", '4201_127')
 
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)

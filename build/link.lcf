@@ -37,6 +37,13 @@ _restgpr_26=0x800215E8;
 _restgpr_27=0x800215EC;
 OSReport=0x801A25D0;
 _current_locale=0x80271148;
+
+__register_global_object=0x80021338;
+__dl__FPv=0x80229E14;
+sqrt__Q23EGG5MathfFf=0x8022F80C;
+frsqrt__Q23EGG5MathfFf=0x8022F85C;
+__dt__Q23EGG8Vector3fFv=0x80009B40;
+__dt__Q23EGG8Vector2fFv=0x80009B80;
 }
 
 FORCEFILES 
@@ -46,4 +53,5 @@ extabindex_80006a20.o
 dwc_error.o
 rxArchive.o
 rxList.o
+eggVector.o
 }
