@@ -59,7 +59,7 @@ def assemble(dst, src):
 	command(cmd)
 
 def link(dst, objs, lcf):
-	cmd = MWLD + " %s -o %s -lcf %s" % (' '.join(objs), dst, lcf)
+	cmd = MWLD + " %s -o %s -lcf %s -fp hard" % (' '.join(objs), dst, lcf)
 	command(cmd)
 
 def make_obj(src):
@@ -81,6 +81,7 @@ def build():
 
 	compile_source("source/rx/rxArchive.c", "out/rxArchive.o")
 	compile_source("source/rx/rxList.c", "out/rxList.o")
+	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o")
 
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
