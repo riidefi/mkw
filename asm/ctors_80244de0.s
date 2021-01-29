@@ -1,5 +1,5 @@
 
-.section .ctors, "wa" # 0x80244DE0 - 0x80244E90
+.section .ctors, "wa" # 0x80244DE0 - 0x80244E88
 .4byte 0x800211E4
 .4byte 0x800099CC
 .4byte 0x80027AB0
@@ -42,5 +42,3 @@
 .4byte 0x80230414
 .4byte 0x8023E700
 .4byte 0x8023E73C
-.4byte 0x80243BE8
-.4byte 0x00000000
