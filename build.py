@@ -1,5 +1,7 @@
 import os
 
+VERBOSE = False
+
 DEVKITPPC = "C:\\devkitPro\\devkitPPC"
 
 GCC = os.path.join(DEVKITPPC, "bin\\powerpc-eabi-gcc.exe")
@@ -12,8 +14,29 @@ ELF2DOL = "tools\\elf2dol.exe"
 SOURCE_PATH   = "./source/"
 ASM_TEXT_PATH = "./asm/text/"
 BUILD_PATH 	  = "./build/"
-CWCC_OLD = True
-CWCC_PATH 	  = ".\\tools\\OLD_mwcceppc.exe" if CWCC_OLD else ".\\tools\\mwcceppc.exe"
+CWCC_OLD = False
+
+CWCC_PATHS = {
+	'default': ".\\tools\\4199_60831\\mwcceppc.exe",
+
+	# For the main game
+	# August 17, 2007
+	# 4.2.0.1 Build 127
+	#
+	# Ideally we would use this version
+	# We don't have this, so we use build 142:
+	# This version has the infuriating bug where random 
+	# nops are inserted into your code.
+	'4201_127': ".\\tools\\4201_142\\mwcceppc.exe",
+
+	# For most of RVL
+	# We actually have the correct version
+	'4199_60831': ".\\tools\\4199_60831\\mwcceppc.exe",
+
+	# For HBM/WPAD, NHTTP/SSL
+	# We use build 60831
+	'4199_60726': '\\tools\\4199_60831\\mwcceppc.exe'
+}
 CWCC_OPT = " ".join([
 	"-nodefaults",
 	"-align powerpc",
@@ -38,20 +61,29 @@ CWCC_OPT = " ".join([
 	"-inline auto",
 	"-w notinlined -W noimplicitconv",
 	"-nostdinc",
-	"-msgstyle gcc -lang=c99 -DREVOKART"
+	"-msgstyle gcc -lang=c99 -DREVOKART",
+	"-func_align 4"
 ])
 
-def compile_source(src, dst):
+def postprocess(dst):
+	command("python tools/postprocess.py -fsymbol-fixup %s" % dst)
+
+def compile_source(src, dst, version='default'):
 	try:
 		os.mkdir("tmp")
 	except: pass
-	command = f"{CWCC_PATH} {CWCC_OPT if 'rx' not in src else CWCC_OPT.replace(',s', ',p')} {src} -o {dst}"
-	print(command)
+	command = f"{CWCC_PATHS[version]} {CWCC_OPT} {src} -o {dst}"
+	
+	if VERBOSE:
+		print(command)
+	
 	os.system(command + " > ./tmp/compiler_log.txt")
 	print(open("./tmp/compiler_log.txt").read().replace("source\\", ""))
+	# postprocess(dst)
 
 def command(cmd):
-	print(cmd)
+	if VERBOSE:
+		print(cmd)
 	os.system(cmd)
 
 def assemble(dst, src):
@@ -79,9 +111,9 @@ def build():
 		os.mkdir("out")
 	except: pass
 
-	compile_source("source/rx/rxArchive.c", "out/rxArchive.o")
-	compile_source("source/rx/rxList.c", "out/rxList.o")
-	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o")
+	compile_source("source/rx/rxArchive.c", "out/rxArchive.o", '4199_60831')
+	compile_source("source/rx/rxList.c", "out/rxList.o", '4199_60831')
+	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831')
 
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
