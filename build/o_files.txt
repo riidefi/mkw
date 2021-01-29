@@ -2,10 +2,12 @@ text_800072c0.o
 data_80258580.o
 sdata_80384c00.o
 rxArchive.o
+text_80124e80.o
+rxList.o
 init_80004000.o
 extab_80006460.o
 extabindex_80006a20.o
-text_80124e80.o
+text_80199d04.o
 ctors_80244de0.o
 dtors_80244ea4.o
 rodata_80244ec0.o

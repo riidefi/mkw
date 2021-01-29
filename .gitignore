@@ -33,3 +33,7 @@
 
 *.elf
 *.dol
+
+compiler_log.txt
+.vs
+out
