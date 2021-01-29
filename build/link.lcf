@@ -48,4 +48,9 @@ __dt__Q23EGG8Vector2fFv=0x80009B80;
 CXInitUncompContextLZ=0x8015BEF0;
 CXReadUncompLZ=0x8015BF24;
 CXGetUncompressedSize=0x8015C2E0;
+
+List_Remove__Q24nw4r2utFPQ34nw4r2ut4ListPv=0x800AF110;
+List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv=0x800AEF80;
+
+findContainHeap__Q23EGG4HeapFPCv=0x80229ADC;
 }
