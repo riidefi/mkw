@@ -1,5 +1,9 @@
 text_800072c0.o
 data_80258580.o
+sbss_80385fc0.o
+dwc_error.o
+text_800ccc80.o
+data_80275758.o
 sdata_80384c00.o
 rxArchive.o
 text_80124e80.o
@@ -14,6 +18,6 @@ rodata_80244ec0.o
 data_8027e772.o
 bss_802a4080.o
 sdata_803857f6.o
-sbss_80385fc0.o
+sbss_803862b0.o
 sdata2_80386fa0.o
 sbss2_80389140.o
