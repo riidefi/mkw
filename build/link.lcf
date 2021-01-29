@@ -43,6 +43,7 @@ FORCEFILES
 {
 extab_80006460.o
 extabindex_80006a20.o
+dwc_error.o
 rxArchive.o
 rxList.o
 }

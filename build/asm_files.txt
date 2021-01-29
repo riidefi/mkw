@@ -1,5 +1,8 @@
 asm/text_800072c0.s
 asm/data_80258580.s
+asm/sbss_80385fc0.s
+asm/text_800ccc80.s
+asm/data_80275758.s
 asm/sdata_80384c00.s
 asm/text_80124e80.s
 asm/init_80004000.s
@@ -12,6 +15,6 @@ asm/rodata_80244ec0.s
 asm/data_8027e772.s
 asm/bss_802a4080.s
 asm/sdata_803857f6.s
-asm/sbss_80385fc0.s
+asm/sbss_803862b0.s
 asm/sdata2_80386fa0.s
 asm/sbss2_80389140.s
