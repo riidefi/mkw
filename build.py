@@ -103,8 +103,8 @@ def make_obj(src):
 	return src
 
 def build():
-	asm_files = [x.strip() for x in open('build/asm_files.txt', 'r').readlines()]
-	# src_files = [x.strip() for x in open('build/src_files.txt', 'r').readlines()]
+	from pathlib import Path
+	asm_files = ["asm/" + str(x.stem) + ".s" for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")]
 	o_files = ["out/" + x.strip() for x in open('build/o_files.txt', 'r').readlines()]
 
 	try:
@@ -119,7 +119,14 @@ def build():
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
 
-	link('out/built.elf', o_files, "build/link.lcf")
+	lcf = open("build/link.lcf", 'r').read()
+	lcf += "\nFORCEFILES {\n"
+	lcf += "\n".join(x.replace("out/", "") for x in o_files)
+	lcf += "\n}\n"
+
+	open('out/generated.lcf', 'w').write(lcf)
+
+	link('out/built.elf', o_files, "out/generated.lcf")
 
 	with open('out/built.elf', 'r+b') as elf:
 		elf.seek(0x18)
