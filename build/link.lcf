@@ -28,10 +28,20 @@ __ArenaHi = 0x81700000;
 
 __start = 0x800060A4;
 __destroy_global_chain=0x80021350;
+
+OSPanic=0x801A2660;
+_savegpr_26=0x8002159C;
+_savegpr_27=0x800215A0;
+
+_restgpr_26=0x800215E8;
+_restgpr_27=0x800215EC;
+OSReport=0x801A25D0;
+_current_locale=0x80271148;
 }
 
 FORCEFILES 
 {
 extab_80006460.o
 extabindex_80006a20.o
+rxArchive.o
 }
