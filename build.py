@@ -9,6 +9,47 @@ MWLD = "tools\\mwldeppc.exe"
 
 ELF2DOL = "tools\\elf2dol.exe"
 
+SOURCE_PATH   = "./source/"
+ASM_TEXT_PATH = "./asm/text/"
+BUILD_PATH 	  = "./build/"
+CWCC_OLD = True
+CWCC_PATH 	  = ".\\tools\\OLD_mwcceppc.exe" if CWCC_OLD else ".\\tools\\mwcceppc.exe"
+CWCC_OPT = " ".join([
+	"-nodefaults",
+	"-align powerpc",
+	"-enc SJIS",
+	"-c",
+	# "-I-",
+	"-gccinc",
+	"-i ./source/ -i ./source/platform",
+	# "-inline deferred",
+	"-proc gekko",
+	"-enum int",
+	"-O4,p",
+	"-inline auto",
+	"-W all",
+	"-fp hardware",
+	"-Cpp_exceptions off",
+	"-RTTI off",
+	"-pragma \"cats off\"", # ???
+	# "-pragma \"aggressive_inline on\"",
+	# "-pragma \"auto_inline on\"",	
+	"-ipa file",
+	"-inline auto",
+	"-w notinlined -W noimplicitconv",
+	"-nostdinc",
+	"-msgstyle gcc -lang=c99 -DREVOKART"
+])
+
+def compile_source(src, dst):
+	try:
+		os.mkdir("tmp")
+	except: pass
+	command = f"{CWCC_PATH} {CWCC_OPT if 'rx' not in src else CWCC_OPT.replace(',s', ',p')} {src} -o {dst}"
+	print(command)
+	os.system(command + " > ./tmp/compiler_log.txt")
+	print(open("./tmp/compiler_log.txt").read().replace("source\\", ""))
+
 def command(cmd):
 	print(cmd)
 	os.system(cmd)
@@ -37,6 +78,8 @@ def build():
 	try:
 		os.mkdir("out")
 	except: pass
+
+	compile_source("source/rx/rxArchive.c", "out/rxArchive.o")
 
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
