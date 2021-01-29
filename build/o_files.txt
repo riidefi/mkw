@@ -5,9 +5,9 @@ dwc_error.o
 text_800ccc80.o
 data_80275758.o
 sdata_80384c00.o
-rxArchive.o
+rvlArchive.o
 text_80124e80.o
-rxList.o
+rvlMemList.o
 text_80199d04.o
 ctors_80244de0.o
 bss_802a4080.o
