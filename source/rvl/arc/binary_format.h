@@ -1,12 +1,12 @@
 #pragma once
 
-#include <stdbool.h>  // bool
 #include <rk_types.h> // expects
+#include <stdbool.h>  // bool
 
 void OSPanic(...);
 void OSReport(...);
 
-struct rxNode {
+struct rvlArchiveNode {
   union {
     struct {
       u32 is_folder : 8;
@@ -28,11 +28,11 @@ struct rxNode {
 
 // Bitfield access of a packed_type_name X produces a pattern (X >> 24), which
 // does not match access done by masking.
-#define rxNodeIsFolder(node) ((node).packed_type_name & 0xff000000)
+#define rvlArchiveNodeIsFolder(node) ((node).packed_type_name & 0xff000000)
 // In some cases (X << 8 >> 8) does not collapse to a mask.
-#define rxNodeGetName(node) ((node).packed_type_name & 0x00ffffff)
+#define rvlArchiveNodeGetName(node) ((node).packed_type_name & 0x00ffffff)
 
-struct rxArchiveHeader {
+struct rvlArchiveHeader {
   u32 magic; // 00
   struct {
     s32 offset; // 04
@@ -45,24 +45,25 @@ struct rxArchiveHeader {
   u8 _10[0x10];
 };
 
-typedef struct rxNode rxNode;
-typedef struct rxArchiveHeader rxArchiveHeader;
+typedef struct rvlArchiveNode rvlArchiveNode;
+typedef struct rvlArchiveHeader rvlArchiveHeader;
 
-enum { RX_ARCHIVE_FILE_MAGIC = 0x55aa382d };
+enum { RVL_ARCHIVE_FILE_MAGIC = 0x55aa382d };
 
-static bool rxArchiveHeaderVerify(const rxArchiveHeader* self) {
+static bool rvlArchiveHeaderVerify(const rvlArchiveHeader* self) {
   // Verify the "U8" magic
-  if (self->magic != RX_ARCHIVE_FILE_MAGIC)
+  if (self->magic != RVL_ARCHIVE_FILE_MAGIC)
     return false;
 
   return true;
 }
-static const rxNode* rxArchiveHeaderGetNodes(const rxArchiveHeader* self) {
-  expects(self->nodes.offset > sizeof(rxArchiveHeader));
-  return (const rxNode*)((u8*)self + self->nodes.offset);
+static const rvlArchiveNode*
+rvlArchiveHeaderGetNodes(const rvlArchiveHeader* self) {
+  expects(self->nodes.offset > sizeof(rvlArchiveHeader));
+  return (const rvlArchiveNode*)((u8*)self + self->nodes.offset);
 }
-static const u8* rxArchiveHeaderGetFileData(const rxArchiveHeader* self) {
-  expects(self->files.offset > sizeof(rxArchiveHeader));
+static const u8* rvlArchiveHeaderGetFileData(const rvlArchiveHeader* self) {
+  expects(self->files.offset > sizeof(rvlArchiveHeader));
   return (const u8*)((u8*)self + self->files.offset);
 }
 
