@@ -80,6 +80,7 @@ def build():
 	except: pass
 
 	compile_source("source/rx/rxArchive.c", "out/rxArchive.o")
+	compile_source("source/rx/rxList.c", "out/rxList.o")
 
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
