@@ -114,6 +114,7 @@ def build():
 	compile_source("source/rvl/arc/rvlArchive.c", "out/rvlArchive.o", '4199_60831')
 	compile_source("source/rvl/mem/rvlMemList.c", "out/rvlMemList.o", '4199_60831')
 	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831')
+	compile_source("source/egg/core/eggDisposer.cpp", "out/eggDisposer.o", '4201_127')
 	compile_source("source/egg/core/eggStreamDecomp.cpp", "out/eggStreamDecomp.o", '4201_127')
 	compile_source("source/egg/math/eggVector.cpp", "out/eggVector.o", '4201_127')
 
