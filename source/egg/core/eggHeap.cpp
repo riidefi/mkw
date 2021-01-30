@@ -51,4 +51,17 @@ Heap::Heap(rvlHeap* pHeap) : Disposer(), mHeapHandle(pHeap) {
   OSUnlockMutex(&sRootMutex);
 }
 
+Heap::~Heap() {
+  OSLockMutex(&sRootMutex);
+  nw4r::ut::List_Remove(&sHeapList, this);
+  OSUnlockMutex(&sRootMutex);
+}
+
+struct HeapAllocCallbackArg {
+  int userArg; // 00
+  u32 size;    // 04
+  int align;   // 08
+  Heap* heap;  // 0C heap to allocate in
+};
+
 } // namespace EGG

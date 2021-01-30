@@ -86,7 +86,7 @@ def command(cmd):
 	os.system(cmd)
 
 def assemble(dst, src):
-	cmd = GAS + " %s -mgekko -o %s" % (src, dst)
+	cmd = GAS + " %s -mgekko -Iasm -o %s" % (src, dst)
 	command(cmd)
 
 def link(dst, objs, lcf):

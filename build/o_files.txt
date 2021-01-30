@@ -13,11 +13,12 @@ data_8027e772.o
 eggDisposer.o
 text_8021a1b8.o
 rodata_80244ec0.o
+data_802a2b54.o
 bss_802a4080.o
 sbss_803862b0.o
 eggHeap.o
-text_80229780.o
-data_802a2b54.o
+text_80229814.o
+data_802a30ec.o
 eggStreamDecomp.o
 text_80242504.o
 ctors_80244de0.o
