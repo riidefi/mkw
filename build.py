@@ -57,7 +57,6 @@ CWCC_OPT = " ".join([
 	"-pragma \"cats off\"", # ???
 	# "-pragma \"aggressive_inline on\"",
 	# "-pragma \"auto_inline on\"",	
-	"-ipa file",
 	"-inline auto",
 	"-w notinlined -W noimplicitconv",
 	"-nostdinc",
@@ -68,11 +67,11 @@ CWCC_OPT = " ".join([
 def postprocess(dst):
 	command("python tools/postprocess.py -fsymbol-fixup %s" % dst)
 
-def compile_source(src, dst, version='default'):
+def compile_source(src, dst, version='default', additional='-ipa file'):
 	try:
 		os.mkdir("tmp")
 	except: pass
-	command = f"{CWCC_PATHS[version]} {CWCC_OPT} {src} -o {dst}"
+	command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
 	
 	if VERBOSE:
 		print(command)
@@ -111,12 +110,21 @@ def build():
 		os.mkdir("out")
 	except: pass
 
-	compile_source("source/rvl/arc/rvlArchive.c", "out/rvlArchive.o", '4199_60831')
-	compile_source("source/rvl/mem/rvlMemList.c", "out/rvlMemList.o", '4199_60831')
-	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831')
-	compile_source("source/egg/core/eggDisposer.cpp", "out/eggDisposer.o", '4201_127')
-	compile_source("source/egg/core/eggStreamDecomp.cpp", "out/eggStreamDecomp.o", '4201_127')
-	compile_source("source/egg/math/eggVector.cpp", "out/eggVector.o", '4201_127')
+	RVL_OPTS = '-ipa file'
+	EGG_OPTS = '-ipa function -rostr'
+
+	compile_source("source/rvl/arc/rvlArchive.c", "out/rvlArchive.o", '4199_60831', RVL_OPTS)
+	compile_source("source/rvl/mem/rvlMemList.c", "out/rvlMemList.o", '4199_60831', RVL_OPTS)
+
+	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831', RVL_OPTS)
+
+	compile_source("source/egg/core/eggDisposer.cpp", "out/eggDisposer.o", '4201_127', EGG_OPTS)
+	compile_source("source/egg/core/eggHeap.cpp", "out/eggHeap.o", '4201_127', EGG_OPTS)
+	compile_source("source/egg/core/eggStreamDecomp.cpp", "out/eggStreamDecomp.o", '4201_127', EGG_OPTS)
+	# compile_source("source/egg/core/eggSystem.cpp", "out/eggSystem.o", '4201_127', EGG_OPTS)
+	compile_source("source/egg/math/eggVector.cpp", "out/eggVector.o", '4201_127', EGG_OPTS)
+	# compile_source("source/egg/core/eggXfb.cpp", "out/eggXfb.o", '4201_127', EGG_OPTS)
+	# compile_source("source/egg/core/eggXfbManager.cpp", "out/eggXfbManager.o", '4201_127', EGG_OPTS)
 
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
