@@ -1,4 +1,6 @@
 
+.include "macros.inc"
+
 .section .data, "wa" # 0x8027E772 - 0x802A2B48
 .4byte 0x00000000
 .4byte 0x00003C3C

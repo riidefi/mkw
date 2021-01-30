@@ -1,4 +1,6 @@
 
+.include "macros.inc"
+
 .section .ctors, "wa" # 0x80244DE0 - 0x80244E88
 .4byte 0x800211E4
 .4byte 0x800099CC

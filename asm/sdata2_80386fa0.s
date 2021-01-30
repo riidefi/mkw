@@ -1,4 +1,6 @@
 
+.include "macros.inc"
+
 .section .sdata2, "a" # 0x80386FA0 - 0x803890F8
 .4byte 0x459C4000
 .4byte 0x469C4000
