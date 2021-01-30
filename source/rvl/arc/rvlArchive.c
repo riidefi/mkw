@@ -28,7 +28,7 @@ bool ARCInitHandle(void* pData, rvlArchive* pOut) {
   return true;
 }
 
-bool ARCOpen(const rvlArchive* self, const char* path, rvlArchiveFile* pOut) {
+int ARCOpen(const rvlArchive* self, const char* path, rvlArchiveFile* pOut) {
   expects(self != nullptr && path != nullptr && pOut != nullptr);
 
   const rvlArchiveNode* nodes = self->mNodes;
@@ -54,7 +54,7 @@ bool ARCOpen(const rvlArchive* self, const char* path, rvlArchiveFile* pOut) {
   return true;
 }
 
-bool ARCFastOpen(const rvlArchive* self, s32 resolved, rvlArchiveFile* pOut) {
+int ARCFastOpen(const rvlArchive* self, s32 resolved, rvlArchiveFile* pOut) {
   expects(self != nullptr && pOut != nullptr);
 
   const rvlArchiveNode* nodes = self->mNodes;

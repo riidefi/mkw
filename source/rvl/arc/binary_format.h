@@ -50,19 +50,20 @@ typedef struct rvlArchiveHeader rvlArchiveHeader;
 
 enum { RVL_ARCHIVE_FILE_MAGIC = 0x55aa382d };
 
-static bool rvlArchiveHeaderVerify(const rvlArchiveHeader* self) {
+static inline bool rvlArchiveHeaderVerify(const rvlArchiveHeader* self) {
   // Verify the "U8" magic
   if (self->magic != RVL_ARCHIVE_FILE_MAGIC)
     return false;
 
   return true;
 }
-static const rvlArchiveNode*
+static inline const rvlArchiveNode*
 rvlArchiveHeaderGetNodes(const rvlArchiveHeader* self) {
   expects(self->nodes.offset > sizeof(rvlArchiveHeader));
   return (const rvlArchiveNode*)((u8*)self + self->nodes.offset);
 }
-static const u8* rvlArchiveHeaderGetFileData(const rvlArchiveHeader* self) {
+static inline const u8*
+rvlArchiveHeaderGetFileData(const rvlArchiveHeader* self) {
   expects(self->files.offset > sizeof(rvlArchiveHeader));
   return (const u8*)((u8*)self + self->files.offset);
 }

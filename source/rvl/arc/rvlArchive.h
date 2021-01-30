@@ -121,7 +121,7 @@ bool ARCChangeDir(rvlArchive* self, const char* path);
 //!
 //! @return If the operation succeeded.
 //!
-bool ARCOpen(const rvlArchive* self, const char* path, rvlArchiveFile* pOut);
+int ARCOpen(const rvlArchive* self, const char* path, rvlArchiveFile* pOut);
 
 //! @brief Open a file handle from an archive.
 //!
@@ -131,7 +131,7 @@ bool ARCOpen(const rvlArchive* self, const char* path, rvlArchiveFile* pOut);
 //!
 //! @return If the operation succeeded.
 //!
-bool ARCFastOpen(const rvlArchive* self, rvlArchiveEntryHandle path,
+int ARCFastOpen(const rvlArchive* self, rvlArchiveEntryHandle path,
                  rvlArchiveFile* pOut);
 
 //! @brief Get the file data from a file handle.
