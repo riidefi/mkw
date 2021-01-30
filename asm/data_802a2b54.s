@@ -1,7 +1,7 @@
 
 .include "macros.inc"
 
-.section .data, "wa" # 0x802A2B54 - 0x802A30C0
+.section .data, "wa" # 0x802A2B54 - 0x802A30B0
 .4byte 0x00000000
 .4byte 0x00000000
 .4byte 0x00000000
@@ -345,7 +345,3 @@
 .4byte 0x00000000
 .4byte 0x00000000
 .4byte 0x80229068
-.4byte 0x00000000
-.4byte 0x00000000
-.4byte 0x802295A8
-.4byte 0x00000000

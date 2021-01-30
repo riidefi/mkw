@@ -66,4 +66,8 @@ DVDOpen=0x8015E2BC;
 DVDClose=0x8015E568;
 
 memset=0x80006038;
+
+GXGetGPStatus=0x8016CEC4;
+GXInit=0x8016B850;
+
 }
