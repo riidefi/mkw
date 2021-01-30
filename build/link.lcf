@@ -60,4 +60,10 @@ OSUnlockMutex=0x801A7FC0;
 
 OSGetCurrentThread=0x801A98B0;
 MEMFindContainHeap=0x80198658;
+
+DVDReadPrio=0x8015E834;
+DVDOpen=0x8015E2BC;
+DVDClose=0x8015E568;
+
+memset=0x80006038;
 }
