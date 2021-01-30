@@ -134,7 +134,7 @@ public:
   //!
   //! @return 	this
   //!
-  Heap(struct rvlHeapHandle* heapHandle);
+  Heap(struct rvlHeap* heapHandle);
 
   //! @brief   	Allocate a block of memory in a heap.
   //!
