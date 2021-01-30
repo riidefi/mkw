@@ -118,6 +118,7 @@ def build():
 
 	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831', RVL_OPTS)
 
+	compile_source("source/egg/core/eggArchive.cpp", "out/eggArchive.o", '4201_127', EGG_OPTS + " -use_lmw_stmw=on ")
 	compile_source("source/egg/core/eggDisposer.cpp", "out/eggDisposer.o", '4201_127', EGG_OPTS)
 	compile_source("source/egg/core/eggHeap.cpp", "out/eggHeap.o", '4201_127', EGG_OPTS + " -ipa file -use_lmw_stmw=on  ")
 	compile_source("source/egg/core/eggStreamDecomp.cpp", "out/eggStreamDecomp.o", '4201_127', EGG_OPTS)
