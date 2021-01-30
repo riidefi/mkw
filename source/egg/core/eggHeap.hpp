@@ -14,6 +14,7 @@ namespace EGG {
 
 class ExpHeap;
 class Allocator;
+typedef void (*ErrorCallback)(void*);
 
 //! @brief   Base Heap class
 //!
@@ -32,6 +33,8 @@ public:
   };
 
   inline bool isExpHeap() { return getHeapKind() == HEAP_KIND_EXPANDED; }
+  inline Heap* getParentHeap() { return mParentHeap; }
+  inline void* getStartAddress() { return this; }
 
   virtual ~Heap();
   //! @brief [vt+0x0C] Get the type of heap the current heap is.
@@ -69,8 +72,8 @@ public:
   //! @brief	When non NULL, this heap MUST be used for heap allocations.
   //!			This will restrict rather than redirect allocations.
   static Heap* sAllocatableHeap;
-  static void* sErrorCallback;              //!< TODO
-  static void* sAllocCallback;              //!< TODO
+  static ErrorCallback sErrorCallback;      //!< TODO
+  static ErrorCallback sAllocCallback;      //!< TODO
   static void* sErrorCallbackArg;           //!< TODO
   static void* sAllocCallbackArg;           //!< TODO
   static struct Thread* sAllocatableThread; //!< TODO
@@ -147,7 +150,7 @@ public:
   //! @return 	The address of the allocated block.
   //! @retval		NULL: The allocation failed.
   //!
-  static void* alloc(u32 size, s32 align, Heap* heap);
+  static void* alloc(u32 size, int align, Heap* heap);
 
   //! @brief   	Returns the Disposer's parent heap.
   //!
