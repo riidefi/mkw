@@ -16,15 +16,16 @@ rodata_80244ec0.o
 data_802a2b54.o
 bss_802a4080.o
 sbss_803862b0.o
+sdata2_80386fa0.o
 eggHeap.o
-text_80229814.o
+text_80229fac.o
 data_802a30ec.o
 eggStreamDecomp.o
 text_80242504.o
 ctors_80244de0.o
 bss_80384348.o
 sbss_80386ec0.o
-sdata2_80386fa0.o
+sdata2_80388d80.o
 eggVector.o
 init_80004000.o
 extab_80006460.o
@@ -32,7 +33,7 @@ extabindex_80006a20.o
 text_80243d18.o
 ctors_80244e8c.o
 dtors_80244ea4.o
-rodata_80257747.o
+rodata_80257824.o
 data_802a3f90.o
 bss_80384bf4.o
 sdata_803857f6.o

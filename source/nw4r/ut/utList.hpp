@@ -25,6 +25,10 @@ struct List {
 void List_Init(List* pList, u16 intrusion_offset);
 void List_Append(List* pList, void* pObj);
 void List_Remove(List* pList, void* pObj);
+void* List_GetNext(const List*, const void*);
+inline void* List_GetFirst(const List* pList) {
+  return List_GetNext(pList, nullptr);
+}
 
 // clang-format off
 } } // namespace nw4r

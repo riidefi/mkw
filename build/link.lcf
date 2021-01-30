@@ -39,7 +39,6 @@ OSReport=0x801A25D0;
 _current_locale=0x80271148;
 
 __register_global_object=0x80021338;
-__dl__FPv=0x80229E14;
 sqrt__Q23EGG5MathfFf=0x8022F80C;
 frsqrt__Q23EGG5MathfFf=0x8022F85C;
 __dt__Q23EGG8Vector3fFv=0x80009B40;
@@ -52,13 +51,13 @@ CXGetUncompressedSize=0x8015C2E0;
 List_Remove__Q24nw4r2utFPQ34nw4r2ut4ListPv=0x800AF110;
 List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv=0x800AEF80;
 List_Init__Q24nw4r2utFPQ34nw4r2ut4ListUs=0x800AEF60;
-
-
-findContainHeap__Q23EGG4HeapFPCv=0x80229ADC;
+List_GetNext__Q24nw4r2utFPCQ34nw4r2ut4ListPCv=0x800AF180;
+findThread__Q23EGG6ThreadFP8OSThread=0x802434D8;
 OSInitMutex=0x801A7EAC;
-
-__nwa__FUlPQ23EGG4Heapi=0x80229E04;
 
 OSLockMutex=0x801A7EE4;
 OSUnlockMutex=0x801A7FC0;
+
+OSGetCurrentThread=0x801A98B0;
+MEMFindContainHeap=0x80198658;
 }
