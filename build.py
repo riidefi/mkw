@@ -122,6 +122,7 @@ def build():
 	compile_source("source/egg/core/eggDisposer.cpp", "out/eggDisposer.o", '4201_127', EGG_OPTS)
 	compile_source("source/egg/core/eggGraphicsFifo.cpp", "out/eggGraphicsFifo.o", '4201_127', EGG_OPTS)
 	compile_source("source/egg/core/eggHeap.cpp", "out/eggHeap.o", '4201_127', EGG_OPTS + " -ipa file -use_lmw_stmw=on  ")
+	compile_source("source/egg/math/eggQuat.cpp", "out/eggQuat.o", '4201_127', EGG_OPTS)
 	compile_source("source/egg/core/eggStreamDecomp.cpp", "out/eggStreamDecomp.o", '4201_127', EGG_OPTS)
 	# compile_source("source/egg/core/eggSystem.cpp", "out/eggSystem.o", '4201_127', EGG_OPTS)
 	compile_source("source/egg/math/eggVector.cpp", "out/eggVector.o", '4201_127', EGG_OPTS)

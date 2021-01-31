@@ -27,6 +27,8 @@ sbss_80386e99.o
 sdata2_80386fa0.o
 eggHeap.o
 text_80229fac.o
+eggQuat.o
+text_80239e10.o
 data_802a30ec.o
 eggStreamDecomp.o
 text_80242504.o
