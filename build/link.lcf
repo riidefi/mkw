@@ -52,12 +52,19 @@ List_Remove__Q24nw4r2utFPQ34nw4r2ut4ListPv=0x800AF110;
 List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv=0x800AEF80;
 List_Init__Q24nw4r2utFPQ34nw4r2ut4ListUs=0x800AEF60;
 List_GetNext__Q24nw4r2utFPCQ34nw4r2ut4ListPCv=0x800AF180;
-findThread__Q23EGG6ThreadFP8OSThread=0x802434D8;
 OSInitMutex=0x801A7EAC;
 
 OSLockMutex=0x801A7EE4;
 OSUnlockMutex=0x801A7FC0;
 
+OSCreateThread=0x801A9E84;
+OSIsThreadTerminated=0x801A98BC;
+OSSetSwitchThreadCallback=0x801A95AC;
+OSInitMessageQueue=0x801A72FC;
+OSDetachThread=0x801AA4EC;
+OSCancelThread=0x801AA1D4;
+onExit__Q23EGG6ThreadFv=0x80008E7C;
+onEnter__Q23EGG6ThreadFv=0x80008E80;
 OSGetCurrentThread=0x801A98B0;
 MEMFindContainHeap=0x80198658;
 
