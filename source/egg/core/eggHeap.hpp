@@ -152,6 +152,13 @@ public:
   //!
   static void* alloc(u32 size, int align, Heap* heap);
 
+  template <typename T> static T* alloc(u32 count, Heap* heap, int align = 4) {
+    return reinterpret_cast<T*>(alloc(count * sizeof(T), align, heap));
+  }
+  template <typename T> static T* alloc(Heap* heap, int align = 4) {
+    return reinterpret_cast<T*>(alloc(sizeof(T), align, heap));
+  }
+
   //! @brief   	Returns the Disposer's parent heap.
   //!
   //! @details	Initializes the static heap data for heap creation.
