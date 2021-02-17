@@ -114,8 +114,37 @@ struct Reloc {
 
 static_assert(sizeof(Reloc) == 8);
 
-inline void flip(u32& data) { data = _byteswap_ulong(data); }
-inline void flip(u16& data) { data = ((data & 0xff00) >> 8) | (data & 0xff); }
+static inline u32 swap32(u32 v);
+static inline u16 swap16(u16 v);
+
+#define _BSWAP_16(v) (((v & 0xff00) >> 8) | ((v & 0x00ff) << 8))
+
+#define _BSWAP_32(v)                                                           \
+  (((v & 0xff000000) >> 24) | ((v & 0x00ff0000) >> 8) |                        \
+   ((v & 0x0000ff00) << 8) | ((v & 0x000000ff) << 24))
+
+#if OISHII_PLATFORM_LE == 1
+#define MAKE_BE32(x) _BSWAP_32(x)
+#define MAKE_LE32(x) x
+#else
+#define MAKE_BE32(x) x
+#define MAKE_LE32(x) _BSWAP_32(x)
+#endif
+
+#if defined(__llvm__) || (defined(__GNUC__) && !defined(__ICC))
+static inline u32 swap32(u32 v) { return __builtin_bswap32(v); }
+static inline u16 swap16(u16 v) { return _BSWAP_16(v); }
+#elif defined(_MSC_VER)
+#include <stdlib.h>
+static inline u32 swap32(u32 v) { return _byteswap_ulong(v); }
+static inline u16 swap16(u16 v) { return _byteswap_ushort(v); }
+#else
+static inline u32 swap32(u32 v) { return _BSWAP_32(v); }
+static inline u16 swap16(u16 v) { return _BSWAP_16(v); }
+#endif
+
+inline void flip(u32& data) { data = swap32(data); }
+inline void flip(u16& data) { data = swap16(data); }
 
 inline void flip(Reloc& r) {
   flip(r.offset);
