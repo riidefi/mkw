@@ -37,3 +37,6 @@
 compiler_log.txt
 .vs
 out
+
+# Python cache/compiled modules
+*.pyc
