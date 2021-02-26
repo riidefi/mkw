@@ -16,4 +16,13 @@ While the original game was written and compiled as C++03, several modern C++ fe
 Every fully understood piece of reverse engineered data has been documented in a consistent doxygen style.
 
 ## Building
-Create a root-level folder named `tools`. Place elf2dol, mwldeppc and mwcceppc in it. Then run `python3 build.py` 
+- Create a root-level folder named `tools`. Place elf2dol, mwldeppc and mwcceppc in it. Then run `python3 build.py` 
+- Place a copy of Mario Kart Wii's PAL .dol file in `artifacts/pal` as `main.dol`
+
+## Contributing
+- Do not manually adjust assembly files; rather add a new entry to [system/slices.csv](https://github.com/riidefi/mkw/blob/master/system/slices.csv).
+- Entries must be sorted in the spreadsheet (current limitation).
+- Run `gen_asm.py` from the `system` directory to regenerate assembly segments.
+
+## .rel support
+Most of Mario Kart Wii's game code is located inside a relocatable module (StaticR.rel for release builds). Currently, the decompilation targets only the static module (the .dol file). The `relsplit` branch of the repository hosts work on getting the rel incorporated into the decompilation.
