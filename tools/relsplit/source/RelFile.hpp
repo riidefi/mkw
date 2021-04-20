@@ -8,6 +8,7 @@
 
 struct Section {
   std::vector<u8> data;
+  bool executable = false;
 };
 struct SectionTable {
   std::vector<Section> sections;
@@ -77,12 +78,12 @@ std::vector<u8> Lower(RelFile& rel) {
   std::vector<low::SectionDescriptor> desc(rel.sections.sections.size());
   {
     for (int i = 0; i < rel.sections.sections.size(); ++i) {
-      auto& sec = rel.sections.sections[i].data;
+      auto& sec = rel.sections.sections[i];
 
-      desc[i].offset = (u32)buf.size();
-      desc[i].size = (u32)sec.size();
+      desc[i].offset = (u32)buf.size() | sec.executable;
+      desc[i].size = (u32)sec.data.size();
 
-      writeBufRaw(buf, sec.data(), sec.size());
+      writeBufRaw(buf, sec.data.data(), sec.data.size());
     }
   }
 
@@ -198,8 +199,9 @@ inline RelFile Lift(std::vector<char> buf) {
   for (int i = 1; i < hdr.num_sections; ++i) {
     auto& sec = rel.sections.sections[i];
     sec.data.resize(section_table[i].size);
-    memcpy(sec.data.data(), buf.data() + section_table[i].offset,
+    memcpy(sec.data.data(), buf.data() + (section_table[i].offset & (~1)),
            section_table[i].size);
+    sec.executable = section_table[i].offset & 1;
   }
 
   std::vector<low::Imp> imps(rel_header.impSize / sizeof(low::Imp));
