@@ -130,6 +130,8 @@ def build():
 	# compile_source("source/egg/core/eggXfb.cpp", "out/eggXfb.o", '4201_127', EGG_OPTS)
 	# compile_source("source/egg/core/eggXfbManager.cpp", "out/eggXfbManager.o", '4201_127', EGG_OPTS)
 
+	compile_source("source/game/ui/MessageGroup.cpp", "out/MessageGroup.o", '4201_127', EGG_OPTS)
+
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
 
