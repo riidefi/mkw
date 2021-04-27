@@ -1,0 +1,2 @@
+enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataStart,rodataEnd,dataStart,dataEnd,bssStart,bssEnd
+1,MessageGroup.cpp,0x805F8B34,0x805F8B50,,,,,,,,,,
