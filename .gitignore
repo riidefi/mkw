@@ -40,3 +40,6 @@ out
 
 # Python cache/compiled modules
 *.pyc
+
+tmp
+*.rel

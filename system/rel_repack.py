@@ -21,7 +21,7 @@ def src_artifact(file):
     return os.path.join("../artifacts/pal/", file)
 
 def rel_component(file):
-    return os.path.join("../build/", file)
+    return os.path.join("../tmp/", file)
 
 class Rel:
     def __init__(self, filename=None):

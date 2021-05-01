@@ -104,7 +104,7 @@ def make_obj(src):
 def build():
 	from pathlib import Path
 	asm_files = ["asm/" + str(x.stem) + ".s" for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")]
-	o_files = ["out/" + x.strip() for x in open('build/o_files.txt', 'r').readlines()]
+	o_files = ["out/" + x.strip() for x in open('o_files.txt', 'r').readlines()]
 
 	try:
 		os.mkdir("out")
@@ -135,7 +135,7 @@ def build():
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
 
-	lcf = open("build/link.lcf", 'r').read()
+	lcf = open("link.lcf", 'r').read()
 	lcf += "\nFORCEFILES {\n"
 	lcf += "\n".join(x.replace("out/", "") for x in o_files)
 	lcf += "\n}\n"
