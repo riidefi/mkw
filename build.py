@@ -89,8 +89,10 @@ def assemble(dst, src):
 	cmd = GAS + " %s -mgekko -Iasm -o %s" % (src, dst)
 	command(cmd)
 
-def link(dst, objs, lcf):
+def link(dst, objs, lcf, partial=False):
 	cmd = MWLD + " %s -o %s -lcf %s -fp hard" % (' '.join(objs), dst, lcf)
+	if partial:
+		cmd += " -r "
 	command(cmd)
 
 def make_obj(src):
@@ -101,10 +103,23 @@ def make_obj(src):
 		src = src.replace(s, '.o')
 	return src
 
+def gen_lcf(src, dst, o_files):
+	lcf = ""
+
+	with open(src, 'r') as f:
+		lcf = f.read()
+		lcf += "\nFORCEFILES {\n"
+		lcf += "\n".join(x.replace("out/", "") for x in o_files)
+		lcf += "\n}\n"
+	
+	with open(dst, 'w') as f:
+		f.write(lcf)
+
 def build():
 	from pathlib import Path
 	asm_files = ["asm/" + str(x.stem) + ".s" for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")]
 	o_files = ["out/" + x.strip() for x in open('o_files.txt', 'r').readlines()]
+	rel_o_files = ["out/" + x.strip() for x in open('rel_o_files.txt', 'r').readlines()]
 
 	try:
 		os.mkdir("out")
@@ -135,14 +150,13 @@ def build():
 	for asm in asm_files:
 		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
 
-	lcf = open("link.lcf", 'r').read()
-	lcf += "\nFORCEFILES {\n"
-	lcf += "\n".join(x.replace("out/", "") for x in o_files)
-	lcf += "\n}\n"
 
-	open('out/generated.lcf', 'w').write(lcf)
-
+	gen_lcf("link.lcf", "out/generated.lcf", o_files)
 	link('out/built.elf', o_files, "out/generated.lcf")
+
+	gen_lcf("rel_link.lcf", "out/rel_generated.lcf", rel_o_files)
+	link('out/rel_built.elf', rel_o_files, "out/rel_generated.lcf", partial=True)
+
 
 	with open('out/built.elf', 'r+b') as elf:
 		elf.seek(0x18)
