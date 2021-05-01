@@ -257,7 +257,7 @@ def find_o_files(all_slices):
         dest = format_gap(name, gap_seg).replace("asm/", "").replace(".s", ".o")
         yield name, gap_seg, dest
 
-def unpack_binary(base_dol, all_slices, image, addr_start):
+def unpack_binary(all_slices, image, addr_start):
     for name, gap_seg, dest in find_o_files(all_slices): 
         is_decompiled = gap_seg is None
 
@@ -300,25 +300,63 @@ def compute_cuts_from_spreadsheets(segments, decomplog):
     slices = list(read_slices(decomplog))
     segments = read_segments(segments)
 
-    return gen_cuts(slices, segments)
+    return slices, segments, gen_cuts(slices, segments)
     
 def unpack_base_dol():
     base_dol  = DolBinary("../artifacts/pal/main.dol")
 
-    cuts = compute_cuts_from_spreadsheets("../artifacts/pal/segments.csv", "slices.csv")
+    slices, segments, cuts = compute_cuts_from_spreadsheets("../artifacts/pal/segments.csv", "slices.csv")
 
-    o_files = list(unpack_binary(base_dol, cuts, base_dol.image, 0x80000000))
+    # o_files
+    return list(unpack_binary(cuts, base_dol.image, base_dol.image_base))
 
-    return o_files
+## REL
+
+def load_rel_binary(segments):
+    print(segments)
+    max_vaddr = max(segments[seg].end for seg in segments)
+    image_base = 0x80000000
+    image = bytearray(max_vaddr - image_base)
+
+    for segment in segments:
+        with open("../tmp/%s.bin" % segment, 'rb') as file:
+            data = file.read()
+
+            segment_data = segments[segment]
+
+            start = segment_data.begin
+            end   = segment_data.end
+
+            data_len = len(data) # virtual
+
+            for i in range(start, end):
+                #try:
+                #    x = data[i - start]
+                #except:
+                #    print(segment, hex(i), hex(start), hex(end),i - start, len(data))
+                #    print(end - (start + len(data)))
+
+                # Hack for alignment (miss by 16)
+                if i - start >= data_len:
+                    continue
+                image[i - image_base] = data[i - start]
+
+    return image, image_base
 
 def unpack_staticr_rel():
-    return []
+    slices, segments, cuts = compute_cuts_from_spreadsheets("../artifacts/pal/rel_segments.csv", "rel_slices.csv")
+
+    image, image_base = load_rel_binary(segments)
+
+    # o_files
+    return list(unpack_binary(cuts, image, image_base))
 
 def unpack_everything():
-    o_files = unpack_base_dol() + unpack_staticr_rel()
+    dol_o_files = unpack_base_dol()
+    rel_o_files = unpack_staticr_rel()
 
-    open('../build/o_files.txt', 'w').write('\n'.join(o_files))
-
+    open('../o_files.txt', 'w').write('\n'.join(dol_o_files))
+    open('../rel_o_files.txt', 'w').write('\n'.join(rel_o_files))
 
 try: shutil.rmtree("../asm")
 except: pass
