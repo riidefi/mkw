@@ -353,9 +353,9 @@ def unpack_staticr_rel():
 
 def unpack_everything():
     dol_o_files = unpack_base_dol()
-    rel_o_files = unpack_staticr_rel()
-
     open('../o_files.txt', 'w').write('\n'.join(dol_o_files))
+    
+    rel_o_files = unpack_staticr_rel()
     open('../rel_o_files.txt', 'w').write('\n'.join(rel_o_files))
 
 try: shutil.rmtree("../asm")
