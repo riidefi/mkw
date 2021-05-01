@@ -1,4 +1,9 @@
 import struct
+import sys
+import shutil
+import os
+
+from ppc_dis import *
 
 
 def read_u8(f):
@@ -52,9 +57,16 @@ def read_segments(name):
         result[name] = segment
     return result
 
+class Slice:
+    def __init__(self, obj_file, segments):
+        self.obj_file = obj_file
+        self.segments = segments
+
+    def __repr__(self):
+        return "Slice { %s, %u segs }" % (self.obj_file, len(self.segments))
+
 # Limitation: slices must be ordered
 def read_slices(name):
-    result = []
     for row in CSV(name).rows():
         if not row.pop("enabled"):
             continue
@@ -83,8 +95,7 @@ def read_slices(name):
                 segments[seg_name].end = int(value, 16)
 
         print("#### %s %s" % (name, segments))
-        result.append((name, segments))
-    return result
+        yield Slice(name, segments)
 
 class DolBinary:
     def __init__(self, file):
@@ -135,22 +146,23 @@ class DolBinary:
 def format_gap(name, gap):
     return "asm/%s_%s.s" % (name, hex(gap.begin)[2:])
 
-base   = DolBinary("../artifacts/pal/main.dol")
-segments = read_segments("../artifacts/pal/segments.csv")
-slices = read_slices("slices.csv")
-
-
-from ppc_dis import *
-import sys
-
 def format_segname(name):
     if "extab" in name: return name + "_"
     return '.' + name
 
-def disasm(name, base, seg, is_data):
-    file = open("../" + format_gap(name, seg), 'w')
-    original_stdout = sys.stdout
-    sys.stdout = file
+def read_u32b(filecontent, offset):
+    return (filecontent[offset + 0] << 24) | (filecontent[offset + 1] << 16) | (filecontent[offset + 2] << 8) | filecontent[offset + 3]
+
+
+# stdout must be redirected
+def dump_bss(size):
+    print(".skip 0x%x" % size)
+
+# stdout must be redirected
+def dump_data():
+    pass
+
+def compute_perm(name):
     perm = "wa"
     if name == "text" or name == "init":
         perm = "ax"
@@ -161,41 +173,152 @@ def disasm(name, base, seg, is_data):
     if name == "rodata" or "2" in name:
         perm = perm.replace('w', '')
 
-    print("\n.include \"macros.inc\"")
+    return perm
 
-    file.write("\n.section %s, \"%s\" # 0x%08X - 0x%08X\n" % (format_segname(name), perm, seg.begin, seg.end))
+# stdout must be redirected
+def dump_section_data(name, image, addr_start, seg):
     if "bss" in name:
-        print(".skip 0x%x" % seg.size())
-    elif name != "text" and name != "init":
-        for i in range(seg.begin, seg.end, 4):
-            def read_u32b(filecontent, offset):
-                return (filecontent[offset + 0] << 24) | (filecontent[offset + 1] << 16) | (filecontent[offset + 2] << 8) | filecontent[offset + 3]
+        dump_bss(seg.size())
+        return
 
-            if seg.end - i >= 4:
-                print(".4byte 0x%08X" % read_u32b(base.image, i- 0x80000000))
-            else:
-                for j in range(i, seg.end):
-                    print(".byte 0x%02x" % base.image[j - 0x80000000])
-    else:
-        disasm_iter(base.image, seg.begin - 0x80000000, seg.begin, seg.size(), disassemble_callback)
+    if name == "text" or name == "init":
+        disasm_iter(image, seg.begin - addr_start, seg.begin, seg.size(), disassemble_callback)
+        return
+
+    for i in range(seg.begin, seg.end, 4):
+        if seg.end - i >= 4:
+            print(".4byte 0x%08X" % read_u32b(image, i - addr_start))
+            continue
+
+        for j in range(i, seg.end):
+            print(".byte 0x%02x" % image[j - addr_start])
+
+def disasm(name, image, addr_start, seg, is_data):
+    file = open("../" + format_gap(name, seg), 'w')
+    original_stdout = sys.stdout
+    sys.stdout = file
+
+    # section permissions
+    perm = compute_perm(name)
+
+    print("\n.include \"macros.inc\"")
+    print("\n.section %s, \"%s\" # 0x%08X - 0x%08X" % (format_segname(name), perm, seg.begin, seg.end))
+    
+    dump_section_data(name, image, addr_start, seg)
+
     sys.stdout = original_stdout
 
-start_seg = {}
-for name, seg in segments.items():
-    start_seg[name] = Segment(0, seg.begin)
 
-end_seg = {}
-for name, seg in segments.items():
-    end_seg[name] = Segment(seg.end, 0)
+def gen_start_segs(segments):
+    # Start segs:
+    # ['text']: (0, 0x8...)
+    start_seg = {}
+    for name, seg in segments.items():
+        start_seg[name] = Segment(0, seg.begin)
 
-all_slices = slices + [('', end_seg)]
+    return start_seg
 
-asm_files = []
-o_files = []
-cpp_files = []
 
-import shutil
-import os
+def gen_end_segs(segments):
+    # End segs:
+    # ['text']: (0x8..., 0)
+    end_seg = {}
+    for name, seg in segments.items():
+        end_seg[name] = Segment(seg.end, 0)
+
+    return end_seg
+
+
+def find_gaps(all_slices):
+    last_segments = all_slices[0].segments
+
+    # [1:] to skip initial (previously start_seg)
+    for slice_obj in all_slices[1:]:
+        obj_file = slice_obj.obj_file
+        slice  = slice_obj.segments
+        for name, segment in slice.items():
+            if last_segments[name].end != segment.begin:
+                # There's a gap!
+
+                print("[.%s] Gap from %x to %x" % (name, last_segments[name].end, segment.begin))
+                yield name, Segment(last_segments[name].end, segment.begin)
+
+            last_segments[name] = segment
+        if not obj_file.startswith('#'):
+            yield obj_file, None
+
+def find_o_files(all_slices):
+    for name, gap_seg in find_gaps(all_slices):
+        if gap_seg is None:
+            yield name, gap_seg, "??"
+            continue
+
+        print(format_gap(name, gap_seg))
+        dest = format_gap(name, gap_seg).replace("asm/", "").replace(".s", ".o")
+        yield name, gap_seg, dest
+
+def unpack_binary(base_dol, all_slices, image, addr_start):
+    for name, gap_seg, dest in find_o_files(all_slices): 
+        is_decompiled = gap_seg is None
+
+        if not is_decompiled:
+            # print("name %s dest %s" % (name, dest))
+            disasm(name, image, addr_start, gap_seg, False)
+            yield dest
+        
+        if is_decompiled:
+            yield name.replace(".cpp", ".o").replace(".c", ".o")
+
+def compute_end_cap(segments):
+    # Final 0x8 -> 0x8; second part ignored
+    end_seg = gen_end_segs(segments)
+
+    end_slice = Slice('# 0x80 [finish] -> 0x80 [ignored]', end_seg)
+
+    return end_slice
+
+def compute_begin_cap(segments):
+    # Final 0x8 -> 0x8; second part ignored
+    start_seg = gen_start_segs(segments)
+
+    start_slice = Slice('# 0 [ignored] -> 0x80 [start]', start_seg)
+
+    return start_slice
+
+def gen_cuts(slices, segments):
+    # Initial 0 -> 0x8; first part ignored
+    
+    start_slice = compute_begin_cap(segments)
+    end_slice = compute_end_cap(segments)
+    
+    return [start_slice] + slices + [end_slice] 
+
+def compute_cuts_from_spreadsheets(segments, decomplog):
+    # segments: binary descriptor, .text: 0x8..0x8
+    # decomplog: slices, what decompiled code replaces
+    
+    slices = list(read_slices(decomplog))
+    segments = read_segments(segments)
+
+    return gen_cuts(slices, segments)
+    
+def unpack_base_dol():
+    base_dol  = DolBinary("../artifacts/pal/main.dol")
+
+    cuts = compute_cuts_from_spreadsheets("../artifacts/pal/segments.csv", "slices.csv")
+
+    o_files = list(unpack_binary(base_dol, cuts, base_dol.image, 0x80000000))
+
+    return o_files
+
+def unpack_staticr_rel():
+    return []
+
+def unpack_everything():
+    o_files = unpack_base_dol() + unpack_staticr_rel()
+
+    open('../build/o_files.txt', 'w').write('\n'.join(o_files))
+
 
 try: shutil.rmtree("../asm")
 except: pass
@@ -212,21 +335,4 @@ with open('../asm/macros.inc', 'w') as file:
     for i in range(0, 8):
         file.write(".set qr%i, %i\n" % (i, i))
 
-last_segments = start_seg
-for obj_file, slice in all_slices:
-    for name, segment in slice.items():
-        if last_segments[name].end != segment.begin:
-            # There's a gap!
-
-            print("[.%s] Gap from %x to %x" % (name, last_segments[name].end, segment.begin))
-            gap_seg = Segment(last_segments[name].end, segment.begin)
-            print(format_gap(name, gap_seg))
-            asm_files.append(format_gap(name, gap_seg))
-            o_files.append(format_gap(name, gap_seg).replace("asm/", "").replace(".s", ".o"))
-            disasm(name, base, gap_seg, False)
-        last_segments[name] = segment
-    if obj_file:
-        o_files.append(obj_file.replace(".cpp", ".o").replace(".c", ".o"))
-        cpp_files.append(obj_file)
-
-open('../build/o_files.txt', 'w').write('\n'.join(o_files))
+unpack_everything()
