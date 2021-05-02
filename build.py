@@ -25,17 +25,11 @@ VERBOSE = False
 
 DEVKITPPC = os.environ["DEVKITPPC"]
 
-GCC = os.path.join(DEVKITPPC, "bin\\powerpc-eabi-gcc.exe")
 GAS = os.path.join(DEVKITPPC, "bin\\powerpc-eabi-as.exe")
 
 MWLD = "tools\\mwldeppc.exe"
 
 ELF2DOL = "tools\\elf2dol.exe"
-
-SOURCE_PATH   = "./source/"
-ASM_TEXT_PATH = "./asm/text/"
-BUILD_PATH 	  = "./build/"
-CWCC_OLD = False
 
 CWCC_PATHS = {
 	'default': ".\\tools\\4199_60831\\mwcceppc.exe",
