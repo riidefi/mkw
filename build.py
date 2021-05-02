@@ -25,14 +25,14 @@ VERBOSE = False
 
 DEVKITPPC = os.environ["DEVKITPPC"]
 
-GAS = os.path.join(DEVKITPPC, "bin\\powerpc-eabi-as.exe")
+GAS = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as.exe")
 
-MWLD = "tools\\mwldeppc.exe"
+MWLD = os.path.join("tools", "mwldeppc.exe")
 
-ELF2DOL = "tools\\elf2dol.exe"
+ELF2DOL = os.path.join("tools", "elf2dol.exe")
 
 CWCC_PATHS = {
-	'default': ".\\tools\\4199_60831\\mwcceppc.exe",
+	'default': os.path.join(".", "tools", "4199_60831", "mwcceppc.exe"),
 
 	# For the main game
 	# August 17, 2007
@@ -42,15 +42,15 @@ CWCC_PATHS = {
 	# We don't have this, so we use build 142:
 	# This version has the infuriating bug where random 
 	# nops are inserted into your code.
-	'4201_127': ".\\tools\\4201_142\\mwcceppc.exe",
+	'4201_127': os.path.join(".", "tools", "4201_142", "mwcceppc.exe"),
 
 	# For most of RVL
 	# We actually have the correct version
-	'4199_60831': ".\\tools\\4199_60831\\mwcceppc.exe",
+	'4199_60831': os.path.join(".", "tools", "4199_60831", "mwcceppc.exe"),
 
 	# For HBM/WPAD, NHTTP/SSL
 	# We use build 60831
-	'4199_60726': '\\tools\\4199_60831\\mwcceppc.exe'
+	'4199_60726': os.path.join(".", "tools", "4199_60831", "mwcceppc.exe"),
 }
 CWCC_OPT = " ".join([
 	"-nodefaults",
