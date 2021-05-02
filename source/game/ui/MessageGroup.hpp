@@ -5,6 +5,7 @@ namespace UI {
 class MessageGroup {
 public:
   MessageGroup();
+  ~MessageGroup();
   // ...
 
 private:
