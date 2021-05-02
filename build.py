@@ -225,6 +225,10 @@ def build_elf(rel_path, elf_path):
 	rel.sectionInfo[4].offset = 0x37F440
 	rel.sectionInfo[5].offset = 0x3A28F0
 	rel.sectionInfo[6].offset = 0
+
+	# This seems to affect tz, but absolutely no one else?
+	# Hack: Fix .bss size
+	rel.sectionInfo[6].size = 0x78b0
 	
 	rel.imps[0].moduleId = 1
 	rel.imps[0].offset = 0x3CD104
