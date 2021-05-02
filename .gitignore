@@ -27,7 +27,10 @@
 *.lib
 
 # Executables
-*.exe
+mwasmeppc.exe
+mwcceppc.exe
+mwldeppc.exe
+makedol.exe
 *.out
 *.app
 
