@@ -4,6 +4,7 @@
  */
 #include <egg/core/eggDisposer.hpp>
 #include <egg/core/eggHeap.hpp>
+#include <egg/core/eggThread.hpp>
 #include <egg/eggInternal.hpp>
 #include <nw4r/ut/utList.hpp>
 #include <rvl/os/osThread.h>
@@ -76,13 +77,6 @@ struct HeapErrorArg {
   inline HeapErrorArg() {}
 };
 
-struct Thread {
-  static Thread* findThread(OSThread*);
-  u32 vtable;
-  Heap* mHeapHandle;
-  char _[60 - 8];
-  Heap* mAlloctableHeap;
-};
 struct rvlHeap {
   char _[0x1c];
   u32 arena_end;
