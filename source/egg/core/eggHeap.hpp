@@ -8,7 +8,9 @@
 #include <egg/core/eggDisposer.hpp>
 #include <nw4r/ut/utList.hpp>
 #include <rk_types.h>
+#ifndef RII_CLIENT
 #include <rvl/os/osThread.h>
+#endif
 
 namespace EGG {
 
