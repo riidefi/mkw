@@ -23,7 +23,7 @@ import os
 
 VERBOSE = False
 
-DEVKITPPC = "C:\\devkitPro\\devkitPPC"
+DEVKITPPC = os.environ["DEVKITPPC"]
 
 GCC = os.path.join(DEVKITPPC, "bin\\powerpc-eabi-gcc.exe")
 GAS = os.path.join(DEVKITPPC, "bin\\powerpc-eabi-as.exe")
