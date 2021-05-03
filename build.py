@@ -345,7 +345,7 @@ def verify_dol():
 		print("[DOL] Everything went okay! Output is matching! ^^")
 		return
 
-	print("[REL] Oof: Output doesn't match.")
+	print("[DOL] Oof: Output doesn't match.")
 	# TODO: Add diff'ing
 
 build()
