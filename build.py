@@ -92,6 +92,12 @@ CWCC_OPT = " ".join([
 	"-func_align 4"
 ])
 
+def require_folder(path):
+    try:
+        os.mkdir(path)
+    except FileExistsError:
+        pass
+
 def postprocess(dst):
 	command("python tools/postprocess.py -fsymbol-fixup %s" % dst)
 
@@ -114,6 +120,7 @@ def command(cmd):
 	os.system(cmd)
 
 def assemble(dst, src):
+	print(dst, src)
 	cmd = GAS + " %s -mgekko -Iasm -o %s" % (src, dst)
 	command(cmd)
 
@@ -132,12 +139,13 @@ def make_obj(src):
 	return src
 
 def gen_lcf(src, dst, o_files):
+	from pathlib import Path
 	lcf = ""
 
 	with open(src, 'r') as f:
 		lcf = f.read()
 		lcf += "\nFORCEFILES {\n"
-		lcf += "\n".join(x.replace("out/", "") for x in o_files)
+		lcf += "\n".join(Path(x).stem + ".o" for x in o_files)
 		lcf += "\n}\n"
 	
 	with open(dst, 'w') as f:
@@ -254,9 +262,7 @@ def build_elf(rel_path, elf_path):
 			f.write(sec.data)
 
 def compile_sources():
-	try:
-		os.mkdir("out")
-	except: pass
+	require_folder("out")
 
 	RVL_OPTS = '-ipa file'
 	EGG_OPTS = '-ipa function -rostr'
@@ -281,10 +287,16 @@ def compile_sources():
 	compile_source("source/game/ui/MessageGroup.cpp", "out/MessageGroup.o", '4201_127', EGG_OPTS)
 
 	from pathlib import Path
-	asm_files = ["asm/" + str(x.stem) + ".s" for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")]
+	asm_files = [str(x.relative_to(os.getcwd())) for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")]
+	
+	require_folder("out")
+	require_folder(os.path.join("out", "dol"))
+	require_folder(os.path.join("out", "rel"))
 
 	for asm in asm_files:
-		assemble("out/" + make_obj(asm).replace("asm/", ""), asm)
+		# Hack: Should use pathlib for this
+		out_o = "out" + asm[len("asm"):]
+		assemble(make_obj(out_o), asm)
 
 def link_dol(o_files):
 	gen_lcf("link.lcf", "out/generated.lcf", o_files)
