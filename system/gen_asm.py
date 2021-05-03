@@ -4,6 +4,7 @@ import shutil
 import os
 
 from ppc_dis import *
+from contextlib import redirect_stdout
 
 
 def read_u8(f):
@@ -159,8 +160,18 @@ def dump_bss(size):
     print(".skip 0x%x" % size)
 
 # stdout must be redirected
-def dump_data():
-    pass
+def dump_data(image, addr_start, seg):
+    for i in range(seg.begin, seg.end, 4):
+        if seg.end - i >= 4:
+            print(".4byte 0x%08X" % read_u32b(image, i - addr_start))
+            continue
+
+        for j in range(i, seg.end):
+            print(".byte 0x%02x" % image[j - addr_start])
+
+# stdout must be redirected
+def dump_text(image, addr_start, seg):
+    disasm_iter(image, seg.begin - addr_start, seg.begin, seg.size(), disassemble_callback)
 
 def compute_perm(name):
     perm = "wa"
@@ -176,37 +187,46 @@ def compute_perm(name):
     return perm
 
 # stdout must be redirected
-def dump_section_data(name, image, addr_start, seg):
+def dump_section_body(name, image, addr_start, seg):
     if "bss" in name:
         dump_bss(seg.size())
         return
 
     if name == "text" or name == "init":
-        disasm_iter(image, seg.begin - addr_start, seg.begin, seg.size(), disassemble_callback)
+        dump_text(image, addr_start, seg)
         return
 
-    for i in range(seg.begin, seg.end, 4):
-        if seg.end - i >= 4:
-            print(".4byte 0x%08X" % read_u32b(image, i - addr_start))
-            continue
+    dump_data(image, addr_start, seg)
 
-        for j in range(i, seg.end):
-            print(".byte 0x%02x" % image[j - addr_start])
-
-def disasm(name, image, addr_start, seg, is_data):
-    file = open("../" + format_gap(name, seg), 'w')
-    original_stdout = sys.stdout
-    sys.stdout = file
-
+# stdout must be redirected
+def dump_section_header(name, seg):
     # section permissions
     perm = compute_perm(name)
-
-    print("\n.include \"macros.inc\"")
-    print("\n.section %s, \"%s\" # 0x%08X - 0x%08X" % (format_segname(name), perm, seg.begin, seg.end))
     
-    dump_section_data(name, image, addr_start, seg)
+    print("\n.section %s, \"%s\" # 0x%08X - 0x%08X" % (format_segname(name), perm, seg.begin, seg.end))
 
-    sys.stdout = original_stdout
+# stdout must be redirected
+def dump_section(name, image, addr_start, seg):
+    dump_section_header(name, seg)
+    dump_section_body(name, image, addr_start, seg)
+
+# stdout must be redirected
+def dump_object_file(image, addr_start, segments = []):
+    print("\n.include \"macros.inc\"")
+
+    for segment_name, segment in segments:
+        dump_section(segment_name, image, addr_start, segment)
+
+def disassemble_object_file(path, image, addr_start, segments = []):
+    with open(path, 'w') as file:
+        with redirect_stdout(file):
+            dump_object_file(image, addr_start, segments)
+
+
+def disasm(name, image, addr_start, seg, is_data):
+    path = "../" + format_gap(name, seg)
+
+    disassemble_object_file(path, image, addr_start, [ (name, seg) ])
 
 
 def gen_start_segs(segments):
@@ -312,7 +332,7 @@ def unpack_base_dol():
 
 ## REL
 
-def load_rel_binary(segments):
+def load_rel_binary(segments) -> (bytearray, int):
     print(segments)
     max_vaddr = max(segments[seg].end for seg in segments)
     image_base = 0x80000000
