@@ -42,8 +42,6 @@ GAS = native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
 
 MWLD = windows_binary(os.path.join("tools", "mwldeppc.exe"))
 
-ELF2DOL = windows_binary(os.path.join("tools", "elf2dol.exe"))
-
 CWCC_PATHS = {
 	'default': windows_binary(os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")),
 
@@ -151,6 +149,75 @@ def gen_lcf(src, dst, o_files):
 	with open(dst, 'w') as f:
 		f.write(lcf)
 
+def segment_is_text(segment):
+	from elftools.elf.constants import P_FLAGS
+
+	return segment["p_flags"] & P_FLAGS.PF_X == P_FLAGS.PF_X
+
+def segment_is_data(segment):
+	return not segment_is_text(segment) and not segment_is_bss(segment)
+
+def segment_is_bss(segment):
+	return segment["p_filesz"] == 0
+
+def write_to_dol_header(dol_file, offset, val):
+	import io
+
+	dol_file.seek(offset)
+	dol_file.write(val.to_bytes(4, byteorder='big'))
+	dol_file.seek(0, io.SEEK_END)
+
+def write_segment_to_dol(idx, segment, dol_file):
+	write_to_dol_header(dol_file, 0x00 + 0x04 * idx, dol_file.tell())
+	write_to_dol_header(dol_file, 0x48 + 0x04 * idx, segment["p_vaddr"])
+	# align filesz to 0x20
+	filesz = ((segment["p_filesz"] + 0x1f) >> 5) << 5
+	write_to_dol_header(dol_file, 0x90 + 0x04 * idx, filesz)
+
+	dol_file.write(segment.data())
+	# align current dol size to 0x20
+	size = 0x20 - dol_file.tell() & 0x1f
+	dol_file.write(bytes([0x00] * size))
+
+def elf_to_dol(elf_path, dol_path):
+	from elftools.elf.elffile import ELFFile
+
+	with open(elf_path, 'rb') as elf_file, open(dol_path, 'wb') as dol_file:
+		elf = ELFFile(elf_file)
+		num_segments = elf.num_segments()
+
+		dol_file.write(bytes([0x00] * 0x100))
+
+		idx = 0
+		for i in range(num_segments):
+			segment = elf.get_segment(i)
+			if not segment_is_text(segment):
+				continue
+			write_segment_to_dol(idx, segment, dol_file)
+			idx += 1
+
+		idx = 7
+		for i in range(num_segments):
+			segment = elf.get_segment(i)
+			if not segment_is_data(segment):
+				continue
+			write_segment_to_dol(idx, segment, dol_file)
+			idx += 1
+
+		bss_start = 0
+		bss_end = 0
+		for i in range(num_segments):
+			segment = elf.get_segment(i)
+			if not segment_is_bss(segment):
+				continue
+			if bss_start == 0:
+				bss_start = segment["p_vaddr"]
+			bss_end = segment["p_vaddr"] + segment["p_memsz"]
+		write_to_dol_header(dol_file, 0xd8, bss_start)
+		bss_size = bss_end - bss_start
+		write_to_dol_header(dol_file, 0xdc, bss_size)
+
+		write_to_dol_header(dol_file, 0xe0, elf["e_entry"])
 
 def read_elf_sec(elf, name):
 	from system.rel_repack import RelSection
@@ -306,14 +373,7 @@ def link_dol(o_files):
 		elf.seek(0x18)
 		elf.write(bytes([0x80, 0x00, 0x60, 0xA4]))
 
-	command(ELF2DOL + " out/built.elf target/mkw_pal.dol -v -v")
-
-	# This is a bug with elf2dol; this works fine with makedol
-	# for now I'll just patch it...
-	with open('target/mkw_pal.dol', 'r+b') as dol:
-		dol.seek(0xDC)
-		# bss_size
-		dol.write(bytes([0x00, 0x0E, 0x50, 0xFC]))
+	elf_to_dol("out/built.elf", "target/mkw_pal.dol")
 
 def link_rel(rel_o_files):
 	gen_lcf("rel_link.lcf", "out/rel_generated.lcf", rel_o_files)
