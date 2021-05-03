@@ -119,11 +119,6 @@ private:
   //!
   static void removeList(Archive* pArchive);
 
-// Part of disposer?
-  u32 _08; // unseen
-  u32 _0C; // unseen
-//
-
   enum Status {
     NOT_LOADED,               //!< [0]
     LOADED_AND_CAN_FAST_READ, //!< [1]

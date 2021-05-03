@@ -79,10 +79,8 @@ public:
   static void* sErrorCallbackArg;           //!< TODO
   static void* sAllocCallbackArg;           //!< TODO
   static struct Thread* sAllocatableThread; //!< TODO
+
 public:
-  //! @brief [+0x08, +0x0c] unseen
-  u32 _08;
-  u32 _0C;
   //! @brief [+0x10] argument of heap constructor. Name confirmed by WS assert.
   struct rvlHeap* mHeapHandle;
   //! @brief [+0x14] set to 0 in heap ctor. treeki -- void* parentHeapMBlock

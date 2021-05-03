@@ -29,6 +29,10 @@ public:
 
   Heap* mContainHeap; //!< [+0x04] Heap that contains the instance of this
                       //!< disposer.
+
+  // All base classes appear to have this, unused.
+  char _08[4]; // unseen
+  char _0C[4]; // unseen
 };
 
 } // namespace EGG
