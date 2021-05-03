@@ -18,6 +18,19 @@ def read_u32(f):
 	return struct.unpack(">I", f.read(4))[0]
 
 
+import sys
+
+def native_binary(path):
+	if sys.platform == "win32" or sys.platform == "msys":
+		return path + ".exe"
+	else:
+		return path
+
+def windows_binary(path):
+	if sys.platform == "win32" or sys.platform == "msys":
+		return path
+	else:
+		return "wine " + path
 
 import os
 
@@ -25,20 +38,14 @@ VERBOSE = False
 
 DEVKITPPC = os.environ["DEVKITPPC"]
 
-GCC = os.path.join(DEVKITPPC, "bin\\powerpc-eabi-gcc.exe")
-GAS = os.path.join(DEVKITPPC, "bin\\powerpc-eabi-as.exe")
+GAS = native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
 
-MWLD = "tools\\mwldeppc.exe"
+MWLD = windows_binary(os.path.join("tools", "mwldeppc.exe"))
 
-ELF2DOL = "tools\\elf2dol.exe"
-
-SOURCE_PATH   = "./source/"
-ASM_TEXT_PATH = "./asm/text/"
-BUILD_PATH 	  = "./build/"
-CWCC_OLD = False
+ELF2DOL = windows_binary(os.path.join("tools", "elf2dol.exe"))
 
 CWCC_PATHS = {
-	'default': ".\\tools\\4199_60831\\mwcceppc.exe",
+	'default': windows_binary(os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")),
 
 	# For the main game
 	# August 17, 2007
@@ -48,15 +55,15 @@ CWCC_PATHS = {
 	# We don't have this, so we use build 142:
 	# This version has the infuriating bug where random 
 	# nops are inserted into your code.
-	'4201_127': ".\\tools\\4201_142\\mwcceppc.exe",
+	'4201_127': windows_binary(os.path.join(".", "tools", "4201_142", "mwcceppc.exe")),
 
 	# For most of RVL
 	# We actually have the correct version
-	'4199_60831': ".\\tools\\4199_60831\\mwcceppc.exe",
+	'4199_60831': windows_binary(os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")),
 
 	# For HBM/WPAD, NHTTP/SSL
 	# We use build 60831
-	'4199_60726': '\\tools\\4199_60831\\mwcceppc.exe'
+	'4199_60726': windows_binary(os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")),
 }
 CWCC_OPT = " ".join([
 	"-nodefaults",
