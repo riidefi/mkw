@@ -10,12 +10,21 @@
 #include <egg/eggInternal.hpp>
 #include <nw4r/ut/utList.hpp>
 #include <rk_types.h>
-extern "C" {
 #include <rvl/arc/rvlArchive.h>
-}
+
 extern "C" void memset(void*, int, u32);
 
 namespace EGG {
+
+struct LowArchive : public rvlArchive {
+  inline void reset() { memset(this, 0, sizeof(*this)); }
+  inline bool open(rvlArchiveEntryHandle path, rvlArchiveFile& file) {
+    return ARCFastOpen(this, path, &file);
+  }
+  inline bool open(const char* path, rvlArchiveFile& file) {
+    return ARCOpen(this, path, &file);
+  }
+};
 
 class Archive : public Disposer // sizeof=60,0x3C
 {
@@ -58,8 +67,7 @@ public:
   }
 
   //! @brief Mount an archive.
-  //! @details If the archive is already mounted, _14 of that archive will be
-  //! incremented and a pointer to that archive will be returned.
+  //! @details If the archive is already mounted, it will be used.
   //! @returns A pointed to the mounted EGG Archive if successful. Otherwise,
   //! NULL.
   //!
@@ -70,7 +78,7 @@ public:
   //!
   static Archive* mountNoFastGet(void* pArcStart, Heap* pHeap, int align);
 
-  //! @brief Unmount an archive. (Set the status as NOT_LOADED and destroy self)
+  //! @brief Unmount an archive. (Set the status as NOT_LOADED and decrease refcount)
   //!
   void unmount();
 
@@ -89,18 +97,8 @@ private:
     return sIsArchiveListInitialized;
   }
 
-  struct LowArchive : public rvlArchive {
-    inline void reset() { memset(this, 0, sizeof(*this)); }
-    inline bool open(rvlArchiveEntryHandle path, rvlArchiveFile& file) {
-      return ARCFastOpen(this, path, &file);
-    }
-    inline bool open(const char* path, rvlArchiveFile& file) {
-      return ARCOpen(this, path, &file);
-    }
-  };
-
   Archive() {
-    _14 = 1;
+    mRefCount = 1;
     mStatus = NOT_LOADED;
     mArcHandle.reset();
     if (!sIsArchiveListInitialized) {
@@ -121,8 +119,10 @@ private:
   //!
   static void removeList(Archive* pArchive);
 
+// Part of disposer?
   u32 _08; // unseen
   u32 _0C; // unseen
+//
 
   enum Status {
     NOT_LOADED,               //!< [0]
@@ -131,7 +131,7 @@ private:
            //!< to 1.
   };
   Status mStatus;        //!< [+0x10] set to 0 in ct
-  int _14;               //!< [+0x14] set to 1 in ct; numMounts?
+  int mRefCount;         //!< [+0x14] set to 1 in ct
   LowArchive mArcHandle; // 0x18
 
   char _unk[8];
