@@ -2,6 +2,9 @@
  * @file
  * @brief Heap implementations.
  */
+
+#define HEAP_PRIVATE public
+
 #include <egg/core/eggDisposer.hpp>
 #include <egg/core/eggHeap.hpp>
 #include <egg/core/eggThread.hpp>
@@ -11,7 +14,6 @@
 
 extern "C" void OSReport(const char*, ...);
 extern "C" struct OSThread* OSGetCurrentThread();
-extern "C" EGG::rvlHeap* MEMFindContainHeap(const void*);
 
 namespace EGG {
 
@@ -23,7 +25,7 @@ Heap* Heap::sCurrentHeap;
 int Heap::sIsHeapListInitialized;
 Heap* Heap::sAllocatableHeap;
 ErrorCallback Heap::sErrorCallback;
-ErrorCallback Heap::sAllocCallback;
+HeapAllocCallback Heap::sAllocCallback;
 
 void* Heap::sErrorCallbackArg;
 void* Heap::sAllocCallbackArg;
@@ -62,51 +64,28 @@ Heap::~Heap() {
   OSUnlockMutex(&sRootMutex);
 }
 
-struct HeapAllocArg {
-  int userArg; // 00
-  u32 size;    // 04
-  int align;   // 08
-  Heap* heap;  // 0C heap to allocate in
-
-  inline HeapAllocArg() : userArg(0), size(0), align(0), heap(nullptr) {}
-};
-struct HeapErrorArg {
-  const char* msg;
-  void* userdata;
-
-  inline HeapErrorArg() {}
-};
-
-struct rvlHeap {
-  char _[0x1c];
-  u32 arena_end;
-};
-
-inline int getArenaEnd(Heap* currentHeap) {
-  return currentHeap->mHeapHandle->arena_end;
-}
 #pragma dont_reuse_strings on
 void* Heap::alloc(u32 size, int align, Heap* heap) {
-  Heap* currentHeap = sCurrentHeap; // r28
-  // r30 -> size
-  // r31 -> align
-  // r27 -> heap
+  Heap* currentHeap = sCurrentHeap;                                 // r28
   Thread* currentThread = Thread::findThread(OSGetCurrentThread()); // r29
 
-  if (sAllocatableThread) {
-    OSGetCurrentThread(); // this does absolutely nothing. possibly debug
-                          // message stripped?
+  if (sAllocatableThread != nullptr) {
+    // this does absolutely nothing. possibly debug
+    // message stripped?
+    OSGetCurrentThread();
   }
 
   // If our thread defines a heap override, use it!
-  if (currentThread && currentThread->mAlloctableHeap)
-    heap = currentHeap = currentThread->mAlloctableHeap;
+  if (currentThread != nullptr &&
+      currentThread->getAllocatableHeap() != nullptr)
+    heap = currentHeap = currentThread->getAllocatableHeap();
 
   // if sAllocatableHeap is not nullptr, it *must* be used
   // this has higher priority over the thread heap override!
-  if (sAllocatableHeap) {
-    if (currentHeap && !heap)
+  if (sAllocatableHeap != nullptr) {
+    if (currentHeap != nullptr && heap == nullptr)
       heap = currentHeap;
+
     // This would be reached if
     // - sCurrentHeap && !heap && sCurrentHeap != sAlloctableHeap
     // - heap && heap != sAllocatableHeap
@@ -114,13 +93,18 @@ void* Heap::alloc(u32 size, int align, Heap* heap) {
       OSReport(
           "cannot allocate from heap %x(%s) : allocatable heap is %x(%s)\n",
           heap, heap->mName, sAllocatableHeap, sAllocatableHeap->mName);
-      OSReport("\tthread heap=%x\n",
-               currentThread ? currentThread->mAlloctableHeap : 0);
-      OSReport("\tthread heap=%s\n",
-               currentThread ? (currentThread->mAlloctableHeap
-                                    ? currentThread->mAlloctableHeap->mName
-                                    : "none")
-                             : "none");
+
+      const Heap* primary_heap =
+          currentThread ? currentThread->getAllocatableHeap() : nullptr;
+
+      OSReport("\tthread heap=%x\n", primary_heap);
+
+      const char* primary_heap_name =
+          currentThread ? (currentThread->getAllocatableHeap()
+                               ? currentThread->getAllocatableHeap()->mName
+                               : "none")
+                        : "none";
+      OSReport("\tthread heap=%s\n", primary_heap_name);
       if (sErrorCallback) {
         HeapErrorArg cb;
         cb.msg = "disable_but";
@@ -138,7 +122,7 @@ void* Heap::alloc(u32 size, int align, Heap* heap) {
     arg.size = size;
     arg.align = align;
     arg.userArg = (int)sAllocCallbackArg;
-    sAllocCallback(&arg);
+    sAllocCallback(arg);
   }
   // If heap is non nullptr, use that
   if (heap != nullptr)
@@ -151,7 +135,7 @@ void* Heap::alloc(u32 size, int align, Heap* heap) {
     void* allocated = currentHeap->alloc(size, align); // (r3), r27
 
     if (allocated == nullptr) {
-      int arena_end = getArenaEnd(currentHeap); // r29
+      int arena_end = currentHeap->getArenaEnd(); // r29
       int max_avail = currentHeap->getAllocatableSize(4);
       int heap_size = arena_end - (u32)currentHeap;
       OSReport("heap (%p):(%.1fMBytes free %d)->alloc(size(%d:%.1fMBytes),%d "
@@ -167,12 +151,14 @@ void* Heap::alloc(u32 size, int align, Heap* heap) {
 
   OSReport("cannot allocate %d from heap %x\n", size, heap);
   dumpAll();
+
   return nullptr;
 }
 
 Heap* Heap::findParentHeap() {
-  EGG_ASSERT(this->mHeapHandle, "eggHeap.cpp", 173, "mHeapHandle != nullptr");
-  return this->mParentHeap;
+  EGG_ASSERT(mHeapHandle, "eggHeap.cpp", 173, "mHeapHandle != nullptr");
+
+  return mParentHeap;
 }
 
 Heap* Heap::findContainHeap(const void* memBlock) {
@@ -340,8 +326,9 @@ void* operator new[](size_t size, int align) {
 void* operator new[](size_t size, EGG::Heap* heap, int align) {
   return EGG::Heap::alloc(size, align, heap);
 }
+
 void operator delete(void* memBlock) {
-  EGG::rvlHeap* containHeap = MEMFindContainHeap(memBlock); // r30
+  rvlHeap* containHeap = MEMFindContainHeap(memBlock); // r30
   // If our memory block is not inside a head, there is not much we can do.
   if (!containHeap)
     return;
@@ -364,7 +351,7 @@ void operator delete(void* memBlock) {
   heap->free(memBlock);
 }
 void operator delete[](void* memBlock) {
-  EGG::rvlHeap* containHeap = MEMFindContainHeap(memBlock); // r30
+  rvlHeap* containHeap = MEMFindContainHeap(memBlock); // r30
   // If our memory block is not inside a head, there is not much we can do.
   if (!containHeap)
     return;

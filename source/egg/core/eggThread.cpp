@@ -8,7 +8,7 @@ nw4r::ut::List Thread::sThreadList;
 
 Thread::Thread(u32 stackSize, int msgCount, int prio, Heap* heap) {
   if (!heap)
-    heap = Heap::sCurrentHeap;
+    heap = Heap::getCurrentHeap();
 
   mContainingHeap = heap;
   mStackSize = ROUND_DOWN(stackSize, 32);
@@ -35,7 +35,7 @@ Thread::Thread(OSThread* osThread, int msgCount)
   mStackMemory = osThread->stack_high;
 
   mAlloctableHeap = nullptr;
-  setCommonMesgQueue(msgCount, Heap::sCurrentHeap);
+  setCommonMesgQueue(msgCount, Heap::getCurrentHeap());
 }
 
 Thread::~Thread() {
