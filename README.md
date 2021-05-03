@@ -21,7 +21,7 @@ Every fully understood piece of reverse engineered data has been documented in a
 - Place a copy of Mario Kart Wii's PAL .dol file in `artifacts/pal` as `main.dol`
 
 ## Contributing
-- Do not manually adjust assembly files; rather add a new entry to [system/slices.csv](https://github.com/riidefi/mkw/blob/master/system/slices.csv) for main.dol and [system/rel_slices.csv](https://github.com/riidefi/mkw/blob/master/system/slices.csv) for StaticR.rel.
+- Do not manually adjust assembly files; rather add a new entry to [system/slices.csv](https://github.com/riidefi/mkw/blob/master/system/slices.csv) for main.dol and [system/rel_slices.csv](https://github.com/riidefi/mkw/blob/master/system/rel_slices.csv) for StaticR.rel.
 - Entries must be sorted in the spreadsheet (current limitation).
 - Run `gen_asm.py` from the `system` directory to regenerate assembly segments.
 
