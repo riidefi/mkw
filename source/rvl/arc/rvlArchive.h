@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rk_types.h> // u32
-#include <stdbool.h>  // bool
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include <rk_types.h> // u32
+#include <stdbool.h>  // bool
 
 //! Describes the type of an entry in an archive.
 //!

@@ -5,13 +5,7 @@
 
 #include <egg/core/eggArchive.hpp>
 #include <rvl/arc/binary_format.h>
-
-struct rvlDvdFile {
-  char _[0x3c];
-};
-extern "C" unk32 DVDOpen(const char*, rvlDvdFile*);
-extern "C" u32 DVDReadPrio(rvlDvdFile*, void*, u32, unk32, unk32);
-extern "C" unk32 DVDClose(rvlDvdFile*);
+#include <rvl/rvlDvd.h>
 
 namespace EGG {
 
@@ -25,56 +19,62 @@ void Archive::removeList(Archive* pArchive) {
 }
 
 Archive* Archive::mount(void* arcStart, Heap* pHeap, int align) {
-  Archive* wArchive = findArchive(arcStart); // r30, INLINE archive wrapper
-  if (wArchive == nullptr) {
-    wArchive = new (pHeap, align) Archive(); // INLINE
-    EGG_ASSERT(wArchive, "eggArchive.cpp", 159, "archive != NULL");
+  Archive* archive = findArchive(arcStart); // r30, INLINE archive wrapper
 
-    bool bInitSuccess = wArchive->initHandle(arcStart);
-    if (bInitSuccess)
-      wArchive->mStatus = LOADED_AND_CAN_FAST_READ;
-    else
-      wArchive->mStatus = NOT_LOADED;
-    EGG_ASSERT(bInitSuccess, "eggArchive.cpp", 166, "false");
+  if (archive == nullptr) {
+    archive = new (pHeap, align) Archive(); // INLINE
+    EGG_ASSERT(archive, "eggArchive.cpp", 159, "archive != NULL");
+
+    bool could_create = archive->initHandle(arcStart);
+    if (could_create) {
+      archive->mStatus = LOADED_AND_CAN_FAST_READ;
+    } else {
+      archive->mStatus = NOT_LOADED;
+      EGG_ASSERT(false, "eggArchive.cpp", 166, "false");
+    }
+  
     // If we failed, clean up
-    if (!bInitSuccess) // INLINE
+    if (!could_create) // INLINE
     {
-      delete wArchive;
-      wArchive = nullptr;
+      delete archive;
+      archive = nullptr;
     }
   } else {
-    wArchive->_14++;
+    ++archive->mRefCount;
   }
 
-  return wArchive;
+  return archive;
 }
+
 // exact same as above but _10 set to 2 not 1
 Archive* Archive::mountNoFastGet(void* arcStart, Heap* pHeap, int align) {
-  Archive* wArchive = findArchive(arcStart); // r30, INLINE archive wrapper
-  if (wArchive == nullptr) {
-    wArchive = new (pHeap, align) Archive(); // INLINE
-    EGG_ASSERT(wArchive, "eggArchive.cpp", 159, "archive != NULL");
+  Archive* archive = findArchive(arcStart); // r30, INLINE archive wrapper
+  if (archive == nullptr) {
+    archive = new (pHeap, align) Archive(); // INLINE
+    EGG_ASSERT(archive, "eggArchive.cpp", 159, "archive != NULL");
 
-    bool bInitSuccess = wArchive->initHandle(arcStart);
-    if (bInitSuccess)
-      wArchive->mStatus = LOADED;
-    else
-      wArchive->mStatus = NOT_LOADED;
-    EGG_ASSERT(bInitSuccess, "eggArchive.cpp", 166, "false");
+    bool could_create = archive->initHandle(arcStart);
+    if (could_create) {
+      archive->mStatus = LOADED;
+    } else {
+      archive->mStatus = NOT_LOADED;
+      EGG_ASSERT(false, "eggArchive.cpp", 166, "false");
+    }
+
     // If we failed, clean up
-    if (!bInitSuccess) // INLINE
+    if (!could_create) // INLINE
     {
-      delete wArchive;
-      wArchive = nullptr;
+      delete archive;
+      archive = nullptr;
     }
   } else {
-    wArchive->_14++;
+    ++archive->mRefCount;
   }
 
-  return wArchive;
+  return archive;
 }
 void Archive::unmount() {
-  if (_14 != 0 && --_14 == 0) {
+  if (mRefCount != 0 && --mRefCount == 0) {
     mStatus = NOT_LOADED;
     delete this;
   }
@@ -135,6 +135,7 @@ void* Archive::loadFromDisc(const char* path, Heap* pHeap, int align) {
     }
     pHeap->free(readHeader);
   }
+
   DVDClose(&dvdFileInfo);
   return ARC;
 }
