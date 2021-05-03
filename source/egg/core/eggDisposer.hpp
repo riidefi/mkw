@@ -27,6 +27,7 @@ public:
   //!
   Disposer();
 
+private:
   Heap* mContainHeap; //!< [+0x04] Heap that contains the instance of this
                       //!< disposer.
 

@@ -11,7 +11,7 @@ GraphicsFifo::GPStatus GraphicsFifo::sGpStatus;
 GraphicsFifo* GraphicsFifo::create(u32 fifoSize, Heap* heap) {
   EGG_ASSERT(!sGraphicsFifo, "eggGraphicsFifo.cpp", 59, "!sGraphicsFifo");
   if (heap == nullptr)
-    heap = Heap::sCurrentHeap;
+    heap = Heap::getCurrentHeap();
   EGG_ASSERT(!!"OSIsMEM1Region(heap)", "eggGraphicsFifo.cpp", 69,
              "OSIsMEM1Region( heap )");
 
