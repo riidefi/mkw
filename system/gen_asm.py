@@ -144,8 +144,8 @@ class DolBinary:
 
 
 
-def format_gap(name, gap):
-    return "asm/%s_%s.s" % (name, hex(gap.begin)[2:])
+def format_gap(name, gap, folder):
+    return "asm/%s/%s_%s.s" % (folder, name, hex(gap.begin)[2:])
 
 def format_segname(name):
     if "extab" in name: return name + "_"
@@ -222,9 +222,17 @@ def disassemble_object_file(path, image, addr_start, segments = []):
         with redirect_stdout(file):
             dump_object_file(image, addr_start, segments)
 
+def require_folder(path):
+    try:
+        os.mkdir(path)
+    except FileExistsError:
+        pass
 
-def disasm(name, image, addr_start, seg, is_data):
-    path = "../" + format_gap(name, seg)
+def disasm(folder, name, image, addr_start, seg, is_data):
+    require_folder(os.path.join("..", "asm"))
+    require_folder(os.path.join("..", "asm", folder))
+    
+    path = os.path.join("..", format_gap(name, seg, folder))
 
     disassemble_object_file(path, image, addr_start, [ (name, seg) ])
 
@@ -267,23 +275,23 @@ def find_gaps(all_slices):
         if not obj_file.startswith('#'):
             yield obj_file, None
 
-def find_o_files(all_slices):
+def find_o_files(all_slices, folder):
     for name, gap_seg in find_gaps(all_slices):
         if gap_seg is None:
             yield name, gap_seg, "??"
             continue
 
-        print(format_gap(name, gap_seg))
-        dest = format_gap(name, gap_seg).replace("asm/", "").replace(".s", ".o")
+        print(format_gap(name, gap_seg, folder))
+        dest = format_gap(name, gap_seg, folder).replace("asm/", "").replace(".s", ".o")
         yield name, gap_seg, dest
 
-def unpack_binary(all_slices, image, addr_start):
-    for name, gap_seg, dest in find_o_files(all_slices): 
+def unpack_binary(folder, all_slices, image, addr_start):
+    for name, gap_seg, dest in find_o_files(all_slices, folder): 
         is_decompiled = gap_seg is None
 
         if not is_decompiled:
             # print("name %s dest %s" % (name, dest))
-            disasm(name, image, addr_start, gap_seg, False)
+            disasm(folder, name, image, addr_start, gap_seg, False)
             yield dest
         
         if is_decompiled:
@@ -328,7 +336,7 @@ def unpack_base_dol():
     slices, segments, cuts = compute_cuts_from_spreadsheets("../artifacts/pal/segments.csv", "slices.csv")
 
     # o_files
-    return list(unpack_binary(cuts, base_dol.image, base_dol.image_base))
+    return list(unpack_binary("dol", cuts, base_dol.image, base_dol.image_base))
 
 ## REL
 
@@ -369,7 +377,7 @@ def unpack_staticr_rel():
     image, image_base = load_rel_binary(segments)
 
     # o_files
-    return list(unpack_binary(cuts, image, image_base))
+    return list(unpack_binary("rel", cuts, image, image_base))
 
 def unpack_everything():
     dol_o_files = unpack_base_dol()
