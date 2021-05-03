@@ -5,17 +5,53 @@
 
 #pragma once
 
+#ifndef HEAP_PRIVATE
+#define HEAP_PRIVATE private
+#endif
+
 #include <egg/core/eggDisposer.hpp>
 #include <nw4r/ut/utList.hpp>
 #include <rk_types.h>
 #ifndef RII_CLIENT
 #include <rvl/os/osThread.h>
 #endif
+#include <egg/core/eggThread.hpp>
+
+extern "C" {
+
+typedef struct rvlHeap {
+  char _[0x1c];
+  u32 arena_end;
+} rvlHeap;
+
+rvlHeap* MEMFindContainHeap(const void*);
+
+}
 
 namespace EGG {
 
 class ExpHeap;
 class Allocator;
+
+
+struct HeapAllocArg {
+  int userArg; // 00
+  u32 size;    // 04
+  int align;   // 08
+  Heap* heap;  // 0C heap to allocate in
+
+  inline HeapAllocArg() : userArg(0), size(0), align(0), heap(nullptr) {}
+};
+typedef void (*HeapAllocCallback)(HeapAllocArg& arg);
+
+struct HeapErrorArg {
+  const char* msg;
+  void* userdata;
+
+  inline HeapErrorArg() {}
+};
+
+
 typedef void (*ErrorCallback)(void*);
 
 //! @brief   Base Heap class
@@ -39,6 +75,7 @@ public:
   inline void* getStartAddress() { return this; }
 
   virtual ~Heap();
+
   //! @brief [vt+0x0C] Get the type of heap the current heap is.
   //!
   //! @returns The eHeapKing of the heap.
@@ -53,6 +90,7 @@ public:
   virtual u32 getAllocatableSize(s32 align) = 0;                   // [vt+0x24]
   virtual u32 adjust() = 0;                                        // [vt+0x28]
 
+HEAP_PRIVATE:
   //! @brief   	Static linked-list of heaps.
   //!
   //! @details	When a heap is created, it is appended to this list.
@@ -75,14 +113,13 @@ public:
   //!			This will restrict rather than redirect allocations.
   static Heap* sAllocatableHeap;
   static ErrorCallback sErrorCallback;      //!< TODO
-  static ErrorCallback sAllocCallback;      //!< TODO
+  static HeapAllocCallback sAllocCallback;  //!< TODO
   static void* sErrorCallbackArg;           //!< TODO
   static void* sAllocCallbackArg;           //!< TODO
-  static struct Thread* sAllocatableThread; //!< TODO
+  static class Thread* sAllocatableThread;  //!< TODO
 
-public:
   //! @brief [+0x10] argument of heap constructor. Name confirmed by WS assert.
-  struct rvlHeap* mHeapHandle;
+  rvlHeap* mHeapHandle;
   //! @brief [+0x14] set to 0 in heap ctor. treeki -- void* parentHeapMBlock
   void* mParentBlock;
   //! @brief [+0x18] name from findParentHeap()
@@ -98,10 +135,12 @@ public:
   //! [+0x20, +0x24] unseen treeki -- globalLink
   u32 _20;
   u32 _24;
+
   //! @details List of child disposers.
   //! When Heap::dispose() is called, ~Disposer() will be called for all
   //! children.
   nw4r::ut::List mChildren; //!< [+0x28] sizeof=0xC
+
   const char* mName;        //!< [+0x034] set to "NoName" in ctor
 
 public:
@@ -137,7 +176,7 @@ public:
   //!
   //! @return 	this
   //!
-  Heap(struct rvlHeap* heapHandle);
+  Heap(rvlHeap* heapHandle);
 
   //! @brief   	Allocate a block of memory in a heap.
   //!
@@ -225,6 +264,19 @@ public:
   inline void removeDisposer(Disposer* disposer) {
     nw4r::ut::List_Remove(&mChildren, disposer);
   }
+
+  inline rvlHeap* getHeapHandle() {
+    return mHeapHandle;
+  }
+
+  static inline Heap* getCurrentHeap() {
+    return sCurrentHeap;
+  }
+
+  inline int getArenaEnd() {
+    return mHeapHandle->arena_end;
+  }
+
 };
 
 } // namespace EGG
@@ -246,3 +298,5 @@ void* operator new[](size_t size, EGG::Heap* heap, int align);
 void operator delete(void* p);
 // __dla(void *)
 void operator delete[](void*);
+
+#undef HEAP_PRIVATE

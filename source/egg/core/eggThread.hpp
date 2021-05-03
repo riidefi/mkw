@@ -25,22 +25,7 @@ public:
   virtual void onEnter(); /*{}*/ //!< [vt+0x14]
   virtual void onExit(); /*{}*/  //!< [vt+0x10]
 
-  Heap* mContainingHeap; //!< [+0x04] Heap to use for thread-specific
-                         //!< allocations (in ctor: create stack and OSThread)
-  OSThread* mOSThread;   //!< [+0x08] The OS thread this object wraps. Name
-                         //!< confirmed by WS assert.
 
-  OSMessageQueue mMesgQueue; //!< [+0x0C] sizeof=0x20
-  OSMessage* mMesgBuffer;    //!< [+0x2C] name confirmed WS assert
-  int mMesgCount;            //!< [+0x30]
-
-  char* mStackMemory; //!< [+0x34] The base (*beginning*) of the stack.
-  u32 mStackSize;     //!< [+0x38] The size of the stack.
-
-  Heap* mAlloctableHeap; //!< [0+x3C] When not NULL will override the heap used
-                         //!< for allocations. (Note: Does not escape the
-                         //!< Heap::sAllocatableHeap restriction.)
-  nw4r::ut::Node mLink;
   //! @brief   	A constructor.
   //!
   //! @details	Creates an EGG::Thread and OSThread from arguments.
@@ -135,9 +120,31 @@ public:
   //!
   static void* start(void* eggThread);
 
+  //! When not NULL will override the heap used for allocations.
+  inline Heap* getAllocatableHeap() {
+    return mAlloctableHeap;
+  }
+
 private:
   // List of all registered threads.
   static nw4r::ut::List sThreadList;
+
+  Heap* mContainingHeap; //!< [+0x04] Heap to use for thread-specific
+                         //!< allocations (in ctor: create stack and OSThread)
+  OSThread* mOSThread;   //!< [+0x08] The OS thread this object wraps. Name
+                         //!< confirmed by WS assert.
+
+  OSMessageQueue mMesgQueue; //!< [+0x0C] sizeof=0x20
+  OSMessage* mMesgBuffer;    //!< [+0x2C] name confirmed WS assert
+  int mMesgCount;            //!< [+0x30]
+
+  char* mStackMemory; //!< [+0x34] The base (*beginning*) of the stack.
+  u32 mStackSize;     //!< [+0x38] The size of the stack.
+
+  Heap* mAlloctableHeap; //!< [0+x3C] When not NULL will override the heap used
+                         //!< for allocations. (Note: Does not escape the
+                         //!< Heap::sAllocatableHeap restriction.)
+  nw4r::ut::Node mLink;
 };
 
 } // namespace EGG
