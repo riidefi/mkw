@@ -333,6 +333,7 @@ def compile_sources():
 
 	RVL_OPTS = '-ipa file'
 	EGG_OPTS = '-ipa function -rostr'
+	REL_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
 
 	compile_source("source/rvl/arc/rvlArchive.c", "out/rvlArchive.o", '4199_60831', RVL_OPTS)
 	compile_source("source/rvl/mem/rvlMemList.c", "out/rvlMemList.o", '4199_60831', RVL_OPTS)
@@ -352,6 +353,7 @@ def compile_sources():
 	# compile_source("source/egg/core/eggXfbManager.cpp", "out/eggXfbManager.o", '4201_127', EGG_OPTS)
 
 	compile_source("source/game/ui/MessageGroup.cpp", "out/MessageGroup.o", '4201_127', EGG_OPTS)
+	compile_source("source/game/jmap/JmpResourceCourse.cpp", "out/JmpResourceCourse.o", '4201_127', REL_OPTS)
 
 	from pathlib import Path
 	asm_files = [str(x.relative_to(os.getcwd())) for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")]
