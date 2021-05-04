@@ -1,8 +1,12 @@
 rel/text_805103b4.o
+rel/data_808b2bd0.o
+rel/bss_809bd6e0.o
+JmpResourceCourse.o
+rel/text_805127ec.o
 MessageGroup.o
 rel/text_805f8b90.o
 rel/ctors_8088f400.o
 rel/dtors_8088f704.o
 rel/rodata_8088f710.o
-rel/data_808b2bd0.o
-rel/bss_809bd6e0.o
+rel/data_808b2c3c.o
+rel/bss_809bd6ec.o
