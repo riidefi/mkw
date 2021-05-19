@@ -1,0 +1,247 @@
+#include "ObjectDirector.hpp"
+#include <Relocatable/JMAP/resource/MapdataGeoObj_ac.hpp>
+
+namespace Field {
+
+void ConstructObject(Field::ObjectDirector* director,
+                     Field::MapdataGeoObjAccessor* pGobj) {
+  UNUSED(director);
+
+#define CASE(name, type)                                                       \
+  if (!strcmp(&Field::ObjectDirector::getStaticInstance()                      \
+                   ->mpObjectParameter->getParameter(pGobj->ref().id)          \
+                   ->data.Name,                                                \
+              name))                                                           \
+    return new type(pGobj)->vf0x20();
+
+  // The horrendous autogen part...
+  {
+    CASE("kuribo", Objectkuribo);
+    CASE("cow", Objectcow);
+    CASE("kinoko_ud", Objectkinoko_ud);
+    CASE("kinoko_bend", Objectkinoko_bend);
+    CASE("kinoko_nm", Objectkinoko_nm);
+    CASE("itembox", Objectitembox);
+    CASE("wanwan", Objectwanwan);
+    CASE("Hwanwan", ObjectHwanwan);
+    CASE("choropu", Objectchoropu);
+    CASE("choropu2", Objectchoropu2);
+    CASE("poihana", Objectpoihana);
+    CASE("Psea", ObjectPsea);
+    CASE("bulldozer_left", Objectbulldozer_left);
+    CASE("bulldozer_right", Objectbulldozer_right);
+    CASE("TruckWagon", ObjectTruckWagon);
+    CASE("flag", Objectflag);
+    CASE("flagBlend", ObjectflagBlend);
+    CASE("pylon01", Objectpylon01);
+    CASE("basabasa", Objectbasabasa);
+    CASE("VolcanoPiece", ObjectVolcanoPiece);
+    CASE("VolcanoRock1", ObjectVolcanoRock1);
+    CASE("gnd_trapezoid", Objectgnd_trapezoid);
+    CASE("gnd_sphere", Objectgnd_sphere);
+    CASE("gnd_wave1", Objectgnd_wave1);
+    CASE("gnd_wave2", Objectgnd_wave2);
+    CASE("gnd_wave3", Objectgnd_wave3);
+    CASE("gnd_wave4", Objectgnd_wave4);
+    CASE("heyho2", Objectheyho2);
+    CASE("K_sticklift00", ObjectK_sticklift00);
+    CASE("Ksticketc", ObjectKsticketc);
+    CASE("heyho", Objectheyho);
+    CASE("truckChimSmk", ObjecttruckChimSmk);
+    CASE("escalator", Objectescalator);
+    CASE("Crane", ObjectCrane);
+    CASE("TwistedWay", ObjectTwistedWay);
+    CASE("kart_truck", Objectkart_truck);
+    CASE("car_body", Objectcar_body);
+    CASE("K_bomb_car", ObjectK_bomb_car);
+    CASE("K_bomb_car1", ObjectK_bomb_car1);
+    CASE("FlamePole", ObjectFlamePole);
+    CASE("FlamePole_v", ObjectFlamePole_v);
+    CASE("FlamePole_v_big", ObjectFlamePole_v_big);
+    CASE("f_itembox", Objectf_itembox);
+    CASE("sun", Objectsun);
+    CASE("SpaceSun", ObjectSpaceSun);
+    CASE("EarthRing", ObjectEarthRing);
+    CASE("sanbo", Objectsanbo);
+    CASE("MashBalloonGC", ObjectMashBalloonGC);
+    CASE("castleballoon1", Objectcastleballoon1);
+    CASE("skyship", Objectskyship);
+    CASE("Piston", ObjectPiston);
+    CASE("PalmTree", ObjectPalmTree);
+    CASE("WLarrowGC", ObjectWLarrowGC);
+    CASE("oilSFC", ObjectoilSFC);
+    CASE("Press", ObjectPress);
+    CASE("w_itemboxline", Objectw_itemboxline);
+    CASE("VolcanoBall1", ObjectVolcanoBall1);
+    CASE("penguin_l", Objectpenguin_l);
+    CASE("penguin_m", Objectpenguin_m);
+    CASE("penguin_s", Objectpenguin_s);
+    CASE("w_woodbox", Objectw_woodbox);
+    CASE("w_itembox", Objectw_itembox);
+    CASE("dossunc", Objectdossunc);
+    CASE("BeltCurveA", ObjectBeltCurveA);
+    CASE("BeltEasy", ObjectBeltEasy);
+    CASE("BeltCrossing", ObjectBeltCrossing);
+    CASE("WLfirebarGC", ObjectWLfirebarGC);
+    CASE("WLfireringGC", ObjectWLfireringGC);
+    CASE("dossun", Objectdossun);
+    CASE("pakkun_f", Objectpakkun_f);
+    CASE("monte_a", Objectmonte_a);
+    CASE("KmoonZ", ObjectKmoonZ);
+    CASE("Hanabi", ObjectHanabi);
+    CASE("DonkyCannon_wii", ObjectDonkyCannon_wii);
+    CASE("DonkyCannonGC", ObjectDonkyCannonGC);
+    CASE("tree_cannon", Objecttree_cannon);
+    CASE("StarRing", ObjectStarRing);
+    CASE("boble", Objectboble);
+    CASE("escalator_group", Objectescalator_group);
+    CASE("casino_roulette", Objectcasino_roulette);
+    CASE("aurora", Objectaurora);
+    CASE("dc_sandcone", Objectdc_sandcone);
+    CASE("begoman_spike", Objectbegoman_spike);
+    CASE("begoman_manager", Objectbegoman_manager);
+    CASE("venice_nami", Objectvenice_nami);
+    CASE("venice_saku", Objectvenice_saku);
+    CASE("venice_hasi", Objectvenice_hasi);
+    CASE("r_parasol", Objectr_parasol);
+    CASE("quicksand", Objectquicksand);
+    CASE("koopaBall", ObjectkoopaBall);
+    CASE("hanachan", Objecthanachan);
+    CASE("BossHanachan", ObjectBossHanachan);
+    CASE("koopaFirebar", ObjectkoopaFirebar);
+    CASE("DKrockGC", ObjectDKrockGC);
+    CASE("koopaFigure", ObjectkoopaFigure);
+    CASE("ami", Objectami);
+    CASE("seagull", Objectseagull);
+    CASE("bblock", Objectbblock);
+    CASE("Epropeller", ObjectEpropeller);
+    CASE("MiiStatueM1", ObjectMiiStatueM1);
+    CASE("MiiStatueM2", ObjectMiiStatueM2);
+    CASE("MiiStatueL1", ObjectMiiStatueL1);
+    CASE("MiiStatueL2", ObjectMiiStatueL2);
+    CASE("MiiStatueL3", ObjectMiiStatueL3);
+    CASE("MiiStatueP1", ObjectMiiStatueP1);
+    CASE("MiiStatueD1", ObjectMiiStatueD1);
+    CASE("MiiStatueD2", ObjectMiiStatueD2);
+    CASE("MiiStatueDK1", ObjectMiiStatueDK1);
+    CASE("MiiStatueBL1", ObjectMiiStatueBL1);
+    CASE("MiiStatueBD1", ObjectMiiStatueBD1);
+    CASE("woodbox", Objectwoodbox);
+    CASE("sound_river", Objectsound_river);
+    CASE("sound_big_river", Objectsound_big_river);
+    CASE("sound_water_fall", Objectsound_water_fall);
+    CASE("sound_lake", Objectsound_lake);
+    CASE("sound_big_fall", Objectsound_big_fall);
+    CASE("sound_sea", Objectsound_sea);
+    CASE("sound_fountain", Objectsound_fountain);
+    CASE("sound_audience", Objectsound_audience);
+    CASE("sound_sand_fall", Objectsound_sand_fall);
+    CASE("sound_volcano", Objectsound_volcano);
+    CASE("sound_lift", Objectsound_lift);
+    CASE("sound_Mii", Objectsound_Mii);
+    CASE("MiiSphinxY1", ObjectMiiSphinxY1);
+    CASE("MiiSphinxY2", ObjectMiiSphinxY2);
+    CASE("crab", Objectcrab);
+    CASE("starGate", ObjectstarGate);
+    CASE("karehayama", Objectkarehayama);
+    CASE("FireSnake", ObjectFireSnake);
+    CASE("sunDS", ObjectsunDS);
+    CASE("CarB", ObjectCarB);
+    CASE("leaf_effect", Objectleaf_effect);
+    CASE("Alarm", ObjectAlarm);
+    CASE("Steam", ObjectSteam);
+    CASE("WLscreenGC", ObjectWLscreenGC);
+    CASE("fks_screen_wii", Objectfks_screen_wii);
+    CASE("dkmonitor", Objectdkmonitor);
+    CASE("RM_ring1", ObjectRM_ring1);
+    CASE("FireSnake_v", ObjectFireSnake_v);
+    CASE("venice_gondola", Objectvenice_gondola);
+    CASE("DKship64", ObjectDKship64);
+    CASE("pukupuku", Objectpukupuku);
+    CASE("moray", Objectmoray);
+    CASE("dc_pillar", Objectdc_pillar);
+    CASE("b_teresa", Objectb_teresa);
+    CASE("KoopaFigure64", ObjectKoopaFigure64);
+    CASE("HeyhoShipGBA", ObjectHeyhoShipGBA);
+    CASE("HeyhoBallGBA", ObjectHeyhoBallGBA);
+    CASE("TownBridgeDSc", ObjectTownBridgeDSc);
+    CASE("BGteresaSFC", ObjectBGteresaSFC);
+    CASE("s_itembox", Objects_itembox);
+    CASE("taimatsu", Objecttaimatsu);
+    CASE("InsekiA", ObjectInsekiA);
+    CASE("InsekiB", ObjectInsekiB);
+    CASE("puchi_pakkun", Objectpuchi_pakkun);
+    CASE("truckChimSmkW", ObjecttruckChimSmkW);
+    CASE("cruiser", Objectcruiser);
+    CASE("WLwallGC", ObjectWLwallGC);
+    CASE("group_enemy_a", Objectgroup_enemy_a);
+    CASE("group_enemy_b", Objectgroup_enemy_b);
+    CASE("group_enemy_c", Objectgroup_enemy_c);
+    CASE("group_enemy_d", Objectgroup_enemy_d);
+    CASE("group_enemy_e", Objectgroup_enemy_e);
+    CASE("group_enemy_f", Objectgroup_enemy_f);
+    CASE("group_monte_a", Objectgroup_monte_a);
+    CASE("airblock", Objectairblock);
+    CASE("DKturibashiGCc", ObjectDKturibashiGCc);
+    CASE("honeBall", ObjecthoneBall);
+    CASE("sanbo_big", Objectsanbo_big);
+    CASE("FallBsA", ObjectFallBsA);
+    CASE("FallBsB", ObjectFallBsB);
+    CASE("FallBsC", ObjectFallBsC);
+    CASE("Fall_Y", ObjectFall_Y);
+    CASE("Fall_MH", ObjectFall_MH);
+    CASE("DKfalls", ObjectDKfalls);
+    CASE("volsmk", Objectvolsmk);
+    CASE("bird", Objectbird);
+    CASE("Flash_L", ObjectFlash_L);
+    CASE("Flash_B", ObjectFlash_B);
+    CASE("Flash_S", ObjectFlash_S);
+    CASE("Flash_M", ObjectFlash_M);
+    CASE("Flash_W", ObjectFlash_W);
+    CASE("cruiserR", ObjectcruiserR);
+    CASE("M_obj_s_jump", ObjectM_obj_s_jump);
+    CASE("M_obj_jump", ObjectM_obj_jump);
+    CASE("Mdush", ObjectMdush);
+    CASE("Twanwan", ObjectTwanwan);
+    CASE("sin_itembox", Objectsin_itembox);
+    CASE("DemoJugemu", ObjectDemoJugemu);
+    CASE("DemoEf", ObjectDemoEf);
+    CASE("dokan_sfc", Objectdokan_sfc);
+    CASE("Kamifubuki", ObjectKamifubuki);
+    CASE("group_enemy_a_demo", Objectgroup_enemy_a_demo);
+    CASE("group_monte_a_demo", Objectgroup_monte_a_demo);
+    CASE("castletree1", Objectcastletree1);
+    CASE("mare_a", Objectmare_a);
+    CASE("mare_b", Objectmare_b);
+    CASE("EnvKarehaUp", ObjectEnvKarehaUp);
+    CASE("CarA1", ObjectCarA1);
+    CASE("CarA2", ObjectCarA2);
+    CASE("CarA3", ObjectCarA3);
+    CASE("ShMiiObj01", ObjectShMiiObj01);
+    CASE("ShMiiObj02", ObjectShMiiObj02);
+    CASE("ShMiiObj03", ObjectShMiiObj03);
+    CASE("miiposter", Objectmiiposter);
+    CASE("MiiObj01", ObjectMiiObj01);
+    CASE("MiiObj02", ObjectMiiObj02);
+    CASE("MiiObj03", ObjectMiiObj03);
+    CASE("MiiKanban", ObjectMiiKanban);
+    CASE("dk_miiobj00", Objectdk_miiobj00);
+    CASE("ridgemii00", Objectridgemii00);
+    CASE("RhMiiKanban", ObjectRhMiiKanban);
+    CASE("MiiSignWario", ObjectMiiSignWario);
+    CASE("MiiSignNoko", ObjectMiiSignNoko);
+    CASE("MiiSighKino", ObjectMiiSighKino);
+    CASE("MiiObjD01", ObjectMiiObjD01);
+    CASE("MiiObjD02", ObjectMiiObjD02);
+    CASE("MiiObjD03", ObjectMiiObjD03);
+  }
+
+  if (Field::ObjectDirector::getStaticInstance()
+          ->mpObjectParameter->getParameter(pGobj->ref().id)
+          ->data.P4 == 4)
+    return new ObjectKCL(pGobj, 0)->vf0x20();
+  else
+    return new ObjectParent(pGobj, 0)->vf0x20();
+}
+
+} // namespace Field
