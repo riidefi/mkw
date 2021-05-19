@@ -10,6 +10,7 @@ dol/text_80124e80.o
 rvlMemList.o
 dol/text_80199d04.o
 dol/data_8027e772.o
+eggAllocator.o
 dol/bss_802a4080.o
 dol/sbss_803862b0.o
 eggArchive.o
