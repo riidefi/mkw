@@ -118,7 +118,7 @@ def command(cmd):
 	os.system(cmd)
 
 def assemble(dst, src):
-	print(dst, src)
+	# print(dst, src)
 	cmd = GAS + " %s -mgekko -Iasm -o %s" % (src, dst)
 	command(cmd)
 
@@ -331,29 +331,9 @@ def build_elf(rel_path, elf_path):
 def compile_sources():
 	require_folder("out")
 
-	RVL_OPTS = '-ipa file'
-	EGG_OPTS = '-ipa function -rostr'
-	REL_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
-
-	compile_source("source/rvl/arc/rvlArchive.c", "out/rvlArchive.o", '4199_60831', RVL_OPTS)
-	compile_source("source/rvl/mem/rvlMemList.c", "out/rvlMemList.o", '4199_60831', RVL_OPTS)
-
-	compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831', RVL_OPTS)
-
-	compile_source("source/egg/core/eggArchive.cpp", "out/eggArchive.o", '4201_127', EGG_OPTS + " -use_lmw_stmw=on ")
-	compile_source("source/egg/core/eggDisposer.cpp", "out/eggDisposer.o", '4201_127', EGG_OPTS)
-	compile_source("source/egg/core/eggGraphicsFifo.cpp", "out/eggGraphicsFifo.o", '4201_127', EGG_OPTS)
-	compile_source("source/egg/core/eggHeap.cpp", "out/eggHeap.o", '4201_127', EGG_OPTS + " -ipa file -use_lmw_stmw=on  ")
-	compile_source("source/egg/math/eggQuat.cpp", "out/eggQuat.o", '4201_127', EGG_OPTS)
-	compile_source("source/egg/core/eggStreamDecomp.cpp", "out/eggStreamDecomp.o", '4201_127', EGG_OPTS)
-	# compile_source("source/egg/core/eggSystem.cpp", "out/eggSystem.o", '4201_127', EGG_OPTS)
-	compile_source("source/egg/core/eggThread.cpp", "out/eggThread.o", '4201_127', EGG_OPTS)
-	compile_source("source/egg/math/eggVector.cpp", "out/eggVector.o", '4201_127', EGG_OPTS)
-	# compile_source("source/egg/core/eggXfb.cpp", "out/eggXfb.o", '4201_127', EGG_OPTS)
-	# compile_source("source/egg/core/eggXfbManager.cpp", "out/eggXfbManager.o", '4201_127', EGG_OPTS)
-
-	compile_source("source/game/ui/MessageGroup.cpp", "out/MessageGroup.o", '4201_127', EGG_OPTS)
-	compile_source("source/game/jmap/JmpResourceCourse.cpp", "out/JmpResourceCourse.o", '4201_127', REL_OPTS)
+	# import sources
+	with open('sources.py', 'r') as sourcespy:
+		exec(sourcespy.read())
 
 	from pathlib import Path
 	asm_files = [str(x.relative_to(os.getcwd())) for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")]
@@ -401,6 +381,8 @@ def build():
 
 	verify_rel()
 
+	import percent_decompiled
+
 import hashlib
 
 def verify_rel():
@@ -420,6 +402,58 @@ def verify_dol():
 		return
 
 	print("[DOL] Oof: Output doesn't match.")
+	
+	class DolBinary:
+		def __init__(self, file):
+			file = open(file, 'rb')
+			text_ofs = [read_u32(file) for _ in range(7)]
+			data_ofs = [read_u32(file) for _ in range(11)]
+
+			text_vaddr = [read_u32(file) for _ in range(7)]
+			data_vaddr = [read_u32(file) for _ in range(11)]
+
+			self.text_size = [read_u32(file) for _ in range(7)]
+			self.data_size = [read_u32(file) for _ in range(11)]
+
+			self.text_segs = [Segment(x, x + y) for x, y in zip(text_vaddr, self.text_size)]
+			self.data_segs = [Segment(x, x + y) for x, y in zip(data_vaddr, self.data_size)]
+					
+			bss_vaddr = read_u32(file)
+			bss_size = read_u32(file)
+
+			self.bss = Segment(bss_vaddr, bss_vaddr + bss_size)
+
+			self.entry_point = read_u32(file)
+
+			max_vaddr = max(x.end for x in self.text_segs + self.data_segs)
+			self.image_base = 0x80000000
+			self.image = bytearray(max_vaddr - self.image_base)
+			return
+			for i in range(7):
+				if not self.text_size[i]:
+					continue
+
+				file.seek(text_ofs[i])
+				data = file.read(self.text_size[i])
+				for j in range(self.text_size[i]):
+					self.image[text_vaddr[i] + j - self.image_base] = data[j]
+
+			for i in range(11):
+				if not self.data_size[i]:
+					continue
+
+				file.seek(data_ofs[i])
+				data = file.read(self.data_size[i])
+				for j in range(self.data_size[i]):
+					self.image[data_vaddr[i] + j - self.image_base] = data[j]
+
+	good = DolBinary("source/baserom.dol")
+	bad = DolBinary("target/mkw_pal.dol")
+	
+	for i, sizes in enumerate(zip(good.text_size, bad.text_size)):
+		print(sizes)
+	for i, sizes in enumerate(zip(good.data_size, bad.data_size)):
+		print(sizes)
 	# TODO: Add diff'ing
 
 build()
