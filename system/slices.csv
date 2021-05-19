@@ -3,6 +3,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,rxFrameHeap.c,,,,,,,80199430,801998A4,,,,,,,,,,,,,,,,,,
 1,rvlMemList.c,,,,,,,0x80199BF0,0x80199D04,,,,,,,,,,,,,,,,,,
+1,eggAllocator.cpp,,,,,,,0x8020F62C,0x8020F6EC,,,,,,,802A2668,802A2680 ,,,,,,,,,,
 1,eggArchive.cpp,,,,,,,8020F6EC,0x8020FCC4,,,,,,,802A2680,802A268C,803832D8,0x803832E4,,,80386D80,80386D84,,,,
 1,eggDisposer.cpp,,,,,,,8021A0F0,8021A1B8,,,,,,,802A2B48,802A2B54 ,,,,,,,,,,
 1,eggGraphicsFifo.cpp,,,,,,,80229540,802296A8,,,,,,,802A30B0,802A30BC,,,,,0x80386E90,0x80386E99,,,,
