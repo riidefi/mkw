@@ -6,8 +6,7 @@
 #pragma once
 
 #include <EGG/math/eggVector.hpp>
-
-#define WEIRD_FLOAT (1.0f / 8388608.0f)
+#include <float.h>
 
 namespace EGG {
 
@@ -15,7 +14,7 @@ float Vector2f::normalise() {
   float out = 0.0f;
   float lenSq = x * x + y * y;
 
-  if (lenSq > WEIRD_FLOAT) {
+  if (lenSq > FLT_EPSILON) {
     out = Mathf::sqrt(lenSq);
     float inv = 1.0f / out;
     x *= inv;
@@ -27,7 +26,7 @@ float Vector2f::normalise() {
 void Vector2f::normalise2() {
   float lenSq = x * x + y * y;
 
-  if (lenSq > WEIRD_FLOAT) {
+  if (lenSq > FLT_EPSILON) {
     float inv = Mathf::frsqrt(lenSq);
     x *= inv;
     y *= inv;
@@ -38,7 +37,7 @@ float Vector3f::normalise() {
   float out = 0.0f;
   float lenSq = x * x + y * y + z * z;
 
-  if (lenSq > WEIRD_FLOAT) {
+  if (lenSq > FLT_EPSILON) {
     out = Mathf::sqrt(lenSq);
     float inv = 1.0f / out;
     x *= inv;
@@ -51,7 +50,7 @@ float Vector3f::normalise() {
 void Vector3f::normalise2() {
   float lenSq = x * x + y * y + z * z;
 
-  if (lenSq > WEIRD_FLOAT) {
+  if (lenSq > FLT_EPSILON) {
     float inv = Mathf::frsqrt(lenSq);
     x *= inv;
     y *= inv;
