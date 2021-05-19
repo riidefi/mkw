@@ -9,6 +9,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,eggGraphicsFifo.cpp,,,,,,,80229540,802296A8,,,,,,,802A30B0,802A30BC,,,,,0x80386E90,0x80386E99,,,,
 1,eggHeap.cpp,,,,,,,802296A8,80229FAC,,,,,80257740,80257824,802A30C0,0x802a30ec,80384320,0x80384348,,,80386EA0,80386EC0,80388D68 ,80388D80,,
 1,eggQuat.cpp,,,,,,,80239DFC,0x80239E10,,,,,,,,,,,,,,,,,,
+0,eggScene.cpp,,,,,,,8023AD10,8023ADDC,,,,,,,,,,,,,,,,,,
 1,eggStreamDecomp.cpp,,,,,,,80242498,80242504,,,,,,,802A3F78,802A3F90,,,,,,,,,,
 ,eggSystem.cpp,,,,,,,,,,,,,,,,,,,,,80386F60,80386F64,,,,
 1,eggThread.cpp,,,,,,,0x802432E0 ,0x80243754,,,,,,,0x802A3FC0,0x802A3FD8,0x80384B60,0x80384B6C ,,,,,,,,
