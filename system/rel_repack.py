@@ -276,7 +276,7 @@ class RelRelData:
 
             #R_RVL_SECT
             if entry.type == 202:
-                print("R_RVL_SECT", counter, entry.section)
+                # print("R_RVL_SECT", counter, entry.section)
                 section = entry.section
                 self.entries[section] = []
                 continue
@@ -285,7 +285,7 @@ class RelRelData:
 
             # R_RVL_STOP
             if entry.type == 203:
-                print("R_RVL_STOP")
+                # print("R_RVL_STOP")
                 break
 
             counter += 1

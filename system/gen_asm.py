@@ -386,19 +386,20 @@ def unpack_everything():
     rel_o_files = unpack_staticr_rel()
     open('../rel_o_files.txt', 'w').write('\n'.join(rel_o_files))
 
-try: shutil.rmtree("../asm")
-except: pass
+if __name__ == '__main__':
+    try: shutil.rmtree("../asm")
+    except: pass
 
-try: os.mkdir("../asm")
-except: pass
+    try: os.mkdir("../asm")
+    except: pass
 
-with open('../asm/macros.inc', 'w') as file:
-    file.write('# PowerPC Register Constants\n')
-    for i in range(0, 32):
-        file.write(".set r%i, %i\n" % (i, i))
-    for i in range(0, 32):
-        file.write(".set f%i, %i\n" % (i, i))
-    for i in range(0, 8):
-        file.write(".set qr%i, %i\n" % (i, i))
+    with open('../asm/macros.inc', 'w') as file:
+        file.write('# PowerPC Register Constants\n')
+        for i in range(0, 32):
+            file.write(".set r%i, %i\n" % (i, i))
+        for i in range(0, 32):
+            file.write(".set f%i, %i\n" % (i, i))
+        for i in range(0, 8):
+            file.write(".set qr%i, %i\n" % (i, i))
 
-unpack_everything()
+    unpack_everything()
