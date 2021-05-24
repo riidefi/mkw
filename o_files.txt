@@ -36,7 +36,7 @@ dol/text_80242504.o
 dol/data_802a3f90.o
 dol/bss_80384348.o
 eggThread.o
-dol/text_80243754.o
+eggUnitHeap.o
 dol/ctors_80244de0.o
 dol/bss_80384b6c.o
 dol/sbss_80386ec0.o
@@ -49,7 +49,7 @@ dol/text_80243d18.o
 dol/ctors_80244e8c.o
 dol/dtors_80244ea4.o
 dol/rodata_80257824.o
-dol/data_802a3fd8.o
+dol/data_802a4004.o
 dol/bss_80384bf4.o
 dol/sdata_803857f6.o
 dol/sbss_80386f90.o
