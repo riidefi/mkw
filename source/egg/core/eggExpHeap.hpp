@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <Common/rk_types.h>
-#include <EGG/core/eggHeap.hpp>
+#include <rk_types.h>
+#include <egg/core/eggHeap.hpp>
 
 namespace EGG {
 

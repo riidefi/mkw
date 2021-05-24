@@ -14,14 +14,14 @@ ExpHeap::~ExpHeap() {
   Heap::dispose();
 
   // Destroy the wrapped MEM heap
-  MEMDestroyExpHeap(this->mHeapHandle);
+  MEMDestroyExpHeap(mHeapHandle);
 }
 
 ExpHeap* ExpHeap::create(void* block, u32 size, u16 attr) {
   u32 heapEnd = nw4r::ut::RoundDown((u32)block + size, 4); // r3
   u32 heapStart = nw4r::ut::RoundUp((u32)block, 4);        // r27
 
-  ExpHeap* createdHeap = NULL; // r30
+  ExpHeap* createdHeap = nullptr; // r30
 
   // This simplifies down to size > 0;
   // as size is unsigned, we know this check will always pass.
@@ -36,7 +36,7 @@ ExpHeap* ExpHeap::create(void* block, u32 size, u16 attr) {
 
       if (memHeap) {
         Heap* containHeap = Heap::findContainHeap((void*)heapStart); // r31
-        new ((void*)heapStart) ExpHeap(memHeap); // Inline
+        new ((void*)heapStart) ExpHeap(memHeap);                     // Inline
         ((ExpHeap*)heapStart)->mParentBlock = block;
         ((ExpHeap*)heapStart)->mParentHeap = containHeap;
         createdHeap = (ExpHeap*)heapStart;
@@ -47,6 +47,7 @@ ExpHeap* ExpHeap::create(void* block, u32 size, u16 attr) {
 
   return 0;
 }
+
 ExpHeap* ExpHeap::create(u32 size, Heap* heap, u16 attr) {
   ExpHeap* newHeap = NULL;
 
@@ -70,80 +71,90 @@ ExpHeap* ExpHeap::create(u32 size, Heap* heap, u16 attr) {
 void ExpHeap::destroy() {
   Heap* parentHeap = findParentHeap();
 
-  this->~ExpHeap(); // arg=-1
+  ~ExpHeap(); // arg=-1
 
   if (parentHeap)
     parentHeap->free(this);
 }
 
 void* ExpHeap::alloc(u32 size, s32 align) {
-  if ((this->mFlag & HEAP_FLAG_LOCKED) != 0)
+  if ((mFlag & HEAP_FLAG_LOCKED) != 0)
     OSPanic("eggExpHeap.cpp", 174, "DAME DAME\n");
 
-  return MEMAllocFromExpHeapEx(this->mHeapHandle, size, align);
+  return MEMAllocFromExpHeapEx(mHeapHandle, size, align);
 }
 
-void ExpHeap::free(void* block) { MEMFreeToExpHeap(this->mHeapHandle, block); }
+void ExpHeap::free(void* block) { MEMFreeToExpHeap(mHeapHandle, block); }
 
 u32 ExpHeap::resizeForMBlock(void* memBlock, u32 size) {
-  return MEMResizeForMBlockExpHeap(this->mHeapHandle, memBlock, size);
+  return MEMResizeForMBlockExpHeap(mHeapHandle, memBlock, size);
 }
+
 u32 ExpHeap::getTotalFreeSize() {
-  return MEMGetTotalFreeSizeForExpHeap(this->mHeapHandle);
+  return MEMGetTotalFreeSizeForExpHeap(mHeapHandle);
 }
+
 u32 ExpHeap::getAllocatableSize(s32 align) {
-  return MEMGetAllocatableSizeForExpHeapEx(this->mHeapHandle, align);
+  return MEMGetAllocatableSizeForExpHeapEx(mHeapHandle, align);
 }
+
 u16 ExpHeap::setGroupID(u16 groupID) {
-  return MEMSetGroupIDForExpHeap(this->mHeapHandle, groupID);
+  return MEMSetGroupIDForExpHeap(mHeapHandle, groupID);
 }
+
 void ExpHeap::addGroupSize(void* block, MEMHeapHandle heap, u32 userParam) {
   u32 grpID = MEMGetGroupIDForMBlockExpHeap(block);
   // below may return
   ((GroupSizeRecord*)userParam)
       ->addSize((u16)grpID, MEMGetSizeForMBlockExpHeap(block));
 }
+
 void ExpHeap::calcGroupSize(GroupSizeRecord* record) {
   record->reset();
-  MEMVisitAllocatedForExpHeap(this->mHeapHandle, addGroupSize, (u32)record);
+  MEMVisitAllocatedForExpHeap(mHeapHandle, addGroupSize, (u32)record);
 }
+
 u32 ExpHeap::adjust() {
-  u32 adjustedSize = MEMAdjustExpHeap(this->mHeapHandle) + 56;
+  u32 adjustedSize = MEMAdjustExpHeap(mHeapHandle) + 56;
 
   if (adjustedSize > 56 && mParentHeap) {
     mParentHeap->resizeForMBlock(mParentBlock, adjustedSize);
     return adjustedSize;
-  } else {
-    return 0;
   }
-}
-void ExpHeap::initAllocator(Allocator* allocator, s32 align) {
-  MEMInitAllocatorForExpHeap((MEMAllocator*)allocator, this->mHeapHandle,
-                             align);
-}
-ExpHeap::GroupSizeRecord::GroupSizeRecord() { this->reset(); }
-void ExpHeap::GroupSizeRecord::reset() {
-  // CW optimizes this down to 8 sets of 32 byte writes.
 
+  return nullptr;
+}
+
+void ExpHeap::initAllocator(Allocator* allocator, s32 align) {
+  MEMInitAllocatorForExpHeap((MEMAllocator*)allocator, mHeapHandle, align);
+}
+
+ExpHeap::GroupSizeRecord::GroupSizeRecord() { reset(); }
+
+void ExpHeap::GroupSizeRecord::reset() {
   u32* iterEntry = &entries[0];
   for (int i = 0; i < 256; i++) {
     *iterEntry = 0;
     iterEntry++;
   }
 }
+
 void ExpHeap::GroupSizeRecord::addSize(u16 groupID, u32 size) {
   entries[groupID] += size;
 }
+
 namespace {
 void free_all_visitor(void* block, MEMHeapHandle heap, u32 userParam) {
   MEMFreeToExpHeap(heap, block);
 }
 } // namespace
+
 void ExpHeap::freeAll() {
   Heap::dispose();
 
-//  MEMVisitAllocatedForExpHeap(this->mHeapHandle, &free_all_visitor, 0);
+  //  MEMVisitAllocatedForExpHeap(mHeapHandle, &free_all_visitor, 0);
 }
+
 Heap::eHeapKind ExpHeap::getHeapKind() const {
   return Heap::HEAP_KIND_EXPANDED;
 }
