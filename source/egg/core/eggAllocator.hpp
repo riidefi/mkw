@@ -6,14 +6,7 @@
 #pragma once
 
 #include <rk_types.h>
-
-extern "C" {
-
-struct MEMAllocator {
-  char _[0x10];
-};
-
-} // extern "C"
+#include <rvl/mem/memAllocator.h>
 
 namespace EGG {
 
@@ -43,6 +36,8 @@ public: // vt at +0x10
   //! @param[in] block Block of memory to free.
   //!
   virtual void free(void* block);
+
+  inline MEMAllocator* getHandle() { return static_cast<MEMAllocator*>(this); }
 
 private:
   Heap* mHeap; //!< [+0x14] Heap to use for allocation.

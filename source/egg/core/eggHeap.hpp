@@ -6,7 +6,7 @@
 #pragma once
 
 #ifndef HEAP_PRIVATE
-#define HEAP_PRIVATE private
+#define HEAP_PRIVATE protected
 #endif
 
 #include <egg/core/eggDisposer.hpp>
@@ -16,17 +16,7 @@
 #include <rvl/os/osThread.h>
 #endif
 #include <egg/core/eggThread.hpp>
-
-extern "C" {
-
-typedef struct rvlHeap {
-  char _[0x1c];
-  u32 arena_end;
-} rvlHeap;
-
-rvlHeap* MEMFindContainHeap(const void*);
-
-}
+#include <rvl/mem/memAllocator.h>
 
 namespace EGG {
 
@@ -119,7 +109,7 @@ HEAP_PRIVATE:
   static class Thread* sAllocatableThread;  //!< TODO
 
   //! @brief [+0x10] argument of heap constructor. Name confirmed by WS assert.
-  rvlHeap* mHeapHandle;
+  MEMHeapHandle mHeapHandle;
   //! @brief [+0x14] set to 0 in heap ctor. treeki -- void* parentHeapMBlock
   void* mParentBlock;
   //! @brief [+0x18] name from findParentHeap()
