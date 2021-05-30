@@ -56,6 +56,7 @@ OSInitMutex=0x801A7EAC;
 
 OSLockMutex=0x801A7EE4;
 OSUnlockMutex=0x801A7FC0;
+OSGetTick = 0x801AAD74;
 
 OSCreateThread=0x801A9E84;
 OSIsThreadTerminated=0x801A98BC;
@@ -76,7 +77,11 @@ memset=0x80006038;
 
 GXGetGPStatus=0x8016CEC4;
 GXInit=0x8016B850;
-
+GXGetYScaleFactor=0x8016F6CC;
+GXGetNumXfbLines=0x8016F640;
+GXSetDispCopySrc=0x8016F438;
+GXSetDispCopyDst=0x8016F4B8;
+GXSetDispCopyYScale=0x8016F8FC;
 
 MEMCreateUnitHeapEx= 0x801998A4;
 MEMDestroyUnitHeap= 0x80199A00;
@@ -103,5 +108,30 @@ AllocatorAllocForExpHeap_ = 0x80199B58;
 AllocatorFreeForExpHeap_ = 0x80199B68;
 MEMInitAllocatorForExpHeap = 0x80199BB8;
 
+VIInit = 0x801B94A4;
+VIWaitForRetrace = 0x801B99EC;
+VIConfigure = 0x801B9F6C;
+VIConfigurePan = 0x801BA650;
+VIFlush = 0x801BA9A4;
+VISetNextFrameBuffer = 0x801BAAB8;
+VIGetNextFrameBuffer = 0x801BAB24;
+VISetBlack = 0x801BAB2C;
+VIGetRetraceCount = 0x801BABA4;
+VIGetNextField = 0x801BABAC;
+VIGetCurrentLine = 0x801BAC48;
+VIGetTvFormat = 0x801BACD8;
+VIGetDTVStatus = 0x801BAD38;
+VISetTimeToDimming = 0x801BAFA8;
 
+SCGetProgressiveMode=0x801B1D84;
+SCGetEuRgb60Mode=0x801B1CAC;
+SCGetAspectRatio=0x801B1BE4;
+
+__cvt_fp2unsigned = 0x80021478;
+}
+
+FORCEACTIVE {
+initialize__Q23EGG5VideoFPC15GXRenderModeObjPCPC15GXRenderModeObj
+getTickPerVRetrace__Q23EGG5VideoFUl
+getTickPerVRetrace__Q23EGG5VideoFv
 }

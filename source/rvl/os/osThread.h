@@ -4,6 +4,11 @@
 extern "C" {
 #endif
 #ifndef RII_CLIENT
+
+u32 OSGetTick();
+u32 __OSBusClock : 0x800000F8;
+#define OS_TIMER_CLOCK (__OSBusClock >> 2)
+
 struct OSThread {
   char _00[0x304];
   char* stack_high; // 304
