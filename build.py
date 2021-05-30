@@ -143,8 +143,12 @@ def gen_lcf(src, dst, o_files):
 	with open(src, 'r') as f:
 		lcf = f.read()
 		lcf += "\nFORCEFILES {\n"
-		lcf += "\n".join(Path(x).stem + ".o" for x in o_files)
-		lcf += "\n}\n"
+		for x in o_files:
+			# TODO: Add ability to disable FORCEFILE to slices.csv
+			if 'eggVideo' in x:
+				continue
+			lcf += Path(x).stem + ".o\n"
+		lcf += "}\n"
 	
 	with open(dst, 'w') as f:
 		f.write(lcf)
