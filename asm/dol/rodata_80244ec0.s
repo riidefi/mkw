@@ -1,7 +1,7 @@
 
 .include "macros.inc"
 
-.section .rodata, "a" # 0x80244EC0 - 0x80257740
+.section .rodata, "a" # 0x80244EC0 - 0x80257700
 .4byte 0x2F426F6F
 .4byte 0x742F5374
 .4byte 0x7261702F
@@ -18961,20 +18961,4 @@
 .4byte 0x61642E2E
 .4byte 0x2E0A0064
 .4byte 0x6F6E650A
-.4byte 0x00000000
-.4byte 0x65676745
-.4byte 0x78704865
-.4byte 0x61702E63
-.4byte 0x70700044
-.4byte 0x414D4520
-.4byte 0x44414D45
-.4byte 0x0A000000
-.4byte 0x00000000
-.4byte 0x62666F62
-.4byte 0x6A00464F
-.4byte 0x47440000
-.4byte 0x00000000
-.4byte 0x62666F67
-.4byte 0x00464F47
-.4byte 0x4D000000
 .4byte 0x00000000

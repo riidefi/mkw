@@ -6,6 +6,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,eggAllocator.cpp,,,,,,,0x8020F62C,0x8020F6EC,,,,,,,802A2668,802A2680 ,,,,,,,,,,
 1,eggArchive.cpp,,,,,,,8020F6EC,0x8020FCC4,,,,,,,802A2680,802A268C,803832D8,0x803832E4,,,80386D80,80386D84,,,,
 1,eggDisposer.cpp,,,,,,,8021A0F0,8021A1B8,,,,,,,802A2B48,802A2B54 ,,,,,,,,,,
+1,eggExpHeap.cpp,,,,,,,802269A8,80226F04,,,,,80257700,8025771A,802A2FF8,802A3024,,,,,,,,,,
 1,eggGraphicsFifo.cpp,,,,,,,80229540,802296A8,,,,,,,802A30B0,802A30BC,,,,,0x80386E90,0x80386E99,,,,
 1,eggHeap.cpp,,,,,,,802296A8,80229FAC,,,,,80257740,80257824,802A30C0,0x802a30ec,80384320,0x80384348,,,80386EA0,80386EC0,80388D68 ,80388D80,,
 1,eggQuat.cpp,,,,,,,80239DFC,0x80239E10,,,,,,,,,,,,,,,,,,

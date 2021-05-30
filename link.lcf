@@ -87,4 +87,21 @@ AllocatorAllocForUnitHeap_= 0x80199B70;
 AllocatorFreeForUnitHeap_= 0x80199B90;
 MEMInitAllocatorForUnitHeap= 0x80199BD4;
 
+MEMCreateExpHeapEx = 0x80198CA8;
+MEMDestroyExpHeap = 0x80198D58;
+MEMAllocFromExpHeapEx = 0x80198D88;
+MEMResizeForMBlockExpHeap = 0x80198E38;
+MEMFreeToExpHeap = 0x80199038;
+MEMGetTotalFreeSizeForExpHeap = 0x80199104;
+MEMGetAllocatableSizeForExpHeapEx = 0x80199180;
+MEMSetGroupIDForExpHeap = 0x80199258;
+MEMVisitAllocatedForExpHeap = 0x801992A8;
+MEMGetSizeForMBlockExpHeap = 0x80199344;
+MEMGetGroupIDForMBlockExpHeap = 0x8019934C;
+MEMAdjustExpHeap = 0x80199358;
+AllocatorAllocForExpHeap_ = 0x80199B58;
+AllocatorFreeForExpHeap_ = 0x80199B68;
+MEMInitAllocatorForExpHeap = 0x80199BB8;
+
+
 }
