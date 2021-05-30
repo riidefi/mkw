@@ -23,5 +23,11 @@ compile_source("source/egg/math/eggVector.cpp", "out/eggVector.o", '4201_127', E
 # compile_source("source/egg/core/eggXfb.cpp", "out/eggXfb.o", '4201_127', EGG_OPTS)
 # compile_source("source/egg/core/eggXfbManager.cpp", "out/eggXfbManager.o", '4201_127', EGG_OPTS)
 
-compile_source("source/game/ui/MessageGroup.cpp", "out/MessageGroup.o", '4201_127', EGG_OPTS)
+"""
+StaticR.rel
+"""
+
+compile_source("source/game/ui/MessageGroup.cpp", "out/MessageGroup.o", '4201_127', REL_OPTS)
+compile_source("source/game/ui/ControlGroup.cpp", "out/ControlGroup.o", '4201_127', REL_OPTS)
+compile_source("source/game/ui/UIControl.cpp", "out/UIControl.o", '4201_127', REL_OPTS)
 compile_source("source/game/jmap/JmpResourceCourse.cpp", "out/JmpResourceCourse.o", '4201_127', REL_OPTS)
