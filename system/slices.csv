@@ -16,5 +16,6 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,eggThread.cpp,,,,,,,0x802432E0 ,0x80243754,,,,,,,0x802A3FC0,0x802A3FD8,0x80384B60,0x80384B6C ,,,,,,,,
 1,eggUnitHeap.cpp,,,,,,,80243754,80243A00,,,,,,,802A3FD8,802A4004,,,,,,,,,,
 1,eggVector.cpp,,,,,,,0x80243A00,0x80243D18,0x80244E88,0x80244E8C,,,,,,,80384B70,80384BF4,,,80386F78,80386F90,803890F8 ,80389104,,
+1,eggVideo.cpp,,,,,,,80243D18,80244074,,,,,802582E0,80258560,,,,,,,,,80389108,80389118,,
 ,eggXfb.cpp,,,,,,,80244160,80244200,,,,,,,,,,,,,,,,,,
 ,eggXfbManager.cpp,,,,,,,80244200,802443AC,,,,,,,,,,,,,,,,,,

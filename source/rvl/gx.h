@@ -12,7 +12,7 @@ void GXGetGPStatus(u8* overhi, u8* underlow, u8* readIdle, u8* cmdIdle,
                    u8* brkpt);
 GXFifoObj* GXInit(void* buf, u32 size);
 
-struct GXRenderModeObj {
+typedef struct GXRenderModeObj {
   int tv_mode;
   u16 fb_width;
   u16 efb_height;
@@ -26,7 +26,13 @@ struct GXRenderModeObj {
   u8 aa;
   u8 sample[12][2];
   u8 vert_filter[7];
-};
+} GXRenderModeObj;
+
+f32 GXGetYScaleFactor(u16 efb_height, u16 xfb_height);
+u16 GXGetNumXfbLines(u16 efb_height, f32 y_scale_factor);
+void GXSetDispCopySrc(u16 left, u16 top, u16 width, u16 height);
+void GXSetDispCopyDst(u16 width, u16 height);
+u32 GXSetDispCopyYScale(f32 y_scale_factor);
 
 #ifdef __cplusplus
 }
