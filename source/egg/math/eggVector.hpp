@@ -22,7 +22,7 @@ struct Vector2f {
   static const Vector2f ex, ey;
 
   inline Vector2f(float _x, float _y) : x(_x), y(_y) {}
-  Vector2f();
+  inline Vector2f() {}
 
   // For now
   ~Vector2f();
@@ -44,7 +44,7 @@ struct Vector3f {
   // Header fns
 
   inline Vector3f(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
-  inline Vector3f() : x(0.0f), y(0.0f), z(0.0f) {}
+  inline Vector3f() {}
 
   // operator Vec*() { return reinterpret_cast<Vec*>(&x); }
 
