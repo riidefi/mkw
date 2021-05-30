@@ -32,7 +32,9 @@ public:
   //!
   //! @returns The created ExpHeap
   //!
-  static ExpHeap* create(void* block, u32 size, u16 attr);
+  static ExpHeap* create(void* block, u32 size, u16 attr)
+      __attribute__((never_inline));
+  
 
   //! @brief Create a new ExpHeap as a child of an existing heap.
   //!

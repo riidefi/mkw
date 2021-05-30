@@ -18,10 +18,14 @@ dol/text_8020fcc4.o
 dol/data_802a268c.o
 eggDisposer.o
 dol/text_8021a1b8.o
+dol/rodata_80244ec0.o
 dol/data_802a2b54.o
+eggExpHeap.o
+dol/text_80226f04.o
+dol/data_802a3024.o
 dol/sbss_80386d84.o
 eggGraphicsFifo.o
-dol/rodata_80244ec0.o
+dol/rodata_8025771a.o
 dol/data_802a30bc.o
 dol/bss_803832e4.o
 dol/sbss_80386e99.o

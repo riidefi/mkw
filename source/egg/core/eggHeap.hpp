@@ -23,7 +23,6 @@ namespace EGG {
 class ExpHeap;
 class Allocator;
 
-
 struct HeapAllocArg {
   int userArg; // 00
   u32 size;    // 04
@@ -40,7 +39,6 @@ struct HeapErrorArg {
 
   inline HeapErrorArg() {}
 };
-
 
 typedef void (*ErrorCallback)(void*);
 
@@ -102,12 +100,12 @@ HEAP_PRIVATE:
   //! @brief	When non NULL, this heap MUST be used for heap allocations.
   //!			This will restrict rather than redirect allocations.
   static Heap* sAllocatableHeap;
-  static ErrorCallback sErrorCallback;      //!< TODO
-  static HeapAllocCallback sAllocCallback;  //!< TODO
-  static void* sErrorCallbackArg;           //!< TODO
-  static void* sAllocCallbackArg;           //!< TODO
-  static class Thread* sAllocatableThread;  //!< TODO
-
+  static ErrorCallback sErrorCallback;     //!< TODO
+  static HeapAllocCallback sAllocCallback; //!< TODO
+  static void* sErrorCallbackArg;          //!< TODO
+  static void* sAllocCallbackArg;          //!< TODO
+  static class Thread* sAllocatableThread; //!< TODO
+public:
   //! @brief [+0x10] argument of heap constructor. Name confirmed by WS assert.
   MEMHeapHandle mHeapHandle;
   //! @brief [+0x14] set to 0 in heap ctor. treeki -- void* parentHeapMBlock
@@ -131,7 +129,7 @@ HEAP_PRIVATE:
   //! children.
   nw4r::ut::List mChildren; //!< [+0x28] sizeof=0xC
 
-  const char* mName;        //!< [+0x034] set to "NoName" in ctor
+  const char* mName; //!< [+0x034] set to "NoName" in ctor
 
 public:
   //! @brief   	Must be called before heaps are created. Prepares static heap
@@ -248,6 +246,10 @@ public:
   Heap* becomeCurrentHeap();
 
 public:
+  static void* addOffset(void* begin, u32 size) {
+    return reinterpret_cast<char*>(begin) + size;
+  }
+
   inline void appendDisposer(Disposer* disposer) {
     nw4r::ut::List_Append(&mChildren, disposer);
   }
@@ -255,18 +257,17 @@ public:
     nw4r::ut::List_Remove(&mChildren, disposer);
   }
 
-  inline rvlHeap* getHeapHandle() {
-    return mHeapHandle;
-  }
+  inline rvlHeap* getHeapHandle() { return mHeapHandle; }
 
-  static inline Heap* getCurrentHeap() {
-    return sCurrentHeap;
-  }
+  static inline Heap* getCurrentHeap() { return sCurrentHeap; }
 
   inline int getArenaEnd() {
+#ifdef RII_CLIENT
+    return 0;
+#else
     return mHeapHandle->arena_end;
+#endif
   }
-
 };
 
 } // namespace EGG
