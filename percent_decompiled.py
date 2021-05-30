@@ -112,3 +112,11 @@ def piecewise_add(x, y):
 analyze('--- main.dol + StaticR.rel ---\n',
 	piecewise_add(dol_progress, rel_progress),
 	piecewise_add(dol_total, rel_total))
+
+print('------')
+print('Player:')
+print(' - %u BR (main.dol)' % (dol_progress[0] / dol_total[0] * 4999 + 5000))
+print(' - %u VR (StaticR.rel)' % (rel_progress[0] / rel_total[0] * 4999 + 5000))
+
+print(dol_total[0] / 4999 / 4)
+print(rel_total[0] / 4999 / 4)
