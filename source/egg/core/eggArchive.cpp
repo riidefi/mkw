@@ -32,7 +32,7 @@ Archive* Archive::mount(void* arcStart, Heap* pHeap, int align) {
       archive->mStatus = NOT_LOADED;
       EGG_ASSERT(false, "eggArchive.cpp", 166, "false");
     }
-  
+
     // If we failed, clean up
     if (!could_create) // INLINE
     {
