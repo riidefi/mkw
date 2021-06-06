@@ -64,7 +64,8 @@ UnitHeap* UnitHeap::create(u32 size, u32 unit_size, EGG::Heap* heap, s32 align,
 
   block = heap->alloc(size, UNIT_HEAP_ALIGN);
   if (block) {
-    if ((ret = create(block, size, unit_size, align, flag)) != nullptr) // INLINE
+    if ((ret = create(block, size, unit_size, align, flag)) !=
+        nullptr) // INLINE
       ret->mParentHeap = heap;
     else
       heap->free(block);
