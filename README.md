@@ -22,6 +22,7 @@ Every fully understood piece of reverse engineered data has been documented in a
   - `pip insall pyelftools`
   - `pip install capstone` (for `gen_asm.py` only)
 - Place a copy of Mario Kart Wii's PAL .dol file in `artifacts/pal` as `main.dol` and REL as `StaticR.rel`. (`gen_asm.py` only)
+- Run `python3 system/rel_repack.py` to dump binary blobs for further tooling.
 
 ## Building
 - Place the specified CodeWarrior versions in the respective subfolders in the `tools` directory. Then run `python3 build.py` 
