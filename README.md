@@ -20,7 +20,7 @@ Every fully understood piece of reverse engineered data has been documented in a
 - DevKitPro (for the ppc-eabi assembler)
 - Python3:
   - `pip insall pyelftools`
-  - `pip install capstone` (for `gen_asm.py` only)
+  - `pip install capstone`
 - Place a copy of Mario Kart Wii's PAL .dol file in `artifacts/pal` as `main.dol` and REL as `StaticR.rel`. (`gen_asm.py` only)
 - Run `python3 system/rel_repack.py` to dump binary blobs for further tooling.
 

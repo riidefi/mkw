@@ -48,10 +48,8 @@ CXInitUncompContextLZ=0x8015BEF0;
 CXReadUncompLZ=0x8015BF24;
 CXGetUncompressedSize=0x8015C2E0;
 
-List_Remove__Q24nw4r2utFPQ34nw4r2ut4ListPv=0x800AF110;
 List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv=0x800AEF80;
 List_Init__Q24nw4r2utFPQ34nw4r2ut4ListUs=0x800AEF60;
-List_GetNext__Q24nw4r2utFPCQ34nw4r2ut4ListPCv=0x800AF180;
 OSInitMutex=0x801A7EAC;
 
 OSLockMutex=0x801A7EE4;

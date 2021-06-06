@@ -32,6 +32,7 @@ mwcceppc.exe
 mwldeppc.exe
 makedol.exe
 powerpc-eabi-as.exe
+elf2dol.exe
 *.out
 *.app
 
