@@ -21,13 +21,18 @@ jobs:
 
       - name: Extract tooling
         env:
-          TOOLS_KEY: ${{ secrets.TOOLS_KEY }}
+          TOOLS_URL: ${{ secrets.TOOLS_URL }}
         run: |
-          choco install age.portable --pre 
+          # Download tooling
+          Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.7z
+          $hash = (Get-FileHash '.\tools.7z').Hash
+          if ($hash -ne '0AC8F3CE1AA968EB83400D080519472EC590FBF613E5D55A204D6CF946012FAB')
+          {
+            echo "Invalid hash: $hash"
+            exit 1
+          }
+          # Extract using 7-zip
           choco install 7zip
-          Set-Content -Path '.\key.txt' -Value "$Env:TOOLS_KEY"
-          age --decrypt -i key.txt -o tools.7z tools.7z.age
-          Remove-Item '.\key.txt'
           7z.exe x tools.7z -aoa -otools/
 
       - name: Build mkw
