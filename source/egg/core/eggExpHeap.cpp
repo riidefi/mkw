@@ -10,7 +10,7 @@
 inline void* operator new(unsigned long, void* p) { return p; }
 
 namespace EGG {
-    
+
 enum {
   EXP_HEAP_BASE_SIZE = 56, // (sizeof(ExpHeap) - sizeof(...)),
   EXP_HEAP_ALIGN = 4
@@ -26,7 +26,7 @@ ExpHeap::~ExpHeap() {
 
 #ifdef NONMATCHING
 ExpHeap* ExpHeap::create(void* block, u32 size, u16 attr) {
-  ExpHeap* createdHeap = nullptr;                                       // r30
+  ExpHeap* createdHeap = nullptr; // r30
 
   u32 heapEnd = nw4r::ut::RoundDown((u32)block + size, EXP_HEAP_ALIGN); // r3
   u32 heapStart = nw4r::ut::RoundUp((u32)block, EXP_HEAP_ALIGN);        // r27
@@ -58,7 +58,7 @@ ExpHeap* ExpHeap::create(void* block, u32 size, u16 attr) {
 extern "C" void __ct__Q23EGG4HeapFP12MEMiHeapHead();
 extern "C" void findContainHeap__Q23EGG4HeapFPCv();
 
-// clang-format off[
+// clang-format off
 asm ExpHeap* ExpHeap::create(void* block, u32 size, u16 attr) {
     nofralloc
 

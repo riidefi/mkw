@@ -28,7 +28,6 @@ void DvdFile::initiate() {
   this->_38 = 0;
 }
 
-
 bool DvdFile::open(s32 entryNum) {
   if (!this->mIsOpen && entryNum != -1) {
     if (mFileInfo.open(entryNum)) {
@@ -61,8 +60,9 @@ int DvdFile::readData(void* addr, int len, int offset) {
   }
   this->_C4 = OSGetCurrentThread();
   int r31 = (void*)-1;
-	if (DVDReadAsyncPrio(&this->mFileInfo, addr, len, offset, (DVDCallback)&doneProcess, 2))
-		r31 = this->sync();
+  if (DVDReadAsyncPrio(&this->mFileInfo, addr, len, offset,
+                       (DVDCallback)&doneProcess, 2))
+    r31 = this->sync();
   this->_C4 = 0;
   OSUnlockMutex(&this->Mutex_08);
   return r31;

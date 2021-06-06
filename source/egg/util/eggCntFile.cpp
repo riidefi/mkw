@@ -1,7 +1,7 @@
 #include <EGG/util/eggCntFile.hpp>
 
 namespace EGG {
-  
+
 CntFile::CntFile() {}
 CntFile::~CntFile() {}
 

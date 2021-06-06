@@ -1,0 +1,20 @@
+---
+on: [push]
+name: Lint
+jobs:
+  lint-clang-format:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+      
+      - name: Verify formatting
+        run: |
+          find source -type f \
+               -name '*.h' \
+            -o -name '*.c' \
+            -o -name '*.hpp' \
+            -o -name '*.cpp' \
+            -exec clang-format --dry-run --Werror {} +
