@@ -1,0 +1,36 @@
+---
+on: [push]
+name: Build
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - name: Install dependencies
+        run: |
+          pip3 install capstone pyelftools
+
+      - name: Percent decompiled
+        run: python3 percent_decompiled.py
+
+      - name: Extract tooling
+        env:
+          TOOLS_KEY: ${{ secrets.TOOLS_KEY }}
+        run: |
+          choco install age.portable --pre 
+          choco install 7zip
+          Set-Content -Path '.\key.txt' -Value "$Env:TOOLS_KEY"
+          age --decrypt -i key.txt -o tools.7z tools.7z.age
+          Remove-Item '.\key.txt'
+          7z.exe x tools.7z -aoa -otools/
+
+      - name: Build mkw
+        env:
+          DEVKITPPC: '.\tools\devkitppc'
+        run: python3 build.py
