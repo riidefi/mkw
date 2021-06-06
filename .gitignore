@@ -31,6 +31,7 @@ mwasmeppc.exe
 mwcceppc.exe
 mwldeppc.exe
 makedol.exe
+powerpc-eabi-as.exe
 *.out
 *.app
 

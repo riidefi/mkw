@@ -1,3 +1,10 @@
+import io
+import os
+import os.path
+from pathlib import Path
+import struct
+import sys
+
 
 class Segment:
 	def __init__(self, begin : int, end : int):
@@ -13,12 +20,9 @@ class Segment:
 
 	def size(self):
 		return self.end - self.begin
-import struct
+
 def read_u32(f):
 	return struct.unpack(">I", f.read(4))[0]
-
-
-import sys
 
 def native_binary(path):
 	if sys.platform == "win32" or sys.platform == "msys":
@@ -32,11 +36,18 @@ def windows_binary(path):
 	else:
 		return "wine " + path
 
-import os
 
 VERBOSE = False
 
-DEVKITPPC = os.environ["DEVKITPPC"]
+DEVKITPPC = os.environ.get("DEVKITPPC")
+if DEVKITPPC is None:
+	# devkitPPC not specified in env.
+	# Default to ./tools/devkitppc
+	DEVKITPPC = Path().joinpath("tools", "devkitppc")
+	if not os.path.isdir(DEVKITPPC):
+		print(f'Could not find devkitPPC under "{DEVKITPPC}" and $DEVKITPPC var is not set.', file=sys.stderr)
+		sys.exit(1)
+
 
 GAS = native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
 
@@ -137,7 +148,6 @@ def make_obj(src):
 	return src
 
 def gen_lcf(src, dst, o_files):
-	from pathlib import Path
 	lcf = ""
 
 	with open(src, 'r') as f:
@@ -165,8 +175,6 @@ def segment_is_bss(segment):
 	return segment["p_filesz"] == 0
 
 def write_to_dol_header(dol_file, offset, val):
-	import io
-
 	dol_file.seek(offset)
 	dol_file.write(val.to_bytes(4, byteorder='big'))
 	dol_file.seek(0, io.SEEK_END)
@@ -339,7 +347,6 @@ def compile_sources():
 	with open('sources.py', 'r') as sourcespy:
 		exec(sourcespy.read())
 
-	from pathlib import Path
 	asm_files = [str(x.relative_to(os.getcwd())) for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")]
 	
 	require_folder("out")
