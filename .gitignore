@@ -46,3 +46,6 @@ out
 
 tmp
 *.rel
+
+# Compiler tools bundle
+tools.7z

@@ -1,0 +1,41 @@
+---
+on: [push]
+name: Build
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - name: Install dependencies
+        run: |
+          pip3 install capstone pyelftools
+
+      - name: Percent decompiled
+        run: python3 percent_decompiled.py
+
+      - name: Extract tooling
+        env:
+          TOOLS_URL: ${{ secrets.TOOLS_URL }}
+        run: |
+          # Download tooling
+          Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.7z
+          $hash = (Get-FileHash '.\tools.7z').Hash
+          if ($hash -ne '0AC8F3CE1AA968EB83400D080519472EC590FBF613E5D55A204D6CF946012FAB')
+          {
+            echo "Invalid hash: $hash"
+            exit 1
+          }
+          # Extract using 7-zip
+          choco install 7zip
+          7z.exe x tools.7z -aoa -otools/
+
+      - name: Build mkw
+        env:
+          DEVKITPPC: '.\tools\devkitppc'
+        run: python3 build.py
