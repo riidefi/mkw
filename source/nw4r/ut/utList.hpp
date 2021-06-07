@@ -2,9 +2,8 @@
 
 #include <rk_types.h>
 
-// clang-format off
-namespace nw4r { namespace ut {
-// clang-format on
+namespace nw4r {
+namespace ut {
 
 //! Bidirectional list node
 struct Node {
@@ -21,15 +20,16 @@ struct List {
   u16 intrusion_offset;
 };
 
-//
 void List_Init(List* pList, u16 intrusion_offset);
 void List_Append(List* pList, void* pObj);
+void List_Insert(List* pList, void* pTgt, void* pObj);
 void List_Remove(List* pList, void* pObj);
 void* List_GetNext(const List*, const void*);
 inline void* List_GetFirst(const List* pList) {
   return List_GetNext(pList, nullptr);
 }
+// Seems to be not included as a symbol. Only inlined.
+//void List_Prepend(List* pList, void* pObj);
 
-// clang-format off
-} } // namespace nw4r
-// clang-format on
+} // namespace ut
+} // namespace nw4r

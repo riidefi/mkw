@@ -1,4 +1,5 @@
 enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataStart,rodataEnd,dataStart,dataEnd,bssStart,bssEnd,sdataStart,sdataEnd,sbssStart,sbssEnd,sdata2Start,sdata2End,sbss2Start,sbss2End
+1,utList.cpp,,,,,,,0x800AEF60,0x800af1a0,,,,,,,,,,,,,,,,,,
 1,dwc_error.c,,,,,,,0x800CCB4C,0x800CCC80,,,,,,,0x80275700,0x80275758,,,,,0x803862A8,0x803862B0,,,,
 1,rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,rxFrameHeap.c,,,,,,,80199430,801998A4,,,,,,,,,,,,,,,,,,

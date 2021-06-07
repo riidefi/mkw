@@ -1,5 +1,11 @@
-import struct, os, io
+import io
+import os
+import struct
+import sys
 from collections import OrderedDict
+
+# Change directory to script folder to make relative repo paths work.
+os.chdir(sys.path[0])
 
 REL_BASE = 0x805102e0
 

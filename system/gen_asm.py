@@ -1,10 +1,15 @@
+import csv
+import os
+import shutil
 import struct
 import sys
-import shutil
-import os
 
 from ppc_dis import *
 from contextlib import redirect_stdout
+
+
+# Change directory to script folder to make relative repo paths work.
+os.chdir(sys.path[0])
 
 
 def read_u8(f):
@@ -15,23 +20,6 @@ def read_u32(f):
 
 def read_u16(f):
     return struct.unpack(">H", f.read(2))[0]
-
-class CSV:
-    def __init__(self, name):
-        lines = open(name).readlines()
-        self.header = lines[0].strip().split(',')
-        self.body = [x.strip().split(',') for x in lines[1:]]
-
-    def get_row(self, index):
-        row = {}
-        for i, value in enumerate(self.body[index]):
-            label = self.header[i]
-            row[label] = value
-        return row
-
-    def rows(self):
-        for i in range(len(self.body)):
-            yield self.get_row(i)
 
 class Segment:
     def __init__(self, begin : int, end : int):
@@ -49,8 +37,10 @@ class Segment:
         return self.end - self.begin
 
 def read_segments_iter(name):
-    for row in CSV(name).rows():
-        yield row["name"], Segment(int(row["start"], 16), int(row["end"], 16))
+    with open(name) as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            yield row["name"], Segment(int(row["start"], 16), int(row["end"], 16))
 
 def read_segments(name):
     result = {}
@@ -68,7 +58,9 @@ class Slice:
 
 # Limitation: slices must be ordered
 def read_slices(name):
-    for row in CSV(name).rows():
+    lines = open(name).readlines()
+    reader = csv.DictReader(lines)
+    for row in reader:
         if not row.pop("enabled"):
             continue
         
