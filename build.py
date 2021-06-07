@@ -3,6 +3,7 @@ import os
 import os.path
 from pathlib import Path
 import struct
+import subprocess
 import sys
 
 
@@ -119,8 +120,12 @@ def compile_source(src, dst, version='default', additional='-ipa file'):
 	if VERBOSE:
 		print(command)
 	
-	os.system(command + " > ./tmp/compiler_log.txt")
-	print(open("./tmp/compiler_log.txt").read().replace("source\\", ""))
+	with open('./tmp/compiler_log.txt', 'w+') as f:
+		try:
+			subprocess.run(command, stdout=f, check=True)
+		finally:
+			f.seek(0, 0)
+			print(f.read().replace("source\\", "").strip())
 	# postprocess(dst)
 
 def command(cmd):

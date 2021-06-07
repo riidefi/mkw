@@ -1,3 +1,5 @@
+import csv
+
 def process_line(tags, items):
 	name = "Untitled"
 	start = None
@@ -53,12 +55,10 @@ def simple_count(path):
 
 def segments_of(path):
 	with open(path, 'r') as file:
-		for line in file.readlines()[1:]:
-			seg, segclass, start, end = line.split(',')
-
-			is_code = 'text' in seg
-
-			yield is_code, int(end, 16) - int(start, 16)
+		reader = csv.DictReader(file)
+		for line in reader:
+			is_code = 'text' in line["name"]
+			yield is_code, int(line["end"], 16) - int(line["start"], 16)
 
 def binary_total(path):
 	segments = list(segments_of(path))

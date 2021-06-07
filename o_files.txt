@@ -1,4 +1,6 @@
 dol/text_800072c0.o
+utList.o
+dol/text_800af1a0.o
 dol/data_80258580.o
 dol/sbss_80385fc0.o
 dwc_error.o
