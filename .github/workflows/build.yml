@@ -13,11 +13,10 @@ jobs:
           architecture: 'x64'
 
       - name: Install dependencies
-        run: |
-          pip3 install capstone pyelftools
+        run: pip3 install capstone pyelftools
 
       - name: Percent decompiled
-        run: python3 percent_decompiled.py
+        run: python3 ./util/percent_decompiled.py
 
       - name: Extract tooling
         env:
@@ -32,10 +31,9 @@ jobs:
             exit 1
           }
           # Extract using 7-zip
-          choco install 7zip
+          choco install 7zip make
           7z.exe x tools.7z -aoa -otools/
 
       - name: Build mkw
-        env:
-          DEVKITPPC: '.\tools\devkitppc'
-        run: python3 build.py
+        shell: bash
+        run: make build

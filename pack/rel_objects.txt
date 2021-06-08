@@ -1,0 +1,12 @@
+asm\rel\text_805103b4.s
+asm\rel\data_808b2bd0.s
+asm\rel\bss_809bd6e0.s
+source/game/jmap/JmpResourceCourse.o
+asm\rel\text_805127ec.s
+source/game/ui/MessageGroup.o
+asm\rel\text_805f8b90.s
+asm\rel\ctors_8088f400.s
+asm\rel\dtors_8088f704.s
+asm\rel\rodata_8088f710.s
+asm\rel\data_808b2c3c.s
+asm\rel\bss_809bd6ec.s

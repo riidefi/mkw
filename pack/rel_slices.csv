@@ -1,0 +1,3 @@
+enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataStart,rodataEnd,dataStart,dataEnd,bssStart,bssEnd
+1,source/game/jmap/JmpResourceCourse.cpp,0x80512694,0x805127ec,,,,,,,0x808B2C30,0x808B2C3C,0x809BD6E8,0x809BD6EC
+1,source/game/ui/MessageGroup.cpp,0x805F8B34,0x805F8B90,,,,,,,,,,
