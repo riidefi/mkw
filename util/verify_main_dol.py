@@ -5,59 +5,17 @@ Script to verify the target main.dol for authenticity.
 import argparse
 import hashlib
 from pathlib import Path
-import struct
+
+from mkw.dol import DolBinary
 
 
-class Segment:
-    def __init__(self, begin: int, end: int):
-        assert isinstance(begin, int) and isinstance(end, int)
-        self.begin = begin
-        self.end = end
-
-    def __repr__(self):
-        return "(%s, %s)" % (hex(self.begin), hex(self.end))
-
-    def empty(self):
-        return self.begin == self.end
-
-    def size(self):
-        return self.end - self.begin
-
-
-class DolBinary:
-    def __init__(self, file):
-        file = open(file, "rb")
-        #text_ofs = [read_u32(file) for _ in range(7)]
-        #data_ofs = [read_u32(file) for _ in range(11)]
-
-        text_vaddr = [read_u32(file) for _ in range(7)]
-        data_vaddr = [read_u32(file) for _ in range(11)]
-
-        self.text_size = [read_u32(file) for _ in range(7)]
-        self.data_size = [read_u32(file) for _ in range(11)]
-
-        self.text_segs = [Segment(x, x + y) for x, y in zip(text_vaddr, self.text_size)]
-        self.data_segs = [Segment(x, x + y) for x, y in zip(data_vaddr, self.data_size)]
-
-        bss_vaddr = read_u32(file)
-        bss_size = read_u32(file)
-
-        self.bss = Segment(bss_vaddr, bss_vaddr + bss_size)
-
-        self.entry_point = read_u32(file)
-
-        max_vaddr = max(x.end for x in self.text_segs + self.data_segs)
-        self.image_base = 0x80000000
-        self.image = bytearray(max_vaddr - self.image_base)
-
-
-def read_u32(f):
-    """Reads a big-endian 32-bit integer"""
-    return struct.unpack(">I", f.read(4))[0]
+def format_segment(name, at, at2, want_size, have_size, tag):
+    return "%10s: at_src=0x%08x at_dst=0x%08x want=0x%08x have=0x%08x [%s]" % (name, at, at2, want_size, have_size, tag)
 
 
 def verify_dol(reference, target):
     """Verifies the target main.dol for authenticity."""
+    print("[DOL] Verifying...")
     content = open(target, "rb").read()
     ctx = hashlib.sha1(content)
     digest = ctx.hexdigest()
@@ -65,19 +23,51 @@ def verify_dol(reference, target):
         print("[DOL] Everything went okay! Output is matching! ^^")
         return
 
-    print("[DOL] Oof: Output doesn't match.")
     want_len = 2766496
     if len(content) != want_len:
-        print(f"Mismatched file size: Got {len(content)} ({want_len-len(content)})")
+        print("Mismatched file size: Got %d (%+d)" % (len(content), want_len-len(content)))
 
     good = DolBinary(reference)
     bad = DolBinary(target)
 
+    text_names = [
+        "init",
+        "text"
+    ]
+    data_names = [
+        "extab",
+        "extabindex",
+        "ctors",
+        "dtors",
+        "rodata",
+        "data",
+        "sdata",
+        "sdata2",
+    ]
+
     for i, sizes in enumerate(zip(good.text_size, bad.text_size)):
-        print(sizes)
+        if sizes[0] == 0 and sizes[1] == 0:
+            continue
+        good_segment = good.get_text_segment(i)
+        bad_segment = bad.get_text_segment(i)
+        match = good_segment == bad_segment
+        tag = "OK" if match else "FAIL"
+        if len(good_segment) != len(bad_segment):
+            tag = "SIZE"
+        print(format_segment(text_names[i], good.text_segs[i].begin, bad.text_segs[i].begin, sizes[0], sizes[1], tag))
     for i, sizes in enumerate(zip(good.data_size, bad.data_size)):
-        print(sizes)
+        if sizes[0] == 0 and sizes[1] == 0:
+            continue
+        good_segment = good.get_data_segment(i)
+        bad_segment = bad.get_data_segment(i)
+        match = good_segment == bad_segment
+        tag = "OK" if match else "FAIL"
+        if len(good_segment) != len(bad_segment):
+            tag = "SIZE"
+        print(format_segment(data_names[i], good.data_segs[i].begin, bad.data_segs[i].begin, sizes[0], sizes[1], tag))
     # TODO: Add diff'ing
+    
+    print("[DOL] Oof: Output doesn't match.")
 
 
 parser = argparse.ArgumentParser()

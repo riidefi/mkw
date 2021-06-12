@@ -7,27 +7,12 @@ import shutil
 import struct
 
 from mkw.ppc_dis import disasm_iter, disassemble_callback
+from mkw.dol import DolBinary, Segment
 
 
 read_u32 = lambda f: struct.unpack(">L", f.read(4))[0]
 read_u16 = lambda f: struct.unpack(">H", f.read(2))[0]
 read_u8 = lambda f: struct.unpack(">B", f.read(1))[0]
-
-
-class Segment:
-    def __init__(self, begin: int, end: int):
-        assert isinstance(begin, int) and isinstance(end, int)
-        self.begin = begin
-        self.end = end
-
-    def __repr__(self):
-        return "(%s, %s)" % (hex(self.begin), hex(self.end))
-
-    def empty(self):
-        return self.begin == self.end
-
-    def size(self):
-        return self.end - self.begin
 
 
 def read_segments_iter(name):
@@ -87,53 +72,6 @@ def read_slices(name):
 
         print("#### %s %s" % (name, segments))
         yield Slice(name, segments)
-
-
-class DolBinary:
-    """Describes a DOL executable."""
-
-    def __init__(self, file):
-        file = open(file, "rb")
-        text_ofs = [read_u32(file) for _ in range(7)]
-        data_ofs = [read_u32(file) for _ in range(11)]
-
-        text_vaddr = [read_u32(file) for _ in range(7)]
-        data_vaddr = [read_u32(file) for _ in range(11)]
-
-        text_size = [read_u32(file) for _ in range(7)]
-        data_size = [read_u32(file) for _ in range(11)]
-
-        self.text_segs = [Segment(x, x + y) for x, y in zip(text_vaddr, text_size)]
-        self.data_segs = [Segment(x, x + y) for x, y in zip(data_vaddr, data_size)]
-
-        bss_vaddr = read_u32(file)
-        bss_size = read_u32(file)
-
-        self.bss = Segment(bss_vaddr, bss_vaddr + bss_size)
-
-        self.entry_point = read_u32(file)
-
-        max_vaddr = max(x.end for x in self.text_segs + self.data_segs)
-        self.image_base = 0x80000000
-        self.image = bytearray(max_vaddr - self.image_base)
-
-        for i in range(7):
-            if not text_size[i]:
-                continue
-
-            file.seek(text_ofs[i])
-            data = file.read(text_size[i])
-            for j in range(text_size[i]):
-                self.image[text_vaddr[i] + j - self.image_base] = data[j]
-
-        for i in range(11):
-            if not data_size[i]:
-                continue
-
-            file.seek(data_ofs[i])
-            data = file.read(data_size[i])
-            for j in range(data_size[i]):
-                self.image[data_vaddr[i] + j - self.image_base] = data[j]
 
 
 def get_asm_path(name, gap, folder):
