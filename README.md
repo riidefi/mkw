@@ -18,19 +18,45 @@ Every fully understood piece of reverse engineered data has been documented in a
 
 ## Dependencies
 - DevKitPro (for the ppc-eabi assembler)
+- CodeWarrior compilers (in `tools`)
 - Python3:
   - `pip insall pyelftools`
   - `pip install capstone`
-- Place a copy of Mario Kart Wii's PAL .dol file in `artifacts/pal` as `main.dol` and REL as `StaticR.rel`. (`gen_asm.py` only)
-- Run `python3 system/rel_repack.py` to dump binary blobs for further tooling.
+- Bash
+- GNU Make
+- Place a copy of Mario Kart Wii's PAL binaries: 
+  - `artifacts/orig/pal/main.dol`
+  - `artifacts/orig/pal/StaticR.rel`
 
 ## Building
-- Place the specified CodeWarrior versions in the respective subfolders in the `tools` directory. Then run `python3 build.py` 
+
+### Regenerating ranges
+
+After editing slices, run `python3 -m mkwutil.gen_asm` to regenerate the `asm` failes.
+
+### Building
+
+Run `python3 ./build.py` to build the game and verify build authenticity. Final results:
+  - `artifacts/target/pal/main.dol`
+  - `artifacts/target/pal/StaticR.rel`
 
 ## Contributing
-- Do not manually adjust assembly files; rather add a new entry to [system/slices.csv](https://github.com/riidefi/mkw/blob/master/system/slices.csv) for main.dol and [system/rel_slices.csv](https://github.com/riidefi/mkw/blob/master/system/rel_slices.csv) for StaticR.rel.
+- Do not manually adjust assembly (`asm`) files. They are auto-generated.
+- To add a new decompiled section, modify the slice tables:
+  - [pack/dol_slices.csv](./pack/dol_slices.csv)
+  - [pack/rel_slices.csv](./pack/rel_slices.csv)
 - Entries must be sorted in the spreadsheet (current limitation).
-- Run `gen_asm.py` from the `system` directory to regenerate assembly segments every time either file is editeds.
+- Assembly files will be regenerated next time you run `make build`.
 
 ## .rel support
 Most of Mario Kart Wii's game code is located inside a relocatable module (StaticR.rel for release builds). The decompilation builds this. 
+
+## Troubleshooting
+
+Common build errors you might encounter.
+
+**No rule to make target 'asm/dol'**
+
+Problem: You are missing the original game's `main.dol` and `StaticR.rel`.
+Therefore the build system can't generate the assembly binary blobs.
+Place them into `./artifacts/orig/pal` to fix this issue.
