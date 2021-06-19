@@ -1,7 +1,15 @@
 out\dol\text_800072c0.o
+out\dol\rodata_80244ec0.o
+out\dol\data_80258580.o
+out\dol\sdata2_80386fa0.o
+out\mathTriangular.o
+out\dol\text_80085578.o
+out\dol\sdata2_80387ea4.o
+out\mathTypes.o
+out\dol\text_80085738.o
 out\utList.o
 out\dol\text_800af1a0.o
-out\dol\data_80258580.o
+out\dol\data_80274250.o
 out\dol\sbss_80385fc0.o
 out\dwc_error.o
 out\dol\text_800ccc80.o
@@ -20,7 +28,7 @@ out\dol\text_8020fcc4.o
 out\dol\data_802a268c.o
 out\eggDisposer.o
 out\dol\text_8021a1b8.o
-out\dol\rodata_80244ec0.o
+out\dol\rodata_80249020.o
 out\dol\data_802a2b54.o
 out\eggExpHeap.o
 out\dol\text_80226f04.o
@@ -31,7 +39,7 @@ out\dol\rodata_8025771a.o
 out\dol\data_802a30bc.o
 out\dol\bss_803832e4.o
 out\dol\sbss_80386e99.o
-out\dol\sdata2_80386fa0.o
+out\dol\sdata2_80387eb0.o
 out\eggHeap.o
 out\dol\text_80229fac.o
 out\eggQuat.o
