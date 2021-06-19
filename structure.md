@@ -42,13 +42,18 @@ Reconstructed/decompiled source code.
 - `./source/**/*.{hpp,cpp}`: C++ headers / code.
 - `./source/**/*.o`: Compiled C/C++ code.
 
+### `./out`: Object files
+
+Compiled / assembled object files.
+
+- `./out/*.o`: C/C++ reconstructed sources.
+- `./out/dol/*.o`: DOL binary blobs.
+- `./out/rel/*.o`: REL binary blobs.
+
 ### `./tools`: Compiler tooling
 
 Default path of various compiler tooling.
 
-### `./util`: Python utilities
+### `./mkwutil`: Python utilities
 
-Various Python utilities.
-
-- `./*.py`: Python programs
-- `./mkw`: Package with useful bits
+Various Python utilities packed in a module.
