@@ -96,18 +96,50 @@ loc0:
 }
 // clang-format on
 
-MTX34* MTX34Zero(register MTX34* pOut) {
+MTX34* MTX34Zero(register MTX34* out) {
   register f32 zero = 0.f;
   asm
   {
-    psq_st zero, 0(pOut), 0, 0;
-    psq_st zero, 8(pOut), 0, 0;
-    psq_st zero, 16(pOut), 0, 0;
-    psq_st zero, 24(pOut), 0, 0;
-    psq_st zero, 32(pOut), 0, 0;
-    psq_st zero, 40(pOut), 0, 0;
+    psq_st zero, 0(out), 0, 0;
+    psq_st zero, 8(out), 0, 0;
+    psq_st zero, 16(out), 0, 0;
+    psq_st zero, 24(out), 0, 0;
+    psq_st zero, 32(out), 0, 0;
+    psq_st zero, 40(out), 0, 0;
   }
-  return pOut;
+  return out;
+}
+
+MTX34* MTX34Mult(register MTX34* out, const register MTX34* in,
+                 register f32 f) {
+  register f32 a, b;
+  asm
+  {
+    psq_l a, 0(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 0(out), 0, 0;
+    
+    psq_l a, 8(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 8(out), 0, 0;
+    
+    psq_l a, 16(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 16(out), 0, 0;
+
+    psq_l a, 24(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 24(out), 0, 0;
+
+    psq_l a, 32(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 32(out), 0, 0;
+
+    psq_l a, 40(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 40(out), 0, 0;
+  }
+  return out;
 }
 
 } // namespace math

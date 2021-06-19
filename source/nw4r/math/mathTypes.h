@@ -67,6 +67,8 @@ MTX33* MTX34ToMTX33(MTX33*, const MTX34*);
 u32 MTX34InvTranspose(MTX33*, const MTX34*);
 // PAL: 0x80085740
 MTX34* MTX34Zero(MTX34*);
+// PAL: 0x80085760
+MTX34* MTX34Mult(MTX34*, const MTX34*, f32);
 
 } // namespace math
 } // namespace nw4r
