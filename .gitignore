@@ -26,6 +26,10 @@
 *.a
 *.lib
 
+# Auto-generated linker scripts
+/pack/dol.lcf
+/pack/rel.lcf
+
 # Executables
 mwasmeppc.exe
 mwcceppc.exe
@@ -45,9 +49,18 @@ out
 
 # Python cache/compiled modules
 *.pyc
+__pycache__/
 
 tmp
 *.rel
+/artifacts/orig/pal/rel/*.bin
+!/artifacts/orig/pal/rel/dol_rel.bin
+!/artifacts/orig/pal/rel/rel_abs.bin
 
 # Compiler tools bundle
 tools.7z
+
+# Editors
+.vscode/
+*.bndb
+.~lock.*
