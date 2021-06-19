@@ -28,12 +28,6 @@ Every fully understood piece of reverse engineered data has been documented in a
 
 ## Building
 
-### Regenerating ranges
-
-After editing slices, run `python3 -m mkwutil.gen_asm` to regenerate the `asm` failes.
-
-### Building
-
 Run `python3 ./build.py` to build the game and verify build authenticity. Final results:
   - `artifacts/target/pal/main.dol`
   - `artifacts/target/pal/StaticR.rel`
@@ -44,7 +38,7 @@ Run `python3 ./build.py` to build the game and verify build authenticity. Final 
   - [pack/dol_slices.csv](./pack/dol_slices.csv)
   - [pack/rel_slices.csv](./pack/rel_slices.csv)
 - Entries must be sorted in the spreadsheet (current limitation).
-- Assembly files will be regenerated next time you run `make build`.
+- After modifying slices, run `python3 -m mkwutil.gen_asm`.
 
 ## .rel support
 Most of Mario Kart Wii's game code is located inside a relocatable module (StaticR.rel for release builds). The decompilation builds this. 
