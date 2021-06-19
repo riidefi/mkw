@@ -1,17 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x80085738 - 0x800AEF60
-/* 80085738  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
-/* 8008573C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
-/* 80085740  C0 02 8F 08 */	lfs f0, -0x70f8(r2)
-/* 80085744  F0 03 00 00 */	psq_st f0, 0(r3), 0, qr0
-/* 80085748  F0 03 00 08 */	psq_st f0, 8(r3), 0, qr0
-/* 8008574C  F0 03 00 10 */	psq_st f0, 16(r3), 0, qr0
-/* 80085750  F0 03 00 18 */	psq_st f0, 24(r3), 0, qr0
-/* 80085754  F0 03 00 20 */	psq_st f0, 32(r3), 0, qr0
-/* 80085758  F0 03 00 28 */	psq_st f0, 40(r3), 0, qr0
-/* 8008575C  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x80085760 - 0x800AEF60
 /* 80085760  E0 04 00 00 */	psq_l f0, 0(r4), 0, qr0
 /* 80085764  10 40 00 58 */	ps_muls0 f2, f0, f1
 /* 80085768  E0 04 00 08 */	psq_l f0, 8(r4), 0, qr0

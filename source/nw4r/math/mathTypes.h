@@ -60,11 +60,13 @@ public:
 };
 
 // PAL: 0x80085600
-MTX33* MTX33Identity(MTX33* pOut);
+MTX33* MTX33Identity(MTX33*);
 // PAL: 0x80085630
-MTX33* MTX34ToMTX33(MTX33* pOut, const MTX34* pM);
+MTX33* MTX34ToMTX33(MTX33*, const MTX34*);
 // PAL: 0x80085670
-u32 MTX34InvTranspose(MTX33* pOut, const MTX34* p);
+u32 MTX34InvTranspose(MTX33*, const MTX34*);
+// PAL: 0x80085740
+MTX34* MTX34Zero(MTX34*);
 
 } // namespace math
 } // namespace nw4r

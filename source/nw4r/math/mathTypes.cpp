@@ -96,5 +96,19 @@ loc0:
 }
 // clang-format on
 
+MTX34* MTX34Zero(register MTX34* pOut) {
+  register f32 zero = 0.f;
+  asm
+  {
+    psq_st zero, 0(pOut), 0, 0;
+    psq_st zero, 8(pOut), 0, 0;
+    psq_st zero, 16(pOut), 0, 0;
+    psq_st zero, 24(pOut), 0, 0;
+    psq_st zero, 32(pOut), 0, 0;
+    psq_st zero, 40(pOut), 0, 0;
+  }
+  return pOut;
+}
+
 } // namespace math
 } // namespace nw4r
