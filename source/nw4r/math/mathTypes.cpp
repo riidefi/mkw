@@ -177,5 +177,42 @@ MTX34* MTX34Scale(register MTX34* out, const register MTX34* in,
   return out;
 }
 
+MTX34* MTX34Trans(register MTX34* out, const register MTX34* in,
+                  const register VEC3* trans) {
+  register f32 xy, z1;
+  register f32 vv0, vv1, vv2, vv3, vv4, vv5;
+  register f32 tmp0, tmp1, tmp2;
+  asm
+  {
+    psq_l vv0, 0(in), 0, 0;
+    psq_st vv0, 0(out), 0, 0;
+    psq_l vv1, 8(in), 0, 0;
+    psq_st vv1, 8(out), 0, 0;
+    psq_l vv2, 16(in), 0, 0;
+    psq_st vv2, 16(out), 0, 0;
+    psq_l vv3, 24(in), 0, 0;
+    psq_st vv3, 24(out), 0, 0;
+    psq_l vv4, 32(in), 0, 0;
+    psq_st vv4, 32(out), 0, 0;
+    psq_l vv5, 40(in), 0, 0;
+    psq_st vv5, 40(out), 0, 0;
+    psq_l xy, 0(trans), 0, 0;
+    psq_l z1, 8(trans), 1, 0;
+    ps_mul tmp0, vv0, xy;
+    ps_madd tmp1, vv1, z1, tmp0;
+    ps_sum0 tmp2, tmp1, tmp2, tmp1;
+    psq_st tmp2, 12(out), 1, 0;
+    ps_mul tmp0, vv2, xy;
+    ps_madd tmp1, vv3, z1, tmp0;
+    ps_sum0 tmp2, tmp1, tmp2, tmp1;
+    psq_st tmp2, 28(out), 1, 0;
+    ps_mul tmp0, vv4, xy;
+    ps_madd tmp1, vv5, z1, tmp0;
+    ps_sum0 tmp2, tmp1, tmp2, tmp1;
+    psq_st tmp2, 44(out), 1, 0;
+  }
+  return out;
+}
+
 } // namespace math
 } // namespace nw4r
