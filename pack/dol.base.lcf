@@ -30,9 +30,22 @@ __start = 0x800060A4;
 __destroy_global_chain=0x80021350;
 
 OSPanic=0x801A2660;
+
+cosf=0x8001b590;
+sinf=0x8001ba98;
+tanf=0x8001bb64;
+
+_savegpr_22=0x8002158C;
+_savegpr_23=0x80021590;
+_savegpr_24=0x80021594;
+_savegpr_25=0x80021598;
 _savegpr_26=0x8002159C;
 _savegpr_27=0x800215A0;
 
+_restgpr_22=0x800215D8;
+_restgpr_23=0x800215DC;
+_restgpr_24=0x800215E0;
+_restgpr_25=0x800215E4;
 _restgpr_26=0x800215E8;
 _restgpr_27=0x800215EC;
 OSReport=0x801A25D0;

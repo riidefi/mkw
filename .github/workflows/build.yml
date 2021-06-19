@@ -13,11 +13,10 @@ jobs:
           architecture: 'x64'
 
       - name: Install dependencies
-        run: |
-          pip3 install capstone pyelftools
+        run: pip3 install capstone pyelftools
 
       - name: Percent decompiled
-        run: python3 percent_decompiled.py
+        run: python3 -m mkwutil.percent_decompiled
 
       - name: Extract tooling
         env:
@@ -36,6 +35,5 @@ jobs:
           7z.exe x tools.7z -aoa -otools/
 
       - name: Build mkw
-        env:
-          DEVKITPPC: '.\tools\devkitppc'
-        run: python3 build.py
+        shell: bash
+        run: python3 ./build.py
