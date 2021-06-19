@@ -42,13 +42,3 @@ Run `python3 ./build.py` to build the game and verify build authenticity. Final 
 
 ## .rel support
 Most of Mario Kart Wii's game code is located inside a relocatable module (StaticR.rel for release builds). The decompilation builds this. 
-
-## Troubleshooting
-
-Common build errors you might encounter.
-
-**No rule to make target 'asm/dol'**
-
-Problem: You are missing the original game's `main.dol` and `StaticR.rel`.
-Therefore the build system can't generate the assembly binary blobs.
-Place them into `./artifacts/orig/pal` to fix this issue.
