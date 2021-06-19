@@ -88,6 +88,8 @@ MTX34* MTX34Mult(MTX34*, const MTX34*, f32);
 MTX34* MTX34Scale(MTX34*, const MTX34*, const VEC3*);
 // PAL: 0x80085810
 MTX34* MTX34Trans(MTX34*, const MTX34*, const VEC3*);
+// PAL: 0x80085880
+MTX34* MTX34MAdd(MTX34*, f32, const MTX34*, const MTX34*);
 
 } // namespace math
 } // namespace nw4r

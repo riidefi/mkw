@@ -214,5 +214,49 @@ MTX34* MTX34Trans(register MTX34* out, const register MTX34* in,
   return out;
 }
 
+MTX34* MTX34MAdd(register MTX34* out, register f32 t, const register MTX34* m1,
+                 const register MTX34* m2) {
+  register f32 a, b, c;
+  asm
+  {
+    psq_l a, 0(m1), 0, 0;
+    psq_l b, 0(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 0(out), 0, 0;
+    
+    psq_l a, 8(m1), 0, 0;
+    psq_l b, 8(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 8(out), 0, 0;
+    
+    psq_l a, 16(m1), 0, 0;
+    psq_l b, 16(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 16(out), 0, 0;
+
+    psq_l a, 24(m1), 0, 0;
+    psq_l b, 24(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 24(out), 0, 0;
+
+    psq_l a, 32(m1), 0, 0;
+    psq_l b, 32(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 32(out), 0, 0;
+
+    psq_l a, 40(m1), 0, 0;
+    psq_l b, 40(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 40(out), 0, 0;
+  }
+  return out;
+}
+
 } // namespace math
 } // namespace nw4r
