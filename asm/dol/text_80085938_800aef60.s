@@ -1,22 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x800858FC - 0x800AEF60
-/* 800858FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
-/* 80085900  94 21 FF F0 */	stwu r1, -0x10(r1)
-/* 80085904  7C 08 02 A6 */	mflr r0
-/* 80085908  C0 02 8F 10 */	lfs f0, -0x70f0(r2)
-/* 8008590C  90 01 00 14 */	stw r0, 0x14(r1)
-/* 80085910  EC 20 00 72 */	fmuls f1, f0, f1
-/* 80085914  93 E1 00 0C */	stw r31, 0xc(r1)
-/* 80085918  7C 7F 1B 78 */	mr r31, r3
-/* 8008591C  48 11 4A 49 */	bl 0x114a48
-/* 80085920  7F E3 FB 78 */	mr r3, r31
-/* 80085924  83 E1 00 0C */	lwz r31, 0xc(r1)
-/* 80085928  80 01 00 14 */	lwz r0, 0x14(r1)
-/* 8008592C  7C 08 03 A6 */	mtlr r0
-/* 80085930  38 21 00 10 */	addi r1, r1, 0x10
-/* 80085934  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x80085938 - 0x800AEF60
 /* 80085938  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8008593C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80085940  3C 80 80 25 */	lis r4, 0x8025

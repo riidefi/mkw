@@ -1,5 +1,7 @@
 #include "mathTypes.h"
 
+#include "mathConstants.hpp"
+
 namespace nw4r {
 namespace math {
 
@@ -255,6 +257,11 @@ MTX34* MTX34MAdd(register MTX34* out, register f32 t, const register MTX34* m1,
     ps_add c, a, b;
     psq_st c, 40(out), 0, 0;
   }
+  return out;
+}
+
+MTX34* MTX34RotAxisFIdx(MTX34* out, const VEC3* axis, f32 amnt) {
+  PSMTXRotAxisRad(*out, *axis, amnt * ((2 * F_PI) / 256.f));
   return out;
 }
 

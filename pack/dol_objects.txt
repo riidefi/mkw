@@ -6,7 +6,7 @@ out\mathTriangular.o
 out\dol\text_80085578_80085600.o
 out\dol\sdata2_80387ea4_80387ea8.o
 out\mathTypes.o
-out\dol\text_800858fc_800aef60.o
+out\dol\text_80085938_800aef60.o
 out\utList.o
 out\dol\text_800af1a0_800ccb4c.o
 out\dol\data_80274250_80275700.o
@@ -39,7 +39,7 @@ out\dol\rodata_8025771a_80257740.o
 out\dol\data_802a30bc_802a30c0.o
 out\dol\bss_803832e4_80384320.o
 out\dol\sbss_80386e99_80386ea0.o
-out\dol\sdata2_80387eb0_80388d68.o
+out\dol\sdata2_80387eb4_80388d68.o
 out\eggHeap.o
 out\dol\text_80229fac_80239dfc.o
 out\eggQuat.o

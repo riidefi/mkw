@@ -2,6 +2,8 @@
 
 #include <rk_types.h>
 
+#include "rvl/mtx/mtx.h"
+
 namespace nw4r {
 namespace math {
 
@@ -50,6 +52,9 @@ public:
 
   operator f32*() { return &x; }
   operator const f32*() const { return &x; }
+
+  operator Vec*() { return (Vec*)&x; }
+  operator const Vec*() const { return (const Vec*)&x; }
 };
 
 class MTX33 : public _MTX33 {
@@ -74,6 +79,20 @@ public:
   operator const f32*() const { return &_00; }
 };
 
+struct MTX34 : public _MTX34
+{
+public:
+  typedef const f32 (*ConstMtxPtr)[4];
+public:
+  MTX34() {}
+
+  operator f32*() { return &_00; }
+  operator const f32*() const { return &_00; }
+
+  operator MtxPtr() { return (MtxPtr)&_00; }
+  operator ConstMtxPtr() const { return (ConstMtxPtr)&_00; }
+};
+
 // PAL: 0x80085600
 MTX33* MTX33Identity(MTX33*);
 // PAL: 0x80085630
@@ -90,6 +109,8 @@ MTX34* MTX34Scale(MTX34*, const MTX34*, const VEC3*);
 MTX34* MTX34Trans(MTX34*, const MTX34*, const VEC3*);
 // PAL: 0x80085880
 MTX34* MTX34MAdd(MTX34*, f32, const MTX34*, const MTX34*);
+// PAL: 0x80085900
+MTX34* MTX34RotAxisFIdx(MTX34*, const VEC3*, f32);
 
 } // namespace math
 } // namespace nw4r
