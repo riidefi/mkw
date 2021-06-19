@@ -3,7 +3,6 @@ import csv
 from contextlib import redirect_stdout
 import os
 from pathlib import Path
-import shutil
 import struct
 
 from .ppc_dis import disasm_iter, disassemble_callback
@@ -76,7 +75,7 @@ def read_slices(name):
 
 def get_asm_path(name, gap, folder):
     folder.mkdir(exist_ok=True)
-    return folder / ("%s_%s.s" % (name, hex(gap.begin)[2:]))
+    return folder / ("%s_%08x_%08x.s" % (name, gap.begin, gap.end))
 
 
 def format_segname(name):
@@ -170,6 +169,8 @@ def dump_object_file(image, addr_start, segments):
 
 
 def disassemble_object_file(path, image, addr_start, segments):
+    if os.path.exists(path):
+        return  # Don't bother updating existing file
     with open(path, "w") as file:
         with redirect_stdout(file):
             dump_object_file(image, addr_start, segments)
@@ -177,8 +178,8 @@ def disassemble_object_file(path, image, addr_start, segments):
 
 def disasm(folder, name, image, addr_start, seg, is_data):
     path = get_asm_path(name, seg, folder)
-
     disassemble_object_file(path, image, addr_start, [(name, seg)])
+    return path
 
 
 def gen_start_segs(segments):
@@ -236,18 +237,32 @@ def find_o_files(all_slices, folder):
 
 
 def unpack_binary(folder, all_slices, image, addr_start):
+    # Disassemble all slices if they don't exist already.
+    # Keep track of the expected paths.
+    asm_paths = set()
     for name, gap_seg, dest in find_o_files(all_slices, folder):
         is_decompiled = gap_seg is None
 
         if not is_decompiled:
             # print("name %s dest %s" % (name, dest))
-            disasm(folder, name, image, addr_start, gap_seg, False)
-            kind = Path(dest.parent.name) # dol or rel
+            asm_path = disasm(folder, name, image, addr_start, gap_seg, False)
+            asm_paths.add(str(asm_path.relative_to(folder)))
+            kind = Path(dest.parent.name)  # dol or rel
             yield Path("out", kind, dest.stem + ".o")
 
         if is_decompiled:
             object_name = Path(name).stem + ".o"
             yield Path("out", object_name)
+    # Check with paths we actually have.
+    # Delete asm blobs that don't match those we just unpacked.
+    for path in folder.iterdir():
+        have_path = path.relative_to(folder)
+        if have_path.suffix != ".s":
+            continue
+        if str(have_path) in asm_paths:
+            continue
+        print(f"Removing {path}")
+        os.remove(path)
 
 
 def compute_end_cap(segments):
@@ -377,12 +392,6 @@ if __name__ == "__main__":
         help="Binary containing main.dol and StaticR.rel",
     )
     args = parser.parse_args()
-
-    # Recreate the ASM dir.
-    if os.path.exists(args.asm_dir / "dol"):
-        shutil.rmtree(args.asm_dir / "dol")
-    if os.path.exists(args.asm_dir / "rel"):
-        shutil.rmtree(args.asm_dir / "rel")
     args.asm_dir.mkdir(exist_ok=True)
 
     # Write the macros file.
