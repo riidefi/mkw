@@ -142,5 +142,40 @@ MTX34* MTX34Mult(register MTX34* out, const register MTX34* in,
   return out;
 }
 
+MTX34* MTX34Scale(register MTX34* out, const register MTX34* in,
+                  const register VEC3* scale) {
+  register f32 xy, z1;
+  register f32 r0a, r0b;
+  register f32 r1a, r1b;
+  register f32 r2a, r2b;
+  asm
+  {
+    psq_l xy, 0(scale), 0, 0
+    psq_l z1, 8(scale), 1, 0
+
+    psq_l r0a, 0(in), 0, 0
+    psq_l r0b, 8(in), 0, 0
+    psq_l r1a, 16(in), 0, 0
+    psq_l r1b, 24(in), 0, 0
+    psq_l r2a, 32(in), 0, 0
+    psq_l r2b, 40(in), 0, 0
+    
+    ps_mul r0a, r0a, xy
+    ps_mul r1a, r1a, xy
+    ps_mul r2a, r2a, xy
+    ps_mul r0b, r0b, z1
+    ps_mul r1b, r1b, z1
+    ps_mul r2b, r2b, z1
+
+    psq_st r0a, 0(out), 0, 0
+    psq_st r0b, 8(out), 0, 0
+    psq_st r1a, 16(out), 0, 0
+    psq_st r1b, 24(out), 0, 0
+    psq_st r2a, 32(out), 0, 0
+    psq_st r2b, 40(out), 0, 0
+  }
+  return out;
+}
+
 } // namespace math
 } // namespace nw4r

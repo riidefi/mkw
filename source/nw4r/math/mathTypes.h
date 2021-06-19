@@ -5,6 +5,12 @@
 namespace nw4r {
 namespace math {
 
+struct _VEC3 {
+  f32 x;
+  f32 y;
+  f32 z;
+};
+
 struct _MTX33 {
   union {
     struct {
@@ -34,8 +40,17 @@ struct _MTX44 {
 };
 
 // forward decls
+struct VEC3;
 struct MTX34;
 struct MTX44;
+
+struct VEC3 : public _VEC3 {
+public:
+  VEC3() {}
+
+  operator f32*() { return &x; }
+  operator const f32*() const { return &x; }
+};
 
 class MTX33 : public _MTX33 {
 public:
@@ -69,6 +84,8 @@ u32 MTX34InvTranspose(MTX33*, const MTX34*);
 MTX34* MTX34Zero(MTX34*);
 // PAL: 0x80085760
 MTX34* MTX34Mult(MTX34*, const MTX34*, f32);
+// PAL: 0x800857b0
+MTX34* MTX34Scale(MTX34*, const MTX34*, const VEC3*);
 
 } // namespace math
 } // namespace nw4r

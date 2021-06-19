@@ -1,29 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x800857AC - 0x800AEF60
-/* 800857AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
-/* 800857B0  E0 05 00 00 */	psq_l f0, 0(r5), 0, qr0
-/* 800857B4  E0 44 00 00 */	psq_l f2, 0(r4), 0, qr0
-/* 800857B8  E0 84 00 10 */	psq_l f4, 16(r4), 0, qr0
-/* 800857BC  E0 A4 00 20 */	psq_l f5, 32(r4), 0, qr0
-/* 800857C0  10 42 00 32 */	ps_mul f2, f2, f0
-/* 800857C4  10 84 00 32 */	ps_mul f4, f4, f0
-/* 800857C8  E0 25 80 08 */	psq_l f1, 8(r5), 1, qr0
-/* 800857CC  10 A5 00 32 */	ps_mul f5, f5, f0
-/* 800857D0  E0 64 00 08 */	psq_l f3, 8(r4), 0, qr0
-/* 800857D4  E0 04 00 18 */	psq_l f0, 24(r4), 0, qr0
-/* 800857D8  E0 C4 00 28 */	psq_l f6, 40(r4), 0, qr0
-/* 800857DC  10 63 00 72 */	ps_mul f3, f3, f1
-/* 800857E0  F0 43 00 00 */	psq_st f2, 0(r3), 0, qr0
-/* 800857E4  10 00 00 72 */	ps_mul f0, f0, f1
-/* 800857E8  10 C6 00 72 */	ps_mul f6, f6, f1
-/* 800857EC  F0 63 00 08 */	psq_st f3, 8(r3), 0, qr0
-/* 800857F0  F0 83 00 10 */	psq_st f4, 16(r3), 0, qr0
-/* 800857F4  F0 03 00 18 */	psq_st f0, 24(r3), 0, qr0
-/* 800857F8  F0 A3 00 20 */	psq_st f5, 32(r3), 0, qr0
-/* 800857FC  F0 C3 00 28 */	psq_st f6, 40(r3), 0, qr0
-/* 80085800  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x80085804 - 0x800AEF60
 /* 80085804  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80085808  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8008580C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
