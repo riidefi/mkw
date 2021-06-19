@@ -6,6 +6,8 @@ NW4R_OPTS = '-ipa file -inline auto -rostr -O4,p'
 compile_source("source/rvl/arc/rvlArchive.c", "out/rvlArchive.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mem/rvlMemList.c", "out/rvlMemList.o", '4199_60831', RVL_OPTS)
 
+compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)
+compile_source("source/nw4r/math/mathTypes.cpp", "out/mathTypes.o", '4201_127', NW4R_OPTS)
 compile_source("source/nw4r/ut/utList.cpp", "out/utList.o", '4201_127', NW4R_OPTS)
 
 compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831', RVL_OPTS)
