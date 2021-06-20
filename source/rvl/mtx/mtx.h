@@ -59,10 +59,10 @@ void C_MTXLightFrustum(Mtx, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 void C_MTXLightPerspective(Mtx, f32, f32, f32, f32, f32, f32);
 // PAL: 0x8019a894
 void C_MTXLightOrtho(Mtx, f32, f32, f32, f32, f32, f32, f32, f32);
-
-// rvlMtx3.c
 // PAL: 0x8019a91c
 void PSMTXMultVec(const Mtx, const Vec*, Vec*);
+// PAL: 0x8019a970
+void PSMTXMultVecSR(const Mtx, const Vec*, Vec*);
 
 // rvlMtx2.c
 // PAL: 0x8019aa60
