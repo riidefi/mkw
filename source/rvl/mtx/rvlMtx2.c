@@ -4,15 +4,30 @@ double tan(double);
 
 inline float tanf(float x) { return (float)tan(x); }
 
-void C_MTXPerspective(Mtx44 m, f32 fovY, f32 aspect, f32 n, f32 f) {
-  // force sdata2 order
-  (void)1.0f;
-  (void)2.0f;
-  (void)0.0f;
-  (void)-1.0f;
-  (void)0.5f;
-  (void)0.01745329252f;
+void C_MTXFrustum(Mtx44 m, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5,
+                  f32 arg6) {
+  f32 tmp = 1.0f / (arg4 - arg3);
+  m[0][0] = (2 * arg5) * tmp;
+  m[0][1] = 0.0f;
+  m[0][2] = (arg4 + arg3) * tmp;
+  m[0][3] = 0.0f;
+  tmp = 1.0f / (arg1 - arg2);
+  m[1][0] = 0.0f;
+  m[1][1] = (2 * arg5) * tmp;
+  m[1][2] = (arg1 + arg2) * tmp;
+  m[1][3] = 0.0f;
+  m[2][0] = 0.0f;
+  m[2][1] = 0.0f;
+  tmp = 1.0f / (arg6 - arg5);
+  m[2][2] = -(arg5)*tmp;
+  m[2][3] = -(arg6 * arg5) * tmp;
+  m[3][0] = 0.0f;
+  m[3][1] = 0.0f;
+  m[3][2] = -1.0f;
+  m[3][3] = 0.0f;
+}
 
+void C_MTXPerspective(Mtx44 m, f32 fovY, f32 aspect, f32 n, f32 f) {
   f32 angle = fovY * 0.5f;
   angle = ((angle)*0.01745329252f);
   f32 cot = 1.0f / tanf(angle);

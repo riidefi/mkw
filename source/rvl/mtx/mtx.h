@@ -65,6 +65,8 @@ void PSMTXMultVec(const Mtx, const Vec*, Vec*);
 void PSMTXMultVecSR(const Mtx, const Vec*, Vec*);
 
 // rvlMtx2.c
+// PAL: 0x8019a9c4
+void C_MTXFrustum(Mtx44, f32, f32, f32, f32, f32, f32);
 // PAL: 0x8019aa60
 void C_MTXPerspective(Mtx44, f32, f32, f32, f32);
 // PAL: 0x8019ab4c
