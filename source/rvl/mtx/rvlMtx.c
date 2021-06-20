@@ -459,3 +459,27 @@ void PSMTXTrans(register Mtx m, register f32 _x, register f32 _y,
     stfs vv1, 0(m);
   }
 }
+
+asm void PSMTXTransApply(const register Mtx in, register Mtx out,
+                         register f32 _x, register f32 _y, register f32 _z) {
+  nofralloc;
+  psq_l fp4, 0(in), 0, 0;
+  frsp _x, _x;
+  psq_l fp5, 8(in), 0, 0;
+  frsp _y, _y;
+  psq_l fp7, 24(in), 0, 0;
+  frsp _z, _z;
+  psq_l fp8, 40(in), 0, 0;
+  psq_st fp4, 0(out), 0, 0;
+  ps_sum1 fp5, _x, fp5, fp5;
+  psq_l fp6, 16(in), 0, 0;
+  psq_st fp5, 8(out), 0, 0;
+  ps_sum1 fp7, _y, fp7, fp7;
+  psq_l fp9, 32(in), 0, 0;
+  psq_st fp6, 16(out), 0, 0;
+  ps_sum1 fp8, _z, fp8, fp8;
+  psq_st fp7, 24(out), 0, 0;
+  psq_st fp9, 32(out), 0, 0;
+  psq_st fp8, 40(out), 0, 0;
+  blr;
+}
