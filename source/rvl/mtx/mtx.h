@@ -43,6 +43,8 @@ void C_MTXOrtho(Mtx44, f32, f32, f32, f32, f32, f32);
 void PSVECAdd(const Vec*, const Vec*, Vec*);
 // PAL: 0x8019ac08
 void PSVECScale(const Vec*, Vec*, f32);
+// PAL: 0x8019ac24
+void PSVECNormalize(const Vec*, Vec*);
 
 #ifdef __cplusplus
 }
