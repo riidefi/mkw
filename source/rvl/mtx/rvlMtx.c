@@ -638,3 +638,22 @@ void C_MTXLightPerspective(Mtx m, f32 arg1, f32 arg2, float arg3, float arg4,
   m[2][2] = -1.0f;
   m[2][3] = 0.0f;
 }
+
+void C_MTXLightOrtho(Mtx m, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6,
+                     f32 arg7, f32 arg8, f32 arg9) {
+  f32 tmp;
+  tmp = 1.0f / (arg5 - arg4);
+  m[0][0] = (2.0f * tmp * arg6);
+  m[0][1] = 0.0f;
+  m[0][2] = 0.0f;
+  m[0][3] = ((-(arg5 + arg4) * tmp) * arg6) + arg8;
+  tmp = 1.0f / (arg2 - arg3);
+  m[1][0] = 0.0f;
+  m[1][1] = (2.0f * tmp) * arg7;
+  m[1][2] = 0.0f;
+  m[1][3] = ((-(arg2 + arg3) * tmp) * arg7) + arg9;
+  m[2][0] = 0.0f;
+  m[2][1] = 0.0f;
+  m[2][2] = 0.0f;
+  m[2][3] = 1.0f;
+}

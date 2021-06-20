@@ -1,41 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x8019A894 - 0x8019AA60
-/* 8019A894  ED 64 18 28 */	fsubs f11, f4, f3
-/* 8019A898  C1 22 98 D4 */	lfs f9, -0x672c(r2)
-/* 8019A89C  C1 42 98 D0 */	lfs f10, -0x6730(r2)
-/* 8019A8A0  EC 01 10 28 */	fsubs f0, f1, f2
-/* 8019A8A4  EC 64 18 2A */	fadds f3, f4, f3
-/* 8019A8A8  C0 82 98 E0 */	lfs f4, -0x6720(r2)
-/* 8019A8AC  ED 8A 58 24 */	fdivs f12, f10, f11
-/* 8019A8B0  D1 23 00 04 */	stfs f9, 4(r3)
-/* 8019A8B4  D1 23 00 08 */	stfs f9, 8(r3)
-/* 8019A8B8  D1 23 00 10 */	stfs f9, 0x10(r3)
-/* 8019A8BC  D1 23 00 18 */	stfs f9, 0x18(r3)
-/* 8019A8C0  D1 23 00 20 */	stfs f9, 0x20(r3)
-/* 8019A8C4  ED 6A 00 24 */	fdivs f11, f10, f0
-/* 8019A8C8  D1 23 00 24 */	stfs f9, 0x24(r3)
-/* 8019A8CC  D1 23 00 28 */	stfs f9, 0x28(r3)
-/* 8019A8D0  D1 43 00 2C */	stfs f10, 0x2c(r3)
-/* 8019A8D4  EC 01 10 2A */	fadds f0, f1, f2
-/* 8019A8D8  FC 20 18 50 */	fneg f1, f3
-/* 8019A8DC  EC 64 03 32 */	fmuls f3, f4, f12
-/* 8019A8E0  FC 00 00 50 */	fneg f0, f0
-/* 8019A8E4  EC 4C 00 72 */	fmuls f2, f12, f1
-/* 8019A8E8  EC 24 02 F2 */	fmuls f1, f4, f11
-/* 8019A8EC  EC 0B 00 32 */	fmuls f0, f11, f0
-/* 8019A8F0  EC 45 00 B2 */	fmuls f2, f5, f2
-/* 8019A8F4  EC 63 01 72 */	fmuls f3, f3, f5
-/* 8019A8F8  EC 06 00 32 */	fmuls f0, f6, f0
-/* 8019A8FC  EC 47 10 2A */	fadds f2, f7, f2
-/* 8019A900  EC 21 01 B2 */	fmuls f1, f1, f6
-/* 8019A904  D0 63 00 00 */	stfs f3, 0(r3)
-/* 8019A908  EC 08 00 2A */	fadds f0, f8, f0
-/* 8019A90C  D0 43 00 0C */	stfs f2, 0xc(r3)
-/* 8019A910  D0 23 00 14 */	stfs f1, 0x14(r3)
-/* 8019A914  D0 03 00 1C */	stfs f0, 0x1c(r3)
-/* 8019A918  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x8019A91C - 0x8019AA60
 /* 8019A91C  E0 04 00 00 */	psq_l f0, 0(r4), 0, qr0
 /* 8019A920  E0 43 00 00 */	psq_l f2, 0(r3), 0, qr0
 /* 8019A924  E0 24 80 08 */	psq_l f1, 8(r4), 1, qr0

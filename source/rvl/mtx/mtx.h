@@ -57,6 +57,10 @@ void C_MTXLookAt(Mtx, const Vec*, const Vec*, const Vec*);
 void C_MTXLightFrustum(Mtx, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // PAL: 0x8019a79c
 void C_MTXLightPerspective(Mtx, f32, f32, f32, f32, f32, f32);
+// PAL: 0x8019a894
+void C_MTXLightOrtho(Mtx, f32, f32, f32, f32, f32, f32, f32, f32);
+
+// rvlMtx3.c
 // PAL: 0x8019a91c
 void PSMTXMultVec(const Mtx, const Vec*, Vec*);
 
