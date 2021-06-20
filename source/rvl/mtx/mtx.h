@@ -63,6 +63,19 @@ f32 PSVECSquareDistance(const Vec*, const Vec*);
 // rvlQuat.c
 // PAL: 0x8019ae08
 void PSQUATMultiply(const Quaternion*, const Quaternion*, Quaternion*);
+// PAL: 0x8019ae64
+void PSQUATScale(const Quaternion*, Quaternion*, f32);
+// PAL: 0x8019ae80
+
+// PAL: 0x8019aea0
+
+// PAL: 0x8019aef4
+
+// PAL: 0x8019af48
+
+// PAL: 0x8019b114
+
+// PAL: 0x8019b178
 
 #ifdef __cplusplus
 }

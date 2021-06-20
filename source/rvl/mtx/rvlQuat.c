@@ -32,3 +32,17 @@ void PSQUATMultiply(const register Quaternion* quat1,
     psq_st vvA, 8(out), 0, 0;
   }
 }
+
+void PSQUATScale(const register Quaternion* quat1, register Quaternion* quat2,
+                 register f32 ff1) {
+  register f32 vv1, vv2;
+  asm
+  {
+    psq_l    vv1, 0(quat1), 0, 0;
+    psq_l    vv2, 8(quat1), 0, 0;
+    ps_muls0 vv1, vv1, ff1;
+    psq_st   vv1, 0(quat2), 0, 0;
+    ps_muls0 vv2, vv2, ff1;
+    psq_st   vv2, 8(quat2), 0, 0;
+  }
+}
