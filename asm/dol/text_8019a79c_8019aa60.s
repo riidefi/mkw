@@ -1,48 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x8019A6F8 - 0x8019AA60
-/* 8019A6F8  94 21 FF E0 */	stwu r1, -0x20(r1)
-/* 8019A6FC  DB E1 00 10 */	stfd f31, 0x10(r1)
-/* 8019A700  F3 E1 00 18 */	psq_st f31, 24(r1), 0, qr0
-/* 8019A704  EC 04 18 28 */	fsubs f0, f4, f3
-/* 8019A708  C1 42 98 D4 */	lfs f10, -0x672c(r2)
-/* 8019A70C  C1 82 98 D0 */	lfs f12, -0x6730(r2)
-/* 8019A710  ED 21 10 28 */	fsubs f9, f1, f2
-/* 8019A714  C1 62 98 E0 */	lfs f11, -0x6720(r2)
-/* 8019A718  EC 64 18 2A */	fadds f3, f4, f3
-/* 8019A71C  ED AC 00 24 */	fdivs f13, f12, f0
-/* 8019A720  C0 02 98 E4 */	lfs f0, -0x671c(r2)
-/* 8019A724  C3 E1 00 28 */	lfs f31, 0x28(r1)
-/* 8019A728  D0 03 00 28 */	stfs f0, 0x28(r3)
-/* 8019A72C  D1 43 00 04 */	stfs f10, 4(r3)
-/* 8019A730  D1 43 00 0C */	stfs f10, 0xc(r3)
-/* 8019A734  EC 8B 01 72 */	fmuls f4, f11, f5
-/* 8019A738  D1 43 00 10 */	stfs f10, 0x10(r3)
-/* 8019A73C  EC 01 10 2A */	fadds f0, f1, f2
-/* 8019A740  EC 2D 00 F2 */	fmuls f1, f13, f3
-/* 8019A744  D1 43 00 1C */	stfs f10, 0x1c(r3)
-/* 8019A748  EC AC 48 24 */	fdivs f5, f12, f9
-/* 8019A74C  D1 43 00 20 */	stfs f10, 0x20(r3)
-/* 8019A750  D1 43 00 24 */	stfs f10, 0x24(r3)
-/* 8019A754  D1 43 00 2C */	stfs f10, 0x2c(r3)
-/* 8019A758  EC 46 00 72 */	fmuls f2, f6, f1
-/* 8019A75C  EC 05 00 32 */	fmuls f0, f5, f0
-/* 8019A760  EC 64 03 72 */	fmuls f3, f4, f13
-/* 8019A764  EC 24 01 72 */	fmuls f1, f4, f5
-/* 8019A768  EC 07 00 32 */	fmuls f0, f7, f0
-/* 8019A76C  EC 66 00 F2 */	fmuls f3, f6, f3
-/* 8019A770  EC 42 40 28 */	fsubs f2, f2, f8
-/* 8019A774  EC 27 00 72 */	fmuls f1, f7, f1
-/* 8019A778  EC 00 F8 28 */	fsubs f0, f0, f31
-/* 8019A77C  D0 63 00 00 */	stfs f3, 0(r3)
-/* 8019A780  D0 43 00 08 */	stfs f2, 8(r3)
-/* 8019A784  D0 23 00 14 */	stfs f1, 0x14(r3)
-/* 8019A788  D0 03 00 18 */	stfs f0, 0x18(r3)
-/* 8019A78C  E3 E1 00 18 */	psq_l f31, 24(r1), 0, qr0
-/* 8019A790  CB E1 00 10 */	lfd f31, 0x10(r1)
-/* 8019A794  38 21 00 20 */	addi r1, r1, 0x20
-/* 8019A798  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x8019A79C - 0x8019AA60
 /* 8019A79C  94 21 FF A0 */	stwu r1, -0x60(r1)
 /* 8019A7A0  7C 08 02 A6 */	mflr r0
 /* 8019A7A4  90 01 00 64 */	stw r0, 0x64(r1)

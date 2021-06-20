@@ -598,3 +598,22 @@ void C_MTXLookAt(Mtx m, const Vec* _pos, const Vec* _up, const Vec* _dest) {
   m[2][2] = vv0.z;
   m[2][3] = -(_pos->x * vv0.x + _pos->y * vv0.y + _pos->z * vv0.z);
 }
+
+void C_MTXLightFrustum(Mtx m, float arg1, float arg2, float arg3, float arg4,
+                       float arg5, float arg6, float arg7, float arg8,
+                       float arg9) {
+  f32 tmp = 1.0f / (arg4 - arg3);
+  m[0][0] = ((2 * arg5) * tmp) * arg6;
+  m[0][1] = 0.0f;
+  m[0][2] = (((arg4 + arg3) * tmp) * arg6) - arg8;
+  m[0][3] = 0.0f;
+  tmp = 1.0f / (arg1 - arg2);
+  m[1][0] = 0.0f;
+  m[1][1] = ((2 * arg5) * tmp) * arg7;
+  m[1][2] = (((arg1 + arg2) * tmp) * arg7) - arg9;
+  m[1][3] = 0.0f;
+  m[2][0] = 0.0f;
+  m[2][1] = 0.0f;
+  m[2][2] = -1.0f;
+  m[2][3] = 0.0f;
+}
