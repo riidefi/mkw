@@ -94,6 +94,24 @@ def analyze(prefix, progress, total):
         )
     )
 
+# TODO: This system is garbage.
+# Ideally we'd have
+#
+# { "name": "EGG", "start": ..., "end": ...}
+# 
+# and it would generate everything for us
+#
+
+def get_progress(slices, filter):
+    progress = [0, 0]
+    for o_name, o_code_total, o_data_total in slices:
+        if not filter in o_name:
+            continue
+
+        progress[0] += o_code_total
+        progress[1] += o_data_total
+
+    return progress
 
 def percent_decompiled(dir="."):
     dir = Path(dir)
@@ -103,16 +121,12 @@ def percent_decompiled(dir="."):
     dol_total = binary_total(dol_segments_path)
     analyze("[DOL]", dol_progress, dol_total)
 
-    egg_progress = [0, 0]
-    for o_name, o_code_total, o_data_total in parse_slices(dol_slices_path):
-        if "egg" not in o_name:
-            continue
+    rvl_progress = get_progress(parse_slices(dol_slices_path), "rvl")
+    rvl_total = [0x8020F62C - 0x80123F88, None]
+    analyze("  -> [RVL]", rvl_progress, rvl_total)
 
-        egg_progress[0] += o_code_total
-        egg_progress[1] += o_data_total
-
+    egg_progress = get_progress(parse_slices(dol_slices_path), "egg")
     egg_total = [0x80244DD4 - 0x8020F62C, None]
-
     analyze("  -> [EGG]", egg_progress, egg_total)
 
     rel_slices_path = dir / "pack" / "rel_slices.csv"
@@ -135,8 +149,8 @@ def percent_decompiled(dir="."):
     print(" - %u BR (main.dol)" % (dol_progress[0] / dol_total[0] * 4999 + 5000))
     print(" - %u VR (StaticR.rel)" % (rel_progress[0] / rel_total[0] * 4999 + 5000))
 
-    print(dol_total[0] / 4999 / 4)
-    print(rel_total[0] / 4999 / 4)
+    print("1 BR = %s lines of asm code." % (.1 * round(10 * dol_total[0] / 4999 / 4)))
+    print("1 VR = %s lines of asm code." % (.1 * round(10 * rel_total[0] / 4999 / 4)))
 
 
 if __name__ == "__main__":
