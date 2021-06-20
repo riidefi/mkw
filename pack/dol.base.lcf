@@ -29,11 +29,10 @@ __ArenaHi = 0x81700000;
 __start = 0x800060A4;
 __destroy_global_chain=0x80021350;
 
-OSPanic=0x801A2660;
-
-cosf=0x8001b590;
-sinf=0x8001ba98;
-tanf=0x8001bb64;
+cos=0x8001b590;
+sin=0x8001ba98;
+tan=0x8001bb64;
+sqrt=0x8001bbf4;
 
 _savegpr_22=0x8002158C;
 _savegpr_23=0x80021590;
@@ -60,6 +59,8 @@ __dt__Q23EGG8Vector2fFv=0x80009B80;
 CXInitUncompContextLZ=0x8015BEF0;
 CXReadUncompLZ=0x8015BF24;
 CXGetUncompressedSize=0x8015C2E0;
+
+OSPanic=0x801A2660;
 
 OSInitMutex=0x801A7EAC;
 
@@ -116,8 +117,6 @@ MEMAdjustExpHeap = 0x80199358;
 AllocatorAllocForExpHeap_ = 0x80199B58;
 AllocatorFreeForExpHeap_ = 0x80199B68;
 MEMInitAllocatorForExpHeap = 0x80199BB8;
-
-PSMTXRotAxisRad=0x8019a364;
 
 VIInit = 0x801B94A4;
 VIWaitForRetrace = 0x801B99EC;
