@@ -1,5 +1,7 @@
 #include "mathTypes.h"
 
+#include "mathConstants.hpp"
+
 namespace nw4r {
 namespace math {
 
@@ -95,6 +97,173 @@ loc0:
   blr;
 }
 // clang-format on
+
+MTX34* MTX34Zero(register MTX34* out) {
+  register f32 zero = 0.f;
+  asm
+  {
+    psq_st zero, 0(out), 0, 0;
+    psq_st zero, 8(out), 0, 0;
+    psq_st zero, 16(out), 0, 0;
+    psq_st zero, 24(out), 0, 0;
+    psq_st zero, 32(out), 0, 0;
+    psq_st zero, 40(out), 0, 0;
+  }
+  return out;
+}
+
+MTX34* MTX34Mult(register MTX34* out, const register MTX34* in,
+                 register f32 f) {
+  register f32 a, b;
+  asm
+  {
+    psq_l a, 0(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 0(out), 0, 0;
+    
+    psq_l a, 8(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 8(out), 0, 0;
+    
+    psq_l a, 16(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 16(out), 0, 0;
+
+    psq_l a, 24(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 24(out), 0, 0;
+
+    psq_l a, 32(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 32(out), 0, 0;
+
+    psq_l a, 40(in), 0, 0;
+    ps_muls0 b, a, f;
+    psq_st b, 40(out), 0, 0;
+  }
+  return out;
+}
+
+MTX34* MTX34Scale(register MTX34* out, const register MTX34* in,
+                  const register VEC3* scale) {
+  register f32 xy, z1;
+  register f32 r0a, r0b;
+  register f32 r1a, r1b;
+  register f32 r2a, r2b;
+  asm
+  {
+    psq_l xy, 0(scale), 0, 0
+    psq_l z1, 8(scale), 1, 0
+
+    psq_l r0a, 0(in), 0, 0
+    psq_l r0b, 8(in), 0, 0
+    psq_l r1a, 16(in), 0, 0
+    psq_l r1b, 24(in), 0, 0
+    psq_l r2a, 32(in), 0, 0
+    psq_l r2b, 40(in), 0, 0
+    
+    ps_mul r0a, r0a, xy
+    ps_mul r1a, r1a, xy
+    ps_mul r2a, r2a, xy
+    ps_mul r0b, r0b, z1
+    ps_mul r1b, r1b, z1
+    ps_mul r2b, r2b, z1
+
+    psq_st r0a, 0(out), 0, 0
+    psq_st r0b, 8(out), 0, 0
+    psq_st r1a, 16(out), 0, 0
+    psq_st r1b, 24(out), 0, 0
+    psq_st r2a, 32(out), 0, 0
+    psq_st r2b, 40(out), 0, 0
+  }
+  return out;
+}
+
+MTX34* MTX34Trans(register MTX34* out, const register MTX34* in,
+                  const register VEC3* trans) {
+  register f32 xy, z1;
+  register f32 vv0, vv1, vv2, vv3, vv4, vv5;
+  register f32 tmp0, tmp1, tmp2;
+  asm
+  {
+    psq_l vv0, 0(in), 0, 0;
+    psq_st vv0, 0(out), 0, 0;
+    psq_l vv1, 8(in), 0, 0;
+    psq_st vv1, 8(out), 0, 0;
+    psq_l vv2, 16(in), 0, 0;
+    psq_st vv2, 16(out), 0, 0;
+    psq_l vv3, 24(in), 0, 0;
+    psq_st vv3, 24(out), 0, 0;
+    psq_l vv4, 32(in), 0, 0;
+    psq_st vv4, 32(out), 0, 0;
+    psq_l vv5, 40(in), 0, 0;
+    psq_st vv5, 40(out), 0, 0;
+    psq_l xy, 0(trans), 0, 0;
+    psq_l z1, 8(trans), 1, 0;
+    ps_mul tmp0, vv0, xy;
+    ps_madd tmp1, vv1, z1, tmp0;
+    ps_sum0 tmp2, tmp1, tmp2, tmp1;
+    psq_st tmp2, 12(out), 1, 0;
+    ps_mul tmp0, vv2, xy;
+    ps_madd tmp1, vv3, z1, tmp0;
+    ps_sum0 tmp2, tmp1, tmp2, tmp1;
+    psq_st tmp2, 28(out), 1, 0;
+    ps_mul tmp0, vv4, xy;
+    ps_madd tmp1, vv5, z1, tmp0;
+    ps_sum0 tmp2, tmp1, tmp2, tmp1;
+    psq_st tmp2, 44(out), 1, 0;
+  }
+  return out;
+}
+
+MTX34* MTX34MAdd(register MTX34* out, register f32 t, const register MTX34* m1,
+                 const register MTX34* m2) {
+  register f32 a, b, c;
+  asm
+  {
+    psq_l a, 0(m1), 0, 0;
+    psq_l b, 0(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 0(out), 0, 0;
+    
+    psq_l a, 8(m1), 0, 0;
+    psq_l b, 8(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 8(out), 0, 0;
+    
+    psq_l a, 16(m1), 0, 0;
+    psq_l b, 16(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 16(out), 0, 0;
+
+    psq_l a, 24(m1), 0, 0;
+    psq_l b, 24(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 24(out), 0, 0;
+
+    psq_l a, 32(m1), 0, 0;
+    psq_l b, 32(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 32(out), 0, 0;
+
+    psq_l a, 40(m1), 0, 0;
+    psq_l b, 40(m2), 0, 0;
+    ps_muls0 a, a, t;
+    ps_add c, a, b;
+    psq_st c, 40(out), 0, 0;
+  }
+  return out;
+}
+
+MTX34* MTX34RotAxisFIdx(MTX34* out, const VEC3* axis, f32 amnt) {
+  PSMTXRotAxisRad(*out, *axis, amnt * ((2 * F_PI) / 256.f));
+  return out;
+}
 
 } // namespace math
 } // namespace nw4r
