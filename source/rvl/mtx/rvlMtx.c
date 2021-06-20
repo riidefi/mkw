@@ -18,3 +18,20 @@ void PSMTXIdentity(register Mtx m) {
     psq_st tmp3, 40(m), 0, 0;
   }
 }
+
+asm void PSMTXCopy(const register Mtx in, register Mtx out) {
+  nofralloc;
+  psq_l fp0, 0(in), 0, 0;
+  psq_st fp0, 0(out), 0, 0;
+  psq_l fp1, 8(in), 0, 0;
+  psq_st fp1, 8(out), 0, 0;
+  psq_l fp2, 16(in), 0, 0;
+  psq_st fp2, 16(out), 0, 0;
+  psq_l fp3, 24(in), 0, 0;
+  psq_st fp3, 24(out), 0, 0;
+  psq_l fp4, 32(in), 0, 0;
+  psq_st fp4, 32(out), 0, 0;
+  psq_l fp5, 40(in), 0, 0;
+  psq_st fp5, 40(out), 0, 0;
+  blr;
+}

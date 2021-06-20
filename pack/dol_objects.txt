@@ -20,7 +20,7 @@ out\dol\text_80124e80_80199bf0.o
 out\rvlMemList.o
 out\dol\sdata2_80387eb4_80388870.o
 out\rvlMtx.o
-out\dol\text_80199d30_8020f62c.o
+out\dol\text_80199d64_8020f62c.o
 out\dol\data_8027e772_802a2668.o
 out\eggAllocator.o
 out\dol\bss_802a4080_803832d8.o
