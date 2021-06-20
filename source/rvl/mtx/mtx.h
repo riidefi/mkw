@@ -46,7 +46,9 @@ void PSVECScale(const Vec*, Vec*, f32);
 // PAL: 0x8019ac24
 void PSVECNormalize(const Vec*, Vec*);
 // PAL: 0x8019ac68
-f32 PSVECMag(const register Vec* v);
+f32 PSVECMag(const Vec*);
+// PAL: 0x8019acac
+f32 PSVECDotProduct(const Vec*, const Vec*);
 
 #ifdef __cplusplus
 }

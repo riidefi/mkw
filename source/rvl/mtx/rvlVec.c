@@ -82,3 +82,15 @@ f32 PSVECMag(const register Vec* v) {
   }
   return vv3;
 }
+
+asm f32 PSVECDotProduct(const register Vec* vec1, const register Vec* vec2) {
+  nofralloc;
+  psq_l fp2, 4(vec1), 0, 0;
+  psq_l fp3, 4(vec2), 0, 0;
+  ps_mul fp2, fp2, fp3;
+  psq_l fp5, 0(vec1), 0, 0;
+  psq_l fp4, 0(vec2), 0, 0;
+  ps_madd fp3, fp5, fp4, fp2;
+  ps_sum0 fp1, fp3, fp2, fp2;
+  blr;
+}
