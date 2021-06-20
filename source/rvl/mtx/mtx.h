@@ -13,7 +13,10 @@ typedef struct {
 typedef f32 Mtx[3][4];
 typedef f32 (*MtxPtr)[4];
 
-void PSMTXRotAxisRad(Mtx m, const Vec* axis, f32 rad);
+// PAL: 0x80199d04
+void PSMTXIdentity(Mtx);
+
+void PSMTXRotAxisRad(Mtx, const Vec*, f32);
 
 #ifdef __cplusplus
 }

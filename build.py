@@ -151,7 +151,7 @@ def link_dol(o_files):
     dst_lcf_path = Path("pack", "dol.lcf")
     gen_lcf(src_lcf_path, dst_lcf_path, o_files)
     # Create dest dir.
-    dest_dir = Path("target", "pal")
+    dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "main.elf"
@@ -168,7 +168,7 @@ def link_rel(o_files):
     dst_lcf_path = Path("pack", "rel.lcf")
     gen_lcf(src_lcf_path, dst_lcf_path, o_files)
     # Create dest dir.
-    dest_dir = Path("target", "pal")
+    dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "StaticR.elf"
