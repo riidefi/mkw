@@ -31,9 +31,9 @@ __destroy_global_chain=0x80021350;
 
 OSPanic=0x801A2660;
 
-cosf=0x8001b590;
-sinf=0x8001ba98;
-tanf=0x8001bb64;
+cos=0x8001b590;
+sin=0x8001ba98;
+tan=0x8001bb64;
 
 _savegpr_22=0x8002158C;
 _savegpr_23=0x80021590;

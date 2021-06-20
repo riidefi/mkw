@@ -13,6 +13,9 @@ typedef struct {
 typedef f32 Mtx[3][4];
 typedef f32 (*MtxPtr)[4];
 
+typedef f32 Mtx44[4][4];
+typedef f32 (*Mtx44Ptr)[4];
+
 // PAL: 0x80199d04
 void PSMTXIdentity(Mtx);
 // PAL: 0x80199d30
@@ -25,6 +28,11 @@ void PSMTXConcatArray(const Mtx, const Mtx*, Mtx*, u32);
 u32 PSMTXInverse(const Mtx, Mtx);
 // PAL: 0x8019a0c0
 u32 PSMTXInvXpose(const Mtx, Mtx);
+
+// PAL: 0x8019aa60
+void C_MTXPerspective (Mtx44, f32, f32, f32, f32);
+
+
 
 void PSMTXRotAxisRad(Mtx, const Vec*, f32);
 
