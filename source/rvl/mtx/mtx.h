@@ -49,6 +49,16 @@ void PSMTXTransApply(const Mtx, Mtx, f32, f32, f32);
 void PSMTXScale(Mtx, f32, f32, f32);
 // PAL: 0x8019a488
 void PSMTXScaleApply(const Mtx, Mtx, f32, f32, f32);
+// PAL: 0x8019a4e0
+void PSMTXQuat(Mtx m, const Quaternion*);
+// PAL: 0x8019a584
+void C_MTXLookAt(Mtx, const Vec*, const Vec*, const Vec*);
+// PAL: 0x8019a6f8
+void C_MTXLightFrustum(Mtx, f32, f32, f32, f32, f32, f32, f32, f32, f32);
+// PAL: 0x8019a79c
+void C_MTXLightPerspective(Mtx, f32, f32, f32, f32, f32, f32);
+// PAL: 0x8019a91c
+void PSMTXMultVec(const Mtx, const Vec*, Vec*);
 
 // rvlMtx2.c
 // PAL: 0x8019aa60

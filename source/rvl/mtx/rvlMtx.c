@@ -526,3 +526,52 @@ asm void PSMTXScaleApply(const register Mtx in, register Mtx out,
   psq_st fp2, 40(out), 0, 0;
   blr;
 }
+
+void PSMTXQuat(register Mtx m, const register Quaternion* quat) {
+  register f32 vv0, vv1, vv2, vv3;
+  register f32 tmp0, tmp1, tmp2, tmp3, tmp4;
+  register f32 tmp5, tmp6, tmp7, tmp8, tmp9;
+  vv1 = 1.0f;
+  asm
+  {
+    psq_l tmp0, 0(quat), 0, 0;
+    psq_l tmp1, 8(quat), 0, 0;
+    fsubs vv0, vv1, vv1;
+    fadds vv2, vv1, vv1;
+    ps_mul tmp2, tmp0, tmp0;
+    ps_merge10 tmp5, tmp0, tmp0;
+    ps_madd tmp4, tmp1, tmp1, tmp2;
+    ps_mul tmp3, tmp1, tmp1;
+    ps_sum0 vv3, tmp4, tmp4, tmp4;
+    ps_muls1 tmp7, tmp5, tmp1;
+    fres tmp9, vv3;
+    ps_sum1 tmp4, tmp3, tmp4, tmp2;
+    ps_nmsub vv3, vv3, tmp9, vv2;
+    ps_muls1 tmp6, tmp1, tmp1;
+    ps_mul vv3, tmp9, vv3;
+    ps_sum0 tmp2, tmp2, tmp2, tmp2;
+    fmuls vv3, vv3, vv2;
+    ps_madd tmp8, tmp0, tmp5, tmp6;
+    ps_msub tmp6, tmp0, tmp5, tmp6;
+    psq_st vv0, 12(m), 1, 0;
+    ps_nmsub tmp2, tmp2, vv3, vv1;
+    ps_nmsub tmp4, tmp4, vv3, vv1;
+    psq_st vv0, 44(m), 1, 0;
+    ps_mul tmp8, tmp8, vv3;
+    ps_mul tmp6, tmp6, vv3;
+    psq_st tmp2, 40(m), 1, 0;
+    ps_madds0 tmp5, tmp0, tmp1, tmp7;
+    ps_merge00 tmp1, tmp8, tmp4;
+    ps_nmsub tmp7, tmp7, vv2, tmp5;
+    ps_merge10 tmp0, tmp4, tmp6;
+    psq_st tmp1, 16(m), 0, 0;
+    ps_mul tmp5, tmp5, vv3;
+    ps_mul tmp7, tmp7, vv3;
+    psq_st tmp0,  0(m), 0, 0;
+    psq_st tmp5,  8(m), 1, 0;
+    ps_merge10 tmp3, tmp7, vv0;
+    ps_merge01 tmp9, tmp7, tmp5;
+    psq_st tmp3, 24(m), 0, 0;
+    psq_st tmp9, 32(m), 0, 0;
+  }
+}

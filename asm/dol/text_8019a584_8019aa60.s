@@ -1,48 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x8019A4E0 - 0x8019AA60
-/* 8019A4E0  E0 84 00 00 */	psq_l f4, 0(r4), 0, qr0
-/* 8019A4E4  E0 A4 00 08 */	psq_l f5, 8(r4), 0, qr0
-/* 8019A4E8  10 C4 01 32 */	ps_mul f6, f4, f4
-/* 8019A4EC  C0 22 98 D0 */	lfs f1, -0x6730(r2)
-/* 8019A4F0  11 24 24 A0 */	ps_merge10 f9, f4, f4
-/* 8019A4F4  EC 01 08 28 */	fsubs f0, f1, f1
-/* 8019A4F8  11 05 31 7A */	ps_madd f8, f5, f5, f6
-/* 8019A4FC  11 45 01 5A */	ps_muls1 f10, f5, f5
-/* 8019A500  EC 41 08 2A */	fadds f2, f1, f1
-/* 8019A504  F0 03 80 0C */	psq_st f0, 12(r3), 1, qr0
-/* 8019A508  10 68 42 14 */	ps_sum0 f3, f8, f8, f8
-/* 8019A50C  10 E5 01 72 */	ps_mul f7, f5, f5
-/* 8019A510  F0 03 80 2C */	psq_st f0, 44(r3), 1, qr0
-/* 8019A514  11 84 52 7A */	ps_madd f12, f4, f9, f10
-/* 8019A518  ED A0 18 30 */	fres f13, f3
-/* 8019A51C  10 63 13 7C */	ps_nmsub f3, f3, f13, f2
-/* 8019A520  11 69 01 5A */	ps_muls1 f11, f9, f5
-/* 8019A524  11 44 52 78 */	ps_msub f10, f4, f9, f10
-/* 8019A528  10 6D 00 F2 */	ps_mul f3, f13, f3
-/* 8019A52C  11 24 59 5C */	ps_madds0 f9, f4, f5, f11
-/* 8019A530  11 07 32 16 */	ps_sum1 f8, f7, f8, f6
-/* 8019A534  EC 63 00 B2 */	fmuls f3, f3, f2
-/* 8019A538  11 6B 48 BC */	ps_nmsub f11, f11, f2, f9
-/* 8019A53C  10 C6 31 94 */	ps_sum0 f6, f6, f6, f6
-/* 8019A540  11 29 00 F2 */	ps_mul f9, f9, f3
-/* 8019A544  11 6B 00 F2 */	ps_mul f11, f11, f3
-/* 8019A548  11 08 08 FC */	ps_nmsub f8, f8, f3, f1
-/* 8019A54C  11 8C 00 F2 */	ps_mul f12, f12, f3
-/* 8019A550  F1 23 80 08 */	psq_st f9, 8(r3), 1, qr0
-/* 8019A554  11 4A 00 F2 */	ps_mul f10, f10, f3
-/* 8019A558  10 EB 04 A0 */	ps_merge10 f7, f11, f0
-/* 8019A55C  10 AC 44 20 */	ps_merge00 f5, f12, f8
-/* 8019A560  10 88 54 A0 */	ps_merge10 f4, f8, f10
-/* 8019A564  11 AB 4C 60 */	ps_merge01 f13, f11, f9
-/* 8019A568  F0 E3 00 18 */	psq_st f7, 24(r3), 0, qr0
-/* 8019A56C  10 C6 08 FC */	ps_nmsub f6, f6, f3, f1
-/* 8019A570  F0 A3 00 10 */	psq_st f5, 16(r3), 0, qr0
-/* 8019A574  F0 C3 80 28 */	psq_st f6, 40(r3), 1, qr0
-/* 8019A578  F0 83 00 00 */	psq_st f4, 0(r3), 0, qr0
-/* 8019A57C  F1 A3 00 20 */	psq_st f13, 32(r3), 0, qr0
-/* 8019A580  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x8019A584 - 0x8019AA60
 /* 8019A584  94 21 FF C0 */	stwu r1, -0x40(r1)
 /* 8019A588  7C 08 02 A6 */	mflr r0
 /* 8019A58C  C0 24 00 00 */	lfs f1, 0(r4)
