@@ -118,8 +118,6 @@ AllocatorAllocForExpHeap_ = 0x80199B58;
 AllocatorFreeForExpHeap_ = 0x80199B68;
 MEMInitAllocatorForExpHeap = 0x80199BB8;
 
-PSMTXRotAxisRad=0x8019a364;
-
 VIInit = 0x801B94A4;
 VIWaitForRetrace = 0x801B99EC;
 VIConfigure = 0x801B9F6C;

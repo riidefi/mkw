@@ -1,69 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x8019A79C - 0x8019AA60
-/* 8019A79C  94 21 FF A0 */	stwu r1, -0x60(r1)
-/* 8019A7A0  7C 08 02 A6 */	mflr r0
-/* 8019A7A4  90 01 00 64 */	stw r0, 0x64(r1)
-/* 8019A7A8  DB E1 00 50 */	stfd f31, 0x50(r1)
-/* 8019A7AC  F3 E1 00 58 */	psq_st f31, 88(r1), 0, qr0
-/* 8019A7B0  DB C1 00 40 */	stfd f30, 0x40(r1)
-/* 8019A7B4  F3 C1 00 48 */	psq_st f30, 72(r1), 0, qr0
-/* 8019A7B8  DB A1 00 30 */	stfd f29, 0x30(r1)
-/* 8019A7BC  F3 A1 00 38 */	psq_st f29, 56(r1), 0, qr0
-/* 8019A7C0  DB 81 00 20 */	stfd f28, 0x20(r1)
-/* 8019A7C4  F3 81 00 28 */	psq_st f28, 40(r1), 0, qr0
-/* 8019A7C8  DB 61 00 10 */	stfd f27, 0x10(r1)
-/* 8019A7CC  F3 61 00 18 */	psq_st f27, 24(r1), 0, qr0
-/* 8019A7D0  FF 60 10 90 */	fmr f27, f2
-/* 8019A7D4  C0 E2 98 D8 */	lfs f7, -0x6728(r2)
-/* 8019A7D8  FF 80 18 90 */	fmr f28, f3
-/* 8019A7DC  93 E1 00 0C */	stw r31, 0xc(r1)
-/* 8019A7E0  FF A0 20 90 */	fmr f29, f4
-/* 8019A7E4  EC 27 00 72 */	fmuls f1, f7, f1
-/* 8019A7E8  C0 02 98 E8 */	lfs f0, -0x6718(r2)
-/* 8019A7EC  FF C0 28 90 */	fmr f30, f5
-/* 8019A7F0  FF E0 30 90 */	fmr f31, f6
-/* 8019A7F4  7C 7F 1B 78 */	mr r31, r3
-/* 8019A7F8  EC 20 00 72 */	fmuls f1, f0, f1
-/* 8019A7FC  4B E8 13 69 */	bl -0x17ec98
-/* 8019A800  FC A0 08 18 */	frsp f5, f1
-/* 8019A804  C0 62 98 D4 */	lfs f3, -0x672c(r2)
-/* 8019A808  C0 82 98 D0 */	lfs f4, -0x6730(r2)
-/* 8019A80C  FC 20 F8 50 */	fneg f1, f31
-/* 8019A810  C0 02 98 E4 */	lfs f0, -0x671c(r2)
-/* 8019A814  FC 40 F0 50 */	fneg f2, f30
-/* 8019A818  EC 84 28 24 */	fdivs f4, f4, f5
-/* 8019A81C  D0 3F 00 18 */	stfs f1, 0x18(r31)
-/* 8019A820  D0 1F 00 28 */	stfs f0, 0x28(r31)
-/* 8019A824  D0 7F 00 04 */	stfs f3, 4(r31)
-/* 8019A828  D0 5F 00 08 */	stfs f2, 8(r31)
-/* 8019A82C  D0 7F 00 0C */	stfs f3, 0xc(r31)
-/* 8019A830  EC 24 D8 24 */	fdivs f1, f4, f27
-/* 8019A834  D0 7F 00 10 */	stfs f3, 0x10(r31)
-/* 8019A838  D0 7F 00 1C */	stfs f3, 0x1c(r31)
-/* 8019A83C  D0 7F 00 20 */	stfs f3, 0x20(r31)
-/* 8019A840  D0 7F 00 24 */	stfs f3, 0x24(r31)
-/* 8019A844  D0 7F 00 2C */	stfs f3, 0x2c(r31)
-/* 8019A848  EC 3C 00 72 */	fmuls f1, f28, f1
-/* 8019A84C  EC 04 07 72 */	fmuls f0, f4, f29
-/* 8019A850  D0 3F 00 00 */	stfs f1, 0(r31)
-/* 8019A854  D0 1F 00 14 */	stfs f0, 0x14(r31)
-/* 8019A858  E3 E1 00 58 */	psq_l f31, 88(r1), 0, qr0
-/* 8019A85C  CB E1 00 50 */	lfd f31, 0x50(r1)
-/* 8019A860  E3 C1 00 48 */	psq_l f30, 72(r1), 0, qr0
-/* 8019A864  CB C1 00 40 */	lfd f30, 0x40(r1)
-/* 8019A868  E3 A1 00 38 */	psq_l f29, 56(r1), 0, qr0
-/* 8019A86C  CB A1 00 30 */	lfd f29, 0x30(r1)
-/* 8019A870  E3 81 00 28 */	psq_l f28, 40(r1), 0, qr0
-/* 8019A874  CB 81 00 20 */	lfd f28, 0x20(r1)
-/* 8019A878  E3 61 00 18 */	psq_l f27, 24(r1), 0, qr0
-/* 8019A87C  CB 61 00 10 */	lfd f27, 0x10(r1)
-/* 8019A880  83 E1 00 0C */	lwz r31, 0xc(r1)
-/* 8019A884  80 01 00 64 */	lwz r0, 0x64(r1)
-/* 8019A888  7C 08 03 A6 */	mtlr r0
-/* 8019A88C  38 21 00 60 */	addi r1, r1, 0x60
-/* 8019A890  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x8019A894 - 0x8019AA60
 /* 8019A894  ED 64 18 28 */	fsubs f11, f4, f3
 /* 8019A898  C1 22 98 D4 */	lfs f9, -0x672c(r2)
 /* 8019A89C  C1 42 98 D0 */	lfs f10, -0x6730(r2)

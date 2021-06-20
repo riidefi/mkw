@@ -617,3 +617,24 @@ void C_MTXLightFrustum(Mtx m, float arg1, float arg2, float arg3, float arg4,
   m[2][2] = -1.0f;
   m[2][3] = 0.0f;
 }
+
+f64 tan(f64);
+inline f32 tanf(f32 x) { return (float)tan(x); };
+
+void C_MTXLightPerspective(Mtx m, f32 arg1, f32 arg2, float arg3, float arg4,
+                           float arg5, float arg6) {
+  f32 angle = arg1 * 0.5f * 0.01745329252f;
+  f32 cot = 1.0f / tanf(angle);
+  m[0][0] = (cot / arg2) * arg3;
+  m[0][1] = 0.0f;
+  m[0][2] = -arg5;
+  m[0][3] = 0.0f;
+  m[1][0] = 0.0f;
+  m[1][1] = cot * arg4;
+  m[1][2] = -arg6;
+  m[1][3] = 0.0f;
+  m[2][0] = 0.0f;
+  m[2][1] = 0.0f;
+  m[2][2] = -1.0f;
+  m[2][3] = 0.0f;
+}
