@@ -168,3 +168,11 @@ void C_QUATMtx(Quaternion* r, const Mtx m) {
     r->z = vec[2];
   }
 }
+
+void C_QUATLerp(const Quaternion* quat1, const Quaternion* quat2,
+                Quaternion* out, f32 f) {
+  out->x = f * (quat2->x - quat1->x) + quat1->x;
+  out->y = f * (quat2->y - quat1->y) + quat1->y;
+  out->z = f * (quat2->z - quat1->z) + quat1->z;
+  out->w = f * (quat2->w - quat1->w) + quat1->w;
+}

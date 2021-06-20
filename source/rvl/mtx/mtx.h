@@ -74,7 +74,7 @@ void PSQUATInverse(const Quaternion*, Quaternion*);
 // PAL: 0x8019af48
 void C_QUATMtx(Quaternion*, const Mtx);
 // PAL: 0x8019b114
-
+void C_QUATLerp(const Quaternion*, const Quaternion*, Quaternion*, f32);
 // PAL: 0x8019b178
 
 #ifdef __cplusplus
