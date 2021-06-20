@@ -575,3 +575,26 @@ void PSMTXQuat(register Mtx m, const register Quaternion* quat) {
     psq_st tmp9, 32(m), 0, 0;
   }
 }
+
+void C_MTXLookAt(Mtx m, const Vec* _pos, const Vec* _up, const Vec* _dest) {
+  Vec vv0, vv1, vv2;
+  vv0.x = _pos->x - _dest->x;
+  vv0.y = _pos->y - _dest->y;
+  vv0.z = _pos->z - _dest->z;
+  PSVECNormalize(&vv0, &vv0);
+  PSVECCrossProduct(_up, &vv0, &vv1);
+  PSVECNormalize(&vv1, &vv1);
+  PSVECCrossProduct(&vv0, &vv1, &vv2);
+  m[0][0] = vv1.x;
+  m[0][1] = vv1.y;
+  m[0][2] = vv1.z;
+  m[0][3] = -(_pos->x * vv1.x + _pos->y * vv1.y + _pos->z * vv1.z);
+  m[1][0] = vv2.x;
+  m[1][1] = vv2.y;
+  m[1][2] = vv2.z;
+  m[1][3] = -(_pos->x * vv2.x + _pos->y * vv2.y + _pos->z * vv2.z);
+  m[2][0] = vv0.x;
+  m[2][1] = vv0.y;
+  m[2][2] = vv0.z;
+  m[2][3] = -(_pos->x * vv0.x + _pos->y * vv0.y + _pos->z * vv0.z);
+}
