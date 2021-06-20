@@ -251,3 +251,58 @@ loc0:
   psq_st fp7, 44(inv), 1, 0;
   blr;
 }
+
+asm u32 PSMTXInvXpose(const register Mtx src, register Mtx invX) {
+  nofralloc;
+  psq_l fp0, 0(src), 1, 0;
+  psq_l fp1, 4(src), 0, 0;
+  psq_l fp2, 16(src), 1, 0;
+  ps_merge10 fp6, fp1, fp0;
+  psq_l fp3, 20(src), 0, 0;
+  psq_l fp4, 32(src), 1, 0;
+  ps_merge10 fp7, fp3, fp2;
+  psq_l fp5, 36(src), 0, 0;
+  ps_mul fp11, fp3, fp6;
+  ps_merge10 fp8, fp5, fp4;
+  ps_mul fp13, fp5, fp7;
+  ps_msub fp11, fp1, fp7, fp11;
+  ps_mul fp12, fp1, fp8;
+  ps_msub fp13, fp3, fp8, fp13;
+  ps_msub fp12, fp5, fp6, fp12;
+  ps_mul fp10, fp3, fp4;
+  ps_mul fp9, fp0, fp5;
+  ps_mul fp8, fp1, fp2;
+  ps_msub fp10, fp2, fp5, fp10;
+  ps_msub fp9, fp1, fp4, fp9;
+  ps_msub fp8, fp0, fp3, fp8;
+  ps_mul fp7, fp0, fp13;
+  ps_sub fp1, fp1, fp1;
+  ps_madd fp7, fp2, fp12, fp7;
+  ps_madd fp7, fp4, fp11, fp7;
+  ps_cmpo0 cr0, fp7, fp1;
+  bne _regular;
+  addi r3, 0, 0;
+  blr;
+_regular:
+  fres fp0, fp7;
+  psq_st fp1, 12(invX), 1, 0;
+  ps_add fp6, fp0, fp0;
+  ps_mul fp5, fp0, fp0;
+  psq_st fp1, 28(invX), 1, 0;
+  ps_nmsub fp0, fp7, fp5, fp6;
+  psq_st fp1, 44(invX), 1, 0;
+  ps_muls0 fp13, fp13, fp0;
+  ps_muls0 fp12, fp12, fp0;
+  ps_muls0 fp11, fp11, fp0;
+  psq_st fp13, 0(invX), 0, 0;
+  psq_st fp12, 16(invX), 0, 0;
+  ps_muls0 fp10, fp10, fp0;
+  ps_muls0 fp9, fp9, fp0;
+  psq_st fp11, 32(invX), 0, 0;
+  psq_st fp10, 8(invX), 1, 0;
+  ps_muls0 fp8, fp8, fp0;
+  addi r3, 0, 1;
+  psq_st fp9, 24(invX), 1, 0;
+  psq_st fp8, 40(invX), 1, 0;
+  blr;
+}
