@@ -114,3 +114,25 @@ asm void PSVECCrossProduct(const register Vec* vec1, const register Vec* vec2,
   psq_st fp10, 4(out), 0, 0;
   blr;
 }
+
+void C_VECHalfAngle(const Vec* a, const Vec* b, Vec* half) {
+  Vec vv1, vv2, vv3;
+
+  vv1.x = -a->x;
+  vv1.y = -a->y;
+  vv1.z = -a->z;
+
+  vv2.x = -b->x;
+  vv2.y = -b->y;
+  vv2.z = -b->z;
+
+  PSVECNormalize(&vv1, &vv1);
+  PSVECNormalize(&vv2, &vv2);
+
+  PSVECAdd(&vv1, &vv2, &vv3);
+
+  if (PSVECDotProduct(&vv3, &vv3) > 0.0F)
+    PSVECNormalize(&vv3, half);
+  else
+    *half = vv3;
+}
