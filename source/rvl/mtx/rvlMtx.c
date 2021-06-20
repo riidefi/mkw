@@ -3,7 +3,10 @@
 static f32 Unit01[] = {0.0f, 1.0f};
 
 void PSMTXIdentity(register Mtx m) {
-  (void)1.0F; // need this to force force 1 to appear first in sdata2
+  // sdata2 ordering
+  (void)1.0f;
+  (void)0.0f;
+
   register f32 tmp0 = 0.0F;
   register f32 tmp1 = 1.0F;
   register f32 tmp2;
@@ -319,57 +322,127 @@ void PSMTXRotRad(Mtx m, char axis, f32 rad) {
   PSMTXRotTrig(m, axis, sinA, cosA);
 }
 
-asm void PSMTXRotTrig(register Mtx m, register char axis, register f32 sinA,
-                      register f32 cosA) {
-  nofralloc;
-  frsp fp5, fp1;
-  ori r0, r4, 0x20;
-  frsp fp4, fp2;
-  cmplwi r0, 0x78;
-  lfs fp0, -0x672c(r2);
-  ps_neg fp2, fp5;
-  lfs fp1, -0x6730(r2);
-  beq _case_x;
-  cmplwi r0, 0x79;
-  beq _case_y;
-  cmplwi r0, 0x7a;
-  beq _case_z;
-  blr;
+void PSMTXRotTrig(register Mtx m, register char arg2, register f32 arg3,
+                  register f32 arg4) {
+  register f32 vv1, vv2, vv3;
+  register f32 vv4, vv5, vv6, vv7;
 
-_case_x:
-  ps_merge00 fp3, fp5, fp4;
-  psq_st fp1, 0(r3), 1, 0;
-  ps_merge00 fp1, fp4, fp2;
-  psq_st fp0, 4(r3), 0, 0;
-  psq_st fp0, 12(r3), 0, 0;
-  psq_st fp0, 28(r3), 0, 0;
-  psq_st fp0, 44(r3), 1, 0;
-  psq_st fp3, 36(r3), 0, 0;
-  psq_st fp1, 20(r3), 0, 0;
-  blr;
+  asm {
+    frsp arg3, arg3;
+    frsp arg4, arg4;
+  }
 
-_case_y:
-  ps_merge00 fp3, fp4, fp0;
-  psq_st fp0, 24(r3), 0, 0;
-  ps_merge00 fp1, fp0, fp1;
-  ps_merge00 fp2, fp2, fp0;
-  ps_merge00 fp0, fp5, fp0;
-  psq_st fp3, 0(r3), 0, 0;
-  psq_st fp3, 40(r3), 0, 0;
-  psq_st fp1, 16(r3), 0, 0;
-  psq_st fp0, 8(r3), 0, 0;
-  psq_st fp2, 32(r3), 0, 0;
-  blr;
+  vv1 = 0.0F;
+  vv2 = 1.0F;
 
-_case_z:
-  ps_merge00 fp3, fp5, fp4;
-  psq_st fp0, 8(r3), 0, 0;
-  ps_merge00 fp2, fp4, fp2;
-  ps_merge00 fp1, fp1, fp0;
-  psq_st fp0, 24(r3), 0, 0;
-  psq_st fp0, 32(r3), 0, 0;
-  psq_st fp3, 16(r3), 0, 0;
-  psq_st fp2, 0(r3), 0, 0;
-  psq_st fp1, 40(r3), 0, 0;
-  blr;
+  asm {
+    ori arg2, arg2, 0x20;
+    ps_neg vv3, arg3;
+    cmplwi arg2, 'x';
+    beq loc0;
+    cmplwi arg2, 'y';
+    beq loc1;
+    cmplwi arg2, 'z';
+    beq loc2;
+    b loc3;
+loc0:
+    psq_st vv2, 0(m), 1, 0;
+    psq_st vv1, 4(m), 0, 0;
+    ps_merge00 vv4, arg3, arg4;
+    psq_st vv1, 12(m), 0, 0;
+    ps_merge00 vv5, arg4, vv3;
+    psq_st vv1, 28(m), 0, 0;
+    psq_st vv1, 44(m), 1, 0;
+    psq_st vv4, 36(m), 0, 0;
+    psq_st vv5, 20(m), 0, 0;
+    b loc3;
+loc1:
+    ps_merge00 vv4, arg4, vv1;
+    ps_merge00 vv5, vv1, vv2;
+    psq_st vv1, 24(m), 0, 0;
+    psq_st vv4, 0(m), 0, 0;
+    ps_merge00 vv6, vv3, vv1;
+    ps_merge00 vv7, arg3, vv1;
+    psq_st vv4, 40(m), 0, 0;
+    psq_st vv5, 16(m), 0, 0;
+    psq_st vv7, 8(m), 0, 0;
+    psq_st vv6, 32(m), 0, 0;
+    b loc3;
+loc2:
+    psq_st vv1, 8(m), 0, 0;
+    ps_merge00 vv4, arg3, arg4;
+    ps_merge00 vv6, arg4, vv3;
+    psq_st vv1, 24(m), 0, 0;
+    psq_st vv1, 32(m), 0, 0;
+    ps_merge00 vv5, vv2, vv1;
+    psq_st vv4, 16(m), 0, 0;
+    psq_st vv6, 0(m), 0, 0;
+    psq_st vv5, 40(m), 0, 0;
+loc3:
+  }
+}
+
+static void __PSMTXRotAxisRadInternal(register Mtx m, const register Vec* axis,
+                                      register f32 sT, register f32 cT) {
+  register f32 tT, fc0;
+  register f32 tmp0, tmp1, tmp2, tmp3, tmp4;
+  register f32 tmp5, tmp6, tmp7, tmp8, tmp9;
+
+  tmp9 = 0.5F;
+  tmp8 = 3.0F;
+
+  asm
+  {
+    frsp        cT, cT;
+    psq_l       tmp0, 0(axis), 0, 0;
+    frsp        sT, sT;
+    lfs         tmp1, 8(axis);
+
+    ps_mul tmp2, tmp0, tmp0;
+    fadds tmp7, tmp9, tmp9;
+    ps_madd tmp3, tmp1, tmp1, tmp2;
+    fsubs fc0, tmp9, tmp9;
+    ps_sum0 tmp4, tmp3, tmp1, tmp2;
+
+    fsubs tT, tmp7, cT;
+
+    frsqrte tmp5, tmp4;
+    fmuls tmp2, tmp5, tmp5;
+    fmuls tmp3, tmp5, tmp9;
+    fnmsubs tmp2, tmp2, tmp4, tmp8;
+    fmuls tmp5, tmp2, tmp3;
+
+    ps_merge00  cT, cT, cT;
+  
+    ps_muls0 tmp0, tmp0, tmp5;
+    ps_muls0 tmp1, tmp1, tmp5;
+
+    ps_muls0 tmp4, tmp0, tT;
+    ps_muls0 tmp9, tmp0, sT;
+    ps_muls0 tmp5, tmp1, tT;
+
+    ps_muls1 tmp3, tmp4, tmp0;
+    ps_muls0 tmp2, tmp4, tmp0;
+    ps_muls0 tmp4, tmp4, tmp1;
+
+    fnmsubs tmp6, tmp1, sT, tmp3;
+    fmadds tmp7, tmp1, sT, tmp3;
+
+    ps_neg tmp0, tmp9;
+    ps_sum0 tmp8, tmp4, fc0, tmp9;
+    ps_sum0 tmp2, tmp2, tmp6, cT;
+    ps_sum1 tmp3, cT, tmp7, tmp3;
+    ps_sum0 tmp6, tmp0, fc0, tmp4;
+
+    psq_st tmp8, 8(m), 0, 0;
+    ps_sum0 tmp0, tmp4, tmp4, tmp0;
+    psq_st tmp2, 0(m), 0, 0;
+    ps_muls0 tmp5, tmp5, tmp1;
+    psq_st tmp3, 16(m), 0, 0;
+    ps_sum1 tmp4, tmp9, tmp0, tmp4;
+    psq_st tmp6, 24(m), 0, 0;
+    ps_sum0 tmp5, tmp5, fc0, cT;
+    psq_st tmp4, 32(m), 0, 0;
+    psq_st tmp5, 40(m), 0, 0;
+  }
 }
