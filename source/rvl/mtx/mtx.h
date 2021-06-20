@@ -33,6 +33,10 @@ void PSMTXConcatArray(const Mtx, const Mtx*, Mtx*, u32);
 u32 PSMTXInverse(const Mtx, Mtx);
 // PAL: 0x8019a0c0
 u32 PSMTXInvXpose(const Mtx, Mtx);
+// PAL: 0x8019a188
+void PSMTXRotRad(Mtx, char, f32);
+// PAL: 0x8019a204
+void PSMTXRotTrig(Mtx, char, f32, f32);
 
 void PSMTXRotAxisRad(Mtx, const Vec*, f32);
 

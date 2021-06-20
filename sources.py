@@ -1,4 +1,4 @@
-RVL_OPTS = '-ipa file'
+RVL_OPTS = '-ipa file -O4,p -inline auto -pragma "warn_notinlined off"'
 EGG_OPTS = '-ipa function -rostr'
 REL_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
 NW4R_OPTS = '-ipa file -inline auto -rostr -O4,p'

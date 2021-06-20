@@ -21,7 +21,7 @@ out\rvlMemList.o
 out\dol\sdata_803857f6_80385a08.o
 out\dol\sdata2_80387eb4_80388870.o
 out\rvlMtx.o
-out\dol\text_8019a188_8019aa60.o
+out\dol\text_8019a2b4_8019aa60.o
 out\dol\sdata2_80388878_80388890.o
 out\rvlMtx2.o
 out\rvlVec.o

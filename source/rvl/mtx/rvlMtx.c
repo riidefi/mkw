@@ -306,3 +306,70 @@ _regular:
   psq_st fp8, 40(invX), 1, 0;
   blr;
 }
+
+f64 sin(f64);
+inline f32 sinf(f32 x) { return (float)sin(x); };
+f64 cos(f64);
+inline f32 cosf(f32 x) { return (float)cos(x); };
+
+void PSMTXRotRad(Mtx m, char axis, f32 rad) {
+  f32 sinA, cosA;
+  sinA = sinf(rad);
+  cosA = cosf(rad);
+  PSMTXRotTrig(m, axis, sinA, cosA);
+}
+
+asm void PSMTXRotTrig(register Mtx m, register char axis, register f32 sinA,
+                      register f32 cosA) {
+  nofralloc;
+  frsp fp5, fp1;
+  ori r0, r4, 0x20;
+  frsp fp4, fp2;
+  cmplwi r0, 0x78;
+  lfs fp0, -0x672c(r2);
+  ps_neg fp2, fp5;
+  lfs fp1, -0x6730(r2);
+  beq _case_x;
+  cmplwi r0, 0x79;
+  beq _case_y;
+  cmplwi r0, 0x7a;
+  beq _case_z;
+  blr;
+
+_case_x:
+  ps_merge00 fp3, fp5, fp4;
+  psq_st fp1, 0(r3), 1, 0;
+  ps_merge00 fp1, fp4, fp2;
+  psq_st fp0, 4(r3), 0, 0;
+  psq_st fp0, 12(r3), 0, 0;
+  psq_st fp0, 28(r3), 0, 0;
+  psq_st fp0, 44(r3), 1, 0;
+  psq_st fp3, 36(r3), 0, 0;
+  psq_st fp1, 20(r3), 0, 0;
+  blr;
+
+_case_y:
+  ps_merge00 fp3, fp4, fp0;
+  psq_st fp0, 24(r3), 0, 0;
+  ps_merge00 fp1, fp0, fp1;
+  ps_merge00 fp2, fp2, fp0;
+  ps_merge00 fp0, fp5, fp0;
+  psq_st fp3, 0(r3), 0, 0;
+  psq_st fp3, 40(r3), 0, 0;
+  psq_st fp1, 16(r3), 0, 0;
+  psq_st fp0, 8(r3), 0, 0;
+  psq_st fp2, 32(r3), 0, 0;
+  blr;
+
+_case_z:
+  ps_merge00 fp3, fp5, fp4;
+  psq_st fp0, 8(r3), 0, 0;
+  ps_merge00 fp2, fp4, fp2;
+  ps_merge00 fp1, fp1, fp0;
+  psq_st fp0, 24(r3), 0, 0;
+  psq_st fp0, 32(r3), 0, 0;
+  psq_st fp3, 16(r3), 0, 0;
+  psq_st fp2, 0(r3), 0, 0;
+  psq_st fp1, 40(r3), 0, 0;
+  blr;
+}
