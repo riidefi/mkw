@@ -16,6 +16,7 @@ typedef f32 (*MtxPtr)[4];
 typedef f32 Mtx44[4][4];
 typedef f32 (*Mtx44Ptr)[4];
 
+// rvlMtx.c
 // PAL: 0x80199d04
 void PSMTXIdentity(Mtx);
 // PAL: 0x80199d30
@@ -31,10 +32,15 @@ u32 PSMTXInvXpose(const Mtx, Mtx);
 
 void PSMTXRotAxisRad(Mtx, const Vec*, f32);
 
+// rvlMtx2.c
 // PAL: 0x8019aa60
 void C_MTXPerspective(Mtx44, f32, f32, f32, f32);
 // PAL: 0x8019ab4c
 void C_MTXOrtho(Mtx44, f32, f32, f32, f32, f32, f32);
+
+// rvlVec.c
+// PAL: 0x8019abe4
+void PSVECAdd(const Vec*, const Vec*, Vec*);
 
 #ifdef __cplusplus
 }
