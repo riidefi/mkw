@@ -13,3 +13,16 @@ asm void PSVECAdd(const register Vec* vv1, const register Vec* vv2,
   psq_st fp7, 8(out), 1, 0;
   blr;
 }
+
+void PSVECScale(const register Vec* in, register Vec* out, register f32 vv1) {
+  register f32 vxy, vz, rxy, rz;
+  asm
+  {
+    psq_l vxy, 0(in), 0, 0;
+    psq_l vz,  8(in), 1, 0;
+    ps_muls0 rxy, vxy, vv1;
+    psq_st rxy, 0(out), 0, 0;
+    ps_muls0 rz, vz, vv1;
+    psq_st rz, 8(out), 1, 0;
+  }
+}

@@ -41,6 +41,8 @@ void C_MTXOrtho(Mtx44, f32, f32, f32, f32, f32, f32);
 // rvlVec.c
 // PAL: 0x8019abe4
 void PSVECAdd(const Vec*, const Vec*, Vec*);
+// PAL: 0x8019ac08
+void PSVECScale(const Vec*, Vec*, f32);
 
 #ifdef __cplusplus
 }
