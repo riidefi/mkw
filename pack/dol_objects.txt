@@ -25,9 +25,10 @@ out\dol\text_8019a188_8019aa60.o
 out\dol\sdata2_80388878_80388890.o
 out\rvlMtx2.o
 out\rvlVec.o
+out\dol\rodata_80249020_80252c78.o
 out\dol\sdata2_803888b4_803888b8.o
 out\rvlQuat.o
-out\dol\text_8019af48_8020f62c.o
+out\dol\text_8019b114_8020f62c.o
 out\dol\data_8027e772_802a2668.o
 out\eggAllocator.o
 out\dol\bss_802a4080_803832d8.o
@@ -37,7 +38,7 @@ out\dol\text_8020fcc4_8021a0f0.o
 out\dol\data_802a268c_802a2b48.o
 out\eggDisposer.o
 out\dol\text_8021a1b8_802269a8.o
-out\dol\rodata_80249020_80257700.o
+out\dol\rodata_80252c84_80257700.o
 out\dol\data_802a2b54_802a2ff8.o
 out\eggExpHeap.o
 out\dol\text_80226f04_80229540.o

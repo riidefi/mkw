@@ -72,7 +72,7 @@ void PSQUATNormalize(const Quaternion*, Quaternion*);
 // PAL: 0x8019aef4
 void PSQUATInverse(const Quaternion*, Quaternion*);
 // PAL: 0x8019af48
-
+void C_QUATMtx(Quaternion*, const Mtx);
 // PAL: 0x8019b114
 
 // PAL: 0x8019b178

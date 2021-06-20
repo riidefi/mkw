@@ -131,3 +131,40 @@ loc1:
     psq_st      vv3, 8(inv), 1, 0;
   }
 }
+
+double sqrt(double);
+inline float sqrtf(float x) { return (float)sqrt(x); }
+
+void C_QUATMtx(Quaternion* r, const Mtx m) {
+  f32 vv0, vv1;
+  s32 i, j, k;
+  s32 idx[3] = {1, 2, 0};
+  f32 vec[3];
+  vv0 = m[0][0] + m[1][1] + m[2][2];
+  if (vv0 > 0.0f) {
+    vv1 = (f32)sqrtf(vv0 + 1.0f);
+    r->w = vv1 * 0.5f;
+    vv1 = 0.5f / vv1;
+    r->x = (m[2][1] - m[1][2]) * vv1;
+    r->y = (m[0][2] - m[2][0]) * vv1;
+    r->z = (m[1][0] - m[0][1]) * vv1;
+  } else {
+    i = 0;
+    if (m[1][1] > m[0][0])
+      i = 1;
+    if (m[2][2] > m[i][i])
+      i = 2;
+    j = idx[i];
+    k = idx[j];
+    vv1 = (f32)sqrtf((m[i][i] - (m[j][j] + m[k][k])) + 1.0f);
+    vec[i] = vv1 * 0.5f;
+    if (vv1 != 0.0f)
+      vv1 = 0.5f / vv1;
+    r->w = (m[k][j] - m[j][k]) * vv1;
+    vec[j] = (m[i][j] + m[j][i]) * vv1;
+    vec[k] = (m[i][k] + m[k][i]) * vv1;
+    r->x = vec[0];
+    r->y = vec[1];
+    r->z = vec[2];
+  }
+}
