@@ -136,3 +136,21 @@ void C_VECHalfAngle(const Vec* a, const Vec* b, Vec* half) {
   else
     *half = vv3;
 }
+
+f32 PSVECSquareDistance(const register Vec* vec1, const register Vec* vec2) {
+  register f32 vv1, vv2, vv3, vv4, vv5, vv6;
+  register f32 out;
+  asm
+  {
+    psq_l vv1, 4(vec1), 0, 0;
+    psq_l vv2, 4(vec2), 0, 0;
+    ps_sub vv5, vv1, vv2;
+    psq_l vv3, 0(vec1), 0, 0;
+    psq_l vv4, 0(vec2), 0, 0;
+    ps_mul vv5, vv5, vv5;
+    ps_sub vv6, vv3, vv4;
+    ps_madd out, vv6, vv6, vv5;   
+    ps_sum0 out, out, vv5, vv5;
+  }
+  return out;
+}

@@ -53,6 +53,8 @@ f32 PSVECDotProduct(const Vec*, const Vec*);
 void PSVECCrossProduct(const Vec*, const Vec*, Vec*);
 // PAL: 0x8019ad08
 void C_VECHalfAngle(const Vec*, const Vec*, Vec*);
+// PAL: 0x8019ade0
+f32 PSVECSquareDistance(const Vec*, const Vec*);
 
 #ifdef __cplusplus
 }
