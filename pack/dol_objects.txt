@@ -27,7 +27,7 @@ out\rvlMtx2.o
 out\rvlVec.o
 out\dol\sdata2_803888b4_803888b8.o
 out\rvlQuat.o
-out\dol\text_8019aef4_8020f62c.o
+out\dol\text_8019af48_8020f62c.o
 out\dol\data_8027e772_802a2668.o
 out\eggAllocator.o
 out\dol\bss_802a4080_803832d8.o

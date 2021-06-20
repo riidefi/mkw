@@ -99,3 +99,35 @@ void PSQUATNormalize(const register Quaternion* src,
     psq_st   vv2, 8(unit), 0, 0;
   }
 }
+
+void PSQUATInverse(const register Quaternion* src, register Quaternion* inv) {
+  register f32 vv1, vv2, vv3, vv4;
+  register f32 vv5, vv6, vv7, vv8, vv9, vvA, vvB;
+  register f32 vvC = 1.0F;
+  asm {
+    psq_l       vv1, 0(src), 0, 0;
+    ps_mul      vv5, vv1, vv1;
+    ps_sub      vvB, vvC, vvC;
+    psq_l       vv2, 8(src), 0, 0;
+    ps_madd     vv5, vv2, vv2, vv5;
+    ps_add      vvA, vvC, vvC;
+    ps_sum0     vv5, vv5, vv5, vv5;
+    fcmpu       cr0, vv5, vvB;
+    beq-        loc0;
+    fres        vv7, vv5;
+    ps_neg      vv6, vv5;
+    ps_nmsub    vv9, vv5, vv7, vvA;
+    ps_mul      vv7, vv7, vv9;
+    b           loc1;
+loc0:
+    fmr         vv7, vvC;
+loc1:
+    ps_neg      vv8, vv7;
+    ps_muls1    vv4, vv7, vv2;
+    ps_muls0    vv1, vv1, vv8;
+    psq_st      vv4, 12(inv), 1, 0;
+    ps_muls0    vv3, vv2, vv8;
+    psq_st      vv1, 0(inv), 0, 0;
+    psq_st      vv3, 8(inv), 1, 0;
+  }
+}
