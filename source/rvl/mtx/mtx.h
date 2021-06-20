@@ -16,6 +16,10 @@ typedef f32 (*MtxPtr)[4];
 typedef f32 Mtx44[4][4];
 typedef f32 (*Mtx44Ptr)[4];
 
+typedef struct {
+  f32 x, y, z, w;
+} Quaternion;
+
 // rvlMtx.c
 // PAL: 0x80199d04
 void PSMTXIdentity(Mtx);
@@ -55,6 +59,10 @@ void PSVECCrossProduct(const Vec*, const Vec*, Vec*);
 void C_VECHalfAngle(const Vec*, const Vec*, Vec*);
 // PAL: 0x8019ade0
 f32 PSVECSquareDistance(const Vec*, const Vec*);
+
+// rvlQuat.c
+// PAL: 0x8019ae08
+void PSQUATMultiply(const Quaternion*, const Quaternion*, Quaternion*);
 
 #ifdef __cplusplus
 }
