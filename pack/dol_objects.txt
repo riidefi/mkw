@@ -18,9 +18,10 @@ out\dol\sdata_80384c00_803857f0.o
 out\rvlArchive.o
 out\dol\text_80124e80_80199bf0.o
 out\rvlMemList.o
+out\dol\sdata_803857f6_80385a08.o
 out\dol\sdata2_80387eb4_80388870.o
 out\rvlMtx.o
-out\dol\text_80199d64_8020f62c.o
+out\dol\text_80199e30_8020f62c.o
 out\dol\data_8027e772_802a2668.o
 out\eggAllocator.o
 out\dol\bss_802a4080_803832d8.o
@@ -70,7 +71,7 @@ out\dol\dtors_80244ea4_80244eac.o
 out\dol\rodata_80258560_80258580.o
 out\dol\data_802a4004_802a4040.o
 out\dol\bss_80384bf4_80384c00.o
-out\dol\sdata_803857f6_80385fc0.o
+out\dol\sdata_80385a10_80385fc0.o
 out\dol\sbss_80386f90_80386fa0.o
 out\dol\sdata2_80389118_80389140.o
 out\dol\sbss2_80389140_8038917c.o

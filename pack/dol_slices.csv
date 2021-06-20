@@ -6,7 +6,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,rxFrameHeap.c,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,
 1,source/rvl/mem/rvlMemList.c,,,,,,,0x80199BF0,0x80199D04,,,,,,,,,,,,,,,,,,
-1,source/rvl/mtx/rvlMtx.c,,,,,,,0x80199d04,0x80199d64,,,,,,,,,,,,,,,0x80388870,0x80388878,,
+1,source/rvl/mtx/rvlMtx.c,,,,,,,0x80199d04,0x80199e30,,,,,,,,,,,0x80385a08,0x80385a10,,,0x80388870,0x80388878,,
 1,source/egg/core/eggAllocator.cpp,,,,,,,0x8020F62C,0x8020F6EC,,,,,,,0x802A2668,0x802A2680 ,,,,,,,,,,
 1,source/egg/core/eggArchive.cpp,,,,,,,0x8020F6EC,0x8020FCC4,,,,,,,0x802A2680,0x802A268C,0x803832D8,0x803832E4,,,0x80386D80,0x80386D84,,,,
 1,source/egg/core/eggDisposer.cpp,,,,,,,0x8021A0F0,0x8021A1B8,,,,,,,0x802A2B48,0x802A2B54 ,,,,,,,,,,

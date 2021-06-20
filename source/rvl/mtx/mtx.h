@@ -17,6 +17,8 @@ typedef f32 (*MtxPtr)[4];
 void PSMTXIdentity(Mtx);
 // PAL: 0x80199d30
 void PSMTXCopy(const Mtx, Mtx);
+// PAL: 0x80199d64
+void PSMTXConcat(const Mtx, const Mtx, Mtx);
 
 void PSMTXRotAxisRad(Mtx, const Vec*, f32);
 
