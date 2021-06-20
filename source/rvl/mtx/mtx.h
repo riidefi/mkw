@@ -66,9 +66,9 @@ void PSQUATMultiply(const Quaternion*, const Quaternion*, Quaternion*);
 // PAL: 0x8019ae64
 void PSQUATScale(const Quaternion*, Quaternion*, f32);
 // PAL: 0x8019ae80
-
+f32 PSQUATDotProduct(const Quaternion*, const Quaternion*);
 // PAL: 0x8019aea0
-
+void PSQUATNormalize(const Quaternion*, Quaternion*);
 // PAL: 0x8019aef4
 
 // PAL: 0x8019af48
