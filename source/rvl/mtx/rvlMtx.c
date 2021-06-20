@@ -440,3 +440,22 @@ void PSMTXRotAxisRad(Mtx m, const Vec* arg2, f32 arg3) {
   f32 arg2cos = cosf(arg3);
   __PSMTXRotAxisRadInternal(m, arg2, arg2sin, arg2cos);
 }
+
+void PSMTXTrans(register Mtx m, register f32 _x, register f32 _y,
+                register f32 _z) {
+  register f32 vv0 = 0.0f;
+  register f32 vv1 = 1.0f;
+  asm
+  {
+    stfs _x, 12(m);
+    stfs _y, 28(m);
+    psq_st vv0, 4(m), 0, 0;
+    psq_st vv0, 32(m), 0, 0;
+    stfs vv0, 16(m);
+    stfs vv1, 20(m);
+    stfs vv0, 24(m);
+    stfs vv1, 40(m);
+    stfs _z, 44(m);
+    stfs vv1, 0(m);
+  }
+}

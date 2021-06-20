@@ -1,20 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x8019A3E0 - 0x8019AA60
-/* 8019A3E0  C0 02 98 D4 */	lfs f0, -0x672c(r2)
-/* 8019A3E4  C0 82 98 D0 */	lfs f4, -0x6730(r2)
-/* 8019A3E8  D0 23 00 0C */	stfs f1, 0xc(r3)
-/* 8019A3EC  D0 43 00 1C */	stfs f2, 0x1c(r3)
-/* 8019A3F0  F0 03 00 04 */	psq_st f0, 4(r3), 0, qr0
-/* 8019A3F4  F0 03 00 20 */	psq_st f0, 32(r3), 0, qr0
-/* 8019A3F8  D0 03 00 10 */	stfs f0, 0x10(r3)
-/* 8019A3FC  D0 83 00 14 */	stfs f4, 0x14(r3)
-/* 8019A400  D0 03 00 18 */	stfs f0, 0x18(r3)
-/* 8019A404  D0 83 00 28 */	stfs f4, 0x28(r3)
-/* 8019A408  D0 63 00 2C */	stfs f3, 0x2c(r3)
-/* 8019A40C  D0 83 00 00 */	stfs f4, 0(r3)
-/* 8019A410  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x8019A414 - 0x8019AA60
 /* 8019A414  E0 83 00 00 */	psq_l f4, 0(r3), 0, qr0
 /* 8019A418  FC 20 08 18 */	frsp f1, f1
 /* 8019A41C  E0 A3 00 08 */	psq_l f5, 8(r3), 0, qr0
