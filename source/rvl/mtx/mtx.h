@@ -45,6 +45,8 @@ void PSVECAdd(const Vec*, const Vec*, Vec*);
 void PSVECScale(const Vec*, Vec*, f32);
 // PAL: 0x8019ac24
 void PSVECNormalize(const Vec*, Vec*);
+// PAL: 0x8019ac68
+f32 PSVECMag(const register Vec* v);
 
 #ifdef __cplusplus
 }

@@ -54,3 +54,31 @@ void PSVECNormalize(const register Vec* vec1, register Vec* dst) {
     psq_st   vv4, 8(dst), 1, 0;
   }
 }
+
+f32 PSVECMag(const register Vec* v) {
+  register f32 vv1, vv2, vv3;
+  register f32 vv4, vv5, vv6;
+  register f32 vv7, vv8, vv9;
+  vv8 = 0.5F;
+  asm {
+    psq_l   vv1, 0(v), 0, 0;
+    ps_mul  vv1, vv1, vv1;
+    lfs     vv2, 8(v);
+    fsubs   vv9, vv8, vv8;
+    ps_madd vv3, vv2, vv2, vv1;
+    ps_sum0 vv3, vv3, vv1, vv1;
+    fcmpu   cr0, vv3, vv9;
+    beq-    end;
+    frsqrte vv4, vv3;
+  }
+  vv7 = 3.0F;
+  asm {
+    fmuls   vv5, vv4, vv4;
+    fmuls   vv6, vv4, vv8;
+    fnmsubs vv5, vv5, vv3, vv7;
+    fmuls   vv4, vv5, vv6;
+    fmuls   vv3, vv3, vv4;
+  end:
+  }
+  return vv3;
+}
