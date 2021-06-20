@@ -29,12 +29,12 @@ u32 PSMTXInverse(const Mtx, Mtx);
 // PAL: 0x8019a0c0
 u32 PSMTXInvXpose(const Mtx, Mtx);
 
-// PAL: 0x8019aa60
-void C_MTXPerspective (Mtx44, f32, f32, f32, f32);
-
-
-
 void PSMTXRotAxisRad(Mtx, const Vec*, f32);
+
+// PAL: 0x8019aa60
+void C_MTXPerspective(Mtx44, f32, f32, f32, f32);
+// PAL: 0x8019ab4c
+void C_MTXOrtho(Mtx44, f32, f32, f32, f32, f32, f32);
 
 #ifdef __cplusplus
 }
