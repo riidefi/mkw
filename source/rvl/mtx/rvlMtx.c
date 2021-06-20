@@ -381,3 +381,62 @@ loc2:
 loc3:
   }
 }
+
+void __PSMTXRotAxisRadInternal(register Mtx m, const register Vec* arg2,
+                               register f32 arg3, register f32 arg4) {
+  register f32 vv1, vv2;
+  register f32 tmp0, tmp1, tmp2, tmp3, tmp4;
+  register f32 tmp5, tmp6, tmp7, tmp8, tmp9;
+  tmp9 = 0.5F;
+  tmp8 = 3.0F;
+  asm
+  {
+    frsp arg4, arg4;
+    psq_l tmp0, 0(arg2), 0, 0;
+    frsp arg3, arg3;
+    lfs tmp1, 8(arg2);
+    ps_mul tmp2, tmp0, tmp0;
+    fadds tmp7, tmp9, tmp9;
+    ps_madd tmp3, tmp1, tmp1, tmp2;
+    fsubs vv2, tmp9, tmp9;
+    ps_sum0 tmp4, tmp3, tmp1, tmp2;
+    fsubs vv1, tmp7, arg4;
+    frsqrte tmp5, tmp4;
+    fmuls tmp2, tmp5, tmp5;
+    fmuls tmp3, tmp5, tmp9;
+    fnmsubs tmp2, tmp2, tmp4, tmp8;
+    fmuls tmp5, tmp2, tmp3;
+    ps_merge00  arg4, arg4, arg4;
+    ps_muls0 tmp0, tmp0, tmp5;
+    ps_muls0 tmp1, tmp1, tmp5;
+    ps_muls0 tmp4, tmp0, vv1;
+    ps_muls0 tmp9, tmp0, arg3;
+    ps_muls0 tmp5, tmp1, vv1;
+    ps_muls1 tmp3, tmp4, tmp0;
+    ps_muls0 tmp2, tmp4, tmp0;
+    ps_muls0 tmp4, tmp4, tmp1;
+    fnmsubs tmp6, tmp1, arg3, tmp3;
+    fmadds tmp7, tmp1, arg3, tmp3;
+    ps_neg tmp0, tmp9;
+    ps_sum0 tmp8, tmp4, vv2, tmp9;
+    ps_sum0 tmp2, tmp2, tmp6, arg4;
+    ps_sum1 tmp3, arg4, tmp7, tmp3;
+    ps_sum0 tmp6, tmp0, vv2, tmp4;
+    psq_st tmp8, 8(m), 0, 0;
+    ps_sum0 tmp0, tmp4, tmp4, tmp0;
+    psq_st tmp2, 0(m), 0, 0;
+    ps_muls0 tmp5, tmp5, tmp1;
+    psq_st tmp3, 16(m), 0, 0;
+    ps_sum1 tmp4, tmp9, tmp0, tmp4;
+    psq_st tmp6, 24(m), 0, 0;
+    ps_sum0 tmp5, tmp5, vv2, arg4;
+    psq_st tmp4, 32(m), 0, 0;
+    psq_st tmp5, 40(m), 0, 0;
+  }
+}
+
+void PSMTXRotAxisRad(Mtx m, const Vec* arg2, f32 arg3) {
+  f32 arg2sin = sinf(arg3);
+  f32 arg2cos = cosf(arg3);
+  __PSMTXRotAxisRadInternal(m, arg2, arg2sin, arg2cos);
+}

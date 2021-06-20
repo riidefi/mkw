@@ -37,7 +37,9 @@ u32 PSMTXInvXpose(const Mtx, Mtx);
 void PSMTXRotRad(Mtx, char, f32);
 // PAL: 0x8019a204
 void PSMTXRotTrig(Mtx, char, f32, f32);
-
+// PAL: 0x8019a2b4
+void __PSMTXRotAxisRadInternal(Mtx, const Vec*, f32, f32);
+// PAL: 0x8019a364
 void PSMTXRotAxisRad(Mtx, const Vec*, f32);
 
 // rvlMtx2.c
