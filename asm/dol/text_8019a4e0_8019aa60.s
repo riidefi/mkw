@@ -1,39 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x8019A460 - 0x8019AA60
-/* 8019A460  C0 02 98 D4 */	lfs f0, -0x672c(r2)
-/* 8019A464  D0 23 00 00 */	stfs f1, 0(r3)
-/* 8019A468  F0 03 00 04 */	psq_st f0, 4(r3), 0, qr0
-/* 8019A46C  F0 03 00 0C */	psq_st f0, 12(r3), 0, qr0
-/* 8019A470  D0 43 00 14 */	stfs f2, 0x14(r3)
-/* 8019A474  F0 03 00 18 */	psq_st f0, 24(r3), 0, qr0
-/* 8019A478  F0 03 00 20 */	psq_st f0, 32(r3), 0, qr0
-/* 8019A47C  D0 63 00 28 */	stfs f3, 0x28(r3)
-/* 8019A480  D0 03 00 2C */	stfs f0, 0x2c(r3)
-/* 8019A484  4E 80 00 20 */	blr 
-/* 8019A488  FC 20 08 18 */	frsp f1, f1
-/* 8019A48C  E0 83 00 00 */	psq_l f4, 0(r3), 0, qr0
-/* 8019A490  FC 40 10 18 */	frsp f2, f2
-/* 8019A494  E0 A3 00 08 */	psq_l f5, 8(r3), 0, qr0
-/* 8019A498  FC 60 18 18 */	frsp f3, f3
-/* 8019A49C  10 84 00 58 */	ps_muls0 f4, f4, f1
-/* 8019A4A0  E0 C3 00 10 */	psq_l f6, 16(r3), 0, qr0
-/* 8019A4A4  10 A5 00 58 */	ps_muls0 f5, f5, f1
-/* 8019A4A8  E0 E3 00 18 */	psq_l f7, 24(r3), 0, qr0
-/* 8019A4AC  10 C6 00 98 */	ps_muls0 f6, f6, f2
-/* 8019A4B0  E1 03 00 20 */	psq_l f8, 32(r3), 0, qr0
-/* 8019A4B4  F0 84 00 00 */	psq_st f4, 0(r4), 0, qr0
-/* 8019A4B8  10 E7 00 98 */	ps_muls0 f7, f7, f2
-/* 8019A4BC  E0 43 00 28 */	psq_l f2, 40(r3), 0, qr0
-/* 8019A4C0  F0 A4 00 08 */	psq_st f5, 8(r4), 0, qr0
-/* 8019A4C4  11 08 00 D8 */	ps_muls0 f8, f8, f3
-/* 8019A4C8  F0 C4 00 10 */	psq_st f6, 16(r4), 0, qr0
-/* 8019A4CC  10 42 00 D8 */	ps_muls0 f2, f2, f3
-/* 8019A4D0  F0 E4 00 18 */	psq_st f7, 24(r4), 0, qr0
-/* 8019A4D4  F1 04 00 20 */	psq_st f8, 32(r4), 0, qr0
-/* 8019A4D8  F0 44 00 28 */	psq_st f2, 40(r4), 0, qr0
-/* 8019A4DC  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x8019A4E0 - 0x8019AA60
 /* 8019A4E0  E0 84 00 00 */	psq_l f4, 0(r4), 0, qr0
 /* 8019A4E4  E0 A4 00 08 */	psq_l f5, 8(r4), 0, qr0
 /* 8019A4E8  10 C4 01 32 */	ps_mul f6, f4, f4

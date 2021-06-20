@@ -483,3 +483,46 @@ asm void PSMTXTransApply(const register Mtx in, register Mtx out,
   psq_st fp8, 40(out), 0, 0;
   blr;
 }
+
+void PSMTXScale(register Mtx m, register f32 _x, register f32 _y,
+                register f32 _z) {
+  register f32 vv0 = 0.0F;
+  asm
+  {
+    stfs _x, 0(m);
+    psq_st vv0, 4(m), 0, 0;
+    psq_st vv0, 12(m), 0, 0;
+    stfs _y, 20(m);
+    psq_st vv0, 24(m), 0, 0;
+    psq_st vv0, 32(m), 0, 0;
+    stfs _z, 40(m);
+    stfs vv0, 44(m);
+  }
+}
+
+asm void PSMTXScaleApply(const register Mtx in, register Mtx out,
+                         register f32 _x, register f32 _y, register f32 _z) {
+  nofralloc;
+  frsp _x, _x;
+  psq_l fp4, 0(in), 0, 0;
+  frsp _y, _y;
+  psq_l fp5, 8(in), 0, 0;
+  frsp _z, _z;
+  ps_muls0 fp4, fp4, _x;
+  psq_l fp6, 16(in), 0, 0;
+  ps_muls0 fp5, fp5, _x;
+  psq_l fp7, 24(in), 0, 0;
+  ps_muls0 fp6, fp6, _y;
+  psq_l fp8, 32(in), 0, 0;
+  psq_st fp4, 0(out), 0, 0;
+  ps_muls0 fp7, fp7, _y;
+  psq_l fp2, 40(in), 0, 0;
+  psq_st fp5, 8(out), 0, 0;
+  ps_muls0 fp8, fp8, _z;
+  psq_st fp6, 16(out), 0, 0;
+  ps_muls0 fp2, fp2, _z;
+  psq_st fp7, 24(out), 0, 0;
+  psq_st fp8, 32(out), 0, 0;
+  psq_st fp2, 40(out), 0, 0;
+  blr;
+}
