@@ -2,8 +2,16 @@
 
 #include <rk_types.h>
 
+#include "rvl/mtx/mtx.h"
+
 namespace nw4r {
 namespace math {
+
+struct _VEC3 {
+  f32 x;
+  f32 y;
+  f32 z;
+};
 
 struct _MTX33 {
   union {
@@ -34,8 +42,20 @@ struct _MTX44 {
 };
 
 // forward decls
+struct VEC3;
 struct MTX34;
 struct MTX44;
+
+struct VEC3 : public _VEC3 {
+public:
+  VEC3() {}
+
+  operator f32*() { return &x; }
+  operator const f32*() const { return &x; }
+
+  operator Vec*() { return (Vec*)&x; }
+  operator const Vec*() const { return (const Vec*)&x; }
+};
 
 class MTX33 : public _MTX33 {
 public:
@@ -59,12 +79,38 @@ public:
   operator const f32*() const { return &_00; }
 };
 
+struct MTX34 : public _MTX34
+{
+public:
+  typedef const f32 (*ConstMtxPtr)[4];
+public:
+  MTX34() {}
+
+  operator f32*() { return &_00; }
+  operator const f32*() const { return &_00; }
+
+  operator MtxPtr() { return (MtxPtr)&_00; }
+  operator ConstMtxPtr() const { return (ConstMtxPtr)&_00; }
+};
+
 // PAL: 0x80085600
-MTX33* MTX33Identity(MTX33* pOut);
+MTX33* MTX33Identity(MTX33*);
 // PAL: 0x80085630
-MTX33* MTX34ToMTX33(MTX33* pOut, const MTX34* pM);
+MTX33* MTX34ToMTX33(MTX33*, const MTX34*);
 // PAL: 0x80085670
-u32 MTX34InvTranspose(MTX33* pOut, const MTX34* p);
+u32 MTX34InvTranspose(MTX33*, const MTX34*);
+// PAL: 0x80085740
+MTX34* MTX34Zero(MTX34*);
+// PAL: 0x80085760
+MTX34* MTX34Mult(MTX34*, const MTX34*, f32);
+// PAL: 0x800857b0
+MTX34* MTX34Scale(MTX34*, const MTX34*, const VEC3*);
+// PAL: 0x80085810
+MTX34* MTX34Trans(MTX34*, const MTX34*, const VEC3*);
+// PAL: 0x80085880
+MTX34* MTX34MAdd(MTX34*, f32, const MTX34*, const MTX34*);
+// PAL: 0x80085900
+MTX34* MTX34RotAxisFIdx(MTX34*, const VEC3*, f32);
 
 } // namespace math
 } // namespace nw4r
