@@ -19,6 +19,8 @@ void PSMTXIdentity(Mtx);
 void PSMTXCopy(const Mtx, Mtx);
 // PAL: 0x80199d64
 void PSMTXConcat(const Mtx, const Mtx, Mtx);
+// PAL: 0x80199e30
+void PSMTXConcatArray(const Mtx, const Mtx*, Mtx*, u32);
 
 void PSMTXRotAxisRad(Mtx, const Vec*, f32);
 

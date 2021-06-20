@@ -1,9 +1,9 @@
 #include "mtx.h"
 
-static f32 Unit01[] = { 0.0f, 1.0f };
+static f32 Unit01[] = {0.0f, 1.0f};
 
 void PSMTXIdentity(register Mtx m) {
-  (void) 1.0F; // need this to force force 1 to appear first in sdata2
+  (void)1.0F; // need this to force force 1 to appear first in sdata2
   register f32 tmp0 = 0.0F;
   register f32 tmp1 = 1.0F;
   register f32 tmp2;
@@ -92,4 +92,95 @@ asm void PSMTXConcat(const register Mtx mA, const register Mtx mB,
   lfd fp31, 40(r1);
   addi r1, r1, 64;
   blr;
+}
+
+void PSMTXConcatArray(const register Mtx mtx1, const register Mtx* mtx2,
+                      register Mtx* mtx3, register u32 vv4) {
+  register f32 va0, va1, va2, va3, va4, va5;
+  register f32 vb0, vb1, vb2, vb3, vb4, vb5;
+  register f32 vd0, vd1, vd2, vd3, vd4, vd5;
+  register f32 u01;
+  register f32* u01Ptr = Unit01;
+
+  asm {
+    psq_l va0, 0(mtx1), 0, 0;
+    psq_l va1, 8(mtx1), 0, 0;
+    psq_l va2, 16(mtx1), 0, 0;
+    psq_l va3, 24(mtx1), 0, 0;
+    subi vv4, vv4, 1;
+    psq_l va4, 32(mtx1), 0, 0;
+    psq_l va5, 40(mtx1), 0, 0;
+    mtctr vv4;
+    psq_l u01, 0(u01Ptr), 0, 0;
+    psq_l vb0, 0(mtx2), 0, 0;
+    psq_l vb2, 16(mtx2), 0, 0;
+    ps_muls0 vd0, vb0, va0;
+    ps_muls0 vd2, vb0, va2;
+    ps_muls0 vd4, vb0, va4;
+    psq_l vb4, 32(mtx2), 0, 0;
+    ps_madds1 vd0, vb2, va0, vd0;
+    ps_madds1 vd2, vb2, va2, vd2;
+    ps_madds1 vd4, vb2, va4, vd4;
+    psq_l vb1, 8(mtx2), 0, 0;
+    ps_madds0 vd0, vb4, va1, vd0;
+    ps_madds0 vd2, vb4, va3, vd2;
+    ps_madds0 vd4, vb4, va5, vd4;
+    psq_l vb3, 24(mtx2), 0, 0;
+    psq_st vd0, 0(mtx3), 0, 0;
+    ps_muls0 vd1, vb1, va0;
+    ps_muls0 vd3, vb1, va2;
+    ps_muls0 vd5, vb1, va4;
+    psq_l vb5, 40(mtx2), 0, 0;
+    psq_st vd2, 16(mtx3), 0, 0;
+    ps_madds1 vd1, vb3, va0, vd1;
+    ps_madds1 vd3, vb3, va2, vd3;
+    ps_madds1 vd5, vb3, va4, vd5;
+_loop:
+    addi mtx2, mtx2, sizeof(Mtx);
+    ps_madds0 vd1, vb5, va1, vd1;
+    ps_madds0 vd3, vb5, va3, vd3;
+    ps_madds0 vd5, vb5, va5, vd5;
+    psq_l vb0, 0(mtx2), 0, 0;
+    psq_st vd4, 32(mtx3), 0, 0;
+    ps_madd vd1, u01, va1, vd1;
+    ps_madd vd3, u01, va3, vd3;
+    ps_madd vd5, u01, va5, vd5;
+    psq_l vb2, 16(mtx2), 0, 0;
+    psq_st vd1, 8(mtx3), 0, 0;
+    ps_muls0 vd0, vb0, va0;
+    ps_muls0 vd2, vb0, va2;
+    ps_muls0 vd4, vb0, va4;
+    psq_l vb4, 32(mtx2), 0, 0;
+    psq_st vd3, 24(mtx3), 0, 0;
+    ps_madds1 vd0, vb2, va0, vd0;
+    ps_madds1 vd2, vb2, va2, vd2;
+    ps_madds1 vd4, vb2, va4, vd4;
+    psq_l vb1, 8(mtx2), 0, 0;
+    psq_st vd5, 40(mtx3), 0, 0;
+    addi mtx3, mtx3, sizeof(Mtx);
+    ps_madds0 vd0, vb4, va1, vd0;
+    ps_madds0 vd2, vb4, va3, vd2;
+    ps_madds0 vd4, vb4, va5, vd4;
+    psq_l vb3, 24(mtx2), 0, 0;
+    psq_st vd0, 0(mtx3), 0, 0;
+    ps_muls0 vd1, vb1, va0;
+    ps_muls0 vd3, vb1, va2;
+    ps_muls0 vd5, vb1, va4;
+    psq_l vb5, 40(mtx2), 0, 0;
+    psq_st vd2, 16(mtx3), 0, 0;
+    ps_madds1 vd1, vb3, va0, vd1;
+    ps_madds1 vd3, vb3, va2, vd3;
+    ps_madds1 vd5, vb3, va4, vd5;
+    bdnz _loop;
+    psq_st vd4, 32(mtx3), 0, 0;
+    ps_madds0 vd1, vb5, va1, vd1;
+    ps_madds0 vd3, vb5, va3, vd3;
+    ps_madds0 vd5, vb5, va5, vd5;
+    ps_madd vd1, u01, va1, vd1;
+    ps_madd vd3, u01, va3, vd3;
+    ps_madd vd5, u01, va5, vd5;
+    psq_st vd1, 8(mtx3), 0, 0;
+    psq_st vd3, 24(mtx3), 0, 0;
+    psq_st vd5, 40(mtx3), 0, 0;
+  }
 }
