@@ -164,7 +164,7 @@ public:
   //!
   //! @return 	this
   //!
-  Heap(rvlHeap* heapHandle);
+  Heap(MEMiHeapHead* heapHandle);
 
   //! @brief   	Allocate a block of memory in a heap.
   //!
@@ -257,7 +257,7 @@ public:
     nw4r::ut::List_Remove(&mChildren, disposer);
   }
 
-  inline rvlHeap* getHeapHandle() { return mHeapHandle; }
+  inline MEMiHeapHead* getHeapHandle() { return mHeapHandle; }
 
   static inline Heap* getCurrentHeap() { return sCurrentHeap; }
 
@@ -265,7 +265,7 @@ public:
 #ifdef RII_CLIENT
     return 0;
 #else
-    return mHeapHandle->arena_end;
+    return (int) mHeapHandle->arena_end;
 #endif
   }
 };

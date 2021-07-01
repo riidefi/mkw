@@ -32,8 +32,8 @@ u16 MEMGetGroupIDForMBlockExpHeap(void* block);
 
 u32 MEMAdjustExpHeap(MEMHeapHandle heap);
 
-
-void MEMInitAllocatorForExpHeap(MEMAllocator* allocator, MEMHeapHandle heap, int align);
+void MEMInitAllocatorForExpHeap(MEMAllocator* allocator, MEMHeapHandle heap,
+                                int align);
 
 #ifdef __cplusplus
 }

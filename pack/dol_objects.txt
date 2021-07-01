@@ -16,7 +16,11 @@ out\dol\text_800ccc80_80124500.o
 out\dol\data_80275758_8027e708.o
 out\dol\sdata_80384c00_803857f0.o
 out\rvlArchive.o
-out\dol\text_80124e80_80199bf0.o
+out\dol\text_80124e80_801981ec.o
+out\dol\bss_802a4080_80346cf0.o
+out\dol\sbss_803862b0_80386838.o
+out\rvlMemHeap.o
+out\dol\text_801984ec_80199bf0.o
 out\rvlMemList.o
 out\dol\sdata_803857f6_80385a08.o
 out\dol\sdata2_80387eb4_80388870.o
@@ -29,8 +33,8 @@ out\rvlQuat.o
 out\dol\text_8019b178_8020f62c.o
 out\dol\data_8027e772_802a2668.o
 out\eggAllocator.o
-out\dol\bss_802a4080_803832d8.o
-out\dol\sbss_803862b0_80386d80.o
+out\dol\bss_80346d18_803832d8.o
+out\dol\sbss_8038683c_80386d80.o
 out\eggArchive.o
 out\dol\text_8020fcc4_8021a0f0.o
 out\dol\data_802a268c_802a2b48.o

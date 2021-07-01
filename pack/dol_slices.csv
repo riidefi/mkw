@@ -5,6 +5,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,source/dwc/common/dwc_error.c,,,,,,,0x800CCB4C,0x800CCC80,,,,,,,0x80275700,0x80275758,,,,,0x803862A8,0x803862B0,,,,
 1,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,rxFrameHeap.c,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,
+1,source/rvl/mem/rvlMemHeap.c,,,,,,,0x801981ec,0x801984ec,,,,,,,,,0x80346cf0,0x80346d18,,,0x80386838,0x8038683C,,,,
 1,source/rvl/mem/rvlMemList.c,,,,,,,0x80199BF0,0x80199D04,,,,,,,,,,,,,,,,,,
 1,source/rvl/mtx/rvlMtx.c,,,,,,,0x80199d04,0x8019a9c4,,,,,,,,,,,0x80385a08,0x80385a10,,,0x80388870,0x80388890,,
 1,source/rvl/mtx/rvlMtx2.c,,,,,,,0x8019a9c4,0x8019abe4,,,,,,,,,,,,,,,0x80388890,0x803888a8,,
