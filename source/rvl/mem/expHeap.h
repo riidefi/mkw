@@ -45,10 +45,17 @@ struct MEMiExpHeapHead {
   } feature;
 };
 
+typedef struct MEM_Extent {
+  void* start;
+  void* end;
+} MEM_Extent;
+
 // PAL: 0x8019899c
 void* MEM_AllocFromHead(MEMiHeapHead*, u32, int);
 // PAL: 0x80198a78
 void* MEM_AllocFromTail(MEMiHeapHead*, u32, int);
+// PAL: 0x80198b40
+u32 MEM_RecycleRegion(MEMiExpHeapHead*, const MEM_Extent*);
 
 MEMHeapHandle MEMCreateExpHeapEx(void* begin, u32 size, u16 flags);
 

@@ -1,5 +1,6 @@
 #include "expHeap.h"
 
+#include <stdbool.h>
 #include <string.h>
 
 // ceil() for 2^x aligned
@@ -15,11 +16,6 @@ static inline void MEM_BlockZero(MEMiHeapHead* pHeapHd, void* address,
     (void)memset(address, 0, size);
   }
 }
-
-typedef struct MEM_Extent {
-  void* start;
-  void* end;
-} MEM_Extent;
 
 // These computations have to be inlined for an exact match.
 static inline u32 cast_ptr_u32(const void* ptr) { return (u32)(ptr); }
@@ -203,4 +199,60 @@ void* MEM_AllocFromTail(MEMiHeapHead* heap, u32 size, int alignment) {
     return NULL;
   // Mark block as used.
   return MEM_AllocNewBlock(expHeap, resExpBlock, resMemBlock, size, 1);
+}
+
+static inline MEMiExpHeapMBlockHead*
+MEM_RemoveBlock(MEMiExpMBlockList* list, MEMiExpHeapMBlockHead* block) {
+  MEMiExpHeapMBlockHead* const prev = block->prev;
+  MEMiExpHeapMBlockHead* const next = block->next;
+
+  if (prev)
+    prev->next = next;
+  else
+    list->head = next;
+  if (next)
+    next->prev = prev;
+  else
+    list->tail = prev;
+  return prev;
+}
+
+static inline void* GetMemPtrForMBlock_(MEMiExpHeapMBlockHead* pMBlkHd) {
+  return (void*)((u32)pMBlkHd + sizeof(MEMiExpHeapMBlockHead));
+}
+
+static inline void* GetMBlockEndAddr_(MEMiExpHeapMBlockHead* pMBHead) {
+  u32 a = (u32)GetMemPtrForMBlock_(pMBHead);
+  u32 b = pMBHead->blockSize;
+  return (void*)(a + b);
+}
+
+static inline MEMiHeapHead*
+GetHeapHeadPtrFromExpHeapHead_(MEMiExpHeapHead* pEHHead) {
+  return (MEMiHeapHead*)ptr_sub(pEHHead, sizeof(MEMiHeapHead));
+}
+
+u32 MEM_RecycleRegion(MEMiExpHeapHead* expHeap, const MEM_Extent* ext) {
+  MEMiExpHeapMBlockHead* blockFree = NULL;
+  MEM_Extent extFree = *ext;
+  MEMiExpHeapMBlockHead* block;
+  for (block = expHeap->freeList.head; block; block = block->next) {
+    if (block < ext->start) {
+      blockFree = block;
+      continue;
+    }
+    if (block == ext->end) {
+      extFree.end = (void*)((u32)block + 0x10 + block->blockSize);
+      MEM_RemoveBlock(&expHeap->freeList, block);
+    }
+    break;
+  }
+  if (blockFree && GetMBlockEndAddr_(blockFree) == ext->start) {
+    extFree.start = blockFree;
+    blockFree = MEM_RemoveBlock(&expHeap->freeList, blockFree);
+  }
+  if (ptr_diff(extFree.start, extFree.end) < sizeof(MEMiExpHeapMBlockHead))
+    return false;
+  MEM_BlockInsert(&expHeap->freeList, MEM_BlockInit(&extFree, 'FR'), blockFree);
+  return true;
 }
