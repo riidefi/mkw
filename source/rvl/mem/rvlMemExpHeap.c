@@ -256,3 +256,38 @@ u32 MEM_RecycleRegion(MEMiExpHeapHead* expHeap, const MEM_Extent* ext) {
   MEM_BlockInsert(&expHeap->freeList, MEM_BlockInit(&extFree, 'FR'), blockFree);
   return true;
 }
+
+// TODO Decompile this
+void MEMiInitHeapHead(MEMiHeapHead*, u32, void*, void*, u16);
+
+static inline MEMiHeapHead* MEM_ExpHeapInit(void* begin, void* end, u16 flags) {
+  MEMiHeapHead* heap = (MEMiHeapHead*)begin;
+  MEMiExpHeapHead* expHeap =
+      (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+  MEMiInitHeapHead(heap, 'EXPH', ptr_add(expHeap, sizeof(MEMiExpHeapHead)), end,
+                   flags);
+  expHeap->groupID = 0;
+  expHeap->feature.val = 0;
+  expHeap->feature.fields.allocMode = 0;
+  {
+    MEMiExpHeapMBlockHead* block;
+    MEM_Extent region;
+    region.start = heap->arena_start;
+    region.end = heap->arena_end;
+    block = MEM_BlockInit(&region, 'FR');
+    expHeap->freeList.head = block;
+    expHeap->freeList.tail = block;
+    expHeap->usedList.head = NULL;
+    expHeap->usedList.tail = NULL;
+    return heap;
+  }
+}
+
+MEMHeapHandle MEMCreateExpHeapEx(void* addr, u32 size, u16 flags) {
+  void* end = fastfloor_ptr(ptr_add(addr, size), 4);
+  addr = fastceil_ptr(addr, 4);
+  if ((u32)addr > (u32)end || ptr_diff(addr, end) < 0x64) {
+    return NULL;
+  }
+  return MEM_ExpHeapInit(addr, end, flags);
+}
