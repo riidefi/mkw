@@ -64,3 +64,7 @@ void MEMiFinalizeHeap(MEMiHeapHead* heap) {
   OSUnlockMutex(&MEM_GlobalLock);
   heap->_unk00 = 0;
 }
+
+MEMHeapHandle MEMFindContainHeap(const void* arena) {
+  return MEM_FindHeap(&MEM_RootList, arena);
+}
