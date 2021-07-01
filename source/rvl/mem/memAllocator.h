@@ -18,11 +18,11 @@ typedef struct MEMiHeapHead MEMiHeapHead;
 
 struct MEMiHeapHead {
   u32 _unk00;        // 0x00
-  MEMLink link;      // 0x04 (?)
-  MEMList list;      // 0x0c (?)
+  MEMLink link;      // 0x04
+  MEMList list;      // 0x0c
   void* arena_start; // 0x18
   void* arena_end;   // 0x1C
-  OSMutex mutex;     // 0x20 TODO make this OSMutex
+  OSMutex mutex;     // 0x20
   // No idea what this is.
   union {
     u32 val; // 0x38

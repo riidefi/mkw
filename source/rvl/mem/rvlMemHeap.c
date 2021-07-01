@@ -57,3 +57,10 @@ void MEMiInitHeapHead(MEMiHeapHead* heap, u32 arg2, void* start, void* end,
   MEMAppendListObject(MEM_FindHeapList(heap), heap);
   OSUnlockMutex(&MEM_GlobalLock);
 }
+
+void MEMiFinalizeHeap(MEMiHeapHead* heap) {
+  OSLockMutex(&MEM_GlobalLock);
+  MEMRemoveListObject(MEM_FindHeapList(heap), heap);
+  OSUnlockMutex(&MEM_GlobalLock);
+  heap->_unk00 = 0;
+}
