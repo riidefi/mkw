@@ -10,9 +10,9 @@ extern "C" {
 #endif
 
 #ifndef RII_CLIENT
-struct MEMAllocator {
+typedef struct MEMAllocator {
   char _[0x10];
-};
+} MEMAllocator;
 
 typedef struct MEMiHeapHead MEMiHeapHead;
 

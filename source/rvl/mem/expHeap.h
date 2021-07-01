@@ -1,10 +1,54 @@
 #pragma once
 
-#include <rvl/mem/memAllocator.h>
+#include "memAllocator.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
+
+// MEMiExpHeapMBlockHead is the heap block header.
+typedef struct MEMiExpHeapMBlockHead MEMiExpHeapMBlockHead;
+struct MEMiExpHeapMBlockHead {
+  u16 signature; // 0x00
+  union {
+    u16 val; // 0x02
+    struct {
+      u16 dir : 1; // 0x02
+      u16 alignment : 7;
+      u16 groupID : 8; // 0x03
+    } fields;
+  } attribute;
+  u32 blockSize;               // 0x04
+  MEMiExpHeapMBlockHead* prev; // 0x08
+  MEMiExpHeapMBlockHead* next; // 0x0C
+};
+
+// MEMiExpMBlockList is the header of the free/used blocks double-linked list.
+typedef struct MEMiExpMBlockList MEMiExpMBlockList;
+struct MEMiExpMBlockList {
+  MEMiExpHeapMBlockHead* head;
+  MEMiExpHeapMBlockHead* tail;
+};
+
+// MEMiExpHeapHead is the extended heap header.
+typedef struct MEMiExpHeapHead MEMiExpHeapHead;
+struct MEMiExpHeapHead {
+  MEMiExpMBlockList freeList;
+  MEMiExpMBlockList usedList;
+  u16 groupID;
+  union {
+    u16 val;
+    struct {
+      u16 _unk0_15 : 15;
+      u16 allocMode : 1;
+    } fields;
+  } feature;
+};
+
+// PAL: 0x8019899c
+void* MEM_AllocFromHead(MEMiHeapHead*, u32, int);
+// PAL: 0x80198a78
+void* MEM_AllocFromTail(MEMiHeapHead*, u32, int);
 
 MEMHeapHandle MEMCreateExpHeapEx(void* begin, u32 size, u16 flags);
 

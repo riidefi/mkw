@@ -77,7 +77,6 @@ OSCancelThread=0x801AA1D4;
 onExit__Q23EGG6ThreadFv=0x80008E7C;
 onEnter__Q23EGG6ThreadFv=0x80008E80;
 OSGetCurrentThread=0x801A98B0;
-MEMFindContainHeap=0x80198658;
 
 DVDReadPrio=0x8015E834;
 DVDOpen=0x8015E2BC;
