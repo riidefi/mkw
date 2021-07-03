@@ -39,3 +39,46 @@ MEMHeapHandle MEMCreateUnitHeapEx(void* start, u32 heapSize, u32 memBlockSize,
 
   return heap;
 }
+
+void* MEMDestroyUnitHeap(MEMHeapHandle heap) {
+  MEMiFinalizeHeap(heap);
+  return (void*)heap;
+}
+
+void* MEMAllocFromUnitHeap(MEMHeapHandle heap) {
+  MEMiUntHeapHead* unitHeap =
+      (MEMiUntHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+  
+  // Pop the current block and set linked list head to next block.
+  MEMiUntHeapMBlockHead* block = unitHeap->free_list;
+  if (block)
+    unitHeap->free_list = block->succ;
+  
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+  
+  if (block)
+    MEM_BlockZero(heap, block, unitHeap->unit_size);
+  return block;
+}
+
+void MEMFreeToUnitHeap(MEMHeapHandle heap, void* addr) {
+  if (addr == NULL)
+    return;
+  
+  MEMiUntHeapHead* unitHeap =
+      (MEMiUntHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+  
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+  
+  MEMiUntHeapMBlockHead* block = (MEMiUntHeapMBlockHead*)addr;
+  block->succ = unitHeap->free_list;
+  unitHeap->free_list = block;
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+}
