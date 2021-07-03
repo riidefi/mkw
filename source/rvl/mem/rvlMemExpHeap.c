@@ -259,9 +259,21 @@ void* MEMAllocFromExpHeapEx(MEMHeapHandle heap, u32 size, int dir) {
   return memory;
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// TODO: Move to OS
+u32 OSDisableInterrupts(void);
+u32 OSEnableInterrupts(void);
+u32 OSRestoreInterrupts(u32 level);
+
 // Referenced by assembly.
 void _restgpr_26();
 void _savegpr_26();
+#ifdef __cplusplus
+}
+#endif
 
 asm u32 MEMResizeForMBlockExpHeap(MEMHeapHandle heap, void* addr, u32 size) {
   nofralloc;
@@ -509,10 +521,6 @@ u32 MEMGetAllocatableSizeForExpHeapEx(MEMHeapHandle heap, s32 alignment) {
     return maxSize;
   }
 }
-
-u32 OSDisableInterrupts(void);
-u32 OSEnableInterrupts(void);
-u32 OSRestoreInterrupts(u32 level);
 
 u16 MEMSetGroupIDForExpHeap(MEMHeapHandle heap, u16 groupID) {
   u32 interrupts = OSDisableInterrupts();
