@@ -38,7 +38,7 @@ class Slice:
 
 
 # Limitation: slices must be ordered
-def read_slices(name):
+def read_slices(name, verbose=True):
     lines = open(name).readlines()
     reader = csv.DictReader(lines)
     for row in reader:
@@ -69,7 +69,8 @@ def read_slices(name):
             elif seg_type == "End":
                 segments[seg_name].end = int(value, 16)
 
-        print("#### %s %s" % (name, segments))
+        if verbose:
+            print("#### %s %s" % (name, segments))
         yield Slice(name, segments)
 
 

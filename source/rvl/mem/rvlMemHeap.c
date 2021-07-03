@@ -45,7 +45,7 @@ void MEMiInitHeapHead(MEMiHeapHead* heap, u32 arg2, void* start, void* end,
   heap->arena_start = start;
   heap->arena_end = end;
   heap->_unk38.val = 0;
-  heap->_unk38.parts._24_32 = (u8)flags;
+  heap->_unk38.parts.flags = (u8)flags;
   MEMInitList(&heap->list, 0x4);
   if (!MEM_RootListInitialized) {
     MEMInitList(&MEM_RootList, 0x4);

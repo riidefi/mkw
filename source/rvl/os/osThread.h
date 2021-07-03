@@ -40,7 +40,7 @@ void OSDetachThread(OSThread*);
 int OSIsThreadTerminated(OSThread*);
 OSThread* OSGetCurrentThread();
 
-typedef void (*OSSwitchFunction)(OSThread* t1, OSThread* t2);
+typedef void (*OSSwitchFunction)(OSThread*, OSThread*);
 OSSwitchFunction OSSetSwitchThreadCallback(OSSwitchFunction callable);
 
 void OSInitMessageQueue(OSMessageQueue* queue, OSMessage* buffer, s32 capacity);

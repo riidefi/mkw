@@ -58,14 +58,14 @@ void* MEM_AllocFromTail(MEMiHeapHead*, u32, int);
 u32 MEM_RecycleRegion(MEMiExpHeapHead*, const MEM_Extent*);
 // PAL: 0x80198ca8
 MEMHeapHandle MEMCreateExpHeapEx(void* begin, u32 size, u16 flags);
-
-void* MEMDestroyExpHeap(MEMHeapHandle heap);
-
+// PAL: 0x80198d58
+void* MEMDestroyExpHeap(MEMHeapHandle);
+// PAL: 0x80198d88
 void* MEMAllocFromExpHeapEx(MEMHeapHandle heap, u32 size, int align);
+// PAL: 80198e38
+u32 MEMResizeForMBlockExpHeap(MEMHeapHandle heap, void* block, u32 size);
 
 void MEMFreeToExpHeap(MEMHeapHandle heap, void* block);
-
-u32 MEMResizeForMBlockExpHeap(MEMHeapHandle heap, void* block, u32 size);
 
 u32 MEMGetTotalFreeSizeForExpHeap(MEMHeapHandle heap);
 u32 MEMGetAllocatableSizeForExpHeapEx(MEMHeapHandle heap, int align);

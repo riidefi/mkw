@@ -101,8 +101,6 @@ AllocatorAllocForUnitHeap_= 0x80199B70;
 AllocatorFreeForUnitHeap_= 0x80199B90;
 MEMInitAllocatorForUnitHeap= 0x80199BD4;
 
-MEMDestroyExpHeap = 0x80198D58;
-MEMAllocFromExpHeapEx = 0x80198D88;
 MEMResizeForMBlockExpHeap = 0x80198E38;
 MEMFreeToExpHeap = 0x80199038;
 MEMGetTotalFreeSizeForExpHeap = 0x80199104;

@@ -28,7 +28,7 @@ struct MEMiHeapHead {
     u32 val; // 0x38
     struct {
       u32 _0_24 : 24; // 0x38
-      u32 _24_32 : 8; // 0x38
+      u32 flags : 8;  // 0x38
     } parts;
   } _unk38;
 };
