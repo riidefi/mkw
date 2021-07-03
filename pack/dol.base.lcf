@@ -62,6 +62,10 @@ CXGetUncompressedSize=0x8015C2E0;
 
 OSPanic=0x801A2660;
 
+OSDisableInterrupts=0x801A65AC;
+OSEnableInterrupts=0x801A65C0;
+OSRestoreInterrupts=0x801A65D4;
+
 OSInitMutex=0x801A7EAC;
 
 OSLockMutex=0x801A7EE4;
@@ -101,9 +105,6 @@ AllocatorAllocForUnitHeap_= 0x80199B70;
 AllocatorFreeForUnitHeap_= 0x80199B90;
 MEMInitAllocatorForUnitHeap= 0x80199BD4;
 
-MEMResizeForMBlockExpHeap = 0x80198E38;
-MEMFreeToExpHeap = 0x80199038;
-MEMGetTotalFreeSizeForExpHeap = 0x80199104;
 MEMGetAllocatableSizeForExpHeapEx = 0x80199180;
 MEMSetGroupIDForExpHeap = 0x80199258;
 MEMVisitAllocatedForExpHeap = 0x801992A8;

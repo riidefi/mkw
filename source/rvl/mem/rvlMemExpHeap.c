@@ -3,6 +3,7 @@
 #include "heap.h"
 
 #include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 
 // ceil() for 2^x aligned
@@ -479,7 +480,8 @@ void MEMFreeToExpHeap(MEMHeapHandle heap, void* addr) {
     OSUnlockMutex(&heap->mutex);
 }
 
-// MEMGetTotalFreeSizeForExpHeap returns the total amount of free space on the heap.
+// MEMGetTotalFreeSizeForExpHeap returns the total amount of free space on the
+// heap.
 u32 MEMGetTotalFreeSizeForExpHeap(MEMHeapHandle heap) {
   u32 ret = 0;
 
@@ -497,4 +499,59 @@ u32 MEMGetTotalFreeSizeForExpHeap(MEMHeapHandle heap) {
     OSUnlockMutex(&heap->mutex);
 
   return ret;
+}
+
+static inline void* GetMemPtrForMBlock_(MEMiExpHeapMBlockHead* pMBlkHd) {
+  return ptr_add(pMBlkHd, sizeof(MEMiExpHeapMBlockHead));
+}
+
+static inline void* GetMBlockEndAddr_(MEMiExpHeapMBlockHead* pMBHead) {
+  return ptr_add(GetMemPtrForMBlock_(pMBHead), pMBHead->blockSize);
+}
+
+u32 MEMGetAllocatableSizeForExpHeapEx(MEMHeapHandle heap, s32 alignment) {
+  alignment = abs(alignment);
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
+  {
+    MEMiExpHeapHead* expHeap =
+        (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+    MEMiExpHeapMBlockHead* pMBlkHd;
+    u32 maxSize = 0;
+    u32 offsetMin = 0xFFFFFFFF;
+
+    for (pMBlkHd = expHeap->freeList.head; pMBlkHd; pMBlkHd = pMBlkHd->next) {
+      void* baseAddress = fastceil_ptr(GetMemPtrForMBlock_(pMBlkHd), alignment);
+      if ((u32)(baseAddress) < (u32)(GetMBlockEndAddr_(pMBlkHd))) {
+        const u32 blockSize = ptr_diff(baseAddress, GetMBlockEndAddr_(pMBlkHd));
+        const u32 offset = ptr_diff(GetMemPtrForMBlock_(pMBlkHd), baseAddress);
+        if (maxSize < blockSize ||
+            (maxSize == blockSize && offsetMin > offset)) {
+          maxSize = blockSize;
+          offsetMin = offset;
+        }
+      }
+    }
+
+    if (((u16)heap->_unk38.parts.flags) & 0x04)
+      OSUnlockMutex(&heap->mutex);
+
+    return maxSize;
+  }
+}
+
+u32 OSDisableInterrupts(void);
+u32 OSEnableInterrupts(void);
+u32 OSRestoreInterrupts(u32 level);
+
+u16 MEMSetGroupIDForExpHeap(MEMHeapHandle heap, u16 groupID) {
+  u32 interrupts = OSDisableInterrupts();
+  MEMiExpHeapHead* expHeap =
+      (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+  u16 old = expHeap->groupID;
+  expHeap->groupID = groupID;
+  OSRestoreInterrupts(interrupts);
+  return old;
 }
