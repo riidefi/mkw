@@ -153,24 +153,55 @@ int MEMRecordStateForFrmHeap(MEMHeapHandle heap, u32 tag) {
 
   MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
   void* oldHeadAllocator = frmHeap->head;
-
-  MEMiFrmHeapState* pState = (MEMiFrmHeapState*)MEM_FrmAllocFromHead(
+  MEMiFrmHeapState* state = (MEMiFrmHeapState*)MEM_FrmAllocFromHead(
       frmHeap, sizeof(MEMiFrmHeapState), 4);
 
-  if (!pState) {
+  if (!state) {
     ret = false;
     goto ret_;
   }
 
-  pState->tag = tag;
-  pState->head = oldHeadAllocator;
-  pState->tail = frmHeap->tail;
-  pState->state = frmHeap->state;
-
-  frmHeap->state = pState;
+  state->tag = tag;
+  state->head = oldHeadAllocator;
+  state->tail = frmHeap->tail;
+  state->state = frmHeap->state;
+  frmHeap->state = state;
   ret = true;
-ret_:
 
+ret_:
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+
+  return ret;
+}
+
+int MEMFreeByStateToFrmHeap(MEMHeapHandle heap, u32 tag) {
+  int ret;
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
+  MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
+  MEMiFrmHeapState* state = frmHeap->state;
+
+  if (tag != 0)
+    for (; state; state = state->state)
+      if (state->tag == tag)
+        break;
+
+  if (!state) {
+    ret = false;
+    goto ret_;
+  }
+
+  void* oldHeadAllocator = frmHeap->head;
+  void* oldTailAllocator = frmHeap->tail;
+  frmHeap->head = state->head;
+  frmHeap->tail = state->tail;
+  frmHeap->state = state->state;
+  ret = true;
+
+ret_:
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSUnlockMutex(&heap->mutex);
 

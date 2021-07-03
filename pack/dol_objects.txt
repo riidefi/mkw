@@ -22,7 +22,7 @@ out\dol\sbss_803862b0_80386838.o
 out\rvlMemHeap.o
 out\rvlMemExpHeap.o
 out\rvlMemFrmHeap.o
-out\dol\text_801997f0_80199bf0.o
+out\dol\text_801998a4_80199bf0.o
 out\rvlMemList.o
 out\dol\sdata_803857f6_80385a08.o
 out\dol\sdata2_80387eb4_80388870.o
