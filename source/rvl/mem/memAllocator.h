@@ -10,9 +10,24 @@ extern "C" {
 #endif
 
 #ifndef RII_CLIENT
-typedef struct MEMAllocator {
-  char _[0x10];
-} MEMAllocator;
+
+typedef struct MEMAllocator MEMAllocator;
+
+typedef void* (*MEMFuncAllocatorAlloc)(MEMAllocator*, u32);
+typedef void (*MEMFuncAllocatorFree)(MEMAllocator*, void*);
+
+typedef struct MEMAllocatorFunc MEMAllocatorFunc;
+struct MEMAllocatorFunc {
+  MEMFuncAllocatorAlloc alloc; // 0x00
+  MEMFuncAllocatorFree free;   // 0x04
+};
+
+struct MEMAllocator {
+  MEMAllocatorFunc* func; // 0x00
+  void* heap;             // 0x04
+  u32 _unk08;             // 0x08
+  u32 _unk0C;             // 0x0C
+};
 
 typedef struct MEMiHeapHead MEMiHeapHead;
 
@@ -34,6 +49,9 @@ struct MEMiHeapHead {
 };
 
 typedef MEMiHeapHead* MEMHeapHandle;
+
+// PAL: 0x80199b58
+void* MEM_AllocForExpHeap_(MEMAllocator* alloc, u32 size);
 
 MEMiHeapHead* MEMFindContainHeap(const void*);
 

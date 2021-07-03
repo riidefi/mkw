@@ -23,7 +23,8 @@ out\rvlMemHeap.o
 out\rvlMemExpHeap.o
 out\rvlMemFrmHeap.o
 out\rvlMemUnitHeap.o
-out\dol\text_80199b58_80199bf0.o
+out\rvlMemAllocator.o
+out\dol\text_80199b68_80199bf0.o
 out\rvlMemList.o
 out\dol\sdata_803857f6_80385a08.o
 out\dol\sdata2_80387eb4_80388870.o
