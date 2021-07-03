@@ -98,3 +98,28 @@ void* MEMAllocFromFrmHeapEx(MEMHeapHandle heap, u32 size, int alignment) {
 
   return memory;
 }
+
+static inline void MEM_FrmFreeHead(MEMiHeapHead* heap) {
+  MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
+  frmHeap->head = heap->arena_start;
+  frmHeap->state = NULL;
+}
+
+static inline void MEM_FrmFreeTail(MEMiHeapHead* heap) {
+  MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
+  MEMiFrmHeapState* state;
+  for (state = frmHeap->state; state; state = state->state)
+    state->tail = heap->arena_end;
+  frmHeap->tail = heap->arena_end;
+}
+
+void MEMFreeToFrmHeap(MEMHeapHandle heap, int mode) {
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+  if (mode & 1)
+    MEM_FrmFreeHead(heap);
+  if (mode & 2)
+    MEM_FrmFreeTail(heap);
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+}

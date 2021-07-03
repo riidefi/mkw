@@ -27,6 +27,8 @@ MEMHeapHandle MEMCreateFrmHeapEx(void* start, u32 size, u16 flags);
 void* MEMDestroyFrmHeap(MEMHeapHandle);
 // PAL: 0x801994e4
 void* MEMAllocFromFrmHeapEx(MEMHeapHandle heap, u32 size, int align);
+// PAL: 0x80199604
+void MEMFreeToFrmHeap(MEMHeapHandle, int);
 
 #ifdef __cplusplus
 }
