@@ -515,12 +515,12 @@ u32 MEMGetAllocatableSizeForExpHeapEx(MEMHeapHandle heap, s32 alignment) {
     u32 offsetMin = 0xFFFFFFFF;
 
     for (block = expHeap->freeList.head; block; block = block->next) {
-      void *blockAddress1 = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
+      void* blockAddress1 = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
       void* baseAddress = fastceil_ptr(blockAddress1, alignment);
-      void *endAddress1 = ptr_add(blockAddress1, block->blockSize);
+      void* endAddress1 = ptr_add(blockAddress1, block->blockSize);
       if ((u32)(baseAddress) < (u32)(endAddress1)) {
-        void *blockAddress2 = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
-        void *endAddress2 = ptr_add(blockAddress2, block->blockSize);
+        void* blockAddress2 = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
+        void* endAddress2 = ptr_add(blockAddress2, block->blockSize);
         const u32 blockSize = ptr_diff(baseAddress, endAddress2);
         const u32 offset = ptr_diff(blockAddress2, baseAddress);
         if (maxSize < blockSize ||
@@ -552,7 +552,7 @@ u16 MEMSetGroupIDForExpHeap(MEMHeapHandle heap, u16 groupID) {
   return old;
 }
 
-void MEMVisitAllocatedForExpHeap(MEMHeapHandle heap, MEMHeapVisitor visitor,
+void MEMVisitAllocatedForExpHeap(MEMHeapHandle heap, MEMExpHeapVisitor visitor,
                                  u32 userParam) {
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSLockMutex(&heap->mutex);
@@ -562,11 +562,23 @@ void MEMVisitAllocatedForExpHeap(MEMHeapHandle heap, MEMHeapVisitor visitor,
   MEMiExpHeapMBlockHead* block = expHeap->usedList.head;
   while (block) {
     MEMiExpHeapMBlockHead* next = block->next;
-    void *blockAddr = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
+    void* blockAddr = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
     (*visitor)(blockAddr, heap, userParam);
     block = next;
   }
 
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSUnlockMutex(&heap->mutex);
+}
+
+u32 MEMGetSizeForMBlockExpHeap(const void* addr) {
+  const MEMiExpHeapMBlockHead* block =
+      (const MEMiExpHeapMBlockHead*)((u32)addr - sizeof(MEMiExpHeapMBlockHead));
+  return block->blockSize;
+}
+
+u16 MEMGetGroupIDForMBlockExpHeap(const void* data) {
+  MEMiExpHeapMBlockHead* block =
+      (MEMiExpHeapMBlockHead*)((u32)data - sizeof(MEMiExpHeapMBlockHead));
+  return block->attribute.fields.groupID;
 }

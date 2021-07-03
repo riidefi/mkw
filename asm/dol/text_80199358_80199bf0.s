@@ -1,12 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x80199344 - 0x80199BF0
-/* 80199344  80 63 FF F4 */	lwz r3, -0xc(r3)
-/* 80199348  4E 80 00 20 */	blr 
-/* 8019934C  A0 03 FF F2 */	lhz r0, -0xe(r3)
-/* 80199350  54 03 06 3E */	clrlwi r3, r0, 0x18
-/* 80199354  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x80199358 - 0x80199BF0
 /* 80199358  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 8019935C  7C 08 02 A6 */	mflr r0
 /* 80199360  90 01 00 14 */	stw r0, 0x14(r1)
