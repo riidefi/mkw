@@ -271,20 +271,18 @@ void* MEMAllocFromExpHeapEx(MEMHeapHandle heap, u32 size, int dir) {
   if (size == 0)
     size = 1;
   size = fastceil_u32(size, 4);
-  {
-    u16 opt = (u16)heap->_unk38.parts.flags;
-    if (opt & 0x04)
-      OSLockMutex(&heap->mutex);
-  }
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
   if (dir >= 0)
     memory = MEM_AllocFromHead(heap, size, dir);
   else
     memory = MEM_AllocFromTail(heap, size, -dir);
-  {
-    u16 opt = (u16)heap->_unk38.parts.flags;
-    if (opt & 0x04)
-      OSUnlockMutex(&heap->mutex);
-  }
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+
   return memory;
 }
 
@@ -479,4 +477,24 @@ void MEMFreeToExpHeap(MEMHeapHandle heap, void* addr) {
 
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSUnlockMutex(&heap->mutex);
+}
+
+// MEMGetTotalFreeSizeForExpHeap returns the total amount of free space on the heap.
+u32 MEMGetTotalFreeSizeForExpHeap(MEMHeapHandle heap) {
+  u32 ret = 0;
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
+  MEMiExpHeapHead* expHeap =
+      (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+  // Loop over all blocks in the heap and count along the way.
+  MEMiExpHeapMBlockHead* block;
+  for (block = expHeap->freeList.head; block; block = block->next)
+    ret += block->blockSize;
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+
+  return ret;
 }
