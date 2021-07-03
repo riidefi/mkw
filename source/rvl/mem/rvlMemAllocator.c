@@ -29,3 +29,11 @@ void MEM_FreeForUnitHeap(MEMAllocator* alloc, void* data) {
   MEMHeapHandle const heap = (MEMHeapHandle)alloc->heap;
   MEMFreeToUnitHeap(heap, data);
 }
+
+void* MEMAllocFromAllocator(MEMAllocator* alloc, u32 size) {
+  return (*alloc->func->alloc)(alloc, size);
+}
+
+void MEMFreeToAllocator(MEMAllocator* alloc, void* data) {
+  (*alloc->func->free)(alloc, data);
+}

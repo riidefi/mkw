@@ -1,15 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x80199B98 - 0x80199BF0
-/* 80199B98  80 A3 00 00 */	lwz r5, 0(r3)
-/* 80199B9C  81 85 00 00 */	lwz r12, 0(r5)
-/* 80199BA0  7D 89 03 A6 */	mtctr r12
-/* 80199BA4  4E 80 04 20 */	bctr 
-/* 80199BA8  80 A3 00 00 */	lwz r5, 0(r3)
-/* 80199BAC  81 85 00 04 */	lwz r12, 4(r5)
-/* 80199BB0  7D 89 03 A6 */	mtctr r12
-/* 80199BB4  4E 80 04 20 */	bctr 
+.section .text, "ax" # 0x80199BB8 - 0x80199BF0
 /* 80199BB8  38 C2 98 C0 */	addi r6, r2, -26432
 /* 80199BBC  38 00 00 00 */	li r0, 0
 /* 80199BC0  90 C3 00 00 */	stw r6, 0(r3)
