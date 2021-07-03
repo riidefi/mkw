@@ -21,7 +21,7 @@ out\dol\bss_802a4080_80346cf0.o
 out\dol\sbss_803862b0_80386838.o
 out\rvlMemHeap.o
 out\rvlMemExpHeap.o
-out\dol\text_80199038_80199bf0.o
+out\dol\text_80199104_80199bf0.o
 out\rvlMemList.o
 out\dol\sdata_803857f6_80385a08.o
 out\dol\sdata2_80387eb4_80388870.o

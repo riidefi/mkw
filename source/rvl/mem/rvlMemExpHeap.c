@@ -203,22 +203,6 @@ void* MEM_AllocFromTail(MEMiHeapHead* heap, u32 size, int alignment) {
   return MEM_AllocNewBlock(expHeap, resExpBlock, resMemBlock, size, 1);
 }
 
-static inline MEMiExpHeapMBlockHead*
-MEM_RemoveBlock(MEMiExpMBlockList* list, MEMiExpHeapMBlockHead* block) {
-  MEMiExpHeapMBlockHead* const prev = block->prev;
-  MEMiExpHeapMBlockHead* const next = block->next;
-
-  if (prev)
-    prev->next = next;
-  else
-    list->head = next;
-  if (next)
-    next->prev = prev;
-  else
-    list->tail = prev;
-  return prev;
-}
-
 u32 MEM_RecycleRegion(MEMiExpHeapHead* expHeap, const MEM_Extent* ext) {
   MEMiExpHeapMBlockHead* blockFree = NULL;
   MEM_Extent extFree = *ext;
@@ -230,14 +214,14 @@ u32 MEM_RecycleRegion(MEMiExpHeapHead* expHeap, const MEM_Extent* ext) {
     }
     if (block == ext->end) {
       extFree.end = (void*)((u32)block + 0x10 + block->blockSize);
-      MEM_RemoveBlock(&expHeap->freeList, block);
+      MEM_BlockRemove(&expHeap->freeList, block);
     }
     break;
   }
   if (blockFree && (void*)((u32)blockFree + sizeof(MEMiExpHeapMBlockHead) +
                            blockFree->blockSize) == ext->start) {
     extFree.start = blockFree;
-    blockFree = MEM_RemoveBlock(&expHeap->freeList, blockFree);
+    blockFree = MEM_BlockRemove(&expHeap->freeList, blockFree);
   }
   if (ptr_diff(extFree.start, extFree.end) < sizeof(MEMiExpHeapMBlockHead))
     return false;
@@ -474,4 +458,25 @@ loc35:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
+}
+
+void MEMFreeToExpHeap(MEMHeapHandle heap, void* addr) {
+  if (addr == NULL)
+    return;
+
+  MEMiExpHeapHead* expHeap =
+      (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+  MEMiExpHeapMBlockHead* block =
+      (MEMiExpHeapMBlockHead*)ptr_sub(addr, sizeof(MEMiExpHeapMBlockHead));
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
+  MEM_Extent region;
+  MEM_BlockGetExtent(&region, block);
+  (void)MEM_BlockRemove(&expHeap->usedList, block);
+  (void)MEM_RecycleRegion(expHeap, &region);
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
 }
