@@ -23,10 +23,10 @@ struct MEMAllocatorFunc {
 };
 
 struct MEMAllocator {
-  MEMAllocatorFunc* func; // 0x00
-  void* heap;             // 0x04
-  u32 _unk08;             // 0x08
-  u32 _unk0C;             // 0x0C
+  const MEMAllocatorFunc* func; // 0x00
+  void* heap;                   // 0x04
+  u32 _unk08;                   // 0x08
+  u32 _unk0C;                   // 0x0C
 };
 
 typedef struct MEMiHeapHead MEMiHeapHead;
@@ -62,6 +62,10 @@ void MEM_FreeForUnitHeap(MEMAllocator* alloc, void* data);
 void* MEMAllocFromAllocator(MEMAllocator* alloc, u32 size);
 // PAL: 0x80199ba8
 void MEMFreeToAllocator(MEMAllocator* alloc, void* data);
+// PAL: 0x80199bb8
+void MEMInitAllocatorForExpHeap(MEMAllocator*, MEMHeapHandle, int);
+// PAL: 0x80199bd4
+void MEMInitAllocatorForUnitHeap(MEMAllocator*, MEMHeapHandle);
 
 MEMiHeapHead* MEMFindContainHeap(const void*);
 

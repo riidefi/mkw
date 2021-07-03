@@ -37,3 +37,28 @@ void* MEMAllocFromAllocator(MEMAllocator* alloc, u32 size) {
 void MEMFreeToAllocator(MEMAllocator* alloc, void* data) {
   (*alloc->func->free)(alloc, data);
 }
+
+void MEMInitAllocatorForExpHeap(MEMAllocator* alloc, MEMHeapHandle heap,
+                                int align) {
+  // PAL: 0x80388860
+  static const MEMAllocatorFunc funcs = {
+      MEM_AllocForExpHeap_,
+      MEM_FreeForExpHeap_,
+  };
+  alloc->func = &funcs;
+  alloc->heap = heap;
+  alloc->_unk08 = (u32)align;
+  alloc->_unk0C = 0;
+}
+
+void MEMInitAllocatorForUnitHeap(MEMAllocator* alloc, MEMHeapHandle heap) {
+  // PAL: 0x80388868
+  static const MEMAllocatorFunc funcs = {
+      MEM_AllocForUnitHeap,
+      MEM_FreeForUnitHeap,
+  };
+  alloc->func = &funcs;
+  alloc->heap = heap;
+  alloc->_unk08 = 0;
+  alloc->_unk0C = 0;
+}
