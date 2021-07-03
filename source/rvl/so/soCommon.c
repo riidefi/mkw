@@ -24,6 +24,7 @@ s32 IOS_Close(u32);
 
 s32 NCDGetLinkStatus(void);
 s32 NWC24iStartupSocket(s32*);
+s32 NWC24iCleanupSocket(s32*);
 s32 SOiWaitForDHCPEx(s32);
 
 int SOFinish(void) {
@@ -256,5 +257,66 @@ begin_startup:
     }
   }
 
+  return result;
+}
+
+int SOCleanup(void) {
+  int result = SO_SUCCESS;
+  int enabled = OSDisableInterrupts();
+  s32 exErr = SO_SUCCESS;
+  NWC24Err errNwc24;
+
+  switch (soState) {
+  case SO_INTERNAL_STATE_TERMINATED:
+  default:
+    result = -SO_ENETRESET;
+    break;
+  case SO_INTERNAL_STATE_READY:
+    result = -SO_EALREADY;
+    break;
+  case SO_INTERNAL_STATE_ACTIVE:
+    if (soWork.rmState < SO_INTERNAL_RM_STATE_OPENED) {
+      result = -SO_EBUSY;
+      break;
+    } else if (!OSGetCurrentThread()) {
+      result = SO_EFATAL;
+      break;
+    } else {
+      soWork.rmState = SO_INTERNAL_RM_STATE_WORKING;
+      (void)OSRestoreInterrupts(enabled);
+
+      errNwc24 = NWC24iCleanupSocket(&exErr);
+      result = SO_Startup_ErrWtf(errNwc24, exErr);
+      if (result != SO_SUCCESS) {
+      } else {
+        if (IOS_Close(soWork.rmFd) < 0)
+          result = SO_EFATAL;
+        else
+          soWork.rmFd = -1;
+      }
+
+      enabled = OSDisableInterrupts();
+      if (result == SO_SUCCESS) {
+        soState = SO_INTERNAL_STATE_READY;
+        soWork.rmState = SO_INTERNAL_RM_STATE_CLOSED;
+      } else {
+        if (result != SO_EFATAL) {
+          soState = SO_INTERNAL_STATE_ACTIVE;
+          soWork.rmState = SO_INTERNAL_RM_STATE_OPENED;
+        }
+      }
+    }
+    break;
+  }
+
+  {
+    OSThread* cur = OSGetCurrentThread();
+    if (cur)
+      cur->error = result;
+    else
+      soError = result;
+  }
+
+  OSRestoreInterrupts(enabled);
   return result;
 }

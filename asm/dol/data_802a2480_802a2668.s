@@ -1,41 +1,7 @@
 
 .include "macros.inc"
 
-.section .data, "wa" # 0x802A23F8 - 0x802A2668
-.4byte 0x801EC694
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A4
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC68C
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC68C
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC6A8
-.4byte 0x801EC694
-.4byte 0x801EC69C
-.4byte 0x801EC684
+.section .data, "wa" # 0x802A2480 - 0x802A2668
 .4byte 0x801ECC18
 .4byte 0x801ECC30
 .4byte 0x801ECC30

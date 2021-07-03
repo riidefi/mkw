@@ -141,8 +141,8 @@ SCGetEuRgb60Mode=0x801B1CAC;
 SCGetAspectRatio=0x801B1BE4;
 
 NCDGetLinkStatus=0x801D0C6C;
-SOCleanup=0x801EC5B8;
 NWC24iStartupSocket=0x801E5FD8;
+NWC24iCleanupSocket=0x801E5FE8;
 SOiWaitForDHCPEx=0x801ECDE8;
 
 __cvt_fp2unsigned = 0x80021478;
