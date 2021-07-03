@@ -501,14 +501,6 @@ u32 MEMGetTotalFreeSizeForExpHeap(MEMHeapHandle heap) {
   return ret;
 }
 
-static inline void* GetMemPtrForMBlock_(MEMiExpHeapMBlockHead* pMBlkHd) {
-  return ptr_add(pMBlkHd, sizeof(MEMiExpHeapMBlockHead));
-}
-
-static inline void* GetMBlockEndAddr_(MEMiExpHeapMBlockHead* pMBHead) {
-  return ptr_add(GetMemPtrForMBlock_(pMBHead), pMBHead->blockSize);
-}
-
 u32 MEMGetAllocatableSizeForExpHeapEx(MEMHeapHandle heap, s32 alignment) {
   alignment = abs(alignment);
 
@@ -518,15 +510,19 @@ u32 MEMGetAllocatableSizeForExpHeapEx(MEMHeapHandle heap, s32 alignment) {
   {
     MEMiExpHeapHead* expHeap =
         (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
-    MEMiExpHeapMBlockHead* pMBlkHd;
+    MEMiExpHeapMBlockHead* block;
     u32 maxSize = 0;
     u32 offsetMin = 0xFFFFFFFF;
 
-    for (pMBlkHd = expHeap->freeList.head; pMBlkHd; pMBlkHd = pMBlkHd->next) {
-      void* baseAddress = fastceil_ptr(GetMemPtrForMBlock_(pMBlkHd), alignment);
-      if ((u32)(baseAddress) < (u32)(GetMBlockEndAddr_(pMBlkHd))) {
-        const u32 blockSize = ptr_diff(baseAddress, GetMBlockEndAddr_(pMBlkHd));
-        const u32 offset = ptr_diff(GetMemPtrForMBlock_(pMBlkHd), baseAddress);
+    for (block = expHeap->freeList.head; block; block = block->next) {
+      void *blockAddress1 = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
+      void* baseAddress = fastceil_ptr(blockAddress1, alignment);
+      void *endAddress1 = ptr_add(blockAddress1, block->blockSize);
+      if ((u32)(baseAddress) < (u32)(endAddress1)) {
+        void *blockAddress2 = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
+        void *endAddress2 = ptr_add(blockAddress2, block->blockSize);
+        const u32 blockSize = ptr_diff(baseAddress, endAddress2);
+        const u32 offset = ptr_diff(blockAddress2, baseAddress);
         if (maxSize < blockSize ||
             (maxSize == blockSize && offsetMin > offset)) {
           maxSize = blockSize;
@@ -554,4 +550,23 @@ u16 MEMSetGroupIDForExpHeap(MEMHeapHandle heap, u16 groupID) {
   expHeap->groupID = groupID;
   OSRestoreInterrupts(interrupts);
   return old;
+}
+
+void MEMVisitAllocatedForExpHeap(MEMHeapHandle heap, MEMHeapVisitor visitor,
+                                 u32 userParam) {
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
+  MEMiExpHeapHead* expHeap =
+      (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+  MEMiExpHeapMBlockHead* block = expHeap->usedList.head;
+  while (block) {
+    MEMiExpHeapMBlockHead* next = block->next;
+    void *blockAddr = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
+    (*visitor)(blockAddr, heap, userParam);
+    block = next;
+  }
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
 }

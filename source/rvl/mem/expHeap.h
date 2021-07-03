@@ -50,6 +50,8 @@ typedef struct MEM_Extent {
   void* end;
 } MEM_Extent;
 
+typedef void (*MEMHeapVisitor)(void*, MEMHeapHandle, u32);
+
 // PAL: 0x8019899c
 void* MEM_AllocFromHead(MEMiHeapHead*, u32, int);
 // PAL: 0x80198a78
