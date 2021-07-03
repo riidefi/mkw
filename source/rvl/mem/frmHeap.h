@@ -31,6 +31,8 @@ void* MEMAllocFromFrmHeapEx(MEMHeapHandle heap, u32 size, int align);
 void MEMFreeToFrmHeap(MEMHeapHandle, int);
 // PAL: 0x801996a4
 u32 MEMGetAllocatableSizeForFrmHeapEx(MEMHeapHandle, int);
+// PAL: 0x8019971c
+int MEMRecordStateForFrmHeap(MEMHeapHandle heap, u32 tag);
 
 #ifdef __cplusplus
 }

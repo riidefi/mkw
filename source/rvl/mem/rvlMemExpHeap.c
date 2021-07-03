@@ -559,24 +559,22 @@ u32 MEMAdjustExpHeap(MEMHeapHandle heapHandle) {
   MEMiHeapHead* heap = heapHandle;
   MEMiExpHeapHead* expHeap =
       (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
-  MEMiExpHeapMBlockHead* block;
   u32 ret;
 
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSLockMutex(&heap->mutex);
 
-  block = expHeap->freeList.tail;
-
+  MEMiExpHeapMBlockHead* block = expHeap->freeList.tail;
   if (block == NULL) {
     ret = 0;
     goto ret_;
   }
 
-  void* const dataStart = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
-  void* const dataEnd = ptr_add(dataStart, block->blockSize);
+  void* const start = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
+  void* const end = ptr_add(start, block->blockSize);
   u32 blockSize;
 
-  if (dataEnd != heap->arena_end) {
+  if (end != heap->arena_end) {
     ret = 0;
     goto ret_;
   }

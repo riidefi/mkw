@@ -3,6 +3,7 @@
 #include "heap.h"
 #include "heapi.h"
 
+#include <stdbool.h>
 #include <stdlib.h>
 
 static inline MEMiFrmHeapHead*
@@ -142,4 +143,36 @@ u32 MEMGetAllocatableSizeForFrmHeapEx(MEMHeapHandle heap, int align) {
     retVal = ptr_diff(addr, frmHeap->tail);
   OSRestoreInterrupts(interrupts);
   return retVal;
+}
+
+int MEMRecordStateForFrmHeap(MEMHeapHandle heap, u32 tag) {
+  int ret;
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
+  MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
+  void* oldHeadAllocator = frmHeap->head;
+
+  MEMiFrmHeapState* pState = (MEMiFrmHeapState*)MEM_FrmAllocFromHead(
+      frmHeap, sizeof(MEMiFrmHeapState), 4);
+
+  if (!pState) {
+    ret = false;
+    goto ret_;
+  }
+
+  pState->tag = tag;
+  pState->head = oldHeadAllocator;
+  pState->tail = frmHeap->tail;
+  pState->state = frmHeap->state;
+
+  frmHeap->state = pState;
+  ret = true;
+ret_:
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+
+  return ret;
 }
