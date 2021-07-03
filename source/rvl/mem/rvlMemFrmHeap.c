@@ -6,30 +6,18 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-static inline MEMiFrmHeapHead*
-GetFrmHeapHeadPtrFromHeapHead_(MEMiHeapHead* heap) {
-  return (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
-}
-
-static inline MEMiHeapHead*
-GetHeapHeadPtrFromFrmHeapHead_(MEMiFrmHeapHead* frmHeap) {
-  return (MEMiHeapHead*)ptr_sub(frmHeap, sizeof(MEMiHeapHead));
-}
-
 static inline MEMiHeapHead* MEM_FrameHeapInit(void* start, void* end,
                                               u16 flags) {
-  MEMiHeapHead* pHeapHd = (MEMiHeapHead*)start;
-  MEMiFrmHeapHead* pFrmHeapHd = GetFrmHeapHeadPtrFromHeapHead_(pHeapHd);
+  MEMiHeapHead* heap = (MEMiHeapHead*)start;
+  MEMiFrmHeapHead* frmHeap =
+      (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
 
-  MEMiInitHeapHead(pHeapHd, 'FRMH',
-                   ptr_add(pFrmHeapHd, sizeof(MEMiFrmHeapHead)), end, flags);
-
-  pFrmHeapHd->head = pHeapHd->arena_start;
-  pFrmHeapHd->tail = pHeapHd->arena_end;
-
-  pFrmHeapHd->state = NULL;
-
-  return pHeapHd;
+  MEMiInitHeapHead(heap, 'FRMH', ptr_add(frmHeap, sizeof(MEMiFrmHeapHead)), end,
+                   flags);
+  frmHeap->head = heap->arena_start;
+  frmHeap->tail = heap->arena_end;
+  frmHeap->state = NULL;
+  return heap;
 }
 
 MEMHeapHandle MEMCreateFrmHeapEx(void* start, u32 size, u16 flags) {
@@ -49,17 +37,17 @@ void* MEMDestroyFrmHeap(MEMHeapHandle heap) {
   return (void*)heap;
 }
 
-static inline void* MEM_FrmAllocFromHead(MEMiFrmHeapHead* frmHead, u32 size,
+static inline void* MEM_FrmAllocFromHead(MEMiFrmHeapHead* frmHeap, u32 size,
                                          int align) {
-  void* newBlock = fastceil_ptr(frmHead->head, align);
+  void* newBlock = fastceil_ptr(frmHeap->head, align);
   void* endAddress = ptr_add(newBlock, size);
 
-  if ((u32)(endAddress) > (u32)(frmHead->tail))
+  if ((u32)(endAddress) > (u32)(frmHeap->tail))
     return NULL;
 
-  MEM_BlockZero(GetHeapHeadPtrFromFrmHeapHead_(frmHead), frmHead->head,
-                ptr_diff(frmHead->head, endAddress));
-  frmHead->head = endAddress;
+  MEMiHeapHead* heap = (MEMiHeapHead*)ptr_sub(frmHeap, sizeof(MEMiHeapHead));
+  MEM_BlockZero(heap, frmHeap->head, ptr_diff(frmHeap->head, endAddress));
+  frmHeap->head = endAddress;
   return newBlock;
 }
 
@@ -70,31 +58,28 @@ static void* MEM_FrmAllocFromTail(MEMiFrmHeapHead* frmHeap, u32 size,
   if ((u32)(newBlock) < (u32)(frmHeap->head))
     return NULL;
 
-  MEM_BlockZero(GetHeapHeadPtrFromFrmHeapHead_(frmHeap), newBlock,
-                ptr_diff(newBlock, frmHeap->tail));
+  MEMiHeapHead* heap = (MEMiHeapHead*)ptr_sub(frmHeap, sizeof(MEMiHeapHead));
+  MEM_BlockZero(heap, newBlock, ptr_diff(newBlock, frmHeap->tail));
   frmHeap->tail = newBlock;
   return newBlock;
 }
 
 void* MEMAllocFromFrmHeapEx(MEMHeapHandle heap, u32 size, int alignment) {
   void* memory = NULL;
-  MEMiFrmHeapHead* pFrmHeapHd;
+  MEMiFrmHeapHead* frmHeap =
+      (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
 
-  pFrmHeapHd = GetFrmHeapHeadPtrFromHeapHead_(heap);
-
-  if (size == 0) {
+  if (size == 0)
     size = 1;
-  }
-
   size = fastceil_u32(size, 4);
 
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSLockMutex(&heap->mutex);
 
   if (alignment >= 0)
-    memory = MEM_FrmAllocFromHead(pFrmHeapHd, size, alignment);
+    memory = MEM_FrmAllocFromHead(frmHeap, size, alignment);
   else
-    memory = MEM_FrmAllocFromTail(pFrmHeapHd, size, -alignment);
+    memory = MEM_FrmAllocFromTail(frmHeap, size, -alignment);
 
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSUnlockMutex(&heap->mutex);
@@ -102,27 +87,23 @@ void* MEMAllocFromFrmHeapEx(MEMHeapHandle heap, u32 size, int alignment) {
   return memory;
 }
 
-static inline void MEM_FrmFreeHead(MEMiHeapHead* heap) {
-  MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
-  frmHeap->head = heap->arena_start;
-  frmHeap->state = NULL;
-}
-
-static inline void MEM_FrmFreeTail(MEMiHeapHead* heap) {
-  MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
-  MEMiFrmHeapState* state;
-  for (state = frmHeap->state; state; state = state->state)
-    state->tail = heap->arena_end;
-  frmHeap->tail = heap->arena_end;
-}
-
 void MEMFreeToFrmHeap(MEMHeapHandle heap, int mode) {
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSLockMutex(&heap->mutex);
-  if (mode & 1)
-    MEM_FrmFreeHead(heap);
-  if (mode & 2)
-    MEM_FrmFreeTail(heap);
+  if (mode & 1) {
+    MEMiFrmHeapHead* frmHeap =
+        (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+    frmHeap->head = heap->arena_start;
+    frmHeap->state = NULL;
+  }
+  if (mode & 2) {
+    MEMiFrmHeapHead* frmHeap =
+        (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+    MEMiFrmHeapState* state;
+    for (state = frmHeap->state; state; state = state->state)
+      state->tail = heap->arena_end;
+    frmHeap->tail = heap->arena_end;
+  }
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSUnlockMutex(&heap->mutex);
 }
@@ -133,7 +114,8 @@ u32 OSRestoreInterrupts(u32 level);
 
 u32 MEMGetAllocatableSizeForFrmHeapEx(MEMHeapHandle heap, int align) {
   align = abs(align);
-  const MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
+  const MEMiFrmHeapHead* frmHeap =
+      (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
   int interrupts = OSDisableInterrupts();
   const void* addr = fastceil_ptr(frmHeap->head, align);
   u32 retVal;
@@ -151,7 +133,8 @@ int MEMRecordStateForFrmHeap(MEMHeapHandle heap, u32 tag) {
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSLockMutex(&heap->mutex);
 
-  MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
+  MEMiFrmHeapHead* frmHeap =
+      (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
   void* oldHeadAllocator = frmHeap->head;
   MEMiFrmHeapState* state = (MEMiFrmHeapState*)MEM_FrmAllocFromHead(
       frmHeap, sizeof(MEMiFrmHeapState), 4);
@@ -181,7 +164,8 @@ int MEMFreeByStateToFrmHeap(MEMHeapHandle heap, u32 tag) {
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSLockMutex(&heap->mutex);
 
-  MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
+  MEMiFrmHeapHead* frmHeap =
+      (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
   MEMiFrmHeapState* state = frmHeap->state;
 
   if (tag != 0)
