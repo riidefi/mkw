@@ -82,7 +82,7 @@ void MEMVisitAllocatedForExpHeap(MEMHeapHandle heap, MEMExpHeapVisitor visitor,
 u32 MEMGetSizeForMBlockExpHeap(const void*);
 // PAL: 0x8019934c
 u16 MEMGetGroupIDForMBlockExpHeap(const void*);
-
+// PAL: 0x80199358
 u32 MEMAdjustExpHeap(MEMHeapHandle heap);
 
 void MEMInitAllocatorForExpHeap(MEMAllocator* allocator, MEMHeapHandle heap,

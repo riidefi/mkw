@@ -582,3 +582,41 @@ u16 MEMGetGroupIDForMBlockExpHeap(const void* data) {
       (MEMiExpHeapMBlockHead*)((u32)data - sizeof(MEMiExpHeapMBlockHead));
   return block->attribute.fields.groupID;
 }
+
+u32 MEMAdjustExpHeap(MEMHeapHandle heapHandle) {
+  MEMiHeapHead* heap = heapHandle;
+  MEMiExpHeapHead* expHeap =
+      (MEMiExpHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
+  MEMiExpHeapMBlockHead* block;
+  u32 ret;
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
+  block = expHeap->freeList.tail;
+
+  if (block == NULL) {
+    ret = 0;
+    goto ret_;
+  }
+
+  void* const dataStart = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
+  void* const dataEnd = ptr_add(dataStart, block->blockSize);
+  u32 blockSize;
+
+  if (dataEnd != heap->arena_end) {
+    ret = 0;
+    goto ret_;
+  }
+
+  MEM_BlockRemove(&expHeap->freeList, block);
+  blockSize = block->blockSize + sizeof(MEMiExpHeapMBlockHead);
+  heap->arena_end = ptr_sub(heap->arena_end, blockSize);
+  ret = ptr_diff(heap, heap->arena_end);
+
+ret_:
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+
+  return ret;
+}
