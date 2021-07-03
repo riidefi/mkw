@@ -69,11 +69,11 @@ void PADTypeAndStatusCallback(s32, u32);
 // PAL: 0x801aefa0
 void PADReceiveCheckCallback(s32, u32);
 // PAL: 0x801af0dc
-bool PADReset(u32);
+int PADReset(u32);
 // PAL: 0x801af1e4
-bool PADRecalibrate(u32);
+int PADRecalibrate(u32);
 // PAL: 0x801af2f0
-bool PADInit(void);
+int PADInit(void);
 // PAL: 0x801af44c
 u32 PADRead(PADStatus*);
 // PAL: 0x801af908
@@ -85,11 +85,11 @@ void SPEC1_MakeStatus(s32, PADStatus*, u32[2]);
 // PAL: 0x801afbf0
 void SPEC2_MakeStatus(s32, PADStatus*, u32[2]);
 // PAL: 0x801afffc
-bool PAD_OnReset(bool);
+int PAD_OnReset(int);
 // PAL: 0x801b00c4
 void PAD_SamplingHandler(s32, OSContext*);
 // PAL: 0x801b0124
-bool __PADDisableRecalibration(bool);
+int __PADDisableRecalibration(int);
 // PAL: 0x801b0124
 // PADSetSamplingCallback
 

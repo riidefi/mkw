@@ -25,7 +25,6 @@ MEMiHeapHead* MEMFindContainHeap(const void*);
 #include <revolution/mem.h>
 #endif
 
-
 #define rvlHeap MEMiHeapHead
 #ifdef __cplusplus
 } // extern "C"

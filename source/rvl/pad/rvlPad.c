@@ -9,7 +9,7 @@ void* memcpy(void*, const void*, u32);
 
 // OS
 // TODO move these to a common header.
-typedef bool (*OSResetFunction)(bool final);
+typedef int (*OSResetFunction)(int final);
 typedef struct OSResetFunctionInfo {
   OSResetFunction func; // 0x00
   u32 priority;         // 0x04
@@ -140,14 +140,14 @@ inline static void PADEnable(s32 chan) {
   SIEnablePolling(PADEnabledBits);
 }
 
-bool OSDisableInterrupts(void);
-bool OSEnableInterrupts(void);
-bool OSRestoreInterrupts(bool);
+int OSDisableInterrupts(void);
+int OSEnableInterrupts(void);
+int OSRestoreInterrupts(int);
 
 void OSSetWirelessID(s32, u16);
 
 inline static void PADDisable(s32 chan) {
-  bool interrupts;
+  int interrupts;
   u32 chanBit;
   interrupts = OSDisableInterrupts();
   chanBit = 0x80000000 >> chan;
@@ -164,9 +164,8 @@ inline static void PADDisable(s32 chan) {
 inline static void DoReset(void) {
   u32 chanBit;
   PADResetChan = __cntlzw(PADResetBits);
-  if (PADResetChan == 32) {
+  if (PADResetChan == 32)
     return;
-  }
   chanBit = 0x80000000 >> PADResetChan;
   PADResetBits &= ~chanBit;
   memset(&Origin[PADResetChan], 0, sizeof(PADStatus));
@@ -205,7 +204,7 @@ void PADTypeAndStatusCallback(s32 chan, u32 type) {
 #pragma unused(chan)
   u32 chanBit;
   u32 variant1;
-  bool ok = true;
+  int ok = true;
   u32 error;
   chanBit = 0x80000000 >> PADResetChan;
   error = type & 0xff;
@@ -272,8 +271,8 @@ static void PADReceiveCheckCallback(s32 chan, u32 type) {
   }
 }
 
-bool PADReset(u32 mask) {
-  bool enabled;
+int PADReset(u32 mask) {
+  int enabled;
   u32 disableBits;
   enabled = OSDisableInterrupts();
   mask |= PADUnk803869a8;
@@ -287,15 +286,14 @@ bool PADReset(u32 mask) {
     PADUnk803869b4 |= mask;
   }
   SIDisablePolling(disableBits);
-  if (PADResetChan == 32) {
+  if (PADResetChan == 32)
     DoReset();
-  }
   OSRestoreInterrupts(enabled);
   return true;
 }
 
-bool PADRecalibrate(u32 mask) {
-  bool interrupts;
+int PADRecalibrate(u32 mask) {
+  int interrupts;
   u32 disableBits;
   interrupts = OSDisableInterrupts();
   mask |= PADUnk803869a8;
@@ -316,7 +314,7 @@ bool PADRecalibrate(u32 mask) {
   return true;
 }
 
-bool PADInit(void) {
+int PADInit(void) {
   s32 chan;
   if (PADInitialized) {
     return true;
@@ -344,35 +342,8 @@ bool PADInit(void) {
 
 void sub_801BB0D0(void);
 
-// PADRead calculates abs(abs(x)-abs(y)).
-// There are many different ways to do this from C,
-// but none match with the assembly yet.
-
-/*
-// Absolute from inline function (libc).
-inline s32 abs(s32 x) {
-  // Variant 1: Inline branchless absolute.
-  //s32 shift = x >> 0x1f;
-  //return (shift ^ x) - shift;
-
-  // Variant 2: Ternary absolute, negative first.
-  //return x < 0 ? -x : x;
-
-  // Variant 3: Ternary absolute, positive first.
-  return x > 0 ? x : -x;
-}
-*/
-
-// Absolute from macro. Does not work well with complicated expressions.
-#define ABS32(x) ((x) > 0 ? (x) : -(x))
-
-inline s32 absdiff(s32 x, s32 y) {
-  s32 diff = ABS32(x) - ABS32(y);
-  return ABS32(diff);
-}
-
 u32 PADRead(PADStatus* status) {
-  bool interrupts;
+  int interrupts;
   s32 i;
   u32 data[2];
   u32 chanBit;
@@ -444,27 +415,22 @@ u32 PADRead(PADStatus* status) {
     } else {
       thres = 3;
     }
-    /*
-    // Variant 1: Inline absolute computation with inline abs().
+// TODO add proper stdlib.h
+#define abs __abs
     if ((abs(abs(status->stickX) - abs(PAD_AltStatus[i].stickX))) >= thres ||
         (abs(abs(status->stickY) - abs(PAD_AltStatus[i].stickY))) >= thres ||
         (abs(abs(status->substickX) - abs(PAD_AltStatus[i].substickX))) >=
-    thres || (abs(abs(status->substickY) - abs(PAD_AltStatus[i].substickY)))
-    >= thres || (abs(abs(status->triggerL) - abs(PAD_AltStatus[i].triggerL)))
-    >= thres || (abs(abs(status->triggerR) - abs(PAD_AltStatus[i].triggerR)))
-    >= thres || status->button != PAD_AltStatus[i].button) { sub_801BB0D0();
-    }
-    */
-    // Variant 2: Using macro abs() through inlined helper.
-    if ((absdiff(status->stickX, PAD_AltStatus[i].stickX)) >= thres ||
-        (absdiff(status->stickY, PAD_AltStatus[i].stickY)) >= thres ||
-        (absdiff(status->substickX, PAD_AltStatus[i].substickX)) >= thres ||
-        (absdiff(status->substickY, PAD_AltStatus[i].substickY)) >= thres ||
-        (absdiff(status->triggerL, PAD_AltStatus[i].triggerL)) >= thres ||
-        (absdiff(status->triggerR, PAD_AltStatus[i].triggerR)) >= thres ||
+            thres ||
+        (abs(abs(status->substickY) - abs(PAD_AltStatus[i].substickY))) >=
+            thres ||
+        (abs(abs(status->triggerL) - abs(PAD_AltStatus[i].triggerL))) >=
+            thres ||
+        (abs(abs(status->triggerR) - abs(PAD_AltStatus[i].triggerR))) >=
+            thres ||
         status->button != PAD_AltStatus[i].button) {
       sub_801BB0D0();
     }
+#undef abs
     memcpy(&PAD_AltStatus[i], status, 0xc);
     if (status->button & 0x2000) {
       status->err = -3;
@@ -481,7 +447,7 @@ u32 PADRead(PADStatus* status) {
 }
 
 void PADControlMotor(s32 chan, u32 command) {
-  bool interrupts;
+  int interrupts;
   u32 chanBit;
   interrupts = OSDisableInterrupts();
   chanBit = 0x80000000 >> chan;
@@ -670,20 +636,19 @@ static void SPEC2_MakeStatus(s32 chan, PADStatus* status, u32 data[2]) {
   status->triggerR = ClampU8(status->triggerR, origin->triggerR);
 }
 
-inline bool PADSync(void) {
-  bool x = PADResetBits == 0 && PADResetChan == 32;
+inline int PADSync(void) {
+  int x = PADResetBits == 0 && PADResetChan == 32;
   return x && !SIBusy();
 }
 
 PADSamplingCallback PADSetSamplingCallback(PADSamplingCallback);
 
-bool PAD_OnReset(bool final) {
+int PAD_OnReset(int final) {
   // PAL: 0x80386998
-  static u32 isCalibrated = false;
-  bool sync;
-  if (PAD_SamplingCallback) {
+  static int isCalibrated = false;
+  int sync;
+  if (PAD_SamplingCallback)
     PADSetSamplingCallback(NULL);
-  }
   if (!final) {
     sync = PADSync();
     if (!isCalibrated && sync) {
@@ -723,15 +688,14 @@ PADSetSamplingCallback(PADSamplingCallback callback) {
   return prev;
 }
 
-bool __PADDisableRecalibration(bool disable) {
-  bool interrupts;
-  bool prev;
+int __PADDisableRecalibration(int disable) {
+  int interrupts;
+  int prev;
   interrupts = OSDisableInterrupts();
   prev = (oslow_30e3 & 0x40) ? true : false;
   oslow_30e3 &= ~0x40;
-  if (disable) {
+  if (disable)
     oslow_30e3 |= 0x40;
-  }
   OSRestoreInterrupts(interrupts);
   return prev;
 }
