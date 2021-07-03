@@ -47,7 +47,7 @@ out\dol\data_8027e772_802a2360.o
 out\dol\bss_80346d18_80357220.o
 out\dol\sbss_8038683c_80386d30.o
 out\soCommon.o
-out\dol\text_801ec768_8020f62c.o
+out\dol\text_801ec774_8020f62c.o
 out\dol\data_802a2480_802a2668.o
 out\eggAllocator.o
 out\dol\bss_80357238_803832d8.o

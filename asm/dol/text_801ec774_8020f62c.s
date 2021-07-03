@@ -1,10 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x801EC768 - 0x8020F62C
-/* 801EC768  3C 60 80 35 */	lis r3, 0x8035
-/* 801EC76C  38 63 72 20 */	addi r3, r3, 0x7220
-/* 801EC770  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x801EC774 - 0x8020F62C
 /* 801EC774  80 6D 92 E4 */	lwz r3, -0x6d1c(r13)
 /* 801EC778  4E 80 00 20 */	blr 
 /* 801EC77C  94 21 FF F0 */	stwu r1, -0x10(r1)

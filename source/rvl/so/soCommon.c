@@ -264,7 +264,7 @@ int SOCleanup(void) {
   int result = SO_SUCCESS;
   int enabled = OSDisableInterrupts();
   s32 exErr = SO_SUCCESS;
-  NWC24Err errNwc24;
+  int errNwc24;
 
   switch (soState) {
   case SO_INTERNAL_STATE_TERMINATED:
@@ -320,3 +320,5 @@ int SOCleanup(void) {
   OSRestoreInterrupts(enabled);
   return result;
 }
+
+SOSysWork* SOiGetSysWork(void) { return &soWork; }

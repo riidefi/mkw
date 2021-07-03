@@ -182,6 +182,8 @@ int SOStartup(void);
 int SOStartupEx(int timeout);
 // PAL: 0x801ec5b8
 int SOCleanup(void);
+// PAL: 0x801ec768
+SOSysWork* SOiGetSysWork(void);
 
 #ifdef __cplusplus
 }
