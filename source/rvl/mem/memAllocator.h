@@ -54,6 +54,10 @@ typedef MEMiHeapHead* MEMHeapHandle;
 void* MEM_AllocForExpHeap_(MEMAllocator* alloc, u32 size);
 // PAL: 0x80199b68
 void MEM_FreeForExpHeap_(MEMAllocator* alloc, void* data);
+// PAL: 0x80199b70
+void* MEM_AllocForUnitHeap(MEMAllocator* alloc, u32 size);
+// PAL: 0x80199b90
+void MEM_FreeForUnitHeap(MEMAllocator* alloc, void* data);
 
 MEMiHeapHead* MEMFindContainHeap(const void*);
 

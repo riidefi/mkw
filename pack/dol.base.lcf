@@ -96,7 +96,6 @@ GXSetDispCopySrc=0x8016F438;
 GXSetDispCopyDst=0x8016F4B8;
 GXSetDispCopyYScale=0x8016F8FC;
 
-AllocatorAllocForUnitHeap_= 0x80199B70;
 AllocatorFreeForUnitHeap_= 0x80199B90;
 MEMInitAllocatorForUnitHeap= 0x80199BD4;
 
