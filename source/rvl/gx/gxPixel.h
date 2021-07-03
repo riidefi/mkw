@@ -12,7 +12,7 @@ extern "C" {
 
 void GXSetFog(int, f32, f32, f32, f32, GXColor);
 
-void GXInitFogAdjTable(u16* table, u16 width, const f32 [4][4]);
+void GXInitFogAdjTable(u16* table, u16 width, const f32[4][4]);
 void GXSetFogRangeAdj(u8, u16, u16* table);
 
 void GXSetBlendMode(u32, u32, u32, u32);

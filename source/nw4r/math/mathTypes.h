@@ -55,6 +55,10 @@ public:
 
   operator Vec*() { return (Vec*)&x; }
   operator const Vec*() const { return (const Vec*)&x; }
+
+    bool operator==(const VEC3& o) const { return x == o.x && y == o.y && z == o.z; }
+    bool operator!=(const VEC3& o) const { return x != o.x || y != o.y || z != o.z; }
+
 };
 
 class MTX33 : public _MTX33 {

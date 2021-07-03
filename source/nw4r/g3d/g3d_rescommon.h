@@ -15,7 +15,7 @@
 
 namespace nw4r {
 namespace g3d {
-  
+
 template <typename T> class ResCommon {
   T* mPtr;
 
