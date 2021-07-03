@@ -4,12 +4,21 @@
 
 #include <rvl/os/osThread.h>
 
+// PAL: 0x80385ee0 @sdata (pointer)
+// PAL: 0x802a2318 @data (string literal)
+const char* __SO_VERSION =
+    "<< RVL_SDK - SO \trelease build: Dec 10 2007 10:02:35 (0x4199_60831) >>";
+
 // PAL: 0x80386d30 @sbss
 static u8 soState = 0;
-// PAL: 0x80357220 @sdata
+// PAL: 0x80357220 @bss
 static SOSysWork soWork;
 // PAL: 0x80386d34 @sbss
 static s32 soError = 0;
+// ???
+static int soRegistered = false;
+// PAL: 0x80385ee4 @sdata
+static int soBufAddrCheck = true;
 // PAL: 0x802a2360 @data
 static char NET_RM_SOCK[] = "/dev/net/ip/top";
 
@@ -46,7 +55,7 @@ int SOFinish(void) {
     soState = SO_INTERNAL_STATE_TERMINATED;
     if (soWork._unk10 != 0 && soWork.freeFunc) {
       soWork.allocCount--;
-      soWork.freeFunc(0x0b, soWork._unk10, 0x460);
+      soWork.freeFunc(0x0b, (void*)soWork._unk10, 0x460);
     }
     break;
   case SO_INTERNAL_STATE_ACTIVE:
@@ -322,3 +331,87 @@ int SOCleanup(void) {
 }
 
 SOSysWork* SOiGetSysWork(void) { return &soWork; }
+
+int SOiIsBufferAddrCheck(void) { return soBufAddrCheck; }
+
+int SOiIsInitialized(void) {
+  int result = false;
+  int enabled = OSDisableInterrupts();
+  switch (soState) {
+  case SO_INTERNAL_STATE_READY:
+  case SO_INTERNAL_STATE_ACTIVE:
+    result = true;
+    break;
+  }
+  OSRestoreInterrupts(enabled);
+  return result;
+}
+
+void* SOiAlloc(u32 name, s32 size) {
+  if (size > 0 && soWork.allocFunc) {
+    void* ptr = soWork.allocFunc(name, size);
+    if (ptr) {
+      soWork.allocCount++;
+      if (SOiIsBufferAddrCheck() && !(((u32)ptr & 0x1fffffff) >= 0x10000000 &&
+                                      ((u32)ptr & 0x1fffffff) < 0x18000000)) {
+        SOiFree(name, ptr, size);
+        ptr = NULL;
+      }
+    }
+    return ptr;
+  }
+  return NULL;
+}
+
+void SOiFree(u32 name, void* ptr, s32 size) {
+  if ((ptr != NULL) && (soWork.freeFunc != NULL)) {
+    soWork.allocCount--;
+    soWork.freeFunc(name, ptr, size);
+  }
+}
+
+int SOiPrepare(const char* funcName, s32* pRmId) {
+  int result = SO_SUCCESS;
+  int enabled = OSDisableInterrupts();
+
+  switch (soState) {
+  case SO_INTERNAL_STATE_TERMINATED:
+    result = -SO_ENETRESET;
+    break;
+  case SO_INTERNAL_STATE_READY:
+  default:
+    result = -SO_EINVAL;
+    break;
+  case SO_INTERNAL_STATE_ACTIVE:
+    if (soWork.rmState < SO_INTERNAL_RM_STATE_OPENED) {
+      result = -SO_EBUSY;
+      break;
+    } else if (!OSGetCurrentThread()) {
+      result = SO_EFATAL;
+      break;
+    }
+    *pRmId = soWork.rmFd;
+    break;
+  }
+
+  if (result != SO_SUCCESS) {
+    OSThread* cur = OSGetCurrentThread();
+    if (cur)
+      cur->error = result;
+    else
+      soError = result;
+  }
+  (void)OSRestoreInterrupts(enabled);
+  return result;
+}
+
+int SOiConclude(const char* funcName, int result) {
+  int enabled = OSDisableInterrupts();
+  OSThread* cur = OSGetCurrentThread();
+  if (cur)
+    cur->error = result;
+  else
+    soError = result;
+  (void)OSRestoreInterrupts(enabled);
+  return result;
+}

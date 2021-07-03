@@ -43,11 +43,12 @@ out\dol\rodata_80249020_80252c78.o
 out\dol\sdata2_803888b4_803888b8.o
 out\rvlQuat.o
 out\dol\text_8019b178_801ec088.o
-out\dol\data_8027e772_802a2360.o
+out\dol\data_8027e772_802a2318.o
 out\dol\bss_80346d18_80357220.o
+out\dol\sdata_80385a10_80385ee0.o
 out\dol\sbss_8038683c_80386d30.o
 out\soCommon.o
-out\dol\text_801ec774_8020f62c.o
+out\dol\text_801eca2c_8020f62c.o
 out\dol\data_802a2480_802a2668.o
 out\eggAllocator.o
 out\dol\bss_80357238_803832d8.o
@@ -97,7 +98,7 @@ out\dol\dtors_80244ea4_80244eac.o
 out\dol\rodata_80258560_80258580.o
 out\dol\data_802a4004_802a4040.o
 out\dol\bss_80384bf4_80384c00.o
-out\dol\sdata_80385a10_80385fc0.o
+out\dol\sdata_80385ee8_80385fc0.o
 out\dol\sbss_80386f90_80386fa0.o
 out\dol\sdata2_80389118_80389140.o
 out\dol\sbss2_80389140_8038917c.o

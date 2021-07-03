@@ -6,15 +6,16 @@
 extern "C" {
 #endif
 
-typedef void (*SO_FreeFunc)(u32, u32, u32);
+typedef void* (*SO_AllocFunc)(u32, s32);
+typedef void (*SO_FreeFunc)(u32, void*, s32);
 
 typedef struct SOSysWork {
-  char _unk00[0x4];     // 0x00
-  SO_FreeFunc freeFunc; // 0x04
-  s32 rmState;          // 0x08
-  s32 rmFd;             // 0x0C
-  u32 _unk10;           // 0x10
-  s32 allocCount;       // 0x14
+  SO_AllocFunc allocFunc; // 0x00
+  SO_FreeFunc freeFunc;   // 0x04
+  s32 rmState;            // 0x08
+  s32 rmFd;               // 0x0C
+  u32 _unk10;             // 0x10
+  s32 allocCount;         // 0x14
 } SOSysWork;
 
 enum {
@@ -174,6 +175,10 @@ enum {
   NCD_RESULT_INPROGRESS = -8
 };
 
+// PAL: 0x80385ee0 @sdata (pointer)
+// PAL: 0x802a2318 @data (string literal)
+extern const char* __SO_VERSION;
+
 // PAL: 0x801ec088
 int SOFinish(void);
 // PAL: 0x801ec184
@@ -184,6 +189,18 @@ int SOStartupEx(int timeout);
 int SOCleanup(void);
 // PAL: 0x801ec768
 SOSysWork* SOiGetSysWork(void);
+// PAL: 0x801ec774
+int SOiIsBufferAddrCheck(void);
+// PAL: 0x801ec77c
+int SOiIsInitialized(void);
+// PAL: 0x801ec7cc
+void* SOiAlloc(u32, s32);
+// PAL: 0x801ec8b4
+void SOiFree(u32, void*, s32);
+// PAL: 0x801ec8e8
+int SOiPrepare(const char*, s32*);
+// PAL: 0x801ec9d0
+int SOiConclude(const char*, int);
 
 #ifdef __cplusplus
 }

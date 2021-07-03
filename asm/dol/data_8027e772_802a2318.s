@@ -1,7 +1,7 @@
 
 .include "macros.inc"
 
-.section .data, "wa" # 0x8027E772 - 0x802A2360
+.section .data, "wa" # 0x8027E772 - 0x802A2318
 .4byte 0x00000000
 .4byte 0x00003C3C
 .4byte 0x2052564C
@@ -36587,23 +36587,5 @@
 .4byte 0x65737453
 .4byte 0x68757464
 .4byte 0x6F776E00
-.4byte 0x00003C3C
-.4byte 0x2052564C
-.4byte 0x5F53444B
-.4byte 0x202D2053
-.4byte 0x4F200972
-.4byte 0x656C6561
-.4byte 0x73652062
-.4byte 0x75696C64
-.4byte 0x3A204465
-.4byte 0x63203130
-.4byte 0x20323030
-.4byte 0x37203130
-.4byte 0x3A30323A
-.4byte 0x33352028
-.4byte 0x30783431
-.4byte 0x39395F36
-.4byte 0x30383331
-.4byte 0x29203E3E
 .byte 0x00
 .byte 0x00
