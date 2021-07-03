@@ -303,13 +303,11 @@ int PADRecalibrate(u32 mask) {
   disableBits = PADResetBits & PADEnabledBits;
   PADEnabledBits &= ~mask;
   PADUnk803869a4 &= ~mask;
-  if (!(oslow_30e3 & 0x40)) {
+  if (!(oslow_30e3 & 0x40))
     PADUnk803869b4 |= mask;
-  }
   SIDisablePolling(disableBits);
-  if (PADResetChan == 32) {
+  if (PADResetChan == 32)
     DoReset();
-  }
   OSRestoreInterrupts(interrupts);
   return true;
 }
@@ -643,6 +641,7 @@ inline int PADSync(void) {
 
 PADSamplingCallback PADSetSamplingCallback(PADSamplingCallback);
 
+// TODO: Unresolved instruction ordering bug
 int PAD_OnReset(int final) {
   // PAL: 0x80386998
   static int isCalibrated = false;
