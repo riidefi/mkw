@@ -81,9 +81,9 @@ void UnitHeap::destroy() {
 }
 
 void* UnitHeap::alloc(u32 size, s32 /* align */) {
-  if (size > mHeapHandle->_40)
+  // TODO use proper accessors
+  if (size > *((u32*)((u8*)mHeapHandle + 0x40)))
     return nullptr;
-
   return MEMAllocFromUnitHeap(mHeapHandle);
 }
 void UnitHeap::free(void* block) { MEMFreeToUnitHeap(mHeapHandle, block); }

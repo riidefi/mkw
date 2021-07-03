@@ -4,6 +4,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+from mkwutil.gen_asm import read_slices
+from mkwutil.verify_object_file import verify_object_file
 from mkwutil.gen_lcf import gen_lcf
 from mkwutil.pack_main_dol import pack_main_dol
 from mkwutil.pack_staticr_rel import pack_staticr_rel
@@ -11,6 +13,9 @@ from mkwutil.verify_main_dol import verify_dol
 from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.percent_decompiled import percent_decompiled
 
+
+dol_slices = read_slices("pack/dol_slices.csv", verbose=False)
+dol_slices = { sl.obj_file : sl for sl in dol_slices }
 
 def native_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
@@ -96,12 +101,17 @@ CWCC_OPT = " ".join(
 
 
 def compile_source(src, dst, version="default", additional="-ipa file"):
+    # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
-
     if VERBOSE:
         print(command)
-
     subprocess.run(command, check=True)
+    # Verify ELF file section sizes.
+    tha_slice = dol_slices.get(src)
+    if tha_slice:
+        verify_object_file(dst, src, tha_slice)
+    else:
+        print("# Skipping slices verification on", src)
 
 
 def assemble(dst, src):

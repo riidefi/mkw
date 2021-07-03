@@ -5,14 +5,14 @@
 
 #pragma once
 
+#include <rk_types.h>
+#include <string.h>
+
 #include <egg/core/eggDisposer.hpp>
 #include <egg/core/eggHeap.hpp>
 #include <egg/eggInternal.hpp>
 #include <nw4r/ut/utList.hpp>
-#include <rk_types.h>
 #include <rvl/arc/rvlArchive.h>
-
-extern "C" void memset(void*, int, u32);
 
 namespace EGG {
 
