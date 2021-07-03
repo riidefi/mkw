@@ -25,10 +25,10 @@ void* MEMDestroyUnitHeap(MEMHeapHandle heap);
 void* MEMAllocFromUnitHeap(MEMHeapHandle heap);
 // PAL: 0x80199ac4
 void MEMFreeToUnitHeap(MEMHeapHandle heap, void* block);
-
-u32 MEMCountFreeBlockForUnitHeap(MEMHeapHandle heap);
 // PAL: 0x80199b34
 u32 MEMCalcHeapSizeForUnitHeap(u32 unit_size, u32 unit_count, int align);
+
+u32 MEMCountFreeBlockForUnitHeap(MEMHeapHandle heap);
 
 void MEMInitAllocatorForUnitHeap(MEMAllocator* allocator, MEMHeapHandle heap);
 
