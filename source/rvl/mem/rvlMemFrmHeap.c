@@ -3,6 +3,8 @@
 #include "heap.h"
 #include "heapi.h"
 
+#include <stdlib.h>
+
 static inline MEMiFrmHeapHead*
 GetFrmHeapHeadPtrFromHeapHead_(MEMiHeapHead* heap) {
   return (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
@@ -122,4 +124,22 @@ void MEMFreeToFrmHeap(MEMHeapHandle heap, int mode) {
     MEM_FrmFreeTail(heap);
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSUnlockMutex(&heap->mutex);
+}
+
+u32 OSDisableInterrupts(void);
+u32 OSEnableInterrupts(void);
+u32 OSRestoreInterrupts(u32 level);
+
+u32 MEMGetAllocatableSizeForFrmHeapEx(MEMHeapHandle heap, int align) {
+  align = abs(align);
+  const MEMiFrmHeapHead* frmHeap = GetFrmHeapHeadPtrFromHeapHead_(heap);
+  int interrupts = OSDisableInterrupts();
+  const void* addr = fastceil_ptr(frmHeap->head, align);
+  u32 retVal;
+  if ((u32)addr > (u32)(frmHeap->tail))
+    retVal = 0;
+  else
+    retVal = ptr_diff(addr, frmHeap->tail);
+  OSRestoreInterrupts(interrupts);
+  return retVal;
 }
