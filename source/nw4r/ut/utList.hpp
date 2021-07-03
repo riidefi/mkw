@@ -29,7 +29,7 @@ inline void* List_GetFirst(const List* pList) {
   return List_GetNext(pList, nullptr);
 }
 // Seems to be not included as a symbol. Only inlined.
-//void List_Prepend(List* pList, void* pObj);
+// void List_Prepend(List* pList, void* pObj);
 
 } // namespace ut
 } // namespace nw4r
