@@ -168,10 +168,16 @@ typedef enum NWC24Err {
   NWC24_ERR_OLD_SYSTEM = -49
 } NWC24Err;
 
+// Careful. These are mostly wrong.
 enum {
   NCD_LINKSTATUS_WORKING = 1,
-  NCD_LINKSTATUS_NONE = 2, // ?
-  NCD_RESULT_SUCCESS = 0,  // ?
+  NCD_LINKSTATUS_NONE = 2,          // ?
+  NCD_LINKSTATUS_WIRED = 3,         // ?
+  NCD_LINKSTATUS_WIRELESS_DOWN = 4, // ?
+  NCD_LINKSTATUS_WIRELESS_UP = 5,   // ?
+  NCD_RESULT_SUCCESS = 0,           // ?
+  NCD_RESULT_FAILURE = -6,          // ?
+  NCD_RESULT_FATAL_ERROR = -3,      // ?
   NCD_RESULT_INPROGRESS = -8
 };
 
@@ -201,6 +207,10 @@ void SOiFree(u32, void*, s32);
 int SOiPrepare(const char*, s32*);
 // PAL: 0x801ec9d0
 int SOiConclude(const char*, int);
+// PAL: 0x801eca2c
+int SOiPrepareTempRm(const char*, s32*, int*);
+// PAL: 0x801ecd04
+int SOiConcludeTempRm(const char*, int, int);
 
 #ifdef __cplusplus
 }

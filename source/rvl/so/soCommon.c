@@ -30,10 +30,13 @@ s64 __OSGetSystemTime(void);
 
 s32 IOS_Open(const char*, u32);
 s32 IOS_Close(u32);
+s32 IOS_Ioctl(s32, s32, void*, u32, void*, u32);
 
 s32 NCDGetLinkStatus(void);
 s32 NWC24iStartupSocket(s32*);
 s32 NWC24iCleanupSocket(s32*);
+s32 NWC24iLockSocket();
+s32 NWC24iUnlockSocket();
 s32 SOiWaitForDHCPEx(s32);
 
 int SOFinish(void) {
@@ -407,6 +410,147 @@ int SOiPrepare(const char* funcName, s32* pRmId) {
 
 int SOiConclude(const char* funcName, int result) {
   int enabled = OSDisableInterrupts();
+  OSThread* cur = OSGetCurrentThread();
+  if (cur)
+    cur->error = result;
+  else
+    soError = result;
+  (void)OSRestoreInterrupts(enabled);
+  return result;
+}
+
+int SOiPrepareTempRm(const char* funcName, s32* pRmId, int* pIsTempRm) {
+  int result = SO_SUCCESS;
+  int enabled = OSDisableInterrupts();
+  int errNwc24;
+
+  switch (soState) {
+  case SO_INTERNAL_STATE_TERMINATED:
+    result = -SO_ENETRESET;
+    break;
+  case SO_INTERNAL_STATE_READY:
+  default:
+    if (soWork.rmState > SO_INTERNAL_RM_STATE_CLOSED) {
+      result = -SO_EBUSY;
+      break;
+    } else if (!OSGetCurrentThread()) {
+      result = SO_EFATAL;
+      break;
+    }
+    soWork.rmState = SO_INTERNAL_RM_STATE_WORKING;
+    (void)OSRestoreInterrupts(enabled);
+    soWork.rmFd = IOS_Open(NET_RM_SOCK, 0);
+    if (soWork.rmFd < 0) {
+      enabled = OSDisableInterrupts();
+      if (soWork.rmFd == -6) {
+        result = -SO_EINPROGRESS;
+        soWork.rmState = SO_INTERNAL_RM_STATE_CLOSED;
+      } else {
+        result = SO_EFATAL;
+      }
+    } else {
+      *pRmId = soWork.rmFd;
+      if ((errNwc24 = NWC24iLockSocket()) == NWC24_OK) {
+        s32 errNcd = NCDGetLinkStatus();
+        switch (errNcd) {
+        case 3:
+        case 4:
+        case 5:
+          result = (int)IOS_Ioctl(soWork.rmFd, 0x1f, NULL, 0, NULL, 0);
+          if (result == SO_SUCCESS) {
+            *pIsTempRm = true;
+          } else {
+            result = SOiConcludeTempRm(funcName, result, true);
+          }
+          break;
+        case -8:
+          result = SOiConcludeTempRm(funcName, -SO_EINPROGRESS, true);
+          break;
+        case -1:
+        case -2:
+          result = SOiConcludeTempRm(funcName, SO_EFATAL, true);
+          break;
+        default:
+          result = SOiConcludeTempRm(funcName, -SO_ENOLINK, true);
+        }
+        enabled = OSDisableInterrupts();
+      } else {
+        switch (errNwc24) {
+        case NWC24_ERR_INPROGRESS:
+          result = -SO_EINPROGRESS;
+          break;
+        case NWC24_ERR_FAILED:
+          result = -SO_ENETRESET;
+          break;
+        case NWC24_ERR_DONE:
+          result = -SO_ENOLINK;
+          break;
+        case NWC24_ERR_MUTEX:
+        case NWC24_ERR_FATAL:
+        default:
+          result = SO_EFATAL;
+          break;
+        }
+        if (IOS_Close(soWork.rmFd) < 0) {
+          result = SO_EFATAL;
+        }
+        enabled = OSDisableInterrupts();
+        if (result != SO_EFATAL) {
+          soWork.rmFd = -1;
+          soWork.rmState = SO_INTERNAL_RM_STATE_CLOSED;
+        }
+      }
+    }
+    break;
+  case SO_INTERNAL_STATE_ACTIVE:
+    if (soWork.rmState < SO_INTERNAL_RM_STATE_OPENED) {
+      result = -SO_EBUSY;
+      break;
+    } else if (!OSGetCurrentThread()) {
+      result = SO_EFATAL;
+      break;
+    }
+    *pIsTempRm = false;
+    *pRmId = soWork.rmFd;
+    break;
+  }
+
+  if (result != SO_SUCCESS) {
+    OSThread* cur = OSGetCurrentThread();
+    if (cur)
+      cur->error = result;
+    else
+      soError = result;
+  }
+  (void)OSRestoreInterrupts(enabled);
+  return result;
+}
+
+int SOiConcludeTempRm(const char* funcName, int result, int isTempRm) {
+  int enabled;
+
+  if (isTempRm == true) {
+    switch (NWC24iUnlockSocket()) {
+    case NWC24_OK:
+      break;
+    case NWC24_ERR_INPROGRESS:
+      result = -SO_EINPROGRESS;
+      break;
+    case NWC24_ERR_FATAL:
+    default:
+      result = SO_EFATAL;
+    }
+    if (IOS_Close(soWork.rmFd) < 0) {
+      result = SO_EFATAL;
+    }
+    enabled = OSDisableInterrupts();
+    if (result != SO_EFATAL) {
+      soWork.rmFd = -1;
+      soWork.rmState = SO_INTERNAL_RM_STATE_CLOSED;
+    }
+  } else {
+    enabled = OSDisableInterrupts();
+  }
   OSThread* cur = OSGetCurrentThread();
   if (cur)
     cur->error = result;

@@ -81,6 +81,7 @@ CXGetUncompressedSize=0x8015C2E0;
 IOS_OpenAsync=0x801937E0;
 IOS_Open=0x801938F8;
 IOS_Close=0x80193AD8;
+IOS_Ioctl=0x80194290;
 
 OSPanic=0x801A2660;
 
@@ -143,6 +144,8 @@ SCGetAspectRatio=0x801B1BE4;
 NCDGetLinkStatus=0x801D0C6C;
 NWC24iStartupSocket=0x801E5FD8;
 NWC24iCleanupSocket=0x801E5FE8;
+NWC24iLockSocket=0x801E5FF8;
+NWC24iUnlockSocket=0x801E6008;
 SOiWaitForDHCPEx=0x801ECDE8;
 
 __cvt_fp2unsigned = 0x80021478;
