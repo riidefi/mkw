@@ -22,7 +22,11 @@ struct MEMiFrmHeapHead {
 };
 
 // PAL: 0x80199444
-MEMHeapHandle MEMCreateFrmHeapEx(void* start, u32 size, u16 optFlag);
+MEMHeapHandle MEMCreateFrmHeapEx(void* start, u32 size, u16 flags);
+// PAL: 0x801994b4
+void* MEMDestroyFrmHeap(MEMHeapHandle);
+// PAL: 0x801994e4
+void* MEMAllocFromFrmHeapEx(MEMHeapHandle heap, u32 size, int align);
 
 #ifdef __cplusplus
 }

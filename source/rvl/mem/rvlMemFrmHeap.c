@@ -8,6 +8,11 @@ GetFrmHeapHeadPtrFromHeapHead_(MEMiHeapHead* heap) {
   return (MEMiFrmHeapHead*)ptr_add(heap, sizeof(MEMiHeapHead));
 }
 
+static inline MEMiHeapHead*
+GetHeapHeadPtrFromFrmHeapHead_(MEMiFrmHeapHead* frmHeap) {
+  return (MEMiHeapHead*)ptr_sub(frmHeap, sizeof(MEMiHeapHead));
+}
+
 static inline MEMiHeapHead* MEM_FrameHeapInit(void* start, void* end,
                                               u16 flags) {
   MEMiHeapHead* pHeapHd = (MEMiHeapHead*)start;
@@ -34,4 +39,62 @@ MEMHeapHandle MEMCreateFrmHeapEx(void* start, u32 size, u16 flags) {
   }
 
   return MEM_FrameHeapInit(start, end, flags);
+}
+
+void* MEMDestroyFrmHeap(MEMHeapHandle heap) {
+  MEMiFinalizeHeap(heap);
+  return (void*)heap;
+}
+
+static inline void* MEM_FrmAllocFromHead(MEMiFrmHeapHead* frmHead, u32 size,
+                                         int align) {
+  void* newBlock = fastceil_ptr(frmHead->head, align);
+  void* endAddress = ptr_add(newBlock, size);
+
+  if ((u32)(endAddress) > (u32)(frmHead->tail))
+    return NULL;
+
+  MEM_BlockZero(GetHeapHeadPtrFromFrmHeapHead_(frmHead), frmHead->head,
+                ptr_diff(frmHead->head, endAddress));
+  frmHead->head = endAddress;
+  return newBlock;
+}
+
+static void* MEM_FrmAllocFromTail(MEMiFrmHeapHead* frmHeap, u32 size,
+                                  int align) {
+  void* newBlock = fastfloor_ptr(ptr_sub(frmHeap->tail, size), align);
+
+  if ((u32)(newBlock) < (u32)(frmHeap->head))
+    return NULL;
+
+  MEM_BlockZero(GetHeapHeadPtrFromFrmHeapHead_(frmHeap), newBlock,
+                ptr_diff(newBlock, frmHeap->tail));
+  frmHeap->tail = newBlock;
+  return newBlock;
+}
+
+void* MEMAllocFromFrmHeapEx(MEMHeapHandle heap, u32 size, int alignment) {
+  void* memory = NULL;
+  MEMiFrmHeapHead* pFrmHeapHd;
+
+  pFrmHeapHd = GetFrmHeapHeadPtrFromHeapHead_(heap);
+
+  if (size == 0) {
+    size = 1;
+  }
+
+  size = fastceil_u32(size, 4);
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSLockMutex(&heap->mutex);
+
+  if (alignment >= 0)
+    memory = MEM_FrmAllocFromHead(pFrmHeapHd, size, alignment);
+  else
+    memory = MEM_FrmAllocFromTail(pFrmHeapHd, size, -alignment);
+
+  if (((u16)heap->_unk38.parts.flags) & 0x04)
+    OSUnlockMutex(&heap->mutex);
+
+  return memory;
 }
