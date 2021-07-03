@@ -30,10 +30,17 @@ static inline void* ptr_add(void* ptr, u32 val) {
   return (void*)(cast_ptr_u32(ptr) + val);
 }
 
-// ptr_diff returns the distance between two pointers.
+// ptr_dist returns the distance between two pointers.
 // end address must be larger than start.
-static inline u32 ptr_diff(const void* start, const void* end) {
+static inline u32 ptr_dist(const void* start, const void* end) {
   return cast_ptr_u32(end) - cast_ptr_u32(start);
+}
+
+// ptr_diff returns the difference between two pointers.
+static inline int ptr_diff(const void* p1, const void* p2) {
+  const u8* b1 = (const u8*)p1;
+  const u8* b2 = (const u8*)p2;
+  return b1 - b2;
 }
 
 #ifdef __cplusplus

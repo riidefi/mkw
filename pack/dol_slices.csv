@@ -8,6 +8,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,source/rvl/mem/rvlMemHeap.c,,,,,,,0x801981ec,0x80198798,,,,,,,,,0x80346cf0,0x80346d18,,,0x80386838,0x8038683C,,,,
 1,source/rvl/mem/rvlMemExpHeap.c,,,,,,,0x80198798,0x80199430,,,,,,,,,,,,,,,,,,
 1,source/rvl/mem/rvlMemFrmHeap.c,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,
+1,source/rvl/mem/rvlMemUnitHeap.c,,,,,,,0x801998A4,0x80199a00,,,,,,,,,,,,,,,,,,
 1,source/rvl/mem/rvlMemList.c,,,,,,,0x80199BF0,0x80199D04,,,,,,,,,,,,,,,,,,
 1,source/rvl/mtx/rvlMtx.c,,,,,,,0x80199d04,0x8019a9c4,,,,,,,,,,,0x80385a08,0x80385a10,,,0x80388870,0x80388890,,
 1,source/rvl/mtx/rvlMtx2.c,,,,,,,0x8019a9c4,0x8019abe4,,,,,,,,,,,,,,,0x80388890,0x803888a8,,

@@ -6,26 +6,28 @@
 extern "C" {
 #endif // __cplusplus
 
+typedef struct MEMiUntHeapMBlockHead MEMiUntHeapMBlockHead;
 struct MEMiUntHeapMBlockHead {
   MEMiUntHeapMBlockHead* succ;
 };
 
-struct MEMiUntHeapHead {
+typedef struct MEMiUntHeapHead {
   MEMiUntHeapMBlockHead* free_list;
   u32 unit_size;
-};
+} MEMiUntHeapHead;
 
+// PAL: 0x801998a4
 MEMHeapHandle MEMCreateUnitHeapEx(void* begin, u32 size, u32 unit_size,
                                   int align, u16 flags);
-
+// PAL: 0x80199a00
 void* MEMDestroyUnitHeap(MEMHeapHandle heap);
-
+// PAL: 0x80199a30
 void* MEMAllocFromUnitHeap(MEMHeapHandle heap);
-
+// PAL: 0x80199ac4
 void MEMFreeToUnitHeap(MEMHeapHandle heap, void* block);
 
 u32 MEMCountFreeBlockForUnitHeap(MEMHeapHandle heap);
-
+// PAL: 0x80199b34
 u32 MEMCalcHeapSizeForUnitHeap(u32 unit_size, u32 unit_count, int align);
 
 void MEMInitAllocatorForUnitHeap(MEMAllocator* allocator, MEMHeapHandle heap);

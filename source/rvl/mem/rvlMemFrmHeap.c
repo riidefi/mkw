@@ -25,7 +25,7 @@ MEMHeapHandle MEMCreateFrmHeapEx(void* start, u32 size, u16 flags) {
   start = fastceil_ptr(start, 4);
 
   if ((u32)(start) > (u32)(end) ||
-      ptr_diff(start, end) < sizeof(MEMiHeapHead) + sizeof(MEMiFrmHeapHead)) {
+      ptr_dist(start, end) < sizeof(MEMiHeapHead) + sizeof(MEMiFrmHeapHead)) {
     return NULL;
   }
 
@@ -46,7 +46,7 @@ static inline void* MEM_FrmAllocFromHead(MEMiFrmHeapHead* frmHeap, u32 size,
     return NULL;
 
   MEMiHeapHead* heap = (MEMiHeapHead*)ptr_sub(frmHeap, sizeof(MEMiHeapHead));
-  MEM_BlockZero(heap, frmHeap->head, ptr_diff(frmHeap->head, endAddress));
+  MEM_BlockZero(heap, frmHeap->head, ptr_dist(frmHeap->head, endAddress));
   frmHeap->head = endAddress;
   return newBlock;
 }
@@ -59,7 +59,7 @@ static void* MEM_FrmAllocFromTail(MEMiFrmHeapHead* frmHeap, u32 size,
     return NULL;
 
   MEMiHeapHead* heap = (MEMiHeapHead*)ptr_sub(frmHeap, sizeof(MEMiHeapHead));
-  MEM_BlockZero(heap, newBlock, ptr_diff(newBlock, frmHeap->tail));
+  MEM_BlockZero(heap, newBlock, ptr_dist(newBlock, frmHeap->tail));
   frmHeap->tail = newBlock;
   return newBlock;
 }
@@ -122,7 +122,7 @@ u32 MEMGetAllocatableSizeForFrmHeapEx(MEMHeapHandle heap, int align) {
   if ((u32)addr > (u32)(frmHeap->tail))
     retVal = 0;
   else
-    retVal = ptr_diff(addr, frmHeap->tail);
+    retVal = ptr_dist(addr, frmHeap->tail);
   OSRestoreInterrupts(interrupts);
   return retVal;
 }

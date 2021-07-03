@@ -98,7 +98,7 @@ static void* MEM_ExpAllocNewBlock(MEMiExpHeapHead* expHeap,
   }
   // Optionally clear block.
   MEM_BlockZero((MEMiHeapHead*)((u32)expHeap - sizeof(MEMiHeapHead)),
-                extFreeL.end, ptr_diff(extFreeL.end, extFreeR.start));
+                extFreeL.end, ptr_dist(extFreeL.end, extFreeR.start));
   // Mark block as used.
   MEMiExpHeapMBlockHead* expBlockUsed;
   MEM_Extent extent;
@@ -195,7 +195,7 @@ u32 MEM_ExpRecycleRegion(MEMiExpHeapHead* expHeap, const MEM_Extent* ext) {
     extFree.start = blockFree;
     blockFree = MEM_ExpBlockRemove(&expHeap->freeList, blockFree);
   }
-  if (ptr_diff(extFree.start, extFree.end) < sizeof(MEMiExpHeapMBlockHead))
+  if (ptr_dist(extFree.start, extFree.end) < sizeof(MEMiExpHeapMBlockHead))
     return false;
   MEM_ExpBlockInsert(&expHeap->freeList, MEM_BlockInit(&extFree, 'FR'),
                      blockFree);
@@ -228,7 +228,7 @@ static inline MEMiHeapHead* MEM_ExpHeapInit(void* begin, void* end, u16 flags) {
 MEMHeapHandle MEMCreateExpHeapEx(void* addr, u32 size, u16 flags) {
   void* end = fastfloor_ptr(ptr_add(addr, size), 4);
   addr = fastceil_ptr(addr, 4);
-  if ((u32)addr > (u32)end || ptr_diff(addr, end) < 0x64) {
+  if ((u32)addr > (u32)end || ptr_dist(addr, end) < 0x64) {
     return NULL;
   }
   return MEM_ExpHeapInit(addr, end, flags);
@@ -493,8 +493,8 @@ u32 MEMGetAllocatableSizeForExpHeapEx(MEMHeapHandle heap, s32 alignment) {
       if ((u32)(baseAddress) < (u32)(endAddress1)) {
         void* blockAddress2 = ptr_add(block, sizeof(MEMiExpHeapMBlockHead));
         void* endAddress2 = ptr_add(blockAddress2, block->blockSize);
-        const u32 blockSize = ptr_diff(baseAddress, endAddress2);
-        const u32 offset = ptr_diff(blockAddress2, baseAddress);
+        const u32 blockSize = ptr_dist(baseAddress, endAddress2);
+        const u32 offset = ptr_dist(blockAddress2, baseAddress);
         if (maxSize < blockSize ||
             (maxSize == blockSize && offsetMin > offset)) {
           maxSize = blockSize;
@@ -582,7 +582,7 @@ u32 MEMAdjustExpHeap(MEMHeapHandle heapHandle) {
   MEM_ExpBlockRemove(&expHeap->freeList, block);
   blockSize = block->blockSize + sizeof(MEMiExpHeapMBlockHead);
   heap->arena_end = ptr_sub(heap->arena_end, blockSize);
-  ret = ptr_diff(heap, heap->arena_end);
+  ret = ptr_dist(heap, heap->arena_end);
 
 ret_:
   if (((u16)heap->_unk38.parts.flags) & 0x04)
