@@ -146,7 +146,8 @@ NWC24iStartupSocket=0x801E5FD8;
 NWC24iCleanupSocket=0x801E5FE8;
 NWC24iLockSocket=0x801E5FF8;
 NWC24iUnlockSocket=0x801E6008;
-SOiWaitForDHCPEx=0x801ECDE8;
+SOGetInterfaceOpt=0x801EE48C;
+SOGetHostID=0x801EDE88;
 
 __cvt_fp2unsigned = 0x80021478;
 }

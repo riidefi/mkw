@@ -211,6 +211,8 @@ int SOiConclude(const char*, int);
 int SOiPrepareTempRm(const char*, s32*, int*);
 // PAL: 0x801ecd04
 int SOiConcludeTempRm(const char*, int, int);
+// PAL: 0x801ecde8
+int SOiWaitForDHCPEx(int timeout);
 
 #ifdef __cplusplus
 }

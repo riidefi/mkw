@@ -37,7 +37,8 @@ s32 NWC24iStartupSocket(s32*);
 s32 NWC24iCleanupSocket(s32*);
 s32 NWC24iLockSocket();
 s32 NWC24iUnlockSocket();
-s32 SOiWaitForDHCPEx(s32);
+int SOGetInterfaceOpt(void*, int, int, void*, int*);
+u32 SOGetHostID(void);
 
 int SOFinish(void) {
   int result = 0;
@@ -557,5 +558,40 @@ int SOiConcludeTempRm(const char* funcName, int result, int isTempRm) {
   else
     soError = result;
   (void)OSRestoreInterrupts(enabled);
+  return result;
+}
+
+int SOiWaitForDHCPEx(int timeout) {
+  int result = SO_SUCCESS;
+  int gioResult;
+  int ifError;
+  int ifErrorSize;
+  s64 limitTime;
+
+  limitTime = 0;
+  if (timeout != 0)
+    limitTime = __OSGetSystemTime() + ((timeout) * ((__OSBusClock / 4) / 1000));
+
+  while (true) {
+    OSSleepTicks((((s64)10) * ((__OSBusClock / 4) / 1000)));
+
+    ifErrorSize = sizeof(ifError);
+    gioResult = SOGetInterfaceOpt(NULL, 0xfffe, 0x1003, &ifError, &ifErrorSize);
+    if (gioResult != SO_SUCCESS) {
+      result = gioResult;
+      break;
+    }
+    if (gioResult == SO_SUCCESS && ifError != SO_SUCCESS) {
+      result = ifError;
+      break;
+    }
+    if (SOGetHostID() != 0)
+      break;
+    if (limitTime != 0 && limitTime < __OSGetSystemTime()) {
+      result = -SO_ETIMEDOUT;
+      break;
+    }
+  }
+
   return result;
 }
