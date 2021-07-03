@@ -1,38 +1,15 @@
 #include "expHeap.h"
 
 #include "heap.h"
+#include "heapi.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
-#include <string.h>
 
-// ceil() for 2^x aligned
-#define fastceil_u32(value, align) (((value) + ((align)-1)) & ~((align)-1))
-#define fastceil_ptr(ptr, align) ((void*)fastceil_u32((u32)(ptr), (align)))
-// floor() for 2^x aligned
-#define fastfloor_u32(value, align) ((value) & ~((align)-1))
-#define fastfloor_ptr(ptr, align) ((void*)fastfloor_u32((u32)(ptr), (align)))
-
-static inline void MEM_BlockZero(MEMiHeapHead* pHeapHd, void* address,
-                                 u32 size) {
-  if ((u16)pHeapHd->_unk38.parts.flags & 1) {
-    (void)memset(address, 0, size);
-  }
-}
-
-// These computations have to be inlined for an exact match.
-static inline u32 cast_ptr_u32(const void* ptr) { return (u32)(ptr); }
-static inline void* ptr_sub(void* ptr, u32 val) {
-  return (void*)(cast_ptr_u32(ptr) - val);
-}
-static inline void* ptr_add(void* ptr, u32 val) {
-  return (void*)(cast_ptr_u32(ptr) + val);
-}
-
-// MEM_BlockInsert inserts a block into the heap linked list.
+// MEM_ExpBlockInsert inserts a block into the heap linked list.
 static inline MEMiExpHeapMBlockHead*
-MEM_BlockInsert(MEMiExpMBlockList* list, MEMiExpHeapMBlockHead* target,
-                MEMiExpHeapMBlockHead* prev) {
+MEM_ExpBlockInsert(MEMiExpMBlockList* list, MEMiExpHeapMBlockHead* target,
+                   MEMiExpHeapMBlockHead* prev) {
   MEMiExpHeapMBlockHead* next;
   target->prev = prev;
   if (prev) {
@@ -50,9 +27,9 @@ MEM_BlockInsert(MEMiExpMBlockList* list, MEMiExpHeapMBlockHead* target,
   return target;
 }
 
-// MEM_BlockRemove removes a block from the heap linked list.
+// MEM_ExpBlockRemove removes a block from the heap linked list.
 static inline MEMiExpHeapMBlockHead*
-MEM_BlockRemove(MEMiExpMBlockList* list, MEMiExpHeapMBlockHead* block) {
+MEM_ExpBlockRemove(MEMiExpMBlockList* list, MEMiExpHeapMBlockHead* block) {
   MEMiExpHeapMBlockHead* prev = block->prev;
   MEMiExpHeapMBlockHead* next = block->next;
   if (prev)
@@ -64,12 +41,6 @@ MEM_BlockRemove(MEMiExpMBlockList* list, MEMiExpHeapMBlockHead* block) {
   else
     list->tail = prev;
   return prev;
-}
-
-// ptr_diff returns the distance between two pointers.
-// end address must be larger than start.
-static inline u32 ptr_diff(const void* start, const void* end) {
-  return cast_ptr_u32(end) - cast_ptr_u32(start);
 }
 
 // MEM_BlockInit prepares a block for use.
@@ -88,42 +59,42 @@ static inline MEMiExpHeapMBlockHead* MEM_BlockInit(MEM_Extent* region,
 // MEM_BlockAppend inserts a block at the end of a heap list.
 static inline void MEM_BlockAppend(MEMiExpMBlockList* list,
                                    MEMiExpHeapMBlockHead* block) {
-  (void)MEM_BlockInsert(list, block, list->tail);
+  (void)MEM_ExpBlockInsert(list, block, list->tail);
 }
 
-// MEM_BlockGetExtent retrieves the memory extent of a given block.
-static inline void MEM_BlockGetExtent(MEM_Extent* region,
-                                      MEMiExpHeapMBlockHead* block) {
+// MEM_ExpBlockGetExtent retrieves the memory extent of a given block.
+static inline void MEM_ExpBlockGetExtent(MEM_Extent* region,
+                                         MEMiExpHeapMBlockHead* block) {
   region->start = ptr_sub(block, block->attribute.fields.alignment);
   region->end = (void*)((u32)block + 0x10 + block->blockSize);
 }
 
-static void* MEM_AllocNewBlock(MEMiExpHeapHead* expHeap,
-                               MEMiExpHeapMBlockHead* expBlockFree, void* block,
-                               u32 size, u16 dir) {
+static void* MEM_ExpAllocNewBlock(MEMiExpHeapHead* expHeap,
+                                  MEMiExpHeapMBlockHead* expBlockFree,
+                                  void* block, u32 size, u16 dir) {
   MEM_Extent extFreeL;
   MEM_Extent extFreeR;
   MEMiExpHeapMBlockHead* expBlockFreePrev;
   // Get the extents before and after the free block.
-  MEM_BlockGetExtent(&extFreeL, expBlockFree);
+  MEM_ExpBlockGetExtent(&extFreeL, expBlockFree);
   extFreeR.end = extFreeL.end;
   extFreeR.start = ptr_add(block, size);
   extFreeL.end = ptr_sub(block, 0x10);
   // Remove block from free list.
-  expBlockFreePrev = MEM_BlockRemove(&expHeap->freeList, expBlockFree);
+  expBlockFreePrev = MEM_ExpBlockRemove(&expHeap->freeList, expBlockFree);
   // Shrink or deallocate left extent.
   if ((u32)extFreeL.end - (u32)extFreeL.start < 0x14) {
     extFreeL.end = extFreeL.start;
   } else {
-    expBlockFreePrev = MEM_BlockInsert(
+    expBlockFreePrev = MEM_ExpBlockInsert(
         &expHeap->freeList, MEM_BlockInit(&extFreeL, 'FR'), expBlockFreePrev);
   }
   // Shrink or deallocate right extent.
   if ((u32)extFreeR.end - (u32)extFreeR.start < 0x14) {
     extFreeR.start = extFreeR.end;
   } else {
-    MEM_BlockInsert(&expHeap->freeList, MEM_BlockInit(&extFreeR, 'FR'),
-                    expBlockFreePrev);
+    MEM_ExpBlockInsert(&expHeap->freeList, MEM_BlockInit(&extFreeR, 'FR'),
+                       expBlockFreePrev);
   }
   // Optionally clear block.
   MEM_BlockZero((MEMiHeapHead*)((u32)expHeap - sizeof(MEMiHeapHead)),
@@ -142,7 +113,7 @@ static void* MEM_AllocNewBlock(MEMiExpHeapHead* expHeap,
   return block;
 }
 
-void* MEM_AllocFromHead(MEMiHeapHead* heap, u32 size, int alignment) {
+void* MEM_ExpAllocFromHead(MEMiHeapHead* heap, u32 size, int alignment) {
   MEMiExpHeapHead* expHeap =
       (MEMiExpHeapHead*)((u32)heap + sizeof(MEMiHeapHead));
   const u32 special = expHeap->feature.fields.allocMode == 0;
@@ -170,10 +141,10 @@ void* MEM_AllocFromHead(MEMiHeapHead* heap, u32 size, int alignment) {
   if (!resExpBlock)
     return NULL;
   // Mark block as used.
-  return MEM_AllocNewBlock(expHeap, resExpBlock, resMemBlock, size, 0);
+  return MEM_ExpAllocNewBlock(expHeap, resExpBlock, resMemBlock, size, 0);
 }
 
-void* MEM_AllocFromTail(MEMiHeapHead* heap, u32 size, int alignment) {
+void* MEM_ExpAllocFromTail(MEMiHeapHead* heap, u32 size, int alignment) {
   MEMiExpHeapHead* expHeap =
       (MEMiExpHeapHead*)((u32)heap + sizeof(MEMiHeapHead));
   const u32 special = expHeap->feature.fields.allocMode == 0;
@@ -201,10 +172,10 @@ void* MEM_AllocFromTail(MEMiHeapHead* heap, u32 size, int alignment) {
   if (!resExpBlock)
     return NULL;
   // Mark block as used.
-  return MEM_AllocNewBlock(expHeap, resExpBlock, resMemBlock, size, 1);
+  return MEM_ExpAllocNewBlock(expHeap, resExpBlock, resMemBlock, size, 1);
 }
 
-u32 MEM_RecycleRegion(MEMiExpHeapHead* expHeap, const MEM_Extent* ext) {
+u32 MEM_ExpRecycleRegion(MEMiExpHeapHead* expHeap, const MEM_Extent* ext) {
   MEMiExpHeapMBlockHead* blockFree = NULL;
   MEM_Extent extFree = *ext;
   MEMiExpHeapMBlockHead* block;
@@ -215,18 +186,19 @@ u32 MEM_RecycleRegion(MEMiExpHeapHead* expHeap, const MEM_Extent* ext) {
     }
     if (block == ext->end) {
       extFree.end = (void*)((u32)block + 0x10 + block->blockSize);
-      MEM_BlockRemove(&expHeap->freeList, block);
+      MEM_ExpBlockRemove(&expHeap->freeList, block);
     }
     break;
   }
   if (blockFree && (void*)((u32)blockFree + sizeof(MEMiExpHeapMBlockHead) +
                            blockFree->blockSize) == ext->start) {
     extFree.start = blockFree;
-    blockFree = MEM_BlockRemove(&expHeap->freeList, blockFree);
+    blockFree = MEM_ExpBlockRemove(&expHeap->freeList, blockFree);
   }
   if (ptr_diff(extFree.start, extFree.end) < sizeof(MEMiExpHeapMBlockHead))
     return false;
-  MEM_BlockInsert(&expHeap->freeList, MEM_BlockInit(&extFree, 'FR'), blockFree);
+  MEM_ExpBlockInsert(&expHeap->freeList, MEM_BlockInit(&extFree, 'FR'),
+                     blockFree);
   return true;
 }
 
@@ -277,9 +249,9 @@ void* MEMAllocFromExpHeapEx(MEMHeapHandle heap, u32 size, int dir) {
     OSLockMutex(&heap->mutex);
 
   if (dir >= 0)
-    memory = MEM_AllocFromHead(heap, size, dir);
+    memory = MEM_ExpAllocFromHead(heap, size, dir);
   else
-    memory = MEM_AllocFromTail(heap, size, -dir);
+    memory = MEM_ExpAllocFromTail(heap, size, -dir);
 
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSUnlockMutex(&heap->mutex);
@@ -436,7 +408,7 @@ loc30:
   addi r0, r5, 0x10;
   stw r0, 12(r1);
   stw r29, 4(r30);
-  bl MEM_RecycleRegion;
+  bl MEM_ExpRecycleRegion;
   cmpwi r3, 0x0;
   bne loc32;
 loc31:
@@ -472,9 +444,9 @@ void MEMFreeToExpHeap(MEMHeapHandle heap, void* addr) {
     OSLockMutex(&heap->mutex);
 
   MEM_Extent region;
-  MEM_BlockGetExtent(&region, block);
-  (void)MEM_BlockRemove(&expHeap->usedList, block);
-  (void)MEM_RecycleRegion(expHeap, &region);
+  MEM_ExpBlockGetExtent(&region, block);
+  (void)MEM_ExpBlockRemove(&expHeap->usedList, block);
+  (void)MEM_ExpRecycleRegion(expHeap, &region);
 
   if (((u16)heap->_unk38.parts.flags) & 0x04)
     OSUnlockMutex(&heap->mutex);
@@ -609,7 +581,7 @@ u32 MEMAdjustExpHeap(MEMHeapHandle heapHandle) {
     goto ret_;
   }
 
-  MEM_BlockRemove(&expHeap->freeList, block);
+  MEM_ExpBlockRemove(&expHeap->freeList, block);
   blockSize = block->blockSize + sizeof(MEMiExpHeapMBlockHead);
   heap->arena_end = ptr_sub(heap->arena_end, blockSize);
   ret = ptr_diff(heap, heap->arena_end);

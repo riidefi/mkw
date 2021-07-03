@@ -54,11 +54,11 @@ typedef void (*MEMExpHeapVisitor)(void* block, MEMHeapHandle heap,
                                   u32 user_data);
 
 // PAL: 0x8019899c
-void* MEM_AllocFromHead(MEMiHeapHead*, u32, int);
+void* MEM_ExpAllocFromHead(MEMiHeapHead*, u32, int);
 // PAL: 0x80198a78
-void* MEM_AllocFromTail(MEMiHeapHead*, u32, int);
+void* MEM_ExpAllocFromTail(MEMiHeapHead*, u32, int);
 // PAL: 0x80198b40
-u32 MEM_RecycleRegion(MEMiExpHeapHead*, const MEM_Extent*);
+u32 MEM_ExpRecycleRegion(MEMiExpHeapHead*, const MEM_Extent*);
 // PAL: 0x80198ca8
 MEMHeapHandle MEMCreateExpHeapEx(void* begin, u32 size, u16 flags);
 // PAL: 0x80198d58

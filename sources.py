@@ -6,6 +6,7 @@ NW4R_OPTS = '-ipa file -inline auto -rostr -O4,p'
 compile_source("source/rvl/arc/rvlArchive.c", "out/rvlArchive.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mem/rvlMemHeap.c", "out/rvlMemHeap.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mem/rvlMemExpHeap.c", "out/rvlMemExpHeap.o", '4199_60831', RVL_OPTS)
+compile_source("source/rvl/mem/rvlMemFrmHeap.c", "out/rvlMemFrmHeap.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mem/rvlMemList.c", "out/rvlMemList.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mtx/rvlMtx.c", "out/rvlMtx.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mtx/rvlMtx2.c", "out/rvlMtx2.o", '4199_60831', RVL_OPTS)
