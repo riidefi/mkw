@@ -10,6 +10,7 @@
 namespace EGG {
 
 bool Archive::sIsArchiveListInitialized;
+// PAL: 0x803832d8
 nw4r::ut::List Archive::sArchiveList;
 
 Archive::~Archive() { removeList(this); }

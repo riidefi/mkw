@@ -4,8 +4,7 @@
 extern "C" {
 #endif
 
-rvlMemIntrusiveList* MEMInitList(rvlMemIntrusiveList* pList,
-                                 u16 intrusion_offset) {
+MEMList* MEMInitList(MEMList* pList, u16 intrusion_offset) {
   pList->intrusion_offset = intrusion_offset;
   pList->head = nullptr;
   pList->tail = nullptr;
@@ -14,10 +13,9 @@ rvlMemIntrusiveList* MEMInitList(rvlMemIntrusiveList* pList,
   return pList;
 }
 
-rvlMemIntrusiveList* MEMAppendListObject(rvlMemIntrusiveList* pList,
-                                         void* pObj) {
+MEMList* MEMAppendListObject(MEMList* pList, void* pObj) {
   if (pList->head == nullptr) {
-    rvlMemBiNode* node = rvlMemListGetNode(pList, pObj);
+    MEMLink* node = rvlMemListGetNode(pList, pObj);
 
     node->succ = nullptr;
     node->pred = nullptr;
@@ -29,7 +27,7 @@ rvlMemIntrusiveList* MEMAppendListObject(rvlMemIntrusiveList* pList,
     return pList;
   }
 
-  rvlMemBiNode* node = rvlMemListGetNode(pList, pObj);
+  MEMLink* node = rvlMemListGetNode(pList, pObj);
 
   node->pred = pList->tail;
   node->succ = nullptr;
@@ -41,9 +39,8 @@ rvlMemIntrusiveList* MEMAppendListObject(rvlMemIntrusiveList* pList,
   return pList;
 }
 
-rvlMemIntrusiveList* MEMRemoveListObject(rvlMemIntrusiveList* pList,
-                                         void* pObj) {
-  rvlMemBiNode* node = rvlMemListGetNode(pList, pObj);
+MEMList* MEMRemoveListObject(MEMList* pList, void* pObj) {
+  MEMLink* node = rvlMemListGetNode(pList, pObj);
 
   if (node->pred == nullptr)
     pList->head = node->succ;
@@ -63,7 +60,7 @@ rvlMemIntrusiveList* MEMRemoveListObject(rvlMemIntrusiveList* pList,
   return pList;
 }
 
-void* MEMGetNextListObject(rvlMemIntrusiveList* pList, void* pObj) {
+void* MEMGetNextListObject(MEMList* pList, void* pObj) {
   if (pObj == nullptr)
     return pList->head;
 

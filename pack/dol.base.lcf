@@ -62,6 +62,10 @@ CXGetUncompressedSize=0x8015C2E0;
 
 OSPanic=0x801A2660;
 
+OSDisableInterrupts=0x801A65AC;
+OSEnableInterrupts=0x801A65C0;
+OSRestoreInterrupts=0x801A65D4;
+
 OSInitMutex=0x801A7EAC;
 
 OSLockMutex=0x801A7EE4;
@@ -77,7 +81,6 @@ OSCancelThread=0x801AA1D4;
 onExit__Q23EGG6ThreadFv=0x80008E7C;
 onEnter__Q23EGG6ThreadFv=0x80008E80;
 OSGetCurrentThread=0x801A98B0;
-MEMFindContainHeap=0x80198658;
 
 DVDReadPrio=0x8015E834;
 DVDOpen=0x8015E2BC;
@@ -92,31 +95,6 @@ GXGetNumXfbLines=0x8016F640;
 GXSetDispCopySrc=0x8016F438;
 GXSetDispCopyDst=0x8016F4B8;
 GXSetDispCopyYScale=0x8016F8FC;
-
-MEMCreateUnitHeapEx= 0x801998A4;
-MEMDestroyUnitHeap= 0x80199A00;
-MEMAllocFromUnitHeap= 0x80199A30;
-MEMFreeToUnitHeap= 0x80199AC4;
-MEMCalcHeapSizeForUnitHeap= 0x80199B34;
-AllocatorAllocForUnitHeap_= 0x80199B70;
-AllocatorFreeForUnitHeap_= 0x80199B90;
-MEMInitAllocatorForUnitHeap= 0x80199BD4;
-
-MEMCreateExpHeapEx = 0x80198CA8;
-MEMDestroyExpHeap = 0x80198D58;
-MEMAllocFromExpHeapEx = 0x80198D88;
-MEMResizeForMBlockExpHeap = 0x80198E38;
-MEMFreeToExpHeap = 0x80199038;
-MEMGetTotalFreeSizeForExpHeap = 0x80199104;
-MEMGetAllocatableSizeForExpHeapEx = 0x80199180;
-MEMSetGroupIDForExpHeap = 0x80199258;
-MEMVisitAllocatedForExpHeap = 0x801992A8;
-MEMGetSizeForMBlockExpHeap = 0x80199344;
-MEMGetGroupIDForMBlockExpHeap = 0x8019934C;
-MEMAdjustExpHeap = 0x80199358;
-AllocatorAllocForExpHeap_ = 0x80199B58;
-AllocatorFreeForExpHeap_ = 0x80199B68;
-MEMInitAllocatorForExpHeap = 0x80199BB8;
 
 VIInit = 0x801B94A4;
 VIWaitForRetrace = 0x801B99EC;

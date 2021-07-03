@@ -1,5 +1,7 @@
 #include "mtx.h"
 
+#include <math.h>
+
 static f32 Unit01[] = {0.0f, 1.0f};
 
 void PSMTXIdentity(register Mtx m) {
@@ -310,11 +312,6 @@ _regular:
   blr;
 }
 
-f64 sin(f64);
-inline f32 sinf(f32 x) { return (float)sin(x); };
-f64 cos(f64);
-inline f32 cosf(f32 x) { return (float)cos(x); };
-
 void PSMTXRotRad(Mtx m, char axis, f32 rad) {
   f32 sinA, cosA;
   sinA = sinf(rad);
@@ -617,9 +614,6 @@ void C_MTXLightFrustum(Mtx m, float arg1, float arg2, float arg3, float arg4,
   m[2][2] = -1.0f;
   m[2][3] = 0.0f;
 }
-
-f64 tan(f64);
-inline f32 tanf(f32 x) { return (float)tan(x); };
 
 void C_MTXLightPerspective(Mtx m, f32 arg1, f32 arg2, float arg3, float arg4,
                            float arg5, float arg6) {

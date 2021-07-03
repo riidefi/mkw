@@ -39,7 +39,7 @@ void Heap::initialize() {
   OSInitMutex(&sRootMutex);
   sIsHeapListInitialized = true;
 }
-Heap::Heap(rvlHeap* pHeap) : Disposer(), mHeapHandle(pHeap) {
+Heap::Heap(MEMiHeapHead* pHeap) : Disposer(), mHeapHandle(pHeap) {
   mParentBlock = nullptr;
   mParentHeap = nullptr;
   mName = "NoName";
@@ -163,7 +163,7 @@ Heap* Heap::findParentHeap() {
 
 Heap* Heap::findContainHeap(const void* memBlock) {
   Heap* containingHeap = nullptr;
-  rvlHeap* memContainHeap = MEMFindContainHeap(memBlock);
+  MEMiHeapHead* memContainHeap = MEMFindContainHeap(memBlock);
   if (memContainHeap) {
     containingHeap = nullptr;
     OSLockMutex(&sRootMutex);
@@ -183,7 +183,7 @@ Heap* Heap::findContainHeap(const void* memBlock) {
 void Heap::free(void* memBlock, Heap* heap) {
   // inside likely inline getContainHeap
   if (heap == nullptr) {
-    rvlHeap* containHeap = MEMFindContainHeap(memBlock); // r30
+    MEMiHeapHead* containHeap = MEMFindContainHeap(memBlock); // r30
     // If our memory block is not inside a head, there is not much we can do.
     if (!containHeap)
       return;
@@ -328,7 +328,7 @@ void* operator new[](size_t size, EGG::Heap* heap, int align) {
 }
 
 void operator delete(void* memBlock) {
-  rvlHeap* containHeap = MEMFindContainHeap(memBlock); // r30
+  MEMiHeapHead* containHeap = MEMFindContainHeap(memBlock); // r30
   // If our memory block is not inside a head, there is not much we can do.
   if (!containHeap)
     return;
@@ -351,7 +351,7 @@ void operator delete(void* memBlock) {
   heap->free(memBlock);
 }
 void operator delete[](void* memBlock) {
-  rvlHeap* containHeap = MEMFindContainHeap(memBlock); // r30
+  MEMiHeapHead* containHeap = MEMFindContainHeap(memBlock); // r30
   // If our memory block is not inside a head, there is not much we can do.
   if (!containHeap)
     return;
