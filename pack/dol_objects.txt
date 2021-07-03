@@ -43,11 +43,12 @@ out\dol\rodata_80249020_80252c78.o
 out\dol\sdata2_803888b4_803888b8.o
 out\rvlQuat.o
 out\dol\text_8019b178_801ec088.o
+out\dol\data_8027e772_802a2360.o
 out\dol\bss_80346d18_80357220.o
 out\dol\sbss_8038683c_80386d30.o
 out\soCommon.o
-out\dol\text_801ec184_8020f62c.o
-out\dol\data_8027e772_802a2668.o
+out\dol\text_801ec5b8_8020f62c.o
+out\dol\data_802a23f8_802a2668.o
 out\eggAllocator.o
 out\dol\bss_80357238_803832d8.o
 out\dol\sbss_80386d38_80386d80.o

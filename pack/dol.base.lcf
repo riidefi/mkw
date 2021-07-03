@@ -28,12 +28,21 @@ __ArenaHi = 0x81700000;
 
 __start = 0x800060A4;
 __destroy_global_chain=0x80021350;
+__div2i=0x800216F0;
 
 cos=0x8001b590;
 sin=0x8001ba98;
 tan=0x8001bb64;
 sqrt=0x8001bbf4;
 
+_savegpr_14=0x8002156C;
+_savegpr_15=0x80021570;
+_savegpr_16=0x80021574;
+_savegpr_17=0x80021578;
+_savegpr_18=0x8002157C;
+_savegpr_19=0x80021580;
+_savegpr_20=0x80021584;
+_savegpr_21=0x80021588;
 _savegpr_22=0x8002158C;
 _savegpr_23=0x80021590;
 _savegpr_24=0x80021594;
@@ -41,6 +50,14 @@ _savegpr_25=0x80021598;
 _savegpr_26=0x8002159C;
 _savegpr_27=0x800215A0;
 
+_restgpr_14=0x800215B8;
+_restgpr_15=0x800215BC;
+_restgpr_16=0x800215C0;
+_restgpr_17=0x800215C4;
+_restgpr_18=0x800215C8;
+_restgpr_19=0x800215CC;
+_restgpr_20=0x800215D0;
+_restgpr_21=0x800215D4;
 _restgpr_22=0x800215D8;
 _restgpr_23=0x800215DC;
 _restgpr_24=0x800215E0;
@@ -60,6 +77,10 @@ GetRenderModeObj__Q34nw4r3g3d8G3DStateFv=0x80064440;
 CXInitUncompContextLZ=0x8015BEF0;
 CXReadUncompLZ=0x8015BF24;
 CXGetUncompressedSize=0x8015C2E0;
+
+IOS_OpenAsync=0x801937E0;
+IOS_Open=0x801938F8;
+IOS_Close=0x80193AD8;
 
 OSPanic=0x801A2660;
 
@@ -82,6 +103,8 @@ OSCancelThread=0x801AA1D4;
 onExit__Q23EGG6ThreadFv=0x80008E7C;
 onEnter__Q23EGG6ThreadFv=0x80008E80;
 OSGetCurrentThread=0x801A98B0;
+OSSleepTicks=0x801AACA8;
+__OSGetSystemTime=0x801AAD7C;
 
 DVDReadPrio=0x8015E834;
 DVDOpen=0x8015E2BC;
@@ -116,6 +139,11 @@ VISetTimeToDimming = 0x801BAFA8;
 SCGetProgressiveMode=0x801B1D84;
 SCGetEuRgb60Mode=0x801B1CAC;
 SCGetAspectRatio=0x801B1BE4;
+
+NCDGetLinkStatus=0x801D0C6C;
+SOCleanup=0x801EC5B8;
+NWC24iStartupSocket=0x801E5FD8;
+SOiWaitForDHCPEx=0x801ECDE8;
 
 __cvt_fp2unsigned = 0x80021478;
 }
