@@ -15,7 +15,8 @@ typedef struct OSThread {
   char _00[0x304];
   char* stack_high; // 304
   char* stack_low;  // 308
-  char _30c[0x318 - 0x30c];
+  u32 error;        // 30C
+  char _310[0x318 - 0x310];
 } OSThread;
 
 typedef void* OSMessage;
