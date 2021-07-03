@@ -119,7 +119,7 @@ def assemble(dst, src):
 
 
 def link(dst, objs, lcf, partial=False):
-    cmd = [MWLD] + objs + ["-o", dst, "-lcf", lcf, "-fp", "hard"]
+    cmd = [MWLD] + objs + ["-o", dst, "-lcf", lcf, "-fp", "hard", "-linkmode", "moreram"]
     if partial:
         cmd.append("-r")
     subprocess.run(cmd, check=True, text=True)
