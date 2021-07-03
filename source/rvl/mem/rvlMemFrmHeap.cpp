@@ -108,9 +108,18 @@ void MEMFreeToFrmHeap(MEMHeapHandle heap, int mode) {
     OSUnlockMutex(&heap->mutex);
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// TODO: Move to OS
 u32 OSDisableInterrupts(void);
 u32 OSEnableInterrupts(void);
 u32 OSRestoreInterrupts(u32 level);
+
+#ifdef __cplusplus
+}
+#endif
 
 u32 MEMGetAllocatableSizeForFrmHeapEx(MEMHeapHandle heap, int align) {
   align = abs(align);
