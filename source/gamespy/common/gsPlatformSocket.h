@@ -13,106 +13,6 @@ extern "C" {
 
 // GSI Cross Platform Socket Wrapper
 
-// this should all inline and optimize out... I hope
-// if they somehow get really complex, we need to move the implementation into
-// the .c file.
-#if defined _PS3 || defined _PSP
-#define gsiSocketIsError(theReturnValue) ((theReturnValue) < 0)
-#define gsiSocketIsNotError(theReturnValue) ((theReturnValue) >= 0)
-#else
-#define gsiSocketIsError(theReturnValue) ((theReturnValue) == -1)
-#define gsiSocketIsNotError(theReturnValue) ((theReturnValue) != -1)
-#endif
-
-#if (0)
-// to do for Saad and Martin, move towards this and phase out the #define
-// jungle. we will trade a little speed for a lot of portability, and stability
-// also out debug libs will assert all params comming in.
-typedef enum {
-  GS_SOCKERR_NONE = 0,
-  GS_SOCKERR_EWOULDBLOCK,
-  GS_SOCKERR_EINPROGRESS,
-  GS_SOCKERR_EALREADY,
-  GS_SOCKERR_ENOTSOCK,
-  GS_SOCKERR_EDESTADDRREQ,
-  GS_SOCKERR_EMSGSIZE,
-  GS_SOCKERR_EPROTOTYPE,
-  GS_SOCKERR_ENOPROTOOPT,
-  GS_SOCKERR_EPROTONOSUPPORT,
-  GS_SOCKERR_ESOCKTNOSUPPORT,
-  GS_SOCKERR_EOPNOTSUPP,
-  GS_SOCKERR_EPFNOSUPPORT,
-  GS_SOCKERR_EAFNOSUPPORT,
-  GS_SOCKERR_EADDRINUSE,
-  GS_SOCKERR_EADDRNOTAVAIL,
-  GS_SOCKERR_ENETDOWN,
-  GS_SOCKERR_ENETUNREACH,
-  GS_SOCKERR_ENETRESET,
-  GS_SOCKERR_ECONNABORTED,
-  GS_SOCKERR_ECONNRESET,
-  GS_SOCKERR_ENOBUFS,
-  GS_SOCKERR_EISCONN,
-  GS_SOCKERR_ENOTCONN,
-  GS_SOCKERR_ESHUTDOWN,
-  GS_SOCKERR_ETOOMANYREFS,
-  GS_SOCKERR_ETIMEDOUT,
-  GS_SOCKERR_ECONNREFUSED,
-  GS_SOCKERR_ELOOP,
-  GS_SOCKERR_ENAMETOOLONG,
-  GS_SOCKERR_EHOSTDOWN,
-  GS_SOCKERR_EHOSTUNREACH,
-  GS_SOCKERR_ENOTEMPTY,
-  GS_SOCKERR_EPROCLIM,
-  GS_SOCKERR_EUSERS,
-  GS_SOCKERR_EDQUOT,
-  GS_SOCKERR_ESTALE,
-  GS_SOCKERR_EREMOTE,
-  GS_SOCKERR_EINVAL,
-  GS_SOCKERR_COUNT,
-} GS_SOCKET_ERROR;
-
-#define gsiSocketIsError(theReturnValue) ((theReturnValue) != GS_SOCKERR_NONE)
-#define gsiSocketIsNotError(theReturnValue)                                    \
-  ((theReturnValue) == GS_SOCKERR_NONE)
-
-typedef int GSI_SOCKET;
-
-// mj - may need to pragma pack this, otherwise, it will pad after u_short
-typedef struct {
-  // this is the same as the "default" winsocks
-  u_short sa_family; /* address family */
-  char sa_data[14];  /* up to 14 bytes of direct address */
-} GS_SOCKADDR;
-
-GSI_SOCKET gsiSocketAccept(GSI_SOCKET sock, GS_SOCKADDR* addr, int* len);
-GS_SOCKET_ERROR gsiSocketSocket(int pf, int type, int protocol);
-GS_SOCKET_ERROR gsiSocketClosesocket(GSI_SOCKET sock);
-GS_SOCKET_ERROR gsiSocketShutdown(GSI_SOCKET sock, int how);
-GS_SOCKET_ERROR gsiSocketBind(GSI_SOCKET sock, const GS_SOCKADDR* addr,
-                              int len);
-GS_SOCKET_ERROR gsiSocketConnect(GSI_SOCKET sock, const GS_SOCKADDR* addr,
-                                 int len);
-GS_SOCKET_ERROR gsiSocketListen(GSI_SOCKET sock, int backlog);
-GS_SOCKET_ERROR gsiSocketRecv(GSI_SOCKET sock, char* buf, int len, int flags);
-GS_SOCKET_ERROR gsiSocketRecvfrom(GSI_SOCKET sock, char* buf, int len,
-                                  int flags, GS_SOCKADDR* addr, int* fromlen);
-GS_SOCKET_ERROR gsiSocketSend(GSI_SOCKET sock, const char* buf, int len,
-                              int flags);
-GS_SOCKET_ERROR gsiSocketSendto(GSI_SOCKET sock, const char* buf, int len,
-                                int flags, const GS_SOCKADDR* addr, int tolen);
-GS_SOCKET_ERROR gsiSocketGetsockopt(GSI_SOCKET sock, int level, int optname,
-                                    char* optval, int* optlen);
-GS_SOCKET_ERROR gsiSocketSetsockopt(GSI_SOCKET sock, int level, int optname,
-                                    const char* optval, int optlen);
-GS_SOCKET_ERROR gsiSocketGetsockname(GSI_SOCKET sock, GS_SOCKADDR* addr,
-                                     int* len);
-GS_SOCKET_ERROR GOAGetLastError(GSI_SOCKET sock);
-
-gsiSocketGethostbyaddr(a, l, t) SOC_GetHostByAddr(a, l, t)
-    gsiSocketGethostbyname(n) SOC_GetHostByName(n)
-
-#endif
-
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Types
@@ -166,24 +66,6 @@ gsiSocketGethostbyaddr(a, l, t) SOC_GetHostByAddr(a, l, t)
 #define WSAESTALE ESTALE
 #define WSAEREMOTE EREMOTE
 #define WSAEINVAL EINVAL
-
-#ifdef EENET
-#define GOAGetLastError(s) sceEENetErrno
-#define closesocket sceEENetClose
-#endif
-
-#ifdef INSOCK
-//#define NETBUFSIZE (sceLIBNET_BUFFERSIZE)
-#define NETBUFSIZE (32768) // buffer size for our samples
-
-    // used in place of shutdown function to avoid blocking shutdown call
-    int gsiShutdown(SOCKET s, int how);
-
-#define GOAGetLastError(s) sceInsockErrno // not implemented
-#define closesocket(s) gsiShutdown(s, SCE_INSOCK_SHUT_RDWR)
-#undef shutdown
-#define shutdown(s, h) gsiShutdown(s, h)
-#endif
 
 #define AF_INET SO_PF_INET
 #define SOCK_DGRAM SO_SOCK_DGRAM

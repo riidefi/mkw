@@ -1,20 +1,28 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <stdbool.h>
+
 // include the revolution socket header
 #include "../gsPlatform.h"
+#include "../gsPlatformUtil.h"
+#include "../gsPlatformSocket.h"
 
 #include <rvl/so/so.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // static variables
+// PAL: 0x80386354 @sbss
 static int GSIRevolutionErrno;
+extern int _pad_80386350;
+int _pad_80386350; // FIXME does not exist but required as sbss padding.
 
 // prototypes of static functions
 static int CheckRcode(int rcode, int errCode);
 
 #define REVOlUTION_SOCKET_ERROR -1
+#define SOCKET int
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -88,14 +96,16 @@ SOCKET accept(SOCKET sock, SOCKADDR* addr, int* len)
 
 int recv(SOCKET sock, char* buf, int len, int flags)
 {
-	int rcode = SORecv(sock, buf, len, flags);
+  // TODO flags hardcoded to 4 here.
+	int rcode = SORecv(sock, buf, len, 4);
 	return CheckRcode(rcode, REVOlUTION_SOCKET_ERROR);
 }
 int recvfrom(SOCKET sock, char* buf, int len, int flags, SOCKADDR* addr, int* fromlen)
 {
 	int rcode;
 	addr->len = (u8)*fromlen;
-	rcode = SORecvFrom(sock, buf, len, flags, addr);
+  // TODO flags hardcoded to 4 here.
+	rcode = SORecvFrom(sock, buf, len, 4, addr);
 	*fromlen = addr->len;
 	return CheckRcode(rcode, REVOlUTION_SOCKET_ERROR);
 }
@@ -121,12 +131,12 @@ int getsockopt(SOCKET sock, int level, int optname, char* optval, int* optlen)
 	int rcode = SOGetSockOpt(sock, level, optname, optval, optlen);
 	return CheckRcode(rcode, REVOlUTION_SOCKET_ERROR);
 }
+*/
 SOCKET setsockopt(SOCKET sock, int level, int optname, const char* optval, int optlen)
 {
 	int rcode = SOSetSockOpt(sock, level, optname, optval, optlen);
 	return CheckRcode(rcode, REVOlUTION_SOCKET_ERROR);
 }
-*/
 
 int getsockname(SOCKET sock, SOCKADDR* addr, int* len)
 {

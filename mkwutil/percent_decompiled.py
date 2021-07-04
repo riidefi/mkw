@@ -129,6 +129,10 @@ def percent_decompiled(dir="."):
     egg_total = [0x80244DD4 - 0x8020F62C, None]
     analyze("  -> [EGG]", egg_progress, egg_total)
 
+    spy_progress = get_progress(parse_slices(dol_slices_path), "gamespy")
+    spy_total = [0x80123F88 - 0x800EF378, None]
+    analyze("  -> [SPY]", spy_progress, spy_total)
+
     rel_slices_path = dir / "pack" / "rel_slices.csv"
     rel_progress = simple_count(rel_slices_path)
     rel_segments_path = dir / "pack" / "rel_segments.csv"

@@ -27,13 +27,15 @@ out\hashtable.o
 out\dol\rodata_80249020_8024c6b8.o
 out\dol\data_80275758_8027aca0.o
 out\md5c.o
-out\dol\text_800f118c_80124500.o
+out\dol\sbss_803862b0_80386350.o
+out\gsSocketRevolution.o
+out\dol\text_800f164c_80124500.o
 out\dol\data_8027ace0_8027e708.o
 out\dol\sdata_80384c00_803857f0.o
 out\rvlArchive.o
 out\dol\text_80124e80_801981ec.o
 out\dol\bss_802bd4ec_80346cf0.o
-out\dol\sbss_803862b0_80386838.o
+out\dol\sbss_80386358_80386838.o
 out\rvlMemHeap.o
 out\rvlMemExpHeap.o
 out\rvlMemFrmHeap.o
