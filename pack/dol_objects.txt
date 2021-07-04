@@ -21,7 +21,9 @@ out\dol\text_800af1a0_800ccb4c.o
 out\dol\data_80274250_80275700.o
 out\dol\sbss_80385fc0_803862a8.o
 out\dwc_error.o
-out\dol\text_800ccc80_80124500.o
+out\dol\text_800ccc80_800ef378.o
+out\darray.o
+out\dol\text_800efdcc_80124500.o
 out\dol\data_80275758_8027e708.o
 out\dol\sdata_80384c00_803857f0.o
 out\rvlArchive.o

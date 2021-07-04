@@ -18,6 +18,10 @@ compile_source("source/rvl/mtx/rvlQuat.c", "out/rvlQuat.o", '4199_60831', RVL_OP
 compile_source("source/rvl/so/soCommon.c", "out/soCommon.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/so/soBasic.c", "out/soBasic.o", '4199_60831', RVL_OPTS)
 
+compile_source("source/gamespy/darray.c", "out/darray.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/common/gsPlatformUtil.c", "out/gsPlatformUtil.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/common/gsCore.c", "out/gsCore.o", '4199_60831', RVL_OPTS)
+
 compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)
 compile_source("source/nw4r/math/mathTypes.cpp", "out/mathTypes.o", '4201_127', NW4R_OPTS)
 compile_source("source/nw4r/g3d/g3d_camera.cpp", "out/g3d_camera.o", '4201_127', NW4R_OPTS)

@@ -23,9 +23,6 @@ static int soBufAddrCheck = true;
 // PAL: 0x802a2360 @data
 static char NET_RM_SOCK[] = "/dev/net/ip/top";
 
-u32 OSDisableInterrupts(void);
-u32 OSEnableInterrupts(void);
-u32 OSRestoreInterrupts(u32 level);
 void OSSleepTicks(s64);
 s64 __OSGetSystemTime(void);
 
@@ -34,8 +31,6 @@ s32 NWC24iStartupSocket(s32*);
 s32 NWC24iCleanupSocket(s32*);
 s32 NWC24iLockSocket();
 s32 NWC24iUnlockSocket();
-int SOGetInterfaceOpt(void*, int, int, void*, int*);
-u32 SOGetHostID(void);
 
 int SOFinish(void) {
   int result = 0;
