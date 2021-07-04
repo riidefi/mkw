@@ -250,9 +250,42 @@ __cvt_fp2unsigned = 0x80021478;
 }
 
 FORCEACTIVE {
+
 initialize__Q23EGG5VideoFPC15GXRenderModeObjPCPC15GXRenderModeObj
 getTickPerVRetrace__Q23EGG5VideoFUl
 getTickPerVRetrace__Q23EGG5VideoFv
+
+// gsXML
+gsXmlCreateStreamWriter
+gsXmlCreateStreamReader
+gsXmlParseBuffer
+gsXmlFreeWriter
+gsXmlFreeReader
+gsXmlCloseWriter
+gsXmlWriterGetData
+gsXmlWriterGetDataLength
+gsXmlWriteOpenTag
+gsXmlWriteCloseTag
+gsXmlWriteStringElement
+gsXmlWriteUnicodeStringElement
+gsXmlWriteIntElement
+gsXmlWriteFloatElement
+gsXmlWriteBase64BinaryElement
+gsXmlWriteDateTimeElement
+gsiXmlUtilWriteXmlSafeString
+gsXmlMoveToStart
+gsXmlMoveToNext
+gsXmlMoveToParent
+gsXmlMoveToChild
+gsXmlReadChildAsString
+gsXmlReadChildAsStringNT
+gsXmlReadChildAsHexBinary
+gsXmlReadChildAsBase64Binary
+gsXmlReadChildAsInt
+gsXmlReadChildAsDateTimeElement
+gsXmlReadChildAsFloat
+gsiXmlUtilTagMatches
+gsXmlCountChildren
 
 // sakeMain
 sakeStartup
