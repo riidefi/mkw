@@ -1,60 +1,7 @@
 
 .include "macros.inc"
 
-.section .text, "ax" # 0x801ECF20 - 0x8020F62C
-/* 801ECF20  94 21 FF E0 */	stwu r1, -0x20(r1)
-/* 801ECF24  7C 08 02 A6 */	mflr r0
-/* 801ECF28  90 01 00 24 */	stw r0, 0x24(r1)
-/* 801ECF2C  93 E1 00 1C */	stw r31, 0x1c(r1)
-/* 801ECF30  7C BF 2B 78 */	mr r31, r5
-/* 801ECF34  93 C1 00 18 */	stw r30, 0x18(r1)
-/* 801ECF38  93 A1 00 14 */	stw r29, 0x14(r1)
-/* 801ECF3C  7C 9D 23 78 */	mr r29, r4
-/* 801ECF40  38 81 00 08 */	addi r4, r1, 8
-/* 801ECF44  93 81 00 10 */	stw r28, 0x10(r1)
-/* 801ECF48  7C 7C 1B 78 */	mr r28, r3
-/* 801ECF4C  38 60 00 00 */	li r3, 0
-/* 801ECF50  4B FF F9 99 */	bl -0x668
-/* 801ECF54  2C 03 00 00 */	cmpwi r3, 0
-/* 801ECF58  40 82 00 7C */	bne 0x7c
-/* 801ECF5C  2C 1C 00 17 */	cmpwi r28, 0x17
-/* 801ECF60  40 82 00 0C */	bne 0xc
-/* 801ECF64  3B E0 FF FB */	li r31, -5
-/* 801ECF68  48 00 00 60 */	b 0x60
-/* 801ECF6C  38 60 00 0C */	li r3, 0xc
-/* 801ECF70  38 80 00 20 */	li r4, 0x20
-/* 801ECF74  4B FF F8 59 */	bl -0x7a8
-/* 801ECF78  2C 03 00 00 */	cmpwi r3, 0
-/* 801ECF7C  7C 7E 1B 78 */	mr r30, r3
-/* 801ECF80  40 82 00 0C */	bne 0xc
-/* 801ECF84  3B E0 FF CF */	li r31, -49
-/* 801ECF88  48 00 00 40 */	b 0x40
-/* 801ECF8C  93 83 00 00 */	stw r28, 0(r3)
-/* 801ECF90  7F C5 F3 78 */	mr r5, r30
-/* 801ECF94  38 80 00 0F */	li r4, 0xf
-/* 801ECF98  38 C0 00 0C */	li r6, 0xc
-/* 801ECF9C  93 A3 00 04 */	stw r29, 4(r3)
-/* 801ECFA0  38 E0 00 00 */	li r7, 0
-/* 801ECFA4  39 00 00 00 */	li r8, 0
-/* 801ECFA8  93 E3 00 08 */	stw r31, 8(r3)
-/* 801ECFAC  80 61 00 08 */	lwz r3, 8(r1)
-/* 801ECFB0  4B FA 72 E1 */	bl -0x58d20
-/* 801ECFB4  7C 7F 1B 78 */	mr r31, r3
-/* 801ECFB8  7F C4 F3 78 */	mr r4, r30
-/* 801ECFBC  38 60 00 0C */	li r3, 0xc
-/* 801ECFC0  38 A0 00 20 */	li r5, 0x20
-/* 801ECFC4  4B FF F8 F1 */	bl -0x710
-/* 801ECFC8  7F E4 FB 78 */	mr r4, r31
-/* 801ECFCC  38 60 00 00 */	li r3, 0
-/* 801ECFD0  4B FF FA 01 */	bl -0x600
-/* 801ECFD4  80 01 00 24 */	lwz r0, 0x24(r1)
-/* 801ECFD8  83 E1 00 1C */	lwz r31, 0x1c(r1)
-/* 801ECFDC  83 C1 00 18 */	lwz r30, 0x18(r1)
-/* 801ECFE0  83 A1 00 14 */	lwz r29, 0x14(r1)
-/* 801ECFE4  83 81 00 10 */	lwz r28, 0x10(r1)
-/* 801ECFE8  7C 08 03 A6 */	mtlr r0
-/* 801ECFEC  38 21 00 20 */	addi r1, r1, 0x20
-/* 801ECFF0  4E 80 00 20 */	blr 
+.section .text, "ax" # 0x801ECFF4 - 0x8020F62C
 /* 801ECFF4  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 801ECFF8  7C 08 02 A6 */	mflr r0
 /* 801ECFFC  90 01 00 24 */	stw r0, 0x24(r1)

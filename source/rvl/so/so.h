@@ -18,6 +18,12 @@ typedef struct SOSysWork {
   s32 allocCount;         // 0x14
 } SOSysWork;
 
+typedef struct NETSoSocket {
+  int af;       // 0x00
+  int type;     // 0x04
+  int protocol; // 0x08
+} NETSoSocket;
+
 enum {
   SO_SUCCESS = 0,
   SO_EFATAL = 0x80000000,
@@ -182,8 +188,11 @@ enum {
 };
 
 enum {
-  NET_ICMP_CLOSE = 0x3,
-  NET_ICMP_SOCKET = 0xf,
+  NET_SO_SOCKET = 0xf,
+};
+
+enum {
+  SO_PF_INET6 = 0x17,
 };
 
 // PAL: 0x80385ee0 @sdata (pointer)
@@ -220,9 +229,7 @@ int SOiConcludeTempRm(const char*, int, int);
 int SOiWaitForDHCPEx(int timeout);
 
 // PAL: 0x801ecf20
-int ICMPSocket(int);
-// PAL: 0x801ed0e4
-int ICMPClose(int);
+int SOSocket(int, int, int);
 
 #ifdef __cplusplus
 }
