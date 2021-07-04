@@ -50,9 +50,9 @@ static const char * GOAGetUniqueID_Internal(void)
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Time Functions
-//static char GSIMonthNames[12][3] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+// static char GSIMonthNames[12][3] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 //                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-//static char GSIWeekDayNames[7][3] = {"Sun", "Mon", "Tue", "Wed",
+// static char GSIWeekDayNames[7][3] = {"Sun", "Mon", "Tue", "Wed",
 //                                     "Thu", "Fri", "Sat"};
 
 time_t gsiTimeInSec(time_t* timer) {
