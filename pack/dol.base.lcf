@@ -55,6 +55,7 @@ sqrt__Q23EGG5MathfFf=0x8022F80C;
 frsqrt__Q23EGG5MathfFf=0x8022F85C;
 __dt__Q23EGG8Vector3fFv=0x80009B40;
 __dt__Q23EGG8Vector2fFv=0x80009B80;
+GetRenderModeObj__Q34nw4r3g3d8G3DStateFv=0x80064440;
 
 CXInitUncompContextLZ=0x8015BEF0;
 CXReadUncompLZ=0x8015BF24;
@@ -93,6 +94,9 @@ GXGetNumXfbLines=0x8016F640;
 GXSetDispCopySrc=0x8016F438;
 GXSetDispCopyDst=0x8016F4B8;
 GXSetDispCopyYScale=0x8016F8FC;
+GXSetFog=0x801722CC;
+GXInitFogAdjTable=0x801724F8;
+GXSetFogRangeAdj=0x80172658;
 
 VIInit = 0x801B94A4;
 VIWaitForRetrace = 0x801B99EC;

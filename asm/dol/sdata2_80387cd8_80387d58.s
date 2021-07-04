@@ -1,0 +1,36 @@
+
+.include "macros.inc"
+
+.section .sdata2, "a" # 0x80387CD8 - 0x80387D58
+.4byte 0xBF800000
+.4byte 0x3F360B61
+.4byte 0x3F360B61
+.4byte 0x00000000
+.4byte 0x3F800000
+.4byte 0x00000000
+.4byte 0x00000000
+.4byte 0x3F800000
+.4byte 0x3F360B61
+.4byte 0x3F000000
+.4byte 0xBF000000
+.4byte 0x00000000
+.4byte 0x00000000
+.4byte 0x3F800000
+.4byte 0x3F360B61
+.4byte 0x00000000
+.4byte 0x00000000
+.4byte 0x3F000000
+.4byte 0x3F800000
+.4byte 0x3F360B61
+.4byte 0xBF000000
+.4byte 0x00000000
+.4byte 0x00000000
+.4byte 0x3F800000
+.4byte 0x3F000000
+.4byte 0x00000000
+.4byte 0x3F800000
+.4byte 0x00000000
+.4byte 0x3F800000
+.4byte 0x00000000
+.4byte 0x3F800000
+.4byte 0x00000000

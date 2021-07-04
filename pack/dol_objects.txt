@@ -1,9 +1,16 @@
 out\dol\init_80004000_80005f34.o
 out\rvlTrkMem.o
-out\dol\text_800072c0_80085110.o
+out\dol\text_800072c0_8006a0c0.o
+out\dol\bss_802a4080_802bd4ec.o
+out\dol\sdata2_80386fa0_80387cac.o
+out\g3d_camera.o
+out\dol\text_8006a518_800774d0.o
+out\dol\sdata2_80387cd8_80387d58.o
+out\g3d_fog.o
+out\dol\text_800775d0_80085110.o
 out\dol\rodata_80244ec0_80248010.o
 out\dol\data_80258580_80274148.o
-out\dol\sdata2_80386fa0_80387e80.o
+out\dol\sdata2_80387d5c_80387e80.o
 out\mathTriangular.o
 out\dol\text_80085578_80085600.o
 out\dol\sdata2_80387ea4_80387ea8.o
@@ -19,7 +26,7 @@ out\dol\data_80275758_8027e708.o
 out\dol\sdata_80384c00_803857f0.o
 out\rvlArchive.o
 out\dol\text_80124e80_801981ec.o
-out\dol\bss_802a4080_80346cf0.o
+out\dol\bss_802bd4ec_80346cf0.o
 out\dol\sbss_803862b0_80386838.o
 out\rvlMemHeap.o
 out\rvlMemExpHeap.o

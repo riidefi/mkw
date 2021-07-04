@@ -18,6 +18,8 @@ compile_source("source/rvl/mtx/rvlQuat.c", "out/rvlQuat.o", '4199_60831', RVL_OP
 
 compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)
 compile_source("source/nw4r/math/mathTypes.cpp", "out/mathTypes.o", '4201_127', NW4R_OPTS)
+compile_source("source/nw4r/g3d/g3d_camera.cpp", "out/g3d_camera.o", '4201_127', NW4R_OPTS)
+compile_source("source/nw4r/g3d/g3d_fog.cpp", "out/g3d_fog.o", '4201_127', NW4R_OPTS)
 compile_source("source/nw4r/ut/utList.cpp", "out/utList.o", '4201_127', NW4R_OPTS)
 
 compile_source("source/dwc/common/dwc_error.c", "out/dwc_error.o", '4199_60831', RVL_OPTS)
