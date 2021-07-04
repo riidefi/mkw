@@ -95,8 +95,7 @@ static gsi_bool gsiXmlUtilParseValue(GSIXmlStreamReader* stream, char* buffer,
                                      int len, int* pos, GSIXmlString* strOut);
 static gsi_bool gsiXmlUtilParseElement(GSIXmlStreamReader* stream, char* buffer,
                                        int len, int* pos, int parentIndex);
-gsi_bool gsiXmlUtilTagMatches(const char* matchtag,
-                                     GSIXmlString* xmlstr);
+gsi_bool gsiXmlUtilTagMatches(const char* matchtag, GSIXmlString* xmlstr);
 
 // Note: Writes decoded form back into buffer
 static gsi_bool gsiXmlUtilDecodeString(char* buffer, int* len);
@@ -108,7 +107,7 @@ static gsi_bool gsiXmlUtilWriteChar(GSIXmlStreamWriter* stream, char ch);
 static gsi_bool gsiXmlUtilWriteString(GSIXmlStreamWriter* stream,
                                       const char* str);
 gsi_bool gsiXmlUtilWriteXmlSafeString(GSIXmlStreamWriter* stream,
-                                             const char* str);
+                                      const char* str);
 static gsi_bool gsiXmlUtilGrowBuffer(GSIXmlStreamWriter* stream);
 #ifdef GSI_UNICODE
 static gsi_bool gsiXmlUtilWriteAsciiString(GSIXmlStreamWriter* stream,
@@ -263,7 +262,7 @@ gsi_bool gsXmlParseBuffer(GSXmlStreamReader stream, char* data, int len) {
 
   reader = (GSIXmlStreamReader*)stream;
 
-  //gsXmlResetReader(stream);
+  // gsXmlResetReader(stream);
 
   // Parse the root elements (automatically includes sub-elements)
   while (readPos < len) {
@@ -840,7 +839,7 @@ gsi_bool gsXmlWriteAsciiStringElement(GSXmlStreamWriter stream,
   // Check legal ASCII characters
   //  0x9, 0xA, 0xD
   //  [0x20-0xFF]
-  //len = (int)_tcslen(value);
+  // len = (int)_tcslen(value);
   len = (int)strlen(value);
   for (i = 0; i < len; i++) {
     // only check values less than 0x20
@@ -1232,7 +1231,7 @@ static gsi_bool gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter* stream,
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 gsi_bool gsiXmlUtilWriteXmlSafeString(GSIXmlStreamWriter* stream,
-                                             const char* str) {
+                                      const char* str) {
   int strLen = 0;
   int pos = 0;
   gsi_bool result = gsi_false;
@@ -1439,45 +1438,42 @@ gsi_bool gsXmlReadChildAsString(GSXmlStreamReader stream, const char* matchtag,
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-gsi_bool gsXmlReadChildAsUnicodeString(GSXmlStreamReader stream, const char *
-matchtag, gsi_char ** valueOut, int * lenOut)
-{
-        GSIXmlStreamReader * reader = (GSIXmlStreamReader*)stream;
-        GSIXmlElement * searchValueElem = NULL;
-        int i=0;
+gsi_bool gsXmlReadChildAsUnicodeString(GSXmlStreamReader stream,
+                                       const char* matchtag,
+                                       gsi_char** valueOut, int* lenOut) {
+  GSIXmlStreamReader* reader = (GSIXmlStreamReader*)stream;
+  GSIXmlElement* searchValueElem = NULL;
+  int i = 0;
 
-        // Do we have a valid value position already?
-        if (reader->mValueReadIndex == -1)
-                reader->mValueReadIndex = reader->mElemReadIndex; // start at current element
+  // Do we have a valid value position already?
+  if (reader->mValueReadIndex == -1)
+    reader->mValueReadIndex =
+        reader->mElemReadIndex; // start at current element
 
-        for (i=(reader->mValueReadIndex+1); i <
-ArrayLength(reader->mElementArray); i++)
-        {
-                searchValueElem =
-(GSIXmlElement*)ArrayNth(reader->mElementArray, i); if
-(searchValueElem->mParentIndex == reader->mElemReadIndex)
-                {
-                        // check match
-                        if (gsi_is_true(gsiXmlUtilTagMatches(matchtag,
-&searchValueElem->mName)))
-                        {
-                                reader->mValueReadIndex = i;
-                                if (searchValueElem->mValue.mData == NULL)
-                                {
-                                        *valueOut = NULL;
-                                        *lenOut = 0;
-                                        return gsi_true;
-                                }
-                                *lenOut = UTF8ToUCS2StringLen((const char
-*)searchValueElem->mValue.mData, (unsigned short *) *valueOut,
-searchValueElem->mValue.mLen); return gsi_true;
-                        }
-                }
-                // bail if we've reached a higher branch
-                if (searchValueElem->mParentIndex < reader->mElemReadIndex)
-                        return gsi_false;
+  for (i = (reader->mValueReadIndex + 1);
+       i < ArrayLength(reader->mElementArray); i++) {
+    searchValueElem = (GSIXmlElement*)ArrayNth(reader->mElementArray, i);
+    if (searchValueElem->mParentIndex == reader->mElemReadIndex) {
+      // check match
+      if (gsi_is_true(
+              gsiXmlUtilTagMatches(matchtag, &searchValueElem->mName))) {
+        reader->mValueReadIndex = i;
+        if (searchValueElem->mValue.mData == NULL) {
+          *valueOut = NULL;
+          *lenOut = 0;
+          return gsi_true;
         }
-        return gsi_false;
+        *lenOut = UTF8ToUCS2StringLen(
+            (const char*)searchValueElem->mValue.mData,
+            (unsigned short*)*valueOut, searchValueElem->mValue.mLen);
+        return gsi_true;
+      }
+    }
+    // bail if we've reached a higher branch
+    if (searchValueElem->mParentIndex < reader->mElemReadIndex)
+      return gsi_false;
+  }
+  return gsi_false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1799,8 +1795,7 @@ gsi_bool gsXmlReadChildAsFloat(GSXmlStreamReader stream, const char* matchtag,
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Compare only the text following the namespace character
-gsi_bool gsiXmlUtilTagMatches(const char* matchtag,
-                                     GSIXmlString* xmlstr) {
+gsi_bool gsiXmlUtilTagMatches(const char* matchtag, GSIXmlString* xmlstr) {
   const char* matchNoNamespace = NULL;
   GSIXmlString xmlNoNamespace;
   int xmlNamespacePos = 0;

@@ -8,27 +8,28 @@ extern "C" {
 #endif
 
 #ifndef GSI_UNICODE
-#define GSIStartAvailableCheck   GSIStartAvailableCheckA
+#define GSIStartAvailableCheck GSIStartAvailableCheckA
 #else
-#define GSIStartAvailableCheck   GSIStartAvailableCheckW
+#define GSIStartAvailableCheck GSIStartAvailableCheckW
 #endif
 
-// the available check contacts a backend server at "<gamename>.available.gamespy.com"
-// an app can resolve the hostname itself and store the IP here before starting the check
+// the available check contacts a backend server at
+// "<gamename>.available.gamespy.com" an app can resolve the hostname itself and
+// store the IP here before starting the check
 extern char GSIACHostname[64];
 
 // these are possible return types for GSIAvailableCheckThink
-typedef enum
-{
-	GSIACWaiting,                 // still waiting for a response from the backend
-	GSIACAvailable,               // the game's backend services are available
-	GSIACUnavailable,             // the game's backend services are unavailable
-	GSIACTemporarilyUnavailable   // the game's backend services are temporarily unavailable
+typedef enum {
+  GSIACWaiting,               // still waiting for a response from the backend
+  GSIACAvailable,             // the game's backend services are available
+  GSIACUnavailable,           // the game's backend services are unavailable
+  GSIACTemporarilyUnavailable // the game's backend services are temporarily
+                              // unavailable
 } GSIACResult;
 
 // start an available check for a particular game
 // return 0 if no error starting up, non-zero if there's an error
-void GSIStartAvailableCheck(const gsi_char * gamename);
+void GSIStartAvailableCheck(const gsi_char* gamename);
 
 // let the available check think
 // continue to call this while it returns GSIACWaiting
@@ -40,7 +41,8 @@ void GSIStartAvailableCheck(const gsi_char * gamename);
 GSIACResult GSIAvailableCheckThink(void);
 
 // this should only be used if the availability check needs to be aborted
-// for example, if the player leaves the game's multiplayer area before the check completes
+// for example, if the player leaves the game's multiplayer area before the
+// check completes
 void GSICancelAvailableCheck(void);
 
 // internal use only
