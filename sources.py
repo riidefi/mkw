@@ -3,6 +3,7 @@ EGG_OPTS = '-ipa function -rostr'
 REL_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
 NW4R_OPTS = '-ipa file -inline auto -rostr -O4,p'
 
+compile_source("source/rvl/trk/rvlTrkMem.c", "out/rvlTrkMem.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/arc/rvlArchive.c", "out/rvlArchive.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mem/rvlMemHeap.cpp", "out/rvlMemHeap.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mem/rvlMemExpHeap.c", "out/rvlMemExpHeap.o", '4199_60831', RVL_OPTS)
