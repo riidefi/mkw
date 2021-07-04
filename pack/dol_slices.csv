@@ -10,6 +10,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,source/gamespy/hashtable.c,,,,,,,0x800efdcc,0x800f0264,,,,,,,,,,,,,,,,,,
 1,source/gamespy/md5c.c,,,,,,,0x800f0264,0x800f118c,,,,,0x8024c6b8,0x8024c6c9,0x8027aca0,0x8027ace0,,,,,,,,,,
 1,source/gamespy/common/revolution/gsSocketRevolution.c,,,,,,,0x800f118c,0x800f164c,,,,,,,,,,,,,0x80386350,0x80386358,,,,
+1,source/gamespy/common/revolution/gsThreadRevolution.c,,,,,,,0x800f1f58,0x800f1ff8,,,,,,,,,,,,,,,,,,
 ,source/gamespy/common/gsPlatformUtil.c,,,,,,,0x800f1f58,0x800f3844,,,,,,,,,,,,,,,,,,
 ,source/gamespy/common/gsCore.c,,,,,,,0x800f3c08 ,0x800f41dc,,,,,,,,,,,,,,,,,,
 1,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,

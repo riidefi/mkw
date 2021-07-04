@@ -109,6 +109,7 @@ void gsiCancelResolvingHostname(GSIResolveHostnameHandle handle) {
   handle = NULL;
 }
 
+// PAL: 0x800f2300
 unsigned int gsiGetResolvedIP(GSIResolveHostnameHandle handle) {
   unsigned int ip;
 
@@ -163,6 +164,7 @@ char* _strlwr(char* string) {
   return hold;
 }
 
+/*
 char* _strupr(char* string) {
   char* hold = string;
   while (*string) {
@@ -172,100 +174,18 @@ char* _strupr(char* string) {
 
   return hold;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+// PAL: 0x800f24c0
 void SocketStartUp() {}
-
+// PAL: 0x800f24c4
 void SocketShutDown() {}
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifdef _PS2
-extern int sceCdReadClock();
-
-#if !defined(__MWERKS__) && !defined(_PS2)
-typedef unsigned char u_char;
-#endif
-
-typedef struct {
-  u_char stat;   /* status */
-  u_char second; /* second */
-  u_char minute; /* minute */
-  u_char hour;   /* hour   */
-
-  u_char pad;   /* pad    */
-  u_char day;   /* day    */
-  u_char month; /* month  */
-  u_char year;  /* year   */
-} sceCdCLOCK;
-
-static unsigned long GetTicks() {
-  unsigned long ticks;
-  asm volatile(" mfc0 %0, $9 " : "=r"(ticks));
-  return ticks;
-}
-
-#define DEC(x) (10 * (x / 16) + (x % 16))
-#define _BASE_YEAR 70L
-#define _MAX_YEAR 138L
-#define _LEAP_YEAR_ADJUST 17L
-int _days[] = {-1, 30, 58, 89, 119, 150, 180, 211, 242, 272, 303, 333, 364};
-
-static time_t _gmtotime_t(int yr, /* 0 based */
-                          int mo, /* 1 based */
-                          int dy, /* 1 based */
-                          int hr, int mn, int sc) {
-  int tmpdays;
-  long tmptim;
-  struct tm tb;
-
-  if (((long)(yr -= 1900) < _BASE_YEAR) || ((long)yr > _MAX_YEAR))
-    return (time_t)(-1);
-
-  tmpdays = dy + _days[mo - 1];
-  if (!(yr & 3) && (mo > 2))
-    tmpdays++;
-
-  tmptim = (long)yr - _BASE_YEAR;
-
-  tmptim = ((((tmptim)*365L + ((long)(yr - 1) >> 2) - (long)_LEAP_YEAR_ADJUST +
-              (long)tmpdays) *
-                 24L +
-             (long)hr) *
-                60L +
-            (long)mn) *
-               60L +
-           (long)sc;
-
-  tb.tm_yday = tmpdays;
-  tb.tm_year = yr;
-  tb.tm_mon = mo - 1;
-  tb.tm_hour = hr;
-
-  return (tmptim >= 0) ? (time_t)tmptim : (time_t)(-1);
-}
-
-time_t time(time_t* timer) {
-  time_t tim;
-  sceCdCLOCK clocktime; /* defined in libcdvd.h */
-
-  sceCdReadClock(&clocktime); /* libcdvd.a */
-
-  tim = _gmtotime_t(DEC(clocktime.year) + 2000, DEC(clocktime.month),
-                    DEC(clocktime.day), DEC(clocktime.hour),
-                    DEC(clocktime.minute), DEC(clocktime.second));
-
-  if (timer)
-    *timer = tim;
-
-  return tim;
-}
-
-#endif /* _PS2 */
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
+// PAL: 0x800f24c8
 gsi_time current_time() // returns current time in milliseconds
 {
   OSTick aTickNow = OSGetTick();
@@ -273,6 +193,7 @@ gsi_time current_time() // returns current time in milliseconds
   return aMilliseconds;
 }
 
+// PAL: 0x800f2510
 void msleep(gsi_time msec) {
   OSSleepTicks((((s64)msec) * ((__OSBusClock / 4) / 1000)));
 }
@@ -423,6 +344,7 @@ struct tm* gsiSecondsToDate(const time_t* timp) {
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 // GSI equivalent of Standard C-lib "mktime function"
+// PAL: 0x800f27b4
 time_t gsiDateToSeconds(struct tm* tb) {
   time_t tmptm1, tmptm2, tmptm3;
   struct tm* tbtemp;
@@ -542,50 +464,6 @@ time_t gsiDateToSeconds(struct tm* tb) {
   return (time_t)tmptm1;
 }
 
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-// GSI equivalent of Standard C-lib "ctime function"
-char* gsiSecondsToString(const time_t* timp) {
-  char* p = buf;
-  int day, mon;
-  int i;
-  struct tm* ptm;
-
-  ptm = gsiSecondsToDate(timp); /* parse seconds into date structure */
-
-  p = buf; /* use static buffer */
-
-  /* copy day and month names into the buffer */
-
-  day = ptm->tm_wday * 3; /* index to correct day string */
-  mon = ptm->tm_mon * 3;  /* index to correct month string */
-
-  for (i = 0; i < 3; i++, p++) {
-    *p = *(_dnames + day + i);
-    *(p + 4) = *(_mnames + mon + i);
-  }
-
-  *p = _T(' '); /* blank between day and month */
-
-  p += 4;
-
-  *p++ = _T(' ');
-  p = store_dt(p, ptm->tm_mday); /* day of the month (1-31) */
-  *p++ = _T(' ');
-  p = store_dt(p, ptm->tm_hour); /* hours (0-23) */
-  *p++ = _T(':');
-  p = store_dt(p, ptm->tm_min); /* minutes (0-59) */
-  *p++ = _T(':');
-  p = store_dt(p, ptm->tm_sec); /* seconds (0-59) */
-  *p++ = _T(' ');
-  p = store_dt(p, 19 + (ptm->tm_year / 100)); /* year (after 1900) */
-  p = store_dt(p, ptm->tm_year % 100);
-  *p++ = _T('\n');
-  *p = _T('\0');
-
-  return ((char*)buf);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Cross platform random number generator
@@ -624,11 +502,13 @@ static long longrand(void) {
 }
 
 // to seed it
+// PAL: 0x800f2ec8
 void Util_RandSeed(unsigned long seed) {
   // nonzero seed
   randomnum = seed ? (long)(seed & LONGRAND_MAX) : 1;
 }
 
+// PAL: 0x800f2ee0
 int Util_RandInt(int low, int high) {
   unsigned int range = (unsigned int)high - low;
   int num;
@@ -643,9 +523,6 @@ int Util_RandInt(int low, int high) {
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-/*****************************
-UNICODE ENCODING
-******************************/
 
 static void QuartToTrip(char* quart, char* trip, int inlen) {
   if (inlen >= 2)
@@ -819,6 +696,7 @@ void B64Encode(const char* input, char* output, int inlen, int encodingType) {
   }
 }
 
+// PAL: 0x800f3484
 int B64DecodeLen(const char* input, int encodingType) {
   const char* encoding;
   const char* holdin = input;
@@ -843,6 +721,7 @@ int B64DecodeLen(const char* input, int encodingType) {
   return (input - holdin) / 4 * 3;
 }
 
+// PAL: 0x800f3528
 void B64InitEncodeStream(B64StreamData* data, const char* input, int len,
                          int encodingType) {
   data->input = input;
@@ -899,6 +778,7 @@ gsi_bool B64EncodeStream(B64StreamData* data, char output[4]) {
   return gsi_true;
 }
 
+/*
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 void gsiPadRight(char* cArray, char padChar, int cLength);
@@ -1030,6 +910,8 @@ char* gsXxteaDecrypt(const char* iStr, int iLength, char key[XXTEA_KEY_SIZE],
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+*/
+
 #if defined(__cplusplus)
 }
 #endif

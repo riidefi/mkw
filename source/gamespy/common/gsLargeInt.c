@@ -1833,7 +1833,7 @@ gsi_u32 gsLargeIntGetByteLength(const gsLargeInt_t* lint) {
 ///////////////////////////////////////////////////////////////////////////////
 // Creates a large int from a byte buffer
 //		Essentially, constructs the array of digits in appropriate byte
-//order
+// order
 gsi_bool gsLargeIntSetFromMemoryStream(gsLargeInt_t* lint, const gsi_u8* data,
                                        gsi_u32 len) {
   lint->mData[0] = 0;

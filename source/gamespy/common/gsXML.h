@@ -150,7 +150,7 @@ int gsXmlCountChildren(GSXmlStreamReader stream, const char* matchtag);
 #define gsXmlWriteTStringElement(s, n, t, v)                                   \
   gsXmlWriteUnicodeStringElement(s, n, t, v)
 //#define gsXmlReadChildAsTString(s,m,v,l)
-//gsXmlReadChildAsUnicodeString(s,m,v,l)
+// gsXmlReadChildAsUnicodeString(s,m,v,l)
 #define gsXmlReadChildAsTStringNT(s, m, v, l)                                  \
   gsXmlReadChildAsUnicodeStringNT(s, m, v, l)
 #else

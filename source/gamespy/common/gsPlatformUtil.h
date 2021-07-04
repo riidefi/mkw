@@ -101,22 +101,12 @@ char* gsiSecondsToString(const time_t* timp);    // ctime
 ///////////////////////////////////////////////////////////////////////////////
 // Misc utilities
 
-#if defined(_NITRO)
-time_t time(time_t* timer);
-
-#define gmtime(t) gsiSecondsToDate(t)
-#define ctime(t) gsiSecondsToString(t)
-#define mktime(t) gsiDateToSeconds(t)
-#elif defined(_REVOLUTION)
 time_t gsiTimeInSec(time_t* timer);
 struct tm* gsiGetGmTime(time_t* theTime);
 char* gsiCTime(time_t* theTime);
 #define time(t) gsiTimeInSec(t)
 #define gmtime(t) gsiGetGmTime(t)
 #define ctime(t) gsiCTime(t)
-#else
-#include <time.h>
-#endif
 
 #ifndef SOMAXCONN
 #define SOMAXCONN 5
