@@ -182,6 +182,7 @@ enum {
 };
 
 enum {
+  NET_ICMP_CLOSE = 0x3,
   NET_ICMP_SOCKET = 0xf,
 };
 
@@ -220,6 +221,8 @@ int SOiWaitForDHCPEx(int timeout);
 
 // PAL: 0x801ecf20
 int ICMPSocket(int);
+// PAL: 0x801ed0e4
+int ICMPClose(int);
 
 #ifdef __cplusplus
 }
