@@ -2,6 +2,12 @@ import argparse
 from pathlib import Path
 
 
+dont_force = {
+    "eggVideo",
+    "sakeMain"
+}
+
+
 def gen_lcf(src, dst, object_paths):
     lcf = ""
 
@@ -11,7 +17,7 @@ def gen_lcf(src, dst, object_paths):
         for obj_path in object_paths:
             obj_path = Path(obj_path)
             # TODO: Add ability to disable FORCEFILE to slices.csv
-            if obj_path.stem == "eggVideo":
+            if obj_path.stem in dont_force:
                 continue
             lcf += str(obj_path.parent / (obj_path.stem + ".o")) + "\n"
         lcf += "}\n"

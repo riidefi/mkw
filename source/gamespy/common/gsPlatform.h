@@ -53,7 +53,7 @@
 #endif
 
 #if !defined(GSI_DOMAIN_NAME)
-#define GSI_DOMAIN_NAME "gamespy.com"
+#define GSI_DOMAIN_NAME "gs.nintendowifi.net"
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,17 +149,6 @@ extern "C" {
 #define _tcschr wcschr
 #define _tcscmp(s1, s2) wcscmp((wchar_t*)s1, (wchar_t*)s2)
 #define _tfopen _wfopen
-#define _T(a) L##a
-
-#define _tsnprintf swprintf
-#define _vftprintf vfprintf
-#define _ftprintf fprintf
-#define _stprintf sprintf
-#define _tprintf printf
-#define _tcscpy strcpy
-#define _tcsncpy strncpy
-#define _tcscat strcat
-#define _tcslen strlen
 #if defined(_MSC_VER)
 #if (_MSC_VER < 1400)
 #define _tcschr strchr
@@ -172,17 +161,19 @@ extern "C" {
 #ifndef _T
 #define _T(a) a
 #endif
-
-#if defined(_WIN32)
-#define _tsnprintf _snprintf
-#else
-#define _tsnprintf snprintf
-#endif
 #endif // GSI_UNICODE
 
-#if defined(_WIN32)
-#define snprintf _snprintf
-#endif // _WIN32
+#define _T(a) a
+
+#define _tsnprintf snprintf
+#define _vftprintf vfprintf
+#define _ftprintf fprintf
+#define _stprintf sprintf
+#define _tprintf printf
+#define _tcscpy strcpy
+#define _tcsncpy strncpy
+#define _tcscat strcat
+#define _tcslen strlen
 
 char* _strlwr(char* string);
 char* _strupr(char* string);

@@ -22,6 +22,8 @@ int strncmp(const char *s1, const char *s2, size_t n);
 
 char * strchr ( const char *, int );
 
+char *strstr(const char *haystack, const char *needle);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

@@ -22,10 +22,12 @@ compile_source("source/gamespy/darray.c", "out/darray.o", '4199_60831', RVL_OPTS
 compile_source("source/gamespy/hashtable.c", "out/hashtable.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/md5c.c", "out/md5c.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/revolution/gsSocketRevolution.c", "out/gsSocketRevolution.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/common/gsAvailable.c", "out/gsAvailable.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/revolution/gsUtilRevolution.c", "out/gsUtilRevolution.o", '4199_60831', RVL_OPTS)
 #compile_source("source/gamespy/common/gsPlatformUtil.c", "out/gsPlatformUtil.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/gsCore.c", "out/gsCore.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/gsXML.c", "out/gsXML.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/sake/sakeMain.c", "out/sakeMain.o", '4199_60831', RVL_OPTS)
 
 compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)
 compile_source("source/nw4r/math/mathTypes.cpp", "out/mathTypes.o", '4201_127', NW4R_OPTS)

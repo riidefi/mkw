@@ -46,6 +46,7 @@ strncpy=0x800131e0;
 strcat=0x80013224;
 strncat=0x80013250;
 strchr=0x800133f8;
+strstr=0x800135f0;
 strlen=0x80021254;
 strcmp=0x8001329c;
 strncmp=0x800133b8;
@@ -99,6 +100,7 @@ __dt__Q23EGG8Vector3fFv=0x80009B40;
 __dt__Q23EGG8Vector2fFv=0x80009B80;
 GetRenderModeObj__Q34nw4r3g3d8G3DStateFv=0x80064440;
 
+gsCoreIsShutdown=0x800f4114;
 ghttpStartup=0x80113388;
 ghttpCleanup=0x801133d8;
 gsimalloc=0x800f3860;
@@ -113,6 +115,38 @@ B64InitEncodeStream=0x800f3528;
 B64EncodeStream=0x800f3538;
 _UCS2CharToUTF8String=0x800f4680;
 UTF8ToUCS2StringLen=0x800f47e4;
+sakeiInitRequest=0x8012249c;
+sakeiFreeRequest=0x8012256c;
+sakeiCheckSakeResult=0x80122570;
+sakeiSoapCallback=0x8012279c;
+sakeiSetupRequest=0x80122944;
+sakeiStartRequest=0x80122a84;
+sakeiValidateRequestFields=0x80122b18;
+sakeiFillSoapRequestFieldValues=0x80122bdc;
+sakeiCreateRecordValidateInput=0x80122efc;
+sakeiCreateRecordFillSoapRequest=0x80122f48;
+sakeiCreateRecordProcessSoapResponse=0x80122fa4;
+sakeiStartCreateRecordRequest=0x80122fe8;
+sakeiUpdateRecordFillSoapRequest=0x80123038;
+sakeiStartUpdateRecordRequest=0x801230ac;
+sakeiDeleteRecordFillSoapRequest=0x801230d4;
+sakeiReadOutputRecords=0x80123138;
+sakeiFreeOutputRecords=0x8012365c;
+sakeiSearchForRecordsValidateInput=0x80123724;
+sakeiSearchForRecordsFillSoapRequest=0x801237c4;
+sakeiSearchForRecordsFreeData=0x80123964;
+sakeiStartSearchForRecordsRequest=0x801239a0;
+sakeiGetMyRecordsValidateInput=0x801239ac;
+sakeiGetMyRecordsFillSoapRequest=0x80123a24;
+sakeiGetMyRecordsProcessSoapResponse=0x80123ad4;
+sakeiGetMyRecordsFreeData=0x80123aec;
+sakeiStartGetMyRecordsRequest=0x80123b10;
+sakeiGetSpecificRecordsFillSoapRequest=0x80123bbc;
+sakeiGetSpecificRecordsProcessSoapResponse=0x80123cb8;
+sakeiGetRandomRecordValidateInput=0x80123cf4;
+sakeiGetRandomRecordFillSoapRequest=0x80123d6c;
+sakeiGetRandomRecordProcessSoapResponse=0x80123e4c;
+sakeiGetRandomRecordFreeData=0x80123ed8;
 
 CXInitUncompContextLZ=0x8015BEF0;
 CXReadUncompLZ=0x8015BF24;
@@ -219,4 +253,21 @@ FORCEACTIVE {
 initialize__Q23EGG5VideoFPC15GXRenderModeObjPCPC15GXRenderModeObj
 getTickPerVRetrace__Q23EGG5VideoFUl
 getTickPerVRetrace__Q23EGG5VideoFv
+
+// sakeMain
+sakeStartup
+sakeShutdown
+sakeSetGame
+sakeSetProfile
+sakeGetStartRequestResult
+sakeCreateRecord
+sakeUpdateRecord
+sakeSearchForRecords
+sakeGetMyRecords
+sakeSetFileDownloadURL
+sakeGetFileDownloadURL
+sakeSetFileUploadURL
+sakeGetFileResultFromHeaders
+sakeGetFileIdFromHeaders
+
 }

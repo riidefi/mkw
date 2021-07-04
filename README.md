@@ -32,6 +32,23 @@ Run `python3 ./build.py` to build the game and verify build authenticity. Final 
   - `artifacts/target/pal/main.dol`
   - `artifacts/target/pal/StaticR.rel`
 
+### Symbol dead-stripping
+
+By default, the CodeWarrior linker wants to remove any symbols (e.g. functions) that it considers unused.
+Due to the unique nature of this build system, this would fail and result in all functions being removed.
+
+To fix this, the `gen_lcf.py` script places all objects into the `FORCEFILES` linker directive.
+This prevents any content from being dead-stripped.
+
+In edge cases require carefully controlled use of the dead-stripping feature.
+For example: Symbols that were stripped in the initial build retain all string literals.
+This is very hard to replicate without dead-stripping:
+Simply commenting out the stripped function would result the string literals from vanishing too.
+
+The dead-stripping feature can be enabled by:
+- Re-enabling stripping by setting `nostrip` to 1 in the slices CSV (TBD)
+- Listing all symbols that will _not_ be stripped in `dol.base.lcf` (all other symbols get thrown out)
+
 ## Contributing
 - Do not manually adjust assembly (`asm`) files. They are auto-generated.
 - To add a new decompiled section, modify the slice tables:

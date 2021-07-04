@@ -72,5 +72,6 @@ struct _FILE
 };
 
 int sprintf ( char * str, const char * format, ... );
+int snprintf ( char * s, size_t n, const char * format, ... );
 
 int sscanf(const char *str, const char *format, ...);
