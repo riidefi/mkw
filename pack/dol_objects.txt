@@ -1,3 +1,5 @@
+out\dol\init_80004000_80005f34.o
+out\rvlTrkMem.o
 out\dol\text_800072c0_80085110.o
 out\dol\rodata_80244ec0_80248010.o
 out\dol\data_80258580_80274148.o
@@ -74,7 +76,7 @@ out\eggVector.o
 out\dol\rodata_80257824_802582e0.o
 out\dol\sdata2_80389104_80389108.o
 out\eggVideo.o
-out\dol\init_80004000_80006460.o
+out\dol\init_80006068_80006460.o
 out\dol\extab_80006460_80006a20.o
 out\dol\extabindex_80006a20_800072c0.o
 out\dol\text_80244074_80244de0.o

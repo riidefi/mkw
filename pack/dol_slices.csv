@@ -1,4 +1,5 @@
 enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataStart,rodataEnd,dataStart,dataEnd,bssStart,bssEnd,sdataStart,sdataEnd,sbssStart,sbssEnd,sdata2Start,sdata2End,sbss2Start,sbss2End
+1,source/rvl/trk/rvlTrkMem.c,0x80005f34,0x80006068,,,,,,,,,,,,,,,,,,,,,,,,
 1,source/nw4r/math/mathTriangular.cpp,,,,,,,0x80085110,0x80085578,,,,,0x80248010,0x80249020,0x80274148,0x80274250,,,,,,,0x80387e80,0x80387ea4,,
 1,source/nw4r/math/mathTypes.cpp,,,,,,,0x80085600,0x80085938,,,,,,,,,,,,,,,0x80387ea8,0x80387eb4,,
 1,source/nw4r/ut/utList.cpp,,,,,,,0x800AEF60,0x800af1a0,,,,,,,,,,,,,,,,,,
