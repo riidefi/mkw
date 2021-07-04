@@ -30,8 +30,8 @@ out\md5c.o
 out\dol\sbss_803862b0_80386350.o
 out\gsSocketRevolution.o
 out\dol\text_800f164c_800f1f58.o
-out\gsThreadRevolution.o
-out\dol\text_800f1ff8_80124500.o
+out\gsUtilRevolution.o
+out\dol\text_800f2048_80124500.o
 out\dol\data_8027ace0_8027e708.o
 out\dol\sdata_80384c00_803857f0.o
 out\rvlArchive.o

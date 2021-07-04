@@ -8,7 +8,6 @@
 #include <rvl/os/osAlarm.h>
 #include <rvl/so/so.h>
 
-#include "gsSocketRevolution.c"
 #include "gsThreadRevolution.c"
 
 void gsiRevolutionSleep(u32 msec);
@@ -51,14 +50,14 @@ static const char * GOAGetUniqueID_Internal(void)
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Time Functions
-static char GSIMonthNames[12][3] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-static char GSIWeekDayNames[7][3] = {"Sun", "Mon", "Tue", "Wed",
-                                     "Thu", "Fri", "Sat"};
+//static char GSIMonthNames[12][3] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+//                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+//static char GSIWeekDayNames[7][3] = {"Sun", "Mon", "Tue", "Wed",
+//                                     "Thu", "Fri", "Sat"};
 
 time_t gsiTimeInSec(time_t* timer) {
   time_t t = 0;
-  t = (gsi_i32)OSTicksToSeconds(OSGetTime());
+  t = OSTicksToSeconds(OSGetTime());
 
   if (timer)
     *timer = t;
@@ -66,6 +65,7 @@ time_t gsiTimeInSec(time_t* timer) {
   return t;
 }
 
+/*
 struct tm* gsiGetGmTime(time_t* theTime) {
   static struct tm aTimeStruct;
   static struct tm* aRetVal = &aTimeStruct;
@@ -85,7 +85,6 @@ struct tm* gsiGetGmTime(time_t* theTime) {
   return aRetVal;
 }
 
-/*
 char *gsiCTime(time_t *theTime)
 {
         static char str[26];
