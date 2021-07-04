@@ -70,3 +70,7 @@ struct _FILE
 		struct _FILE *	next_file_struct;					/*- mm 981007 -*/
 	#endif /* _MSL_OS_DISK_FILE_SUPPORT */
 };
+
+int sprintf ( char * str, const char * format, ... );
+
+int sscanf(const char *str, const char *format, ...);

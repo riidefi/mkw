@@ -21,6 +21,9 @@
 
 #define GS_XML_BASE64_ENCODING_TYPE 0
 
+// Hack to reorder a string literal in sdata.
+#define STR_0x803850f0 ((char *)(&_0x803850f0))
+
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 #define GS_XML_SOAP_BUFFER_INITIAL_SIZE (1 * 1024)
@@ -95,7 +98,7 @@ static gsi_bool gsiXmlUtilParseValue(GSIXmlStreamReader* stream, char* buffer,
                                      int len, int* pos, GSIXmlString* strOut);
 static gsi_bool gsiXmlUtilParseElement(GSIXmlStreamReader* stream, char* buffer,
                                        int len, int* pos, int parentIndex);
-static gsi_bool gsiXmlUtilTagMatches(const char* matchtag,
+gsi_bool gsiXmlUtilTagMatches(const char* matchtag,
                                      GSIXmlString* xmlstr);
 
 // Note: Writes decoded form back into buffer
@@ -107,7 +110,7 @@ static void gsiXmlUtilAttributeFree(void* elem);
 static gsi_bool gsiXmlUtilWriteChar(GSIXmlStreamWriter* stream, char ch);
 static gsi_bool gsiXmlUtilWriteString(GSIXmlStreamWriter* stream,
                                       const char* str);
-static gsi_bool gsiXmlUtilWriteXmlSafeString(GSIXmlStreamWriter* stream,
+gsi_bool gsiXmlUtilWriteXmlSafeString(GSIXmlStreamWriter* stream,
                                              const char* str);
 static gsi_bool gsiXmlUtilGrowBuffer(GSIXmlStreamWriter* stream);
 #ifdef GSI_UNICODE
@@ -263,7 +266,7 @@ gsi_bool gsXmlParseBuffer(GSXmlStreamReader stream, char* data, int len) {
 
   reader = (GSIXmlStreamReader*)stream;
 
-  gsXmlResetReader(stream);
+  //gsXmlResetReader(stream);
 
   // Parse the root elements (automatically includes sub-elements)
   while (readPos < len) {
@@ -293,12 +296,14 @@ void gsXmlFreeReader(GSXmlStreamReader stream) {
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+/*
 void gsXmlResetReader(GSXmlStreamReader stream) {
   GSIXmlStreamReader* reader = (GSIXmlStreamReader*)stream;
   ArrayClear(reader->mAttributeArray);
   ArrayClear(reader->mElementArray);
   gsXmlMoveToStart(stream);
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -824,6 +829,7 @@ gsi_bool gsXmlWriteStringElement(GSXmlStreamWriter stream,
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Converts unicode to ascii strings for writing to XML writer
+/*
 gsi_bool gsXmlWriteAsciiStringElement(GSXmlStreamWriter stream,
                                       const char* namespaceName,
                                       const char* tag, const gsi_char* value) {
@@ -840,7 +846,8 @@ gsi_bool gsXmlWriteAsciiStringElement(GSXmlStreamWriter stream,
   // Check legal ASCII characters
   //  0x9, 0xA, 0xD
   //  [0x20-0xFF]
-  len = (int)_tcslen(value);
+  //len = (int)_tcslen(value);
+  len = (int)strlen(value);
   for (i = 0; i < len; i++) {
     // only check values less than 0x20
     if ((unsigned char)value[i] < 0x20) {
@@ -869,6 +876,7 @@ gsi_bool gsXmlWriteAsciiStringElement(GSXmlStreamWriter stream,
 #endif
   return gsi_true;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -936,6 +944,7 @@ gsi_bool gsXmlWriteIntElement(GSXmlStreamWriter stream,
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+/*
 gsi_bool gsXmlWriteInt64Element(GSXmlStreamWriter stream,
                                 const char* namespaceName, const char* tag,
                                 gsi_i64 value) {
@@ -956,6 +965,7 @@ gsi_bool gsXmlWriteInt64Element(GSXmlStreamWriter stream,
   }
   return gsi_true;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -983,6 +993,7 @@ gsi_bool gsXmlWriteFloatElement(GSXmlStreamWriter stream,
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // first character of HEX binary is HIGH byte
+/*
 gsi_bool gsXmlWriteHexBinaryElement(GSXmlStreamWriter stream,
                                     const char* namespaceName, const char* tag,
                                     const gsi_u8* data, int len) {
@@ -1018,6 +1029,7 @@ gsi_bool gsXmlWriteHexBinaryElement(GSXmlStreamWriter stream,
 
   return gsi_true;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -1084,6 +1096,7 @@ gsi_bool gsXmlWriteDateTimeElement(GSXmlStreamWriter stream,
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Must reverse byte order and strip leading zeroes
+/*
 gsi_bool gsXmlWriteLargeIntElement(GSXmlStreamWriter stream,
                                    const char* namespaceName, const char* tag,
                                    const struct gsLargeInt_s* lint) {
@@ -1135,6 +1148,7 @@ gsi_bool gsXmlWriteLargeIntElement(GSXmlStreamWriter stream,
 
   return gsi_true;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -1228,9 +1242,22 @@ static gsi_bool gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter* stream,
   return gsi_true;
 }
 
+// Force sdata string ordering.
+// We've commented out a function that was deadstripped by the compiler
+// using -ipa program in the original build in the game.
+// Since we use -ipa file here, %02x appears after another string,
+// so the resulting sdata section is slightly reordered.
+// We can't define a 'char* bla = "%02x"' nor a 'char bla[] = "%02x"'
+// because that would additionally place a pointer to the string literal
+// inside sdata (the other one being "&#x20;" at 0x803850f4).
+// The final hack is to just define an integer symbol carrying the string content,
+// which we can place whereever we want.
+// We can simply reinterpret the u64 as a u8[8] then.
+u64 _0x803850f0 = '%02x\0\0\0\0';
+
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-static gsi_bool gsiXmlUtilWriteXmlSafeString(GSIXmlStreamWriter* stream,
+gsi_bool gsiXmlUtilWriteXmlSafeString(GSIXmlStreamWriter* stream,
                                              const char* str) {
   int strLen = 0;
   int pos = 0;
@@ -1339,6 +1366,7 @@ gsi_bool gsXmlMoveToParent(GSXmlStreamReader stream) {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Move to next unit who shares common parent
+/*
 gsi_bool gsXmlMoveToSibling(GSXmlStreamReader stream, const char* matchtag) {
   GSIXmlStreamReader* reader = (GSIXmlStreamReader*)stream;
   int i = 0;
@@ -1375,6 +1403,7 @@ gsi_bool gsXmlMoveToSibling(GSXmlStreamReader stream, const char* matchtag) {
   // no matching element found
   return gsi_false;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -1504,6 +1533,7 @@ gsi_bool gsXmlReadChildAsStringNT(GSXmlStreamReader stream,
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Same as readChildAsStringNT, but converts Ascii/UTF-8 to USC2
+/*
 gsi_bool gsXmlReadChildAsUnicodeStringNT(GSXmlStreamReader stream,
                                          const char* matchtag,
                                          gsi_char valueOut[], int maxLen) {
@@ -1523,6 +1553,7 @@ gsi_bool gsXmlReadChildAsUnicodeStringNT(GSXmlStreamReader stream,
     return gsi_true;
   }
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -1570,7 +1601,7 @@ gsi_bool gsXmlReadChildAsHexBinary(GSXmlStreamReader stream,
 
         // 2 characters of hexbyte = 1 value byte
         while (bytesleft > 1) {
-          sscanf((char*)(&searchValueElem->mValue.mData[readpos]), "%02x",
+          sscanf((char*)(&searchValueElem->mValue.mData[readpos]), STR_0x803850f0, // %02x
                  &temp); // sscanf requires a 4 byte dest
           valueOut[writepos] = (gsi_u8)
               temp; // then we convert to byte, to ensure correct byte order
@@ -1683,6 +1714,7 @@ gsi_bool gsXmlReadChildAsInt(GSXmlStreamReader stream, const char* matchtag,
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+/*
 gsi_bool gsXmlReadChildAsInt64(GSXmlStreamReader stream, const char* matchtag,
                                gsi_i64* valueOut) {
   GSIXmlStreamReader* reader = (GSIXmlStreamReader*)stream;
@@ -1715,6 +1747,7 @@ gsi_bool gsXmlReadChildAsInt64(GSXmlStreamReader stream, const char* matchtag,
   }
   return gsi_false;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -1800,7 +1833,7 @@ gsi_bool gsXmlReadChildAsFloat(GSXmlStreamReader stream, const char* matchtag,
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Compare only the text following the namespace character
-static gsi_bool gsiXmlUtilTagMatches(const char* matchtag,
+gsi_bool gsiXmlUtilTagMatches(const char* matchtag,
                                      GSIXmlString* xmlstr) {
   const char* matchNoNamespace = NULL;
   GSIXmlString xmlNoNamespace;
@@ -1840,6 +1873,7 @@ static gsi_bool gsiXmlUtilTagMatches(const char* matchtag,
 ///////////////////////////////////////////////////////////////////////////////
 // Reads childs as bin-endian hexbinary, then converts to little-endian large
 // int
+/*
 gsi_bool gsXmlReadChildAsLargeInt(GSXmlStreamReader stream,
                                   const char* matchtag,
                                   struct gsLargeInt_s* valueOut) {
@@ -1865,17 +1899,20 @@ gsi_bool gsXmlReadChildAsLargeInt(GSXmlStreamReader stream,
   else
     return gsi_true;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Resets the child read position to the first child of the current element
 //
+/*
 gsi_bool gsXmlResetChildReadPosition(GSXmlStreamReader stream) {
   GSIXmlStreamReader* reader = (GSIXmlStreamReader*)stream;
   reader->mValueReadIndex =
       -1; // no current child position means start at first
   return gsi_true;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

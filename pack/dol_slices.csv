@@ -13,6 +13,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 1,source/gamespy/common/revolution/gsUtilRevolution.c,,,,,,,0x800f1f58,0x800f2048,,,,,,,,,,,,,,,,,,
 ,source/gamespy/common/gsPlatformUtil.c,,,,,,,0x800f1f58,0x800f3844,,,,,,,,,,,,,,,,,,
 ,source/gamespy/common/gsCore.c,,,,,,,0x800f3c08 ,0x800f41dc,,,,,,,,,,,,,,,,,,
+1,source/gamespy/common/gsXML.c,,,,,,,0x800f5a6c,0x800fb828,,,,,,,0x8027ad80,0x8027af18,,,0x803850a0,0x80385105,,,,,,
 1,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,rxFrameHeap.c,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,
 1,source/rvl/mem/rvlMemHeap.c,,,,,,,0x801981ec,0x80198798,,,,,,,,,0x80346cf0,0x80346d18,,,0x80386838,0x8038683C,,,,

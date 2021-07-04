@@ -6,6 +6,13 @@
 #define abs(x) __abs(x)
 #define labs(x) __labs(x)
 
-long long atoll(const char *);
+long strtol(const char *restrict nptr,
+                   char **restrict endptr, int base);
+
+int atoi(const char *nptr);
+long atol(const char *nptr);
+long long atoll(const char *nptr);
+long long atoq(const char *nptr);
+double atof(const char *nptr);
 
 void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*));
