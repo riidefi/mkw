@@ -19,6 +19,7 @@ compile_source("source/rvl/so/soCommon.c", "out/soCommon.o", '4199_60831', RVL_O
 compile_source("source/rvl/so/soBasic.c", "out/soBasic.o", '4199_60831', RVL_OPTS)
 
 compile_source("source/gamespy/darray.c", "out/darray.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/hashtable.c", "out/hashtable.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/gsPlatformUtil.c", "out/gsPlatformUtil.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/gsCore.c", "out/gsCore.o", '4199_60831', RVL_OPTS)
 
