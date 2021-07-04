@@ -101,7 +101,7 @@ static unsigned char PADDING[64] = {
 
 /* MD5 initialization. Begins an MD5 operation, writing a new context.
  */
-void MD5Init (MD5_CTX *context)
+static inline void MD5Init (MD5_CTX *context)
 {
   context->count[0] = context->count[1] = 0;
 
@@ -156,7 +156,7 @@ void MD5Update (
 /* MD5 finalization. Ends an MD5 message-digest operation, writing the
      the message digest and zeroizing the context.
  */
-void MD5Final (
+inline void MD5Final (
   unsigned char digest[16],                                 /* message digest */
   MD5_CTX *context                                                 /* context */
   )
@@ -325,7 +325,7 @@ static void MD5_memset (POINTER output, int value, unsigned int len)
 
 #endif
 
-void MD5Print (unsigned char digest[16], char output[33])
+inline void MD5Print (unsigned char digest[16], char output[33])
 {
 	static const char hex_digits[] = "0123456789abcdef";
 	unsigned int i;
