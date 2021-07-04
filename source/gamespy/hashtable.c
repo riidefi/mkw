@@ -195,6 +195,7 @@ void * TableMap2(HashTable table, TableMapFn2 fn, void *clientData)
 
 	return NULL;
 }
+*/
 
 void * TableMapSafe2(HashTable table, TableMapFn2 fn, void *clientData)
 {
@@ -213,6 +214,7 @@ void * TableMapSafe2(HashTable table, TableMapFn2 fn, void *clientData)
 	return NULL;
 }
 
+/*
 void TableClear(HashTable table)
 {
 	int i;
