@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include <rvl/os/osThread.h>
+#include <rvl/ios/ios.h>
 
 // PAL: 0x80385ee0 @sdata (pointer)
 // PAL: 0x802a2318 @data (string literal)
@@ -27,10 +28,6 @@ u32 OSEnableInterrupts(void);
 u32 OSRestoreInterrupts(u32 level);
 void OSSleepTicks(s64);
 s64 __OSGetSystemTime(void);
-
-s32 IOS_Open(const char*, u32);
-s32 IOS_Close(u32);
-s32 IOS_Ioctl(s32, s32, void*, u32, void*, u32);
 
 s32 NCDGetLinkStatus(void);
 s32 NWC24iStartupSocket(s32*);

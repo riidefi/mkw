@@ -16,6 +16,7 @@ compile_source("source/rvl/mtx/rvlMtx2.c", "out/rvlMtx2.o", '4199_60831', RVL_OP
 compile_source("source/rvl/mtx/rvlVec.c", "out/rvlVec.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/mtx/rvlQuat.c", "out/rvlQuat.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/so/soCommon.c", "out/soCommon.o", '4199_60831', RVL_OPTS)
+compile_source("source/rvl/so/soICMP.c", "out/soICMP.o", '4199_60831', RVL_OPTS)
 
 compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)
 compile_source("source/nw4r/math/mathTypes.cpp", "out/mathTypes.o", '4201_127', NW4R_OPTS)

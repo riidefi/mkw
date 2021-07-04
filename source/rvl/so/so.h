@@ -181,6 +181,10 @@ enum {
   NCD_RESULT_INPROGRESS = -8
 };
 
+enum {
+  NET_ICMP_SOCKET = 0xf,
+};
+
 // PAL: 0x80385ee0 @sdata (pointer)
 // PAL: 0x802a2318 @data (string literal)
 extern const char* __SO_VERSION;
@@ -213,6 +217,9 @@ int SOiPrepareTempRm(const char*, s32*, int*);
 int SOiConcludeTempRm(const char*, int, int);
 // PAL: 0x801ecde8
 int SOiWaitForDHCPEx(int timeout);
+
+// PAL: 0x801ecf20
+int ICMPSocket(int);
 
 #ifdef __cplusplus
 }
