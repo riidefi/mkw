@@ -83,6 +83,7 @@ IOS_Open=0x801938F8;
 IOS_Close=0x80193AD8;
 IOS_Ioctl=0x80194290;
 
+OSRegisterVersion=0x801A0504;
 OSPanic=0x801A2660;
 
 OSDisableInterrupts=0x801A65AC;

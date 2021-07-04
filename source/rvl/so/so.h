@@ -198,6 +198,9 @@ enum {
 // PAL: 0x80385ee0 @sdata (pointer)
 // PAL: 0x802a2318 @data (string literal)
 extern const char* __SO_VERSION;
+// PAL: 0x80385ee8 @sdata (pointer)
+// PAL: 0x802a24f8 @data (string literal)
+extern const char* __SOCKET_VERSION;
 
 // PAL: 0x801ec088
 int SOFinish(void);
