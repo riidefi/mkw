@@ -13,6 +13,8 @@ void* memset(void*, s32, u32);
 
 void *memmove(void *, const void *, size_t);
 
+int memcmp(const void *s1, const void *s2, size_t n);
+
 u32 strlen(const char *);
 
 char * strcpy(char * dst, const char * src);

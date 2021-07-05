@@ -377,6 +377,8 @@ int     SOSetInterfaceOpt   ( IPInterface* interface, int level, int optname, co
 
 #define     SO_INFTIM               (-1)
 
+#define SO_PF_INET 2
+#define SO_SOCK_DGRAM 2
 
 #ifdef __cplusplus
 }

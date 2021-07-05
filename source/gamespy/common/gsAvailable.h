@@ -29,7 +29,7 @@ typedef enum {
 
 // start an available check for a particular game
 // return 0 if no error starting up, non-zero if there's an error
-void GSIStartAvailableCheck(const gsi_char* gamename);
+void GSIStartAvailableCheckA(const char* gamename);
 
 // let the available check think
 // continue to call this while it returns GSIACWaiting
