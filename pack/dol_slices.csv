@@ -14,6 +14,7 @@ enabled,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd
 ,source/gamespy/common/gsPlatformUtil.c,,,,,,,0x800f1f58,0x800f3844,,,,,,,,,,,,,,,,,,
 1,source/gamespy/common/gsAvailable.c,,,,,,,0x800f38a4,0x800f3a20,,,,,,,0x8027ad58,0x8027ad79,0x802f2338,0x802f2410,,,0x80386358,0x8038635c,,,,
 ,source/gamespy/common/gsCore.c,,,,,,,0x800f3c08 ,0x800f41dc,,,,,,,,,,,,,,,,,,
+1,source/gamespy/common/gsUdpEngine.c,,,,,,,0x800f489c,0x800f5a6c,,,,,,,,,0x802f2440,0x802f247c,,,,,,,,
 1,source/gamespy/common/gsXML.c,,,,,,,0x800f5a6c,0x800fb828,,,,,,,0x8027ad80,0x8027af18,,,0x803850a0,0x80385105,,,,,,
 1,source/gamespy/sake/sakeMain.c,,,,,,,0x80121eec ,0x8012249c,,,,,,,0x8027de48,0x8027df3e,0x802f3f40,0x802f4040,0x80385740,0x80385744,,,,,,
 1,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,

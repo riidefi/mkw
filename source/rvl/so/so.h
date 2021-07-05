@@ -226,24 +226,23 @@ typedef struct IPInterface {
 } IPInterface;
 
 typedef struct SOHostEnt {
-  char* name;     // official name of host
-  char** aliases; // alias list (zero-terminated)
-  s16 addrType;   // SO_PF_INET
-  s16 length;     // length of address
-  u8** addrList;  // list of addresses
-
+  char* name;    
+  char** aliases;
+  s16 addrType;  
+  s16 length;    
+  u8** addrList; 
 } SOHostEnt;
 
 typedef struct SOAddrInfo SOAddrInfo;
 struct SOAddrInfo {
-  int flags;        // input flags ( SO_AI_* )
-  int family;       // address family of socket
-  int sockType;     // socket type
-  int protocol;     // protocol of socket
-  unsigned addrLen; // length of socket address
-  char* canonName;  // canonical name of service location
-  void* addr;       // socket address of socket
-  SOAddrInfo* next; // pointer to next in list
+  int flags;       
+  int family;      
+  int sockType;    
+  int protocol;
+  unsigned addrLen;
+  char* canonName;
+  void* addr;
+  SOAddrInfo* next;
 };
 
 // PAL: 0x80385ee0 @sdata (pointer)
@@ -320,7 +319,6 @@ typedef struct SOPollFD {
   int fd;
   int events;
   int revents;
-
 } SOPollFD;
 
 int SOInetAtoN(const char* cp, SOInAddr* inp);

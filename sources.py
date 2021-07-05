@@ -26,6 +26,7 @@ compile_source("source/gamespy/common/gsAvailable.c", "out/gsAvailable.o", '4199
 compile_source("source/gamespy/common/revolution/gsUtilRevolution.c", "out/gsUtilRevolution.o", '4199_60831', RVL_OPTS)
 #compile_source("source/gamespy/common/gsPlatformUtil.c", "out/gsPlatformUtil.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/gsCore.c", "out/gsCore.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/common/gsUdpEngine.c", "out/gsUdpEngine.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/gsXML.c", "out/gsXML.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/sake/sakeMain.c", "out/sakeMain.o", '4199_60831', RVL_OPTS)
 

@@ -5,6 +5,7 @@ from pathlib import Path
 dont_force = {
     "eggVideo",
     "gsAvailable",
+    "gsUdpEngine",
     "gsXML",
     "sakeMain"
 }
