@@ -197,57 +197,53 @@ enum {
   SO_PF_INET6 = 0x17,
 };
 
-#define     SO_SOL_SOCKET           0xffff         
-#define     SO_SOL_IP               0
-#define     SO_SOL_ICMP             1
-#define     SO_SOL_TCP              6
-#define     SO_SOL_UDP              17
+#define SO_SOL_SOCKET 0xffff
+#define SO_SOL_IP 0
+#define SO_SOL_ICMP 1
+#define SO_SOL_TCP 6
+#define SO_SOL_UDP 17
 
-#define     SO_SOL_CONFIG           0xfffe         
+#define SO_SOL_CONFIG 0xfffe
 
-#define     SO_IPPROTO_ICMP         1
-#define     SO_IPPROTO_IGMP         2
-#define     SO_IPPROTO_TCP          6
-#define     SO_IPPROTO_UDP          17
+#define SO_IPPROTO_ICMP 1
+#define SO_IPPROTO_IGMP 2
+#define SO_IPPROTO_TCP 6
+#define SO_IPPROTO_UDP 17
 
-#define     SO_CONFIG_FILTER_INPUT                      0x1001
-#define     SO_CONFIG_FILTER_OUTPUT                     0x1002
+#define SO_CONFIG_FILTER_INPUT 0x1001
+#define SO_CONFIG_FILTER_OUTPUT 0x1002
 
-#define     SO_CONFIG_ERROR                             0x1003
-#define     SO_CONFIG_MAC_ADDRESS                       0x1004
-#define     SO_CONFIG_LINK_STATE                        0x1005
-#define     SO_CONFIG_INTERFACE_STATISTICS              0x1006
-#define     SO_CONFIG_MUTE                              0x1007
+#define SO_CONFIG_ERROR 0x1003
+#define SO_CONFIG_MAC_ADDRESS 0x1004
+#define SO_CONFIG_LINK_STATE 0x1005
+#define SO_CONFIG_INTERFACE_STATISTICS 0x1006
+#define SO_CONFIG_MUTE 0x1007
 
-typedef struct IPInterface
-{
-    s32         type;
-    int        up;
-    s32         err;
+typedef struct IPInterface {
+  s32 type;
+  int up;
+  s32 err;
 } IPInterface;
 
-typedef struct SOHostEnt
-{
-    char*       name;           // official name of host
-    char**      aliases;        // alias list (zero-terminated)
-    s16         addrType;       // SO_PF_INET
-    s16         length;         // length of address
-    u8**        addrList;       // list of addresses
+typedef struct SOHostEnt {
+  char* name;     // official name of host
+  char** aliases; // alias list (zero-terminated)
+  s16 addrType;   // SO_PF_INET
+  s16 length;     // length of address
+  u8** addrList;  // list of addresses
 
 } SOHostEnt;
 
-typedef struct SOAddrInfo   SOAddrInfo;
-struct SOAddrInfo
-{
-    int         flags;          // input flags ( SO_AI_* )
-    int         family;         // address family of socket
-    int         sockType;       // socket type
-    int         protocol;       // protocol of socket
-    unsigned    addrLen;        // length of socket address
-    char*       canonName;      // canonical name of service location
-    void*       addr;           // socket address of socket
-    SOAddrInfo* next;           // pointer to next in list
-
+typedef struct SOAddrInfo SOAddrInfo;
+struct SOAddrInfo {
+  int flags;        // input flags ( SO_AI_* )
+  int family;       // address family of socket
+  int sockType;     // socket type
+  int protocol;     // protocol of socket
+  unsigned addrLen; // length of socket address
+  char* canonName;  // canonical name of service location
+  void* addr;       // socket address of socket
+  SOAddrInfo* next; // pointer to next in list
 };
 
 // PAL: 0x80385ee0 @sdata (pointer)
@@ -289,93 +285,91 @@ int SOiWaitForDHCPEx(int timeout);
 // PAL: 0x801ecf20
 int SOSocket(int, int, int);
 
-int     SOGetInterfaceOpt   ( IPInterface* , int , int , void* , int*  );
+int SOGetInterfaceOpt(IPInterface*, int, int, void*, int*);
 
 /* Functions concerned in operating information */
-long        SOGetHostID         ( void );
-SOHostEnt*  SOGetHostByName     ( const char* name );
-SOHostEnt*  SOGetHostByAddr     ( const void* addr, int len, int type );
-int         SOGetNameInfo       ( const void* sockAddr, char* node, unsigned nodeLen, char* service, unsigned serviceLen, int flags );
-int         SOGetAddrInfo       ( const char* nodeName, const char* servName, const SOAddrInfo* hints, SOAddrInfo** res );
-void        SOFreeAddrInfo      ( SOAddrInfo* head );
+long SOGetHostID(void);
+SOHostEnt* SOGetHostByName(const char* name);
+SOHostEnt* SOGetHostByAddr(const void* addr, int len, int type);
+int SOGetNameInfo(const void* sockAddr, char* node, unsigned nodeLen,
+                  char* service, unsigned serviceLen, int flags);
+int SOGetAddrInfo(const char* nodeName, const char* servName,
+                  const SOAddrInfo* hints, SOAddrInfo** res);
+void SOFreeAddrInfo(SOAddrInfo* head);
 
-typedef struct SOInAddr
-{
-    u32         addr;
+typedef struct SOInAddr {
+  u32 addr;
 
 } SOInAddr;
 
-
-typedef struct SOSockAddr
-{
-    u8          len;
-    u8          family;
-    u8          data[ 6 ];
+typedef struct SOSockAddr {
+  u8 len;
+  u8 family;
+  u8 data[6];
 
 } SOSockAddr;
 
-typedef struct SOSockAddrIn
-{
-    u8          len;    
-    u8          family;   
-    u16         port;     
-    SOInAddr    addr;     
+typedef struct SOSockAddrIn {
+  u8 len;
+  u8 family;
+  u16 port;
+  SOInAddr addr;
 } SOSockAddrIn;
 
-typedef struct SOPollFD
-{
-    int         fd;
-    int         events;
-    int         revents;
+typedef struct SOPollFD {
+  int fd;
+  int events;
+  int revents;
 
 } SOPollFD;
 
-int         SOInetAtoN          ( const char* cp, SOInAddr* inp );
-char*       SOInetNtoA          ( SOInAddr in );
-int         SOInetPtoN          ( int af, const char* src, void* dst );
-const char* SOInetNtoP          ( int af, const void* src, char* dst, unsigned len );
-u32         SONtoHl             ( u32 netlong );
-u16         SONtoHs             ( u16 netshort );
-u32         SOHtoNl             ( u32 hostlong );
-u16         SOHtoNs             ( u16 hostshort );
+int SOInetAtoN(const char* cp, SOInAddr* inp);
+char* SOInetNtoA(SOInAddr in);
+int SOInetPtoN(int af, const char* src, void* dst);
+const char* SOInetNtoP(int af, const void* src, char* dst, unsigned len);
+u32 SONtoHl(u32 netlong);
+u16 SONtoHs(u16 netshort);
+u32 SOHtoNl(u32 hostlong);
+u16 SOHtoNs(u16 hostshort);
 
-int         SOSocket            ( int pf, int type, int protocol );
-int         SOClose             ( int s );
-int         SOListen            ( int s, int backlog );
-int         SOAccept            ( int s, void* sockAddr );
-int         SOBind              ( int s, const void* sockAddr );
-int         SOConnect           ( int s, const void* sockAddr );
-int         SOGetSockName       ( int s, void* sockAddr );
-int         SOGetPeerName       ( int s, void* sockAddr );
-int         SORecvFrom          ( int s, void* buf, int len, int flags, void* sockFrom );
-int         SORecv              ( int s, void* buf, int len, int flags );
-int         SORead              ( int s, void* buf, int len );
-int         SOSendTo            ( int s, const void* buf, int len, int flags, const void* sockTo );
-int         SOSend              ( int s, const void* buf, int len, int flags );
-int         SOWrite             ( int s, const void* buf, int len );
-int         SOFcntl             ( int s, int cmd, ... );
-int         SOShutdown          ( int s, int how );
-int         SOPoll              ( SOPollFD fds[], unsigned nfds, OSTime timeout );
-int         SOSockAtMark        ( int s );
+int SOSocket(int pf, int type, int protocol);
+int SOClose(int s);
+int SOListen(int s, int backlog);
+int SOAccept(int s, void* sockAddr);
+int SOBind(int s, const void* sockAddr);
+int SOConnect(int s, const void* sockAddr);
+int SOGetSockName(int s, void* sockAddr);
+int SOGetPeerName(int s, void* sockAddr);
+int SORecvFrom(int s, void* buf, int len, int flags, void* sockFrom);
+int SORecv(int s, void* buf, int len, int flags);
+int SORead(int s, void* buf, int len);
+int SOSendTo(int s, const void* buf, int len, int flags, const void* sockTo);
+int SOSend(int s, const void* buf, int len, int flags);
+int SOWrite(int s, const void* buf, int len);
+int SOFcntl(int s, int cmd, ...);
+int SOShutdown(int s, int how);
+int SOPoll(SOPollFD fds[], unsigned nfds, OSTime timeout);
+int SOSockAtMark(int s);
 
-int     SOGetSockOpt        ( int s, int level, int optname, void* optval, int* optlen );
-int     SOSetSockOpt        ( int s, int level, int optname, const void* optval, int optlen );
-int     SOGetInterfaceOpt   ( IPInterface* interface, int level, int optname, void* optval, int* optlen );
-int     SOSetInterfaceOpt   ( IPInterface* interface, int level, int optname, const void* optval, int optlen );
+int SOGetSockOpt(int s, int level, int optname, void* optval, int* optlen);
+int SOSetSockOpt(int s, int level, int optname, const void* optval, int optlen);
+int SOGetInterfaceOpt(IPInterface* interface, int level, int optname,
+                      void* optval, int* optlen);
+int SOSetInterfaceOpt(IPInterface* interface, int level, int optname,
+                      const void* optval, int optlen);
 
+#define SO_POLLRDNORM 0x0001
+#define SO_POLLRDBAND 0x0002
+#define SO_POLLPRI 0x0004
+#define SO_POLLWRNORM 0x0008
+#define SO_POLLWRBAND 0x0010
+#define SO_POLLERR 0x0020
+#define SO_POLLHUP 0x0040
+#define SO_POLLNVAL 0x0080
+#define SO_POLLIN (SO_POLLRDNORM | SO_POLLRDBAND)
+#define SO_POLLOUT SO_POLLWRNORM
 
-#define     SO_POLLRDNORM           0x0001
-#define     SO_POLLRDBAND           0x0002
-#define     SO_POLLPRI              0x0004
-#define     SO_POLLWRNORM           0x0008
-#define     SO_POLLWRBAND           0x0010
-#define     SO_POLLERR              0x0020
-#define     SO_POLLHUP              0x0040
-#define     SO_POLLNVAL             0x0080
-#define     SO_POLLIN               (SO_POLLRDNORM | SO_POLLRDBAND)
-#define     SO_POLLOUT              SO_POLLWRNORM
-
-#define     SO_INFTIM               (-1)
+#define SO_INFTIM (-1)
 
 #define SO_PF_INET 2
 #define SO_SOCK_DGRAM 2
