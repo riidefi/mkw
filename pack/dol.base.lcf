@@ -226,28 +226,6 @@ SetReceiveBufferSize=0x800f1c40;
 CanReceiveOnSocket=0x800f1c9c;
 CanSendOnSocket=0x800f1ce4;
 
-gpiProcessPeerInitiatingConnection=0x80104648;
-gpiProcessPeerAcceptingConnection=0x80104998;
-gpiPeerSendMessages=0x80104bb4;
-gpiProcessPeerConnected=0x80104c98;
-gpiCheckTimedOutPeerOperations=0x80104ffc;
-gpiDestroyPeer=0x801050fc;
-gpiRemovePeer=0x80105164;
-gpiProcessPeers=0x80105274;
-gpiGetPeerByProfile=0x801053b8;
-gpiFreeMessage=0x801053e4;
-gpiAddPeer=0x8010541c;
-gpiPeerGetSig=0x801054f0;
-gpiPeerStartConnect=0x80105578;
-gpiPeerAddMessage=0x80105694;
-gpiPeerStartTransferMessage=0x80105810;
-gpiPeerFinishTransferMessage=0x80105888;
-gpiPeerLeftCallback=0x80105998;
-gpiPeerMessageCallback=0x80105a28;
-gpiPeerAcceptedCallback=0x80105ba8;
-gpiPeerPingReplyCallback=0x80105c64;
-gpiPeerAddOp=0x80105c68;
-gpiPeerRemoveOp=0x80105cc0;
 gpiProfilesTableHash=0x80105d54;
 gpiProfilesTableCompare=0x80105d68;
 gpiProfilesTableFree=0x80105d78;
@@ -584,6 +562,26 @@ gpiRemoveOperation
 gpiFindOperationByID
 gpiOperationsAreBlocking
 gpiProcessOperation
+
+// gpiPeer
+gpiPeerSendMessages
+gpiCheckTimedOutPeerOperations
+gpiDestroyPeer
+gpiRemovePeer
+gpiProcessPeers
+gpiGetPeerByProfile
+gpiAddPeer
+gpiPeerGetSig
+gpiPeerStartConnect
+gpiPeerAddMessage
+gpiPeerStartTransferMessage
+gpiPeerFinishTransferMessage
+gpiPeerLeftCallback
+gpiPeerMessageCallback
+gpiPeerAcceptedCallback
+gpiPeerPingReplyCallback
+gpiPeerAddOp
+gpiPeerRemoveOp
 
 // sakeMain
 sakeStartup

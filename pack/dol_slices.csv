@@ -25,6 +25,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,1,source/gamespy/gp/gpiInfo.c,,,,,,,0x80101470,0x80103908,,,,,,,0x8027b878,0x8027bbce,,,0x803852a0,0x80385355,,,0x80388470,0x80388474,,
 1,1,source/gamespy/gp/gpiKeys.c,,,,,,,0x80103908,0x80103f70,,,,,,,0x8027bbd0,0x8027bc11,,,0x80385358,0x8038535a,,,,,,
 1,1,source/gamespy/gp/gpiOperation.c,,,,,,,0x80103f70,0x80104648,,,,,,,0x8027bc18,0x8027bc60,,,,,,,,,,
+1,1,source/gamespy/gp/gpiPeer.c,,,,,,,0x80104648,0x80105d54,,,,,,,0x8027bc60,0x8027bd2a,,,0x80385360,0x803853b9,,,,,,
 1,1,source/gamespy/sake/sakeMain.c,,,,,,,0x80121eec ,0x8012249c,,,,,,,0x8027de48,0x8027df3e,0x802f3f40,0x802f4040,0x80385740,0x80385744,,,,,,
 1,,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,,rxFrameHeap.c,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,
