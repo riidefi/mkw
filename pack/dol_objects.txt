@@ -55,10 +55,14 @@ out\gpiCallback.o
 out\dol\data_8027b4cf_8027b4d0.o
 out\dol\sdata_80385206_80385208.o
 out\gpiConnect.o
-out\dol\text_80101470_80121eec.o
-out\dol\data_8027b876_8027de48.o
+out\dol\data_8027b876_8027b878.o
+out\dol\sdata_8038529b_803852a0.o
+out\dol\sdata2_80387eb4_80388470.o
+out\gpiInfo.o
+out\dol\text_80103908_80121eec.o
+out\dol\data_8027bbce_8027de48.o
 out\dol\bss_802f247c_802f3f40.o
-out\dol\sdata_8038529b_80385740.o
+out\dol\sdata_80385355_80385740.o
 out\sakeMain.o
 out\dol\text_8012249c_80124500.o
 out\dol\data_8027df3e_8027e708.o
@@ -71,7 +75,7 @@ out\rvlMemHeap.o
 out\rvlMemExpHeap.o
 out\rvlMemFrmHeap.o
 out\rvlMemUnitHeap.o
-out\dol\sdata2_80387eb4_80388860.o
+out\dol\sdata2_80388474_80388860.o
 out\rvlMemAllocator.o
 out\rvlMemList.o
 out\dol\sdata_803857f6_80385a08.o

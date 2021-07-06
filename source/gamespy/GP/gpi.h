@@ -93,21 +93,6 @@ typedef struct {
   int nextOperationID;
   int numSearches;
 
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
-  // new style status info
   GPEnum lastStatusState;
   unsigned int hostIp;
   unsigned int hostPrivateIp;

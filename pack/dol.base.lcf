@@ -105,7 +105,6 @@ SocketStartUp=0x800f24c0;
 SocketShutDown=0x800f24c4;
 current_time=0x800f24c8;
 msleep=0x800f2510;
-CanReceiveOnSocket=0x800f1c9c;
 gethostbyname=0x800f164c;
 gsCoreIsShutdown=0x800f4114;
 ghttpStartup=0x80113388;
@@ -227,15 +226,6 @@ SetReceiveBufferSize=0x800f1c40;
 CanReceiveOnSocket=0x800f1c9c;
 CanSendOnSocket=0x800f1ce4;
 
-gpiIsValidDate=0x80101470;
-gpiInfoCacheToArg=0x801015d4;
-gpiProcessGetInfo=0x80101810;
-gpiAddLocalInfo=0x801020d0;
-gpiSetInfoi=0x801021e4;
-gpiSetInfos=0x80102a24;
-gpiSendGetInfo=0x80103534;
-gpiGetInfo=0x801035f8;
-gpiFreeInfoCache=0x80103834;
 gpiStatusInfoKeyFree=0x80103908;
 gpiStatusInfoKeysInit=0x80103954;
 gpiStatusInfoKeysDestroy=0x801039c4;
@@ -580,6 +570,16 @@ gpiConnect
 gpiProcessConnect
 gpiCheckConnect
 gpiDisconnect
+
+// gpiInfo
+gpiInfoCacheToArg
+gpiProcessGetInfo
+gpiAddLocalInfo
+gpiSetInfoi
+gpiSetInfos
+gpiSendGetInfo
+gpiGetInfo
+gpiFreeInfoCache
 
 // sakeMain
 sakeStartup
