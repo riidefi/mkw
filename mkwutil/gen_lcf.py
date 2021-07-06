@@ -9,6 +9,7 @@ dont_force = {
     "gsXML",
     "gp",
     "gpi",
+    "gpiBuddy",
     "sakeMain"
 }
 

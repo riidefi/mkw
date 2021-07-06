@@ -216,15 +216,7 @@ B64EncodeStream=0x800f3538;
 _UCS2CharToUTF8String=0x800f4680;
 UTF8ToUCS2StringLen=0x800f47e4;
 strzcpy=0x80108e78;
-gpiProcessRecvBuddyMessage=0x800fd160;
-gpiProcessRecvBuddyStatusInfo=0x800fdc4c;
-gpiSendServerBuddyMessage=0x800fe2f8;
-gpiSendBuddyMessage=0x800fe3ec;
-gpiBuddyHandleKeyRequest=0x800fe5a4;
-gpiBuddyHandleKeyReply=0x800fe648;
-gpiAuthBuddyRequest=0x800fea64;
-gpiFixBuddyIndices=0x800febd4;
-gpiDeleteBuddy=0x800fec20;
+goastrdup=0x800f23f4;
 gpiAppendCharToBuffer=0x800fee90;
 gpiAppendStringToBufferLen=0x800fef38;
 gpiAppendStringToBuffer=0x800ff014;
@@ -461,6 +453,9 @@ SOFcntl=0x801ed4ec;
 SOShutdown=0x801ed61c;
 SOPoll=0x801ed6d0;
 SOSetSockOpt=0x801ee388;
+SONtoHl=0x801ed98c;
+SONtoHs=0x801ed990;
+SOHtoNl=0x801ed998;
 SOHtoNs=0x801ed99c;
 
 __cvt_fp2unsigned = 0x80021478;
@@ -561,10 +556,20 @@ gpGetLoginTicket
 // gpi
 gpiInitialize
 gpiDestroy
-//gpiResetProfile
 gpiReset
 gpiProcessConnectionManager
 gpiProcess
+
+// gpiBuddy
+gpiProcessRecvBuddyMessage
+gpiProcessRecvBuddyStatusInfo
+gpiSendServerBuddyMessage
+gpiSendBuddyMessage
+gpiBuddyHandleKeyRequest
+gpiBuddyHandleKeyReply
+gpiAuthBuddyRequest
+gpiFixBuddyIndices
+gpiDeleteBuddy
 
 // sakeMain
 sakeStartup
