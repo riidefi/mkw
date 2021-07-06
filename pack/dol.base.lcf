@@ -226,14 +226,6 @@ SetReceiveBufferSize=0x800f1c40;
 CanReceiveOnSocket=0x800f1c9c;
 CanSendOnSocket=0x800f1ce4;
 
-gpiStatusInfoKeyFree=0x80103908;
-gpiStatusInfoKeysInit=0x80103954;
-gpiStatusInfoKeysDestroy=0x801039c4;
-gpiStatusInfoKeyCompFunc=0x80103a04;
-gpiStatusInfoAddKey=0x80103a10;
-gpiStatusInfoSetKey=0x80103aac;
-gpiStatusInfoCheckKey=0x80103b64;
-gpiSaveKeysToBuffer=0x80103c0c;
 gpiFailedOpCallback=0x80103f70;
 gpiAddOperation=0x80104348;
 gpiDestroyOperation=0x80104428;
@@ -580,6 +572,16 @@ gpiSetInfos
 gpiSendGetInfo
 gpiGetInfo
 gpiFreeInfoCache
+
+// gpiKeys
+gpiStatusInfoKeyFree
+gpiStatusInfoKeysInit
+gpiStatusInfoKeysDestroy
+gpiStatusInfoKeyCompFunc
+gpiStatusInfoAddKey
+gpiStatusInfoSetKey
+gpiStatusInfoCheckKey
+gpiSaveKeysToBuffer
 
 // sakeMain
 sakeStartup
