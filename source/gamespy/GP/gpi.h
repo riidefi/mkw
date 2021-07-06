@@ -70,11 +70,6 @@ typedef enum _GPIBool
 #include "gpiUnique.h"
 #include "gpiKeys.h"
 
-// For PS3 NP Sync functionality
-#ifdef _PS3
-#include "gpiPS3.h"
-#endif
-
 // Connection data.
 ///////////////////
 typedef struct
@@ -151,20 +146,6 @@ typedef struct
   unsigned short gameType_W[GP_STATUS_BASIC_STR_LEN];
   unsigned short gameVariant_W[GP_STATUS_BASIC_STR_LEN];
   unsigned short gameMapName_W[GP_STATUS_BASIC_STR_LEN];
-#endif
-
-#ifdef _PS3
-  // NP sync info
-  gsi_bool  npInitialized;
-  gsi_bool  npStatusRetrieved;
-  gsi_bool  npBasicGameInitialized;
-  gsi_bool  npLookupGameInitialized;
-  gsi_bool  npPerformBuddySync;
-  gsi_bool  npPerformBlockSync;
-  gsi_bool  npSyncLock;
-  int       npLookupTitleCtxId;
-  DArray    npTransactionList;
-  gsi_time  loginTime;
 #endif
 
 } GPIConnection;

@@ -140,24 +140,6 @@ GT2Result gt2CreateAdHocSocket
 	gt2SocketErrorCallback callback  // a callback that is called if there is an error with the socket
 );
 
-#ifdef _XBOX
-// creates a local VDP socket on the Xbox platform
-// if the IP of the local address is 0, then any/all ips will be bound.
-// if the port of the local address is 0, then a port will be assigned.
-// if either buffer sizes is set to 0, a default value will be used (currently 4K).
-// the buffer needs to be able to hold all messages waiting for confirmation of delivery,
-// and it needs to hold any messages that arrive out of order. if either buffer runs out
-// of space the connection will be dropped.
-GT2Result gt2CreateVDPSocket
-(
-	GT2Socket * socket,  // if the result is GT2Success, the socket object handle will be stored at this address
-	const char * localAddress,  // the local address to bind to
-	int outgoingBufferSize,  // size of per-connection buffer where sent messages waiting to be confirmed are held, use 0 for default
-	int incomingBufferSize,  // size of per-connection buffer where out-of-order received messages are held, use 0 for default
-	gt2SocketErrorCallback callback  // a callback that is called if there is an error with the socket
-);
-#endif
-
 // closes a local socket.
 // all existing connections will be hard closed, as if gt2CloseAllConnectionsHard was
 // called for this socket.  all connections send a close message to the remote side,
@@ -610,11 +592,6 @@ char ** gt2IPToAliases(unsigned int ip);
 char ** gt2StringToAliases(const char * string);
 unsigned int ** gt2IPToIPs(unsigned int ip);
 unsigned int ** gt2StringToIPs(const char * string);
-
-#ifdef _XBOX
-unsigned int gt2XnAddrToIP(XNADDR theAddr, XNKID theKeyId);
-GT2Bool gt2IPToXnAddr(int ip, XNADDR *theAddr, XNKID *theKeyId);
-#endif
 
 // these are for getting around adhoc which requires a 48 bit address v.s. a 32 bit inet address
 void gt2IpToMac(gsi_u32 ip,char *mac);

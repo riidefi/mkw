@@ -87,28 +87,6 @@ extern char* gGSIDebugLevelStrings[GSIDebugLevel_Count];
 ///////////////////////////////////////////////////////////////////////////////
 // Only include static data and functions if GSI_COMMON_DEBUG is defined
 #ifndef GSI_COMMON_DEBUG
-// not using GSI debug!  Define functions to <blank>
-// (put these here so VisualAssist will resolve the definitions below)
-#if !defined(_WIN32) && !defined(__MWERKS__)
-// WIN32 doesn't like "..." in a macro
-#define gsDebugFormat(c, t, l, f, ...)
-#define gsDebugVaList(c, t, l, f, v)
-#define gsDebugBinary(c, t, l, b, n)
-#define gsSetDebugLevel(c, t, l)
-#define gsSetDebugFile(f)
-#define gsOpenDebugFile(f)
-#define gsGetDebugFile
-#define gsSetDebugCallback(c)
-#elif defined(_NITRO)
-#define gsDebugFormat(...)
-#define gsDebugVaList(c, t, l, f, v)
-#define gsDebugBinary(c, t, l, b, n)
-#define gsSetDebugLevel(c, t, l)
-#define gsSetDebugFile(f)
-#define gsOpenDebugFile(f)
-#define gsGetDebugFile
-#define gsSetDebugCallback(c)
-#else
 #define gsDebugFormat
 #define gsDebugVaList
 #define gsDebugBinary
@@ -117,7 +95,6 @@ extern char* gGSIDebugLevelStrings[GSIDebugLevel_Count];
 #define gsOpenDebugFile
 #define gsGetDebugFile
 #define gsSetDebugCallback
-#endif
 #else
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -130,15 +107,11 @@ typedef void (*GSIDebugCallback)(GSIDebugCategory, GSIDebugType, GSIDebugLevel,
 ///////////////////////////////////////////////////////////////////////////////
 // Global debug instance
 typedef struct GSIDebugInstance {
-#if !defined(_NITRO)
   FILE* mGSIDebugFile;
-#endif
   GSIDebugCallback mDebugCallback;
   gsi_i32 mInitialized;
 
-#if !defined(GSI_NO_THREADS)
   GSICriticalSection mDebugCrit;
-#endif
 
   GSIDebugLevel mGSIDebugLevel[GSIDebugCat_Count][GSIDebugType_Count];
 } GSIDebugInstance;
@@ -163,8 +136,6 @@ void gsDebugBinary(GSIDebugCategory theCat, GSIDebugType theType,
 void gsSetDebugLevel(GSIDebugCategory theCat, GSIDebugType theType,
                      GSIDebugLevel theLevel);
 
-#if !defined(_NITRO)
-
 // Set the output file (NULL for no file)
 void gsSetDebugFile(FILE* theFile);
 
@@ -173,8 +144,6 @@ FILE* gsOpenDebugFile(const char* theFileName);
 
 // Retrieve the debug file
 FILE* gsGetDebugFile();
-
-#endif
 
 // Set a callback to be triggered with debug output
 void gsSetDebugCallback(GSIDebugCallback theCallback);

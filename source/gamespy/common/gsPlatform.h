@@ -5,21 +5,6 @@
 
 // GameSpy platform definition and headers
 
-// Windows:          _WIN32
-// Xbox:             _WIN32 + _XBOX
-// Xbox360:          _WIN32 + _XBOX + _X360
-// MacOSX:           _MACOSX + _UNIX
-// Linux:            _LINUX + _UNIX
-// Nintendo DS:      _NITRO
-// PSP:              _PSP
-// PS3:              _PS3
-
-// PlayStation2:     _PS2
-//    w/ EENET:      EENET       (set by developer project)
-//    w/ INSOCK:     INSOCK      (set by developer project)
-//    w/ SNSYSTEMS:  SN_SYSTEMS  (set by developer project)
-//    Codewarrior:   __MWERKS__
-
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Include common OS headers
@@ -41,20 +26,10 @@
 
 #include <ctype.h>
 
-#if defined(_MACOSX)
-#undef _T
-#endif
-
 #include <assert.h>
 
-#if defined(GS_NO_FILE) || defined(_PS2) || defined(_PS3) ||                   \
-    defined(_NITRO) || defined(_PSP) || defined(_XBOX)
-#define NOFILE
-#endif
-
-#if !defined(GSI_DOMAIN_NAME)
+#define NOFILE 1
 #define GSI_DOMAIN_NAME "gs.nintendowifi.net"
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -193,20 +168,8 @@ PRE_ALIGN(16);
 static char _mempool[MEMPOOL_SIZE]	POST_ALIGN(16);
 
 */
-#if defined _WIN32
-#define PRE_ALIGN(x) __declspec(align(x)) // ignore Win32 directive
-#define POST_ALIGN(x) // ignore
-#elif defined(_PS2) || defined(_PSP) || defined(_PS3)
-#define PRE_ALIGN(x) // ignored this on psp/ps2
-#define POST_ALIGN(x) __attribute__((aligned(x))) //
-#elif defined(_REVOLUTION)
 #define PRE_ALIGN(x) // not needed
 #define POST_ALIGN(x) __attribute__((aligned(32)))
-#else
-// #warning "Platform not supported"
-#define PRE_ALIGN(x) // ignore
-#define POST_ALIGN(x) // ignore
-#endif
 
 #define DIM(x) (sizeof(x) / sizeof((x)[0]))
 

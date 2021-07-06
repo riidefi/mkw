@@ -43,41 +43,9 @@ static gsi_u32 gsiDebugLog2(gsi_u32 theInt) {
 static void gsiDebugCallback(GSIDebugCategory category, GSIDebugType type,
                              GSIDebugLevel level, const char* format,
                              va_list params) {
-#if defined(_PSP)
-  // Output line prefix
-  vprintf(format, params);
-  // gsDebugTTyPrint(string);
-#elif defined(_PS2)
-  // Output line prefix
-  vprintf(format, params);
-
-#elif defined(_PS3)
-  // Output line prefix
-  vprintf(format, params);
-
-#elif defined(_WIN32)
-  static char string[256];
-  vsprintf(string, format, params);
-  OutputDebugStringA(string);
-
-#elif defined(_LINUX) || defined(_MACOSX)
-  // static char    string[256];
-  // vsprintf(string, format, params);
-  vprintf(format, params);
-#elif defined(_NITRO)
-  VPrintf(format, params);
-#elif defined(_REVOLUTION)
   static char string[256];
   vsprintf(string, format, params);
   OSReport(string);
-#else
-  va_list argptr;
-  static char string[256];
-  va_start(argptr, format);
-  vsprintf(string, format, argptr);
-  va_end(argptr);
-  gsDebugTTyPrint(string);
-#endif
 
   GSI_UNUSED(category);
   GSI_UNUSED(type);
@@ -115,7 +83,6 @@ void gsDebugVaList(GSIDebugCategory theCat, GSIDebugType theType,
   aCurLevel = gGSIDebugInstance.mGSIDebugLevel[theCat][theType];
   if (aCurLevel & theLevel) // check the flag
   {
-#if !defined(_NITRO)
     // Output line prefix
     if (gGSIDebugInstance.mGSIDebugFile) {
       fprintf(gGSIDebugInstance.mGSIDebugFile, "[%s][%s][%s] ",
@@ -125,7 +92,6 @@ void gsDebugVaList(GSIDebugCategory theCat, GSIDebugType theType,
       // Output to file
       vfprintf(gGSIDebugInstance.mGSIDebugFile, theTokenStr, theParamList);
     }
-#endif
     // Output to developer function if provided
     if (gGSIDebugInstance.mDebugCallback != NULL) {
       (*gGSIDebugInstance.mDebugCallback)(theCat, theType, theLevel,
@@ -270,8 +236,6 @@ void gsSetDebugLevel(GSIDebugCategory theCat, GSIDebugType theType,
   }
 }
 
-#if !defined(_NITRO)
-
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Set the debug output file to an already open file
@@ -316,8 +280,6 @@ FILE* gsOpenDebugFile(const char* theFileName) {
 ///////////////////////////////////////////////////////////////////////////////
 // Retrieve the current debug file (if any)
 FILE* gsGetDebugFile() { return gGSIDebugInstance.mGSIDebugFile; }
-
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

@@ -1683,21 +1683,12 @@ gsi_bool gsLargeIntPrint(FILE* logFile, const gsLargeInt_t* lint) {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 gsi_bool gsiLargeIntPrint(FILE* logFile, const l_word* data, l_word length) {
-// this is only specific to NITRO since for other platforms the fprintf will
-// resolve to a STDOUT
-#if !defined(_NITRO)
   while (length > 0) {
     fprintf(logFile, "%08X", data[length - 1]);
     length--;
   }
   fprintf(logFile, "\r\n");
   return gsi_true;
-#else
-  GSI_UNUSED(logFile);
-  GSI_UNUSED(data);
-  GSI_UNUSED(length);
-  return gsi_false;
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

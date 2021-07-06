@@ -51,19 +51,6 @@ static void* MEM_MANAGER_CALL _gsi_realloc(void* ptr, size_t size) {
   return realloc(ptr, size);
 }
 
-#if defined(_PS2) || defined(_PSP) || defined(_PS3)
-static void* _gsi_memalign(size_t boundary, size_t size) {
-  return memalign(boundary, size);
-}
-#elif defined(_WIN32)
-#if (_MSC_VER < 1300)
-// extern added for vc6 compatability.
-extern void* __cdecl _aligned_malloc(size_t size, int boundary);
-#endif
-static void* __cdecl _gsi_memalign(size_t boundary, size_t size) {
-  return _aligned_malloc(size, (int)boundary);
-}
-#else
 // no built in system memalign
 static void* _gsi_memalign(size_t boundary, size_t size) {
   void* ptr = calloc((size) / (boundary), (boundary));
@@ -71,7 +58,6 @@ static void* _gsi_memalign(size_t boundary, size_t size) {
   GS_ASSERT((((gsi_u32)ptr) % boundary) == 0);
   return ptr;
 }
-#endif
 
 static MemManagerCallbacks memmanagercallbacks = {
     &_gsi_malloc, &_gsi_free, &_gsi_realloc, &_gsi_memalign};

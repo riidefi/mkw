@@ -140,13 +140,6 @@ gpiDestroy(
 	gpiDisconnect(connection, GPITrue);
 	gpiStatusInfoKeysDestroy(connection);
 
-#ifdef _PS3
-    // Destroy NP
-    /////////////
-    if (iconnection->npInitialized)
-        gpiDestroyNpBasic(connection);
-#endif
-
 #ifndef NOFILE
 	// Write the profile info to disk.
 	//     BD - Don't update if we never connected.
@@ -532,32 +525,8 @@ gpiProcess(
 	/////////////////////////////////////////
 	if((iconnection->connectState == GPI_CONNECTED) || (iconnection->connectState == GPI_NEGOTIATING) || 
 		(iconnection->connectState == GPI_PROFILE_DELETING))
-	{
-#ifdef _PS3
-        // initialize NP during the sync delay, if initialized wait for status == online
-        ////////////////////////////////////////////////////////////////////////////////
-        if (iconnection->npInitialized && !iconnection->npStatusRetrieved)
-            gpiCheckNpStatus(connection);
-
-        // TODO: handle non-fatal errors (consider all errors from sync non-fatal?)
-        if (iconnection->npInitialized && iconnection->npStatusRetrieved)
-        {
-            // Delay sync after initialization to ensure block list has been received
-            /////////////////////////////////////////////////////////////////////////
-            if ((current_time() - iconnection->loginTime) > GPI_NP_SYNC_DELAY)
-            {
-                if (iconnection->npPerformBuddySync)
-                    gpiSyncNpBuddies(connection);
-                if (iconnection->npPerformBlockSync)
-                    gpiSyncNpBlockList(connection);
-            }
-
-            // Need to check callback for lookups
-            gpiProcessNp(connection);
-        }
-#endif		
-        
-        // Process the connection.
+	{	 
+    // Process the connection.
 		//////////////////////////
 		if(result == GP_NO_ERROR)
 			result = gpiProcessConnectionManager(connection);

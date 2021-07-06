@@ -39,9 +39,7 @@ extern "C" {
 // appeared in the middle of a stream, it could cause undesired operation
 int _ReadUCS2CharFromUTF8String(const UTF8String theUTF8String,
                                 UCS2Char* theUnicodeChar, int theMaxLength) {
-#ifndef _PS2
   assert(theUnicodeChar != NULL);
-#endif
 
   if (theMaxLength == 0) {
     // assert?
@@ -121,9 +119,7 @@ int _ReadUCS2CharFromUTF8String(const UTF8String theUTF8String,
 //		theUTF8String may be up to 3 bytes, caller is responsible for
 // allocating memory 		theUTF8String is NOT NULL terminated,
 int _UCS2CharToUTF8String(UCS2Char theUCS2Char, UTF8String theUTF8String) {
-#ifndef _PS2
   assert(theUTF8String != NULL);
-#endif
 
   // Screen out simple ascii (includes NULL terminator)
   if (theUCS2Char <= 0x7F) {

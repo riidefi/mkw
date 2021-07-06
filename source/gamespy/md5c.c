@@ -31,8 +31,6 @@
 extern "C" {
 #endif
 
-#if !defined(_NITRO)
-
 /* Constants for MD5Transform routine.
  */
 #define S11 7
@@ -314,8 +312,6 @@ static void MD5_memset(POINTER output, int value, unsigned int len) {
    for (i = 0; i < len; i++)
      ((char *)output)[i] = (char)value; */
 }
-
-#endif
 
 inline void MD5Print(unsigned char digest[16], char output[33]) {
   static const char hex_digits[] = "0123456789abcdef";
