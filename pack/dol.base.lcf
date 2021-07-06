@@ -226,25 +226,6 @@ SetReceiveBufferSize=0x800f1c40;
 CanReceiveOnSocket=0x800f1c9c;
 CanSendOnSocket=0x800f1ce4;
 
-gpiProfilesTableHash=0x80105d54;
-gpiProfilesTableCompare=0x80105d68;
-gpiProfilesTableFree=0x80105d78;
-gpiInitProfiles=0x80105e94;
-gpiProcessNewProfile=0x80105efc;
-gpiProfileListAdd=0x80106084;
-gpiGetProfile=0x80106158;
-gpiProcessDeleteProfle=0x801061ac;
-gpiRemoveProfileByID=0x801062ec;
-gpiRemoveProfile=0x80106338;
-gpiCheckProfileForUser=0x80106344;
-gpiFindProfileByUser=0x801063d0;
-gsiProfileMapCallback=0x80106458;
-gpiProfileMap=0x80106478;
-gpiCheckForBuddy=0x801064c0;
-gpiFindBuddy=0x80106518;
-gpiRemoveBuddyStatus=0x80106574;
-gpiRemoveBuddyStatusInfo=0x801065c8;
-gpiCanFreeProfile=0x80106640;
 gpiStartProfileSearch=0x8010669c;
 gpiInitSearchData=0x8010686c;
 gpiProfileSearch=0x80106958;
@@ -582,6 +563,22 @@ gpiPeerAcceptedCallback
 gpiPeerPingReplyCallback
 gpiPeerAddOp
 gpiPeerRemoveOp
+
+// gpiProfile
+GPIInfoCacheFilename
+gpiInitProfiles
+gpiProcessNewProfile
+gpiProfileListAdd
+gpiGetProfile
+gpiProcessDeleteProfle
+gpiRemoveProfileByID
+gpiRemoveProfile
+gpiFindProfileByUser
+gpiProfileMap
+gpiFindBuddy
+gpiRemoveBuddyStatus
+gpiRemoveBuddyStatusInfo
+gpiCanFreeProfile
 
 // sakeMain
 sakeStartup
