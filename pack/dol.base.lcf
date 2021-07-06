@@ -226,12 +226,6 @@ SetReceiveBufferSize=0x800f1c40;
 CanReceiveOnSocket=0x800f1c9c;
 CanSendOnSocket=0x800f1ce4;
 
-gpiStartProfileSearch=0x8010669c;
-gpiInitSearchData=0x8010686c;
-gpiProfileSearch=0x80106958;
-gpiOthersBuddyList=0x80106be8;
-gpiProcessSearch=0x80106ce8;
-gpiProcessSearches=0x801089e8;
 gpiHandleTransferMessage=0x80108b38;
 gpiProcessRegisterUniqueNick=0x80108c20;
 gpiProcessRegisterCdKey=0x80108d4c;
@@ -579,6 +573,11 @@ gpiFindBuddy
 gpiRemoveBuddyStatus
 gpiRemoveBuddyStatusInfo
 gpiCanFreeProfile
+
+// gpiSearch
+gpiProfileSearch
+gpiOthersBuddyList
+gpiProcessSearches
 
 // sakeMain
 sakeStartup

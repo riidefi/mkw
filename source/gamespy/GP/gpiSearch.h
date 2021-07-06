@@ -43,8 +43,8 @@ typedef struct {
   GPIBuffer outputBuffer;
   char nick[GP_NICK_LEN];
   char uniquenick[GP_UNIQUENICK_LEN];
-  int namespaceIDs[GP_MAX_NAMESPACEIDS];
-  int numNamespaces;
+  // int namespaceIDs[GP_MAX_NAMESPACEIDS];
+  // int numNamespaces;
   char email[GP_EMAIL_LEN];
   char firstname[GP_FIRSTNAME_LEN];
   char lastname[GP_LASTNAME_LEN];

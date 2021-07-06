@@ -69,10 +69,13 @@ out\gpiPeer.o
 out\dol\data_8027bd2a_8027bd30.o
 out\dol\sdata_803853b9_803853c0.o
 out\gpiProfile.o
-out\dol\text_8010669c_80121eec.o
-out\dol\data_8027bee5_8027de48.o
+out\dol\data_8027bee5_8027bee8.o
+out\dol\sdata_803853ce_803853d0.o
+out\gpiSearch.o
+out\dol\text_80108b38_80121eec.o
+out\dol\data_8027c203_8027de48.o
 out\dol\bss_802f247c_802f3f40.o
-out\dol\sdata_803853ce_80385740.o
+out\dol\sdata_803854bb_80385740.o
 out\sakeMain.o
 out\dol\text_8012249c_80124500.o
 out\dol\data_8027df3e_8027e708.o

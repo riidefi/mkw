@@ -487,7 +487,7 @@ typedef struct {
   GPProfile profile;
   gsi_char nick[GP_NICK_LEN];
   gsi_char uniquenick[GP_UNIQUENICK_LEN];
-  int namespaceID;
+  // int namespaceID;
   gsi_char firstname[GP_FIRSTNAME_LEN];
   gsi_char lastname[GP_LASTNAME_LEN];
   gsi_char email[GP_EMAIL_LEN];
