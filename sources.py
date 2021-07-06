@@ -33,6 +33,7 @@ compile_source("source/gamespy/gp/gpi.c", "out/gpi.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/gp/gpiBuddy.c", "out/gpiBuddy.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/gp/gpiBuffer.c", "out/gpiBuffer.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/gp/gpiCallback.c", "out/gpiCallback.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/gp/gpiConnect.c", "out/gpiConnect.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/sake/sakeMain.c", "out/sakeMain.o", '4199_60831', RVL_OPTS)
 
 compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)

@@ -753,6 +753,8 @@ gpiReport(
 		report(buf);
 		sprintf(buf, "PeerSig: %d (%d%%)", nPeerSig, nPeerSig * 100 / nProfiles);
 		report(buf);
+        sprintf(buf, "Blocked: %d (%d%%)", nBlocked, nBlocked * 100 / nProfiles);
+        report(buf);
 	}
 
 	report("---------------");

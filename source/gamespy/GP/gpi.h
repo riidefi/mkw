@@ -35,13 +35,7 @@ Please see the GameSpy Presence SDK documentation for more information
 #define GPI_NEW_LIST_RETRIEVAL_ON_LOGIN (1<<3)
 
 // Extended SDK features
-#ifndef GPI_SDKREV
-#ifdef GP_NEW_STATUS_INFO
-#define GPI_SDKREV (GPI_NEW_AUTH_NOTIFICATION | GPI_NEW_REVOKE_NOTIFICATION | GPI_NEW_STATUS_NOTIFICATION | GPI_NEW_LIST_RETRIEVAL_ON_LOGIN)
-#else
-#define GPI_SDKREV (GPI_NEW_AUTH_NOTIFICATION | GPI_NEW_REVOKE_NOTIFICATION | GPI_NEW_LIST_RETRIEVAL_ON_LOGIN)
-#endif
-#endif
+#define GPI_SDKREV 0x3
 
 // New UDP Layer port
 #define GPI_PEER_PORT 6500
@@ -74,12 +68,12 @@ typedef enum _GPIBool
 ///////////////////
 typedef struct
 {
-  char errorString[GP_ERROR_STRING_LEN];
-  GPIBool infoCaching;
-  GPIBool infoCachingBuddyAndBlockOnly;
-  GPIBool simulation;
-  GPIBool firewall;
-  char nick[GP_NICK_LEN];
+  char errorString[GP_ERROR_STRING_LEN]; // 0x00
+  GPIBool infoCaching; // 0x100
+  GPIBool infoCachingBuddyAndBlockOnly; // 0x104
+  GPIBool simulation; // 0x108
+  GPIBool firewall; // 0x10C
+  char nick[GP_NICK_LEN]; // 0x110
   char uniquenick[GP_UNIQUENICK_LEN];
   char email[GP_EMAIL_LEN];
   char password[GP_PASSWORD_LEN];

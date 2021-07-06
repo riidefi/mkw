@@ -208,6 +208,10 @@ gti2SocketError=0x8010e930;
 gt2AddressToString=0x8010e9c0;
 gt2StringToAddress=0x8010eaa4;
 gti2MessageCheck=0x8010ec48;
+
+Util_RandSeed=0x800f2ec8;
+Util_RandInt=0x800f2ee0;
+rand=0x80011c70;
 B64Decode=0x800f2f54;
 B64Encode=0x800f3278;
 B64DecodeLen=0x800f3484;
@@ -217,14 +221,12 @@ _UCS2CharToUTF8String=0x800f4680;
 UTF8ToUCS2StringLen=0x800f47e4;
 strzcpy=0x80108e78;
 goastrdup=0x800f23f4;
-gpiStartConnect=0x800ffe28;
-gpiConnect=0x80100150;
-gpiSendLogin=0x801003a4;
-gpiSendNewuser=0x801007dc;
-gpiProcessConnect=0x801009fc;
-gpiCheckConnect=0x80101088;
-gpiDisconnectCleanupProfile=0x80101128;
-gpiDisconnect=0x801012b8;
+_strlwr=0x800f2464;
+SetSockBlocking=0x800f1bc8;
+SetReceiveBufferSize=0x800f1c40;
+CanReceiveOnSocket=0x800f1c9c;
+CanSendOnSocket=0x800f1ce4;
+
 gpiIsValidDate=0x80101470;
 gpiInfoCacheToArg=0x801015d4;
 gpiProcessGetInfo=0x80101810;
@@ -572,6 +574,12 @@ gpiClipBufferToPosition
 gpiCallErrorCallback
 gpiAddCallback
 gpiProcessCallbacks
+
+// gpiConnect
+gpiConnect
+gpiProcessConnect
+gpiCheckConnect
+gpiDisconnect
 
 // sakeMain
 sakeStartup
