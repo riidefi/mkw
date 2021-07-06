@@ -38,14 +38,14 @@ int SOFinish(void) {
 
   switch (soState) {
   case SO_INTERNAL_STATE_TERMINATED:
-    result = -SO_EALREADY;
+    result = SO_EALREADY;
     break;
   case SO_INTERNAL_STATE_READY:
     if (soWork.rmState > SO_INTERNAL_RM_STATE_CLOSED) {
-      result = -SO_EBUSY;
+      result = SO_EBUSY;
       break;
     } else if (soWork.allocCount > 1) {
-      result = -SO_EAGAIN;
+      result = SO_EAGAIN;
       break;
     }
     soState = SO_INTERNAL_STATE_TERMINATED;
@@ -55,7 +55,7 @@ int SOFinish(void) {
     }
     break;
   case SO_INTERNAL_STATE_ACTIVE:
-    result = -SO_EINPROGRESS;
+    result = SO_EINPROGRESS;
     break;
   }
   OSThread* cur = OSGetCurrentThread();
@@ -114,14 +114,14 @@ begin_startup:
   switch (soState) {
   case SO_INTERNAL_STATE_TERMINATED:
   default:
-    result = -SO_ENETRESET;
+    result = SO_ENETRESET;
     break;
   case SO_INTERNAL_STATE_ACTIVE:
-    result = -SO_EALREADY;
+    result = SO_EALREADY;
     break;
   case SO_INTERNAL_STATE_READY:
     if (soWork.rmState > SO_INTERNAL_RM_STATE_CLOSED) {
-      result = -SO_EBUSY;
+      result = SO_EBUSY;
       break;
     } else if (!OSGetCurrentThread()) {
       result = SO_EFATAL;
@@ -150,7 +150,7 @@ begin_startup:
         result = SO_EFATAL;
         goto change_state;
       } else if (resultNCD == NCD_LINKSTATUS_NONE) {
-        result = -SO_ENOENT;
+        result = SO_ENOENT;
         goto change_state;
       }
 
@@ -274,14 +274,14 @@ int SOCleanup(void) {
   switch (soState) {
   case SO_INTERNAL_STATE_TERMINATED:
   default:
-    result = -SO_ENETRESET;
+    result = SO_ENETRESET;
     break;
   case SO_INTERNAL_STATE_READY:
-    result = -SO_EALREADY;
+    result = SO_EALREADY;
     break;
   case SO_INTERNAL_STATE_ACTIVE:
     if (soWork.rmState < SO_INTERNAL_RM_STATE_OPENED) {
-      result = -SO_EBUSY;
+      result = SO_EBUSY;
       break;
     } else if (!OSGetCurrentThread()) {
       result = SO_EFATAL;
@@ -372,15 +372,15 @@ int SOiPrepare(const char* funcName, s32* pRmId) {
 
   switch (soState) {
   case SO_INTERNAL_STATE_TERMINATED:
-    result = -SO_ENETRESET;
+    result = SO_ENETRESET;
     break;
   case SO_INTERNAL_STATE_READY:
   default:
-    result = -SO_EINVAL;
+    result = SO_EINVAL;
     break;
   case SO_INTERNAL_STATE_ACTIVE:
     if (soWork.rmState < SO_INTERNAL_RM_STATE_OPENED) {
-      result = -SO_EBUSY;
+      result = SO_EBUSY;
       break;
     } else if (!OSGetCurrentThread()) {
       result = SO_EFATAL;
@@ -419,12 +419,12 @@ int SOiPrepareTempRm(const char* funcName, s32* pRmId, int* pIsTempRm) {
 
   switch (soState) {
   case SO_INTERNAL_STATE_TERMINATED:
-    result = -SO_ENETRESET;
+    result = SO_ENETRESET;
     break;
   case SO_INTERNAL_STATE_READY:
   default:
     if (soWork.rmState > SO_INTERNAL_RM_STATE_CLOSED) {
-      result = -SO_EBUSY;
+      result = SO_EBUSY;
       break;
     } else if (!OSGetCurrentThread()) {
       result = SO_EFATAL;
@@ -436,7 +436,7 @@ int SOiPrepareTempRm(const char* funcName, s32* pRmId, int* pIsTempRm) {
     if (soWork.rmFd < 0) {
       enabled = OSDisableInterrupts();
       if (soWork.rmFd == -6) {
-        result = -SO_EINPROGRESS;
+        result = SO_EINPROGRESS;
         soWork.rmState = SO_INTERNAL_RM_STATE_CLOSED;
       } else {
         result = SO_EFATAL;
@@ -457,26 +457,26 @@ int SOiPrepareTempRm(const char* funcName, s32* pRmId, int* pIsTempRm) {
           }
           break;
         case -8:
-          result = SOiConcludeTempRm(funcName, -SO_EINPROGRESS, true);
+          result = SOiConcludeTempRm(funcName, SO_EINPROGRESS, true);
           break;
         case -1:
         case -2:
           result = SOiConcludeTempRm(funcName, SO_EFATAL, true);
           break;
         default:
-          result = SOiConcludeTempRm(funcName, -SO_ENOLINK, true);
+          result = SOiConcludeTempRm(funcName, SO_ENOLINK, true);
         }
         enabled = OSDisableInterrupts();
       } else {
         switch (errNwc24) {
         case NWC24_ERR_INPROGRESS:
-          result = -SO_EINPROGRESS;
+          result = SO_EINPROGRESS;
           break;
         case NWC24_ERR_FAILED:
-          result = -SO_ENETRESET;
+          result = SO_ENETRESET;
           break;
         case NWC24_ERR_DONE:
-          result = -SO_ENOLINK;
+          result = SO_ENOLINK;
           break;
         case NWC24_ERR_MUTEX:
         case NWC24_ERR_FATAL:
@@ -497,7 +497,7 @@ int SOiPrepareTempRm(const char* funcName, s32* pRmId, int* pIsTempRm) {
     break;
   case SO_INTERNAL_STATE_ACTIVE:
     if (soWork.rmState < SO_INTERNAL_RM_STATE_OPENED) {
-      result = -SO_EBUSY;
+      result = SO_EBUSY;
       break;
     } else if (!OSGetCurrentThread()) {
       result = SO_EFATAL;
@@ -527,7 +527,7 @@ int SOiConcludeTempRm(const char* funcName, int result, int isTempRm) {
     case NWC24_OK:
       break;
     case NWC24_ERR_INPROGRESS:
-      result = -SO_EINPROGRESS;
+      result = SO_EINPROGRESS;
       break;
     case NWC24_ERR_FATAL:
     default:
@@ -580,7 +580,7 @@ int SOiWaitForDHCPEx(int timeout) {
     if (SOGetHostID() != 0)
       break;
     if (limitTime != 0 && limitTime < __OSGetSystemTime()) {
-      result = -SO_ETIMEDOUT;
+      result = SO_ETIMEDOUT;
       break;
     }
   }

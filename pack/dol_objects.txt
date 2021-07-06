@@ -47,10 +47,13 @@ out\dol\data_8027b289_8027b290.o
 out\gpi.o
 out\dol\data_8027b30f_8027b310.o
 out\gpiBuddy.o
-out\dol\text_800fee90_80121eec.o
-out\dol\data_8027b453_8027de48.o
+out\dol\data_8027b453_8027b458.o
+out\dol\sdata_803851ea_803851f0.o
+out\gpiBuffer.o
+out\dol\text_800ff8c4_80121eec.o
+out\dol\data_8027b4ba_8027de48.o
 out\dol\bss_802f247c_802f3f40.o
-out\dol\sdata_803851ea_80385740.o
+out\dol\sdata_80385206_80385740.o
 out\sakeMain.o
 out\dol\text_8012249c_80124500.o
 out\dol\data_8027df3e_8027e708.o

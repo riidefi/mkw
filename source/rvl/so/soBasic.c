@@ -16,11 +16,11 @@ int SOSocket2(int pf, int type, int protocol) {
 
   if ((result = SOiPrepare(0, &rmId)) == SO_SUCCESS) {
     if (pf == SO_PF_INET6) {
-      result = -SO_EAFNOSUPPORT;
+      result = SO_EAFNOSUPPORT;
     } else {
       NETSoSocket* soc = (NETSoSocket*)SOiAlloc(0xc, 0x20);
       if (soc == NULL) {
-        result = -SO_ENOMEM;
+        result = SO_ENOMEM;
       } else {
         soc->af = pf;
         soc->type = type;

@@ -217,19 +217,6 @@ _UCS2CharToUTF8String=0x800f4680;
 UTF8ToUCS2StringLen=0x800f47e4;
 strzcpy=0x80108e78;
 goastrdup=0x800f23f4;
-gpiAppendCharToBuffer=0x800fee90;
-gpiAppendStringToBufferLen=0x800fef38;
-gpiAppendStringToBuffer=0x800ff014;
-gpiAppendIntToBuffer=0x800ff070;
-gpiSendData=0x800ff0d0;
-gpiSendOrBufferChar=0x800ff1d4;
-gpiSendOrBufferStringLenToPeer=0x800ff1dc;
-gpiSendOrBufferString=0x800ff2f4;
-gpiRecvToBuffer=0x800ff350;
-gpiSendFromBuffer=0x800ff498;
-gpiSendBufferToPeer=0x800ff598;
-gpiReadMessageFromBuffer=0x800ff6f0;
-gpiClipBufferToPosition=0x800ff844;
 gpiCallErrorCallback=0x800ff8c4;
 gpiAddCallback=0x800ff984;
 gpiCallCallback=0x800ffa54;
@@ -570,6 +557,20 @@ gpiBuddyHandleKeyReply
 gpiAuthBuddyRequest
 gpiFixBuddyIndices
 gpiDeleteBuddy
+
+// gpiBuffer
+gpiAppendCharToBuffer
+gpiAppendStringToBufferLen
+gpiAppendStringToBuffer
+gpiAppendIntToBuffer
+gpiSendOrBufferChar
+gpiSendOrBufferStringLenToPeer
+gpiSendOrBufferString
+gpiRecvToBuffer
+gpiSendFromBuffer
+gpiSendBufferToPeer
+gpiReadMessageFromBuffer
+gpiClipBufferToPosition
 
 // sakeMain
 sakeStartup

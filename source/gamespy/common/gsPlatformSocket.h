@@ -15,6 +15,9 @@ extern "C" {
 
 // GSI Cross Platform Socket Wrapper
 
+#define  gsiSocketIsError(theReturnValue)		((theReturnValue) == -1)
+#define  gsiSocketIsNotError(theReturnValue)	((theReturnValue) != -1)
+
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Types
@@ -30,44 +33,36 @@ extern "C" {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Platform socket types
-#define WSAEWOULDBLOCK EWOULDBLOCK
-#define WSAEINPROGRESS EINPROGRESS
-#define WSAEALREADY EALREADY
-#define WSAENOTSOCK ENOTSOCK
-#define WSAEDESTADDRREQ EDESTADDRREQ
-#define WSAEMSGSIZE EMSGSIZE
-#define WSAEPROTOTYPE EPROTOTYPE
-#define WSAENOPROTOOPT ENOPROTOOPT
-#define WSAEPROTONOSUPPORT EPROTONOSUPPORT
-#define WSAESOCKTNOSUPPORT ESOCKTNOSUPPORT
-#define WSAEOPNOTSUPP EOPNOTSUPP
-#define WSAEPFNOSUPPORT EPFNOSUPPORT
-#define WSAEAFNOSUPPORT EAFNOSUPPORT
-#define WSAEADDRINUSE EADDRINUSE
-#define WSAEADDRNOTAVAIL EADDRNOTAVAIL
-#define WSAENETDOWN ENETDOWN
-#define WSAENETUNREACH ENETUNREACH
-#define WSAENETRESET ENETRESET
-#define WSAECONNABORTED ECONNABORTED
-#define WSAECONNRESET ECONNRESET
-#define WSAENOBUFS ENOBUFS
-#define WSAEISCONN EISCONN
-#define WSAENOTCONN ENOTCONN
-#define WSAESHUTDOWN ESHUTDOWN
-#define WSAETOOMANYREFS ETOOMANYREFS
-#define WSAETIMEDOUT ETIMEDOUT
-#define WSAECONNREFUSED ECONNREFUSED
-#define WSAELOOP ELOOP
-#define WSAENAMETOOLONG ENAMETOOLONG
-#define WSAEHOSTDOWN EHOSTDOWN
-#define WSAEHOSTUNREACH EHOSTUNREACH
-#define WSAENOTEMPTY ENOTEMPTY
-#define WSAEPROCLIM EPROCLIM
-#define WSAEUSERS EUSERS
-#define WSAEDQUOT EDQUOT
-#define WSAESTALE ESTALE
-#define WSAEREMOTE EREMOTE
-#define WSAEINVAL EINVAL
+#define WSAEWOULDBLOCK      SO_EWOULDBLOCK             
+#define WSAEINPROGRESS      SO_EINPROGRESS             
+#define WSAEALREADY         SO_EALREADY                
+#define WSAENOTSOCK         SO_ENOTSOCK                
+#define WSAEDESTADDRREQ     SO_EDESTADDRREQ            
+#define WSAEMSGSIZE         SO_EMSGSIZE                
+#define WSAEPROTOTYPE       SO_EPROTOTYPE              
+#define WSAENOPROTOOPT      SO_ENOPROTOOPT             
+#define WSAEPROTONOSUPPORT  SO_EPROTONOSUPPORT         
+#define WSAEOPNOTSUPP       SO_EOPNOTSUPP              
+#define WSAEAFNOSUPPORT     SO_EAFNOSUPPORT            
+#define WSAEADDRINUSE       SO_EADDRINUSE              
+#define WSAEADDRNOTAVAIL    SO_EADDRNOTAVAIL           
+#define WSAENETDOWN         SO_ENETDOWN                
+#define WSAENETUNREACH      SO_ENETUNREACH             
+#define WSAENETRESET        SO_ENETRESET               
+#define WSAECONNABORTED     SO_ECONNABORTED            
+#define WSAECONNRESET       SO_ECONNRESET              
+#define WSAENOBUFS          SO_ENOBUFS                 
+#define WSAEISCONN          SO_EISCONN                 
+#define WSAENOTCONN         SO_ENOTCONN                
+#define WSAETIMEDOUT        SO_ETIMEDOUT               
+#define WSAECONNREFUSED     SO_ECONNREFUSED            
+#define WSAELOOP            SO_ELOOP                   
+#define WSAENAMETOOLONG     SO_ENAMETOOLONG            
+#define WSAEHOSTUNREACH     SO_EHOSTUNREACH            
+#define WSAENOTEMPTY        SO_ENOTEMPTY               
+#define WSAEDQUOT           SO_EDQUOT                  
+#define WSAESTALE           SO_ESTALE                  
+#define WSAEINVAL           SO_EINVAL
 
 #define AF_INET SO_PF_INET
 #define SOCK_DGRAM SO_SOCK_DGRAM

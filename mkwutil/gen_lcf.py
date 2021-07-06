@@ -10,6 +10,7 @@ dont_force = {
     "gp",
     "gpi",
     "gpiBuddy",
+    "gpiBuffer",
     "sakeMain"
 }
 
