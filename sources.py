@@ -29,6 +29,7 @@ compile_source("source/gamespy/common/gsCore.c", "out/gsCore.o", '4199_60831', R
 compile_source("source/gamespy/common/gsUdpEngine.c", "out/gsUdpEngine.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/common/gsXML.c", "out/gsXML.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/gp/gp.c", "out/gp.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/gp/gpi.c", "out/gpi.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/sake/sakeMain.c", "out/sakeMain.o", '4199_60831', RVL_OPTS)
 
 compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)

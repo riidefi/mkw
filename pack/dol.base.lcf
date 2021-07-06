@@ -34,6 +34,7 @@ memmove=0x8000f1f0;
 memchr=0x8000f2bc;
 memcmp=0x8000f314;
 qsort=0x80011b00;
+srand=0x80011c90;
 printf=0x800116e4;
 vprintf=0x800117b0;
 vsnprintf=0x8001182c;
@@ -215,12 +216,6 @@ B64EncodeStream=0x800f3538;
 _UCS2CharToUTF8String=0x800f4680;
 UTF8ToUCS2StringLen=0x800f47e4;
 strzcpy=0x80108e78;
-gpiInitialize=0x800fc7d4;
-gpiDestroy=0x800fc9a0;
-gpiResetProfile=0x800fc9fc;
-gpiReset=0x800fca1c;
-gpiProcessConnectionManager=0x800fcc64;
-gpiProcess=0x800fcfbc;
 gpiProcessRecvBuddyMessage=0x800fd160;
 gpiProcessRecvBuddyStatusInfo=0x800fdc4c;
 gpiSendServerBuddyMessage=0x800fe2f8;
@@ -562,6 +557,14 @@ gpSetStatusA
 gpSendBuddyMessageA
 gpGetReversBuddiesList
 gpGetLoginTicket
+
+// gpi
+gpiInitialize
+gpiDestroy
+//gpiResetProfile
+gpiReset
+gpiProcessConnectionManager
+gpiProcess
 
 // sakeMain
 sakeStartup

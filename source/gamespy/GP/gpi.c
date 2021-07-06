@@ -188,8 +188,6 @@ gpiResetProfile(
 	profile->authSig = NULL;
 	profile->requestCount = 0;
 	profile->peerSig = NULL;
-    profile->blocked = gsi_false;
-    profile->buddyOrBlockCache = gsi_false;
 
 	return GPITrue;
 }
@@ -247,7 +245,6 @@ gpiReset(
 		gpiRemoveOperation(connection, iconnection->operationList);
 	iconnection->operationList = NULL;
 	iconnection->profileList.numBuddies = 0;
-    iconnection->profileList.numBlocked = 0;
 	gpiProfileMap(connection, gpiResetProfile, NULL);
 	iconnection->userid = 0;
 	iconnection->profileid = 0;
@@ -401,21 +398,7 @@ gpiProcessConnectionManager(
 				else if(strncmp(iconnection->inputBuffer, "\\bsi\\", 5) == 0)
 				{
 					CHECK_RESULT(gpiProcessRecvBuddyStatusInfo(connection, iconnection->inputBuffer));
-				}                
-                else if(strncmp(iconnection->inputBuffer, "\\bdy\\", 5) == 0)
-                {
-                    // Process the buddy list - retrieved upon login before final login response
-                    // * Note: this only gets the list of your buddies so at least you'll know who
-                    // is a buddy while the status of each is asynchronously updated.
-                    //////////////////////////////////////////////////////////////////////////////
-                    CHECK_RESULT(gpiProcessRecvBuddyList(connection, iconnection->inputBuffer));
-                }
-                else if(strncmp(iconnection->inputBuffer, "\\blk\\", 5) == 0)
-                {
-                    // Process the block list - retrieved upon login before final login response
-                    //////////////////////////////////////////////////////////////////////////////
-                    CHECK_RESULT(gpiProcessRecvBlockedList(connection, iconnection->inputBuffer));
-                }
+				}
 				else
 				{
 					// This is an unrecognized message.
@@ -676,7 +659,6 @@ static int nInfoMemory;
 static int nAuthSig;
 static int nPeerSig;
 static int nTotalMemory;
-static int nBlocked;
 
 static GPIBool
 gpiReportProfile(
@@ -731,7 +713,6 @@ gpiReportProfile(
 	}
 	if(profile->authSig) nAuthSig++;
 	if(profile->peerSig) nPeerSig++;
-    if(profile->blocked) nBlocked++;
 
 	return GPITrue;
 }
@@ -753,7 +734,6 @@ gpiReport(
 	nAuthSig = 0;
 	nPeerSig = 0;
 	nTotalMemory = 0;
-    nBlocked = 0;
 
 	report("START PROFILE MAP");
 	report("-----------------");
@@ -773,8 +753,6 @@ gpiReport(
 		report(buf);
 		sprintf(buf, "PeerSig: %d (%d%%)", nPeerSig, nPeerSig * 100 / nProfiles);
 		report(buf);
-        sprintf(buf, "Blocked: %d (%d%%)", nBlocked, nBlocked * 100 / nProfiles);
-        report(buf);
 	}
 
 	report("---------------");

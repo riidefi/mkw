@@ -8,6 +8,7 @@ dont_force = {
     "gsUdpEngine",
     "gsXML",
     "gp",
+    "gpi",
     "sakeMain"
 }
 

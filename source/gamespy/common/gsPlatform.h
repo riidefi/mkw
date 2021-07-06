@@ -27,6 +27,7 @@
 #include <ctype.h>
 
 #include <assert.h>
+#define assert
 
 #define NOFILE 1
 #define GSI_DOMAIN_NAME "gs.nintendowifi.net"

@@ -1,21 +1,7 @@
 
 .include "macros.inc"
 
-.section .sdata, "wa" # 0x80385118 - 0x80385740
-.4byte 0x434D0000
-.4byte 0x5C69645C
-.4byte 0x00000000
-.4byte 0x5C626D5C
-.4byte 0x00000000
-.4byte 0x5C6B615C
-.4byte 0x00000000
-.4byte 0x5C6C745C
-.4byte 0x00000000
-.4byte 0x5C627369
-.4byte 0x5C000000
-.4byte 0x00000000
-.4byte 0x5C66696E
-.4byte 0x616C5C00
+.section .sdata, "wa" # 0x80385150 - 0x80385740
 .4byte 0x5C626D5C
 .4byte 0x00000000
 .4byte 0x5C665C00

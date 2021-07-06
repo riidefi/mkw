@@ -17,8 +17,6 @@
 
 #include "nonport.h"
 
-#define assert(x) (void)0
-
 struct HashImplementation {
   DArray* buckets;
   int nbuckets;

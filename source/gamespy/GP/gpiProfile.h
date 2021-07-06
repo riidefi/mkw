@@ -73,9 +73,6 @@ typedef struct GPIProfile
 	char * authSig;
 	int requestCount;
 	char * peerSig;
-    gsi_bool blocked;
-    int blockIndex;
-    gsi_bool buddyOrBlockCache;
 } GPIProfile;
 
 // A list of profiles.
@@ -85,7 +82,6 @@ typedef struct
 	HashTable profileTable;
 	int num;
 	int numBuddies;
-    int numBlocked;
 } GPIProfileList;
 
 //FUNCTIONS
@@ -199,31 +195,6 @@ gpiCanFreeProfile(
 
 void gpiSetInfoCacheFilename(
   const char filename[FILENAME_MAX + 1]
-);
-
-// BLOCK LIST
-GPResult
-gpiAddToBlockedList(
-  GPConnection * connection,
-  int profileid
-);
-
-GPResult
-gpiRemoveFromBlockedList(
-  GPConnection * connection,
-  int profileid
-);
-
-GPIProfile *
-gpiFindBlockedProfile(
-  GPConnection * connection, 
-  int blockIndex
-);
-
-GPResult
-gpiProcessRecvBlockedList(
-  GPConnection * connection,
-  const char * input
 );
 
 #endif

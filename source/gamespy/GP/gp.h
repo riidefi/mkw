@@ -358,16 +358,6 @@ typedef enum _GPErrorCode
 	GP_REGISTERCDKEY_ALREADY_SET,
 	GP_REGISTERCDKEY_ALREADY_TAKEN,
 
-	// AddBlock.
-	////////////
-	GP_ADDBLOCK = 0x1200,
-	GP_ADDBLOCK_ALREADY_BLOCKED,
-
-	// RemoveBlock.
-	///////////////
-	GP_REMOVEBLOCK = 0x1300,
-	GP_REMOVEBLOCK_NOT_BLOCKED
-
 } GPErrorCode;
 
 //STRING LENGTHS
@@ -1195,43 +1185,6 @@ GPResult gpDenyBuddyRequest(
 // gpDeleteBuddy
 ////////////////
 GPResult gpDeleteBuddy(
-  GPConnection * connection,
-  GPProfile profile
-);
-
-// gpAddToBlockedList
-/////////////////////
-GPResult gpAddToBlockedList(
-  GPConnection * connection,
-  GPProfile profile
-);
-
-// gpRemoveFromBlockedList
-/////////////////////
-GPResult gpRemoveFromBlockedList(
-  GPConnection * connection,
-  GPProfile profile
-);
-
-// gpGetNumBlocked
-//////////////////
-GPResult gpGetNumBlocked(
-  GPConnection * connection,
-  int * numBlocked
-);
-
-// gpGetBlockedProfile
-/////////////////////
-GPResult gpGetBlockedProfile(
-  GPConnection * connection, 
-  int index,
-  GPProfile * profile
-);
-
-// gpIsBlocked
-// returns gsi_true if blocked, gsi_false if not blocked
-////////////////////////////////////////////////////////
-gsi_bool gpIsBlocked(
   GPConnection * connection,
   GPProfile profile
 );
