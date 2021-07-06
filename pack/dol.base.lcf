@@ -217,10 +217,6 @@ _UCS2CharToUTF8String=0x800f4680;
 UTF8ToUCS2StringLen=0x800f47e4;
 strzcpy=0x80108e78;
 goastrdup=0x800f23f4;
-gpiCallErrorCallback=0x800ff8c4;
-gpiAddCallback=0x800ff984;
-gpiCallCallback=0x800ffa54;
-gpiProcessCallbacks=0x800ffd08;
 gpiStartConnect=0x800ffe28;
 gpiConnect=0x80100150;
 gpiSendLogin=0x801003a4;
@@ -571,6 +567,11 @@ gpiSendFromBuffer
 gpiSendBufferToPeer
 gpiReadMessageFromBuffer
 gpiClipBufferToPosition
+
+// gpiCallback
+gpiCallErrorCallback
+gpiAddCallback
+gpiProcessCallbacks
 
 // sakeMain
 sakeStartup

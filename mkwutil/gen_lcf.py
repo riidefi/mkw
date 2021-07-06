@@ -11,6 +11,7 @@ dont_force = {
     "gpi",
     "gpiBuddy",
     "gpiBuffer",
+    "gpiCallback",
     "sakeMain"
 }
 
