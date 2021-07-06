@@ -7,6 +7,7 @@ dont_force = {
     "gsAvailable",
     "gsUdpEngine",
     "gsXML",
+    "gp",
     "sakeMain"
 }
 

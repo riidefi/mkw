@@ -17,6 +17,8 @@ Please see the GameSpy Presence SDK documentation for more information
 #include <string.h>
 #include "gpi.h"
 
+#define NOFILE 1
+
 //FUNCTIONS
 ///////////
 GPResult gpInitialize(
@@ -457,8 +459,9 @@ void gpDisconnect(
 
     // If we were connected prior, set to disconnected to save off info cache
     //////////////////////////////////////////////////////////////////////////
-    if (oldState == GPI_CONNECTED)
-        iconnection->connectState = GPI_DISCONNECTED;
+    // TODO This was commented out
+    //if (oldState == GPI_CONNECTED)
+    //    iconnection->connectState = GPI_DISCONNECTED;
 
 }
 
@@ -1622,7 +1625,6 @@ GPResult gpGetNumBuddies(
 	return GP_NO_ERROR;
 }
 
-#ifndef GP_NEW_STATUS_INFO
 GPResult gpGetBuddyStatus(
   GPConnection * connection,
   int index, 
@@ -1667,145 +1669,36 @@ GPResult gpGetBuddyStatus(
 	if(!profile)
 		Error(connection, GP_PARAMETER_ERROR, "Invalid index.");
 
+	// assert(buddyStatus || buddyStatusInfo);
 	
-	assert(profile->buddyStatus);
-	status->profile = (GPProfile)profile->profileId;
-	status->status = profile->buddyStatus->status;
-#ifndef GSI_UNICODE
-	if(profile->buddyStatus->statusString)
-		strzcpy(status->statusString, profile->buddyStatus->statusString, GP_STATUS_STRING_LEN);
-	else
-		status->statusString[0] = '\0';
-	
+	// assert(profile->buddyStatus);
 
-	if(profile->buddyStatus->locationString)
-		strzcpy(status->locationString, profile->buddyStatus->locationString, GP_LOCATION_STRING_LEN);
-	else
-		status->locationString[0] = '\0';
-
-#else
-	if(profile->buddyStatus->statusString)
-		UTF8ToUCS2String(profile->buddyStatus->statusString, status->statusString);
-	else
-		status->statusString[0] = '\0';
-
-	if(profile->buddyStatus->locationString)
-		UTF8ToUCS2String(profile->buddyStatus->locationString, status->locationString);
-	else
-		status->locationString[0] = '\0';
-
-#endif
-	status->ip = profile->buddyStatus->ip;
-	status->port = profile->buddyStatus->port;
-	status->quietModeFlags = profile->buddyStatus->quietModeFlags;
-	
-	return GP_NO_ERROR;
-}
-#endif
-
-#ifdef GP_NEW_STATUS_INFO
-GPResult gpGetBuddyStatusInfo(
-	GPConnection * connection,
-	int index, 
-	GPBuddyStatusInfo * statusInfo
-)
-{
-	GPIConnection * iconnection;
-	int num;
-	GPIProfile * profile;
-	GPIBuddyStatus *buddyStatus;
-	GPIBuddyStatusInfo * buddyStatusInfo;
-
-	// Error check.
-	///////////////
-	if((connection == NULL) || (*connection == NULL))
-		return GP_PARAMETER_ERROR;
-
-	// Get the connection object.
-	/////////////////////////////
-	iconnection = (GPIConnection *)*connection;
-
-	// Check for simulation mode.
-	/////////////////////////////
-	if(iconnection->simulation)
-	{
-		memset(statusInfo, 0, sizeof(GPBuddyStatusInfo));
-		return GP_NO_ERROR;
-	}
-
-	// Check for a NULL status.
-	///////////////////////////
-	if(statusInfo == NULL)
-		Error(connection, GP_PARAMETER_ERROR, "Invalid status.");
-
-	// Check the buddy index.
-	/////////////////////////
-	num = iconnection->profileList.numBuddies;
-	if((index < 0) || (index >= num))
-		Error(connection, GP_PARAMETER_ERROR, "Invalid index.");
-
-	// Find the buddy with this index.
-	//////////////////////////////////
-	profile = gpiFindBuddy(connection, index);
-	if(!profile)
-		Error(connection, GP_PARAMETER_ERROR, "Invalid index.");
-
-	
-	buddyStatus = profile->buddyStatus;
-	buddyStatusInfo = profile->buddyStatusInfo;
-	assert(buddyStatus || buddyStatusInfo);
-
-	statusInfo->profile = (GPProfile)profile->profileId;
-	if (buddyStatus)
-	{
-		statusInfo->statusState = buddyStatus->status;
-#ifndef GSI_UNICODE
-		if(buddyStatus->statusString)
-			strzcpy(statusInfo->richStatus, buddyStatus->statusString, GP_RICH_STATUS_LEN);
-		else
-			statusInfo->richStatus[0] = '\0';
-		statusInfo->gameType[0] = '\0';
-		statusInfo->gameVariant[0] = '\0';
-		statusInfo->gameMapName[0] = '\0';
-#else
-		if(buddyStatus->statusString)
-			UTF8ToUCS2String(buddyStatus->statusString, statusInfo->richStatus);
-		else
-			statusInfo->richStatus[0] = '\0';
-		statusInfo->gameType[0] = '\0';
-		statusInfo->gameVariant[0] = '\0';
-		statusInfo->gameMapName[0] = '\0';
-#endif
-		statusInfo->buddyIp = buddyStatus->ip;
-		statusInfo->buddyPort = buddyStatus->port;
-		statusInfo->quietModeFlags = buddyStatus->quietModeFlags;
-		statusInfo->newStatusInfoFlag = GP_NEW_STATUS_INFO_NOT_SUPPORTED;
-	}
-	else if (buddyStatusInfo)
-	{
-		statusInfo->statusState = buddyStatusInfo->statusState;
-		statusInfo->buddyIp = buddyStatusInfo->buddyIp;
-		statusInfo->buddyPort = buddyStatusInfo->buddyPort;
-		statusInfo->hostIp = buddyStatusInfo->hostIp;
-		statusInfo->hostPrivateIp = buddyStatusInfo->hostPrivateIp;
-		statusInfo->queryPort = buddyStatusInfo->queryPort;
-		statusInfo->hostPort = buddyStatusInfo->hostPort;
-		statusInfo->sessionFlags = buddyStatusInfo->sessionFlags;
-		statusInfo->quietModeFlags = buddyStatusInfo->quietModeFlags;
-		statusInfo->newStatusInfoFlag = GP_NEW_STATUS_INFO_SUPPORTED;
-#ifndef GSI_UNICODE
-		strzcpy(statusInfo->richStatus, buddyStatusInfo->richStatus, GP_RICH_STATUS_LEN);
-		strzcpy(statusInfo->gameType, buddyStatusInfo->gameType, GP_STATUS_BASIC_STR_LEN);
-		strzcpy(statusInfo->gameVariant, buddyStatusInfo->gameVariant, GP_STATUS_BASIC_STR_LEN);
-		strzcpy(statusInfo->gameMapName, buddyStatusInfo->gameMapName, GP_STATUS_BASIC_STR_LEN);
-#else
-		UTF8ToUCS2String(buddyStatusInfo->richStatus, statusInfo->richStatus);
-		UTF8ToUCS2String(buddyStatusInfo->gameType, statusInfo->gameType);
-		UTF8ToUCS2String(buddyStatusInfo->gameVariant, statusInfo->gameVariant);
-		UTF8ToUCS2String(buddyStatusInfo->gameMapName, statusInfo->gameMapName);
-#endif
-	}
-	
+  // @wait-wtf:
+  // NOTE: This is heavily edited.
+  // Probably edits by Nintendo or from an unknown version of Gamespy SDK.
+  if (profile->buddyStatusInfo && profile->buddyStatusInfo->statusState == 0) {
+	  status->profile = (GPProfile)profile->profileId;
+	  status->status = profile->buddyStatusInfo->statusState;
+    status->statusString[0] = '\0';
+    status->locationString[0] = '\0';
+    status->ip = profile->buddyStatusInfo->buddyIp;
+    status->port = profile->buddyStatusInfo->buddyPort;
+    status->quietModeFlags = profile->buddyStatusInfo->quietModeFlags;
+  } else {
+	  status->profile = (GPProfile)profile->profileId;
+	  status->status = profile->buddyStatus->status;
+    if(profile->buddyStatus->statusString)
+		  strzcpy(status->statusString, profile->buddyStatus->statusString, GP_STATUS_STRING_LEN);
+    else
+      status->statusString[0] = '\0';
+    if(profile->buddyStatus->locationString)
+      strzcpy(status->locationString, profile->buddyStatus->locationString, GP_LOCATION_STRING_LEN);
+    else
+      status->locationString[0] = '\0';
+    status->ip = profile->buddyStatus->ip;
+    status->port = profile->buddyStatus->port;
+    status->quietModeFlags = profile->buddyStatus->quietModeFlags;
+  }
 	return GP_NO_ERROR;
 }
 
@@ -1855,7 +1748,6 @@ GPResult gpSetBuddyAddr(
 	}
 	return GP_NO_ERROR;
 }
-#endif
 
 GPResult gpGetBuddyIndex(
   GPConnection * connection, 
@@ -2082,6 +1974,7 @@ GPResult gpGetNumBlocked(
     return GP_NO_ERROR;
 }
 
+/*
 GPResult gpGetBlockedProfile(
   GPConnection * connection, 
   int index,
@@ -2157,6 +2050,7 @@ gsi_bool gpIsBlocked(
 
     return gsi_false;
 }
+*/
 
 #ifndef GP_NEW_STATUS_INFO
 GPResult gpSetStatusA(
@@ -2259,7 +2153,6 @@ GPResult gpSetStatusW(
 #endif
 #endif
 
-#ifdef GP_NEW_STATUS_INFO
 GPResult gpSetStatusInfoA(
 						 GPConnection *connection, 
 						 GPEnum statusState,
@@ -2695,7 +2588,6 @@ GPResult gpGetBuddyStatusInfoKeys(GPConnection *connection, int index, GPCallbac
 	aResult = gpiSendBuddyMessage(connection, pProfile->profileId, GPI_BM_KEYS_REQUEST, "Keys?", GP_DONT_ROUTE, aPeerOp);
 	return aResult;
 }
-#endif
 
 GPResult gpSendBuddyMessageA(
   GPConnection * connection,

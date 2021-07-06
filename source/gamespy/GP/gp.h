@@ -579,13 +579,13 @@ typedef struct
 ////////////////
 typedef struct
 { 
-  GPProfile profile; 
-  GPEnum status;
-  gsi_char statusString[GP_STATUS_STRING_LEN];
-  gsi_char locationString[GP_LOCATION_STRING_LEN];
-  unsigned int ip; 
-  int port;
-  GPEnum quietModeFlags;
+  GPProfile profile;  // 0x00
+  GPEnum status; // 0x04
+  gsi_char statusString[GP_STATUS_STRING_LEN]; // 0x08
+  gsi_char locationString[GP_LOCATION_STRING_LEN]; // 0x108
+  unsigned int ip; // 0x208
+  int port; // 0x20C
+  GPEnum quietModeFlags; // 0x210
 } GPBuddyStatus;
 
 
@@ -594,21 +594,21 @@ typedef struct
 ///////////////////
 typedef struct
 {
-	GPProfile profile;
-	GPEnum statusState;
-	unsigned int buddyIp;
-	unsigned short buddyPort;
-	unsigned int hostIp;
-	unsigned int hostPrivateIp;
-	unsigned short queryPort;
-	unsigned short hostPort;
-	unsigned int sessionFlags;
-	gsi_char richStatus[GP_RICH_STATUS_LEN];
-	gsi_char gameType[GP_STATUS_BASIC_STR_LEN];
-	gsi_char gameVariant[GP_STATUS_BASIC_STR_LEN];
-	gsi_char gameMapName[GP_STATUS_BASIC_STR_LEN];
-	GPEnum quietModeFlags;
-	GPEnum newStatusInfoFlag;
+	GPProfile profile; // 0x00
+	GPEnum statusState; // 0x04
+	unsigned int buddyIp; // 0x08
+	unsigned short buddyPort; // 0x0C
+	unsigned int hostIp; // 0x10
+	unsigned int hostPrivateIp; // 0x14
+	unsigned short queryPort; // 0x18
+	unsigned short hostPort; // 0x1A
+	unsigned int sessionFlags; // 0x1C
+	gsi_char richStatus[GP_RICH_STATUS_LEN]; // 0x20
+	gsi_char gameType[GP_STATUS_BASIC_STR_LEN]; // 0x120
+	gsi_char gameVariant[GP_STATUS_BASIC_STR_LEN]; // 0x141
+	gsi_char gameMapName[GP_STATUS_BASIC_STR_LEN]; // 0x162
+	GPEnum quietModeFlags; // 0x184
+	GPEnum newStatusInfoFlag; // 0x188
 } GPBuddyStatusInfo;
 
 //GPGetBuddyStatusInfoKeysArg

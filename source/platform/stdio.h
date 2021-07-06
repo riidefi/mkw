@@ -39,6 +39,8 @@ struct _FILE {
   __file_modes mode;
   __file_state state;
 
+#define FILENAME_MAX 256
+
 #if _MSL_OS_DISK_FILE_SUPPORT
   unsigned char is_dynamically_allocated; /*- mm 981007 -*/
 #endif                                    /* _MSL_OS_DISK_FILE_SUPPORT */
@@ -74,3 +76,8 @@ int sprintf(char* str, const char* format, ...);
 int snprintf(char* s, size_t n, const char* format, ...);
 
 int sscanf(const char* str, const char* format, ...);
+
+FILE * fopen ( const char * filename, const char * mode );
+int fclose ( FILE * stream );
+
+int remove(const char *pathname); 

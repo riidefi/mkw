@@ -130,16 +130,8 @@ typedef struct
   GPIBool fatalError;
   FILE * diskCache;
   GPIOperation * operationList;
-  GPIProfileList profileList;
-  GPIPeer * peerList;
-  GPICallbackData * callbackList;
-  GPICallbackData * lastCallback;
-  GPIBuffer updateproBuffer;
-  GPIBuffer updateuiBuffer;
-  DArray transfers;
-  unsigned int nextTransferID;
-  int productID;
-  int namespaceID;
+  GPIProfileList profileList; // matches up to here
+  char pad0[0x38]; // padding lol
   char loginTicket[GP_LOGIN_TICKET_LEN];
   GPEnum quietModeFlags;
   gsi_time kaTransmit;
