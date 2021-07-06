@@ -226,13 +226,6 @@ SetReceiveBufferSize=0x800f1c40;
 CanReceiveOnSocket=0x800f1c9c;
 CanSendOnSocket=0x800f1ce4;
 
-gpiFailedOpCallback=0x80103f70;
-gpiAddOperation=0x80104348;
-gpiDestroyOperation=0x80104428;
-gpiRemoveOperation=0x801044c8;
-gpiFindOperationByID=0x80104514;
-gpiOperationsAreBlocking=0x80104564;
-gpiProcessOperation=0x801045a4;
 gpiProcessPeerInitiatingConnection=0x80104648;
 gpiProcessPeerAcceptingConnection=0x80104998;
 gpiPeerSendMessages=0x80104bb4;
@@ -582,6 +575,15 @@ gpiStatusInfoAddKey
 gpiStatusInfoSetKey
 gpiStatusInfoCheckKey
 gpiSaveKeysToBuffer
+
+// gpiOperation
+gpiFailedOpCallback
+gpiAddOperation
+gpiDestroyOperation
+gpiRemoveOperation
+gpiFindOperationByID
+gpiOperationsAreBlocking
+gpiProcessOperation
 
 // sakeMain
 sakeStartup
