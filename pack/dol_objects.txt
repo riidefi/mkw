@@ -72,10 +72,13 @@ out\gpiProfile.o
 out\dol\data_8027bee5_8027bee8.o
 out\dol\sdata_803853ce_803853d0.o
 out\gpiSearch.o
-out\dol\text_80108b38_80121eec.o
-out\dol\data_8027c203_8027de48.o
+out\dol\data_8027c204_8027c208.o
+out\dol\sdata_803854bb_803854c0.o
+out\gpiTransfer.o
+out\dol\text_80108c20_80121eec.o
+out\dol\data_8027c229_8027de48.o
 out\dol\bss_802f247c_802f3f40.o
-out\dol\sdata_803854bb_80385740.o
+out\dol\sdata_803854cb_80385740.o
 out\sakeMain.o
 out\dol\text_8012249c_80124500.o
 out\dol\data_8027df3e_8027e708.o

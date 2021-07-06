@@ -226,7 +226,6 @@ SetReceiveBufferSize=0x800f1c40;
 CanReceiveOnSocket=0x800f1c9c;
 CanSendOnSocket=0x800f1ce4;
 
-gpiHandleTransferMessage=0x80108b38;
 gpiProcessRegisterUniqueNick=0x80108c20;
 gpiProcessRegisterCdKey=0x80108d4c;
 gpiCheckForError=0x80108ebc;
@@ -578,6 +577,9 @@ gpiCanFreeProfile
 gpiProfileSearch
 gpiOthersBuddyList
 gpiProcessSearches
+
+// gpiTransfer
+gpiHandleTransferMessage
 
 // sakeMain
 sakeStartup
