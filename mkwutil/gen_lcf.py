@@ -1,22 +1,19 @@
 import argparse
+import csv
 from pathlib import Path
 
 
-dont_force = {
-    "eggVideo",
-    "gsAvailable",
-    "gsUdpEngine",
-    "gsXML",
-    "gp",
-    "gpi",
-    "gpiBuddy",
-    "gpiBuffer",
-    "gpiCallback",
-    "sakeMain"
-}
+def gen_lcf(src, dst, object_paths, slices_path):
+    # Read slices and search for stripped objects.
+    stripped = set()
+    for entry in csv.DictReader(open(slices_path, "r")):
+        strip_opt = entry.get("strip")
+        if strip_opt is None:
+            continue
+        if strip_opt.strip() != "1":
+            continue
+        stripped.add(Path(entry["name"]).stem)
 
-
-def gen_lcf(src, dst, object_paths):
     lcf = ""
 
     with open(src, "r") as f:
@@ -24,8 +21,7 @@ def gen_lcf(src, dst, object_paths):
         lcf += "\nFORCEFILES {\n"
         for obj_path in object_paths:
             obj_path = Path(obj_path)
-            # TODO: Add ability to disable FORCEFILE to slices.csv
-            if obj_path.stem in dont_force:
+            if obj_path.stem in stripped:
                 continue
             lcf += str(obj_path.parent / (obj_path.stem + ".o")) + "\n"
         lcf += "}\n"
@@ -49,6 +45,9 @@ if __name__ == "__main__":
         default="",
         help="Dir prefix for references in linker script",
     )
+    parser.add_argument(
+        "--slices", type=Path, required=True, help="Path to slices file"
+    )
     args = parser.parse_args()
 
     # Read list of objects.
@@ -57,4 +56,4 @@ if __name__ == "__main__":
         for line in file:
             objs.append(args.prefix / Path(line))
 
-    gen_lcf(args.base, args.out, objs)
+    gen_lcf(args.base, args.out, objs, args.slices)

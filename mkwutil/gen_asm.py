@@ -46,7 +46,7 @@ def read_slices(name, verbose=True):
     for row in reader:
         if not row.pop("enabled"):
             continue
-
+        row.pop("strip")
         name = row.pop("name")
         segments = {}
 
