@@ -12,7 +12,7 @@
 // to see if they should communicate with the backend
 GSIACResult __GSIACResult;
 
-//static u32 _unk = 0xfefd0900;
+// static u32 _unk = 0xfefd0900;
 
 // this makes the gamename available to all of the SDKs
 char __GSIACGamename[64] = {0};
@@ -39,9 +39,9 @@ static int get_sockaddrin(const char* hostname, int port, SOCKADDR_IN* saddr) {
   saddr->sin_addr.s_addr = inet_addr(hostname);
 
   if (saddr->sin_addr.s_addr == INADDR_NONE) {
-    // TODO Something is weird here,
-    #undef gethostbyname
-    SOHostEnt*  gethostbyname     ( const char* name );
+// TODO Something is weird here,
+#undef gethostbyname
+    SOHostEnt* gethostbyname(const char* name);
     HOSTENT* host = gethostbyname(hostname);
     if (!host)
       return 0;

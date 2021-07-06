@@ -1,6 +1,6 @@
 /*
 gpi.h
-GameSpy Presence SDK 
+GameSpy Presence SDK
 Dan "Mr. Pants" Schoenblum
 
 Copyright 1999-2007 GameSpy Industries, Inc
@@ -11,11 +11,11 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPI_H_
-#define _GPI_H_
+#pragma once
 
-//INCLUDES
+// INCLUDES
 //////////
+// clang-format off
 #include "../common/gsCommon.h"
 #include "../common/gsAvailable.h"
 #include "../common/gsUdpEngine.h"
@@ -23,16 +23,17 @@ Please see the GameSpy Presence SDK documentation for more information
 #include "../darray.h"
 #include "../md5.h"
 #include "gp.h"
+// clang-format on
 
 // Extended message support
-#define GPI_NEW_AUTH_NOTIFICATION	(1<<0)
-#define GPI_NEW_REVOKE_NOTIFICATION (1<<1)
+#define GPI_NEW_AUTH_NOTIFICATION (1 << 0)
+#define GPI_NEW_REVOKE_NOTIFICATION (1 << 1)
 
 // New Status Info support
-#define GPI_NEW_STATUS_NOTIFICATION (1<<2)
+#define GPI_NEW_STATUS_NOTIFICATION (1 << 2)
 
 // Buddy List + Block List retrieval on login
-#define GPI_NEW_LIST_RETRIEVAL_ON_LOGIN (1<<3)
+#define GPI_NEW_LIST_RETRIEVAL_ON_LOGIN (1 << 3)
 
 // Extended SDK features
 #define GPI_SDKREV 0x3
@@ -40,16 +41,13 @@ Please see the GameSpy Presence SDK documentation for more information
 // New UDP Layer port
 #define GPI_PEER_PORT 6500
 
-//TYPES
+// TYPES
 ///////
 // Boolean.
 ///////////
-typedef enum _GPIBool
-{
-	GPIFalse,
-	GPITrue
-} GPIBool;
+typedef enum _GPIBool { GPIFalse, GPITrue } GPIBool;
 
+// clang-format off
 #include "gpiUtility.h"
 #include "gpiCallback.h"
 #include "gpiOperation.h"
@@ -63,17 +61,17 @@ typedef enum _GPIBool
 #include "gpiTransfer.h"
 #include "gpiUnique.h"
 #include "gpiKeys.h"
+// clang-format on
 
 // Connection data.
 ///////////////////
-typedef struct
-{
+typedef struct {
   char errorString[GP_ERROR_STRING_LEN]; // 0x00
-  GPIBool infoCaching; // 0x100
-  GPIBool infoCachingBuddyAndBlockOnly; // 0x104
-  GPIBool simulation; // 0x108
-  GPIBool firewall; // 0x10C
-  char nick[GP_NICK_LEN]; // 0x110
+  GPIBool infoCaching;                   // 0x100
+  GPIBool infoCachingBuddyAndBlockOnly;  // 0x104
+  GPIBool simulation;                    // 0x108
+  GPIBool firewall;                      // 0x10C
+  char nick[GP_NICK_LEN];                // 0x110
   char uniquenick[GP_UNIQUENICK_LEN];
   char email[GP_EMAIL_LEN];
   char password[GP_PASSWORD_LEN];
@@ -85,44 +83,58 @@ typedef struct
   SOCKET cmSocket;
   int connectState;
   GPIBuffer socketBuffer;
-  char * inputBuffer;
+  char* inputBuffer;
   int inputBufferSize;
   GPIBuffer outputBuffer;
   // Replaced by UDP Layer
-  //SOCKET peerSocket;
+  // SOCKET peerSocket;
   char mHeader[GS_UDP_MSG_HEADER_LEN];
   unsigned short peerPort;
   int nextOperationID;
   int numSearches;
-  
-	// new style status info 
-	GPEnum lastStatusState;
-	unsigned int hostIp;
-	unsigned int hostPrivateIp;
-	unsigned short queryPort;
-	unsigned short hostPort;
-	unsigned int sessionFlags;
 
-	char richStatus[GP_RICH_STATUS_LEN];
-	char gameType[GP_STATUS_BASIC_STR_LEN];
-	char gameVariant[GP_STATUS_BASIC_STR_LEN];
-	char gameMapName[GP_STATUS_BASIC_STR_LEN];
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  // new style status info
+  GPEnum lastStatusState;
+  unsigned int hostIp;
+  unsigned int hostPrivateIp;
+  unsigned short queryPort;
+  unsigned short hostPort;
+  unsigned int sessionFlags;
 
-	// New Status Info extended info Keys
-	DArray extendedInfoKeys;
+  char richStatus[GP_RICH_STATUS_LEN];
+  char gameType[GP_STATUS_BASIC_STR_LEN];
+  char gameVariant[GP_STATUS_BASIC_STR_LEN];
+  char gameMapName[GP_STATUS_BASIC_STR_LEN];
+
+  // New Status Info extended info Keys
+  DArray extendedInfoKeys;
 
   // Deprecated
   char lastStatusString[GP_STATUS_STRING_LEN];
   char lastLocationString[GP_LOCATION_STRING_LEN];
-  
+
   GPErrorCode errorCode;
   GPIBool fatalError;
-  FILE * diskCache;
-  GPIOperation * operationList;
+  FILE* diskCache;
+  GPIOperation* operationList;
   GPIProfileList profileList;
-  GPIPeer * peerList;
-  GPICallbackData * callbackList;
-  GPICallbackData * lastCallback;
+  GPIPeer* peerList;
+  GPICallbackData* callbackList;
+  GPICallbackData* lastCallback;
   GPIBuffer updateproBuffer;
   GPIBuffer updateuiBuffer;
   DArray transfers; // matches up to here
@@ -132,14 +144,14 @@ typedef struct
   char loginTicket[GP_LOGIN_TICKET_LEN];
   GPEnum quietModeFlags;
   gsi_time kaTransmit;
-  
+
 #ifdef GSI_UNICODE
   unsigned short errorString_W[GP_ERROR_STRING_LEN];
   unsigned short nick_W[GP_NICK_LEN];
   unsigned short uniquenick_W[GP_UNIQUENICK_LEN];
   unsigned short email_W[GP_EMAIL_LEN];
   unsigned short password_W[GP_PASSWORD_LEN];
-  
+
   // Deprecated
   unsigned short lastStatusString_W[GP_STATUS_STRING_LEN];
   unsigned short lastLocationString_W[GP_LOCATION_STRING_LEN];
@@ -152,55 +164,23 @@ typedef struct
 
 } GPIConnection;
 
-//FUNCTIONS
+// FUNCTIONS
 ///////////
-GPResult
-gpiInitialize(
-  GPConnection * connection,
-  int productID,
-  int namespaceID,
-  int partnerID
-);
+GPResult gpiInitialize(GPConnection* connection, int productID, int namespaceID,
+                       int partnerID);
 
-void
-gpiDestroy(
-  GPConnection * connection
-);
+void gpiDestroy(GPConnection* connection);
 
-GPResult
-gpiReset(
-  GPConnection * connection
-);
+GPResult gpiReset(GPConnection* connection);
 
-GPResult
-gpiProcessConnectionManager(
-  GPConnection * connection
-);
+GPResult gpiProcessConnectionManager(GPConnection* connection);
 
-GPResult
-gpiProcess(
-  GPConnection * connection,
-  int blockingOperationID
-);
+GPResult gpiProcess(GPConnection* connection, int blockingOperationID);
 
-GPResult
-gpiEnable(
-  GPConnection * connection, 
-  GPEnum state
-);
+GPResult gpiEnable(GPConnection* connection, GPEnum state);
 
-GPResult
-gpiDisable(
-  GPConnection * connection, 
-  GPEnum state
-);
+GPResult gpiDisable(GPConnection* connection, GPEnum state);
 
 #ifdef _DEBUG
-void
-gpiReport(
-  GPConnection * connection,
-  void (* report)(const char * output)
-);
-#endif
-
+void gpiReport(GPConnection* connection, void (*report)(const char* output));
 #endif
