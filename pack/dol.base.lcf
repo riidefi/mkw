@@ -114,9 +114,6 @@ gsirealloc=0x800f3870;
 gsifree=0x800f3884;
 gsiSecondsToDate=0x800f254c;
 gsiDateToSeconds=0x800f27b4;
-gti2GetChallenge=0x8010945c;
-gti2GetResponse=0x8010956c;
-gti2CheckResponse=0x8010975c;
 gti2AllocateBuffer=0x80109820;
 gti2GetBufferFreeSpace=0x80109878;
 gti2BufferWriteByte=0x80109888;
@@ -584,6 +581,11 @@ gpiReadKeyAndValue
 gpiSetError
 gpiSetErrorString
 gpiEncodeString
+
+// gt2Auth
+gti2GetChallenge
+gti2GetResponse
+gti2CheckResponse
 
 // sakeMain
 sakeStartup
