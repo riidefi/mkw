@@ -46,6 +46,7 @@ compile_source("source/gamespy/gp/gpiUtility.c", "out/gpiUtility.o", '4199_60831
 compile_source("source/gamespy/gt2/gt2Auth.c", "out/gt2Auth.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/gt2/gt2Buffer.c", "out/gt2Buffer.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/gt2/gt2Callback.c", "out/gt2Callback.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/gt2/gt2Connection.c", "out/gt2Connection.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/sake/sakeMain.c", "out/sakeMain.o", '4199_60831', RVL_OPTS)
 
 compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)
