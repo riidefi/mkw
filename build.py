@@ -4,6 +4,9 @@ from pathlib import Path
 import subprocess
 import sys
 
+from multiprocessing.dummy import Pool as ThreadPool
+import multiprocessing
+
 from mkwutil.gen_asm import read_slices
 from mkwutil.verify_object_file import verify_object_file
 from mkwutil.gen_lcf import gen_lcf
@@ -100,7 +103,7 @@ CWCC_OPT = " ".join(
 )
 
 
-def compile_source(src, dst, version="default", additional="-ipa file"):
+def compile_source_impl(src, dst, version="default", additional="-ipa file"):
     # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
     if VERBOSE:
@@ -113,6 +116,24 @@ def compile_source(src, dst, version="default", additional="-ipa file"):
     else:
         print("# Skipping slices verification on", src)
 
+gSourceQueue = []
+
+def compile_queued_sources():
+    max_hw_concurrency = multiprocessing.cpu_count()
+    print("max_hw_concurrency=%s" % max_hw_concurrency)
+    
+    pool = ThreadPool(max_hw_concurrency)
+
+    pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
+
+    pool.close()
+    pool.join()
+
+    gSourceQueue.clear()
+
+# Queued
+def compile_source(src, dst, version="default", additional="-ipa file"):
+    gSourceQueue.append((src, dst, version, additional))
 
 def assemble(dst, src):
     subprocess.run([GAS, src, "-mgekko", "-Iasm", "-o", dst], check=True, text=True)
@@ -141,6 +162,8 @@ def compile_sources():
     # TODO exec() is bad practice
     with open("sources.py", "r") as sourcespy:
         exec(sourcespy.read())
+
+    compile_queued_sources()
 
     asm_files = [
         str(x.relative_to(os.getcwd()))
