@@ -78,10 +78,13 @@ out\gpiTransfer.o
 out\dol\data_8027c229_8027c230.o
 out\dol\sdata_803854cb_803854d0.o
 out\gpiUnique.o
-out\dol\text_80108e78_80121eec.o
-out\dol\data_8027c26f_8027de48.o
+out\dol\data_8027c26f_8027c270.o
+out\dol\sdata_803854dd_803854e0.o
+out\gpiUtility.o
+out\dol\text_8010945c_80121eec.o
+out\dol\data_8027c2c5_8027de48.o
 out\dol\bss_802f247c_802f3f40.o
-out\dol\sdata_803854dd_80385740.o
+out\dol\sdata_803854f8_80385740.o
 out\sakeMain.o
 out\dol\text_8012249c_80124500.o
 out\dol\data_8027df3e_8027e708.o

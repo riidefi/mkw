@@ -218,7 +218,6 @@ B64InitEncodeStream=0x800f3528;
 B64EncodeStream=0x800f3538;
 _UCS2CharToUTF8String=0x800f4680;
 UTF8ToUCS2StringLen=0x800f47e4;
-strzcpy=0x80108e78;
 goastrdup=0x800f23f4;
 _strlwr=0x800f2464;
 SetSockBlocking=0x800f1bc8;
@@ -226,13 +225,6 @@ SetReceiveBufferSize=0x800f1c40;
 CanReceiveOnSocket=0x800f1c9c;
 CanSendOnSocket=0x800f1ce4;
 
-gpiCheckForError=0x80108ebc;
-gpiValueForKey=0x80108fb4;
-gpiCheckSocketConnect=0x80109060;
-gpiReadKeyAndValue=0x8010914c;
-gpiSetError=0x80109330;
-gpiSetErrorString=0x80109380;
-gpiEncodeString=0x801093bc;
 sakeiInitRequest=0x8012249c;
 sakeiFreeRequest=0x8012256c;
 sakeiCheckSakeResult=0x80122570;
@@ -582,6 +574,16 @@ gpiHandleTransferMessage
 // gpiUnique
 gpiProcessRegisterUniqueNick
 gpiProcessRegisterCdKey
+
+// gpiUtility
+strzcpy
+gpiCheckForError
+gpiValueForKey
+gpiCheckSocketConnect
+gpiReadKeyAndValue
+gpiSetError
+gpiSetErrorString
+gpiEncodeString
 
 // sakeMain
 sakeStartup
