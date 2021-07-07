@@ -114,12 +114,6 @@ gsirealloc=0x800f3870;
 gsifree=0x800f3884;
 gsiSecondsToDate=0x800f254c;
 gsiDateToSeconds=0x800f27b4;
-gti2AllocateBuffer=0x80109820;
-gti2GetBufferFreeSpace=0x80109878;
-gti2BufferWriteByte=0x80109888;
-gti2BufferWriteUShort=0x801098a0;
-gti2BufferWriteData=0x801098cc;
-gti2BufferShorten=0x80109958;
 gti2SocketErrorCallback=0x801099c4;
 gti2ConnectAttemptCallback=0x80109a58;
 gti2ConnectedCallback=0x80109b40;
@@ -586,6 +580,14 @@ gpiEncodeString
 gti2GetChallenge
 gti2GetResponse
 gti2CheckResponse
+
+// gt2Buffer
+gti2AllocateBuffer
+gti2GetBufferFreeSpace
+gti2BufferWriteByte
+gti2BufferWriteUShort
+gti2BufferWriteData
+gti2BufferShorten
 
 // sakeMain
 sakeStartup

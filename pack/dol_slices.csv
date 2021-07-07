@@ -32,6 +32,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,1,source/gamespy/gp/gpiUnique.c,,,,,,,0x80108c20,0x80108e78,,,,,,,0x8027c230,0x8027c26f,,,0x803854d0,0x803854dd,,,,,,
 1,1,source/gamespy/gp/gpiUtility.c,,,,,,,0x80108e78,0x8010945c,,,,,,,0x8027c270,0x8027c2c5,,,0x803854e0,0x803854f8,,,,,,
 1,1,source/gamespy/gt2/gt2Auth.c,,,,,,,0x8010945c,0x80109820,,,,,,,0x8027c2c8,0x8027c2e9,,,,,,,,,,
+1,1,source/gamespy/gt2/gt2Buffer.c,,,,,,,0x80109820,0x801099c4,,,,,,,,,,,,,,,,,,
 1,1,source/gamespy/sake/sakeMain.c,,,,,,,0x80121eec ,0x8012249c,,,,,,,0x8027de48,0x8027df3e,0x802f3f40,0x802f4040,0x80385740,0x80385744,,,,,,
 1,,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,,rxFrameHeap.c,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,
