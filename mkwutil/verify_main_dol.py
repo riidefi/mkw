@@ -3,6 +3,7 @@ Script to verify the target main.dol for authenticity.
 """
 
 import argparse
+from colorama import Fore, Style
 import hashlib
 from pathlib import Path
 
@@ -27,13 +28,13 @@ def verify_dol(reference, target):
     ctx = hashlib.sha1(content)
     digest = ctx.hexdigest()
     if digest.lower() == "ac7d72448630ade7655fc8bc5fd7a6543cb53a49":
-        print("[DOL] Everything went okay! Output is matching! ^^")
+        print(Fore.GREEN + Style.BRIGHT + "[DOL] Everything went okay! Output is matching! ^^" + Style.RESET_ALL)
         return
 
     want_len = 2766496
     if len(content) != want_len:
         print(
-            "Mismatched file size: Got %d (%+d)"
+            Fore.RED + "Mismatched file size: Got %d (%+d)" + Style.RESET_ALL
             % (len(content), len(content) - want_len)
         )
 
@@ -92,7 +93,7 @@ def verify_dol(reference, target):
         )
     # TODO: Add diff'ing
 
-    print("[DOL] Oof: Output doesn't match.")
+    print(Fore.RED + Style.BRIGHT + "[DOL] Oof: Output doesn't match." + Style.RESET_ALL)
 
 
 if __name__ == "__main__":
