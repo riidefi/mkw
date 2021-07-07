@@ -118,8 +118,9 @@ def assemble(dst, src):
     subprocess.run([GAS, src, "-mgekko", "-Iasm", "-o", dst], check=True, text=True)
 
 
-def link(dst, objs, lcf, partial=False):
-    cmd = [MWLD] + objs + ["-o", dst, "-lcf", lcf, "-fp", "hard", "-linkmode", "moreram"]
+def link(dst, objs, lcf, map_path, partial=False):
+    print(map_path)
+    cmd = [MWLD] + objs + ["-o", dst, "-lcf", lcf, "-fp", "hard", "-linkmode", "moreram", "-map", map_path]
     if partial:
         cmd.append("-r")
     subprocess.run(cmd, check=True, text=True)
@@ -166,7 +167,8 @@ def link_dol(o_files):
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "main.elf"
-    link(elf_path, o_files, dst_lcf_path)
+    map_path = dest_dir / "main.map"
+    link(elf_path, o_files, dst_lcf_path, map_path)
     # Convert ELF to DOL.
     dol_path = dest_dir / "main.dol"
     pack_main_dol(elf_path, dol_path)
@@ -184,7 +186,8 @@ def link_rel(o_files):
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "StaticR.elf"
-    link(elf_path, o_files, dst_lcf_path, partial=True)
+    map_path = dest_dir / "StaticR.map"
+    link(elf_path, o_files, dst_lcf_path, map_path, partial=True)
     # Convert ELF to REL.
     rel_path = dest_dir / "StaticR.rel"
     orig_dir = Path("artifacts", "orig")
