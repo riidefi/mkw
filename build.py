@@ -16,6 +16,10 @@ from mkwutil.verify_main_dol import verify_dol
 from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.percent_decompiled import percent_decompiled
 
+import colorama
+from colorama import Fore, Style
+
+colorama.init()
 
 dol_slices = read_slices("pack/dol_slices.csv", verbose=False)
 dol_slices = { sl.obj_file : sl for sl in dol_slices }
@@ -109,18 +113,12 @@ def compile_source_impl(src, dst, version="default", additional="-ipa file"):
     if VERBOSE:
         print(command)
     subprocess.run(command, check=True)
-    # Verify ELF file section sizes.
-    tha_slice = dol_slices.get(src)
-    if tha_slice:
-        verify_object_file(dst, src, tha_slice)
-    else:
-        print("# Skipping slices verification on", src)
 
 gSourceQueue = []
 
 def compile_queued_sources():
     max_hw_concurrency = multiprocessing.cpu_count()
-    print("max_hw_concurrency=%s" % max_hw_concurrency)
+    print(Fore.YELLOW + f"max_hw_concurrency={max_hw_concurrency}" + Style.RESET_ALL)
     
     pool = ThreadPool(max_hw_concurrency)
 
@@ -128,6 +126,19 @@ def compile_queued_sources():
 
     pool.close()
     pool.join()
+
+    #
+    # colorama doesn't seem to work with multithreading
+    #
+    for s in gSourceQueue:
+        src, dst = s[0:2]
+
+        # Verify ELF file section sizes.
+        tha_slice = dol_slices.get(src)
+        if tha_slice:
+            verify_object_file(dst, src, tha_slice)
+        else:
+            print(Fore.YELLOW + "# Skipping slices verification on " + src + Style.RESET_ALL)
 
     gSourceQueue.clear()
 
