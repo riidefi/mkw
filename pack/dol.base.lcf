@@ -114,16 +114,6 @@ gsirealloc=0x800f3870;
 gsifree=0x800f3884;
 gsiSecondsToDate=0x800f254c;
 gsiDateToSeconds=0x800f27b4;
-gti2SocketErrorCallback=0x801099c4;
-gti2ConnectAttemptCallback=0x80109a58;
-gti2ConnectedCallback=0x80109b40;
-gti2ReceivedCallback=0x80109c1c;
-gti2ClosedCallback=0x80109cf4;
-gti2PingCallback=0x80109db0;
-gti2SendFilterCallback=0x80109e6c;
-gti2ReceiveFilterCallback=0x80109f74;
-gti2DumpCallback=0x8010a07c;
-gti2UnrecognizedMessageCallback=0x8010a178;
 gti2NewOutgoingConnection=0x8010a244;
 gti2NewIncomingConnection=0x8010a298;
 gti2StartConnectionAttempt=0x8010a2ec;
@@ -588,6 +578,18 @@ gti2BufferWriteByte
 gti2BufferWriteUShort
 gti2BufferWriteData
 gti2BufferShorten
+
+// gt2Callback
+gti2SocketErrorCallback
+gti2ConnectAttemptCallback
+gti2ConnectedCallback
+gti2ReceivedCallback
+gti2ClosedCallback
+gti2PingCallback
+gti2SendFilterCallback
+gti2ReceiveFilterCallback
+gti2DumpCallback
+gti2UnrecognizedMessageCallback
 
 // sakeMain
 sakeStartup

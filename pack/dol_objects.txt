@@ -84,7 +84,8 @@ out\gpiUtility.o
 out\dol\data_8027c2c5_8027c2c8.o
 out\gt2Auth.o
 out\gt2Buffer.o
-out\dol\text_801099c4_80121eec.o
+out\gt2Callback.o
+out\dol\text_8010a244_80121eec.o
 out\dol\data_8027c2e9_8027de48.o
 out\dol\bss_802f247c_802f3f40.o
 out\dol\sdata_803854f8_80385740.o
