@@ -115,27 +115,6 @@ gsifree=0x800f3884;
 gsiSecondsToDate=0x800f254c;
 gsiDateToSeconds=0x800f27b4;
 
-gt2CreateSocket=0x8010a918;
-gt2CloseSocket=0x8010a920;
-gt2Think=0x8010a964;
-gt2Listen=0x8010a9b0;
-gt2Accept=0x8010a9b4;
-gt2Reject=0x8010a9b8;
-gt2Connect=0x8010a9bc;
-gt2Send=0x8010ab64;
-gt2CloseConnectionHard=0x8010ac60;
-gt2CloseAllConnectionsHard=0x8010ac74;
-gt2GetConnectionState=0x8010ac88;
-gt2GetRemoteIP=0x8010acbc;
-gt2GetRemotePort=0x8010acc4;
-gt2GetLocalIP=0x8010accc;
-gt2GetLocalPort=0x8010acd4;
-gt2GetOutgoingBufferSize=0x8010acdc;
-gt2GetOutgoingBufferFreeSpace=0x8010ace4;
-gt2GetSocketSOCKET=0x8010acf4;
-gt2SetUnrecognizedMessageCallback=0x8010acfc;
-gt2SetConnectionData=0x8010ad04;
-gt2GetConnectionData=0x8010ad0c;
 gti2HandleESN=0x8010ad14;
 gti2HandleServerChallenge=0x8010ae44;
 gti2HandleClientResponse=0x8010b178;
@@ -592,6 +571,29 @@ gti2ConnectionThink
 gti2CloseConnection
 gti2ConnectionClosed
 gti2ConnectionCleanup
+
+// gt2Main
+gt2CreateSocket
+gt2CloseSocket
+gt2Think
+gt2Listen
+gt2Accept
+gt2Reject
+gt2Connect
+gt2Send
+gt2CloseConnectionHard
+gt2CloseAllConnectionsHard
+gt2GetConnectionState
+gt2GetRemoteIP
+gt2GetRemotePort
+gt2GetLocalIP
+gt2GetLocalPort
+gt2GetOutgoingBufferSize
+gt2GetOutgoingBufferFreeSpace
+gt2GetSocketSOCKET
+gt2SetUnrecognizedMessageCallback
+gt2SetConnectionData
+gt2GetConnectionData
 
 // sakeMain
 sakeStartup
