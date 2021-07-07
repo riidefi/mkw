@@ -140,20 +140,6 @@ gti2SendNack=0x8010dad8;
 gti2SendClosed=0x8010dbcc;
 gti2ResendMessage=0x8010dc84;
 gti2Send=0x8010dd40;
-gti2ConnectionHash=0x8010de30;
-gti2ConnectionCompare=0x8010de50;
-gti2ConnectionFree=0x8010de84;
-gti2SocketFindConnection=0x8010de8c;
-gti2CreateSocket=0x8010ded8;
-gti2CloseSocket=0x8010e110;
-gti2Listen=0x8010e174;
-gti2NewSocketConnection=0x8010e17c;
-gti2FreeSocketConnection=0x8010e3f0;
-gti2SocketSend=0x8010e4bc;
-gti2SocketConnectionsThinkMap=0x8010e6d8;
-gti2SocketConnectionsThink=0x8010e7f4;
-gti2FreeClosedConnections=0x8010e840;
-gti2SocketError=0x8010e930;
 gt2AddressToString=0x8010e9c0;
 gt2StringToAddress=0x8010eaa4;
 gti2MessageCheck=0x8010ec48;
@@ -594,6 +580,18 @@ gt2GetSocketSOCKET
 gt2SetUnrecognizedMessageCallback
 gt2SetConnectionData
 gt2GetConnectionData
+
+// gt2Socket
+gti2SocketFindConnection
+gti2CreateSocket
+gti2CloseSocket
+gti2Listen
+gti2NewSocketConnection
+gti2FreeSocketConnection
+gti2SocketSend
+gti2SocketConnectionsThink
+gti2FreeClosedConnections
+gti2SocketError
 
 // sakeMain
 sakeStartup

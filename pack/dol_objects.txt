@@ -87,7 +87,9 @@ out\gt2Buffer.o
 out\gt2Callback.o
 out\gt2Connection.o
 out\gt2Main.o
-out\dol\text_8010ad14_80121eec.o
+out\dol\text_8010ad14_8010de30.o
+out\gt2Socket.o
+out\dol\text_8010e9c0_80121eec.o
 out\dol\data_8027c2e9_8027de48.o
 out\dol\bss_802f247c_802f3f40.o
 out\dol\sdata_803854f8_80385740.o

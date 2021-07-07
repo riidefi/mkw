@@ -36,6 +36,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,1,source/gamespy/gt2/gt2Callback.c,,,,,,,0x801099c4,0x8010a244,,,,,,,,,,,,,,,,,,
 1,1,source/gamespy/gt2/gt2Connection.c,,,,,,,0x8010a244,0x8010a918,,,,,,,,,,,,,,,,,,
 1,1,source/gamespy/gt2/gt2Main.c,,,,,,,0x8010a918,0x8010ad14,,,,,,,,,,,,,,,,,,
+1,1,source/gamespy/gt2/gt2Socket.c,,,,,,,0x8010de30 ,0x8010e9c0,,,,,,,,,,,,,,,,,,
 1,1,source/gamespy/sake/sakeMain.c,,,,,,,0x80121eec ,0x8012249c,,,,,,,0x8027de48,0x8027df3e,0x802f3f40,0x802f4040,0x80385740,0x80385744,,,,,,
 1,,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,,rxFrameHeap.c,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,
