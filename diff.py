@@ -544,6 +544,7 @@ def search_map_file(
         if len(find) > 1:
             fail(f"Found multiple occurrences of function {fn_name} in map file.")
         if len(find) == 1:
+            ram = int(find[0][0], 16)
             rom = int(find[0][1], 16)
             objname = find[0][2]
             # The metrowerks linker map format does not contain the full object path,
@@ -563,6 +564,12 @@ def search_map_file(
                 # executables, but it would likely be more convenient to diff DOLs.
                 # At this time it is recommended to always use -o when running the diff
                 # script as this mode does not make use of the ram-rom conversion.
+
+                from mkwutil import dol
+
+                maindol = dol.DolBinary(project.myimg)
+                return objfile, maindol.virtual_to_rom(ram)
+
                 return objfile, rom
     else:
         fail(f"Linker map format {project.map_format} unrecognised.")
