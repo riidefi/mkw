@@ -89,10 +89,14 @@ out\gt2Connection.o
 out\gt2Main.o
 out\dol\text_8010ad14_8010de30.o
 out\gt2Socket.o
-out\dol\text_8010e9c0_80121eec.o
+out\dol\bss_802f247c_802f3480.o
+out\dol\sdata_803854f8_80385508.o
+out\dol\sbss_8038635c_80386360.o
+out\gt2Utility.o
+out\dol\text_8010ecac_80121eec.o
 out\dol\data_8027c2e9_8027de48.o
-out\dol\bss_802f247c_802f3f40.o
-out\dol\sdata_803854f8_80385740.o
+out\dol\bss_802f34b0_802f3f40.o
+out\dol\sdata_80385519_80385740.o
 out\sakeMain.o
 out\dol\text_8012249c_80124500.o
 out\dol\data_8027df3e_8027e708.o
@@ -100,7 +104,7 @@ out\dol\sdata_80385744_803857f0.o
 out\rvlArchive.o
 out\dol\text_80124e80_801981ec.o
 out\dol\bss_802f4040_80346cf0.o
-out\dol\sbss_8038635c_80386838.o
+out\dol\sbss_80386364_80386838.o
 out\rvlMemHeap.o
 out\rvlMemExpHeap.o
 out\rvlMemFrmHeap.o

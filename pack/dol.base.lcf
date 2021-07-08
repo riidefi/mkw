@@ -140,9 +140,6 @@ gti2SendNack=0x8010dad8;
 gti2SendClosed=0x8010dbcc;
 gti2ResendMessage=0x8010dc84;
 gti2Send=0x8010dd40;
-gt2AddressToString=0x8010e9c0;
-gt2StringToAddress=0x8010eaa4;
-gti2MessageCheck=0x8010ec48;
 
 Util_RandSeed=0x800f2ec8;
 Util_RandInt=0x800f2ee0;
@@ -592,6 +589,11 @@ gti2SocketSend
 gti2SocketConnectionsThink
 gti2FreeClosedConnections
 gti2SocketError
+
+// gt2Utility
+gt2AddressToString
+gt2StringToAddress
+gti2MessageCheck
 
 // sakeMain
 sakeStartup
