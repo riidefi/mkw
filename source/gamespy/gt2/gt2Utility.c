@@ -17,7 +17,7 @@ devsupport@gamespy.com
 
 // TODO Something is weird here,
 #undef gethostbyname
-  SOHostEnt* gethostbyname(const char* name);
+SOHostEnt* gethostbyname(const char* name);
 
 /*************************
 ** BYTE ORDER FUNCTIONS **
