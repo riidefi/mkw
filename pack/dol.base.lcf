@@ -166,7 +166,14 @@ NNCancel=0x8011b158;
 NNProcessData=0x8011bf54;
 NNThink=0x8011b718;
 
-ghiDoSend=0x8011248c;
+ghiSendBufferedData=0x80111de8;
+ghiEncryptorSslInitFunc=0x80112e40;
+ghiEncryptorSslCleanupFunc=0x80112f20;
+ghiEncryptorSslStartFunc=0x80112f90;
+ghiEncryptorSslEncryptSend=0x80113030;
+ghiEncryptorSslDecryptRecv=0x8011309c;
+ghiEncryptorSslEncryptFunc=0x8011311c;
+ghiEncryptorSslDecryptFunc=0x80113124;
 
 sakeiInitRequest=0x8012249c;
 sakeiFreeRequest=0x8012256c;
@@ -635,6 +642,16 @@ ghiAppendCharToBuffer
 ghiAppendIntToBuffer
 ghiResetBuffer
 // ghiSendBufferedData
+
+// ghttpCommon
+ghiCreateLock
+ghiFreeLock
+ghiLock
+ghiUnlock
+ghiDecryptReceivedData
+// ghiDoReceive
+// ghiDoSend
+// ghiTrySendThenBuffer
 
 // sakeMain
 sakeStartup
