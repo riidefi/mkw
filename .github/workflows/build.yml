@@ -13,7 +13,7 @@ jobs:
           architecture: 'x64'
 
       - name: Install dependencies
-        run: pip3 install capstone pyelftools
+        run: pip3 install capstone pyelftools colorama termcolor
 
       - name: Percent decompiled
         run: python3 -m mkwutil.percent_decompiled
