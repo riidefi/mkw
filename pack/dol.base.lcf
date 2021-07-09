@@ -166,6 +166,8 @@ NNCancel=0x8011b158;
 NNProcessData=0x8011bf54;
 NNThink=0x8011b718;
 
+ghiDoSend=0x8011248c;
+
 sakeiInitRequest=0x8012249c;
 sakeiFreeRequest=0x8012256c;
 sakeiCheckSakeResult=0x80122570;
@@ -620,6 +622,19 @@ qr2_check_queries_indata
 // qr2RegKeys
 qr2_internal_is_master_only_key
 qr2_register_keyA
+
+// ghttpBuffer
+ghiResizeBuffer
+ghiInitBuffer
+ghiInitFixedBuffer
+ghiFreeBuffer
+ghiAppendDataToBuffer
+ghiEncryptDataToBuffer
+ghiAppendHeaderToBuffer
+ghiAppendCharToBuffer
+ghiAppendIntToBuffer
+ghiResetBuffer
+ghiSendBufferedData
 
 // sakeMain
 sakeStartup
