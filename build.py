@@ -101,6 +101,7 @@ CWCC_OPT = " ".join(
 
 
 def compile_source(src, dst, version="default", additional="-ipa file"):
+    print(f"CC {src}")
     # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
     if VERBOSE:

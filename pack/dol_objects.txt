@@ -104,7 +104,9 @@ out\dol\sdata_8038554a_80385550.o
 out\qr2RegKeys.o
 out\dol\sdata_803855c7_803855c8.o
 out\ghttpBuffer.o
-out\dol\text_80111de8_80121eec.o
+out\dol\text_80111de8_80111f0c.o
+out\ghttpCallbacks.o
+out\dol\text_8011202c_80121eec.o
 out\dol\data_8027d6f8_8027de48.o
 out\dol\bss_802f3624_802f3f40.o
 out\dol\sdata_803855d3_80385740.o

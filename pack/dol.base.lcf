@@ -634,7 +634,7 @@ ghiAppendHeaderToBuffer
 ghiAppendCharToBuffer
 ghiAppendIntToBuffer
 ghiResetBuffer
-ghiSendBufferedData
+// ghiSendBufferedData
 
 // sakeMain
 sakeStartup
