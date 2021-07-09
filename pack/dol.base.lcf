@@ -653,6 +653,10 @@ ghiDecryptReceivedData
 // ghiDoSend
 // ghiTrySendThenBuffer
 
+// sb_crypt
+GOACryptInit
+GOADecrypt
+
 // sakeMain
 sakeStartup
 sakeShutdown
