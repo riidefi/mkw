@@ -50,21 +50,10 @@ extern "C" {
 #define COUNTRY_KEY 31
 #define REGION_KEY 32
 
-#ifndef GSI_UNICODE
 #define qr2_register_key qr2_register_keyA
-#else
-#define qr2_register_key qr2_register_keyW
-#endif
 
 extern const char* qr2_registered_key_list[];
 void qr2_register_key(int keyid, const gsi_char* key);
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-// Necessary for unicode support.  Must store a copy of the UTF8 keys
-// generated from qr2_register_keyW
-void qr2_internal_key_list_append(char* theKey);
-void qr2_internal_key_list_free(); // call this at qr2 shutdown
 
 // internal function used by ServerBrowser to check if a key is
 // Query-Master-Only
@@ -72,7 +61,6 @@ gsi_bool qr2_internal_is_master_only_key(const char* keyname);
 
 // Always define for direct access
 void qr2_register_keyA(int keyid, const char* key);
-void qr2_register_keyW(int keyid, const unsigned short* key);
 
 #ifdef __cplusplus
 }

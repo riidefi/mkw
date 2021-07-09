@@ -302,8 +302,6 @@ SOHtoNl=0x801ed998;
 SOHtoNs=0x801ed99c;
 
 __cvt_fp2unsigned = 0x80021478;
-
-qr2_registered_key_list=0x8027d300;
 }
 
 FORCEACTIVE {
@@ -618,7 +616,10 @@ qr2_buffer_add_int
 qr2_buffer_addA
 qr2_parse_queryA
 qr2_check_queries_indata
-qr2_check_queries
+
+// qr2RegKeys
+qr2_internal_is_master_only_key
+qr2_register_keyA
 
 // sakeMain
 sakeStartup
