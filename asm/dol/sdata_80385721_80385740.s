@@ -1,0 +1,14 @@
+
+.include "macros.inc"
+
+.section .sdata, "wa" # 0x80385721 - 0x80385740
+.4byte 0x00000000
+.4byte 0x0000005C
+.4byte 0x25730000
+.4byte 0x00000000
+.4byte 0x00000080
+.4byte 0x27DE18FF
+.4byte 0xFFFFFF00
+.byte 0x00
+.byte 0x00
+.byte 0x00

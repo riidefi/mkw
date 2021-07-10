@@ -84,7 +84,7 @@ static SBBool FIFORemove(SBServerFIFO* fifo, SBServer server) {
         fifo->last = prev;
       fifo->count--;
       //	assert((fifo->count == 0 && fifo->first == NULL && fifo->last ==
-      //NULL) || fifo->count > 0);
+      // NULL) || fifo->count > 0);
       return SBTrue;
     }
     prev = hold;
@@ -611,8 +611,8 @@ static void ProcessIncomingReplies(SBQueryEngine* engine, SBBool icmpSocket) {
         if (icmpSocket) {
           if (ParseSingleICMPReply(engine, server, indata, i))
             break; // only break if it matches exactly, since we may have
-                   // multiple outstanding pings to the same ICMPIP for different
-                   // servers!
+                   // multiple outstanding pings to the same ICMPIP for
+                   // different servers!
         } else {
           if (engine->queryversion == QVERSION_QR2)
             ParseSingleQR2Reply(engine, server, indata, i);

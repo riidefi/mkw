@@ -64,8 +64,8 @@ typedef enum {
                      // full information is now available about this server
   sbc_serverupdatefailed, // an attempt to retrieve information about this
                           // server, either directly or from the master, failed
-  sbc_serverdeleted,  // a server was removed from the list
-  sbc_updatecomplete, // the server query engine is now idle
+  sbc_serverdeleted,      // a server was removed from the list
+  sbc_updatecomplete,     // the server query engine is now idle
   sbc_queryerror, // the master returned an error string for the provided query
   sbc_serverchallengereceived // received ip verification challenge from server
 } SBCallbackReason;

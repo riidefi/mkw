@@ -1,8 +1,10 @@
 #ifndef _SB_INTERNAL_H_
 #define _SB_INTERNAL_H_
 
-#include "../common/gsAvailable.h"
+// clang-format off
 #include "../common/gsCommon.h"
+#include "../common/gsAvailable.h"
+// clang-format on
 
 #include "../darray.h"
 #include "../hashtable.h"
