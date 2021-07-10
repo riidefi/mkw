@@ -44,6 +44,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/gamespy/ghttp/ghttpCallbacks.c,,,,,,,0x80111f0c,0x8011202c,,,,,,,,,,,,,,,,,,
 1,1,source/gamespy/ghttp/ghttpCommon.c,,,,,,,0x8011202c,0x8011218c,,,,,,,,,,,,,,,,,,
 1,1,source/gamespy/serverbrowsing/sb_crypt.c,,,,,,,0x8011c10c,0x8011c540,,,,,,,,,,,,,,,,,,
+1,1,source/gamespy/serverbrowsing/sb_queryengine.c,,,,,,,0x8011c540,0x8011d024,,,,,,,0x8027ddc0,0x8027dde5,,,0x803856f0,0x803856f8,,,,,,
 1,1,source/gamespy/sake/sakeMain.c,,,,,,,0x80121eec ,0x8012249c,,,,,,,0x8027de48,0x8027df3e,0x802f3f40,0x802f4040,0x80385740,0x80385744,,,,,,
 1,,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 ,,rxFrameHeap.c,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,

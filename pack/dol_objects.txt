@@ -109,10 +109,13 @@ out\ghttpCallbacks.o
 out\ghttpCommon.o
 out\dol\text_8011218c_8011c10c.o
 out\sb_crypt.o
-out\dol\text_8011c540_80121eec.o
-out\dol\data_8027d6f8_8027de48.o
+out\dol\data_8027d6f8_8027ddc0.o
+out\dol\sdata_803855d3_803856f0.o
+out\sb_queryengine.o
+out\dol\text_8011d024_80121eec.o
+out\dol\data_8027dde5_8027de48.o
 out\dol\bss_802f3624_802f3f40.o
-out\dol\sdata_803855d3_80385740.o
+out\dol\sdata_803856f8_80385740.o
 out\sakeMain.o
 out\dol\text_8012249c_80124500.o
 out\dol\data_8027df3e_8027e708.o

@@ -56,6 +56,7 @@ compile_source("source/gamespy/ghttp/ghttpBuffer.c", "out/ghttpBuffer.o", '4199_
 compile_source("source/gamespy/ghttp/ghttpCallbacks.c", "out/ghttpCallbacks.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/ghttp/ghttpCommon.c", "out/ghttpCommon.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/serverbrowsing/sb_crypt.c", "out/sb_crypt.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/serverbrowsing/sb_queryengine.c", "out/sb_queryengine.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/sake/sakeMain.c", "out/sakeMain.o", '4199_60831', RVL_OPTS)
 
 compile_source("source/nw4r/math/mathTriangular.cpp", "out/mathTriangular.o", '4201_127', NW4R_OPTS)
