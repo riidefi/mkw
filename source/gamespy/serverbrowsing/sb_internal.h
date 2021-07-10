@@ -4,15 +4,15 @@
 // clang-format off
 #include "../common/gsCommon.h"
 #include "../common/gsAvailable.h"
-// clang-format on
 
 #include "../darray.h"
 #include "../hashtable.h"
 
-#include "../qr2/qr2regkeys.h"
 #include "sb_serverbrowsing.h"
+#include "../qr2/qr2regkeys.h"
 
 #include "sb_crypt.h"
+// clang-format on
 
 #ifdef __cplusplus
 extern "C" {
@@ -334,7 +334,6 @@ struct _ServerBrowser {
   goa_uint32 triggerIP;
   unsigned short triggerPort;
   ServerBrowserCallback BrowserCallback;
-  SBConnectToServerCallback ConnectCallback;
   void* instance;
 };
 
