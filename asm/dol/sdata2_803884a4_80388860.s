@@ -1,10 +1,7 @@
 
 .include "macros.inc"
 
-.section .sdata2, "a" # 0x80388498 - 0x80388860
-.4byte 0x00000000
-.4byte 0x00000000
-.4byte 0x00000000
+.section .sdata2, "a" # 0x803884A4 - 0x80388860
 .4byte 0x00000000
 .4byte 0x40000000
 .4byte 0x40C90FDB

@@ -374,6 +374,8 @@ int SOSetInterfaceOpt(IPInterface* interface, int level, int optname,
 
 #define SO_INADDR_ANY ((u32)0x00000000)
 
+#define SO_BROADCAST 9
+
 #ifdef __cplusplus
 }
 #endif

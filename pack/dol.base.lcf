@@ -314,22 +314,6 @@ SOHtoNs=0x801ed99c;
 
 ParseSingleQR2Reply=0x8011ca4c;
 ProcessIncomingReplies=0x8011cc3c;
-NTSLengthSB=0x8011ede4;
-SBRefStr=0x8011ecfc;
-SBReleaseStr=0x8011ed84;
-SBServerListInit=0x8011ee1c;
-SBServerListConnectAndQuery=0x8011f45c;
-SBServerListDisconnect=0x8011f95c;
-SBServerListCleanup=0x8011fac8;
-SBSendMessageToServer=0x80121afc;
-SBSendNatNegotiateCookieToServer=0x80121c00;
-SBServerListSort=0x8011e964;
-SBServerListFindServer=0x8011ead0;
-SBServerListRemoveAt=0x8011eb58;
-SBServerListCount=0x8011ebf0;
-SBServerListNth=0x8011ebf8;
-SBServerListClear=0x8011ec20;
-SBListThink=0x80121e40;
 
 __cvt_fp2unsigned = 0x80021478;
 }
