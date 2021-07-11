@@ -46,9 +46,9 @@ For example: Symbols that were stripped in the initial build retain all string l
 This is very hard to replicate without dead-stripping:
 Simply commenting out the stripped function would result the string literals from vanishing too.
 
-The dead-stripping feature can be enabled by:
-- Re-enabling stripping by setting `nostrip` to 1 in the slices CSV (TBD)
-- Listing all symbols that will _not_ be stripped in `dol.base.lcf` (all other symbols get thrown out)
+The dead-stripping feature can be re-enabled by:
+- Setting `strip` to 1 in the slices CSV
+- Listing all symbols that will _not_ be stripped in the `FORCEACTIVE` directive in `dol.base.lcf` (all other symbols get thrown out)
 
 ## Contributing
 - Do not manually adjust assembly (`asm`) files. They are auto-generated.
