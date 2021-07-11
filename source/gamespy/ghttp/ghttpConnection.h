@@ -174,10 +174,7 @@ typedef struct GHIConnection {
 
   struct GHIEncryptor encryptor;
 
-#if !defined(GSI_NO_THREADS)
   GSIResolveHostnameHandle handle; // handle used for asychronous DNS lookups
-#endif
-
 } GHIConnection;
 
 // Create a new connection object.

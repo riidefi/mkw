@@ -43,6 +43,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,1,source/gamespy/ghttp/ghttpBuffer.c,,,,,,,0x801115fc,0x80111de8,,,,,,,,,,,0x803855c8,0x803855d3,,,,,,
 1,,source/gamespy/ghttp/ghttpCallbacks.c,,,,,,,0x80111f0c,0x8011202c,,,,,,,,,,,,,,,,,,
 1,1,source/gamespy/ghttp/ghttpCommon.c,,,,,,,0x8011202c,0x8011248c ,,,,,,,,,,,,,,,,,,
+1,1,source/gamespy/ghttp/ghttpConnection.c,,,,,,,0x801125c8,0x80112d14,,,,,,,0x8027d6f8,0x8027d701,,,,,0x80386378,0x80386388,,,,
 1,1,source/gamespy/ghttp/ghttpEncryption.c,,,,,,,0x80112d14,0x8011312c ,,,,,,,0x8027d708,0x8027d711,,,,,,,,,,
 1,1,source/gamespy/ghttp/ghttpPost.c,,,,,,,0x801139b0,0x80115384,,,,,,,0x8027d738,0x8027d974,,,0x803855e0,0x803855ff,0x80386390,0x803863a4,0x80388480,0x80388484,,
 1,1,source/gamespy/serverbrowsing/sb_crypt.c,,,,,,,0x8011c10c,0x8011c540,,,,,,,,,,,,,,,,,,

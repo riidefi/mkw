@@ -123,6 +123,7 @@ gsirealloc=0x800f3870;
 gsifree=0x800f3884;
 gsiSecondsToDate=0x800f254c;
 gsiDateToSeconds=0x800f27b4;
+gsiCancelResolvingHostname=0x800f2238;
 
 gti2HandleESN=0x8010ad14;
 gti2HandleServerChallenge=0x8010ae44;
@@ -177,7 +178,6 @@ NNThink=0x8011b718;
 
 ghiTrySendThenBuffer=0x8011248c;
 ghiSendBufferedData=0x80111de8;
-ghiRequestToConnection=0x80112a0c;
 
 sakeiInitRequest=0x8012249c;
 sakeiFreeRequest=0x8012256c;
@@ -669,6 +669,14 @@ ghiUnlock
 ghiDecryptReceivedData
 ghiDoReceive
 ghiDoSend
+
+// ghttpConnection
+ghiNewConnection
+ghiFreeConnection
+ghiRequestToConnection
+ghiEnumConnections
+ghiRedirectConnection
+ghiCleanupConnections
 
 // ghttpEncryption
 ghttpSetRequestEncryptionEngine
