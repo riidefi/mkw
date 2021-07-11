@@ -8,6 +8,8 @@ import struct
 from .ppc_dis import disasm_iter, disassemble_callback
 from .dol import DolBinary, Segment
 
+from .rel import Rel, dump_staticr
+
 
 read_u32 = lambda f: struct.unpack(">L", f.read(4))[0]
 read_u16 = lambda f: struct.unpack(">H", f.read(2))[0]
@@ -38,7 +40,7 @@ class Slice:
 
 
 # Limitation: slices must be ordered
-def read_slices(name):
+def read_slices(name, verbose=True):
     lines = open(name).readlines()
     reader = csv.DictReader(lines)
     for row in reader:
@@ -69,7 +71,8 @@ def read_slices(name):
             elif seg_type == "End":
                 segments[seg_name].end = int(value, 16)
 
-        print("#### %s %s" % (name, segments))
+        if verbose:
+            print("#### %s %s" % (name, segments))
         yield Slice(name, segments)
 
 
@@ -393,6 +396,10 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     args.asm_dir.mkdir(exist_ok=True)
+
+    # Feel free to move this around, dump staticr.rel segments
+    with open("artifacts/orig/pal/StaticR.rel", 'rb') as f:
+        dump_staticr(Rel(f), "artifacts/orig/pal/rel")
 
     # Write the macros file.
     with open(args.asm_dir / "macros.inc", "w") as file:

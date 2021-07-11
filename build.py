@@ -4,6 +4,11 @@ from pathlib import Path
 import subprocess
 import sys
 
+from multiprocessing.dummy import Pool as ThreadPool
+import multiprocessing
+
+from mkwutil.gen_asm import read_slices
+from mkwutil.verify_object_file import verify_object_file
 from mkwutil.gen_lcf import gen_lcf
 from mkwutil.pack_main_dol import pack_main_dol
 from mkwutil.pack_staticr_rel import pack_staticr_rel
@@ -11,6 +16,13 @@ from mkwutil.verify_main_dol import verify_dol
 from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.percent_decompiled import percent_decompiled
 
+import colorama
+from colorama import Fore, Style
+
+colorama.init()
+
+dol_slices = read_slices("pack/dol_slices.csv", verbose=False)
+dol_slices = { sl.obj_file : sl for sl in dol_slices }
 
 def native_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
@@ -95,21 +107,52 @@ CWCC_OPT = " ".join(
 )
 
 
-def compile_source(src, dst, version="default", additional="-ipa file"):
+def compile_source_impl(src, dst, version="default", additional="-ipa file"):
+    # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
-
     if VERBOSE:
         print(command)
-
     subprocess.run(command, check=True)
 
+gSourceQueue = []
+
+def compile_queued_sources():
+    max_hw_concurrency = multiprocessing.cpu_count()
+    print(Fore.YELLOW + f"max_hw_concurrency={max_hw_concurrency}" + Style.RESET_ALL)
+    
+    pool = ThreadPool(max_hw_concurrency)
+
+    pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
+
+    pool.close()
+    pool.join()
+
+    #
+    # colorama doesn't seem to work with multithreading
+    #
+    for s in gSourceQueue:
+        src, dst = s[0:2]
+
+        # Verify ELF file section sizes.
+        tha_slice = dol_slices.get(src)
+        if tha_slice:
+            verify_object_file(dst, src, tha_slice)
+        else:
+            print(Fore.YELLOW + "# Skipping slices verification on " + src + Style.RESET_ALL)
+
+    gSourceQueue.clear()
+
+# Queued
+def compile_source(src, dst, version="default", additional="-ipa file"):
+    gSourceQueue.append((src, dst, version, additional))
 
 def assemble(dst, src):
     subprocess.run([GAS, src, "-mgekko", "-Iasm", "-o", dst], check=True, text=True)
 
 
-def link(dst, objs, lcf, partial=False):
-    cmd = [MWLD] + objs + ["-o", dst, "-lcf", lcf, "-fp", "hard"]
+def link(dst, objs, lcf, map_path, partial=False):
+    print(map_path)
+    cmd = [MWLD] + objs + ["-o", dst, "-lcf", lcf, "-fp", "hard", "-linkmode", "moreram", "-map", map_path]
     if partial:
         cmd.append("-r")
     subprocess.run(cmd, check=True, text=True)
@@ -130,6 +173,8 @@ def compile_sources():
     # TODO exec() is bad practice
     with open("sources.py", "r") as sourcespy:
         exec(sourcespy.read())
+
+    compile_queued_sources()
 
     asm_files = [
         str(x.relative_to(os.getcwd()))
@@ -155,7 +200,8 @@ def link_dol(o_files):
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "main.elf"
-    link(elf_path, o_files, dst_lcf_path)
+    map_path = dest_dir / "main.map"
+    link(elf_path, o_files, dst_lcf_path, map_path)
     # Convert ELF to DOL.
     dol_path = dest_dir / "main.dol"
     pack_main_dol(elf_path, dol_path)
@@ -172,7 +218,8 @@ def link_rel(o_files):
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "StaticR.elf"
-    link(elf_path, o_files, dst_lcf_path, partial=True)
+    map_path = dest_dir / "StaticR.map"
+    link(elf_path, o_files, dst_lcf_path, map_path, partial=True)
     # Convert ELF to REL.
     rel_path = dest_dir / "StaticR.rel"
     orig_dir = Path("artifacts", "orig")

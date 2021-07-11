@@ -1,4 +1,5 @@
 import struct
+from itertools import chain
 
 
 read_u32 = lambda f: struct.unpack(">L", f.read(4))[0]
@@ -29,8 +30,8 @@ class DolBinary:
 
     def __init__(self, file):
         file = open(file, "rb")
-        text_ofs = [read_u32(file) for _ in range(7)]
-        data_ofs = [read_u32(file) for _ in range(11)]
+        self.text_ofs = [read_u32(file) for _ in range(7)]
+        self.data_ofs = [read_u32(file) for _ in range(11)]
 
         text_vaddr = [read_u32(file) for _ in range(7)]
         data_vaddr = [read_u32(file) for _ in range(11)]
@@ -55,7 +56,7 @@ class DolBinary:
         for i in range(7):
             if not self.text_size[i]:
                 continue
-            file.seek(text_ofs[i])
+            file.seek(self.text_ofs[i])
             offset = text_vaddr[i] - self.image_base
             self.image[offset : offset + self.text_size[i]] = file.read(
                 self.text_size[i]
@@ -64,7 +65,7 @@ class DolBinary:
         for i in range(11):
             if not self.data_size[i]:
                 continue
-            file.seek(data_ofs[i])
+            file.seek(self.data_ofs[i])
             offset = data_vaddr[i] - self.image_base
             self.image[offset : offset + self.data_size[i]] = file.read(
                 self.data_size[i]
@@ -79,3 +80,10 @@ class DolBinary:
         """Reads the binary content of a data segment."""
         offset = self.data_segs[num].begin - self.image_base
         return self.image[offset : offset + self.data_size[num]]
+
+    def virtual_to_rom(self, vaddr):
+        for seg, ofs in chain(zip(self.text_segs, self.text_ofs), zip(self.data_segs, self.data_ofs)):
+            if vaddr >= seg.begin and vaddr <= seg.end:
+                return vaddr - seg.begin + ofs
+
+        assert not "Address not found"

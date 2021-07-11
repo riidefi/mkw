@@ -635,13 +635,11 @@ static void SPEC2_MakeStatus(s32 chan, PADStatus* status, u32 data[2]) {
 }
 
 inline int PADSync(void) {
-  int x = PADResetBits == 0 && PADResetChan == 32;
-  return x && !SIBusy();
+  return PADResetBits == 0 && PADResetChan == 32 && !SIBusy();
 }
 
 PADSamplingCallback PADSetSamplingCallback(PADSamplingCallback);
 
-// TODO: Unresolved instruction ordering bug
 int PAD_OnReset(int final) {
   // PAL: 0x80386998
   static int isCalibrated = false;
