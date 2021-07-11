@@ -1,6 +1,22 @@
 #include "pad.h"
 
-#include "rvl/os/osMisc.h"
+// TODO: Move to osMisc.h
+typedef int (*OSResetFunction)(int final);
+typedef struct OSResetFunctionInfo {
+  OSResetFunction func; // 0x00
+  u32 priority;         // 0x04
+  u32 unk_08;
+  u32 unk_0A;
+} OSResetFunctionInfo;
+void OSSetCurrentContext(OSContext*);
+void OSClearContext(OSContext*);
+void OSRegisterVersion(const char*);
+s64 OSGetTime();
+void OSRegisterResetFunction(OSResetFunctionInfo* info);
+// Broadway / IOS global locations: https://wiibrew.org/wiki/Memory_Map
+u8 oslow_30e3 : (0x800030e3);
+u16 oslow_30e0 : (0x800030e0);
+
 #include "rvl/si/si.h"
 
 #include <string.h>
