@@ -130,30 +130,6 @@ ServerBrowserNewA(const char* queryForGamename, const char* queryFromGamename,
                     EngineCallback, sb);
   return sb;
 }
-#ifdef GSI_UNICODE
-ServerBrowser ServerBrowserNewW(const unsigned short* queryForGamename,
-                                const unsigned short* queryFromGamename,
-                                const unsigned short* queryFromKey,
-                                int queryFromVersion, int maxConcUpdates,
-                                int queryVersion, SBBool lanBrowse,
-                                ServerBrowserCallback callback,
-                                void* instance) {
-  char forGameName_A[255];
-  char fromGameName_A[255];
-  char fromGameKey_A[255];
-
-  assert(queryForGamename != NULL);
-  assert(queryFromGamename != NULL);
-  assert(queryFromKey != NULL);
-
-  UCS2ToAsciiString(queryForGamename, forGameName_A);
-  UCS2ToAsciiString(queryFromGamename, fromGameName_A);
-  UCS2ToAsciiString(queryFromKey, fromGameKey_A);
-  return ServerBrowserNewA(forGameName_A, fromGameName_A, fromGameKey_A,
-                           queryFromVersion, maxConcUpdates, queryVersion,
-                           lanBrowse, callback, instance);
-}
-#endif
 
 void ServerBrowserFree(ServerBrowser sb) {
   SBServerListCleanup(&sb->list);
@@ -222,20 +198,6 @@ SBError ServerBrowserUpdateA(ServerBrowser sb, SBBool async,
   return ServerBrowserBeginUpdate2(sb, async, disconnectOnComplete, basicFields,
                                    numBasicFields, serverFilter, 0, 0);
 }
-#ifdef GSI_UNICODE
-SBError ServerBrowserUpdateW(ServerBrowser sb, SBBool async,
-                             SBBool disconnectOnComplete,
-                             const unsigned char* basicFields,
-                             int numBasicFields,
-                             const unsigned short* serverFilter) {
-  char serverFilter_A[1024];
-  if (serverFilter != NULL)
-    UCS2ToUTF8String(serverFilter, serverFilter_A);
-  return ServerBrowserUpdateA(sb, async, disconnectOnComplete, basicFields,
-                              numBasicFields,
-                              (serverFilter != NULL) ? serverFilter_A : NULL);
-}
-#endif
 
 SBError ServerBrowserLimitUpdateA(ServerBrowser sb, SBBool async,
                                   SBBool disconnectOnComplete,
@@ -246,21 +208,6 @@ SBError ServerBrowserLimitUpdateA(ServerBrowser sb, SBBool async,
                                    numBasicFields, serverFilter,
                                    LIMIT_RESULT_COUNT, maxServers);
 }
-#ifdef GSI_UNICODE
-SBError ServerBrowserLimitUpdateW(ServerBrowser sb, SBBool async,
-                                  SBBool disconnectOnComplete,
-                                  const unsigned char* basicFields,
-                                  int numBasicFields,
-                                  const unsigned short* serverFilter,
-                                  int maxServers) {
-  char serverFilter_A[1024];
-  if (serverFilter != NULL)
-    UCS2ToUTF8String(serverFilter, serverFilter_A);
-  return ServerBrowserLimitUpdateA(
-      sb, async, disconnectOnComplete, basicFields, numBasicFields,
-      (serverFilter != NULL) ? serverFilter_A : NULL, maxServers);
-}
-#endif
 
 SBError ServerBrowserLANUpdate(ServerBrowser sb, SBBool async,
                                unsigned short startSearchPort,
@@ -299,16 +246,6 @@ SBError ServerBrowserSendMessageToServerA(ServerBrowser sb, const char* ip,
   return SBSendMessageToServer(&sb->list, inet_addr(ip), htons(port), data,
                                len);
 }
-#ifdef GSI_UNICODE
-SBError ServerBrowserSendMessageToServerW(ServerBrowser sb,
-                                          const unsigned short* ip,
-                                          unsigned short port, const char* data,
-                                          int len) {
-  char ip_A[128];
-  UCS2ToAsciiString(ip, ip_A);
-  return ServerBrowserSendMessageToServerA(sb, ip_A, port, data, len);
-}
-#endif
 
 SBError ServerBrowserSendNatNegotiateCookieToServerA(ServerBrowser sb,
                                                      const char* ip,
@@ -317,16 +254,6 @@ SBError ServerBrowserSendNatNegotiateCookieToServerA(ServerBrowser sb,
   return SBSendNatNegotiateCookieToServer(&sb->list, inet_addr(ip), htons(port),
                                           cookie);
 }
-#ifdef GSI_UNICODE
-SBError ServerBrowserSendNatNegotiateCookieToServerW(ServerBrowser sb,
-                                                     const unsigned short* ip,
-                                                     unsigned short port,
-                                                     int cookie) {
-  char ip_A[128];
-  UCS2ToAsciiString(ip, ip_A);
-  return ServerBrowserSendNatNegotiateCookieToServerA(sb, ip_A, port, cookie);
-}
-#endif
 
 static void NatNegProgressCallback(NegotiateState state, void* userdata) {
   // we don't do anything here
@@ -383,16 +310,6 @@ SBError ServerBrowserAuxUpdateIPA(ServerBrowser sb, const char* ip,
   sb->dontUpdate = SBFalse;
   return err;
 }
-#ifdef GSI_UNICODE
-SBError ServerBrowserAuxUpdateIPW(ServerBrowser sb, const unsigned short* ip,
-                                  unsigned short port, SBBool viaMaster,
-                                  SBBool async, SBBool fullUpdate) {
-  char ip_A[128];
-  UCS2ToAsciiString(ip, ip_A);
-  return ServerBrowserAuxUpdateIPA(sb, ip_A, port, viaMaster, async,
-                                   fullUpdate);
-}
-#endif
 
 SBError ServerBrowserAuxUpdateServer(ServerBrowser sb, SBServer server,
                                      SBBool async, SBBool fullUpdate) {
@@ -433,14 +350,6 @@ void ServerBrowserRemoveIPA(ServerBrowser sb, const char* ip,
   if (i != -1)
     SBServerListRemoveAt(&sb->list, i);
 }
-#ifdef GSI_UNICODE
-void ServerBrowserRemoveIPW(ServerBrowser sb, const unsigned short* ip,
-                            unsigned short port) {
-  char ip_A[128];
-  UCS2ToAsciiString(ip, ip_A);
-  ServerBrowserRemoveIPA(sb, ip_A, port);
-}
-#endif
 
 void ServerBrowserRemoveServer(ServerBrowser sb, SBServer server) {
   int i = SBServerListFindServer(&sb->list, server);
@@ -496,48 +405,10 @@ const char* ServerBrowserErrorDescA(ServerBrowser sb, SBError error) {
   GSI_UNUSED(sb);
   return "";
 }
-#ifdef GSI_UNICODE
-const unsigned short* ServerBrowserErrorDescW(ServerBrowser sb, SBError error) {
-  switch (error) {
-  case sbe_noerror:
-    return L"None";
-    break;
-  case sbe_socketerror:
-    return L"Socket creation error";
-    break;
-  case sbe_dnserror:
-    return L"DNS lookup error";
-    break;
-  case sbe_connecterror:
-    return L"Connection failed";
-    break;
-  case sbe_dataerror:
-    return L"Data stream error";
-    break;
-  case sbe_allocerror:
-    return L"Memory allocation error";
-    break;
-  case sbe_paramerror:
-    return L"Function parameter error";
-    break;
-  case sbe_duplicateupdateerror:
-    return L"Duplicate update request error";
-    break;
-  }
-  return L"";
-
-  GSI_UNUSED(sb);
-}
-#endif
 
 const char* ServerBrowserListQueryErrorA(ServerBrowser sb) {
   return SBLastListErrorA(&sb->list);
 }
-#ifdef GSI_UNICODE
-const unsigned short* ServerBrowserListQueryErrorW(ServerBrowser sb) {
-  return SBLastListErrorW(&sb->list);
-}
-#endif
 
 SBState ServerBrowserState(ServerBrowser sb) {
   if (sb->engine.querylist.count > 0)
@@ -569,18 +440,6 @@ SBServer ServerBrowserGetServerByIPA(ServerBrowser sb, const char* ip,
     return SBServerListNth(&sb->list, anIndex);
   return NULL;
 }
-#ifdef GSI_UNICODE
-SBServer ServerBrowserGetServerByIPW(ServerBrowser sb, const unsigned short* ip,
-                                     unsigned short port) {
-  char ip_A[20];
-
-  if (ip == NULL || wcslen(ip) > 16)
-    return NULL;
-
-  UCS2ToAsciiString(ip, ip_A);
-  return ServerBrowserGetServerByIPA(sb, ip_A, port);
-}
-#endif
 
 int ServerBrowserCount(ServerBrowser sb) {
   return SBServerListCount(&sb->list);
@@ -590,30 +449,10 @@ void ServerBrowserSortA(ServerBrowser sb, SBBool ascending, const char* sortkey,
                         SBCompareMode comparemode) {
   SortInfo info;
   info.comparemode = comparemode;
-#ifdef GSI_UNICODE
-  GS_ASSERT(sortkey != NULL &&
-            _tcslen((const unsigned short*)sortkey) <= SORTKEY_LENGTH);
-  _tcscpy(info.sortkey, (const unsigned short*)sortkey);
-#else
   GS_ASSERT(sortkey != NULL && _tcslen(sortkey) <= SORTKEY_LENGTH);
   _tcscpy(info.sortkey, sortkey);
-#endif
   SBServerListSort(&sb->list, ascending, info);
 }
-#ifdef GSI_UNICODE
-void ServerBrowserSortW(ServerBrowser sb, SBBool ascending,
-                        const unsigned short* sortkey,
-                        SBCompareMode comparemode) {
-  char sortkey_A[255];
-  UCS2ToUTF8String(sortkey, sortkey_A);
-  // struct SortInfo info;
-  // info.comparemode = comparemode;
-  // GS_ASSERT(sortkey != NULL && _tcslen((const unsigned short *)sortkey) <=
-  // SORTKEY_LENGTH); _tcscpy(info.sortkey, (const unsigned short *)sortkey_A);
-  // SBServerListSort(&sb->list, ascending, info);
-  ServerBrowserSortA(sb, ascending, sortkey_A, comparemode);
-}
-#endif
 
 char* ServerBrowserGetMyPublicIP(ServerBrowser sb) {
   return (char*)inet_ntoa(*(struct in_addr*)&sb->list.mypublicip);

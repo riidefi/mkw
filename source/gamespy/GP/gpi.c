@@ -62,10 +62,6 @@ GPResult gpiInitialize(GPConnection* connection, int productID, int namespaceID,
   iconnection->namespaceID = namespaceID;
   iconnection->partnerID = partnerID;
 
-#ifdef GSI_UNICODE
-  iconnection->errorString_W[0] = '\0';
-#endif
-
   if (!gpiInitProfiles((GPConnection*)&iconnection)) {
     freeclear(iconnection);
     return GP_MEMORY_ERROR;
@@ -230,14 +226,6 @@ GPResult gpiReset(GPConnection* connection) {
   iconnection->lastStatusString[0] = '\0';
   iconnection->lastLocationString[0] = '\0';
   iconnection->kaTransmit = 0;
-
-#ifdef GSI_UNICODE
-  iconnection->nick_W[0] = '\0';
-  iconnection->uniquenick_W[0] = '\0';
-  iconnection->email_W[0] = '\0';
-  iconnection->lastStatusString_W[0] = '\0';
-  iconnection->lastLocationString_W[0] = '\0';
-#endif
 
   return GP_NO_ERROR;
 }
@@ -608,13 +596,6 @@ static GPIBool gpiReportProfile(GPConnection* connection, GPIProfile* profile,
       temp += (int)(strlen(profile->buddyStatus->statusString) + 1);
     if (profile->buddyStatus->locationString)
       temp += (int)(strlen(profile->buddyStatus->locationString) + 1);
-#ifdef GSI_UNICODE
-//		if(profile->buddyStatus->statusString_W)
-//			temp += (wcslen(profile->buddyStatus->statusString_W) +
-// 2); 		if(profile->buddyStatus->locationString_W)
-// temp
-// += (wcslen(profile->buddyStatus->locationString_W) + 2);
-#endif
     nBuddyMemory += temp;
     nTotalMemory += temp;
   }

@@ -280,9 +280,6 @@ const char* SBRefStr(SBServerList* slist, const char* str) {
   // else we need to add.
   ref.str = goastrdup(str);
   ref.refcount = 1;
-#ifdef GSI_UNICODE
-  ref.str_W = UTF8ToUCS2StringAlloc(str);
-#endif
   TableEnter(SBRefStrHash(slist), &ref);
   return ref.str;
 }
@@ -357,15 +354,8 @@ void SBServerListInit(SBServerList* slist, const char* queryForGamename,
   slist->numpopularvalues = 0;
   slist->srcip = 0;
   slist->fromgamever = queryFromVersion;
-#ifdef GSI_UNICODE
-  slist->lasterror = NULL;
-  slist->lasterror_W = NULL;
-  _tcscpy(slist->currsortinfo.sortkey, (const unsigned short*)"");
-  _tcscpy(slist->prevsortinfo.sortkey, (const unsigned short*)"");
-#else
   _tcscpy(slist->currsortinfo.sortkey, "");
   _tcscpy(slist->prevsortinfo.sortkey, "");
-#endif
   SBSetLastListErrorPtr(slist, "");
   slist->mLanAdapterOverride = NULL;
   slist->backendgameflags = QR2_USE_QUERY_CHALLENGE;
@@ -722,13 +712,6 @@ void SBServerListCleanup(SBServerList* slist) {
   if (slist->servers)
     ArrayFree(slist->servers);
   slist->servers = NULL;
-
-#ifdef GSI_UNICODE
-  if (slist->lasterror_W != NULL) {
-    gsifree(slist->lasterror_W);
-    slist->lasterror_W = NULL;
-  }
-#endif
 }
 
 static void InitCryptKey(SBServerList* slist, char* key, int keylen) {
@@ -1000,25 +983,9 @@ static int IncomingListParseServer(SBServerList* slist, char* buf, int len) {
 }
 
 const char* SBLastListErrorA(SBServerList* slist) { return slist->lasterror; }
-#ifdef GSI_UNICODE
-const unsigned short* SBLastListErrorW(SBServerList* slist) {
-  return slist->lasterror_W;
-}
-#endif
-void SBSetLastListErrorPtr(SBServerList* slist, char* theError) {
-#ifdef GSI_UNICODE
-  if (slist->lasterror != theError) {
-    // set the ascii error
-    slist->lasterror = theError;
 
-    // free the current unicode error and allocate a new one
-    if (slist->lasterror_W != NULL)
-      gsifree(slist->lasterror_W);
-    slist->lasterror_W = UTF8ToUCS2StringAlloc(slist->lasterror);
-  }
-#else
+void SBSetLastListErrorPtr(SBServerList* slist, char* theError) {
   slist->lasterror = theError;
-#endif
 }
 
 #define FIXED_HEADER_LEN 6
@@ -1658,14 +1625,8 @@ static SBError ProcessLanData(SBServerList* slist) {
 
   while (CanReceiveOnSocket(slist->slsocket)) // we break if the select fails
   {
-#if defined(_PS3)
-    error = (int)recvfrom(slist->slsocket, indata, sizeof(indata) - 1, 0,
-                          (struct sockaddr*)&saddr, (socklen_t*)&saddrlen);
-#else
     error = (int)recvfrom(slist->slsocket, indata, sizeof(indata) - 1, 0,
                           (struct sockaddr*)&saddr, &saddrlen);
-#endif
-
     if (gsiSocketIsError(error))
       continue;
     // if we got data, then add it to the list...

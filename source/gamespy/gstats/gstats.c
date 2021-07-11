@@ -229,15 +229,6 @@ char* GenerateAuthA(const char* challenge, const char* password,
   MD5Digest((unsigned char*)rawout, strlen(rawout), response);
   return response;
 }
-#ifdef GSI_UNICODE
-char* GenerateAuthW(const char* challenge, const unsigned short* password,
-                    char response[33]) {
-  char* password_A = UCS2ToUTF8StringAlloc(password);
-  GenerateAuthA(challenge, password_A, response);
-  gsifree(password_A);
-  return response;
-}
-#endif
 
 /****************************************************************************/
 int InitStatsAsync(int theGamePort, gsi_time theInitTimeout) {
@@ -626,15 +617,6 @@ int SendGameSnapShotA(statsgame_t game, const char* snapshot, int final) {
   gsifree(data);
   return ret;
 }
-#ifdef GSI_UNICODE
-int SendGameSnapShotW(statsgame_t game, const unsigned short* snapshot,
-                      int final) {
-  char* snapshot_A = UCS2ToUTF8StringAlloc(snapshot);
-  int result = SendGameSnapShotA(game, snapshot_A, final);
-  gsifree(snapshot_A);
-  return result;
-}
-#endif
 
 /****************************************************************************/
 void NewPlayerA(statsgame_t game, int pnum, char* name) {
@@ -649,13 +631,6 @@ void NewPlayerA(statsgame_t game, int pnum, char* name) {
               (int)(current_time() - game->sttime) / 1000, bl_player, pnum);
   BucketStringOp(game, "player", bo_set, name, bl_player, pnum);
 }
-#ifdef GSI_UNICODE
-void NewPlayerW(statsgame_t game, int pnum, unsigned short* name) {
-  char* name_A = UCS2ToUTF8StringAlloc(name);
-  NewPlayerA(game, pnum, name_A);
-  gsifree(name_A);
-}
-#endif
 
 /****************************************************************************/
 void RemovePlayer(statsgame_t game, int pnum) {
@@ -677,13 +652,6 @@ void NewTeamA(statsgame_t game, int tnum, char* name) {
               (int)(current_time() - game->sttime) / 1000, bl_team, tnum);
   BucketStringOp(game, "team", bo_set, name, bl_team, tnum);
 }
-#ifdef GSI_UNICODE
-void NewTeamW(statsgame_t game, int tnum, unsigned short* name) {
-  char* name_A = UCS2ToUTF8StringAlloc(name);
-  NewTeamA(game, tnum, name_A);
-  gsifree(name_A);
-}
-#endif
 
 /****************************************************************************/
 void RemoveTeam(statsgame_t game, int tnum) {
@@ -746,17 +714,6 @@ void PreAuthenticatePlayerCDA(int localid, const char* nick,
 
   SendPlayerAuthRequest(data, len, localid, callback, instance);
 }
-#ifdef GSI_UNICODE
-void PreAuthenticatePlayerCDW(int localid, const unsigned short* nick,
-                              const char* keyhash,
-                              const char* challengeresponse,
-                              PersAuthCallbackFn callback, void* instance) {
-  char* nick_A = UCS2ToUTF8StringAlloc(nick);
-  PreAuthenticatePlayerCDA(localid, nick_A, keyhash, challengeresponse,
-                           callback, instance);
-  gsifree(nick_A);
-}
-#endif
 
 /****************************************************************************/
 void GetProfileIDFromCDA(int localid, const char* nick, const char* keyhash,
@@ -783,15 +740,6 @@ void GetProfileIDFromCDA(int localid, const char* nick, const char* keyhash,
                        instance);
   }
 }
-#ifdef GSI_UNICODE
-void GetProfileIDFromCDW(int localid, const unsigned short* nick,
-                         const char* keyhash, ProfileCallbackFn callback,
-                         void* instance) {
-  char* nick_A = UCS2ToUTF8StringAlloc(nick);
-  GetProfileIDFromCDA(localid, nick_A, keyhash, callback, instance);
-  gsifree(nick_A);
-}
-#endif
 
 /****************************************************************************/
 void GetPersistData(int localid, int profileid, persisttype_t type, int index,
@@ -866,28 +814,6 @@ void GetPersistDataValuesA(int localid, int profileid, persisttype_t type,
                                 callback, instance);
 }
 
-#ifdef GSI_UNICODE
-void GetPersistDataValuesModifiedW(int localid, int profileid,
-                                   persisttype_t type, int index,
-                                   time_t modifiedsince, unsigned short* keys,
-                                   PersDataCallbackFn callback,
-                                   void* instance) {
-  char* keys_A = UCS2ToUTF8StringAlloc(keys);
-  GetPersistDataValuesModifiedA(localid, profileid, type, index, modifiedsince,
-                                keys_A, callback, instance);
-  gsifree(keys_A);
-}
-#endif
-
-#ifdef GSI_UNICODE
-void GetPersistDataValuesW(int localid, int profileid, persisttype_t type,
-                           int index, unsigned short* keys,
-                           PersDataCallbackFn callback, void* instance) {
-  GetPersistDataValuesModifiedW(localid, profileid, type, index, 0, keys,
-                                callback, instance);
-}
-#endif
-
 /****************************************************************************/
 void SetPersistDataValuesA(int localid, int profileid, persisttype_t type,
                            int index, const char* keyvalues,
@@ -895,16 +821,6 @@ void SetPersistDataValuesA(int localid, int profileid, persisttype_t type,
   SetPersistDataHelper(localid, profileid, type, index, keyvalues,
                        (int)strlen(keyvalues) + 1, callback, instance, 1);
 }
-#ifdef GSI_UNICODE
-void SetPersistDataValuesW(int localid, int profileid, persisttype_t type,
-                           int index, const unsigned short* keyvalues,
-                           PersDataSaveCallbackFn callback, void* instance) {
-  char* keyvalues_A = UCS2ToUTF8StringAlloc(keyvalues);
-  SetPersistDataValuesA(localid, profileid, type, index, keyvalues_A, callback,
-                        instance);
-  gsifree(keyvalues_A);
-}
-#endif
 
 /****************************************************************************/
 int PersistThink() {
@@ -1277,13 +1193,7 @@ static void SendPlayerAuthRequest(char* data, int len, int localid,
     CloseStatsConnection();
     DOXCODE(connerror, sizeof(connerror) - 1, enc3);
     if (callback) {
-#ifndef GSI_UNICODE
       callback(localid, 0, 0, connerror, instance);
-#else
-      unsigned short connerror_W[] =
-          L"\x13\x1D\x1\x4\x0\x0\x0\x28\x1F\x6\x45\x34\x3F\x1\x1B";
-      callback(localid, 0, 0, connerror_W, instance);
-#endif
     }
   } else { /* set up the callback */
     AddRequestCallback(rt_authcb, localid, 0, (persisttype_t)0, 0, callback,
@@ -1529,17 +1439,8 @@ static void CallReqCallback(int reqindex, int success, time_t modified,
   if (req->callback)
     switch (req->reqtype) {
     case rt_authcb:
-#ifndef GSI_UNICODE
       ((PersAuthCallbackFn)req->callback)(req->localid, req->profileid, success,
                                           data, req->instance);
-#else
-    {
-      unsigned short* data_W = UTF8ToUCS2StringAlloc(data);
-      ((PersAuthCallbackFn)req->callback)(req->localid, req->profileid, success,
-                                          data_W, req->instance);
-      gsifree(data_W);
-    }
-#endif
       break;
     case rt_datacb:
       ((PersDataCallbackFn)req->callback)(

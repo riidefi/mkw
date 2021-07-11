@@ -26,12 +26,6 @@ INCLUDES
 extern "C" {
 #endif
 
-#if defined(_WIN32)
-// Warnings are generated because we store function ptrs into a void* array
-#pragma warning(disable : 4152) // function to data ptr
-#pragma warning(disable : 4055) // data to function ptr
-#endif
-
 /********
 TYPEDEFS
 ********/
@@ -120,17 +114,10 @@ extern char StatsServerHostname[64];
 /********
 PROTOTYPES
 ********/
-#ifndef GSI_UNICODE
 #define GenerateAuth GenerateAuthA
 #define SendGameSnapShot SendGameSnapShotA
 #define NewPlayer NewPlayerA
 #define NewTeam NewTeamA
-#else
-#define GenerateAuth GenerateAuthW
-#define SendGameSnapShot SendGameSnapShotW
-#define NewPlayer NewPlayerW
-#define NewTeam NewTeamW
-#endif
 
 /********
 InitStatsConnection

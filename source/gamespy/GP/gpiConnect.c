@@ -273,25 +273,9 @@ GPResult gpiConnect(GPConnection* connection, const char nick[GP_NICK_LEN],
   strzcpy(iconnection->email, email, GP_EMAIL_LEN);
   strzcpy(iconnection->password, password, GP_PASSWORD_LEN);
 
-#ifdef GSI_UNICODE
-  // Create the _W version in addition
-  UTF8ToUCS2StringLen(iconnection->nick, iconnection->nick_W, GP_NICK_LEN);
-  UTF8ToUCS2StringLen(iconnection->uniquenick, iconnection->uniquenick_W,
-                      GP_UNIQUENICK_LEN);
-  UTF8ToUCS2StringLen(iconnection->email, iconnection->email_W, GP_EMAIL_LEN);
-  UTF8ToUCS2StringLen(iconnection->password, iconnection->password_W,
-                      GP_PASSWORD_LEN);
-#endif
-
   // Lowercase the email.
   ///////////////////////
   _strlwr(iconnection->email);
-
-#ifdef GSI_UNICODE
-  // Update the UCS2 version (emails are ASCII anyhow so lowercasing didn't
-  // data)
-  AsciiToUCS2String(iconnection->email, iconnection->email_W);
-#endif
 
   // Create a connect operation data struct.
   //////////////////////////////////////////
@@ -769,11 +753,7 @@ GPResult gpiProcessConnect(GPConnection* connection, GPIOperation* operation,
 
       arg->profile = (GPProfile)iconnection->profileid;
       arg->result = GP_NO_ERROR;
-#ifndef GSI_UNICODE
       strzcpy(arg->uniquenick, uniquenick, GP_UNIQUENICK_LEN);
-#else
-      UTF8ToUCS2StringLen(uniquenick, arg->uniquenick, GP_UNIQUENICK_LEN);
-#endif
 
       CHECK_RESULT(gpiAddCallback(connection, callback, arg, operation, 0));
     }
@@ -781,28 +761,7 @@ GPResult gpiProcessConnect(GPConnection* connection, GPIOperation* operation,
     // This operation is complete.
     //////////////////////////////
     gpiRemoveOperation(connection, operation);
-
-    // Get the local profile's info.
-    ////////////////////////////////
-#if 0
-		gpiAddOperation(connection, GPI_GET_INFO, NULL, &operation, GP_NON_BLOCKING, NULL, NULL);
-		gpiSendGetInfo(connection, iconnection->profileid, operation->id);
-#endif
-
-#ifdef _PS3
-    // We just connected, so setup buddy sync && start NP init
-    // For future, we can limit syncs by setting flags to turn on/off here
-    //////////////////////////////////////////////////////////////////////
-    iconnection->npPerformBuddySync = gsi_true;
-    iconnection->npPerformBlockSync = gsi_true;
-    iconnection->loginTime = current_time();
-
-    if (!iconnection->npInitialized)
-      gpiInitializeNpBasic(connection);
-#endif
-
     break;
-
   default:
     break;
   }

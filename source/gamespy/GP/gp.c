@@ -813,32 +813,6 @@ GPResult gpProfileSearchA(GPConnection* connection,
   return gpiProfileSearch(connection, nick, uniquenick, email, firstname,
                           lastname, icquin, 0, blocking, callback, param);
 }
-#ifdef GSI_UNICODE
-GPResult gpProfileSearchW(GPConnection* connection,
-                          const unsigned short nick[GP_NICK_LEN],
-                          const unsigned short uniquenick[GP_UNIQUENICK_LEN],
-                          const unsigned short email[GP_EMAIL_LEN],
-                          const unsigned short firstname[GP_FIRSTNAME_LEN],
-                          const unsigned short lastname[GP_LASTNAME_LEN],
-                          int icquin, GPEnum blocking, GPCallback callback,
-                          void* param) {
-  char nick_A[GP_NICK_LEN];
-  char uniquenick_A[GP_UNIQUENICK_LEN];
-  char email_A[GP_NICK_LEN];
-  char firstname_A[GP_NICK_LEN];
-  char lastname_A[GP_NICK_LEN];
-
-  UCS2ToAsciiString(nick, nick_A); // nicknames are ascii
-  UCS2ToAsciiString(uniquenick, uniquenick_A);
-  UCS2ToAsciiString(email, email_A);
-  UCS2ToAsciiString(firstname, firstname_A);
-  UCS2ToAsciiString(lastname, lastname_A);
-
-  return gpProfileSearchA(connection, nick_A, uniquenick_A, email_A,
-                          firstname_A, lastname_A, icquin, blocking, callback,
-                          param);
-}
-#endif
 
 GPResult gpProfileSearchUniquenickA(GPConnection* connection,
                                     const char uniquenick[GP_UNIQUENICK_LEN],
@@ -877,21 +851,6 @@ GPResult gpProfileSearchUniquenickA(GPConnection* connection,
   return gpiProfileSearchUniquenick(connection, uniquenick, namespaceIDs,
                                     numNamespaces, blocking, callback, param);
 }
-#ifdef GSI_UNICODE
-GPResult
-gpProfileSearchUniquenickW(GPConnection* connection,
-                           const unsigned short uniquenick[GP_UNIQUENICK_LEN],
-                           const int namespaceIDs[GP_MAX_NAMESPACEIDS],
-                           int numNamespaces, GPEnum blocking,
-                           GPCallback callback, void* param) {
-  char uniquenick_A[GP_UNIQUENICK_LEN];
-
-  UCS2ToAsciiString(uniquenick, uniquenick_A);
-
-  return gpProfileSearchUniquenickA(connection, uniquenick_A, namespaceIDs,
-                                    numNamespaces, blocking, callback, param);
-}
-#endif
 
 GPResult gpGetInfo(GPConnection* connection, GPProfile profile,
                    GPEnum checkCache, GPEnum blocking, GPCallback callback,
@@ -1006,15 +965,6 @@ GPResult gpSetInfosA(GPConnection* connection, GPEnum info, const char* value) {
 
   return gpiSetInfos(connection, info, value);
 }
-#ifdef GSI_UNICODE
-GPResult gpSetInfosW(GPConnection* connection, GPEnum info,
-                     const unsigned short* value) {
-  char* value_A = UCS2ToUTF8StringAlloc(value);
-  GPResult result = gpSetInfosA(connection, info, value_A);
-  gsifree(value_A);
-  return result;
-}
-#endif
 
 GPResult gpSetInfod(GPConnection* connection, GPEnum info, int day, int month,
                     int year) {
@@ -1118,14 +1068,6 @@ GPResult gpSendBuddyRequestA(GPConnection* connection, GPProfile profile,
 
   return GP_NO_ERROR;
 }
-#ifdef GSI_UNICODE
-GPResult gpSendBuddyRequestW(GPConnection* connection, GPProfile profile,
-                             const unsigned short reason[GP_REASON_LEN]) {
-  char reason_A[GP_REASON_LEN];
-  UCS2ToUTF8String(reason, reason_A);
-  return gpSendBuddyRequestA(connection, profile, reason_A);
-}
-#endif
 
 GPResult gpAuthBuddyRequest(GPConnection* connection, GPProfile profile) {
   GPIConnection* iconnection;
@@ -1505,18 +1447,10 @@ GPResult gpSetStatusA(GPConnection* connection, GPEnum status,
   // Copy off the new status.
   ///////////////////////////
   iconnection->lastStatusState = status;
-#ifndef GSI_UNICODE
   strzcpy(iconnection->lastStatusString, statusStringFixed,
           GP_STATUS_STRING_LEN);
   strzcpy(iconnection->lastLocationString, locationStringFixed,
           GP_LOCATION_STRING_LEN);
-#else
-  UTF8ToUCS2StringLen(iconnection->lastStatusString,
-                      iconnection->lastStatusString_W, GP_STATUS_STRING_LEN);
-  UTF8ToUCS2StringLen(iconnection->lastStatusString,
-                      iconnection->lastLocationString_W,
-                      GP_LOCATION_STRING_LEN);
-#endif
 
   // Send the new status.
   ///////////////////////
@@ -1538,18 +1472,6 @@ GPResult gpSetStatusA(GPConnection* connection, GPEnum status,
 
   return GP_NO_ERROR;
 }
-#ifdef GSI_UNICODE
-GPResult
-gpSetStatusW(GPConnection* connection, GPEnum status,
-             const unsigned short statusString[GP_STATUS_STRING_LEN],
-             const unsigned short locationString[GP_LOCATION_STRING_LEN]) {
-  char statusString_A[GP_STATUS_STRING_LEN];
-  char locationString_A[GP_LOCATION_STRING_LEN];
-  UCS2ToUTF8String(statusString, statusString_A);
-  UCS2ToUTF8String(locationString, locationString_A);
-  return gpSetStatusA(connection, status, statusString_A, locationString_A);
-}
-#endif
 #endif
 
 GPResult gpSetStatusInfoA(GPConnection* connection, GPEnum statusState,
@@ -1562,15 +1484,9 @@ GPResult gpSetStatusInfoA(GPConnection* connection, GPEnum statusState,
                           int gameMapNameLen) {
   GPIConnection* iconnection;
 
-#ifndef GSI_UNICODE
   char gameTypeFixed[GP_STATUS_BASIC_STR_LEN];
   char gameVariantFixed[GP_STATUS_BASIC_STR_LEN];
   char gameMapNameFixed[GP_STATUS_BASIC_STR_LEN];
-#else
-  char* gameTypeFixed;
-  char* gameVariantFixed;
-  char* gameMapNameFixed;
-#endif
 
   GS_ASSERT(connection != NULL);
   // Error check.
@@ -1599,7 +1515,6 @@ GPResult gpSetStatusInfoA(GPConnection* connection, GPEnum statusState,
   if (richStatus == NULL)
     Error(connection, GP_PARAMETER_ERROR, "Invalid richStatus.");
 
-#ifndef GSI_UNICODE
   GS_ASSERT(richStatusLen <= GP_RICH_STATUS_LEN);
   GS_ASSERT(gameTypeLen <= GP_STATUS_BASIC_STR_LEN);
   GS_ASSERT(gameVariantLen <= GP_STATUS_BASIC_STR_LEN);
@@ -1632,11 +1547,6 @@ GPResult gpSetStatusInfoA(GPConnection* connection, GPEnum statusState,
       (hostPort == iconnection->hostPort)) {
     return GP_NO_ERROR;
   }
-#else
-  gameTypeFixed = goastrdup(gameType);
-  gameVariantFixed = goastrdup(gameVariant);
-  gameMapNameFixed = goastrdup(gameMapName);
-#endif
 
   iconnection->lastStatusState = statusState;
   iconnection->hostIp = hostIp;
@@ -1644,13 +1554,6 @@ GPResult gpSetStatusInfoA(GPConnection* connection, GPEnum statusState,
   iconnection->queryPort = queryPort;
   iconnection->hostPort = hostPort;
   iconnection->sessionFlags = sessionFlags;
-
-#ifndef GSI_UNICODE
-  strzcpy(iconnection->gameType, gameTypeFixed, GP_STATUS_BASIC_STR_LEN);
-  strzcpy(iconnection->gameVariant, gameVariantFixed, GP_STATUS_BASIC_STR_LEN);
-  strzcpy(iconnection->gameMapName, gameMapNameFixed, GP_STATUS_BASIC_STR_LEN);
-  strzcpy(iconnection->richStatus, richStatus, GP_RICH_STATUS_LEN);
-#endif
 
   gpiAppendStringToBuffer(connection, &iconnection->outputBuffer,
                           "\\statusinfo\\\\state\\");
@@ -1696,81 +1599,6 @@ GPResult gpSetStatusInfoA(GPConnection* connection, GPEnum statusState,
   return GP_NO_ERROR;
 }
 
-#ifdef GSI_UNICODE
-GPResult gpSetStatusInfoW(GPConnection* connection, GPEnum statusState,
-                          unsigned int hostIp, unsigned int hostPrivateIp,
-                          unsigned short queryPort, unsigned short hostPort,
-                          unsigned int sessionFlags,
-                          const unsigned short* richStatus, int richStatusLen,
-                          const unsigned short* gameType, int gameTypeLen,
-                          const unsigned short* gameVariant, int gameVariantLen,
-                          const unsigned short* gameMapName,
-                          int gameMapNameLen) {
-  char *richStatus_A, *gameType_A, *gameVariant_A, *gameMapName_A;
-  GPResult aResult;
-  GPIConnection* iconnection;
-  GS_ASSERT(connection != NULL);
-  GS_ASSERT(richStatusLen <= GP_RICH_STATUS_LEN);
-  GS_ASSERT(gameTypeLen <= GP_STATUS_BASIC_STR_LEN);
-  GS_ASSERT(gameVariantLen <= GP_STATUS_BASIC_STR_LEN);
-  GS_ASSERT(gameMapNameLen <= GP_STATUS_BASIC_STR_LEN);
-  GS_ASSERT(richStatus != NULL);
-
-  if (connection != NULL && (*connection != NULL))
-    iconnection = (GPIConnection*)*connection;
-  else
-    return GP_PARAMETER_ERROR;
-
-  if (richStatus == NULL)
-    Error(connection, GP_PARAMETER_ERROR, "Invalid richStatus.");
-
-  if (richStatusLen <= GP_RICH_STATUS_LEN)
-    richStatus_A = UCS2ToUTF8StringAlloc(richStatus);
-  else
-    richStatus_A = UCS2ToUTF8StringAlloc((UCS2String) _T(""));
-  if (gameType && (gameTypeLen <= GP_STATUS_BASIC_STR_LEN))
-    gameType_A = UCS2ToUTF8StringAlloc(gameType);
-  else
-    gameType_A = UCS2ToUTF8StringAlloc((UCS2String) _T(""));
-  if (gameVariant && (gameVariantLen <= GP_STATUS_BASIC_STR_LEN))
-    gameVariant_A = UCS2ToUTF8StringAlloc(gameVariant);
-  else
-    gameVariant_A = UCS2ToUTF8StringAlloc((UCS2String) _T(""));
-  if (gameMapName && (gameMapNameLen <= GP_STATUS_BASIC_STR_LEN))
-    gameMapName_A = UCS2ToUTF8StringAlloc(gameMapName);
-  else
-    gameMapName_A = UCS2ToUTF8StringAlloc((UCS2String) _T(""));
-
-  if ((statusState == iconnection->lastStatusState) &&
-      (sessionFlags == iconnection->sessionFlags) &&
-      (hostIp == iconnection->hostIp) &&
-      (hostPrivateIp == iconnection->hostPrivateIp) &&
-      (queryPort == iconnection->queryPort) &&
-      (hostPort == iconnection->hostPort) &&
-      (_tcscmp(richStatus, iconnection->richStatus_W) == 0) &&
-      (_tcscmp(gameType, iconnection->gameType_W) == 0) &&
-      (_tcscmp(gameVariant, iconnection->gameVariant_W) == 0) &&
-      (_tcscmp(gameMapName, iconnection->gameMapName_W) == 0)) {
-    return GP_NO_ERROR;
-  }
-  _tcsncpy(iconnection->richStatus_W, richStatus, GP_RICH_STATUS_LEN);
-  _tcsncpy(iconnection->gameType_W, gameType, GP_STATUS_BASIC_STR_LEN);
-  _tcsncpy(iconnection->gameVariant_W, gameVariant, GP_STATUS_BASIC_STR_LEN);
-  _tcsncpy(iconnection->gameMapName_W, gameMapName, GP_STATUS_BASIC_STR_LEN);
-
-  aResult = gpSetStatusInfoA(
-      connection, statusState, hostIp, hostPrivateIp, queryPort, hostPort,
-      sessionFlags, richStatus_A, (int)strlen(richStatus_A), gameType_A,
-      (int)strlen(gameType_A), gameVariant_A, (int)strlen(gameVariant_A),
-      gameMapName_A, (int)strlen(gameMapName_A));
-  gsifree(richStatus_A);
-  gsifree(gameType_A);
-  gsifree(gameVariant_A);
-  gsifree(gameMapName_A);
-  return aResult;
-}
-#endif
-
 GPResult gpAddStatusInfoKeyA(GPConnection* connection, const char* keyName,
                              const char* keyValue) {
   GPIConnection* iconnection;
@@ -1798,20 +1626,6 @@ GPResult gpAddStatusInfoKeyA(GPConnection* connection, const char* keyName,
   return gpiStatusInfoAddKey(connection, iconnection->extendedInfoKeys, keyName,
                              keyValue);
 }
-
-#ifdef GSI_UNICODE
-GPResult gpAddStatusInfoKeyW(GPConnection* connection,
-                             const unsigned short* keyName,
-                             const unsigned short* keyValue) {
-  GPResult aResult;
-  char* keyName_A = UCS2ToUTF8StringAlloc(keyName);
-  char* keyValue_A = UCS2ToUTF8StringAlloc(keyValue);
-  aResult = gpAddStatusInfoKeyA(connection, keyName_A, keyValue_A);
-  gsifree(keyName_A);
-  gsifree(keyValue_A);
-  return aResult;
-}
-#endif
 
 GPResult gpSetStatusInfoKeyA(GPConnection* connection, const char* keyName,
                              const char* keyValue) {
@@ -1841,20 +1655,6 @@ GPResult gpSetStatusInfoKeyA(GPConnection* connection, const char* keyName,
                              keyValue);
 }
 
-#ifdef GSI_UNICODE
-GPResult gpSetStatusInfoKeyW(GPConnection* connection,
-                             const unsigned short* keyName,
-                             const unsigned short* keyValue) {
-  GPResult aResult;
-  char* keyName_A = UCS2ToUTF8StringAlloc(keyName);
-  char* keyValue_A = UCS2ToUTF8StringAlloc(keyValue);
-  aResult = gpSetStatusInfoKeyA(connection, keyName_A, keyValue_A);
-  gsifree(keyName_A);
-  gsifree(keyValue_A);
-  return aResult;
-}
-#endif
-
 GPResult gpDelStatusInfoKeyA(GPConnection* connection, const char* keyName) {
   GPIConnection* iconnection;
 
@@ -1881,17 +1681,6 @@ GPResult gpDelStatusInfoKeyA(GPConnection* connection, const char* keyName) {
   return gpiStatusInfoDelKey(connection, iconnection->extendedInfoKeys,
                              keyName);
 }
-
-#ifdef GSI_UNICODE
-GPResult gpDelStatusInfoKeyW(GPConnection* connection,
-                             const unsigned short* keyName) {
-  GPResult aResult;
-  char* keyName_A = UCS2ToUTF8StringAlloc(keyName);
-  aResult = gpDelStatusInfoKeyA(connection, keyName_A);
-  gsifree(keyName_A);
-  return aResult;
-}
-#endif
 
 GPResult gpGetStatusInfoKeyValA(GPConnection* connection, const char* keyName,
                                 char** keyValue) {
@@ -1920,23 +1709,6 @@ GPResult gpGetStatusInfoKeyValA(GPConnection* connection, const char* keyName,
   return gpiStatusInfoGetKey(connection, iconnection->extendedInfoKeys, keyName,
                              keyValue);
 }
-#ifdef GSI_UNICODE
-GPResult gpGetStatusInfoKeyValW(GPConnection* connection,
-                                const unsigned short* keyName,
-                                unsigned short** keyValue) {
-  GPResult aResult;
-  char* keyValue_A;
-
-  char* keyName_A = UCS2ToUTF8StringAlloc(keyName);
-
-  aResult = gpGetStatusInfoKeyValA(connection, keyName_A, &keyValue_A);
-  *keyValue = UTF8ToUCS2StringAlloc(keyValue_A);
-
-  gsifree(keyName_A);
-  gsifree(keyValue_A);
-  return aResult;
-}
-#endif
 
 GPResult gpGetBuddyStatusInfoKeys(GPConnection* connection, int index,
                                   GPCallback callback, void* userData) {
@@ -2032,19 +1804,6 @@ GPResult gpSendBuddyMessageA(GPConnection* connection, GPProfile profile,
   return gpiSendBuddyMessage(connection, profile, GPI_BM_MESSAGE, message, 0,
                              NULL);
 }
-#ifdef GSI_UNICODE
-GPResult gpSendBuddyMessageW(GPConnection* connection, GPProfile profile,
-                             const unsigned short* message) {
-  char* message_A;
-  GPResult result;
-
-  assert(message != NULL);
-  message_A = UCS2ToUTF8StringAlloc(message); // convert to UTF8
-  result = gpSendBuddyMessageA(connection, profile, message_A); // send
-  gsifree(message_A); // free the converted string
-  return result;
-}
-#endif
 
 GPResult gpSendBuddyUTMA(GPConnection* connection, GPProfile profile,
                          const char* message, int sendOption) {
@@ -2079,20 +1838,6 @@ GPResult gpSendBuddyUTMA(GPConnection* connection, GPProfile profile,
                              sendOption, NULL);
 }
 
-#ifdef GSI_UNICODE
-GPResult gpSendBuddyUTMW(GPConnection* connection, GPProfile profile,
-                         const unsigned short* message, int sendOption) {
-  char* message_A;
-  GPResult result;
-
-  assert(message != NULL);
-  message_A = UCS2ToUTF8StringAlloc(message); // convert to UTF8
-  result = gpSendBuddyUTMA(connection, profile, message_A, sendOption); // send
-  gsifree(message_A); // free the converted string
-  return result;
-}
-#endif
-
 GPResult gpIsValidEmailA(GPConnection* connection,
                          const char email[GP_EMAIL_LEN], GPEnum blocking,
                          GPCallback callback, void* param) {
@@ -2122,11 +1867,7 @@ GPResult gpIsValidEmailA(GPConnection* connection,
   if (iconnection->simulation) {
     GPIsValidEmailResponseArg arg;
     memset(&arg, 0, sizeof(arg));
-#ifndef GSI_UNICODE
     strzcpy(arg.email, email, GP_EMAIL_LEN);
-#else
-    UTF8ToUCS2String(email, arg.email);
-#endif
     arg.isValid = GP_INVALID;
     callback(connection, &arg, param);
     return GP_NO_ERROR;
@@ -2136,15 +1877,6 @@ GPResult gpIsValidEmailA(GPConnection* connection,
   /////////////////////
   return gpiIsValidEmail(connection, email, blocking, callback, param);
 }
-#ifdef GSI_UNICODE
-GPResult gpIsValidEmailW(GPConnection* connection,
-                         const unsigned short email[GP_EMAIL_LEN],
-                         GPEnum blocking, GPCallback callback, void* param) {
-  char email_A[GP_EMAIL_LEN];
-  UCS2ToAsciiString(email, email_A);
-  return gpIsValidEmailA(connection, email_A, blocking, callback, param);
-}
-#endif
 
 GPResult gpGetUserNicksA(GPConnection* connection,
                          const char email[GP_EMAIL_LEN],
@@ -2181,11 +1913,7 @@ GPResult gpGetUserNicksA(GPConnection* connection,
   if (iconnection->simulation) {
     GPGetUserNicksResponseArg arg;
     memset(&arg, 0, sizeof(arg));
-#ifndef GSI_UNICODE
     strzcpy(arg.email, email, GP_EMAIL_LEN);
-#else
-    AsciiToUCS2String(email, arg.email);
-#endif
     callback(connection, &arg, param);
     return GP_NO_ERROR;
   }
@@ -2195,19 +1923,6 @@ GPResult gpGetUserNicksA(GPConnection* connection,
   return gpiGetUserNicks(connection, email, password, blocking, callback,
                          param);
 }
-#ifdef GSI_UNICODE
-GPResult gpGetUserNicksW(GPConnection* connection,
-                         const unsigned short email[GP_EMAIL_LEN],
-                         const unsigned short password[GP_PASSWORD_LEN],
-                         GPEnum blocking, GPCallback callback, void* param) {
-  char email_A[GP_EMAIL_LEN];
-  char password_A[GP_PASSWORD_LEN];
-  UCS2ToAsciiString(email, email_A);
-  UCS2ToAsciiString(password, password_A);
-  return gpGetUserNicksA(connection, email_A, password_A, blocking, callback,
-                         param);
-}
-#endif
 
 GPResult gpSetInvitableGames(GPConnection* connection, int numProductIDs,
                              const int* productIDs) {
@@ -2352,15 +2067,6 @@ GPResult gpInvitePlayerA(GPConnection* connection, GPProfile profile,
 
   return GP_NO_ERROR;
 }
-#ifdef GSI_UNICODE
-GPResult gpInvitePlayerW(GPConnection* connection, GPProfile profile,
-                         int productID,
-                         const gsi_char location[GP_LOCATION_STRING_LEN]) {
-  char location_A[GP_LOCATION_STRING_LEN];
-  UCS2ToAsciiString(location, location_A);
-  return gpInvitePlayerA(connection, profile, productID, location_A);
-}
-#endif
 
 GPResult gpGetReverseBuddies(GPConnection* connection, GPEnum blocking,
                              GPCallback callback, void* param) {
@@ -2628,19 +2334,6 @@ static GPResult gpiAddSendingFileA(GPConnection* connection,
 
   return GP_NO_ERROR;
 }
-#ifdef GSI_UNICODE
-static GPResult gpiAddSendingFileW(GPConnection* connection,
-                                   GPITransfer* transfer,
-                                   const unsigned short* path,
-                                   const unsigned short* name) {
-  char* path_A = UCS2ToUTF8StringAlloc(path);
-  char* name_A = UCS2ToUTF8StringAlloc(name);
-  GPResult result = gpiAddSendingFileA(connection, transfer, path_A, name_A);
-  gsifree(path_A);
-  gsifree(name_A);
-  return result;
-}
-#endif
 
 GPResult gpSendFilesA(GPConnection* connection, GPTransfer* transfer,
                       GPProfile profile, const char* message,
@@ -2710,11 +2403,7 @@ GPResult gpSendFilesA(GPConnection* connection, GPTransfer* transfer,
       name = NULL;
 
     if (name || path) {
-#ifndef GSI_UNICODE
       result = gpiAddSendingFileA(connection, pTransfer, path, name);
-#else
-      result = gpiAddSendingFileW(connection, pTransfer, path, name);
-#endif
       if (result != GP_NO_ERROR) {
         gpiFreeTransfer(connection, pTransfer);
         return result;
@@ -3237,11 +2926,7 @@ GPResult gpGetFileName(GPConnection* connection, GPTransfer transfer, int index,
 
   // Get the name.
   ////////////////
-#ifndef GSI_UNICODE
   *name = file->name;
-#else
-  *name = file->name_W;
-#endif
 
   return GP_NO_ERROR;
 }
@@ -3265,11 +2950,7 @@ GPResult gpGetFilePath(GPConnection* connection, GPTransfer transfer, int index,
 
   // Get the path.
   ////////////////
-#ifndef GSI_UNICODE
   *path = file->path;
-#else
-  *path = file->path_W;
-#endif
 
   return GP_NO_ERROR;
 }

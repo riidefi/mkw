@@ -54,11 +54,6 @@ static void gpiFreeFile(void* elem) {
   GPIFile* file = (GPIFile*)elem;
   gsifree(file->path);
   gsifree(file->name);
-
-#ifdef GSI_UNICODE
-  gsifree(file->path_W);
-  gsifree(file->name_W);
-#endif
 }
 
 static GPResult gpiFinishTransferMessage(GPConnection* connection,
@@ -146,9 +141,6 @@ static GPResult gpiNewReceiverTransfer(GPConnection* connection,
                                        GPITransfer** transfer,
                                        GPProfile profile,
                                        GPITransferID* transferID) {
-#ifdef WIN32
-  char buffer[FILENAME_MAX];
-#endif
   GPITransfer* pTransfer;
 
   CHECK_RESULT(gpiNewTransfer(connection, transfer, profile, GPIFalse));
@@ -156,10 +148,6 @@ static GPResult gpiNewReceiverTransfer(GPConnection* connection,
   pTransfer = *transfer;
   pTransfer->state = GPITransferWaiting;
   memcpy(&pTransfer->transferID, transferID, sizeof(GPITransferID));
-#ifdef WIN32
-  if (GetTempPathA(sizeof(buffer), buffer) != 0)
-    pTransfer->baseDirectory = goastrdup(buffer);
-#endif
 
   return GP_NO_ERROR;
 }
@@ -254,12 +242,6 @@ GPIFile* gpiAddFileToTransfer(GPITransfer* transfer, const char* path,
   // Add it to the list of files.
   ///////////////////////////////
   ArrayAppend(transfer->files, &file);
-
-#ifdef GSI_UNICODE
-  // Copy the unicode versions
-  file.name_W = UTF8ToUCS2StringAlloc(file.name);
-  file.path_W = UTF8ToUCS2StringAlloc(file.path);
-#endif
 
   // Return the file.
   ///////////////////
@@ -489,11 +471,7 @@ static GPIBool gpiHandleSendRequest(GPConnection* connection, GPIPeer* peer,
   arg->transfer = transfer->localID;
   arg->type = GP_TRANSFER_SEND_REQUEST;
   arg->num = numFiles;
-#ifndef GSI_UNICODE
   arg->message = goastrdup(buffer);
-#else
-  arg->message = UTF8ToUCS2StringAlloc(buffer);
-#endif
   {
     GPResult aResult = gpiAddCallback(
         connection, iconnection->callbacks[GPI_TRANSFER_CALLBACK], arg, NULL,
@@ -550,11 +528,7 @@ static GPIBool gpiHandleSendReply(GPConnection* connection,
     else
       arg->type = GP_TRANSFER_NOT_ACCEPTING;
 
-#ifndef GSI_UNICODE
     arg->message = goastrdup(buffer);
-#else
-    arg->message = UTF8ToUCS2StringAlloc(buffer);
-#endif
     gpiAddCallback(connection, iconnection->callbacks[GPI_TRANSFER_CALLBACK],
                    arg, NULL, GPI_ADD_TRANSFER_CALLBACK);
   }
@@ -643,10 +617,6 @@ static GPIBool gpiHandleBegin(GPConnection* connection, GPITransfer* transfer,
     file->path = goastrdup(buffer);
     if (!file->path)
       return GPIFalse;
-
-#ifdef GSI_UNICODE
-    file->path_W = UTF8ToUCS2StringAlloc(file->path);
-#endif
   }
 
   // Call the callback.
@@ -1554,15 +1524,6 @@ GPResult gpiProcessTransfers(GPConnection* connection) {
 }
 
 GPIBool gpiGetTransferFileInfo(FILE* file, int* size, gsi_time* modTime) {
-#ifdef _WIN32
-  struct _stat stats;
-
-  if (_fstat(_fileno(file), &stats) != 0)
-    return GPIFalse;
-
-  *size = (int)stats.st_size;
-  *modTime = (gsi_time)stats.st_mtime;
-#else
   if (fseek(file, 0, SEEK_END) != 0)
     return GPIFalse;
 
@@ -1573,7 +1534,6 @@ GPIBool gpiGetTransferFileInfo(FILE* file, int* size, gsi_time* modTime) {
   *modTime = 0;
 
   fseek(file, 0, SEEK_SET);
-#endif
 
   return GPITrue;
 }

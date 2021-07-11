@@ -39,11 +39,7 @@ void gpiCallErrorCallback(GPConnection* connection, GPResult result,
       arg->result = result;
       arg->fatal = fatal;
       arg->errorCode = iconnection->errorCode;
-#ifndef GSI_UNICODE
       arg->errorString = iconnection->errorString;
-#else
-      arg->errorString = iconnection->errorString_W;
-#endif
     }
 
     gpiAddCallback(connection, callback, arg, NULL, GPI_ADD_ERROR);

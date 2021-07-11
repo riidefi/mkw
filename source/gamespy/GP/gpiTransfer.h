@@ -72,12 +72,6 @@ typedef struct {
   char* path;
   char* name;
 
-#ifdef GSI_UNICODE
-  unsigned short* name_W; // must have this since developers are given pointers
-                          // to internal memory
-  unsigned short* path_W;
-#endif
-
   int progress;
   int size;
   int acknowledged;

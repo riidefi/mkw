@@ -409,11 +409,7 @@ static GPResult gpiProcessPeerConnected(GPConnection* connection,
           if (arg == NULL)
             Error(connection, GP_MEMORY_ERROR, "Out of memory.");
           arg->profile = peer->profile;
-#ifndef GSI_UNICODE
           arg->message = goastrdup(buffer);
-#else
-          arg->message = UTF8ToUCS2StringAlloc(buffer);
-#endif
           arg->date = (unsigned int)time(NULL);
           CHECK_RESULT(
               gpiAddCallback(connection, callback, arg, NULL, GPI_ADD_MESSAGE));
@@ -429,11 +425,7 @@ static GPResult gpiProcessPeerConnected(GPConnection* connection,
           if (arg == NULL)
             Error(connection, GP_MEMORY_ERROR, "Out of memory.");
           arg->profile = peer->profile;
-#ifndef GSI_UNICODE
           arg->message = goastrdup(buffer);
-#else
-          arg->message = UTF8ToUCS2StringAlloc(buffer);
-#endif
           arg->date = (unsigned int)time(NULL);
           CHECK_RESULT(
               gpiAddCallback(connection, callback, arg, NULL, GPI_ADD_MESSAGE));

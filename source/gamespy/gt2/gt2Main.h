@@ -51,17 +51,7 @@ devsupport@gamespy.com
 // buffer size only needs to be slighty larger than the largest message that
 // will be sent ("slighty larger" due to overhead with reliable messages, and
 // unreliable messages starting with the magic string).
-#if defined(_PS2) && defined(INSOCK)
-#define GTI2_STACK_RECV_BUFFER_SIZE                                            \
-  NETBUFSIZE // Max for Insock. Otherwise SOCKET_ERROR
-#elif defined(_NITRO)
-#define GTI2_STACK_RECV_BUFFER_SIZE 1500
-#elif defined(_XBOX) // Xbox packets are 1304,
-#define GTI2_STACK_RECV_BUFFER_SIZE                                            \
-  4096 // when using VDP sockets, 2 bytes are used for data length
-#else
 #define GTI2_STACK_RECV_BUFFER_SIZE 65535
-#endif
 
 // a server will disconnect a client that doesn't not successfully connect
 // within this time (in milliseconds). if the connectAttemptCallback has been
@@ -279,8 +269,3 @@ typedef struct {
   gsi_u32 ip;
   char mac[6];
 } GTI2MacEntry;
-
-#ifdef GSI_ADHOC
-static int lastmactableentry = 0;
-static GTI2MacEntry MacTable[MAC_TABLE_SIZE];
-#endif // GSI_ADHOC

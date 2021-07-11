@@ -40,11 +40,7 @@ typedef struct DArrayImplementation* DArray;
  * If elem1 is "greater than" elem2, return a positive number.
  * If the two elements are "equal", return 0.
  */
-#if defined(WIN32)
-typedef int(__cdecl* ArrayCompareFn)(const void* elem1, const void* elem2);
-#else
 typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
-#endif
 
 /* ArrayMapFn
  * ----------

@@ -16,17 +16,6 @@ devsupport@gamespy.com
 #include "gt2Utility.h"
 #include <stdlib.h>
 
-#ifdef GSI_ADHOC
-// External functions defined at the platform specific level
-// to be moved to nonport or socket.h
-extern int _NetworkAdHocSocketCreate(gsi_u16 port);
-extern void _NetworkAdHocSocketDestroy(int adhoc_socket);
-extern int _NetworkAdHocSocketSendTo(int adhoc_socket, const void* data,
-                                     int len, int flags, const char* dest_addr,
-                                     gsi_u16 dest_port);
-extern void NetAdhocMacGet(char* mac);
-#endif
-
 #define GTI2_DEFAULT_INCOMING_BUFFER_SIZE (64 * 1024)
 #define GTI2_DEFAULT_OUTGOING_BUFFER_SIZE (64 * 1024)
 
@@ -126,33 +115,14 @@ GT2Result gti2CreateSocket(GT2Socket* sock, const char* localAddress,
   }
 
   // create the socket
-
-#ifdef _XBOX
-  if (type == GTI2VdpProtocol)
-
-    socketTemp->socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_VDP);
-  else
-#endif
-#ifdef GSI_ADHOC
-      if (type == GTI2AdHocProtocol) {
-    socketTemp->socket = _NetworkAdHocSocketCreate(port);
-  } else
-#endif
-    socketTemp->socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+  socketTemp->socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
   socketTemp->protocolType = type;
 
-  if (type == GTI2AdHocProtocol) {
+  if (type == GTI2AdHocProtocol)
     socketTemp->protocolOffset = 0;
-  } else
+  else
     socketTemp->protocolOffset = type;
-
-#ifdef _XBOX
-  if (type == GTI2UdpProtocol) {
-    SetSockBroadcast(socketTemp->socket);
-    socketTemp->protocolOffset = type;
-  }
-#endif
 
   if (socketTemp->socket == INVALID_SOCKET) {
     TableFree(socketTemp->connections);
@@ -177,22 +147,10 @@ GT2Result gti2CreateSocket(GT2Socket* sock, const char* localAddress,
     }
   }
 
-// get the ip and port we're bound to
-#ifdef GSI_ADHOC
-  if (type == GTI2AdHocProtocol) {
-    char mac[6];
-    NetAdhocMacGet(mac);
-
-    socketTemp->ip = gt2MacToIp(mac);
-    socketTemp->port = ntohs(address.sin_port);
-  } else
-#endif
-  {
-    len = sizeof(SOCKADDR_IN);
-    getsockname(socketTemp->socket, (SOCKADDR*)&address, &len);
-    socketTemp->ip = address.sin_addr.s_addr;
-    socketTemp->port = ntohs(address.sin_port);
-  }
+  len = sizeof(SOCKADDR_IN);
+  getsockname(socketTemp->socket, (SOCKADDR*)&address, &len);
+  socketTemp->ip = address.sin_addr.s_addr;
+  socketTemp->port = ntohs(address.sin_port);
 
   *sock = socketTemp;
 
@@ -206,14 +164,7 @@ void gti2CloseSocket(GT2Socket socket) {
     return;
   }
 
-#ifdef GSI_ADHOC
-  if (socket->protocolType == GTI2AdHocProtocol) {
-    _NetworkAdHocSocketDestroy(socket->socket);
-  } else
-#endif
-  {
-    closesocket(socket->socket);
-  }
+  closesocket(socket->socket);
 
   TableFree(socket->connections);
   ArrayFree(socket->closedConnections);
@@ -350,37 +301,10 @@ GT2Bool gti2SocketSend(GT2Socket socket, unsigned int ip, unsigned short port,
   gti2MessageCheck(&message, &len);
 
   if (socket->protocolType != GTI2AdHocProtocol) {
-#ifndef INSOCK // insock never sets write flag for UDP sockets
     // check if we can't send
     if (!CanSendOnSocket(socket->socket))
       return GT2True;
-#endif
   }
-
-// do the send
-#ifdef GSI_ADHOC
-  if (socket->protocolType == GTI2AdHocProtocol) {
-    char mac[6];
-    // convert to mac
-    gt2IpToMac(ip, mac);
-    // change IP address to mac ethernet
-    rcode = _NetworkAdHocSocketSendTo(socket->socket, (const char*)message, len,
-                                      0, mac, port);
-    if (rcode < 0) {
-      gti2SocketError(socket);
-      return gsi_false;
-    }
-
-    // let the dump handle this
-    if (socket->sendDumpCallback) {
-      if (!gti2DumpCallback(socket, gti2SocketFindConnection(socket, ip, port),
-                            ip, port, GT2False, message, len, GT2True))
-        return GT2False;
-    }
-    return gsi_true;
-  }
-
-#endif
 
   // fill the address structure
   memset(&address, 0, sizeof(SOCKADDR_IN));

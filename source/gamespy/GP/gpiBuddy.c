@@ -96,21 +96,12 @@ GPResult gpiProcessRecvBuddyMessage(GPConnection* connection,
       if (!gpiValueForKey(input, "\\msg\\", buffer, sizeof(buffer)))
         CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE,
                            "Unexpected data was received from the server.");
-#ifndef GSI_UNICODE
       arg->message = (char*)gsimalloc(strlen(buffer) + 1);
       if (arg->message == NULL)
         Error(connection, GP_MEMORY_ERROR, "Out of memory.");
       strcpy(arg->message, buffer);
       arg->profile = (GPProfile)profileid;
       arg->date = (unsigned int)date;
-#else
-      arg->message = (unsigned short*)gsimalloc(strlen(buffer) * 2 + 2);
-      if (arg->message == NULL)
-        Error(connection, GP_MEMORY_ERROR, "Out of memory.");
-      UTF8ToUCS2String(buffer, arg->message);
-      arg->profile = (GPProfile)profileid;
-      arg->date = (unsigned int)date;
-#endif
       CHECK_RESULT(
           gpiAddCallback(connection, callback, arg, NULL, GPI_ADD_MESSAGE));
     }
@@ -128,21 +119,12 @@ GPResult gpiProcessRecvBuddyMessage(GPConnection* connection,
       if (!gpiValueForKey(input, "\\msg\\", buffer, sizeof(buffer)))
         CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE,
                            "Unexpected data was received from the server.");
-#ifndef GSI_UNICODE
       arg->message = (char*)gsimalloc(strlen(buffer) + 1);
       if (arg->message == NULL)
         Error(connection, GP_MEMORY_ERROR, "Out of memory.");
       strcpy(arg->message, buffer);
       arg->profile = (GPProfile)profileid;
       arg->date = (unsigned int)date;
-#else
-      arg->message = (unsigned short*)gsimalloc(strlen(buffer) * 2 + 2);
-      if (arg->message == NULL)
-        Error(connection, GP_MEMORY_ERROR, "Out of memory.");
-      UTF8ToUCS2String(buffer, arg->message);
-      arg->profile = (GPProfile)profileid;
-      arg->date = (unsigned int)date;
-#endif
       CHECK_RESULT(
           gpiAddCallback(connection, callback, arg, NULL, GPI_ADD_BUDDYUTM));
     }
@@ -187,11 +169,7 @@ GPResult gpiProcessRecvBuddyMessage(GPConnection* connection,
       arg = (GPRecvBuddyRequestArg*)gsimalloc(sizeof(GPRecvBuddyRequestArg));
       if (arg == NULL)
         Error(connection, GP_MEMORY_ERROR, "Out of memory.");
-#ifndef GSI_UNICODE
       strzcpy(arg->reason, buffer, GP_REASON_LEN);
-#else
-      UTF8ToUCS2String(buffer, arg->reason);
-#endif
       arg->profile = (GPProfile)profileid;
       arg->date = (unsigned int)date;
 
@@ -376,11 +354,7 @@ GPResult gpiProcessRecvBuddyMessage(GPConnection* connection,
 
       arg->profile = (GPProfile)profileid;
       arg->productID = productID;
-#ifdef GSI_UNICODE
-      AsciiToUCS2String(strTemp, arg->location);
-#else
       strcpy(arg->location, strTemp);
-#endif
 
       CHECK_RESULT(gpiAddCallback(connection, callback, arg, NULL, 0));
     }
@@ -851,13 +825,8 @@ GPResult gpiBuddyHandleKeyReply(GPConnection* connection, GPIPeer* peer,
         decodeKey[decodedLen] = '\0';
         B64Decode(keyVal, decodeVal, (int)strlen(keyVal), &decodedLen, 2);
         decodeVal[decodedLen] = '\0';
-#ifdef GSI_UNICODE
-        keys[i] = UTF8ToUCS2StringAlloc(decodeKey);
-        values[i] = UTF8ToUCS2StringAlloc(decodeVal);
-#else
         keys[i] = goastrdup(decodeKey);
         values[i] = goastrdup(decodeVal);
-#endif
 
         if (gpiStatusInfoCheckKey(connection,
                                   pProfile->buddyStatusInfo->extendedInfoKeys,

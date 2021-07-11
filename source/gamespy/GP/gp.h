@@ -705,7 +705,6 @@ extern char GPSearchManagerHostname[64];
 
 // FUNCTIONS
 ////////////
-#ifndef GSI_UNICODE
 #define gpConnect gpConnectA
 #define gpConnectNewUser gpConnectNewUserA
 #define gpConnectUniqueNick gpConnectUniqueNickA
@@ -746,49 +745,6 @@ extern char GPSearchManagerHostname[64];
 #define gpSetStatusInfoKey gpSetStatusInfoKeyA
 #define gpGetStatusInfoKeyVal gpGetStatusInfoKeyValA
 #define gpDelStatusInfoKey gpDelStatusInfoKeyA
-#endif
-#else
-#define gpConnect gpConnectW
-#define gpConnectNewUser gpConnectNewUserW
-#define gpConnectUniqueNick gpConnectUniqueNickW
-#define gpConnectPreAuthenticated gpConnectPreAuthenticatedW
-#define gpCheckUser gpCheckUserW
-#define gpNewUser gpNewUserW
-#define gpSuggestUniqueNick gpSuggestUniqueNickW
-#define gpRegisterUniqueNick gpRegisterUniqueNickW
-#define gpRegisterCdKey gpRegisterCdKeyW
-#define gpGetErrorString gpGetErrorStringW
-#define gpNewProfile gpNewProfileW
-#define gpProfileSearch gpProfileSearchW
-#define gpProfileSearchUniquenick gpProfileSearchUniquenickW
-#define gpSetInfos gpSetInfosW
-#define gpSendBuddyRequest gpSendBuddyRequestW
-#ifndef GP_NEW_STATUS_INFO
-#define gpSetStatus gpSetStatusW
-#endif
-#ifdef GP_NEW_STATUS_INFO
-// BETA
-#define gpSetStatusInfo gpSetStatusInfoW
-#endif
-#define gpSendBuddyMessage gpSendBuddyMessageW
-#define gpSendBuddyUTM gpSendBuddyUTMW
-#define gpIsValidEmail gpIsValidEmailW
-#define gpGetUserNicks gpGetUserNicksW
-#define gpSetInfoCacheFilename gpSetInfoCacheFilenameW
-#define gpSendFiles gpSendFilesW
-#define gpAcceptTransfer gpAcceptTransferW
-#define gpRejectTransfer gpRejectTransferW
-#define gpSetTransferDirectory gpSetTransferDirectoryW
-#define gpGetFileName gpGetFileNameW
-#define gpGetFilePath gpGetFilePathW
-#define gpInvitePlayer gpInvitePlayerW
-// #ifdef GP_NEW_STATUS_INFO
-// BETA
-// #define gpAddStatusInfoKey       gpAddStatusInfoKeyW
-// #define gpSetStatusInfoKey       gpSetStatusInfoKeyW
-// #define gpGetStatusInfoKeyVal    gpGetStatusInfoKeyValW
-// #define gpDelStatusInfoKey       gpDelStatusInfoKeyW
-// #endif
 #endif
 
 // gpInitialize

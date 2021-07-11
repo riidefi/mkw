@@ -109,10 +109,6 @@ static gsi_bool gsiXmlUtilWriteString(GSIXmlStreamWriter* stream,
 gsi_bool gsiXmlUtilWriteXmlSafeString(GSIXmlStreamWriter* stream,
                                       const char* str);
 static gsi_bool gsiXmlUtilGrowBuffer(GSIXmlStreamWriter* stream);
-#ifdef GSI_UNICODE
-static gsi_bool gsiXmlUtilWriteAsciiString(GSIXmlStreamWriter* stream,
-                                           const gsi_char* str);
-#endif
 static gsi_bool gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter* stream,
                                              const unsigned short* str);
 
@@ -852,21 +848,11 @@ gsi_bool gsXmlWriteAsciiStringElement(GSXmlStreamWriter stream,
       }
     }
   }
-
-#ifdef GSI_UNICODE
-  // if unicode, write as Ascii string, otherwise it is already in Ascii format
-  if (gsi_is_false(gsXmlWriteOpenTag(stream, namespaceName, tag)) ||
-      gsi_is_false(gsiXmlUtilWriteAsciiString(writer, value)) ||
-      gsi_is_false(gsXmlWriteCloseTag(stream, namespaceName, tag))) {
-    return gsi_false;
-  }
-#else
   if (gsi_is_false(gsXmlWriteOpenTag(stream, namespaceName, tag)) ||
       gsi_is_false(gsiXmlUtilWriteXmlSafeString(writer, value)) ||
       gsi_is_false(gsXmlWriteCloseTag(stream, namespaceName, tag))) {
     return gsi_false;
   }
-#endif
   return gsi_true;
 }
 
@@ -1175,33 +1161,6 @@ static gsi_bool gsiXmlUtilWriteString(GSIXmlStreamWriter* stream,
   stream->mLen += strLen;
   return gsi_true;
 }
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-#ifdef GSI_UNICODE
-static gsi_bool gsiXmlUtilWriteAsciiString(GSIXmlStreamWriter* stream,
-                                           const gsi_char* str) {
-  int strLen = 0;
-
-  GS_ASSERT(str != NULL);
-  GS_ASSERT(gsi_is_false(stream->mClosed));
-
-  // get URL encoded length
-  strLen = (int)_tcslen(str);
-  if (strLen == 0)
-    return gsi_true;
-
-  // grow the buffer if necessary
-  while ((stream->mCapacity - stream->mLen) <= strLen) {
-    if (gsi_is_false(gsiXmlUtilGrowBuffer(stream)))
-      return gsi_false; // OOM
-  }
-
-  UCS2ToAsciiString(str, &stream->mBuffer[stream->mLen]);
-  stream->mLen += strLen;
-  return gsi_true;
-}
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

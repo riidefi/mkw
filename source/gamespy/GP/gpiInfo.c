@@ -165,7 +165,6 @@ static GPResult gpiIntToDate(GPConnection* connection, int date, int* day,
 }
 
 void gpiInfoCacheToArg(const GPIInfoCache* cache, GPGetInfoResponseArg* arg) {
-#ifndef GSI_UNICODE
   // Copy....
   ///////////
   if (cache->nick)
@@ -210,44 +209,6 @@ void gpiInfoCacheToArg(const GPIInfoCache* cache, GPGetInfoResponseArg* arg) {
     strzcpy(arg->aimname, cache->aimname, GP_AIMNAME_LEN);
   else
     arg->aimname[0] = '\0';
-#else
-  // Copy....
-  ///////////
-  if (cache->nick)
-    UTF8ToUCS2StringLen(cache->nick, arg->nick, GP_NICK_LEN);
-  else
-    arg->nick[0] = '\0';
-  if (cache->uniquenick)
-    UTF8ToUCS2StringLen(cache->uniquenick, arg->uniquenick, GP_UNIQUENICK_LEN);
-  else
-    arg->uniquenick[0] = '\0';
-  if (cache->email)
-    UTF8ToUCS2StringLen(cache->email, arg->email, GP_EMAIL_LEN);
-  else
-    arg->email[0] = '\0';
-  if (cache->firstname)
-    UTF8ToUCS2StringLen(cache->firstname, arg->firstname, GP_FIRSTNAME_LEN);
-  else
-    arg->firstname[0] = '\0';
-  if (cache->lastname)
-    UTF8ToUCS2StringLen(cache->lastname, arg->lastname, GP_LASTNAME_LEN);
-  else
-    arg->lastname[0] = '\0';
-  if (cache->homepage)
-    UTF8ToUCS2StringLen(cache->homepage, arg->homepage, GP_HOMEPAGE_LEN);
-  else
-    arg->homepage[0] = '\0';
-  UTF8ToUCS2StringLen(cache->zipcode, arg->zipcode, GP_ZIPCODE_LEN);
-  UTF8ToUCS2StringLen(cache->countrycode, arg->countrycode, GP_COUNTRYCODE_LEN);
-  if (cache->place)
-    UTF8ToUCS2StringLen(cache->place, arg->place, GP_PLACE_LEN);
-  else
-    arg->place[0] = '\0';
-  if (cache->aimname)
-    UTF8ToUCS2StringLen(cache->aimname, arg->aimname, GP_AIMNAME_LEN);
-  else
-    arg->aimname[0] = '\0';
-#endif
 
   // Non string members
   arg->icquin = cache->icquin;
@@ -813,10 +774,6 @@ GPResult gpiSetInfos(GPConnection* connection, GPEnum info, const char* value) {
       Error(connection, GP_PARAMETER_ERROR, "Invalid value.");
     strzcpy(buffer, value, GP_NICK_LEN);
     strzcpy(iconnection->nick, buffer, GP_NICK_LEN);
-#ifdef GSI_UNICODE
-    UTF8ToUCS2StringLen(iconnection->nick, iconnection->nick_W,
-                        GP_NICK_LEN); // update the UCS2 version
-#endif
     CHECK_RESULT(gpiSendLocalInfo(connection, "\\nick\\", buffer));
     break;
 
@@ -825,10 +782,6 @@ GPResult gpiSetInfos(GPConnection* connection, GPEnum info, const char* value) {
       Error(connection, GP_PARAMETER_ERROR, "Invalid value.");
     strzcpy(buffer, value, GP_UNIQUENICK_LEN);
     strzcpy(iconnection->uniquenick, buffer, GP_UNIQUENICK_LEN);
-#ifdef GSI_UNICODE
-    UTF8ToUCS2StringLen(iconnection->uniquenick, iconnection->uniquenick_W,
-                        GP_UNIQUENICK_LEN);
-#endif
     CHECK_RESULT(gpiSendLocalInfo(connection, "\\uniquenick\\", buffer));
     break;
 
@@ -838,9 +791,6 @@ GPResult gpiSetInfos(GPConnection* connection, GPEnum info, const char* value) {
     strzcpy(buffer, value, GP_EMAIL_LEN);
     _strlwr(buffer);
     strzcpy(iconnection->email, buffer, GP_EMAIL_LEN);
-#ifdef GSI_UNICODE
-    UTF8ToUCS2StringLen(iconnection->email, iconnection->email_W, GP_EMAIL_LEN);
-#endif
     CHECK_RESULT(gpiSendUserInfo(connection, "\\email\\", buffer));
     break;
 
@@ -849,10 +799,6 @@ GPResult gpiSetInfos(GPConnection* connection, GPEnum info, const char* value) {
       Error(connection, GP_PARAMETER_ERROR, "Invalid value.");
     strzcpy(buffer, value, GP_PASSWORD_LEN);
     strzcpy(iconnection->password, buffer, GP_PASSWORD_LEN);
-#ifdef GSI_UNICODE
-    UTF8ToUCS2StringLen(iconnection->password, iconnection->password_W,
-                        GP_PASSWORD_LEN);
-#endif
     gpiEncodeString(iconnection->password, passwordenc);
     CHECK_RESULT(gpiSendUserInfo(connection, "\\passwordenc\\", passwordenc));
     break;

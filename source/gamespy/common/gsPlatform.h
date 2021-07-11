@@ -66,11 +66,7 @@ typedef int gsi_bool;
 typedef signed long long gsi_i64;
 typedef unsigned long long gsi_u64;
 
-#ifndef GSI_UNICODE
 #define gsi_char char
-#else
-#define gsi_char unsigned short
-#endif // goa_char
 
 // expected ranges for integer types
 #define GSI_MIN_I8 CHAR_MIN

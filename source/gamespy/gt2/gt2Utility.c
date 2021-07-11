@@ -126,9 +126,6 @@ GT2Bool gt2StringToAddress(const char* string, unsigned int* ip,
       /////////////////
       srcIP = inet_addr(host);
       if (srcIP == INADDR_NONE) {
-#if defined(_XBOX)
-        return GT2False;
-#else
         HOSTENT* hostent;
 
         hostent = gethostbyname(host);
@@ -136,7 +133,6 @@ GT2Bool gt2StringToAddress(const char* string, unsigned int* ip,
           return GT2False;
 
         srcIP = *(unsigned int*)hostent->h_addr_list[0];
-#endif
       }
     }
   }
@@ -148,86 +144,6 @@ GT2Bool gt2StringToAddress(const char* string, unsigned int* ip,
 
   return GT2True;
 }
-
-#ifdef GSI_ADHOC
-gsi_u32 gti2MacToIp(const char* mac)
-// change mac ethernet to IP address
-{
-  // Mac (48 bit)<---> IP (32 bit) convertion.
-  // horrible hack.  But the chances of a conflict are less then getting struck
-  // by lightning but in order to translate back, we will need to keep a table
-  // stick real value in table.
-  GTI2MacEntry* entry;
-  int i;
-  gsi_u32 ip;
-  memcpy(&ip, mac, 4); // store rest in table
-
-  // find match in table
-  for (i = 0; i < MAC_TABLE_SIZE; i++) {
-    if (MacTable[i].ip == ip) {
-      return ip; // already there, don't add to the table.
-    }
-  }
-
-  // if not found match, add it, overwriting oldest entry
-  entry = &MacTable[lastmactableentry];
-  lastmactableentry = (lastmactableentry + 1) & (MAC_TABLE_SIZE - 1);
-  entry->ip = ip;
-  memcpy(entry->mac, mac, 6);
-
-  return ip;
-}
-
-void gti2IpToMac(gsi_u32 ip, char* mac)
-// change IP address to mac ethernet
-{
-  int i;
-  // find match in table
-  for (i = 0; i < MAC_TABLE_SIZE; i++) {
-    if (MacTable[i].ip == ip) {
-      memcpy(mac, MacTable[i].mac, 6);
-      return;
-    }
-  }
-  // error, can not find mac address
-  memset(mac, 0, 6);
-  GS_FAIL();
-}
-#endif
-
-#if defined(_XBOX)
-
-// XBox doesn't support the address functions
-static const char* gti2HandleHostInfo(HOSTENT* host, char*** aliases,
-                                      unsigned int*** ips) {
-  return NULL;
-}
-const char* gt2IPToHostInfo(unsigned int ip, char*** aliases,
-                            unsigned int*** ips) {
-  return NULL;
-}
-const char* gt2StringToHostInfo(const char* string, char*** aliases,
-                                unsigned int*** ips) {
-  return NULL;
-}
-
-unsigned int gt2XnAddrToIP(XNADDR theAddr, XNKID theKeyId) {
-  // String to fit ip address + : + port
-  IN_ADDR anAddr;
-  if (XNetXnAddrToInAddr(&theAddr, &theKeyId, &anAddr) == 0)
-    return anAddr.s_addr;
-  return 0;
-}
-
-GT2Bool gt2IPToXnAddr(int ip, XNADDR* theAddr, XNKID* theKeyId) {
-  IN_ADDR anAddr;
-  anAddr.s_addr = ip;
-  if (XNetInAddrToXnAddr(anAddr, theAddr, theKeyId) == 0)
-    return GT2True;
-  return GT2False;
-}
-
-#else
 
 static const char* gti2HandleHostInfo(HOSTENT* host, char*** aliases,
                                       unsigned int*** ips) {
@@ -244,16 +160,12 @@ static const char* gti2HandleHostInfo(HOSTENT* host, char*** aliases,
 
 const char* gt2IPToHostInfo(unsigned int ip, char*** aliases,
                             unsigned int*** ips) {
-#ifdef _PSP
-  return NULL;
-#else
   HOSTENT* host;
 
   host = gethostbyaddr((const char*)&ip, 4, AF_INET);
 
   GSI_UNUSED(ip);
   return gti2HandleHostInfo(host, aliases, ips);
-#endif
 }
 
 const char* gt2StringToHostInfo(const char* string, char*** aliases,
@@ -273,8 +185,6 @@ const char* gt2StringToHostInfo(const char* string, char*** aliases,
 
   return gti2HandleHostInfo(host, aliases, ips);
 }
-
-#endif
 
 const char* gt2IPToHostname(unsigned int ip) {
   return gt2IPToHostInfo(ip, NULL, NULL);
@@ -348,23 +258,10 @@ void gti2LogMessage(unsigned int fromIP, unsigned short fromPort,
   FILE* file;
   IN_ADDR ip;
   int i;
-#ifdef WIN32
-  struct _timeb utcTime;
-  struct tm* now;
-#endif
 
   file = fopen("recv.log", "at");
   if (!file)
     return;
-
-    // date-time
-#ifdef WIN32
-  _ftime(&utcTime);
-  now = localtime(&utcTime.time);
-  fprintf(file, "%02d.%02d.%02d %02d:%02d:%02d.%03d\n", now->tm_year - 100,
-          now->tm_mon + 1, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec,
-          utcTime.millitm);
-#endif
 
   // from
   ip.s_addr = fromIP;

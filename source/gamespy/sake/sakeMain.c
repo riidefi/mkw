@@ -72,14 +72,8 @@ void SAKE_CALL sakeSetGame(SAKE sake, const gsi_char * gameName, int gameId, con
 	GS_ASSERT(gameId >= 0);
 	GS_ASSERT(secretKey && (_tcslen(secretKey) <= SAKEI_SECRET_KEY_LENGTH));
 
-#ifdef GSI_UNICODE
-	// convert gamename and secretkey to ascii for executing requests
-	UCS2ToAsciiString(gameName, sake->mGameName);
-	UCS2ToAsciiString(secretKey, sake->mSecretKey);
-#else
 	strcpy(sake->mGameName, gameName);
 	strcpy(sake->mSecretKey, secretKey);
-#endif
 
 	sake->mGameId = gameId;
 	sake->mIsGameAuthenticated = gsi_true;
@@ -290,18 +284,8 @@ gsi_bool SAKE_CALL sakeGetFileDownloadURL(SAKE sake, int fileId, gsi_char url[SA
 	}
 	else
 	{
-		#ifdef GSI_UNICODE
-		{
-			// use capital %S to convert the gamename to a wide string
-			rcode = _tsnprintf(url, SAKE_MAX_URL_LENGTH, _T("http://%S.sake.%S/SakeFileServer/download.aspx?fileid=%d&gameid=%d&pid=%d"),
-				sake->mGameName, GSI_DOMAIN_NAME, fileId, sake->mGameId, sake->mProfileId);
-		}
-		#else
-		{
-			rcode = _tsnprintf(url, SAKE_MAX_URL_LENGTH, _T("http://%s.sake.%s/SakeFileServer/download.aspx?fileid=%d&gameid=%d&pid=%d"),
-				sake->mGameName, GSI_DOMAIN_NAME, fileId, sake->mGameId, sake->mProfileId);
-		}
-		#endif
+    rcode = _tsnprintf(url, SAKE_MAX_URL_LENGTH, _T("http://%s.sake.%s/SakeFileServer/download.aspx?fileid=%d&gameid=%d&pid=%d"),
+      sake->mGameName, GSI_DOMAIN_NAME, fileId, sake->mGameId, sake->mProfileId);
 	}
 
 	if(rcode < 0)
@@ -346,18 +330,8 @@ gsi_bool SAKE_CALL sakeGetFileUploadURL(SAKE sake, gsi_char url[SAKE_MAX_URL_LEN
 	}
 	else
 	{
-		#ifdef GSI_UNICODE
-		{
-			// use capital %S to convert the gamename to a wide string
-			rcode = _tsnprintf(url, SAKE_MAX_URL_LENGTH, _T("http://%S.sake.%S/SakeFileServer/upload.aspx?gameid=%d&pid=%d"),
-				sake->mGameName, GSI_DOMAIN_NAME, sake->mGameId, sake->mProfileId);
-		}
-		#else
-		{
-			rcode = _tsnprintf(url, SAKE_MAX_URL_LENGTH, _T("http://%s.sake.%s/SakeFileServer/upload.aspx?gameid=%d&pid=%d"),
-				sake->mGameName, GSI_DOMAIN_NAME, sake->mGameId, sake->mProfileId);
-		}
-		#endif
+    rcode = _tsnprintf(url, SAKE_MAX_URL_LENGTH, _T("http://%s.sake.%s/SakeFileServer/upload.aspx?gameid=%d&pid=%d"),
+      sake->mGameName, GSI_DOMAIN_NAME, sake->mGameId, sake->mProfileId);
 	}
 
 	if(rcode < 0)

@@ -47,9 +47,6 @@ static int GS_STATIC_CALLBACK RefStringCompare(const void* entry1,
 
 static void RefStringFree(void* elem) {
   gsifree((char*)((SBRefString*)elem)->str);
-#ifdef GSI_UNICODE
-  gsifree((unsigned short*)((SBRefString*)elem)->str_W);
-#endif
 }
 
 #ifndef EXTERN_REFSTR_HASH
@@ -114,16 +111,7 @@ key/value. The user-defined instance data will be passed to the KeyFn callback
 static void KeyMapF(void* elem, void* clientData) {
   SBKeyValuePair* kv = (SBKeyValuePair*)elem;
   SBServerEnumData* ped = (SBServerEnumData*)clientData;
-
-#ifndef GSI_UNICODE
   ped->EnumFn((char*)kv->key, (char*)kv->value, ped->instance);
-#else
-  unsigned short key_W[UKEY_LENGTH_MAX];
-  unsigned short value_W[UVALUE_LENGTH_MAX];
-  UTF8ToUCS2String(kv->key, key_W);
-  UTF8ToUCS2String(kv->value, value_W);
-  ped->EnumFn(key_W, value_W, ped->instance);
-#endif
 }
 void SBServerEnumKeys(SBServer server, SBServerKeyEnumFn KeyFn,
                       void* instance) {
@@ -151,27 +139,6 @@ const char* SBServerGetStringValueA(SBServer server, const char* keyname,
     return def;
   return ptr->value;
 }
-#ifdef GSI_UNICODE
-const unsigned short* SBServerGetStringValueW(SBServer server,
-                                              const unsigned short* keyname,
-                                              const unsigned short* def) {
-  char* keyname_A = UCS2ToUTF8StringAlloc(keyname);
-  const char* value = SBServerGetStringValueA(server, keyname_A, NULL);
-  if (value == NULL)
-    return def;
-  else {
-    // Since we need the unicode version, we have to dig down to the
-    // reference counted string structure
-    SBRefString ref, *val;
-    ref.str = value;
-    val = (SBRefString*)TableLookup(SBRefStrHash(NULL), &ref);
-    if (val == NULL)
-      return def; // this shouldn't happen
-
-    return val->str_W;
-  }
-}
-#endif
 
 int SBServerGetIntValueA(SBServer server, const char* key, int idefault) {
   const char *s, *s2;
@@ -192,14 +159,6 @@ int SBServerGetIntValueA(SBServer server, const char* key, int idefault) {
   else
     return atoi(s);
 }
-#ifdef GSI_UNICODE
-int SBServerGetIntValueW(SBServer server, const unsigned short* key,
-                         int idefault) {
-  char keyname_A[255];
-  UCS2ToUTF8String(key, keyname_A);
-  return SBServerGetIntValueA(server, keyname_A, idefault);
-}
-#endif
 
 double SBServerGetFloatValueA(SBServer server, const char* key,
                               double fdefault) {
@@ -210,14 +169,6 @@ double SBServerGetFloatValueA(SBServer server, const char* key,
   else
     return atof(s);
 }
-#ifdef GSI_UNICODE
-double SBServerGetFloatValueW(SBServer server, const unsigned short* key,
-                              double fdefault) {
-  char keyname_A[255];
-  UCS2ToUTF8String(key, keyname_A);
-  return SBServerGetFloatValueA(server, keyname_A, fdefault);
-}
-#endif
 
 SBBool SBServerGetBoolValueA(SBServer server, const char* key,
                              SBBool bdefault) {
@@ -233,14 +184,6 @@ SBBool SBServerGetBoolValueA(SBServer server, const char* key,
   // presume that all other non-zero values are "true"
   return SBTrue;
 }
-#ifdef GSI_UNICODE
-SBBool SBServerGetBoolValueW(SBServer server, const unsigned short* key,
-                             SBBool bdefault) {
-  char keyname_A[255];
-  UCS2ToUTF8String(key, keyname_A);
-  return SBServerGetBoolValueA(server, keyname_A, bdefault);
-}
-#endif
 
 const char* SBServerGetPlayerStringValueA(SBServer server, int playernum,
                                           const char* key,
@@ -249,33 +192,6 @@ const char* SBServerGetPlayerStringValueA(SBServer server, int playernum,
   sprintf(keyname, "%s_%d", key, playernum);
   return SBServerGetStringValueA(server, keyname, sdefault);
 }
-#ifdef GSI_UNICODE
-const unsigned short*
-SBServerGetPlayerStringValueW(SBServer server, int playernum,
-                              const unsigned short* key,
-                              const unsigned short* sdefault) {
-  char keyname_A[UKEY_LENGTH_MAX];
-  char default_A[UKEY_LENGTH_MAX];
-  const char* value_A = NULL;
-  UCS2ToUTF8String(key, keyname_A);
-  UCS2ToUTF8String(sdefault, default_A);
-
-  value_A =
-      SBServerGetPlayerStringValueA(server, playernum, keyname_A, default_A);
-  if (value_A == NULL)
-    return sdefault;
-  else {
-    // Since we need the unicode version, we have to dig down to the SBRefString
-    // structure
-    SBRefString ref, *val;
-    ref.str = value_A;
-    val = (SBRefString*)TableLookup(SBRefStrHash(NULL), &ref);
-    if (val == NULL)
-      return sdefault;
-    return val->str_W;
-  }
-}
-#endif
 
 int SBServerGetPlayerIntValueA(SBServer server, int playernum, const char* key,
                                int idefault) {
@@ -283,14 +199,6 @@ int SBServerGetPlayerIntValueA(SBServer server, int playernum, const char* key,
   sprintf(keyname, "%s_%d", key, playernum);
   return SBServerGetIntValueA(server, keyname, idefault);
 }
-#ifdef GSI_UNICODE
-int SBServerGetPlayerIntValueW(SBServer server, int playernum,
-                               const unsigned short* key, int idefault) {
-  char keyname_A[UKEY_LENGTH_MAX];
-  UCS2ToUTF8String(key, keyname_A);
-  return SBServerGetPlayerIntValueA(server, playernum, keyname_A, idefault);
-}
-#endif
 
 double SBServerGetPlayerFloatValueA(SBServer server, int playernum,
                                     const char* key, double fdefault) {
@@ -298,15 +206,6 @@ double SBServerGetPlayerFloatValueA(SBServer server, int playernum,
   sprintf(keyname, "%s_%d", key, playernum);
   return SBServerGetFloatValueA(server, keyname, fdefault);
 }
-#ifdef GSI_UNICODE
-double SBServerGetPlayerFloatValueW(SBServer server, int playernum,
-                                    const unsigned short* key,
-                                    double fdefault) {
-  char keyname_A[UKEY_LENGTH_MAX];
-  UCS2ToUTF8String(key, keyname_A);
-  return SBServerGetPlayerFloatValueA(server, playernum, keyname_A, fdefault);
-}
-#endif
 
 const char* SBServerGetTeamStringValueA(SBServer server, int teamnum,
                                         const char* key, const char* sdefault) {
@@ -314,32 +213,6 @@ const char* SBServerGetTeamStringValueA(SBServer server, int teamnum,
   sprintf(keyname, "%s_t%d", key, teamnum);
   return SBServerGetStringValueA(server, keyname, sdefault);
 }
-#ifdef GSI_UNICODE
-const unsigned short*
-SBServerGetTeamStringValueW(SBServer server, int teamnum,
-                            const unsigned short* key,
-                            const unsigned short* sdefault) {
-  char keyname_A[UKEY_LENGTH_MAX];
-  char default_A[UKEY_LENGTH_MAX];
-  const char* value_A = NULL;
-  UCS2ToUTF8String(key, keyname_A);
-  UCS2ToUTF8String(sdefault, default_A);
-  value_A = SBServerGetTeamStringValueA(server, teamnum, keyname_A, default_A);
-
-  if (value_A == NULL)
-    return sdefault;
-  else {
-    // Since we need the unicode version, we have to dig down to the SBRefString
-    // structure
-    SBRefString ref, *val;
-    ref.str = value_A;
-    val = (SBRefString*)TableLookup(SBRefStrHash(NULL), &ref);
-    if (val == NULL)
-      return sdefault;
-    return val->str_W;
-  }
-}
-#endif
 
 int SBServerGetTeamIntValueA(SBServer server, int teamnum, const char* key,
                              int idefault) {
@@ -347,14 +220,6 @@ int SBServerGetTeamIntValueA(SBServer server, int teamnum, const char* key,
   sprintf(keyname, "%s_t%d", key, teamnum);
   return SBServerGetIntValueA(server, keyname, idefault);
 }
-#ifdef GSI_UNICODE
-int SBServerGetTeamIntValueW(SBServer server, int teamnum,
-                             const unsigned short* key, int idefault) {
-  char keyname_A[UKEY_LENGTH_MAX];
-  UCS2ToUTF8String(key, keyname_A);
-  return SBServerGetTeamIntValueA(server, teamnum, keyname_A, idefault);
-}
-#endif
 
 double SBServerGetTeamFloatValueA(SBServer server, int teamnum, const char* key,
                                   double fdefault) {
@@ -362,14 +227,6 @@ double SBServerGetTeamFloatValueA(SBServer server, int teamnum, const char* key,
   sprintf(keyname, "%s_t%d", key, teamnum);
   return SBServerGetFloatValueA(server, keyname, fdefault);
 }
-#ifdef GSI_UNICODE
-double SBServerGetTeamFloatValueW(SBServer server, int teamnum,
-                                  const unsigned short* key, double fdefault) {
-  char keyname_A[UKEY_LENGTH_MAX];
-  UCS2ToUTF8String(key, keyname_A);
-  return SBServerGetTeamFloatValueA(server, teamnum, keyname_A, fdefault);
-}
-#endif
 
 SBBool SBServerHasBasicKeys(SBServer server) {
   return (((server->state & STATE_BASICKEYS) == STATE_BASICKEYS) ? SBTrue

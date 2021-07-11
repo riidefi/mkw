@@ -129,24 +129,6 @@ typedef struct {
   char loginTicket[GP_LOGIN_TICKET_LEN];
   GPEnum quietModeFlags;
   gsi_time kaTransmit;
-
-#ifdef GSI_UNICODE
-  unsigned short errorString_W[GP_ERROR_STRING_LEN];
-  unsigned short nick_W[GP_NICK_LEN];
-  unsigned short uniquenick_W[GP_UNIQUENICK_LEN];
-  unsigned short email_W[GP_EMAIL_LEN];
-  unsigned short password_W[GP_PASSWORD_LEN];
-
-  // Deprecated
-  unsigned short lastStatusString_W[GP_STATUS_STRING_LEN];
-  unsigned short lastLocationString_W[GP_LOCATION_STRING_LEN];
-
-  unsigned short richStatus_W[GP_RICH_STATUS_LEN];
-  unsigned short gameType_W[GP_STATUS_BASIC_STR_LEN];
-  unsigned short gameVariant_W[GP_STATUS_BASIC_STR_LEN];
-  unsigned short gameMapName_W[GP_STATUS_BASIC_STR_LEN];
-#endif
-
 } GPIConnection;
 
 // FUNCTIONS

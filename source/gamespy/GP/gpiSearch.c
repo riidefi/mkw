@@ -902,11 +902,7 @@ static GPResult gpiProcessSearch(GPConnection* connection,
             if (arg == NULL)
               Error(connection, GP_MEMORY_ERROR, "Out of memory.");
             arg->result = GP_NO_ERROR;
-#ifndef GSI_UNICODE
             strzcpy(arg->email, data->email, GP_EMAIL_LEN);
-#else
-            UTF8ToUCS2String(data->email, arg->email);
-#endif
             if (value[0] == '0')
               arg->isValid = GP_INVALID;
             else
@@ -929,11 +925,7 @@ static GPResult gpiProcessSearch(GPConnection* connection,
             if (arg == NULL)
               Error(connection, GP_MEMORY_ERROR, "Out of memory.");
             arg->result = GP_NO_ERROR;
-#ifndef GSI_UNICODE
             strcpy(arg->email, data->email);
-#else
-            UTF8ToUCS2String(data->email, arg->email);
-#endif
             arg->numNicks = 0;
             arg->nicks = NULL;
             arg->uniquenicks = NULL;
@@ -953,7 +945,6 @@ static GPResult gpiProcessSearch(GPConnection* connection,
               if (strcmp(key, "nick") == 0) {
                 // Add it.
                 //////////
-#ifndef GSI_UNICODE
                 tempPtr =
                     gsirealloc(arg->nicks, sizeof(char*) * (arg->numNicks + 1));
                 if (tempPtr == NULL)
@@ -965,27 +956,12 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                 arg->nicks[arg->numNicks] = (gsi_char*)tempPtr;
                 strzcpy(arg->nicks[arg->numNicks], value, GP_NICK_LEN);
                 arg->numNicks++;
-#else
-                tempPtr = gsirealloc(arg->nicks, sizeof(unsigned short*) *
-                                                     (arg->numNicks + 1));
-                if (tempPtr == NULL)
-                  Error(connection, GP_MEMORY_ERROR, "Out of memory.");
-                arg->nicks = (unsigned short**)tempPtr;
-                tempPtr = gsimalloc(GP_NICK_LEN * sizeof(unsigned short));
-                if (tempPtr == NULL)
-                  Error(connection, GP_MEMORY_ERROR, "Out of memory.");
-                arg->nicks[arg->numNicks] = (gsi_char*)tempPtr;
-                UTF8ToUCS2StringLen(value, arg->nicks[arg->numNicks],
-                                    GP_NICK_LEN);
-                arg->numNicks++;
-#endif
               } else if (strcmp(key, "uniquenick") == 0) {
                 if (arg->numNicks <= 0)
                   continue;
 
                   // Add it.
                   //////////
-#ifndef GSI_UNICODE
                 tempPtr =
                     gsirealloc(arg->uniquenicks, sizeof(char*) * arg->numNicks);
                 if (tempPtr == NULL)
@@ -997,19 +973,6 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                 arg->uniquenicks[arg->numNicks - 1] = (gsi_char*)tempPtr;
                 strzcpy(arg->uniquenicks[arg->numNicks - 1], value,
                         GP_UNIQUENICK_LEN);
-#else
-                tempPtr = gsirealloc(arg->uniquenicks,
-                                     sizeof(unsigned short*) * arg->numNicks);
-                if (tempPtr == NULL)
-                  Error(connection, GP_MEMORY_ERROR, "Out of memory.");
-                arg->uniquenicks = (unsigned short**)tempPtr;
-                tempPtr = gsimalloc(GP_UNIQUENICK_LEN * sizeof(unsigned short));
-                if (tempPtr == NULL)
-                  Error(connection, GP_MEMORY_ERROR, "Out of memory.");
-                arg->uniquenicks[arg->numNicks - 1] = (gsi_char*)tempPtr;
-                UTF8ToUCS2StringLen(value, arg->uniquenicks[arg->numNicks - 1],
-                                    GP_UNIQUENICK_LEN);
-#endif
               } else if (strcmp(key, "ndone") == 0) {
                 // Done.
                 ////////
@@ -1089,7 +1052,6 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                                                   data->inputBuffer.buffer,
                                                   &index, key, value));
 
-#ifndef GSI_UNICODE
                   // Set the field based on the key.
                   //////////////////////////////////
                   if (strcmp(key, "status") == 0)
@@ -1103,22 +1065,6 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                     doneParsingMatch = GPITrue;
                     index = oldIndex;
                   }
-#else
-                  // Set the field based on the key.
-                  //////////////////////////////////
-                  if (strcmp(key, "status") == 0)
-                    UTF8ToUCS2StringLen(value, match->statusString,
-                                        GP_STATUS_STRING_LEN);
-                  else if (strcmp(key, "nick") == 0)
-                    UTF8ToUCS2StringLen(value, match->nick, GP_NICK_LEN);
-                  if (strcmp(key, "statuscode") == 0)
-                    match->status = (GPEnum)atoi(value);
-                  else if ((strcmp(key, "psr") == 0) ||
-                           (strcmp(key, "psrdone") == 0)) {
-                    doneParsingMatch = GPITrue;
-                    index = oldIndex;
-                  }
-#endif
                 } while (!doneParsingMatch);
               } else {
                 CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE,
@@ -1268,7 +1214,6 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                                                   data->inputBuffer.buffer,
                                                   &index, key, value));
 
-#ifndef GSI_UNICODE
                   // Set the field based on the key.
                   //////////////////////////////////
                   if (strcmp(key, "nick") == 0)
@@ -1286,28 +1231,6 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                     doneParsingMatch = GPITrue;
                     index = oldIndex;
                   }
-#else
-                  // Set the field based on the key.
-                  //////////////////////////////////
-                  if (strcmp(key, "nick") == 0)
-                    UTF8ToUCS2StringLen(value, match->nick, GP_NICK_LEN);
-                  else if (strcmp(key, "uniquenick") == 0)
-                    UTF8ToUCS2StringLen(value, match->uniquenick,
-                                        GP_UNIQUENICK_LEN);
-                  else if (strcmp(key, "first") == 0)
-                    UTF8ToUCS2StringLen(value, match->firstname,
-                                        GP_FIRSTNAME_LEN);
-                  else if (strcmp(key, "last") == 0)
-                    UTF8ToUCS2StringLen(value, match->lastname,
-                                        GP_LASTNAME_LEN);
-                  else if (strcmp(key, "email") == 0)
-                    UTF8ToUCS2StringLen(value, match->email, GP_EMAIL_LEN);
-                  else if ((strcmp(key, "o") == 0) ||
-                           (strcmp(key, "odone") == 0)) {
-                    doneParsingMatch = GPITrue;
-                    index = oldIndex;
-                  }
-#endif
                 } while (!doneParsingMatch);
               } else {
                 CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE,
@@ -1383,8 +1306,6 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                   CHECK_RESULT(gpiReadKeyAndValue(connection,
                                                   data->inputBuffer.buffer,
                                                   &index, key, value));
-
-#ifndef GSI_UNICODE
                   // Set the field based on the key.
                   //////////////////////////////////
                   if (strcmp(key, "uniquenick") == 0)
@@ -1395,18 +1316,6 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                     doneParsingMatch = GPITrue;
                     index = oldIndex;
                   }
-#else
-                  // Set the field based on the key.
-                  //////////////////////////////////
-                  if (strcmp(key, "uniquenick") == 0)
-                    UTF8ToUCS2StringLen(value, uniqueNickMatch->uniqueNick,
-                                        GP_UNIQUENICK_LEN);
-                  else if ((strcmp(key, "o") == 0) ||
-                           (strcmp(key, "oldone") == 0)) {
-                    doneParsingMatch = GPITrue;
-                    index = oldIndex;
-                  }
-#endif
                 } while (!doneParsingMatch);
               } else {
                 CallbackFatalError(connection, GP_NETWORK_ERROR, GP_PARSE,
@@ -1459,19 +1368,10 @@ static GPResult gpiProcessSearch(GPConnection* connection,
               if (strcmp(key, "nick") == 0) {
                 // Add it.
                 //////////
-#ifndef GSI_UNICODE
                 arg->suggestedNicks[count] = gsimalloc(GP_UNIQUENICK_LEN);
                 if (arg->suggestedNicks[count] == NULL)
                   Error(connection, GP_MEMORY_ERROR, "Out of memory.");
                 strzcpy(arg->suggestedNicks[count], value, GP_UNIQUENICK_LEN);
-#else
-                arg->suggestedNicks[count] = (unsigned short*)gsimalloc(
-                    GP_UNIQUENICK_LEN * sizeof(unsigned short));
-                if (arg->suggestedNicks[count] == NULL)
-                  Error(connection, GP_MEMORY_ERROR, "Out of memory.");
-                UTF8ToUCS2StringLen(value, arg->suggestedNicks[count],
-                                    GP_UNIQUENICK_LEN);
-#endif
                 count++;
               } else if (strcmp(key, "usdone") == 0) {
                 // Check that the header matches the actual number of nicks.

@@ -168,9 +168,6 @@ typedef struct _SBKeyValuePair {
 // a ref-counted string
 typedef struct _SBRefString {
   const char* str;
-#ifdef GSI_UNICODE
-  const unsigned short* str_W;
-#endif
   int refcount;
 } SBRefString;
 
@@ -259,9 +256,6 @@ struct _SBServerList {
   unsigned short defaultport;
 
   char* lasterror;
-#ifdef GSI_UNICODE
-  unsigned short* lasterror_W;
-#endif
 
   SOCKET slsocket;
   gsi_time lanstarttime;
@@ -464,14 +458,6 @@ SBError ServerBrowserBeginUpdate2(ServerBrowser sb, SBBool async,
                                   const unsigned char* basicFields,
                                   int numBasicFields, const char* serverFilter,
                                   int updateOptions, int maxServers);
-
-// Ascii versions of functions that should still be available in GSI_UNICODE
-// mode
-#ifdef GSI_UNICODE
-const char* SBServerGetStringValueA(SBServer server, const char* keyname,
-                                    const char* def); // for peer SDK
-int SBServerGetIntValueA(SBServer server, const char* key, int idefault);
-#endif
 
 #ifdef __cplusplus
 }

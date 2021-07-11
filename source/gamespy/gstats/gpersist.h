@@ -125,21 +125,12 @@ The rest of the prototypes in this file are specific to
 the Persistent Storage SDK
 **************************/
 
-#ifndef GSI_UNICODE
 #define GenerateAuth GenerateAuthA
 #define PreAuthenticatePlayerCD PreAuthenticatePlayerCDA
 #define GetProfileIDFromCD GetProfileIDFromCDA
 #define GetPersistDataValues GetPersistDataValuesA
 #define GetPersistDataValuesModified GetPersistDataValuesModifiedA
 #define SetPersistDataValues SetPersistDataValuesA
-#else
-#define GenerateAuth GenerateAuthW
-#define PreAuthenticatePlayerCD PreAuthenticatePlayerCDW
-#define GetProfileIDFromCD GetProfileIDFromCDW
-#define GetPersistDataValues GetPersistDataValuesW
-#define GetPersistDataValuesModified GetPersistDataValuesModifiedW
-#define SetPersistDataValues SetPersistDataValuesW
-#endif
 
 /********
 persisttype_t

@@ -94,7 +94,6 @@ typedef void (*SBConnectToServerCallback)(ServerBrowser sb,
 ServerBrowser Object Functions
 ********************/
 
-#ifndef GSI_UNICODE
 #define ServerBrowserNew ServerBrowserNewA
 #define ServerBrowserUpdate ServerBrowserUpdateA
 #define ServerBrowserLimitUpdate ServerBrowserLimitUpdateA
@@ -117,30 +116,7 @@ ServerBrowser Object Functions
 #define ServerBrowserListQueryError ServerBrowserListQueryErrorA
 #define ServerBrowserErrorDesc ServerBrowserErrorDescA
 #define ServerBrowserGetServerByIP ServerBrowserGetServerByIPA
-#else
-#define ServerBrowserNew ServerBrowserNewW
-#define ServerBrowserUpdate ServerBrowserUpdateW
-#define ServerBrowserLimitUpdate ServerBrowserLimitUpdateW
-#define ServerBrowserAuxUpdateIP ServerBrowserAuxUpdateIPW
-#define ServerBrowserRemoveIP ServerBrowserRemoveIPW
-#define ServerBrowserSendNatNegotiateCookieToServer                            \
-  ServerBrowserSendNatNegotiateCookieToServerW
-#define ServerBrowserSendMessageToServer ServerBrowserSendMessageToServerW
-#define ServerBrowserSort ServerBrowserSortW
-#define SBServerGetStringValue SBServerGetStringValueW
-#define SBServerGetIntValue SBServerGetIntValueW
-#define SBServerGetFloatValue SBServerGetFloatValueW
-#define SBServerGetBoolValue SBServerGetBoolValueW
-#define SBServerGetPlayerStringValue SBServerGetPlayerStringValueW
-#define SBServerGetPlayerIntValue SBServerGetPlayerIntValueW
-#define SBServerGetPlayerFloatValue SBServerGetPlayerFloatValueW
-#define SBServerGetTeamStringValue SBServerGetTeamStringValueW
-#define SBServerGetTeamIntValue SBServerGetTeamIntValueW
-#define SBServerGetTeamFloatValue SBServerGetTeamFloatValueW
-#define ServerBrowserListQueryError ServerBrowserListQueryErrorW
-#define ServerBrowserErrorDesc ServerBrowserErrorDescW
-#define ServerBrowserGetServerByIP ServerBrowserGetServerByIPW
-#endif
+
 /*
 ServerBrowserNew
 ----------------

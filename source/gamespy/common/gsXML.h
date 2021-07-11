@@ -144,20 +144,10 @@ gsi_bool gsXmlReadChildAsLargeInt(GSXmlStreamReader stream,
 //    Count:
 int gsXmlCountChildren(GSXmlStreamReader stream, const char* matchtag);
 
-// Unicode compatible string read/write functions
-#ifdef GSI_UNICODE
-#define gsXmlWriteTStringElement(s, n, t, v)                                   \
-  gsXmlWriteUnicodeStringElement(s, n, t, v)
-//#define gsXmlReadChildAsTString(s,m,v,l)
-// gsXmlReadChildAsUnicodeString(s,m,v,l)
-#define gsXmlReadChildAsTStringNT(s, m, v, l)                                  \
-  gsXmlReadChildAsUnicodeStringNT(s, m, v, l)
-#else
 #define gsXmlWriteTStringElement(s, n, t, v) gsXmlWriteStringElement(s, n, t, v)
 //#define gsXmlReadChildAsTString(s,m,v,l)	gsXmlReadChildAsString(s,m,v,l)
 #define gsXmlReadChildAsTStringNT(s, m, v, l)                                  \
   gsXmlReadChildAsStringNT(s, m, v, l)
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
