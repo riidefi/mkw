@@ -742,6 +742,11 @@ BucketDiv
 BucketConcat
 BucketAvg
 
+// gstats
+CloseStatsConnection
+IsStatsConnected
+PersistThink
+
 // sb_crypt
 GOACryptInit
 GOADecrypt

@@ -49,6 +49,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,1,source/gamespy/ghttp/ghttpPost.c,,,,,,,0x801139b0,0x80115384,,,,,,,0x8027d738,0x8027d974,,,0x803855e1,0x803855ff,0x80386390,0x803863a4,0x80388480,0x80388484,,
 1,1,source/gamespy/ghttp/ghttpProcess.c,,,,,,,0x80115384,0x80116dd4 ,,,,,0x8024c6d0,0x8024c6db,0x8027d978,0x8027da43,,,0x80385600,0x80385655,,,,,,
 1,1,source/gamespy/gstats/gbucket.c,,,,,,,0x80116dd4 ,0x80117f6c ,,,,,,,,,,,,,0x803863a8,0x803863c0,0x80388488,0x80388490,,
+1,1,source/gamespy/gstats/gstats.c,,,,,,,0x80117f6c ,0x8011a054 ,,,,,,,0x8027da48,0x8027dca0,0x802f3820,0x802f3a20,0x80385658,0x803856be,0x803863c0,0x803863dc,,,,
 1,1,source/gamespy/serverbrowsing/sb_crypt.c,,,,,,,0x8011c10c,0x8011c540,,,,,,,,,,,,,,,,,,
 1,1,source/gamespy/serverbrowsing/sb_queryengine.c,,,,,,,0x8011c540,0x8011d024,,,,,,,0x8027ddc0,0x8027dde5,,,0x803856f0,0x803856f8,,,,,,
 1,1,source/gamespy/serverbrowsing/sb_server.c,,,,,,,0x8011d024,0x8011dd04,,,,,,,0x8027dde8,0x8027ddf1,,,0x803856f8,0x80385721,0x80386430,0x8038643c,0x80388490,0x80388498,,
