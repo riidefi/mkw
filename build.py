@@ -1,3 +1,4 @@
+import csv
 import os
 import os.path
 from pathlib import Path
@@ -23,6 +24,14 @@ colorama.init()
 
 dol_slices = read_slices("pack/dol_slices.csv", verbose=False)
 dol_slices = { sl.obj_file : sl for sl in dol_slices }
+
+# Remember which files are stripped.
+stripped_files = set()
+with open("pack/dol_slices.csv") as f:
+    rd = csv.DictReader(f)
+    for line in rd:
+        if line["strip"]:
+            stripped_files.add(line["name"])
 
 def native_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
@@ -132,7 +141,8 @@ def compile_queued_sources():
     #
     for s in gSourceQueue:
         src, dst = s[0:2]
-
+        if src in stripped_files:
+            continue
         # Verify ELF file section sizes.
         tha_slice = dol_slices.get(src)
         if tha_slice:
