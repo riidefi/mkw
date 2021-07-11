@@ -72,12 +72,22 @@ struct _FILE {
 #endif                            /* _MSL_OS_DISK_FILE_SUPPORT */
 };
 
+#define EOF (-1)
+
+#define SEEK_CUR 1
+#define SEEK_END 2
+#define SEEK_SET 0
+
 int sprintf(char* str, const char* format, ...);
 int snprintf(char* s, size_t n, const char* format, ...);
 
 int sscanf(const char* str, const char* format, ...);
 
-FILE * fopen ( const char * filename, const char * mode );
-int fclose ( FILE * stream );
+FILE* fopen(const char* filename, const char* mode);
+int fclose(FILE* stream);
+int fseek(FILE* stream, long int offset, int origin);
+long int ftell(FILE* stream);
+size_t fread(void* ptr, size_t size, size_t count, FILE* stream);
+void rewind(FILE* stream);
 
-int remove(const char *pathname); 
+int remove(const char* pathname);

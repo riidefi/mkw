@@ -30,6 +30,13 @@ __start = 0x800060A4;
 __destroy_global_chain=0x80021350;
 __div2i=0x800216F0;
 
+ftell=0x8000c21c;
+fseek=0x8000c3e4;
+rewind=0x8000c3e8;
+fread=0x8000e610;
+fwrite=0x8000e614;
+fclose=0x8000ec5c;
+
 memmove=0x8000f1f0;
 memchr=0x8000f2bc;
 memcmp=0x8000f314;
@@ -168,6 +175,7 @@ NNCancel=0x8011b158;
 NNProcessData=0x8011bf54;
 NNThink=0x8011b718;
 
+ghiTrySendThenBuffer=0x8011248c;
 ghiSendBufferedData=0x80111de8;
 ghiEncryptorSslInitFunc=0x80112e40;
 ghiEncryptorSslCleanupFunc=0x80112f20;
@@ -654,9 +662,20 @@ ghiFreeLock
 ghiLock
 ghiUnlock
 ghiDecryptReceivedData
-// ghiDoReceive
-// ghiDoSend
-// ghiTrySendThenBuffer
+ghiDoReceive
+ghiDoSend
+
+// ghttpPost
+ghiNewPost
+ghiPostSetAutoFree
+ghiIsPostAutoFree
+ghiFreePost
+ghiPostAddFileFromMemory
+ghiPostAddXml
+ghiPostGetContentType
+ghiPostInitState
+ghiPostCleanupState
+ghiPostDoPosting
 
 // sb_crypt
 GOACryptInit
