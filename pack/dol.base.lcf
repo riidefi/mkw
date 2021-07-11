@@ -177,13 +177,7 @@ NNThink=0x8011b718;
 
 ghiTrySendThenBuffer=0x8011248c;
 ghiSendBufferedData=0x80111de8;
-ghiEncryptorSslInitFunc=0x80112e40;
-ghiEncryptorSslCleanupFunc=0x80112f20;
-ghiEncryptorSslStartFunc=0x80112f90;
-ghiEncryptorSslEncryptSend=0x80113030;
-ghiEncryptorSslDecryptRecv=0x8011309c;
-ghiEncryptorSslEncryptFunc=0x8011311c;
-ghiEncryptorSslDecryptFunc=0x80113124;
+ghiRequestToConnection=0x80112a0c;
 
 sakeiInitRequest=0x8012249c;
 sakeiFreeRequest=0x8012256c;
@@ -319,6 +313,17 @@ SONtoHl=0x801ed98c;
 SONtoHs=0x801ed990;
 SOHtoNl=0x801ed998;
 SOHtoNs=0x801ed99c;
+
+SSLNew=0x801ee668;
+SSLConnect=0x801ee7c0;
+SSLDoHandshake=0x801ee888;
+SSLRead=0x801ee934;
+SSLWrite=0x801eec04;
+SSLShutdown=0x801eeec4;
+SSLSetClientCert=0x801eef70;
+SSLSetRootCA=0x801ef0dc;
+SSLSetBuiltinRootCA=0x801ef224;
+SSLSetBuiltinClientCert=0x801ef2ec;
 
 ParseSingleQR2Reply=0x8011ca4c;
 ProcessIncomingReplies=0x8011cc3c;
@@ -664,6 +669,16 @@ ghiUnlock
 ghiDecryptReceivedData
 ghiDoReceive
 ghiDoSend
+
+// ghttpEncryption
+ghttpSetRequestEncryptionEngine
+ghiEncryptorSslInitFunc
+ghiEncryptorSslCleanupFunc
+ghiEncryptorSslStartFunc
+ghiEncryptorSslEncryptSend
+ghiEncryptorSslDecryptRecv
+ghiEncryptorSslEncryptFunc
+ghiEncryptorSslDecryptFunc
 
 // ghttpPost
 ghiNewPost
