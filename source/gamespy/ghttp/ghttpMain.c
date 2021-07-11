@@ -976,12 +976,12 @@ GHTTPBool ghttpPostAddFileFromMemoryA(GHTTPPost post, const char* name,
   // assert(bufferLen >= 0);
 #ifdef _DEBUG
   if (bufferLen > 0)
-    // assert(buffer);
+  // assert(buffer);
 #endif
-  // assert(reportFilename && reportFilename[0]);
+    // assert(reportFilename && reportFilename[0]);
 
-  if (!post)
-    return GHTTPFalse;
+    if (!post)
+      return GHTTPFalse;
   if (!name || !name[0])
     return GHTTPFalse;
   if (bufferLen < 0)
