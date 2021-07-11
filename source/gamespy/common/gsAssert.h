@@ -1,5 +1,4 @@
-#ifndef __GSIASSERT_H__
-#define __GSIASSERT_H__
+#pragma once
 
 #if defined(__LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) ||                 \
     defined(c_plusplus)
@@ -109,5 +108,3 @@ void gsDebugAssertCallbackSet(gsDebugAssertCallback theCallback);
     defined(c_plusplus)
 }
 #endif
-
-#endif // __GSIDEBUG_H__

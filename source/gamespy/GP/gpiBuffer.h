@@ -11,8 +11,7 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPIBUFFER_H_
-#define _GPIBUFFER_H_
+#pragma once
 
 // INCLUDES
 //////////
@@ -95,4 +94,3 @@ GPResult gpiClipBufferToPosition(GPConnection* connection, GPIBuffer* buffer);
 GPResult gpiSendBufferToPeer(GPConnection* connection, unsigned int ip,
                              unsigned short port, GPIBuffer* outputBuffer,
                              GPIBool* closed, GPIBool clipSentData);
-#endif

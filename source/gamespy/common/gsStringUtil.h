@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __STRINGUTIL_H__
-#define __STRINGUTIL_H__
+#pragma once
 
 // String utilities used by the SDKs
 
@@ -87,5 +86,3 @@ UCS2String* UTF8ToUCS2StringArrayAlloc(const UTF8String* theUTF8StringArray,
 #ifdef __cplusplus
 } // extern "C"
 #endif
-
-#endif // __STRINGUTIL_H__

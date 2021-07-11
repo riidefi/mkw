@@ -14,8 +14,7 @@ are used to manage the buckets by the gstats SDK.
 Use the type-safe bucket functions in the gstats SDK instead.
 ******/
 
-#ifndef _GBUCKET_H_
-#define _GBUCKET_H_
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,6 +45,4 @@ void* bfloat(double f);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

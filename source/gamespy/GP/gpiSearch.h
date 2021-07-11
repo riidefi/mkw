@@ -11,8 +11,7 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPISEARCH_H_
-#define _GPISEARCH_H_
+#pragma once
 
 // INCLUDES
 //////////
@@ -115,5 +114,3 @@ GPResult gpiSuggestUniqueNick(GPConnection* connection,
                               void* param);
 
 GPResult gpiProcessSearches(GPConnection* connection);
-
-#endif

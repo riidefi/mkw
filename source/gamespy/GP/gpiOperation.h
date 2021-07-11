@@ -11,8 +11,7 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPIOPERATION_H_
-#define _GPIOPERATION_H_
+#pragma once
 
 // INCLUDES
 //////////
@@ -85,5 +84,3 @@ GPResult gpiProcessOperation(GPConnection* connection, GPIOperation* operation,
 
 GPResult gpiFailedOpCallback(GPConnection* connection,
                              const GPIOperation* operation);
-
-#endif

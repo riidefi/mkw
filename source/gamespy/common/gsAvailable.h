@@ -1,5 +1,4 @@
-#ifndef _AVAILABLE_H_
-#define _AVAILABLE_H_
+#pragma once
 
 #include "gsStringUtil.h"
 
@@ -7,11 +6,7 @@
 extern "C" {
 #endif
 
-#ifndef GSI_UNICODE
 #define GSIStartAvailableCheck GSIStartAvailableCheckA
-#else
-#define GSIStartAvailableCheck GSIStartAvailableCheckW
-#endif
 
 // the available check contacts a backend server at
 // "<gamename>.available.gamespy.com" an app can resolve the hostname itself and
@@ -51,6 +46,4 @@ extern char __GSIACGamename[64];
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

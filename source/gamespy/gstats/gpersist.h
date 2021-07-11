@@ -11,8 +11,7 @@ Please see the GameSpy Persistent Storage SDK for more info
 *****/
 // todo: get/set @ offset / length
 
-#ifndef _GPERSIST_H_
-#define _GPERSIST_H_
+#pragma once
 
 #include "gstats.h"
 
@@ -450,6 +449,4 @@ int PersistThink();
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

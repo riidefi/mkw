@@ -8,8 +8,7 @@ Copyright 1999-2007 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GHTTPCONNECTION_H_
-#define _GHTTPCONNECTION_H_
+#pragma once
 
 #include "ghttpBuffer.h"
 #include "ghttpEncryption.h"
@@ -207,6 +206,4 @@ void ghiCleanupConnections(void);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

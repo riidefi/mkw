@@ -14,8 +14,7 @@
  *
  */
 
-#ifndef _SHA1_H_
-#define _SHA1_H_
+#pragma once
 
 #include "gsCommon.h"
 
@@ -65,5 +64,3 @@ int SHA1Result(SHA1Context*, uint8_t Message_Digest[SHA1HashSize]);
 #if defined(__cplusplus)
 }
 #endif // extern "C"
-
-#endif

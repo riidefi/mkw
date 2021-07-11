@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __GSSSL_H__
-#define __GSSSL_H__
+#pragma once
 
 #include "../darray.h"
 #include "../md5.h"
@@ -181,5 +180,3 @@ extern const unsigned char gsSslRsaOid[9];
 #if defined(__cplusplus)
 } // extern "C"
 #endif
-
-#endif // __GSSSL_H__

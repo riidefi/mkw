@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_AUTH_H_
-#define _GT2_AUTH_H_
+#pragma once
 
 #define GTI2_CHALLENGE_LEN 32
 #define GTI2_RESPONSE_LEN 32
@@ -26,6 +25,4 @@ GT2Bool gti2CheckResponse(const GT2Byte* response1, const GT2Byte* response2);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

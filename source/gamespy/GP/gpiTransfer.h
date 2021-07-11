@@ -11,8 +11,7 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPITRANSFER_H_
-#define _GPITRANSFER_H_
+#pragma once
 
 // INCLUDES
 //////////
@@ -134,5 +133,3 @@ GPResult gpiSendTransferReply(GPConnection* connection,
 
 void gpiHandleTransferMessage(GPConnection* connection, GPIPeer* peer, int type,
                               const char* headers, const char* buffer, int len);
-
-#endif

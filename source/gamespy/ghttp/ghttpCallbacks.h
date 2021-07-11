@@ -8,8 +8,7 @@ Copyright 1999-2007 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GHTTPCALLBACKS_H_
-#define _GHTTPCALLBACKS_H_
+#pragma once
 
 // clang-format off
 #include "ghttpMain.h"
@@ -35,6 +34,4 @@ void ghiCallPostCallback(GHIConnection* connection);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

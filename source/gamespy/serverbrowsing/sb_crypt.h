@@ -1,5 +1,4 @@
-#ifndef _SB_CRYPT_H
-#define _SB_CRYPT_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,6 +29,4 @@ void GOAHashFinal(GOACryptState* state, unsigned char* hash,
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

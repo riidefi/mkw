@@ -1,5 +1,4 @@
-#ifndef __GSIDEBUG_H__
-#define __GSIDEBUG_H__
+#pragma once
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 //  Advanced debug logging for GameSpy SDKs
@@ -156,5 +155,3 @@ void gsSetDebugCallback(GSIDebugCallback theCallback);
     defined(c_plusplus)
 }
 #endif
-
-#endif // __GSIDEBUG_H__

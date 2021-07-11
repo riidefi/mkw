@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __GSUTILITY_H__
-#define __GSUTILITY_H__
+#pragma once
 
 #include "gsPlatform.h"
 
@@ -124,5 +123,3 @@ void gsiInt64ToString(char theNumberStr[33], gsi_i64 theNumber);
 #ifdef __cplusplus
 }
 #endif
-
-#endif //__GSUTILITY_H__

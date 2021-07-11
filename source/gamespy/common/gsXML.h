@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __GSXML_H__
-#define __GSXML_H__
+#pragma once
 
 #include "gsLargeInt.h" // so that it can write large ints
 #include "gsPlatform.h"
@@ -165,5 +164,3 @@ int gsXmlCountChildren(GSXmlStreamReader stream, const char* matchtag);
 #if defined(__cplusplus)
 } // extern "C"
 #endif
-
-#endif // __GSXML_H__

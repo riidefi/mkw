@@ -1,5 +1,4 @@
-#ifndef _QR2_H_
-#define _QR2_H_
+#pragma once
 
 #include "../common/gsCommon.h"
 
@@ -446,6 +445,4 @@ qr2_error_t qr2_init_socketA(/*[out]*/ qr2_t* qrec, SOCKET s, int boundport,
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -1,8 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Large Integer Library
-#ifndef __GSLARGEINT_H__
-#define __GSLARGEINT_H__
+#pragma once
 
 #include "../md5.h"
 #include "gsCommon.h"
@@ -91,5 +90,3 @@ gsi_bool gsLargeIntWriteToMemoryStream(const gsLargeInt_t* lint, gsi_u8* data);
 #if defined(__cplusplus)
 }
 #endif
-
-#endif // __GSLARGEINT_H__

@@ -14,8 +14,7 @@ within a single session.
 
 *****/
 
-#ifndef _GSTATS_H_
-#define _GSTATS_H_
+#pragma once
 
 /********
 INCLUDES
@@ -405,6 +404,4 @@ int GetTeamIndex(statsgame_t game, int tnum);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

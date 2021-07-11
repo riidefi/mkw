@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __GS_CRYPT_H__
-#define __GS_CRYPT_H__
+#pragma once
 
 #include "../md5.h"
 #include "gsLargeInt.h"
@@ -94,5 +93,3 @@ gsi_i32 gsCryptRSASignHash(const gsCryptRSAKey* privateKey,
 #if defined(__cplusplus)
 }
 #endif
-
-#endif //__GS_CRYPT_H__

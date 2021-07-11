@@ -10,8 +10,7 @@ devsupport@gamespy.com
 ***********************************************************************
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
-#ifndef _GP_H_
-#define _GP_H_
+#pragma once
 
 // necessary for gsi_char and UNICODE support
 #include "../common/gsCommon.h"
@@ -1240,6 +1239,4 @@ void gpProfilesReport(GPConnection* connection,
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

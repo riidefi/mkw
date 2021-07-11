@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_FILTER_H_
-#define _GT2_FILTER_H_
+#pragma once
 
 #include "gt2Main.h"
 
@@ -26,5 +25,3 @@ void gti2RemoveReceiveFilter(GT2Connection connection,
                              gt2ReceiveFilterCallback callback);
 GT2Bool gti2FilteredReceive(GT2Connection connection, int filterID,
                             GT2Byte* message, int len, GT2Bool reliable);
-
-#endif

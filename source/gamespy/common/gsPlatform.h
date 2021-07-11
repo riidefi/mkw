@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __GSPLATFORM_H__
-#define __GSPLATFORM_H__
+#pragma once
 
 // GameSpy platform definition and headers
 
@@ -113,32 +112,6 @@ extern "C" {
 #undef _T
 #undef _tsnprintf
 
-#ifdef GSI_UNICODE
-#define _vftprintf vfwprintf
-#define _ftprintf fwprintf
-#define _stprintf swprintf
-#define _tprintf wprintf
-#define _tcscpy wcscpy
-#define _tcsncpy(d, s, l) wcsncpy((wchar_t*)d, (wchar_t*)s, l)
-#define _tcscat wcscat
-#define _tcslen wcslen
-#define _tcschr wcschr
-#define _tcscmp(s1, s2) wcscmp((wchar_t*)s1, (wchar_t*)s2)
-#define _tfopen _wfopen
-#if defined(_MSC_VER)
-#if (_MSC_VER < 1400)
-#define _tcschr strchr
-#endif
-#else
-#define _tcschr strchr
-#endif
-#define _tcscmp strcmp
-#define _tfopen fopen
-#ifndef _T
-#define _T(a) a
-#endif
-#endif // GSI_UNICODE
-
 #define _T(a) a
 
 #define _tsnprintf snprintf
@@ -186,4 +159,3 @@ extern gsi_u64 gsiByteOrderSwap64(gsi_u64);
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#endif // __GSPLATFORM_H__

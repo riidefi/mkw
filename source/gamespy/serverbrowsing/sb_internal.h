@@ -1,5 +1,4 @@
-#ifndef _SB_INTERNAL_H_
-#define _SB_INTERNAL_H_
+#pragma once
 
 // clang-format off
 #include "../common/gsCommon.h"
@@ -476,6 +475,4 @@ int SBServerGetIntValueA(SBServer server, const char* key, int idefault);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

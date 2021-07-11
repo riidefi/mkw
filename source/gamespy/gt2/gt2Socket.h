@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_SOCKET_H_
-#define _GT2_SOCKET_H_
+#pragma once
 
 #include "gt2Main.h"
 
@@ -39,5 +38,3 @@ GT2Bool gti2SocketConnectionsThink(GT2Socket socket);
 void gti2FreeClosedConnections(GT2Socket socket);
 
 void gti2SocketError(GT2Socket socket);
-
-#endif

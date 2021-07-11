@@ -8,8 +8,7 @@ Copyright 1999-2007 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GHTTP_H_
-#define _GHTTP_H_
+#pragma once
 
 #include <stdlib.h>
 
@@ -592,6 +591,4 @@ ghttpGetA(const char* URL,    // The URL for the file
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

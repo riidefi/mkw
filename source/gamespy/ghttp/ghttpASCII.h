@@ -10,8 +10,7 @@ devsupport@gamespy.com
 
 // ASCII PROTOTYPES FOR USE IN UNICODE MODE
 // INCLUDED TO SILENCE CODEWARRIOR WARNINGS
-#ifndef _GHTTPASCII_H_
-#define _GHTTPASCII_H_
+#pragma once
 
 #include "../common/gsCommon.h"
 
@@ -278,6 +277,4 @@ GHTTPBool ghttpPostAddFileFromMemoryA(
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

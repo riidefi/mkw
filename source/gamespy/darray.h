@@ -1,5 +1,4 @@
-#ifndef _DARRAY_H
-#define _DARRAY_H
+#pragma once
 
 /* File: darray.h
  * --------------
@@ -305,5 +304,3 @@ void ArraySetDataPtr(DArray array, void* ptr, int count, int capacity);
 #ifdef __cplusplus
 }
 #endif
-
-#endif //_DARRAY_

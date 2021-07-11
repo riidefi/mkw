@@ -11,8 +11,7 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPIPROFILE_H_
-#define _GPIPROFILE_H_
+#pragma once
 
 // INCLUDES
 //////////
@@ -128,5 +127,3 @@ void gpiRemoveBuddyStatusInfo(GPIBuddyStatusInfo* buddyStatusInfo);
 GPIBool gpiCanFreeProfile(GPIProfile* profile);
 
 void gpiSetInfoCacheFilename(const char filename[FILENAME_MAX + 1]);
-
-#endif

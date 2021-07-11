@@ -1,5 +1,4 @@
-#ifndef _GPIKEYS_H_
-#define _GPIKEYS_H_
+#pragma once
 
 #include "gpi.h"
 #define GPI_INITIAL_NUM_KEYS 1
@@ -24,4 +23,3 @@ GPResult gpiStatusInfoGetKey(GPConnection* connection, DArray keys,
 GPResult gpiSaveKeysToBuffer(GPConnection* connection, char** buffer);
 GPResult gpiStatusInfoCheckKey(GPConnection* connection, DArray keys,
                                const char* keyName, char** keyValue);
-#endif

@@ -12,8 +12,7 @@ devsupport@gamespy.com
 
 ******/
 
-#ifndef _SB_SERVERBROWSING_H
-#define _SB_SERVERBROWSING_H
+#pragma once
 
 #include "../common/gsCommon.h"
 
@@ -538,6 +537,4 @@ void SBServerEnumKeys(SBServer server, SBServerKeyEnumFn KeyFn, void* instance);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

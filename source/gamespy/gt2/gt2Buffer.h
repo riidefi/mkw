@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_BUFFER_H_
-#define _GT2_BUFFER_H_
+#pragma once
 
 #include "gt2Main.h"
 
@@ -23,5 +22,3 @@ void gti2BufferWriteData(GTI2Buffer* buffer, const GT2Byte* data, int len);
 
 // shortens the buffer by "shortenBy" (length, not size)
 void gti2BufferShorten(GTI2Buffer* buffer, int start, int shortenBy);
-
-#endif

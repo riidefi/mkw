@@ -11,8 +11,7 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPICONNECT_H_
-#define _GPICONNECT_H_
+#pragma once
 
 // INCLUDES
 //////////
@@ -47,5 +46,3 @@ GPResult gpiProcessConnect(GPConnection* connection, GPIOperation* operation,
                            const char* input);
 
 GPResult gpiCheckConnect(GPConnection* connection);
-
-#endif

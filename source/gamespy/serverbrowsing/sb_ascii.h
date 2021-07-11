@@ -16,8 +16,7 @@ devsupport@gamespy.com
 // This is required to silence CodeWarrior warnings about functions not having a
 // prototype
 
-#ifndef _SB_ASCII_H
-#define _SB_ASCII_H
+#pragma once
 
 #include "../common/gsCommon.h"
 
@@ -195,6 +194,4 @@ double SBServerGetTeamFloatValueA(SBServer server, int teamnum, const char* key,
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

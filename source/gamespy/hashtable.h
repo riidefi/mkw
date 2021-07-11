@@ -1,5 +1,4 @@
-#ifndef _HASHTABLE_H
-#define _HASHTABLE_H
+#pragma once
 
 /* File: hashtable.h
  * ------------------
@@ -215,5 +214,3 @@ void TableClear(HashTable table);
 #ifdef __cplusplus
 }
 #endif
-
-#endif //_HASHTABLE_H

@@ -8,8 +8,7 @@ Copyright 1999-2007 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GHTTPPOST_H_
-#define _GHTTPPOST_H_
+#pragma once
 
 #include "../darray.h"
 #include "ghttp.h"
@@ -73,6 +72,4 @@ GHIPostingResult ghiPostDoPosting(struct GHIConnection* connection);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

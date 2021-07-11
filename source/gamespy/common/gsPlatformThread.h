@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __GSPLATFORMTHREAD_H__
-#define __GSPLATFORMTHREAD_H__
+#pragma once
 
 #include "gsPlatform.h"
 
@@ -57,5 +56,3 @@ void gsiCloseSemaphore(GSISemaphoreID theSemaphore);
 #ifdef __cplusplus
 }
 #endif
-
-#endif // __GSPLATFORMTHREAD_H__

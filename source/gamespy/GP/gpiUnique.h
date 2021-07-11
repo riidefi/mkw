@@ -11,8 +11,7 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPIUNIQUE_H_
-#define _GPIUNIQUE_H_
+#pragma once
 
 // INCLUDES
 //////////
@@ -36,5 +35,3 @@ GPResult gpiRegisterCdKey(GPConnection* connection,
 
 GPResult gpiProcessRegisterCdKey(GPConnection* connection,
                                  GPIOperation* operation, const char* input);
-
-#endif

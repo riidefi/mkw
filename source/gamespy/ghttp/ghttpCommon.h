@@ -8,8 +8,7 @@ Copyright 1999-2007 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GHTTPCOMMON_H_
-#define _GHTTPCOMMON_H_
+#pragma once
 
 #include "ghttp.h"
 #include "ghttpConnection.h"
@@ -117,6 +116,4 @@ GHTTPBool ghiDecryptReceivedData(struct GHIConnection* connection);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -1,7 +1,4 @@
-
-
-#ifndef _QR2REGKEYS_H_
-#define _QR2REGKEYS_H_
+#pragma once
 
 #include "../common/gsCommon.h"
 
@@ -64,6 +61,4 @@ void qr2_register_keyA(int keyid, const char* key);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

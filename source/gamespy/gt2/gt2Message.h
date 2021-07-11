@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_MESSAGE_H_
-#define _GT2_MESSAGE_H_
+#pragma once
 
 #include "gt2Main.h"
 
@@ -53,5 +52,3 @@ GT2Bool gti2HandleHostUnreachable(GT2Socket socket, unsigned int ip,
                                   unsigned short port, GT2Bool send);
 GT2Bool gti2WasMessageIDConfirmed(const GT2Connection connection,
                                   GT2MessageID messageID);
-
-#endif

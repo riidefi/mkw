@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_CALLBACK_H_
-#define _GT2_CALLBACK_H_
+#pragma once
 
 #include "gt2Main.h"
 
@@ -63,5 +62,3 @@ GT2Bool gti2DumpCallback(GT2Socket socket, GT2Connection connection,
 GT2Bool gti2UnrecognizedMessageCallback(GT2Socket socket, unsigned int ip,
                                         unsigned short port, GT2Byte* message,
                                         int len, GT2Bool* handled);
-
-#endif

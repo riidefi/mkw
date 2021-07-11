@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_UTILITY_H_
-#define _GT2_UTILITY_H_
+#pragma once
 
 #include "gt2Main.h"
 
@@ -19,6 +18,4 @@ void gti2MessageCheck(const GT2Byte** message, int* len);
 void gti2LogMessage(unsigned int fromIP, unsigned short fromPort,
                     unsigned int toIP, unsigned short toPort,
                     const GT2Byte* message, int len);
-#endif
-
 #endif

@@ -11,8 +11,7 @@ devsupport@gamespy.com
 Please see the GameSpy Presence SDK documentation for more information
 **********************************************************************/
 
-#ifndef _GPIUTILITY_H_
-#define _GPIUTILITY_H_
+#pragma once
 
 // INCLUDES
 //////////
@@ -91,5 +90,3 @@ void gpiSetError(GPConnection* connection, GPErrorCode errorCode,
 void gpiSetErrorString(GPConnection* connection, const char* errorString);
 
 void gpiEncodeString(const char* unencodedString, char* encodedString);
-
-#endif

@@ -8,8 +8,7 @@ Copyright 1999-2007 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GHTTPMAIN_H_
-#define _GHTTPMAIN_H_
+#pragma once
 
 // clang-format off
 #include <stdio.h>
@@ -17,5 +16,3 @@ devsupport@gamespy.com
 #include "../common/gsCommon.h"
 #include "../common/gsStringUtil.h"
 // clang-format on
-
-#endif

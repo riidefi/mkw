@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_MAIN_H_
-#define _GT2_MAIN_H_
+#pragma once
 
 // clang-format off
 #include "gt2.h"
@@ -285,5 +284,3 @@ typedef struct {
 static int lastmactableentry = 0;
 static GTI2MacEntry MacTable[MAC_TABLE_SIZE];
 #endif // GSI_ADHOC
-
-#endif

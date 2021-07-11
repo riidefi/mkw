@@ -8,8 +8,7 @@ Copyright 2002 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GT2_CONNECTION_H_
-#define _GT2_CONNECTION_H_
+#pragma once
 
 #include "gt2Main.h"
 
@@ -38,5 +37,3 @@ void gti2CloseConnection(GT2Connection connection, GT2Bool hard);
 void gti2ConnectionClosed(GT2Connection connection);
 
 void gti2ConnectionCleanup(GT2Connection connection);
-
-#endif

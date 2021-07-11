@@ -8,8 +8,7 @@ Copyright 1999-2007 GameSpy Industries, Inc
 devsupport@gamespy.com
 */
 
-#ifndef _GHTTPPROCESS_H_
-#define _GHTTPPROCESS_H_
+#pragma once
 
 #include "ghttpConnection.h"
 #include "ghttpMain.h"
@@ -32,6 +31,4 @@ void ghiDoReceivingFile(GHIConnection* connection);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __GSRC4_H__
-#define __GSRC4_H__
+#pragma once
 
 #include "gsCommon.h"
 
@@ -28,4 +27,3 @@ void RC4Encrypt(RC4Context* context, const unsigned char* src,
 #if defined(__cplusplus)
 }
 #endif
-#endif // __GSRC4_H__

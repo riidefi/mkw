@@ -17,8 +17,7 @@ devsupport@gamespy.com
 *can be changed
 */
 
-#ifndef _GT2_H_
-#define _GT2_H_
+#pragma once
 
 #include "../common/gsCommon.h"
 
@@ -696,6 +695,4 @@ void gt2SetReceiveDump(GT2Socket socket, gt2DumpCallback callback);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

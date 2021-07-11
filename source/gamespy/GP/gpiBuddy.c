@@ -939,11 +939,7 @@ GPResult gpiAuthBuddyRequest(GPConnection* connection, GPProfile profile) {
 
 GPIBool gpiFixBuddyIndices(GPConnection* connection, GPIProfile* profile,
                            void* data) {
-#ifndef _PS2
   int baseIndex = (int)(unsigned long)data;
-#else
-  int baseIndex = (int)data;
-#endif
 
   GSI_UNUSED(connection);
 
@@ -1002,11 +998,7 @@ GPResult gpiDeleteBuddy(GPConnection* connection, GPProfile profile,
       gpiRemoveProfile(connection, pProfile);
     iconnection->profileList.numBuddies--;
     assert(iconnection->profileList.numBuddies >= 0);
-#ifndef _PS2
     gpiProfileMap(connection, gpiFixBuddyIndices, (void*)(unsigned long)index);
-#else
-    gpiProfileMap(connection, gpiFixBuddyIndices, (void*)index);
-#endif
   }
   if (pProfile->buddyStatusInfo) {
     index = pProfile->buddyStatusInfo->buddyIndex;
@@ -1025,11 +1017,7 @@ GPResult gpiDeleteBuddy(GPConnection* connection, GPProfile profile,
       gpiRemoveProfile(connection, pProfile);
     iconnection->profileList.numBuddies--;
     assert(iconnection->profileList.numBuddies >= 0);
-#ifndef _PS2
     gpiProfileMap(connection, gpiFixBuddyIndices, (void*)(unsigned long)index);
-#else
-    gpiProfileMap(connection, gpiFixBuddyIndices, (void*)index);
-#endif
   }
   return GP_NO_ERROR;
 }

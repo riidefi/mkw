@@ -13,8 +13,8 @@ devsupport@gamespy.com
 
 ******/
 
-#ifndef _NATNEG_H_
-#define _NATNEG_H_
+#pragma once
+
 #include "../common/gsCommon.h"
 #include "NATify.h"
 
@@ -176,6 +176,4 @@ extern char* Matchup1Hostname;
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
