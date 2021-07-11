@@ -22,6 +22,7 @@ Every fully understood piece of reverse engineered data has been documented in a
 - Python3:
   - `pip insall pyelftools`
   - `pip install capstone`
+  - `pip install colorama termcolor`
 - Place a copy of Mario Kart Wii's PAL binaries: 
   - `artifacts/orig/pal/main.dol`
   - `artifacts/orig/pal/StaticR.rel`
