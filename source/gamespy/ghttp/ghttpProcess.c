@@ -1226,8 +1226,8 @@ void ghiDoReceivingHeaders(GHIConnection* connection) {
 
   buffer = gsimalloc(4096);
   if (buffer == 0) {
-    connection->completed = 1;
-    connection->result = 1;
+    connection->completed = GHTTPTrue;
+    connection->result = GHTTPOutOfMemory;
     return;
   }
 
@@ -1527,8 +1527,8 @@ void ghiDoReceivingFile(GHIConnection* connection) {
 
   buffer = gsimalloc(8192);
   if (buffer == 0) {
-    connection->completed = 1;
-    connection->result = 1;
+    connection->completed = GHTTPTrue;
+    connection->result = GHTTPOutOfMemory;
     return;
   }
 

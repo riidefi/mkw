@@ -732,6 +732,16 @@ ghiDoReceivingStatus
 ghiDoReceivingHeaders
 ghiDoReceivingFile
 
+// gbucket
+BucketNew
+BucketSet
+BucketAdd
+BucketSub
+BucketMult
+BucketDiv
+BucketConcat
+BucketAvg
+
 // sb_crypt
 GOACryptInit
 GOADecrypt

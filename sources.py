@@ -60,6 +60,7 @@ compile_source("source/gamespy/ghttp/ghttpEncryption.c", "out/ghttpEncryption.o"
 compile_source("source/gamespy/ghttp/ghttpMain.c", "out/ghttpMain.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/ghttp/ghttpPost.c", "out/ghttpPost.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/ghttp/ghttpProcess.c", "out/ghttpProcess.o", '4199_60831', RVL_OPTS)
+compile_source("source/gamespy/gstats/gbucket.c", "out/gbucket.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/serverbrowsing/sb_crypt.c", "out/sb_crypt.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/serverbrowsing/sb_queryengine.c", "out/sb_queryengine.o", '4199_60831', RVL_OPTS)
 compile_source("source/gamespy/serverbrowsing/sb_server.c", "out/sb_server.o", '4199_60831', RVL_OPTS)
