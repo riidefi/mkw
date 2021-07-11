@@ -23,15 +23,15 @@ int strcmp(const char* s1, const char* s2);
 int strncmp(const char* s1, const char* s2, size_t n);
 
 char* strchr(const char*, int);
-char *strrchr( const char *str, int ch );
+char* strrchr(const char* str, int ch);
 
 char* strstr(const char* haystack, const char* needle);
 
-size_t strspn(const char *s, const char *accept);
-size_t strcspn(const char *s, const char *reject);
+size_t strspn(const char* s, const char* accept);
+size_t strcspn(const char* s, const char* reject);
 
-char *strcat(char *restrict dest, const char *restrict src);
-char *strncat(char *restrict dest, const char *restrict src, size_t n);
+char* strcat(char* restrict dest, const char* restrict src);
+char* strncat(char* restrict dest, const char* restrict src, size_t n);
 
 #ifdef __cplusplus
 } // extern "C"

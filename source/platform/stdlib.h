@@ -17,5 +17,5 @@ double atof(const char* nptr);
 void qsort(void* base, size_t nitems, size_t size,
            int (*compar)(const void*, const void*));
 
-void srand (unsigned int seed);
-int rand (void);
+void srand(unsigned int seed);
+int rand(void);
