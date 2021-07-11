@@ -54,6 +54,7 @@ strncpy=0x800131e0;
 strcat=0x80013224;
 strncat=0x80013250;
 strchr=0x800133f8;
+strcspn=0x80013428;
 strstr=0x800135f0;
 strlen=0x80021254;
 strcmp=0x8001329c;
@@ -121,7 +122,9 @@ gsirealloc=0x800f3870;
 gsifree=0x800f3884;
 gsiSecondsToDate=0x800f254c;
 gsiDateToSeconds=0x800f27b4;
+gsiStartResolvingHostname=0x800f2104;
 gsiCancelResolvingHostname=0x800f2238;
+gsiGetResolvedIP=0x800f2300;
 
 gti2HandleESN=0x8010ad14;
 gti2HandleServerChallenge=0x8010ae44;
@@ -176,20 +179,6 @@ NNThink=0x8011b718;
 
 ghiTrySendThenBuffer=0x8011248c;
 ghiSendBufferedData=0x80111de8;
-ghiDoSocketInit=0x80115530;
-ghiDoHostLookup=0x80115634;
-ghiDoLookupPending=0x80115738;
-ghiDoConnecting=0x801157d8;
-ghiDoSecuringSession=0x80115a34;
-ghiDoSendingRequest=0x80115c08;
-ghiDoPosting=0x80115ef4;
-ghiDoWaiting=0x80115fec;
-ghiParseStatus=0x801160a4;
-ghiDoReceivingStatus=0x801161bc;
-ghiDeliverIncomingFileData=0x8011634c;
-ghiProcessIncomingFileData=0x80116430;
-ghiDoReceivingHeaders=0x8011669c;
-ghiDoReceivingFile=0x80116c4c;
 
 sakeiInitRequest=0x8012249c;
 sakeiFreeRequest=0x8012256c;
@@ -729,6 +718,19 @@ ghiPostGetContentType
 ghiPostInitState
 ghiPostCleanupState
 ghiPostDoPosting
+
+// ghttpProcess
+ghiDoSocketInit
+ghiDoHostLookup
+ghiDoLookupPending
+ghiDoConnecting
+ghiDoSecuringSession
+ghiDoSendingRequest
+ghiDoPosting
+ghiDoWaiting
+ghiDoReceivingStatus
+ghiDoReceivingHeaders
+ghiDoReceivingFile
 
 // sb_crypt
 GOACryptInit

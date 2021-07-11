@@ -119,10 +119,14 @@ out\dol\data_8027d731_8027d738.o
 out\dol\sbss_8038638c_80386390.o
 out\dol\sdata2_8038847e_80388480.o
 out\ghttpPost.o
-out\dol\text_80115384_8011c10c.o
+out\dol\rodata_8024c6c9_8024c6d0.o
+out\dol\data_8027d974_8027d978.o
+out\dol\sdata_803855ff_80385600.o
+out\ghttpProcess.o
+out\dol\text_80116dd4_8011c10c.o
 out\sb_crypt.o
-out\dol\data_8027d974_8027ddc0.o
-out\dol\sdata_803855ff_803856f0.o
+out\dol\data_8027da43_8027ddc0.o
+out\dol\sdata_80385655_803856f0.o
 out\sb_queryengine.o
 out\dol\data_8027dde5_8027dde8.o
 out\dol\sbss_803863a4_80386430.o
@@ -155,7 +159,7 @@ out\dol\sdata_803857f6_80385a08.o
 out\rvlMtx.o
 out\rvlMtx2.o
 out\rvlVec.o
-out\dol\rodata_8024c6c9_80252c78.o
+out\dol\rodata_8024c6db_80252c78.o
 out\dol\sdata2_803888b4_803888b8.o
 out\rvlQuat.o
 out\dol\text_8019b178_801ec088.o
