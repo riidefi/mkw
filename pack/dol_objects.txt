@@ -42,8 +42,13 @@ out\rvlVec.o
 out\dol\rodata_80249020_80252c78.o
 out\dol\sdata2_803888b4_803888b8.o
 out\rvlQuat.o
-out\dol\text_8019b178_8020f62c.o
-out\dol\data_8027e772_802a2668.o
+out\dol\text_8019b178_801b7410.o
+out\dol\data_8027e772_8029d058.o
+out\dol\sdata_80385a10_80385c68.o
+out\dol\sdata2_803888cc_80388958.o
+out\tpl.o
+out\dol\text_801b7624_8020f62c.o
+out\dol\data_8029d083_802a2668.o
 out\eggAllocator.o
 out\dol\bss_80346d18_803832d8.o
 out\dol\sbss_8038683c_80386d80.o
@@ -63,7 +68,7 @@ out\dol\rodata_8025771a_80257740.o
 out\dol\data_802a30bc_802a30c0.o
 out\dol\bss_803832e4_80384320.o
 out\dol\sbss_80386e99_80386ea0.o
-out\dol\sdata2_803888cc_80388d68.o
+out\dol\sdata2_80388960_80388d68.o
 out\eggHeap.o
 out\dol\text_80229fac_80239dfc.o
 out\eggQuat.o
@@ -92,7 +97,7 @@ out\dol\dtors_80244ea4_80244eac.o
 out\dol\rodata_80258560_80258580.o
 out\dol\data_802a4004_802a4040.o
 out\dol\bss_80384bf4_80384c00.o
-out\dol\sdata_80385a10_80385fc0.o
+out\dol\sdata_80385c6e_80385fc0.o
 out\dol\sbss_80386f90_80386fa0.o
 out\dol\sdata2_80389118_80389140.o
 out\dol\sbss2_80389140_8038917c.o

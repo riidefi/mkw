@@ -34,7 +34,7 @@ def verify_dol(reference, target):
     want_len = 2766496
     if len(content) != want_len:
         print(
-            Fore.RED + "Mismatched file size: Got %d (%+d)" + Style.RESET_ALL
+            (Fore.RED + "Mismatched file size: Got %d (%+d)" + Style.RESET_ALL)
             % (len(content), len(content) - want_len)
         )
 

@@ -97,6 +97,9 @@ GXSetDispCopyYScale=0x8016F8FC;
 GXSetFog=0x801722CC;
 GXInitFogAdjTable=0x801724F8;
 GXSetFogRangeAdj=0x80172658;
+GXInitTexObj=0x801707f8;
+GXInitTexObjCI=0x80170a04;
+GXInitTexObjLOD=0x80170a4c;
 
 VIInit = 0x801B94A4;
 VIWaitForRetrace = 0x801B99EC;
