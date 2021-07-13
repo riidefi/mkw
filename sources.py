@@ -18,6 +18,7 @@ compile_source("source/rvl/mtx/rvlQuat.c", "out/rvlQuat.o", '4199_60831', RVL_OP
 compile_source("source/rvl/pad/rvlPadClamp.c", "out/rvlPadClamp.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/pad/rvlPad.c", "out/rvlPad.o", '4199_60831', RVL_OPTS + " -inline on,noauto ")
 compile_source("source/rvl/si/siBios.c", "out/siBios.o", '4199_60831', RVL_OPTS)
+compile_source("source/rvl/tpl/tpl.c", "out/tpl.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/so/soCommon.c", "out/soCommon.o", '4199_60831', RVL_OPTS)
 compile_source("source/rvl/so/soBasic.c", "out/soBasic.o", '4199_60831', RVL_OPTS)
 
