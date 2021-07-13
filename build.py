@@ -202,10 +202,11 @@ def compile_sources():
 
 def link_dol(o_files):
     # Generate LCF.
-    src_lcf_path = Path("pack", "dol.base.lcf")
+    src_lcf_path = Path("pack", "dol.lcf.j2")
     dst_lcf_path = Path("pack", "dol.lcf")
     slices_path = Path("pack", "dol_slices.csv")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
+    symbols_path = Path("pack", "symbols.txt")
+    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path, symbols_path)
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -221,10 +222,11 @@ def link_dol(o_files):
 
 def link_rel(o_files):
     # Generate LCF.
-    src_lcf_path = Path("pack", "rel.base.lcf")
+    src_lcf_path = Path("pack", "rel.lcf.j2")
     dst_lcf_path = Path("pack", "rel.lcf")
     slices_path = Path("pack", "rel_slices.csv")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
+    symbols_path = Path("pack", "symbols.txt")
+    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path, symbols_path)
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)

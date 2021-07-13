@@ -19,13 +19,36 @@ Every fully understood piece of reverse engineered data has been documented in a
 ## Dependencies
 - DevKitPro (for the ppc-eabi assembler)
 - CodeWarrior compilers (in `tools`)
-- Python3:
-  - `pip insall pyelftools`
-  - `pip install capstone`
-  - `pip install colorama termcolor`
+- Python 3
 - Place a copy of Mario Kart Wii's PAL binaries: 
   - `artifacts/orig/pal/main.dol`
   - `artifacts/orig/pal/StaticR.rel`
+
+## Python Workspace
+
+### venv
+
+It is recommended to setup a Python virtual environment to simplify workspace setup.
+A venv saves you from installing dependencies system- or user-wide.
+
+Run the setup steps once:
+
+```ps1
+# Initialize your venv in the ./env dir.
+python3 -m venv env
+# (Windows only) Allow executing the Activate script.
+powershell -ExecutionPolicy Bypass -File ".\env\Scripts\Activate.ps1"
+```
+
+Then, each time you open a terminal, enter the venv:
+* Windows: `.\env\Scripts\Activate.ps1`
+* Good OSes: `source ./env/bin/activate`
+
+### Install dependencies
+
+```shell
+pip install -r requirements.txt
+```
 
 ## Building
 
