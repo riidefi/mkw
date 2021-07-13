@@ -39,9 +39,6 @@ static int get_sockaddrin(const char* hostname, int port, SOCKADDR_IN* saddr) {
   saddr->sin_addr.s_addr = inet_addr(hostname);
 
   if (saddr->sin_addr.s_addr == INADDR_NONE) {
-// TODO Something is weird here,
-#undef gethostbyname
-    SOHostEnt* gethostbyname(const char* name);
     HOSTENT* host = gethostbyname(hostname);
     if (!host)
       return 0;

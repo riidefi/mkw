@@ -11,10 +11,6 @@ INCLUDES
 extern "C" {
 #endif
 
-// TODO Something is weird here,
-#undef gethostbyname
-SOHostEnt* gethostbyname(const char* name);
-
 #ifdef __MWERKS__ // Codewarrior requires function prototypes
 qr2_error_t qr2_initW(/*[out]*/ qr2_t* qrec, const unsigned short* ip,
                       int baseport, const unsigned short* gamename,

@@ -17,10 +17,6 @@ Please see the GameSpy Presence SDK documentation for more information
 #include <stdlib.h>
 #include <string.h>
 
-// TODO Something is weird here,
-#undef gethostbyname
-SOHostEnt* gethostbyname(const char* name);
-
 // DEFINES
 /////////
 // Search Manager Address.

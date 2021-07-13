@@ -6,10 +6,6 @@
 
 #include <strings.h>
 
-// TODO Something is weird here,
-#undef gethostbyname
-SOHostEnt* gethostbyname(const char* name);
-
 #define SERVER_GROWBY 100
 
 // for the master server info

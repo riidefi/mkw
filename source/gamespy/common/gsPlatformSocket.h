@@ -115,7 +115,11 @@ int setsockopt(SOCKET sock, int level, int optname, const char* optval,
                int optlen);
 
 #define gethostbyaddr(a, l, t) SOGetHostByAddr(a, l, t)
-#define gethostbyname(n) SOGetHostByName(n)
+// The original gamespy SDK defines gethostbyname as an alternative name of SOGetHostByName.
+// Mario Kart Wii's code doesn't do this.
+// gethostbyname is a wrapper that internally calls SOGetHostByName.
+// Probably used to hijack certain hostnames like localhost.
+SOHostEnt* gethostbyname(const char* name);
 
 // thread safe DNS lookups
 #define getaddrinfo(n, s, h, r) SOGetAddrInfo(n, s, h, r)

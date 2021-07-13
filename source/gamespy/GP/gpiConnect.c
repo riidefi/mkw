@@ -186,9 +186,6 @@ static GPResult gpiStartConnect(GPConnection* connection,
   // Get the server host.
   ///////////////////////
   if (inet_addr(GPConnectionManagerHostname) == INADDR_NONE) {
-// TODO Something is weird here,
-#undef gethostbyname
-    SOHostEnt* gethostbyname(const char* name);
     host = gethostbyname(GPConnectionManagerHostname);
     if (host == NULL)
       CallbackFatalError(connection, GP_NETWORK_ERROR, GP_NETWORK,

@@ -15,10 +15,6 @@ devsupport@gamespy.com
 
 #define GTI2_STACK_HOSTLEN_MAX 256
 
-// TODO Something is weird here,
-#undef gethostbyname
-SOHostEnt* gethostbyname(const char* name);
-
 /*************************
 ** BYTE ORDER FUNCTIONS **
 *************************/
