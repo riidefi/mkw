@@ -1,3 +1,4 @@
+import csv
 import os
 import os.path
 from pathlib import Path
@@ -23,6 +24,14 @@ colorama.init()
 
 dol_slices = read_slices("pack/dol_slices.csv", verbose=False)
 dol_slices = { sl.obj_file : sl for sl in dol_slices }
+
+# Remember which files are stripped.
+stripped_files = set()
+with open("pack/dol_slices.csv") as f:
+    rd = csv.DictReader(f)
+    for line in rd:
+        if line["strip"]:
+            stripped_files.add(line["name"])
 
 def native_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
@@ -132,7 +141,8 @@ def compile_queued_sources():
     #
     for s in gSourceQueue:
         src, dst = s[0:2]
-
+        if src in stripped_files:
+            continue
         # Verify ELF file section sizes.
         tha_slice = dol_slices.get(src)
         if tha_slice:
@@ -194,7 +204,8 @@ def link_dol(o_files):
     # Generate LCF.
     src_lcf_path = Path("pack", "dol.base.lcf")
     dst_lcf_path = Path("pack", "dol.lcf")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files)
+    slices_path = Path("pack", "dol_slices.csv")
+    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -212,7 +223,8 @@ def link_rel(o_files):
     # Generate LCF.
     src_lcf_path = Path("pack", "rel.base.lcf")
     dst_lcf_path = Path("pack", "rel.lcf")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files)
+    slices_path = Path("pack", "rel_slices.csv")
+    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
