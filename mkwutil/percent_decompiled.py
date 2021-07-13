@@ -3,22 +3,24 @@ import os
 from pathlib import Path
 
 
-def process_line(tags, items):
+def process_line(line):
     name = "Untitled"
     start = None
     code_total = 0
     data_total = 0
 
-    for tag, entry in zip(tags, items):
+    for tag, entry in line.items():
         if tag == "enabled" and entry == 0:
             return
         elif tag == "name":
             name = entry
             continue
+        elif tag == "strip":
+            continue
 
         is_code = "text" in tag
 
-        if "Start" in tag:
+        if tag.endswith("Start"):
             if not entry:
                 start = None
                 continue
@@ -34,17 +36,14 @@ def process_line(tags, items):
             else:
                 data_total += size
 
-    name = items[1]
     return name, code_total, data_total
 
 
 def parse_slices(path):
     with open(path, "r") as file:
-        lines = file.readlines()
-
-        tags = lines[0].split(",")
-        for line in lines[1:]:
-            yield process_line(tags, line.split(","))
+        reader = csv.DictReader(file)
+        for line in reader:
+            yield process_line(line)
 
 
 def simple_count(path):
@@ -128,6 +127,10 @@ def percent_decompiled(dir="."):
     egg_progress = get_progress(parse_slices(dol_slices_path), "egg")
     egg_total = [0x80244DD4 - 0x8020F62C, None]
     analyze("  -> [EGG]", egg_progress, egg_total)
+
+    spy_progress = get_progress(parse_slices(dol_slices_path), "gamespy")
+    spy_total = [0x80123F88 - 0x800EF378, None]
+    analyze("  -> [SPY]", spy_progress, spy_total)
 
     rel_slices_path = dir / "pack" / "rel_slices.csv"
     rel_progress = simple_count(rel_slices_path)
