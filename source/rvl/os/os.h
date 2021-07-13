@@ -39,6 +39,8 @@ int OSDisableInterrupts(void);
 int OSEnableInterrupts(void);
 int OSRestoreInterrupts(int level);
 
+void OSPanic(char* file, int line, char* msg, ...);
+
 #ifdef __cplusplus
 }
 #endif
