@@ -13,8 +13,10 @@ jobs:
       - name: Verify formatting
         run: |
           find source -type f \
-               -name '*.h' \
-            -o -name '*.c' \
-            -o -name '*.hpp' \
-            -o -name '*.cpp' \
+            \( \
+                 -name '*.h' \
+              -o -name '*.c' \
+              -o -name '*.hpp' \
+              -o -name '*.cpp' \
+            \) \
             -exec clang-format --dry-run --Werror {} +

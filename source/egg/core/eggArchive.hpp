@@ -78,7 +78,8 @@ public:
   //!
   static Archive* mountNoFastGet(void* pArcStart, Heap* pHeap, int align);
 
-  //! @brief Unmount an archive. (Set the status as NOT_LOADED and decrease refcount)
+  //! @brief Unmount an archive. (Set the status as NOT_LOADED and decrease
+  //! refcount)
   //!
   void unmount();
 

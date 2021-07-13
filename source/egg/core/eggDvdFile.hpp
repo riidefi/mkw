@@ -64,20 +64,17 @@ private:
   static bool sIsInitialized;
   static nw4r::ut::List sDvdList;
 
-
   struct FileInfo : public DVDFileInfo {
-    bool fastOpen(s32 resolved) {
-      return DVDFastOpen(resolved, this);
-    }
+    bool fastOpen(s32 resolved) { return DVDFastOpen(resolved, this); }
   };
 
   bool mIsOpen; // 04
   // 3B implicit pad
-  OSMutex Mutex_08;      // sizeof=0x18
-  OSMutex Mutex_20;      // sizeof=0x18
-  int _38;               // set to 0 in ct
+  OSMutex Mutex_08;   // sizeof=0x18
+  OSMutex Mutex_20;   // sizeof=0x18
+  int _38;            // set to 0 in ct
   FileInfo mFileInfo; // [+0x3C] sizeof=0x3C
-  DvdFile* _78;          // set to this* in ct
+  DvdFile* _78;       // set to this* in ct
 
   OSMessageQueue MessageQueue_7C; // sizeof=0x20
   OSMessage _9C;

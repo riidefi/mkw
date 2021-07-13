@@ -25,7 +25,6 @@ public:
   virtual void onEnter(); /*{}*/ //!< [vt+0x14]
   virtual void onExit(); /*{}*/  //!< [vt+0x10]
 
-
   //! @brief   	A constructor.
   //!
   //! @details	Creates an EGG::Thread and OSThread from arguments.
@@ -121,9 +120,7 @@ public:
   static void* start(void* eggThread);
 
   //! When not NULL will override the heap used for allocations.
-  inline Heap* getAllocatableHeap() {
-    return mAlloctableHeap;
-  }
+  inline Heap* getAllocatableHeap() { return mAlloctableHeap; }
 
 private:
   // List of all registered threads.

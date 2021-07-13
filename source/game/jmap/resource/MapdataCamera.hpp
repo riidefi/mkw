@@ -8,7 +8,7 @@ namespace Field {
 struct MapdataCamera {
   // TODO: I have this documented in RiiStudio.
   u8 cameraType;
-  
+
   u8 cameraNext;
   u8 cameraShake;
   u8 pathID;
