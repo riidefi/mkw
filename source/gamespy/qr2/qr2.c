@@ -450,7 +450,30 @@ void define_some_strings() {
 }
 
 char qr2_check_queries_indata[INBUF_LEN];
+#ifdef NON_MATCHING
+/* qr2_check_queries: Processes any waiting queries */
+void qr2_check_queries(qr2_t qrec) {
+  struct sockaddr_in saddr;
+  int error;
 
+  int saddrlen = sizeof(struct sockaddr_in);
+
+  if (!qrec->read_socket)
+    return; // not our job
+
+  while (CanReceiveOnSocket(qrec->hbsock)) {
+    // else we have data
+    error =
+        (int)recvfrom(qrec->hbsock, qr2_check_queries_indata, (INBUF_LEN - 1),
+                      0, (struct sockaddr*)&saddr, &saddrlen);
+    if (gsiSocketIsNotError(error)) {
+      qr2_check_queries_indata[error] = '\0';
+      qr2_parse_queryA(qrec, qr2_check_queries_indata, error,
+                       (struct sockaddr*)&saddr);
+    }
+  }
+}
+#else
 // clang-format off
 asm void qr2_check_queries(qr2_t qrec) {
   nofralloc;
@@ -511,6 +534,7 @@ loc7:
   blr
 }
 // clang-format on
+#endif
 
 /* check_send_heartbeat: Perform any scheduled outgoing
 heartbeats */
