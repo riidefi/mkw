@@ -1,34 +1,7 @@
 
 .include "macros.inc"
 
-.section .sdata2, "a" # 0x803888CC - 0x80388D68
-.4byte 0x3F7FFF58
-.4byte 0xFFFFFF00
-.4byte 0x00000000
-.4byte 0x3F000000
-.4byte 0x41800000
-.4byte 0x3DC8B439
-.4byte 0x3E839581
-.4byte 0x3F010625
-.4byte 0x43000000
-.4byte 0x3EE0C49C
-.4byte 0xBE178D50
-.4byte 0x3E94FDF4
-.4byte 0x3EBC6A7F
-.4byte 0x3D916873
-.4byte 0x436B0000
-.4byte 0x43700000
-.4byte 0x00000000
-.4byte 0x43300000
-.4byte 0x00000000
-.4byte 0x2ABE003D
-.4byte 0x003D003D
-.4byte 0x3F7EB852
-.4byte 0x00000000
-.4byte 0x43300000
-.4byte 0x80000000
-.4byte 0x43300000
-.4byte 0x80000000
+.section .sdata2, "a" # 0x80388938 - 0x80388D68
 .4byte 0x43300000
 .4byte 0x00000000
 .4byte 0x3FB504F3
