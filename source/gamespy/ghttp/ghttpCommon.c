@@ -119,6 +119,105 @@ GHTTPBool ghiDecryptReceivedData(struct GHIConnection* connection) {
 
 // Receive some data.
 /////////////////////
+#ifdef NON_MATCHING
+GHIRecvResult ghiDoReceive(GHIConnection* connection, char buffer[],
+                           int* bufferLen) {
+  int rcode;
+  int socketError;
+  int len;
+
+  // How much to try and receive.
+  ///////////////////////////////
+  len = (*bufferLen - 1);
+
+  // Are we throttled?
+  ////////////////////
+  if (connection->throttle) {
+    unsigned long now;
+
+    // Don't receive too often.
+    ///////////////////////////
+    now = current_time();
+    if (now < (connection->lastThrottleRecv + ghiThrottleTimeDelay))
+      return GHINoData;
+
+    // Update the receive time.
+    ///////////////////////////
+    connection->lastThrottleRecv = (unsigned int)now;
+
+    // Don't receive too much.
+    //////////////////////////
+    len = min(len, ghiThrottleBufferSize);
+  }
+
+  // Receive some data.
+  /////////////////////
+  if (connection->encryptor.mEngine != GHTTPEncryptionEngine_None &&
+      connection->encryptor.mSessionEstablished == GHTTPTrue &&
+      connection->encryptor.mEncryptOnSend == GHTTPTrue) {
+    GHIEncryptionResult result;
+    int recvLength = len;
+
+    result = ghiEncryptorSslDecryptRecv(connection, &connection->encryptor,
+                                        buffer, &recvLength);
+    if (result == GHIEncryptionResult_Success)
+      rcode = recvLength;
+    else
+      rcode = -1; // signal termination of connection
+  } else {
+    rcode = recv(connection->socket, buffer, len, 0);
+  }
+
+  // There was an error.
+  //////////////////////
+  if (gsiSocketIsError(rcode)) {
+    // Get the error code.
+    //////////////////////
+    socketError = GOAGetLastError(connection->socket);
+
+    // Check for a closed connection.
+    /////////////////////////////////
+    if (socketError == WSAENOTCONN) {
+      connection->connectionClosed = GHTTPTrue;
+      return GHIConnClosed;
+    }
+
+    // Check for nothing waiting.
+    /////////////////////////////
+    if ((socketError == WSAEWOULDBLOCK) || (socketError == WSAEINPROGRESS) ||
+        (socketError == WSAETIMEDOUT))
+      return GHINoData;
+
+    // There was a real error.
+    //////////////////////////
+    connection->completed = GHTTPTrue;
+    connection->result = GHTTPSocketFailed;
+    connection->socketError = socketError;
+    connection->connectionClosed = GHTTPTrue;
+
+    return GHIError;
+  }
+
+  // The connection was closed.
+  /////////////////////////////
+  if (rcode == 0) {
+    connection->connectionClosed = GHTTPTrue;
+    return GHIConnClosed;
+  }
+
+  // Cap the buffer.
+  //////////////////
+  buffer[rcode] = '\0';
+  *bufferLen = rcode;
+
+  // gsDebugFormat(GSIDebugCat_HTTP, GSIDebugType_Network, GSIDebugLevel_RawDump,
+  //               "Received %d bytes\n", rcode);
+
+  // Notify app.
+  //////////////
+  return GHIRecvData;
+}
+#else
 asm GHIRecvResult ghiDoReceive(GHIConnection* connection, char buffer[],
                                int* bufferLen) {
   nofralloc;
@@ -260,6 +359,7 @@ loc25:
   addi r1, r1, 0x20;
   blr;
 }
+#endif
 
 asm int ghiDoSend(struct GHIConnection* connection, const char* buffer,
                   int len) {
