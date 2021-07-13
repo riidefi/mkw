@@ -263,11 +263,6 @@ void* MEMAllocFromExpHeapEx(MEMHeapHandle heap, u32 size, int dir) {
 extern "C" {
 #endif
 
-// TODO: Move to OS
-u32 OSDisableInterrupts(void);
-u32 OSEnableInterrupts(void);
-u32 OSRestoreInterrupts(u32 level);
-
 // Referenced by assembly.
 void _restgpr_26();
 void _savegpr_26();

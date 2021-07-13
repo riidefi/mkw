@@ -112,11 +112,6 @@ void MEMFreeToFrmHeap(MEMHeapHandle heap, int mode) {
 extern "C" {
 #endif
 
-// TODO: Move to OS
-u32 OSDisableInterrupts(void);
-u32 OSEnableInterrupts(void);
-u32 OSRestoreInterrupts(u32 level);
-
 #ifdef __cplusplus
 }
 #endif
