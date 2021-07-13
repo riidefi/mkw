@@ -34,6 +34,13 @@ sin=0x8001ba98;
 tan=0x8001bb64;
 sqrt=0x8001bbf4;
 
+_savegpr_15=0x80021570;
+_savegpr_16=0x80021574;
+_savegpr_17=0x80021578;
+_savegpr_18=0x8002157C;
+_savegpr_19=0x80021580;
+_savegpr_20=0x80021584;
+_savegpr_21=0x80021588;
 _savegpr_22=0x8002158C;
 _savegpr_23=0x80021590;
 _savegpr_24=0x80021594;
@@ -41,6 +48,13 @@ _savegpr_25=0x80021598;
 _savegpr_26=0x8002159C;
 _savegpr_27=0x800215A0;
 
+_restgpr_15=0x800215BC;
+_restgpr_16=0x800215C0;
+_restgpr_17=0x800215C4;
+_restgpr_18=0x800215C8;
+_restgpr_19=0x800215CC;
+_restgpr_20=0x800215D0;
+_restgpr_21=0x800215D4;
 _restgpr_22=0x800215D8;
 _restgpr_23=0x800215DC;
 _restgpr_24=0x800215E0;
@@ -62,10 +76,6 @@ CXReadUncompLZ=0x8015BF24;
 CXGetUncompressedSize=0x8015C2E0;
 
 OSPanic=0x801A2660;
-
-OSDisableInterrupts=0x801A65AC;
-OSEnableInterrupts=0x801A65C0;
-OSRestoreInterrupts=0x801A65D4;
 
 OSInitMutex=0x801A7EAC;
 
@@ -101,6 +111,30 @@ GXInitTexObj=0x801707f8;
 GXInitTexObjCI=0x80170a04;
 GXInitTexObjLOD=0x80170a4c;
 
+OSRegisterVersion = 0x801A0504;
+OSClearContext = 0x801A2098;
+OSDisableInterrupts = 0x801A65AC;
+OSEnableInterrupts = 0x801A65C0;
+OSRestoreInterrupts = 0x801A65D4;
+OSRegisterResetFunction = 0x801A8238;
+OSSetWirelessID = 0x801A9260;
+OSSetCurrentContext = 0x801A1E70;
+OSGetTime = 0x801AAD5C;
+
+SIBusy = 0x801B254C;
+SIIsChanBusy = 0x801B2568;
+SIUnregisterPollingHandler = 0x801B2CF8;
+SIGetStatus = 0x801B3050;
+SITransfer = 0x801B33EC;
+SISetCommand = 0x801B30C8;
+SITransferCommands = 0x801B30DC;
+SIEnablePolling = 0x801B3148;
+SIDisablePolling = 0x801B31D0;
+SIGetResponse = 0x801B323c;
+SIGetType = 0x801B3808;
+SIGetTypeAsync = 0x801B39BC;
+SIRefreshSamplingRate = 0x801B3BA4;
+
 VIInit = 0x801B94A4;
 VIWaitForRetrace = 0x801B99EC;
 VIConfigure = 0x801B9F6C;
@@ -115,6 +149,8 @@ VIGetCurrentLine = 0x801BAC48;
 VIGetTvFormat = 0x801BACD8;
 VIGetDTVStatus = 0x801BAD38;
 VISetTimeToDimming = 0x801BAFA8;
+
+sub_801BB0D0 = 0x801BB0D0;
 
 SCGetProgressiveMode=0x801B1D84;
 SCGetEuRgb60Mode=0x801B1CAC;
