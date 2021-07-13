@@ -1,9 +1,12 @@
 import argparse
 import csv
+import jinja2
 from pathlib import Path
 
+from mkwutil.symbols import SymbolsList
 
-def gen_lcf(src, dst, object_paths, slices_path):
+
+def gen_lcf(src, dst, object_paths, slices_path, symbols_path):
     # Read slices and search for stripped objects.
     stripped = set()
     for entry in csv.DictReader(open(slices_path, "r")):
@@ -13,19 +16,22 @@ def gen_lcf(src, dst, object_paths, slices_path):
         if strip_opt.strip() != "1":
             continue
         stripped.add(Path(entry["name"]).stem)
+    # Read symbols list.
+    symbols = SymbolsList()
+    symbols.read(open(symbols_path, "r"))
+    # Create list of FORCEFILES.
+    force_files = []
+    for obj_path in object_paths:
+        obj_path = Path(obj_path)
+        if obj_path.stem in stripped:
+            continue
+        force_files.append(str(obj_path.parent / (obj_path.stem + ".o")))
 
-    lcf = ""
-
-    with open(src, "r") as f:
-        lcf = f.read()
-        lcf += "\nFORCEFILES {\n"
-        for obj_path in object_paths:
-            obj_path = Path(obj_path)
-            if obj_path.stem in stripped:
-                continue
-            lcf += str(obj_path.parent / (obj_path.stem + ".o")) + "\n"
-        lcf += "}\n"
-
+    # Compile template.
+    template = jinja2.Template(src.read_text())
+    # Render template to string.
+    lcf = template.render({"symbols": list(symbols), "force_files": force_files})
+    # Write out to final LCF.
     with open(dst, "w") as f:
         f.write(lcf)
 
@@ -47,6 +53,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--slices", type=Path, required=True, help="Path to slices file"
+    )
+    parser.add_argument(
+        "--symbols", type=Path, required=True, help="Path to symbols.txt file"
     )
     args = parser.parse_args()
 

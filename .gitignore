@@ -50,6 +50,7 @@ out
 # Python cache/compiled modules
 *.pyc
 __pycache__/
+/env/
 
 tmp
 *.rel
