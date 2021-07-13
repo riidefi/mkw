@@ -17,6 +17,14 @@ typedef struct _GXColor {
   u8 a;
 } GXColor;
 
+typedef struct _GXTlutObj {
+  u32 _unk00[3];
+} GXTlutObj;
+
+typedef struct _GXTexObj {
+  u32 _unk00[8];
+} GXTexObj;
+
 #ifdef __cplusplus
 }
 #endif
