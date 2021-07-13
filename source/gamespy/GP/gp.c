@@ -1747,17 +1747,16 @@ GPResult gpGetBuddyStatusInfoKeys(GPConnection* connection, int index,
 
   if (pProfile->buddyStatus)
     CallbackError(connection, GP_PARAMETER_ERROR, GP_BM_EXT_INFO_NOT_SUPPORTED,
-                  "The profile does not support extended info keys.")
+                  "The profile does not support extended info keys.");
 
-        if (!pProfile->buddyStatusInfo && !pProfile->buddyStatus) CallbackError(
-            connection, GP_PARAMETER_ERROR, GP_BM_NOT_BUDDY,
-            "The profile used to get extended info keys is not a buddy.")
+  if (!pProfile->buddyStatusInfo && !pProfile->buddyStatus)
+    CallbackError(connection, GP_PARAMETER_ERROR, GP_BM_NOT_BUDDY,
+                  "The profile used to get extended info keys is not a buddy.");
 
-            if (pProfile->buddyStatusInfo &&
-                pProfile->buddyStatusInfo->statusState == GP_OFFLINE)
-                CallbackError(
-                    connection, GP_NETWORK_ERROR, GP_BM_BUDDY_OFFLINE,
-                    "The profile used to get extended info keys is offline.");
+  if (pProfile->buddyStatusInfo &&
+      pProfile->buddyStatusInfo->statusState == GP_OFFLINE)
+    CallbackError(connection, GP_NETWORK_ERROR, GP_BM_BUDDY_OFFLINE,
+                  "The profile used to get extended info keys is offline.");
 
   aPeerOp = (GPIPeerOp*)gsimalloc(sizeof(GPIPeerOp));
   aPeerOp->callback = callback;
