@@ -78,13 +78,13 @@ public:
   virtual u32 getAllocatableSize(s32 align) = 0;                   // [vt+0x24]
   virtual u32 adjust() = 0;                                        // [vt+0x28]
 
-HEAP_PRIVATE:
-  //! @brief   	Static linked-list of heaps.
-  //!
-  //! @details	When a heap is created, it is appended to this list.
-  //!				When it is deleted, it is removed.
-  //!
-  static nw4r::ut::List sHeapList;
+  HEAP_PRIVATE :
+      //! @brief   	Static linked-list of heaps.
+      //!
+      //! @details	When a heap is created, it is appended to this list.
+      //!				When it is deleted, it is removed.
+      //!
+      static nw4r::ut::List sHeapList;
 
   //! @brief   	Root heap mutex.
   //!
@@ -265,7 +265,7 @@ public:
 #ifdef RII_CLIENT
     return 0;
 #else
-    return (int) mHeapHandle->arena_end;
+    return (int)mHeapHandle->arena_end;
 #endif
   }
 };

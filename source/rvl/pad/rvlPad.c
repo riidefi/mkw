@@ -21,7 +21,6 @@ u16 oslow_30e0 : (0x800030e0);
 
 #include <string.h>
 
-
 // PAL: 0x80385b08 @sdata (pointer)
 // PAL: 0x8029cc80 @data (string literal)
 static const char* __PAD_VERSION =

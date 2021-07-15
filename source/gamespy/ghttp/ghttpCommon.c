@@ -210,7 +210,8 @@ GHIRecvResult ghiDoReceive(GHIConnection* connection, char buffer[],
   buffer[rcode] = '\0';
   *bufferLen = rcode;
 
-  // gsDebugFormat(GSIDebugCat_HTTP, GSIDebugType_Network, GSIDebugLevel_RawDump,
+  // gsDebugFormat(GSIDebugCat_HTTP, GSIDebugType_Network,
+  // GSIDebugLevel_RawDump,
   //               "Received %d bytes\n", rcode);
 
   // Notify app.

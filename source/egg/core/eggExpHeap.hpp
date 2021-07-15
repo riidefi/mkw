@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <rk_types.h>
 #include <egg/core/eggHeap.hpp>
+#include <rk_types.h>
 
 namespace EGG {
 
@@ -34,7 +34,6 @@ public:
   //!
   static ExpHeap* create(void* block, u32 size, u16 attr)
       __attribute__((never_inline));
-  
 
   //! @brief Create a new ExpHeap as a child of an existing heap.
   //!

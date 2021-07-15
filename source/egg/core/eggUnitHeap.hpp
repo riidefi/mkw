@@ -14,8 +14,8 @@ class UnitHeap : public Heap, private MEMiUntHeapHead {
   inline UnitHeap(MEMHeapHandle heapHandle) : Heap(heapHandle) {}
   ~UnitHeap() override;
   // Always inline in mkw
-  static inline UnitHeap* create(void* block, u32 size, u32 unit_size, s32 align,
-                          u16 flag);
+  static inline UnitHeap* create(void* block, u32 size, u32 unit_size,
+                                 s32 align, u16 flag);
   static UnitHeap* create(u32 size, u32 unit_size, EGG::Heap* heap, s32 align,
                           u16 flag);
   void destroy() override;
