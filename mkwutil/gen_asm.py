@@ -1,19 +1,140 @@
 import argparse
 import csv
-from contextlib import redirect_stdout
+import jinja2
 import os
 from pathlib import Path
 import struct
 
-from .ppc_dis import disasm_iter, disassemble_callback
-from .dol import DolBinary, Segment
+import capstone.ppc
 
+from .ppc_dis import InlineInstruction, disasm_iter, label_name
+from .dol import DolBinary, Segment
 from .rel import Rel, dump_staticr
+from .symbols import SymbolsList
 
 
 read_u32 = lambda f: struct.unpack(">L", f.read(4))[0]
 read_u16 = lambda f: struct.unpack(">H", f.read(2))[0]
 read_u8 = lambda f: struct.unpack(">B", f.read(1))[0]
+
+
+jinja_env = jinja2.Environment(
+    loader=jinja2.PackageLoader("mkwutil", "gen_asm"),
+    autoescape=jinja2.select_autoescape(),
+)
+
+
+class AsmGenerator:
+    """Generates assembly files."""
+
+    def __init__(self, image, offset, seg, symbols, output):
+        self.image = image
+        self.offset = offset
+        self.seg = seg
+        self.symbols = symbols
+        self.output = output
+
+    # TODO Define symbols in ASM
+
+    def dump_bss(self):
+        """Writes a bss segment."""
+        print(".skip 0x%x" % self.seg.size(), file=self.output)
+
+    def dump_data(self):
+        """Writes a data segment."""
+        image_offset = self.seg.begin - self.offset
+        data = self.image[image_offset : image_offset + self.seg.size()]
+        while len(data) >= 4:
+            int_val = struct.unpack(">I", data[:4])[0]
+            print(".4byte 0x%08X" % (int_val), file=self.output)
+            data = data[4:]
+        for byte_val in data:
+            print(".byte 0x%02x" % (byte_val), file=self.output)
+
+    def dump_text(self):
+        """Writes a disassembled text segment."""
+        for ins in disasm_iter(
+            self.image, self.seg.begin - self.offset, self.seg.begin, self.seg.size()
+        ):
+            print(ins.disassemble(), file=self.output)
+
+    def dump_section_body(self, name):
+        if "bss" in name:
+            self.dump_bss()
+            return
+
+        if name == "text" or name == "init":
+            self.dump_text()
+            return
+
+        self.dump_data()
+
+    def dump_section_header(self, name):
+        # section permissions
+        perm = AsmGenerator.compute_perm(name)
+        print(
+            '\n.section %s, "%s" # 0x%08X - 0x%08X'
+            % (format_segname(name), perm, self.seg.begin, self.seg.end),
+            file=self.output,
+        )
+
+    def compute_perm(name):
+        perm = "wa"
+        if name == "text" or name == "init":
+            perm = "ax"
+
+        # if "bss" in name:
+        #     perm = "ba"
+
+        if name == "rodata" or "2" in name:
+            perm = perm.replace("w", "")
+
+        return perm
+
+    def dump_section(self, name):
+        self.dump_section_header(name)
+        self.dump_section_body(name)
+
+
+class CAsmGenerator:
+    """Generates C files with assembly functions."""
+
+    def __init__(self, image, offset, seg, symbols, output):
+        self.image = image
+        self.offset = offset
+        self.seg = seg
+        self.symbols = symbols
+        self.output = output
+
+    def disassemble_function(self, sym):
+        """Returns the inline assembly function body."""
+        assert isinstance(sym.size, int)
+        # Grab the instructions.
+        insns = list(
+            disasm_iter(self.image, sym.addr - self.offset, sym.addr, sym.size)
+        )
+        # Walk instructions and collect jump targets.
+        func_range = slice(sym.addr, sym.addr + sym.size)
+        labels = set()
+        for ins in insns:
+            branch_info = ins.disassemble_branch()
+            if branch_info is not None:
+                _, addr = branch_info
+                if addr in func_range:
+                    labels.add(addr)
+        sorted_labels = list(sorted(labels))
+        # Disassemble instructions.
+        for ins in insns:
+            # TODO is there a better way to specialize a Python object?
+            ins = InlineInstruction(
+                ins.address, ins.offset, ins.insn, ins.bytes, labels, self.symbols
+            )
+            # Insert next label if address matches.
+            if len(sorted_labels) > 0 and sorted_labels[0] <= ins.address:
+                label = sorted_labels.pop()
+                print(f"{label_name(label)}:", file=self.output)
+            # Actual instruction.
+            print(f"  {ins.disassemble()}", file=self.output)
 
 
 def read_segments_iter(name):
@@ -88,102 +209,29 @@ def format_segname(name):
     return "." + name
 
 
-def read_u32b(filecontent, offset):
-    return (
-        (filecontent[offset + 0] << 24)
-        | (filecontent[offset + 1] << 16)
-        | (filecontent[offset + 2] << 8)
-        | filecontent[offset + 3]
-    )
-
-
-# stdout must be redirected
-def dump_bss(size):
-    print(".skip 0x%x" % size)
-
-
-# stdout must be redirected
-def dump_data(image, addr_start, seg):
-    for i in range(seg.begin, seg.end, 4):
-        if seg.end - i >= 4:
-            print(".4byte 0x%08X" % read_u32b(image, i - addr_start))
-            continue
-
-        for j in range(i, seg.end):
-            print(".byte 0x%02x" % image[j - addr_start])
-
-
-# stdout must be redirected
-def dump_text(image, addr_start, seg):
-    disasm_iter(
-        image, seg.begin - addr_start, seg.begin, seg.size(), disassemble_callback
-    )
-
-
-def compute_perm(name):
-    perm = "wa"
-    if name == "text" or name == "init":
-        perm = "ax"
-
-    # if "bss" in name:
-    #     perm = "ba"
-
-    if name == "rodata" or "2" in name:
-        perm = perm.replace("w", "")
-
-    return perm
-
-
-# stdout must be redirected
-def dump_section_body(name, image, addr_start, seg):
-    if "bss" in name:
-        dump_bss(seg.size())
-        return
-
-    if name == "text" or name == "init":
-        dump_text(image, addr_start, seg)
-        return
-
-    dump_data(image, addr_start, seg)
-
-
-# stdout must be redirected
-def dump_section_header(name, seg):
-    # section permissions
-    perm = compute_perm(name)
-
-    print(
-        '\n.section %s, "%s" # 0x%08X - 0x%08X'
-        % (format_segname(name), perm, seg.begin, seg.end)
-    )
-
-
-# stdout must be redirected
-def dump_section(name, image, addr_start, seg):
-    dump_section_header(name, seg)
-    dump_section_body(name, image, addr_start, seg)
-
-
-# stdout must be redirected
-def dump_object_file(image, addr_start, segments):
-    print('\n.include "macros.inc"')
-
+def dump_object_file(image, addr_start, segments, symbols, output):
+    print('\n.include "macros.inc"', file=output)
     for segment_name, segment in segments:
-        dump_section(segment_name, image, addr_start, segment)
+        gen = AsmGenerator(image, addr_start, segment, symbols=symbols, output=output)
+        gen.dump_section(segment_name)
 
 
-def disassemble_object_file(path, image, addr_start, segments):
+def disassemble_object_file(path, image, addr_start, segments, symbols):
     if os.path.exists(path):
-        return  # Don't bother updating existing file
+       return  # Don't bother updating existing file
     with open(path, "w") as file:
-        with redirect_stdout(file):
-            dump_object_file(image, addr_start, segments)
+        dump_object_file(image, addr_start, segments, symbols, output=file)
 
 
-def disasm(folder, name, image, addr_start, seg, is_data):
+def disasm(folder, name, image, addr_start, seg, symbols):
     path = get_asm_path(name, seg, folder)
-    disassemble_object_file(path, image, addr_start, [(name, seg)])
+    disassemble_object_file(path, image, addr_start, [(name, seg)], symbols)
     return path
+
+
+def disasm_to_c(dst_path):
+    print("Generating file", dst_path)
+    # TODO Invoke CAsmGenerator()
 
 
 def gen_start_segs(segments):
@@ -240,22 +288,26 @@ def find_o_files(all_slices, folder):
         yield name, gap_seg, path
 
 
-def unpack_binary(folder, all_slices, image, addr_start):
+# This needs some re-structuring.
+def unpack_binary(folder, all_slices, image, addr_start, symbols):
     # Disassemble all slices if they don't exist already.
     # Keep track of the expected paths.
     asm_paths = set()
     for name, gap_seg, dest in find_o_files(all_slices, folder):
         is_decompiled = gap_seg is None
-
         if not is_decompiled:
             # print("name %s dest %s" % (name, dest))
-            asm_path = disasm(folder, name, image, addr_start, gap_seg, False)
+            asm_path = disasm(folder, name, image, addr_start, gap_seg, symbols)
             asm_paths.add(str(asm_path.relative_to(folder)))
             kind = Path(dest.parent.name)  # dol or rel
             yield Path("out", kind, dest.stem + ".o")
-
-        if is_decompiled:
-            object_name = Path(name).stem + ".o"
+        else:
+            source_path = Path(name)
+            if not os.path.exists(source_path):
+                # TODO C++ support
+                print(folder)
+                disasm_to_c(source_path)
+            object_name = source_path.stem + ".o"
             yield Path("out", object_name)
     # Check with paths we actually have.
     # Delete asm blobs that don't match those we just unpacked.
@@ -306,7 +358,7 @@ def compute_cuts_from_spreadsheets(segments, decomplog):
     return slices, segments, gen_cuts(slices, segments)
 
 
-def unpack_base_dol(asm_dir, pack_dir, binary_dir):
+def unpack_base_dol(asm_dir, pack_dir, binary_dir, symbols):
     base_dol = DolBinary(binary_dir / "main.dol")
 
     _, _, cuts = compute_cuts_from_spreadsheets(
@@ -316,7 +368,9 @@ def unpack_base_dol(asm_dir, pack_dir, binary_dir):
 
     # o_files
     return list(
-        unpack_binary(asm_dir / "dol", cuts, base_dol.image, base_dol.image_base)
+        unpack_binary(
+            asm_dir / "dol", cuts, base_dol.image, base_dol.image_base, symbols
+        )
     )
 
 
@@ -366,12 +420,15 @@ def unpack_staticr_rel(asm_dir, pack_dir, binary_dir):
     image, image_base = load_rel_binary(segments, binary_dir)
 
     # o_files
-    return list(unpack_binary(asm_dir / "rel", cuts, image, image_base))
+    return list(unpack_binary(asm_dir / "rel", cuts, image, image_base, SymbolsList()))
 
 
 def unpack_everything(asm_dir, pack_dir, binary_dir):
     """Unpack all ASM blobs into asm_dir."""
-    dol_o_files = unpack_base_dol(asm_dir, pack_dir, binary_dir)
+    symbols = SymbolsList()
+    with open(pack_dir / "symbols.txt", "r") as f:
+        symbols.read(f)
+    dol_o_files = unpack_base_dol(asm_dir, pack_dir, binary_dir, symbols)
     with open(pack_dir / "dol_objects.txt", "w") as file:
         for path in dol_o_files:
             print(path, file=file)
@@ -399,7 +456,7 @@ if __name__ == "__main__":
     args.asm_dir.mkdir(exist_ok=True)
 
     # Feel free to move this around, dump staticr.rel segments
-    with open("artifacts/orig/pal/StaticR.rel", 'rb') as f:
+    with open("artifacts/orig/pal/StaticR.rel", "rb") as f:
         dump_staticr(Rel(f), "artifacts/orig/pal/rel")
 
     # Write the macros file.

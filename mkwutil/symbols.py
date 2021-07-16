@@ -1,5 +1,6 @@
 """This module implements symbols file handling."""
 
+from bisect import bisect_left
 import csv
 
 
@@ -9,9 +10,13 @@ class Symbol:
     def __init__(self, addr, name):
         self.addr = addr
         self.name = name
+        self.size = None
 
     def __repr__(self):
         return "%s=0x%08x" % (self.name, self.addr)
+
+    def slice(self):
+        return slice(self.addr, self.addr+self.size)
 
 
 class SymbolsList:
@@ -37,7 +42,17 @@ class SymbolsList:
 
     def __iter__(self):
         """Returns an iterator of all symbols sorted by address."""
-        for addr in sorted(self._by_addr):
+        return self.items()
+    
+    def items(self, start=0, stop=-1):
+        """Returns an iterator of all symbols sorted by address with bounds by address."""
+        sorted_by_addr = sorted(self._by_addr)
+        if start > 0:
+            # Binary search to determine first symbol with address >= start.
+            sorted_by_addr = sorted_by_addr[bisect_left(sorted_by_addr, start):]
+        for addr in sorted_by_addr:
+            if stop > 0 and stop > addr:
+                break
             yield self._by_addr[addr]
 
     def put(self, entry):
@@ -51,6 +66,11 @@ class SymbolsList:
             entry = Symbol(addr, entry)
         assert addr == entry.addr
         self.put(entry)
+
+    def __delitem__(self, addr):
+        sym = self._by_addr.pop(addr)
+        assert sym is not None
+        del self._by_name[sym.name]
 
     def read(self, file):
         """Reads a symbol list from a file."""

@@ -1,0 +1,10 @@
+{% for function in functions %}
+// Symbol: {{ symbol.name }}
+// Function signature is unknown.
+// PAL: {{ symbol.addr | addr }}..{{ (symbol.addr+symbol.size) | addr }}
+asm void {{ symbol.name }}(void) {
+  nofralloc;
+{{ inline_asm }}
+}
+
+{%- endfor %}
