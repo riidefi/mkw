@@ -1,10 +1,12 @@
-{% for function in functions %}
-// Symbol: {{ symbol.name }}
+{% for function in functions -%}
+// Symbol: {{ function.name }}
 // Function signature is unknown.
-// PAL: {{ symbol.addr | addr }}..{{ (symbol.addr+symbol.size) | addr }}
-asm void {{ symbol.name }}(void) {
+// PAL: {{ function.addr | addr }}..{{ (function.addr+function.size) | addr }}
+asm void {{ function.name }}(void) {
   nofralloc;
-{{ inline_asm }}
+{%- for line in function.inline_asm %}
+{{ line }}
+{%- endfor %}
 }
 
-{%- endfor %}
+{% endfor %}

@@ -1,7 +1,6 @@
-
 .include "macros.inc"
 
-.section .init, "ax" # 0x80004000 - 0x80005F34
+.section .init, "ax" # { 80004000..80005f34 (init) }
 /* 80004000  4D 65 74 72 */	.4byte 0x4D657472  /* unknown instruction */
 /* 80004004  6F 77 65 72 */	xoris r23, r27, 0x6572
 /* 80004008  6B 73 20 54 */	xori r19, r27, 0x2054
@@ -13,7 +12,7 @@
 /* 80004020  6C 20 66 6F */	xoris r0, r1, 0x666f
 /* 80004024  72 20 50 6F */	andi. r0, r17, 0x506f
 /* 80004028  77 65 72 50 */	andis. r5, r27, 0x7250
-/* 8000402C  43 00 00 00 */	.4byte 0x43000000  /* unknown instruction */
+/* 8000402C  43 00 00 00 */	bdnz- 0x0
 /* 80004030  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004034  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004038  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -148,7 +147,7 @@
 /* 8000423C  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004240  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80004244  38 60 02 00 */	li r3, 0x200
-/* 80004248  4C 00 00 64 */	rfi 
+/* 80004248  4C 00 00 64 */	rfi
 /* 8000424C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004250  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004254  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -206,7 +205,7 @@
 /* 80004324  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004328  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000432C  38 60 03 00 */	li r3, 0x300
-/* 80004330  4C 00 00 64 */	rfi 
+/* 80004330  4C 00 00 64 */	rfi
 /* 80004334  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004338  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000433C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -270,7 +269,7 @@
 /* 80004424  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004428  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000442C  38 60 04 00 */	li r3, 0x400
-/* 80004430  4C 00 00 64 */	rfi 
+/* 80004430  4C 00 00 64 */	rfi
 /* 80004434  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004438  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000443C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -334,7 +333,7 @@
 /* 80004524  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004528  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000452C  38 60 05 00 */	li r3, 0x500
-/* 80004530  4C 00 00 64 */	rfi 
+/* 80004530  4C 00 00 64 */	rfi
 /* 80004534  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004538  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000453C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -398,7 +397,7 @@
 /* 80004624  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004628  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000462C  38 60 06 00 */	li r3, 0x600
-/* 80004630  4C 00 00 64 */	rfi 
+/* 80004630  4C 00 00 64 */	rfi
 /* 80004634  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004638  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000463C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -462,7 +461,7 @@
 /* 80004724  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004728  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000472C  38 60 07 00 */	li r3, 0x700
-/* 80004730  4C 00 00 64 */	rfi 
+/* 80004730  4C 00 00 64 */	rfi
 /* 80004734  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004738  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000473C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -526,7 +525,7 @@
 /* 80004824  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004828  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000482C  38 60 08 00 */	li r3, 0x800
-/* 80004830  4C 00 00 64 */	rfi 
+/* 80004830  4C 00 00 64 */	rfi
 /* 80004834  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004838  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000483C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -590,7 +589,7 @@
 /* 80004924  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004928  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000492C  38 60 09 00 */	li r3, 0x900
-/* 80004930  4C 00 00 64 */	rfi 
+/* 80004930  4C 00 00 64 */	rfi
 /* 80004934  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004938  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000493C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -782,7 +781,7 @@
 /* 80004C24  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004C28  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80004C2C  38 60 0C 00 */	li r3, 0xc00
-/* 80004C30  4C 00 00 64 */	rfi 
+/* 80004C30  4C 00 00 64 */	rfi
 /* 80004C34  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004C38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004C3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -846,7 +845,7 @@
 /* 80004D24  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004D28  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80004D2C  38 60 0D 00 */	li r3, 0xd00
-/* 80004D30  4C 00 00 64 */	rfi 
+/* 80004D30  4C 00 00 64 */	rfi
 /* 80004D34  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004D38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004D3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -910,7 +909,7 @@
 /* 80004E24  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004E28  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80004E2C  38 60 0E 00 */	li r3, 0xe00
-/* 80004E30  4C 00 00 64 */	rfi 
+/* 80004E30  4C 00 00 64 */	rfi
 /* 80004E34  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004E38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004E3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -982,7 +981,7 @@
 /* 80004F44  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004F48  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80004F4C  38 60 0F 20 */	li r3, 0xf20
-/* 80004F50  4C 00 00 64 */	rfi 
+/* 80004F50  4C 00 00 64 */	rfi
 /* 80004F54  7C 51 43 A6 */	mtspr 0x111, r2
 /* 80004F58  7C 72 43 A6 */	mtspr 0x112, r3
 /* 80004F5C  7C 93 43 A6 */	mtspr 0x113, r4
@@ -995,7 +994,7 @@
 /* 80004F78  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80004F7C  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80004F80  38 60 0F 00 */	li r3, 0xf00
-/* 80004F84  4C 00 00 64 */	rfi 
+/* 80004F84  4C 00 00 64 */	rfi
 /* 80004F88  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004F8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80004F90  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1053,7 +1052,7 @@
 /* 80005060  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005064  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80005068  38 60 10 00 */	li r3, 0x1000
-/* 8000506C  4C 00 00 64 */	rfi 
+/* 8000506C  4C 00 00 64 */	rfi
 /* 80005070  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005074  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005078  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1117,7 +1116,7 @@
 /* 80005160  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005164  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80005168  38 60 11 00 */	li r3, 0x1100
-/* 8000516C  4C 00 00 64 */	rfi 
+/* 8000516C  4C 00 00 64 */	rfi
 /* 80005170  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005174  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005178  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1181,7 +1180,7 @@
 /* 80005260  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005264  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80005268  38 60 12 00 */	li r3, 0x1200
-/* 8000526C  4C 00 00 64 */	rfi 
+/* 8000526C  4C 00 00 64 */	rfi
 /* 80005270  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005274  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005278  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1230,7 +1229,7 @@
 /* 80005324  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005328  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000532C  38 60 13 00 */	li r3, 0x1300
-/* 80005330  4C 00 00 64 */	rfi 
+/* 80005330  4C 00 00 64 */	rfi
 /* 80005334  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005338  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000533C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1294,7 +1293,7 @@
 /* 80005424  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005428  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000542C  38 60 14 00 */	li r3, 0x1400
-/* 80005430  4C 00 00 64 */	rfi 
+/* 80005430  4C 00 00 64 */	rfi
 /* 80005434  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005438  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000543C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1422,7 +1421,7 @@
 /* 80005624  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005628  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000562C  38 60 16 00 */	li r3, 0x1600
-/* 80005630  4C 00 00 64 */	rfi 
+/* 80005630  4C 00 00 64 */	rfi
 /* 80005634  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005638  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000563C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1486,7 +1485,7 @@
 /* 80005724  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005728  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 8000572C  38 60 17 00 */	li r3, 0x1700
-/* 80005730  4C 00 00 64 */	rfi 
+/* 80005730  4C 00 00 64 */	rfi
 /* 80005734  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005738  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8000573C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1806,7 +1805,7 @@
 /* 80005C24  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005C28  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80005C2C  38 60 1C 00 */	li r3, 0x1c00
-/* 80005C30  4C 00 00 64 */	rfi 
+/* 80005C30  4C 00 00 64 */	rfi
 /* 80005C34  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005C38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005C3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1870,7 +1869,7 @@
 /* 80005D24  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005D28  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80005D2C  38 60 1D 00 */	li r3, 0x1d00
-/* 80005D30  4C 00 00 64 */	rfi 
+/* 80005D30  4C 00 00 64 */	rfi
 /* 80005D34  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005D38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005D3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1934,7 +1933,7 @@
 /* 80005E24  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005E28  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80005E2C  38 60 1E 00 */	li r3, 0x1e00
-/* 80005E30  4C 00 00 64 */	rfi 
+/* 80005E30  4C 00 00 64 */	rfi
 /* 80005E34  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005E38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80005E3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1998,4 +1997,4 @@
 /* 80005F24  60 63 FD EC */	ori r3, r3, 0xfdec
 /* 80005F28  7C 7A 03 A6 */	mtspr 0x1a, r3
 /* 80005F2C  38 60 1F 00 */	li r3, 0x1f00
-/* 80005F30  4C 00 00 64 */	rfi 
+/* 80005F30  4C 00 00 64 */	rfi

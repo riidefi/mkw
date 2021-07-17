@@ -1,20 +1,23 @@
 from bisect import bisect, bisect_left
+from copy import copy
 import csv
 
 
 class Slice:
-    def __init__(self, start, stop, name=None, section=None, flags=set()):
+    def __init__(self, start, stop, name=None, section=None, tags=set()):
         assert start <= stop, "Slice has negative length"
         self.start = start
         self.stop = stop
         self.name = name
         self.section = section
-        self.flags = flags
+        self.tags = tags
 
     def __contains__(self, key):
-        if not isinstance(key, Slice):
-            return False
-        return self.start <= key.start and self.stop >= key.stop
+        if isinstance(key, int):
+            return self.start <= key < self.stop
+        if isinstance(key, type(self)):
+            return self.start <= key.start and self.stop >= key.stop
+        return False
 
     def __len__(self):
         assert self.start <= self.stop, "Slice has negative length"
@@ -22,13 +25,13 @@ class Slice:
 
     def __eq__(self, other):
         """Checks whether two slices occupy the same region."""
-        if not isinstance(other, Slice):
+        if not isinstance(other, type(self)):
             return False
         return self.start == other.start and self.stop == other.stop
 
     def __gt__(self, other):
         """Checks whether this slice starts after another slice."""
-        if not isinstance(other, Slice):
+        if not isinstance(other, type(self)):
             return False
         return self.start > other.start
 
@@ -38,8 +41,16 @@ class Slice:
             repr += " " + self.name
         if self.section is not None:
             repr += " (" + self.section + ")"
-        repr += "}"
+        repr += " }"
         return repr
+
+    def has_name(self):
+        """Returns whether the slice is named. Unnamed slices get handled"""
+        return self.name is not None
+
+    def __copy__(self):
+        """Returns a copy of the slice."""
+        return type(self)(self.start, self.stop, self.name, self.section, self.tags)
 
 
 class SliceTable:
@@ -72,6 +83,32 @@ class SliceTable:
         for slice in SlicesCSVReader(file):
             self.add(slice)
 
+    def find(self, addr):
+        """Returns the slice the address falls into."""
+        for i, slice in enumerate(self.slices):
+            if addr in slice:
+                return slice, i
+        return None, None
+
+    def slice(self, start, stop):
+        """Returns a copy of the slice table for a given range."""
+        _, start_idx = self.find(start)
+        assert start_idx is not None, f"Start {hex(start)} lies outside table."
+        new_table = SliceTable(start, stop)
+        for slice in self.slices[start_idx:]:
+            if slice.start < start:
+                slice = copy(slice)
+                slice.start = start
+            if slice.start >= stop:
+                break
+            if slice.stop > stop:
+                slice = copy(slice)
+                slice.stop = stop
+                new_table.add(slice)
+                break
+            new_table.add(slice)
+        return new_table
+
     # def write_to(self, file):
     #    writer = SlicesCSVWriter(file)
     #    for slice in self.slices:
@@ -102,10 +139,18 @@ class SliceTable:
                 filtered.add(slice)
         return filtered
 
+    # Filter function for SliceTable.filter
+    ONLY_ENABLED = lambda slice: "enabled" in slice.tags
+
     def add(self, slice):
         """Adds a slice to the table, changing gaps as appropriate.
         Panics if a named slice overlaps with the slice to be inserted"""
-        assert slice in self, "Slice does not fit in table"
+        assert slice in self, "Slice %08x..%08x does not fit in table %08x..%08x" % (
+            slice.start,
+            slice.stop,
+            self.start,
+            self.stop,
+        )
         # Find the slice in which the starting point falls.
         i = bisect(self.slices, slice) - 1
         target = self.slices[i]
@@ -129,9 +174,8 @@ class SliceTable:
         if slice.stop < target.stop:
             self.slices.insert(i + 1, Slice(slice.stop, target.stop))
 
-
-# Filter function for SliceTable.filter
-only_enabled: lambda slice: "enabled" in slice.tags
+    def __repr__(self):
+        return "[\n" + "\n".join(["  " + repr(slice) for slice in self.slices]) + "\n]"
 
 
 class SlicesCSVReader:

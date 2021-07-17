@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.rectangle {
+  height: 50px;
+  float: left;
+}
+</style>
+</head>
+<body>
+
+<h2>DOL Decompiled</h2>
+{% for box in dol_decomp %}
+<div class="rectangle" style="background-color:{{ box.color }}; width:{{ box.width }}px;" data-tooltip="{{ box.tooltip }}"></div>
+{% endfor %}
+<h2>DOL Libraries</h2>
+{% for box in dol_libraries %}
+<div class="rectangle" style="background-color:{{ box.color }}; width:{{ box.width }}px;" data-tooltip="{{ box.tooltip }}"></div>
+{% endfor %}
+</body>
+</html>

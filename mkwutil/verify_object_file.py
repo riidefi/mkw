@@ -2,9 +2,10 @@ from elftools.elf.elffile import ELFFile
 
 from termcolor import colored
 
+
 def verify_object_file(dst, src, obj_slice):
     match = True
-    with open(dst, 'rb') as f:
+    with open(dst, "rb") as f:
         elf_file = ELFFile(f)
         for section in elf_file.iter_sections():
             section_name = section.name.removeprefix(".")
@@ -15,7 +16,12 @@ def verify_object_file(dst, src, obj_slice):
             have_size = section.data_size
             if want_size != have_size:
                 match = False
-                warn ="[!] %s %s want=0x%x got=0x%x" % (src, section_name, want_size, have_size)
+                warn = "[!] %s %s want=0x%x got=0x%x" % (
+                    src,
+                    section_name,
+                    want_size,
+                    have_size,
+                )
 
-                print(colored(warn, 'red'))
+                print(colored(warn, "red"))
     return match

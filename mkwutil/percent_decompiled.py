@@ -93,13 +93,15 @@ def analyze(prefix, progress, total):
         )
     )
 
+
 # TODO: This system is garbage.
 # Ideally we'd have
 #
 # { "name": "EGG", "start": ..., "end": ...}
-# 
+#
 # and it would generate everything for us
 #
+
 
 def get_progress(slices, filter):
     progress = [0, 0]
@@ -111,6 +113,7 @@ def get_progress(slices, filter):
         progress[1] += o_data_total
 
     return progress
+
 
 def percent_decompiled(dir="."):
     dir = Path(dir)
@@ -135,7 +138,7 @@ def percent_decompiled(dir="."):
     rel_slices_path = dir / "pack" / "rel_slices.csv"
     rel_progress = simple_count(rel_slices_path)
     rel_segments_path = dir / "pack" / "rel_segments.csv"
-    rel_total = binary_total(rel_segments_path) 
+    rel_total = binary_total(rel_segments_path)
     analyze("[REL]", rel_progress, rel_total)
 
     def piecewise_add(x, y):
@@ -152,8 +155,8 @@ def percent_decompiled(dir="."):
     print(" - %u BR (main.dol)" % (dol_progress[0] / dol_total[0] * 4999 + 5000))
     print(" - %u VR (StaticR.rel)" % (rel_progress[0] / rel_total[0] * 4999 + 5000))
 
-    print("1 BR = %s lines of asm code." % (.1 * round(10 * dol_total[0] / 4999 / 4)))
-    print("1 VR = %s lines of asm code." % (.1 * round(10 * rel_total[0] / 4999 / 4)))
+    print("1 BR = %s lines of asm code." % (0.1 * round(10 * dol_total[0] / 4999 / 4)))
+    print("1 VR = %s lines of asm code." % (0.1 * round(10 * rel_total[0] / 4999 / 4)))
 
 
 if __name__ == "__main__":

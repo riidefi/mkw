@@ -51,6 +51,7 @@ out
 *.pyc
 __pycache__/
 /env/
+.pytest_cache
 
 tmp
 *.rel
