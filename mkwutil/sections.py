@@ -1,18 +1,18 @@
 class Section:
-    def __init__(self, name, type, start, stop):
+    def __init__(self, name: str, type: str, start: int, stop: int):
         self.name = name
         self.type = type
         assert start <= stop
         self.start = start
         self.stop = stop
 
-    def size(self):
+    def size(self) -> int:
         return self.stop - self.start
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size()
 
-    def __contains__(self, key):
+    def __contains__(self, key) -> bool:
         return isinstance(key, int) and self.start <= key < self.stop
 
 
@@ -30,4 +30,13 @@ DOL_SECTIONS = [
     Section("sbss", "bss", 0x80385FC0, 0x80386FA0),
     Section("sdata2", "data", 0x80386FA0, 0x80389140),
     Section("sbss2", "bss", 0x80389140, 0x8038917C),
+]
+
+REL_SECTIONS = [
+    Section("text", "code", 0x805103B4, 0x8088F400),
+    Section("ctors", "data", 0x8088F400, 0x8088F704),
+    Section("dtors", "data", 0x8088F704, 0x8088F710),
+    Section("rodata", "data", 0x8088F710, 0x808B2BD0),
+    Section("data", "data", 0x808B2BD0, 0x808DD3D4),
+    Section("bss", "bss", 0x809BD6E0, 0x809C4F90),
 ]
