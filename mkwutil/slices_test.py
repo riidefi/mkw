@@ -1,7 +1,7 @@
 from pathlib import Path
 import pytest
 
-from mkwutil.slices import Slice, SliceTable
+from mkwutil.slices import ObjectSlices, Slice, SliceTable
 
 
 def test_slice_compare():
@@ -29,8 +29,26 @@ def test_slice_table():
     ]
 
 
-def test_slices_reader():
-    dol_slices_path = Path(__file__) / ".." / ".." / "pack" / "dol_slices.csv"
-    with open(dol_slices_path, "r") as file:
-        table = SliceTable(0x80000000, 0x8038917C)
-        table.read_from(file)
+def test_dol_slices():
+    table = SliceTable.load_dol_slices()
+    assert isinstance(table, SliceTable)
+    objs = table.object_slices()
+    assert isinstance(objs, ObjectSlices)
+    assert len(objs) > 10
+
+
+def test_rel_slices():
+    table = SliceTable.load_rel_slices()
+    assert isinstance(table, SliceTable)
+    objs = table.object_slices()
+    assert isinstance(objs, ObjectSlices)
+
+
+def test_object_slices_sort_names():
+    objects = ObjectSlices()
+    objects.insert(Slice(name="s0", start=0x01, stop=0x02, section="text"))
+    objects.insert(Slice(name="s2", start=0x06, stop=0x07, section="data"))
+    objects.insert(Slice(name="s3", start=0x03, stop=0x04, section="text"))
+    objects.insert(Slice(name="s1", start=0x02, stop=0x03, section="text"))
+    objects.insert(Slice(name="s1", start=0x05, stop=0x06, section="data"))
+    assert objects.sorted_names(order=["text", "data"]) == ["s0", "s1", "s2", "s3"]

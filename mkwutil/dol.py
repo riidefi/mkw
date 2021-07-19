@@ -8,13 +8,33 @@ import struct
 class DolSegment:
     """Describes a DOL segment."""
 
-    def __init__(self, start: int, stop: int, offset=None):
+    def __init__(self, index: int, start: int, stop: int, offset=None):
         assert isinstance(start, int) and isinstance(stop, int)
         assert start <= stop
+        self.index = index
         self.start = start
         self.stop = stop
         self.offset = offset
         self.data = None
+
+    # Section names in MKW.
+    NAMES = [
+        "init",  # 0x00
+        "text",  # 0x01
+        "",  # 0x02
+        "",  # 0x03
+        "",  # 0x04
+        "",  # 0x05
+        "",  # 0x06
+        "extab",  # 0x07
+        "extabindex",  # 0x08
+        "ctors",  # 0x09
+        "dtors",  # 0x0a
+        "rodata",  # 0x0b
+        "data",  # 0x0c
+        "sdata",  # 0xd
+        "sdata2",  # 0x0e
+    ]
 
     def __repr__(self):
         return "%08x..%08x" % (self.start, self.stop)
@@ -46,41 +66,50 @@ class DolSegment:
         assert len(result) == size
         return result
 
+    def name(self):
+        if self.index == -1:
+            return "bss"
+        try:
+            return self.NAMES[self.index]
+        except IndexError:
+            return ""
+
 
 class DolBinary:
     """Describes a DOL executable."""
 
-    SECTION_COUNT = 18
+    SEGMENT_COUNT = 18
 
     def __init__(self, file, read_body=True):
         # Read header.
-        section_offsets = list(
+        segment_offsets = list(
             bin[0]
-            for bin in struct.iter_unpack(">I", file.read(DolBinary.SECTION_COUNT * 4))
+            for bin in struct.iter_unpack(">I", file.read(DolBinary.SEGMENT_COUNT * 4))
         )
-        section_addrs = list(
+        segment_addrs = list(
             bin[0]
-            for bin in struct.iter_unpack(">I", file.read(DolBinary.SECTION_COUNT * 4))
+            for bin in struct.iter_unpack(">I", file.read(DolBinary.SEGMENT_COUNT * 4))
         )
-        section_lens = list(
+        segment_lens = list(
             bin[0]
-            for bin in struct.iter_unpack(">I", file.read(DolBinary.SECTION_COUNT * 4))
+            for bin in struct.iter_unpack(">I", file.read(DolBinary.SEGMENT_COUNT * 4))
         )
         self.segments = []
-        for i in range(0, DolBinary.SECTION_COUNT):
+        for i in range(0, DolBinary.SEGMENT_COUNT):
             self.segments.append(
                 DolSegment(
-                    section_addrs[i],
-                    section_addrs[i] + section_lens[i],
-                    section_offsets[i],
+                    i,
+                    segment_addrs[i],
+                    segment_addrs[i] + segment_lens[i],
+                    segment_offsets[i],
                 )
             )
         bss_addr, bss_len = struct.unpack(">II", file.read(8))
-        self.bss = DolSegment(bss_addr, bss_addr + bss_len)
+        self.bss = DolSegment(-1, bss_addr, bss_addr + bss_len)
         self.entry_point = struct.unpack(">I", file.read(4))[0]
         # Determine bounds.
-        self.start = 0x8000_0000
-        self.stop = max([seg.stop for seg in self.segments])
+        self.start = min(seg.start for seg in self.segments if len(seg) > 0)
+        self.stop = max(seg.stop for seg in self.segments if len(seg) > 0)
         self.stop = max(self.stop, self.bss.stop)
         # Read segment content.
         if read_body:

@@ -8,7 +8,10 @@ import sys
 from multiprocessing.dummy import Pool as ThreadPool
 import multiprocessing
 
-from mkwutil.gen_asm import read_slices
+from termcolor import colored
+
+from mkwutil.slices import SliceTable
+from mkwutil.sections import DOL_SECTIONS
 from mkwutil.verify_object_file import verify_object_file
 from mkwutil.gen_lcf import gen_lcf
 from mkwutil.pack_main_dol import pack_main_dol
@@ -22,16 +25,15 @@ from colorama import Fore, Style
 
 colorama.init()
 
-dol_slices = read_slices("pack/dol_slices.csv", verbose=False)
-dol_slices = { sl.obj_file : sl for sl in dol_slices }
-
 # Remember which files are stripped.
+dol_slices = SliceTable.load_dol_slices(sections=DOL_SECTIONS)
 stripped_files = set()
 with open("pack/dol_slices.csv") as f:
     rd = csv.DictReader(f)
     for line in rd:
         if line["strip"]:
             stripped_files.add(line["name"])
+dol_object_slices = dol_slices.object_slices()
 
 def native_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
@@ -144,9 +146,9 @@ def compile_queued_sources():
         if src in stripped_files:
             continue
         # Verify ELF file section sizes.
-        tha_slice = dol_slices.get(src)
-        if tha_slice:
-            verify_object_file(dst, src, tha_slice)
+        obj_slices = dol_object_slices.get(src)
+        if obj_slices:
+            verify_object_file(dst, src, obj_slices)
         else:
             print(Fore.YELLOW + "# Skipping slices verification on " + src + Style.RESET_ALL)
 
@@ -154,9 +156,11 @@ def compile_queued_sources():
 
 # Queued
 def compile_source(src, dst, version="default", additional="-ipa file"):
+    print(f'{colored("CC", "green")} {src}')
     gSourceQueue.append((src, dst, version, additional))
 
 def assemble(dst, src):
+    print(f'{colored("AS", "green")} {src}')
     subprocess.run([GAS, src, "-mgekko", "-Iasm", "-o", dst], check=True, text=True)
 
 
@@ -200,7 +204,7 @@ def compile_sources():
         assemble(make_obj(out_o), asm)
 
 
-def link_dol(o_files):
+def link_dol(o_files: list[Path]):
     # Generate LCF.
     src_lcf_path = Path("pack", "dol.lcf.j2")
     dst_lcf_path = Path("pack", "dol.lcf")
@@ -220,7 +224,7 @@ def link_dol(o_files):
     return dol_path
 
 
-def link_rel(o_files):
+def link_rel(o_files: list[Path]):
     # Generate LCF.
     src_lcf_path = Path("pack", "rel.lcf.j2")
     dst_lcf_path = Path("pack", "rel.lcf")
@@ -247,7 +251,9 @@ def build():
     dol_objects_path = Path("pack/dol_objects.txt")
     rel_objects_path = Path("pack/rel_objects.txt")
     dol_objects = open(dol_objects_path, "r").readlines()
+    dol_objects = [Path(x.strip()) for x in dol_objects]
     rel_objects = open(rel_objects_path, "r").readlines()
+    rel_objects = [Path(x.strip()) for x in rel_objects]
 
     compile_sources()
 

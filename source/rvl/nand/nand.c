@@ -1,7 +1,218 @@
+#include "decomp.h"
+
+// Extern function references.
+// PAL: 0x80006038
+extern UNKNOWN_FUNCTION(memset);
+// PAL: 0x8001182c
+extern UNKNOWN_FUNCTION(vsnprintf);
+// PAL: 0x80011938
+extern UNKNOWN_FUNCTION(snprintf);
+// PAL: 0x80011a2c
+extern UNKNOWN_FUNCTION(sprintf);
+// PAL: 0x80013120
+extern UNKNOWN_FUNCTION(strcpy);
+// PAL: 0x800131e0
+extern UNKNOWN_FUNCTION(strncpy);
+// PAL: 0x80013224
+extern UNKNOWN_FUNCTION(strcat);
+// PAL: 0x8001329c
+extern UNKNOWN_FUNCTION(strcmp);
+// PAL: 0x800133b8
+extern UNKNOWN_FUNCTION(strncmp);
+// PAL: 0x8001543c
+extern UNKNOWN_FUNCTION(atoi);
+// PAL: 0x800179d0
+extern UNKNOWN_FUNCTION(wcsncpy);
+// PAL: 0x80017a14
+extern UNKNOWN_FUNCTION(wcscmp);
+// PAL: 0x80021254
+extern UNKNOWN_FUNCTION(strlen);
+// PAL: 0x80021590
+extern UNKNOWN_FUNCTION(_savegpr_23);
+// PAL: 0x80021598
+extern UNKNOWN_FUNCTION(_savegpr_25);
+// PAL: 0x8002159c
+extern UNKNOWN_FUNCTION(_savegpr_26);
+// PAL: 0x800215a0
+extern UNKNOWN_FUNCTION(_savegpr_27);
+// PAL: 0x800215dc
+extern UNKNOWN_FUNCTION(_restgpr_23);
+// PAL: 0x800215e4
+extern UNKNOWN_FUNCTION(_restgpr_25);
+// PAL: 0x800215e8
+extern UNKNOWN_FUNCTION(_restgpr_26);
+// PAL: 0x800215ec
+extern UNKNOWN_FUNCTION(_restgpr_27);
+// PAL: 0x800216f0
+extern UNKNOWN_FUNCTION(__div2i);
+// PAL: 0x801671d0
+extern UNKNOWN_FUNCTION(unk_801671d0);
+// PAL: 0x80167224
+extern UNKNOWN_FUNCTION(unk_80167224);
+// PAL: 0x80167904
+extern UNKNOWN_FUNCTION(unk_80167904);
+// PAL: 0x8016799c
+extern UNKNOWN_FUNCTION(unk_8016799c);
+// PAL: 0x80169bcc
+extern UNKNOWN_FUNCTION(unk_80169bcc);
+// PAL: 0x80169e74
+extern UNKNOWN_FUNCTION(unk_80169e74);
+// PAL: 0x80169f68
+extern UNKNOWN_FUNCTION(unk_80169f68);
+// PAL: 0x8016a05c
+extern UNKNOWN_FUNCTION(unk_8016a05c);
+// PAL: 0x8016a1b0
+extern UNKNOWN_FUNCTION(unk_8016a1b0);
+// PAL: 0x8016a2f8
+extern UNKNOWN_FUNCTION(unk_8016a2f8);
+// PAL: 0x8016a3fc
+extern UNKNOWN_FUNCTION(unk_8016a3fc);
+// PAL: 0x8016a500
+extern UNKNOWN_FUNCTION(unk_8016a500);
+// PAL: 0x8016a658
+extern UNKNOWN_FUNCTION(unk_8016a658);
+// PAL: 0x8016a78c
+extern UNKNOWN_FUNCTION(unk_8016a78c);
+// PAL: 0x8016a864
+extern UNKNOWN_FUNCTION(unk_8016a864);
+// PAL: 0x8016a934
+extern UNKNOWN_FUNCTION(unk_8016a934);
+// PAL: 0x8016aa38
+extern UNKNOWN_FUNCTION(unk_8016aa38);
+// PAL: 0x8016ab3c
+extern UNKNOWN_FUNCTION(unk_8016ab3c);
+// PAL: 0x8016ac74
+extern UNKNOWN_FUNCTION(unk_8016ac74);
+// PAL: 0x8016ad68
+extern UNKNOWN_FUNCTION(unk_8016ad68);
+// PAL: 0x8016ae5c
+extern UNKNOWN_FUNCTION(unk_8016ae5c);
+// PAL: 0x8016af24
+extern UNKNOWN_FUNCTION(unk_8016af24);
+// PAL: 0x8016afdc
+extern UNKNOWN_FUNCTION(unk_8016afdc);
+// PAL: 0x8016b0ac
+extern UNKNOWN_FUNCTION(unk_8016b0ac);
+// PAL: 0x8016b16c
+extern UNKNOWN_FUNCTION(unk_8016b16c);
+// PAL: 0x8016b170
+extern UNKNOWN_FUNCTION(unk_8016b170);
+// PAL: 0x8016b1fc
+extern UNKNOWN_FUNCTION(unk_8016b1fc);
+// PAL: 0x8016b21c
+extern UNKNOWN_FUNCTION(unk_8016b21c);
+// PAL: 0x8016b2c0
+extern UNKNOWN_FUNCTION(unk_8016b2c0);
+// PAL: 0x8016b2e0
+extern UNKNOWN_FUNCTION(unk_8016b2e0);
+// PAL: 0x8016b384
+extern UNKNOWN_FUNCTION(unk_8016b384);
+// PAL: 0x8016b388
+extern UNKNOWN_FUNCTION(unk_8016b388);
+// PAL: 0x8016b40c
+extern UNKNOWN_FUNCTION(unk_8016b40c);
+// PAL: 0x801a0504
+extern UNKNOWN_FUNCTION(OSRegisterVersion);
+// PAL: 0x801a25d0
+extern UNKNOWN_FUNCTION(OSReport);
+// PAL: 0x801a65ac
+extern UNKNOWN_FUNCTION(OSDisableInterrupts);
+// PAL: 0x801a65d4
+extern UNKNOWN_FUNCTION(OSRestoreInterrupts);
+// PAL: 0x801a8238
+extern UNKNOWN_FUNCTION(OSRegisterResetFunction);
+// PAL: 0x801aad5c
+extern UNKNOWN_FUNCTION(OSGetTime);
+// PAL: 0x801aafa8
+extern UNKNOWN_FUNCTION(OSTicksToCalendarTime);
+
+// Function declarations.
+UNKNOWN_FUNCTION(nandCreate);
+UNKNOWN_FUNCTION(NANDCreate);
+UNKNOWN_FUNCTION(NANDPrivateCreate);
+UNKNOWN_FUNCTION(NANDPrivateCreateAsync);
+UNKNOWN_FUNCTION(NANDDelete);
+UNKNOWN_FUNCTION(NANDPrivateDelete);
+UNKNOWN_FUNCTION(NANDPrivateDeleteAsync);
+UNKNOWN_FUNCTION(NANDRead);
+UNKNOWN_FUNCTION(NANDReadAsync);
+UNKNOWN_FUNCTION(NANDWrite);
+UNKNOWN_FUNCTION(NANDWriteAsync);
+UNKNOWN_FUNCTION(NANDSeek);
+UNKNOWN_FUNCTION(NANDSeekAsync);
+UNKNOWN_FUNCTION(nandCreateDir);
+UNKNOWN_FUNCTION(NANDCreateDir);
+UNKNOWN_FUNCTION(NANDPrivateCreateDir);
+UNKNOWN_FUNCTION(NANDPrivateCreateDirAsync);
+UNKNOWN_FUNCTION(nandMove);
+UNKNOWN_FUNCTION(NANDMove);
+UNKNOWN_FUNCTION(NANDGetLength);
+UNKNOWN_FUNCTION(nandGetFileStatusAsyncCallback);
+UNKNOWN_FUNCTION(NANDGetLengthAsync);
+UNKNOWN_FUNCTION(nandComposePerm);
+UNKNOWN_FUNCTION(nandSplitPerm);
+UNKNOWN_FUNCTION(nandGetStatus);
+UNKNOWN_FUNCTION(nandGetStatusCallback);
+UNKNOWN_FUNCTION(NANDGetStatus);
+UNKNOWN_FUNCTION(NANDPrivateGetStatus);
+UNKNOWN_FUNCTION(NANDPrivateGetStatusAsync);
+UNKNOWN_FUNCTION(nandSetStatus);
+UNKNOWN_FUNCTION(NANDSetStatus);
+UNKNOWN_FUNCTION(NANDPrivateSetStatus);
+UNKNOWN_FUNCTION(NANDSetUserData);
+UNKNOWN_FUNCTION(NANDGetUserData);
+UNKNOWN_FUNCTION(nandOpen);
+UNKNOWN_FUNCTION(NANDOpen);
+UNKNOWN_FUNCTION(NANDPrivateOpen);
+UNKNOWN_FUNCTION(NANDOpenAsync);
+UNKNOWN_FUNCTION(NANDPrivateOpenAsync);
+UNKNOWN_FUNCTION(nandOpenCallback);
+UNKNOWN_FUNCTION(NANDClose);
+UNKNOWN_FUNCTION(NANDCloseAsync);
+UNKNOWN_FUNCTION(NANDSafeOpen);
+UNKNOWN_FUNCTION(nandSafeOpen);
+UNKNOWN_FUNCTION(NANDSafeClose);
+UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync);
+UNKNOWN_FUNCTION(nandSafeOpenAsync);
+UNKNOWN_FUNCTION(nandSafeOpenCallback);
+UNKNOWN_FUNCTION(nandReadOpenCallback);
+UNKNOWN_FUNCTION(NANDSafeCloseAsync);
+UNKNOWN_FUNCTION(nandSafeCloseCallback);
+UNKNOWN_FUNCTION(nandReadCloseCallback);
+UNKNOWN_FUNCTION(nandCloseCallback);
+UNKNOWN_FUNCTION(nandRemoveTailToken);
+UNKNOWN_FUNCTION(nandGetHeadToken);
+UNKNOWN_FUNCTION(nandGetRelativeName);
+UNKNOWN_FUNCTION(nandConvertPath);
+UNKNOWN_FUNCTION(nandIsPrivatePath);
+UNKNOWN_FUNCTION(nandIsUnderPrivatePath);
+UNKNOWN_FUNCTION(nandIsInitialized);
+UNKNOWN_FUNCTION(nandReportErrorCode);
+UNKNOWN_FUNCTION(nandConvertErrorCode);
+UNKNOWN_FUNCTION(nandGenerateAbsPath);
+UNKNOWN_FUNCTION(nandGetParentDirectory);
+UNKNOWN_FUNCTION(NANDInit);
+UNKNOWN_FUNCTION(nandOnShutdown);
+UNKNOWN_FUNCTION(NANDGetCurrentDir);
+UNKNOWN_FUNCTION(NANDGetHomeDir);
+UNKNOWN_FUNCTION(nandCallback);
+UNKNOWN_FUNCTION(nandGetType);
+UNKNOWN_FUNCTION(NANDGetType);
+UNKNOWN_FUNCTION(NANDPrivateGetTypeAsync);
+UNKNOWN_FUNCTION(nandGetTypeCallback);
+UNKNOWN_FUNCTION(nandGetHomeDir);
+UNKNOWN_FUNCTION(NANDInitBanner);
+UNKNOWN_FUNCTION(NANDSecretGetUsage);
+UNKNOWN_FUNCTION(nandCalcUsage);
+UNKNOWN_FUNCTION(NANDCheck);
+UNKNOWN_FUNCTION(reserveFileDescriptor);
+UNKNOWN_FUNCTION(NANDLoggingAddMessageAsync);
+UNKNOWN_FUNCTION(asyncRoutine);
+
 // Symbol: nandCreate
 // Function signature is unknown.
 // PAL: 0x8019b314..0x8019b43c
-asm void nandCreate(void) {
+asm UNKNOWN_FUNCTION(nandCreate) {
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -65,7 +276,7 @@ lbl_8019b3c8:
   mr r9, r29;
   addi r3, r1, 0x18;
   addi r8, r8, -7072;
-  bl 0x8016ad68;
+  bl unk_8016ad68;
   b lbl_8019b424;
 lbl_8019b40c:
   lwz r5, 0x10(r1);
@@ -73,7 +284,7 @@ lbl_8019b40c:
   lwz r6, 0xc(r1);
   addi r3, r1, 0x18;
   lwz r7, 8(r1);
-  bl 0x8016ac74;
+  bl unk_8016ac74;
 lbl_8019b424:
   addi r11, r1, 0x70;
   bl _restgpr_27;
@@ -86,7 +297,7 @@ lbl_8019b424:
 // Symbol: NANDCreate
 // Function signature is unknown.
 // PAL: 0x8019b43c..0x8019b4b0
-asm void NANDCreate(void) {
+asm UNKNOWN_FUNCTION(NANDCreate) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -124,7 +335,7 @@ lbl_8019b494:
 // Symbol: NANDPrivateCreate
 // Function signature is unknown.
 // PAL: 0x8019b4b0..0x8019b524
-asm void NANDPrivateCreate(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateCreate) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -162,7 +373,7 @@ lbl_8019b508:
 // Symbol: NANDPrivateCreateAsync
 // Function signature is unknown.
 // PAL: 0x8019b524..0x8019b59c
-asm void NANDPrivateCreateAsync(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateCreateAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -201,7 +412,7 @@ lbl_8019b584:
 // Symbol: NANDDelete
 // Function signature is unknown.
 // PAL: 0x8019b59c..0x8019b64c
-asm void NANDDelete(void) {
+asm UNKNOWN_FUNCTION(NANDDelete) {
   nofralloc;
   stwu r1, -0x50(r1);
   mflr r0;
@@ -242,7 +453,7 @@ lbl_8019b5c4:
   b lbl_8019b634;
 lbl_8019b62c:
   addi r3, r1, 8;
-  bl 0x8016a78c;
+  bl unk_8016a78c;
 lbl_8019b634:
   bl nandConvertErrorCode;
 lbl_8019b638:
@@ -256,7 +467,7 @@ lbl_8019b638:
 // Symbol: NANDPrivateDelete
 // Function signature is unknown.
 // PAL: 0x8019b64c..0x8019b6e4
-asm void NANDPrivateDelete(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateDelete) {
   nofralloc;
   stwu r1, -0x50(r1);
   mflr r0;
@@ -290,7 +501,7 @@ lbl_8019b674:
   stw r0, 0x44(r1);
   bl nandGenerateAbsPath;
   addi r3, r1, 8;
-  bl 0x8016a78c;
+  bl unk_8016a78c;
   bl nandConvertErrorCode;
 lbl_8019b6d0:
   lwz r0, 0x54(r1);
@@ -303,7 +514,7 @@ lbl_8019b6d0:
 // Symbol: NANDPrivateDeleteAsync
 // Function signature is unknown.
 // PAL: 0x8019b6e4..0x8019b7a4
-asm void NANDPrivateDeleteAsync(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateDeleteAsync) {
   nofralloc;
   stwu r1, -0x60(r1);
   mflr r0;
@@ -345,7 +556,7 @@ lbl_8019b71c:
   mr r5, r31;
   addi r3, r1, 8;
   addi r4, r4, -7072;
-  bl 0x8016a864;
+  bl unk_8016a864;
   bl nandConvertErrorCode;
 lbl_8019b788:
   lwz r0, 0x64(r1);
@@ -360,7 +571,7 @@ lbl_8019b788:
 // Symbol: NANDRead
 // Function signature is unknown.
 // PAL: 0x8019b7a4..0x8019b80c
-asm void NANDRead(void) {
+asm UNKNOWN_FUNCTION(NANDRead) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -377,7 +588,7 @@ asm void NANDRead(void) {
   lwz r3, 0(r29);
   mr r4, r30;
   mr r5, r31;
-  bl 0x8016b1fc;
+  bl unk_8016b1fc;
   bl nandConvertErrorCode;
   b lbl_8019b7f0;
 lbl_8019b7ec:
@@ -395,7 +606,7 @@ lbl_8019b7f0:
 // Symbol: NANDReadAsync
 // Function signature is unknown.
 // PAL: 0x8019b80c..0x8019b884
-asm void NANDReadAsync(void) {
+asm UNKNOWN_FUNCTION(NANDReadAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -420,7 +631,7 @@ lbl_8019b848:
   lwz r3, 0(r27);
   mr r7, r31;
   addi r6, r6, -7072;
-  bl 0x8016b21c;
+  bl unk_8016b21c;
   bl nandConvertErrorCode;
 lbl_8019b86c:
   addi r11, r1, 0x20;
@@ -434,7 +645,7 @@ lbl_8019b86c:
 // Symbol: NANDWrite
 // Function signature is unknown.
 // PAL: 0x8019b884..0x8019b8ec
-asm void NANDWrite(void) {
+asm UNKNOWN_FUNCTION(NANDWrite) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -451,7 +662,7 @@ asm void NANDWrite(void) {
   lwz r3, 0(r29);
   mr r4, r30;
   mr r5, r31;
-  bl 0x8016b2c0;
+  bl unk_8016b2c0;
   bl nandConvertErrorCode;
   b lbl_8019b8d0;
 lbl_8019b8cc:
@@ -469,7 +680,7 @@ lbl_8019b8d0:
 // Symbol: NANDWriteAsync
 // Function signature is unknown.
 // PAL: 0x8019b8ec..0x8019b964
-asm void NANDWriteAsync(void) {
+asm UNKNOWN_FUNCTION(NANDWriteAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -494,7 +705,7 @@ lbl_8019b928:
   lwz r3, 0(r27);
   mr r7, r31;
   addi r6, r6, -7072;
-  bl 0x8016b2e0;
+  bl unk_8016b2e0;
   bl nandConvertErrorCode;
 lbl_8019b94c:
   addi r11, r1, 0x20;
@@ -508,7 +719,7 @@ lbl_8019b94c:
 // Symbol: NANDSeek
 // Function signature is unknown.
 // PAL: 0x8019b964..0x8019ba04
-asm void NANDSeek(void) {
+asm UNKNOWN_FUNCTION(NANDSeek) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -547,7 +758,7 @@ lbl_8019b9d8:
   li r5, 2;
 lbl_8019b9dc:
   mr r4, r30;
-  bl 0x8016b16c;
+  bl unk_8016b16c;
   bl nandConvertErrorCode;
 lbl_8019b9e8:
   lwz r0, 0x24(r1);
@@ -562,7 +773,7 @@ lbl_8019b9e8:
 // Symbol: NANDSeekAsync
 // Function signature is unknown.
 // PAL: 0x8019ba04..0x8019bab4
-asm void NANDSeekAsync(void) {
+asm UNKNOWN_FUNCTION(NANDSeekAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -606,7 +817,7 @@ lbl_8019ba84:
   mr r4, r28;
   mr r7, r31;
   addi r6, r6, -7072;
-  bl 0x8016b170;
+  bl unk_8016b170;
   bl nandConvertErrorCode;
 lbl_8019ba9c:
   addi r11, r1, 0x20;
@@ -620,7 +831,7 @@ lbl_8019ba9c:
 // Symbol: nandCreateDir
 // Function signature is unknown.
 // PAL: 0x8019bab4..0x8019bbe0
-asm void nandCreateDir(void) {
+asm UNKNOWN_FUNCTION(nandCreateDir) {
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -685,7 +896,7 @@ lbl_8019bb5c:
   mr r9, r29;
   addi r3, r1, 0x18;
   addi r8, r8, -7072;
-  bl 0x80169f68;
+  bl unk_80169f68;
   b lbl_8019bbc8;
 lbl_8019bbb0:
   lwz r5, 0x10(r1);
@@ -693,7 +904,7 @@ lbl_8019bbb0:
   lwz r6, 0xc(r1);
   addi r3, r1, 0x18;
   lwz r7, 8(r1);
-  bl 0x80169e74;
+  bl unk_80169e74;
 lbl_8019bbc8:
   addi r11, r1, 0x70;
   bl _restgpr_27;
@@ -706,7 +917,7 @@ lbl_8019bbc8:
 // Symbol: NANDCreateDir
 // Function signature is unknown.
 // PAL: 0x8019bbe0..0x8019bc54
-asm void NANDCreateDir(void) {
+asm UNKNOWN_FUNCTION(NANDCreateDir) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -744,7 +955,7 @@ lbl_8019bc38:
 // Symbol: NANDPrivateCreateDir
 // Function signature is unknown.
 // PAL: 0x8019bc54..0x8019bcc8
-asm void NANDPrivateCreateDir(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateCreateDir) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -782,7 +993,7 @@ lbl_8019bcac:
 // Symbol: NANDPrivateCreateDirAsync
 // Function signature is unknown.
 // PAL: 0x8019bcc8..0x8019bd40
-asm void NANDPrivateCreateDirAsync(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateCreateDirAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -821,7 +1032,7 @@ lbl_8019bd28:
 // Symbol: nandMove
 // Function signature is unknown.
 // PAL: 0x8019bd40..0x8019bee8
-asm void nandMove(void) {
+asm UNKNOWN_FUNCTION(nandMove) {
   nofralloc;
   stwu r1, -0xb0(r1);
   mflr r0;
@@ -920,12 +1131,12 @@ lbl_8019be98:
   addi r3, r1, 0x58;
   addi r4, r1, 0x18;
   addi r5, r5, -7072;
-  bl 0x8016aa38;
+  bl unk_8016aa38;
   b lbl_8019bec8;
 lbl_8019bebc:
   addi r3, r1, 0x58;
   addi r4, r1, 0x18;
-  bl 0x8016a934;
+  bl unk_8016a934;
 lbl_8019bec8:
   lwz r0, 0xb4(r1);
   lwz r31, 0xac(r1);
@@ -940,7 +1151,7 @@ lbl_8019bec8:
 // Symbol: NANDMove
 // Function signature is unknown.
 // PAL: 0x8019bee8..0x8019bf4c
-asm void NANDMove(void) {
+asm UNKNOWN_FUNCTION(NANDMove) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -974,7 +1185,7 @@ lbl_8019bf34:
 // Symbol: NANDGetLength
 // Function signature is unknown.
 // PAL: 0x8019bf4c..0x8019bfd4
-asm void NANDGetLength(void) {
+asm UNKNOWN_FUNCTION(NANDGetLength) {
   nofralloc;
   clrlwi r11, r1, 0x1b;
   mr r12, r1;
@@ -994,7 +1205,7 @@ asm void NANDGetLength(void) {
 lbl_8019bf88:
   lwz r3, 0(r30);
   addi r4, r1, 0x20;
-  bl 0x8016afdc;
+  bl unk_8016afdc;
   cmpwi r3, 0;
   bne lbl_8019bfb4;
   cmpwi r31, 0;
@@ -1018,7 +1229,7 @@ lbl_8019bfb8:
 // Symbol: nandGetFileStatusAsyncCallback
 // Function signature is unknown.
 // PAL: 0x8019bfd4..0x8019c048
-asm void nandGetFileStatusAsyncCallback(void) {
+asm UNKNOWN_FUNCTION(nandGetFileStatusAsyncCallback) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1056,7 +1267,7 @@ lbl_8019c020:
 // Symbol: NANDGetLengthAsync
 // Function signature is unknown.
 // PAL: 0x8019c048..0x8019c0d8
-asm void NANDGetLengthAsync(void) {
+asm UNKNOWN_FUNCTION(NANDGetLengthAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1085,7 +1296,7 @@ lbl_8019c088:
   addi r5, r5, -16428;
   stw r3, 0x78(r31);
   lwz r3, 0(r28);
-  bl 0x8016b0ac;
+  bl unk_8016b0ac;
   bl nandConvertErrorCode;
 lbl_8019c0b8:
   lwz r0, 0x24(r1);
@@ -1101,7 +1312,7 @@ lbl_8019c0b8:
 // Symbol: nandComposePerm
 // Function signature is unknown.
 // PAL: 0x8019c0d8..0x8019c12c
-asm void nandComposePerm(void) {
+asm UNKNOWN_FUNCTION(nandComposePerm) {
   nofralloc;
   clrlwi. r0, r4, 0x1f;
   li r7, 0;
@@ -1135,7 +1346,7 @@ lbl_8019c124:
 // Symbol: nandSplitPerm
 // Function signature is unknown.
 // PAL: 0x8019c12c..0x8019c1b8
-asm void nandSplitPerm(void) {
+asm UNKNOWN_FUNCTION(nandSplitPerm) {
   nofralloc;
   li r7, 0;
   rlwinm. r0, r3, 0, 0x1b, 0x1b;
@@ -1182,7 +1393,7 @@ lbl_8019c1a0:
 // Symbol: nandGetStatus
 // Function signature is unknown.
 // PAL: 0x8019c1b8..0x8019c30c
-asm void nandGetStatus(void) {
+asm UNKNOWN_FUNCTION(nandGetStatus) {
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -1236,7 +1447,7 @@ lbl_8019c254:
   addi r8, r29, 0x28;
   addi r9, r29, 0x2c;
   addi r10, r10, -15604;
-  bl 0x8016a658;
+  bl unk_8016a658;
   b lbl_8019c2ec;
 lbl_8019c28c:
   li r0, 0;
@@ -1251,7 +1462,7 @@ lbl_8019c28c:
   addi r9, r1, 0x10;
   stw r0, 0x14(r1);
   stw r0, 0x10(r1);
-  bl 0x8016a500;
+  bl unk_8016a500;
   cmpwi r3, 0;
   mr r31, r3;
   bne lbl_8019c2e8;
@@ -1278,7 +1489,7 @@ lbl_8019c2ec:
 // Symbol: nandGetStatusCallback
 // Function signature is unknown.
 // PAL: 0x8019c30c..0x8019c380
-asm void nandGetStatusCallback(void) {
+asm UNKNOWN_FUNCTION(nandGetStatusCallback) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1315,7 +1526,7 @@ lbl_8019c350:
 // Symbol: NANDGetStatus
 // Function signature is unknown.
 // PAL: 0x8019c380..0x8019c3e4
-asm void NANDGetStatus(void) {
+asm UNKNOWN_FUNCTION(NANDGetStatus) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1349,7 +1560,7 @@ lbl_8019c3cc:
 // Symbol: NANDPrivateGetStatus
 // Function signature is unknown.
 // PAL: 0x8019c3e4..0x8019c448
-asm void NANDPrivateGetStatus(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateGetStatus) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1383,7 +1594,7 @@ lbl_8019c430:
 // Symbol: NANDPrivateGetStatusAsync
 // Function signature is unknown.
 // PAL: 0x8019c448..0x8019c4cc
-asm void NANDPrivateGetStatusAsync(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateGetStatusAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1425,7 +1636,7 @@ lbl_8019c4ac:
 // Symbol: nandSetStatus
 // Function signature is unknown.
 // PAL: 0x8019c4cc..0x8019c614
-asm void nandSetStatus(void) {
+asm UNKNOWN_FUNCTION(nandSetStatus) {
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -1493,7 +1704,7 @@ lbl_8019c57c:
   lwz r7, 0x18(r1);
   lwz r8, 0x14(r1);
   lwz r9, 0x10(r1);
-  bl 0x8016a3fc;
+  bl unk_8016a3fc;
   b lbl_8019c5f4;
 lbl_8019c5d4:
   lwz r4, 0(r28);
@@ -1503,7 +1714,7 @@ lbl_8019c5d4:
   lwz r7, 0x18(r1);
   lwz r8, 0x14(r1);
   lwz r9, 0x10(r1);
-  bl 0x8016a2f8;
+  bl unk_8016a2f8;
 lbl_8019c5f4:
   lwz r0, 0x74(r1);
   lwz r31, 0x6c(r1);
@@ -1518,7 +1729,7 @@ lbl_8019c5f4:
 // Symbol: NANDSetStatus
 // Function signature is unknown.
 // PAL: 0x8019c614..0x8019c678
-asm void NANDSetStatus(void) {
+asm UNKNOWN_FUNCTION(NANDSetStatus) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1552,7 +1763,7 @@ lbl_8019c660:
 // Symbol: NANDPrivateSetStatus
 // Function signature is unknown.
 // PAL: 0x8019c678..0x8019c6dc
-asm void NANDPrivateSetStatus(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateSetStatus) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1586,7 +1797,7 @@ lbl_8019c6c4:
 // Symbol: NANDSetUserData
 // Function signature is unknown.
 // PAL: 0x8019c6dc..0x8019c6e4
-asm void NANDSetUserData(void) {
+asm UNKNOWN_FUNCTION(NANDSetUserData) {
   nofralloc;
   stw r4, 0(r3);
   blr;
@@ -1595,7 +1806,7 @@ asm void NANDSetUserData(void) {
 // Symbol: NANDGetUserData
 // Function signature is unknown.
 // PAL: 0x8019c6e4..0x8019c6ec
-asm void NANDGetUserData(void) {
+asm UNKNOWN_FUNCTION(NANDGetUserData) {
   nofralloc;
   lwz r3, 0(r3);
   blr;
@@ -1604,7 +1815,7 @@ asm void NANDGetUserData(void) {
 // Symbol: nandOpen
 // Function signature is unknown.
 // PAL: 0x8019c6ec..0x8019c800
-asm void nandOpen(void) {
+asm UNKNOWN_FUNCTION(nandOpen) {
   nofralloc;
   stwu r1, -0x60(r1);
   mflr r0;
@@ -1669,12 +1880,12 @@ lbl_8019c7b8:
   mr r6, r28;
   addi r3, r1, 8;
   addi r5, r5, -13816;
-  bl 0x8016af24;
+  bl unk_8016af24;
   b lbl_8019c7e8;
 lbl_8019c7dc:
   mr r4, r31;
   addi r3, r1, 8;
-  bl 0x8016ae5c;
+  bl unk_8016ae5c;
 lbl_8019c7e8:
   addi r11, r1, 0x60;
   bl _restgpr_27;
@@ -1687,7 +1898,7 @@ lbl_8019c7e8:
 // Symbol: NANDOpen
 // Function signature is unknown.
 // PAL: 0x8019c800..0x8019c88c
-asm void NANDOpen(void) {
+asm UNKNOWN_FUNCTION(NANDOpen) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1732,7 +1943,7 @@ lbl_8019c870:
 // Symbol: NANDPrivateOpen
 // Function signature is unknown.
 // PAL: 0x8019c88c..0x8019c918
-asm void NANDPrivateOpen(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateOpen) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1777,7 +1988,7 @@ lbl_8019c8fc:
 // Symbol: NANDOpenAsync
 // Function signature is unknown.
 // PAL: 0x8019c918..0x8019c990
-asm void NANDOpenAsync(void) {
+asm UNKNOWN_FUNCTION(NANDOpenAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1816,7 +2027,7 @@ lbl_8019c978:
 // Symbol: NANDPrivateOpenAsync
 // Function signature is unknown.
 // PAL: 0x8019c990..0x8019ca08
-asm void NANDPrivateOpenAsync(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateOpenAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1855,7 +2066,7 @@ lbl_8019c9f0:
 // Symbol: nandOpenCallback
 // Function signature is unknown.
 // PAL: 0x8019ca08..0x8019ca80
-asm void nandOpenCallback(void) {
+asm UNKNOWN_FUNCTION(nandOpenCallback) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1894,7 +2105,7 @@ lbl_8019ca6c:
 // Symbol: NANDClose
 // Function signature is unknown.
 // PAL: 0x8019ca80..0x8019caec
-asm void NANDClose(void) {
+asm UNKNOWN_FUNCTION(NANDClose) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1914,7 +2125,7 @@ lbl_8019caa8:
   b lbl_8019cad8;
 lbl_8019cabc:
   lwz r3, 0(r31);
-  bl 0x8016b384;
+  bl unk_8016b384;
   cmpwi r3, 0;
   bne lbl_8019cad4;
   li r0, 2;
@@ -1932,7 +2143,7 @@ lbl_8019cad8:
 // Symbol: NANDCloseAsync
 // Function signature is unknown.
 // PAL: 0x8019caec..0x8019cb74
-asm void NANDCloseAsync(void) {
+asm UNKNOWN_FUNCTION(NANDCloseAsync) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1961,7 +2172,7 @@ lbl_8019cb38:
   stw r29, 8(r31);
   addi r4, r4, -9660;
   lwz r3, 0(r29);
-  bl 0x8016b388;
+  bl unk_8016b388;
   bl nandConvertErrorCode;
 lbl_8019cb58:
   lwz r0, 0x24(r1);
@@ -1976,7 +2187,7 @@ lbl_8019cb58:
 // Symbol: NANDSafeOpen
 // Function signature is unknown.
 // PAL: 0x8019cb74..0x8019cb80
-asm void NANDSafeOpen(void) {
+asm UNKNOWN_FUNCTION(NANDSafeOpen) {
   nofralloc;
   li r8, 0;
   li r9, 0;
@@ -1986,7 +2197,7 @@ asm void NANDSafeOpen(void) {
 // Symbol: nandSafeOpen
 // Function signature is unknown.
 // PAL: 0x8019cb80..0x8019cf28
-asm void nandSafeOpen(void) {
+asm UNKNOWN_FUNCTION(nandSafeOpen) {
   nofralloc;
   stwu r1, -0x90(r1);
   mflr r0;
@@ -2032,7 +2243,7 @@ lbl_8019cc14:
   bne lbl_8019cc68;
   addi r3, r28, 8;
   li r4, 1;
-  bl 0x8016ae5c;
+  bl unk_8016ae5c;
   cmpwi r3, 0;
   blt lbl_8019cc60;
   li r0, 2;
@@ -2069,7 +2280,7 @@ lbl_8019cc68:
   li r7, 3;
   stw r0, 0x28(r1);
   stb r0, 0x2c(r1);
-  bl 0x80169e74;
+  bl unk_80169e74;
   cmpwi r3, 0;
   beq lbl_8019ccc4;
   cmpwi r3, -105;
@@ -2086,7 +2297,7 @@ lbl_8019ccc4:
   addi r7, r1, 0x14;
   addi r8, r1, 0x10;
   addi r9, r1, 0xc;
-  bl 0x8016a500;
+  bl unk_8016a500;
   cmpwi r3, 0;
   beq lbl_8019ccfc;
   bl nandConvertErrorCode;
@@ -2094,7 +2305,7 @@ lbl_8019ccc4:
 lbl_8019ccfc:
   addi r3, r28, 8;
   li r4, 1;
-  bl 0x8016ae5c;
+  bl unk_8016ae5c;
   cmpwi r3, 0;
   stw r3, 4(r28);
   bge lbl_8019cd1c;
@@ -2122,7 +2333,7 @@ lbl_8019cd1c:
   li r5, 3;
   li r6, 0;
   li r7, 0;
-  bl 0x80169e74;
+  bl unk_80169e74;
   cmpwi r3, 0;
   beq lbl_8019cd84;
   bl nandConvertErrorCode;
@@ -2160,7 +2371,7 @@ lbl_8019cde4:
   lwz r5, 0x14(r1);
   lwz r6, 0x10(r1);
   lwz r7, 0xc(r1);
-  bl 0x8016ac74;
+  bl unk_8016ac74;
   cmpwi r3, 0;
   beq lbl_8019ce0c;
   bl nandConvertErrorCode;
@@ -2172,7 +2383,7 @@ lbl_8019ce0c:
   bne lbl_8019ce30;
   addi r3, r28, 0x48;
   li r4, 2;
-  bl 0x8016ae5c;
+  bl unk_8016ae5c;
   stw r3, 0(r28);
   b lbl_8019ce48;
 lbl_8019ce30:
@@ -2180,7 +2391,7 @@ lbl_8019ce30:
   bne lbl_8019ce48;
   addi r3, r28, 0x48;
   li r4, 3;
-  bl 0x8016ae5c;
+  bl unk_8016ae5c;
   stw r3, 0(r28);
 lbl_8019ce48:
   lwz r3, 0(r28);
@@ -2197,7 +2408,7 @@ lbl_8019ce6c:
   mr r3, r26;
   mr r4, r29;
   mr r5, r30;
-  bl 0x8016b1fc;
+  bl unk_8016b1fc;
   cmpwi r3, 0;
   mr r5, r3;
   bne lbl_8019ce90;
@@ -2209,7 +2420,7 @@ lbl_8019ce90:
 lbl_8019ce98:
   mr r3, r27;
   mr r4, r29;
-  bl 0x8016b2c0;
+  bl unk_8016b2c0;
   cmpwi r3, 0;
   bge lbl_8019ce6c;
   mr r5, r3;
@@ -2223,7 +2434,7 @@ lbl_8019cec4:
   lwz r3, 0(r28);
   li r4, 0;
   li r5, 0;
-  bl 0x8016b16c;
+  bl unk_8016b16c;
   cmpwi r3, 0;
   beq lbl_8019cee4;
   bl nandConvertErrorCode;
@@ -2255,7 +2466,7 @@ lbl_8019cf10:
 // Symbol: NANDSafeClose
 // Function signature is unknown.
 // PAL: 0x8019cf28..0x8019d104
-asm void NANDSafeClose(void) {
+asm UNKNOWN_FUNCTION(NANDSafeClose) {
   nofralloc;
   li r4, 0;
   b lbl_8019cf30;
@@ -2309,7 +2520,7 @@ lbl_8019cfd4:
   cmplwi r3, 1;
   bne lbl_8019d01c;
   lwz r3, 0(r29);
-  bl 0x8016b384;
+  bl unk_8016b384;
   cmpwi r3, 0;
   bne lbl_8019d014;
   li r0, 7;
@@ -2331,7 +2542,7 @@ lbl_8019d01c:
   cmplwi r0, 1;
   bgt lbl_8019d0d4;
   lwz r3, 0(r29);
-  bl 0x8016b384;
+  bl unk_8016b384;
   cmpwi r3, 0;
   beq lbl_8019d044;
   bl nandConvertErrorCode;
@@ -2340,7 +2551,7 @@ lbl_8019d044:
   li r31, 6;
   lwz r3, 4(r29);
   stb r31, 0x89(r29);
-  bl 0x8016b384;
+  bl unk_8016b384;
   cmpwi r3, 0;
   beq lbl_8019d064;
   bl nandConvertErrorCode;
@@ -2350,7 +2561,7 @@ lbl_8019d064:
   addi r3, r29, 0x48;
   stb r0, 0x89(r29);
   addi r4, r29, 8;
-  bl 0x8016a934;
+  bl unk_8016a934;
   cmpwi r3, 0;
   beq lbl_8019d088;
   bl nandConvertErrorCode;
@@ -2364,7 +2575,7 @@ lbl_8019d088:
   addi r4, r29, 0x48;
   bl nandGetParentDirectory;
   addi r3, r1, 8;
-  bl 0x8016a78c;
+  bl unk_8016a78c;
   cmpwi r3, 0;
   bne lbl_8019d0cc;
   li r4, 9;
@@ -2396,7 +2607,7 @@ lbl_8019d0e8:
 // Symbol: NANDPrivateSafeOpenAsync
 // Function signature is unknown.
 // PAL: 0x8019d104..0x8019d130
-asm void NANDPrivateSafeOpenAsync(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -2414,7 +2625,7 @@ asm void NANDPrivateSafeOpenAsync(void) {
 // Symbol: nandSafeOpenAsync
 // Function signature is unknown.
 // PAL: 0x8019d130..0x8019d298
-asm void nandSafeOpenAsync(void) {
+asm UNKNOWN_FUNCTION(nandSafeOpenAsync) {
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -2468,7 +2679,7 @@ lbl_8019d1d0:
   stw r28, 4(r29);
   addi r5, r5, -10616;
   li r4, 1;
-  bl 0x8016af24;
+  bl unk_8016af24;
   cmpwi r3, 0;
   bne lbl_8019d208;
   li r3, 0;
@@ -2496,7 +2707,7 @@ lbl_8019d210:
   li r7, 3;
   stw r26, 0x80(r29);
   stw r27, 0x84(r29);
-  bl 0x80169f68;
+  bl unk_80169f68;
   cmpwi r3, 0;
   bne lbl_8019d26c;
   b lbl_8019d274;
@@ -2520,7 +2731,7 @@ lbl_8019d280:
 // Symbol: nandSafeOpenCallback
 // Function signature is unknown.
 // PAL: 0x8019d298..0x8019d688
-asm void nandSafeOpenCallback(void) {
+asm UNKNOWN_FUNCTION(nandSafeOpenCallback) {
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -2578,7 +2789,7 @@ lbl_8019d330:
   addi r9, r4, 0x2c;
   addi r10, r10, -11624;
   addi r4, r4, 0x18;
-  bl 0x8016a658;
+  bl unk_8016a658;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d370:
@@ -2589,7 +2800,7 @@ lbl_8019d370:
   addi r3, r31, 8;
   li r4, 1;
   addi r5, r5, -11624;
-  bl 0x8016af24;
+  bl unk_8016af24;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d398:
@@ -2616,7 +2827,7 @@ lbl_8019d398:
   li r5, 3;
   li r6, 0;
   li r7, 0;
-  bl 0x80169f68;
+  bl unk_80169f68;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d400:
@@ -2657,7 +2868,7 @@ lbl_8019d46c:
   addi r3, r31, 0x48;
   lwz r7, 0x2c(r30);
   addi r8, r8, -11624;
-  bl 0x8016ad68;
+  bl unk_8016ad68;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d498:
@@ -2673,7 +2884,7 @@ lbl_8019d498:
   addi r3, r31, 0x48;
   li r4, 2;
   addi r5, r5, -11624;
-  bl 0x8016af24;
+  bl unk_8016af24;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d4d4:
@@ -2684,7 +2895,7 @@ lbl_8019d4d4:
   addi r3, r31, 0x48;
   li r4, 3;
   addi r5, r5, -11624;
-  bl 0x8016af24;
+  bl unk_8016af24;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d4fc:
@@ -2704,7 +2915,7 @@ lbl_8019d504:
   lwz r4, 0x80(r4);
   lwz r3, 4(r31);
   lwz r5, 0x84(r30);
-  bl 0x8016b21c;
+  bl unk_8016b21c;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d544:
@@ -2716,7 +2927,7 @@ lbl_8019d544:
   mr r7, r30;
   lwz r5, 0x84(r30);
   addi r6, r6, -11624;
-  bl 0x8016b21c;
+  bl unk_8016b21c;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d570:
@@ -2732,7 +2943,7 @@ lbl_8019d570:
   mr r7, r30;
   lwz r3, 0(r31);
   addi r6, r6, -11624;
-  bl 0x8016b2e0;
+  bl unk_8016b2e0;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d5ac:
@@ -2743,7 +2954,7 @@ lbl_8019d5ac:
   li r4, 0;
   addi r6, r6, -11624;
   li r5, 0;
-  bl 0x8016b170;
+  bl unk_8016b170;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d5d4:
@@ -2803,7 +3014,7 @@ lbl_8019d670:
 // Symbol: nandReadOpenCallback
 // Function signature is unknown.
 // PAL: 0x8019d688..0x8019d720
-asm void nandReadOpenCallback(void) {
+asm UNKNOWN_FUNCTION(nandReadOpenCallback) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -2852,7 +3063,7 @@ lbl_8019d70c:
 // Symbol: NANDSafeCloseAsync
 // Function signature is unknown.
 // PAL: 0x8019d720..0x8019d824
-asm void NANDSafeCloseAsync(void) {
+asm UNKNOWN_FUNCTION(NANDSafeCloseAsync) {
   nofralloc;
   li r6, 0;
   b lbl_8019d728;
@@ -2898,7 +3109,7 @@ lbl_8019d794:
   stw r29, 4(r30);
   addi r4, r4, -9752;
   lwz r3, 0(r28);
-  bl 0x8016b388;
+  bl unk_8016b388;
   b lbl_8019d800;
 lbl_8019d7c4:
   addi r0, r3, 0xfe;
@@ -2913,7 +3124,7 @@ lbl_8019d7c4:
   stw r29, 4(r30);
   stw r0, 0x7c(r30);
   lwz r3, 0(r28);
-  bl 0x8016b388;
+  bl unk_8016b388;
   b lbl_8019d800;
 lbl_8019d7fc:
   li r3, -101;
@@ -2933,7 +3144,7 @@ lbl_8019d804:
 // Symbol: nandSafeCloseCallback
 // Function signature is unknown.
 // PAL: 0x8019d824..0x8019d9e8
-asm void nandSafeCloseCallback(void) {
+asm UNKNOWN_FUNCTION(nandSafeCloseCallback) {
   nofralloc;
   stwu r1, -0x50(r1);
   mflr r0;
@@ -2973,7 +3184,7 @@ lbl_8019d88c:
   mr r5, r31;
   addi r4, r4, -10204;
   lwz r3, 4(r7);
-  bl 0x8016b388;
+  bl unk_8016b388;
   mr r6, r3;
   b lbl_8019d99c;
 lbl_8019d8bc:
@@ -2986,7 +3197,7 @@ lbl_8019d8bc:
   addi r3, r7, 0x48;
   addi r4, r7, 8;
   addi r5, r5, -10204;
-  bl 0x8016aa38;
+  bl unk_8016aa38;
   mr r6, r3;
   b lbl_8019d99c;
 lbl_8019d8ec:
@@ -3016,7 +3227,7 @@ lbl_8019d8ec:
   mr r5, r31;
   addi r3, r1, 8;
   addi r4, r4, -10204;
-  bl 0x8016a864;
+  bl unk_8016a864;
   mr r6, r3;
   b lbl_8019d99c;
 lbl_8019d960:
@@ -3063,7 +3274,7 @@ lbl_8019d9d4:
 // Symbol: nandReadCloseCallback
 // Function signature is unknown.
 // PAL: 0x8019d9e8..0x8019da44
-asm void nandReadCloseCallback(void) {
+asm UNKNOWN_FUNCTION(nandReadCloseCallback) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3094,7 +3305,7 @@ lbl_8019da1c:
 // Symbol: nandCloseCallback
 // Function signature is unknown.
 // PAL: 0x8019da44..0x8019daa0
-asm void nandCloseCallback(void) {
+asm UNKNOWN_FUNCTION(nandCloseCallback) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3125,7 +3336,7 @@ lbl_8019da78:
 // Symbol: nandRemoveTailToken
 // Function signature is unknown.
 // PAL: 0x8019daa0..0x8019db74
-asm void nandRemoveTailToken(void) {
+asm UNKNOWN_FUNCTION(nandRemoveTailToken) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -3190,7 +3401,7 @@ lbl_8019db58:
 // Symbol: nandGetHeadToken
 // Function signature is unknown.
 // PAL: 0x8019db74..0x8019dc48
-asm void nandGetHeadToken(void) {
+asm UNKNOWN_FUNCTION(nandGetHeadToken) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -3256,7 +3467,7 @@ lbl_8019dc30:
 // Symbol: nandGetRelativeName
 // Function signature is unknown.
 // PAL: 0x8019dc48..0x8019dce0
-asm void nandGetRelativeName(void) {
+asm UNKNOWN_FUNCTION(nandGetRelativeName) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3305,7 +3516,7 @@ lbl_8019dcc8:
 // Symbol: nandConvertPath
 // Function signature is unknown.
 // PAL: 0x8019dce0..0x8019de1c
-asm void nandConvertPath(void) {
+asm UNKNOWN_FUNCTION(nandConvertPath) {
   nofralloc;
 lbl_8019dce0:
   stwu r1, -0x220(r1);
@@ -3399,7 +3610,7 @@ lbl_8019de00:
 // Symbol: nandIsPrivatePath
 // Function signature is unknown.
 // PAL: 0x8019de1c..0x8019de50
-asm void nandIsPrivatePath(void) {
+asm UNKNOWN_FUNCTION(nandIsPrivatePath) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3419,7 +3630,7 @@ asm void nandIsPrivatePath(void) {
 // Symbol: nandIsUnderPrivatePath
 // Function signature is unknown.
 // PAL: 0x8019de50..0x8019dea8
-asm void nandIsUnderPrivatePath(void) {
+asm UNKNOWN_FUNCTION(nandIsUnderPrivatePath) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3450,7 +3661,7 @@ lbl_8019de94:
 // Symbol: nandIsInitialized
 // Function signature is unknown.
 // PAL: 0x8019dea8..0x8019debc
-asm void nandIsInitialized(void) {
+asm UNKNOWN_FUNCTION(nandIsInitialized) {
   nofralloc;
   lwz r3, -0x63b8(r13);
   addi r0, r3, -2;
@@ -3462,7 +3673,7 @@ asm void nandIsInitialized(void) {
 // Symbol: nandReportErrorCode
 // Function signature is unknown.
 // PAL: 0x8019debc..0x8019dec0
-asm void nandReportErrorCode(void) {
+asm UNKNOWN_FUNCTION(nandReportErrorCode) {
   nofralloc;
   blr;
 }
@@ -3470,7 +3681,7 @@ asm void nandReportErrorCode(void) {
 // Symbol: nandConvertErrorCode
 // Function signature is unknown.
 // PAL: 0x8019dec0..0x8019e020
-asm void nandConvertErrorCode(void) {
+asm UNKNOWN_FUNCTION(nandConvertErrorCode) {
   nofralloc;
   clrlwi r11, r1, 0x1a;
   mr r12, r1;
@@ -3572,7 +3783,7 @@ lbl_8019e000:
 // Symbol: nandGenerateAbsPath
 // Function signature is unknown.
 // PAL: 0x8019e020..0x8019e0e8
-asm void nandGenerateAbsPath(void) {
+asm UNKNOWN_FUNCTION(nandGenerateAbsPath) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3634,7 +3845,7 @@ lbl_8019e0d0:
 // Symbol: nandGetParentDirectory
 // Function signature is unknown.
 // PAL: 0x8019e0e8..0x8019e18c
-asm void nandGetParentDirectory(void) {
+asm UNKNOWN_FUNCTION(nandGetParentDirectory) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -3686,7 +3897,7 @@ lbl_8019e170:
 // Symbol: NANDInit
 // Function signature is unknown.
 // PAL: 0x8019e18c..0x8019e2b8
-asm void NANDInit(void) {
+asm UNKNOWN_FUNCTION(NANDInit) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -3712,16 +3923,16 @@ lbl_8019e1d8:
   li r0, 1;
   stw r0, -0x63b8(r13);
   bl OSRestoreInterrupts;
-  bl 0x80169bcc;
+  bl unk_80169bcc;
   cmpwi r3, 0;
   mr r30, r3;
   bne lbl_8019e288;
-  bl 0x801671d0;
+  bl unk_801671d0;
   cmpwi r3, 0;
   mr r30, r3;
   bne lbl_8019e210;
   addi r3, r1, 8;
-  bl 0x8016799c;
+  bl unk_8016799c;
   mr r30, r3;
 lbl_8019e210:
   cmpwi r30, 0;
@@ -3730,7 +3941,7 @@ lbl_8019e210:
   lwz r3, 8(r1);
   lwz r4, 0xc(r1);
   addi r5, r5, 0x6d20;
-  bl 0x80167904;
+  bl unk_80167904;
   mr r30, r3;
 lbl_8019e230:
   cmpwi r30, 0;
@@ -3740,7 +3951,7 @@ lbl_8019e230:
   addi r4, r4, 0x6d20;
   bl strcpy;
 lbl_8019e248:
-  bl 0x80167224;
+  bl unk_80167224;
   cmpwi r30, 0;
   beq lbl_8019e260;
   addi r3, r31, 0x130;
@@ -3776,7 +3987,7 @@ lbl_8019e2a0:
 // Symbol: nandOnShutdown
 // Function signature is unknown.
 // PAL: 0x8019e2b8..0x8019e390
-asm void nandOnShutdown(void) {
+asm UNKNOWN_FUNCTION(nandOnShutdown) {
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -3795,7 +4006,7 @@ asm void nandOnShutdown(void) {
   mr r28, r3;
   addi r4, r1, 8;
   addi r3, r5, -7292;
-  bl 0x8016b40c;
+  bl unk_8016b40c;
   lis r3, 0x1062;
   lis r30, 0x8000;
   addi r29, r3, 0x4dd3;
@@ -3842,7 +4053,7 @@ lbl_8019e36c:
 // Symbol: NANDGetCurrentDir
 // Function signature is unknown.
 // PAL: 0x8019e390..0x8019e40c
-asm void NANDGetCurrentDir(void) {
+asm UNKNOWN_FUNCTION(NANDGetCurrentDir) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3884,7 +4095,7 @@ lbl_8019e3f4:
 // Symbol: NANDGetHomeDir
 // Function signature is unknown.
 // PAL: 0x8019e40c..0x8019e460
-asm void NANDGetHomeDir(void) {
+asm UNKNOWN_FUNCTION(NANDGetHomeDir) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3916,7 +4127,7 @@ lbl_8019e450:
 // Symbol: nandCallback
 // Function signature is unknown.
 // PAL: 0x8019e460..0x8019e49c
-asm void nandCallback(void) {
+asm UNKNOWN_FUNCTION(nandCallback) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3938,7 +4149,7 @@ asm void nandCallback(void) {
 // Symbol: nandGetType
 // Function signature is unknown.
 // PAL: 0x8019e49c..0x8019e770
-asm void nandGetType(void) {
+asm UNKNOWN_FUNCTION(nandGetType) {
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -4029,7 +4240,7 @@ lbl_8019e5c0:
   addi r5, r28, 0x30;
   addi r6, r6, -6148;
   li r4, 0;
-  bl 0x8016a1b0;
+  bl unk_8016a1b0;
   b lbl_8019e758;
 lbl_8019e5e4:
   li r0, 0;
@@ -4119,7 +4330,7 @@ lbl_8019e70c:
   stw r0, 8(r1);
   addi r5, r1, 8;
   li r4, 0;
-  bl 0x8016a05c;
+  bl unk_8016a05c;
   cmpwi r3, 0;
   beq lbl_8019e734;
   cmpwi r3, -102;
@@ -4147,7 +4358,7 @@ lbl_8019e758:
 // Symbol: NANDGetType
 // Function signature is unknown.
 // PAL: 0x8019e770..0x8019e7b4
-asm void NANDGetType(void) {
+asm UNKNOWN_FUNCTION(NANDGetType) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4173,7 +4384,7 @@ lbl_8019e7a4:
 // Symbol: NANDPrivateGetTypeAsync
 // Function signature is unknown.
 // PAL: 0x8019e7b4..0x8019e7fc
-asm void NANDPrivateGetTypeAsync(void) {
+asm UNKNOWN_FUNCTION(NANDPrivateGetTypeAsync) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4200,7 +4411,7 @@ lbl_8019e7ec:
 // Symbol: nandGetTypeCallback
 // Function signature is unknown.
 // PAL: 0x8019e7fc..0x8019e874
-asm void nandGetTypeCallback(void) {
+asm UNKNOWN_FUNCTION(nandGetTypeCallback) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4240,7 +4451,7 @@ lbl_8019e84c:
 // Symbol: nandGetHomeDir
 // Function signature is unknown.
 // PAL: 0x8019e874..0x8019e880
-asm void nandGetHomeDir(void) {
+asm UNKNOWN_FUNCTION(nandGetHomeDir) {
   nofralloc;
   lis r3, 0x8034;
   addi r3, r3, 0x6d20;
@@ -4250,7 +4461,7 @@ asm void nandGetHomeDir(void) {
 // Symbol: NANDInitBanner
 // Function signature is unknown.
 // PAL: 0x8019e880..0x8019e95c
-asm void NANDInitBanner(void) {
+asm UNKNOWN_FUNCTION(NANDInitBanner) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -4266,7 +4477,7 @@ asm void NANDInitBanner(void) {
   li r4, 0;
   stw r28, 0x10(r1);
   mr r28, r3;
-  bl 0x80006038;
+  bl memset;
   lis r3, 0x5749;
   stw r29, 4(r28);
   addi r0, r3, 0x424e;
@@ -4316,7 +4527,7 @@ lbl_8019e93c:
 // Symbol: NANDSecretGetUsage
 // Function signature is unknown.
 // PAL: 0x8019e95c..0x8019ea14
-asm void NANDSecretGetUsage(void) {
+asm UNKNOWN_FUNCTION(NANDSecretGetUsage) {
   nofralloc;
   stwu r1, -0x60(r1);
   mflr r0;
@@ -4356,7 +4567,7 @@ lbl_8019e994:
   mr r4, r30;
   mr r5, r31;
   addi r3, r1, 8;
-  bl 0x8016ab3c;
+  bl unk_8016ab3c;
   bl nandConvertErrorCode;
 lbl_8019e9f8:
   lwz r0, 0x64(r1);
@@ -4371,7 +4582,7 @@ lbl_8019e9f8:
 // Symbol: nandCalcUsage
 // Function signature is unknown.
 // PAL: 0x8019ea14..0x8019ead0
-asm void nandCalcUsage(void) {
+asm UNKNOWN_FUNCTION(nandCalcUsage) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -4394,7 +4605,7 @@ lbl_8019ea50:
   addi r5, r1, 8;
   stw r31, 8(r1);
   lwz r3, 0(r30);
-  bl 0x8016ab3c;
+  bl unk_8016ab3c;
   cmpwi r3, 0;
   bne lbl_8019ea94;
   lwz r4, 0(r28);
@@ -4430,7 +4641,7 @@ lbl_8019eab0:
 // Symbol: NANDCheck
 // Function signature is unknown.
 // PAL: 0x8019ead0..0x8019ebd8
-asm void NANDCheck(void) {
+asm UNKNOWN_FUNCTION(NANDCheck) {
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -4455,7 +4666,7 @@ lbl_8019eb1c:
   bl nandGetHomeDir;
   addi r4, r1, 0x14;
   addi r5, r1, 0x10;
-  bl 0x8016ab3c;
+  bl unk_8016ab3c;
   cmpwi r3, 0;
   beq lbl_8019eb3c;
   bl nandConvertErrorCode;
@@ -4511,7 +4722,7 @@ lbl_8019ebbc:
 // Symbol: reserveFileDescriptor
 // Function signature is unknown.
 // PAL: 0x8019ebd8..0x8019ec2c
-asm void reserveFileDescriptor(void) {
+asm UNKNOWN_FUNCTION(reserveFileDescriptor) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4541,7 +4752,7 @@ lbl_8019ec0c:
 // Symbol: NANDLoggingAddMessageAsync
 // Function signature is unknown.
 // PAL: 0x8019ec2c..0x8019ed24
-asm void NANDLoggingAddMessageAsync(void) {
+asm UNKNOWN_FUNCTION(NANDLoggingAddMessageAsync) {
   nofralloc;
   stwu r1, -0x80(r1);
   mflr r0;
@@ -4595,7 +4806,7 @@ lbl_8019eca0:
   stw r0, -0x63ac(r13);
   addi r5, r5, -4828;
   li r6, 0;
-  bl 0x8016af24;
+  bl unk_8016af24;
   cmpwi r3, 0;
   bne lbl_8019ed08;
   li r3, 1;
@@ -4614,7 +4825,7 @@ lbl_8019ed0c:
 // Symbol: asyncRoutine
 // Function signature is unknown.
 // PAL: 0x8019ed24..0x8019f1a8
-asm void asyncRoutine(void) {
+asm UNKNOWN_FUNCTION(asyncRoutine) {
   nofralloc;
   stwu r1, -0x90(r1);
   mflr r0;
@@ -4637,7 +4848,7 @@ asm void asyncRoutine(void) {
   li r4, 0;
   li r5, 0;
   li r7, 0;
-  bl 0x8016b170;
+  bl unk_8016b170;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4666,7 +4877,7 @@ lbl_8019edbc:
   li r5, 0x100;
   addi r6, r6, -4828;
   li r7, 0;
-  bl 0x8016b21c;
+  bl unk_8016b21c;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4695,7 +4906,7 @@ lbl_8019ee28:
   li r4, 0;
   li r5, 0;
   li r7, 0;
-  bl 0x8016b170;
+  bl unk_8016b170;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4726,7 +4937,7 @@ lbl_8019ee94:
   addi r3, r30, 0x200;
   li r4, 0x20;
   li r5, 0xfe;
-  bl 0x80006038;
+  bl memset;
   bl OSGetTime;
   addi r5, r1, 0x58;
   bl OSTicksToCalendarTime;
@@ -4785,7 +4996,7 @@ lbl_8019ef84:
   li r5, 0x100;
   stb r0, 0xff(r4);
   li r7, 0;
-  bl 0x8016b2e0;
+  bl unk_8016b2e0;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4817,7 +5028,7 @@ lbl_8019eff0:
   addi r6, r6, -4828;
   li r5, 0;
   li r7, 0;
-  bl 0x8016b170;
+  bl unk_8016b170;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4849,7 +5060,7 @@ lbl_8019f068:
   li r5, 0x100;
   addi r6, r6, -4828;
   li r7, 0;
-  bl 0x8016b2e0;
+  bl unk_8016b2e0;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4876,7 +5087,7 @@ lbl_8019f0e0:
   lwz r3, -0x71a0(r13);
   addi r4, r4, -4828;
   li r5, 0;
-  bl 0x8016b388;
+  bl unk_8016b388;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);

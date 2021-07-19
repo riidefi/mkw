@@ -48,7 +48,7 @@ dol_slices_path = Path(__file__) / ".." / ".." / "pack" / "dol_slices.csv"
 SPLITS = []
 with open(dol_slices_path, "r") as f:
     reader = csv.reader(f)
-    assert reader.__next__() is not None, "empty CSV file"
+    assert next(reader) is not None, "empty CSV file"
     for row in reader:
         assert len(row) > 3, "Not enough columns in row"
         if row[1] != "1":

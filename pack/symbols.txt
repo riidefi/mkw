@@ -1,3 +1,4 @@
+0x80006038 memset
 0x800060a4 __start
 0x80008e7c onExit__Q23EGG6ThreadFv
 0x80008e80 onEnter__Q23EGG6ThreadFv

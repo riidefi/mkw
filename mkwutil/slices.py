@@ -1,6 +1,12 @@
 from bisect import bisect, bisect_left
 from copy import copy
 import csv
+from functools import reduce
+import math
+from os import name
+from pathlib import Path
+
+from termcolor import colored
 
 
 class Slice:
@@ -53,14 +59,52 @@ class Slice:
         return type(self)(self.start, self.stop, self.name, self.section, self.tags)
 
 
+class ObjectSlices:
+    """ObjectSlices is an immutable view of slices grouped by slice name."""
+
+    def __init__(self, objects=dict()):
+        self.objects = objects
+
+    def get(self, name: str) -> list[Slice]:
+        assert isinstance(name, str)
+        return self.objects.get(name)
+
+    def __len__(self) -> int:
+        return self.objects.__len__()
+
+
 class SliceTable:
     """A list of contiguous slices for a given range."""
 
-    def __init__(self, start, stop):
+    def __init__(self, start=0x8000_0000, stop=math.inf):
         assert start < stop, "Non-positive slice table size"
         self.slices = [Slice(start, stop)]
         self.start = start
         self.stop = stop
+
+    def load_path(file_path, sections=None):
+        """Loads slices given a path to a CSV file."""
+        if sections is not None:
+            this = SliceTable(start=sections[0].start, stop=sections[-1].stop)
+        else:
+            this = SliceTable()
+        with open(file_path, "r") as file:
+            this.read_from(file)
+        if sections is not None:
+            this.set_sections(sections)
+        return this
+
+    def load_dol_slices(sections=None):
+        """Loads pack/dol_slices.csv in the default DOL region."""
+        return SliceTable.load_path(
+            Path(__file__).parent / ".." / "pack" / "dol_slices.csv", sections=sections
+        )
+
+    def load_rel_slices():
+        """Loads pack/rel_slices.csv in the default DOL region."""
+        return SliceTable.load_path(
+            Path(__file__).parent / ".." / "pack" / "rel_slices.csv"
+        )
 
     def __contains__(self, slice):
         """Returns whether the range of a slice lies within the table.
@@ -95,18 +139,18 @@ class SliceTable:
         _, start_idx = self.find(start)
         assert start_idx is not None, f"Start {hex(start)} lies outside table."
         new_table = SliceTable(start, stop)
-        for slice in self.slices[start_idx:]:
-            if slice.start < start:
-                slice = copy(slice)
-                slice.start = start
-            if slice.start >= stop:
+        for _slice in self.slices[start_idx:]:
+            if _slice.start < start:
+                _slice = copy(_slice)
+                _slice.start = start
+            if _slice.start >= stop:
                 break
-            if slice.stop > stop:
-                slice = copy(slice)
-                slice.stop = stop
-                new_table.add(slice)
+            if _slice.stop > stop:
+                _slice = copy(_slice)
+                _slice.stop = stop
+                new_table.add(_slice)
                 break
-            new_table.add(slice)
+            new_table.add(_slice)
         return new_table
 
     # def write_to(self, file):
@@ -142,40 +186,158 @@ class SliceTable:
     # Filter function for SliceTable.filter
     ONLY_ENABLED = lambda slice: "enabled" in slice.tags
 
-    def add(self, slice):
+    def add(self, _slice: Slice):
         """Adds a slice to the table, changing gaps as appropriate.
         Panics if a named slice overlaps with the slice to be inserted"""
-        assert slice in self, "Slice %08x..%08x does not fit in table %08x..%08x" % (
-            slice.start,
-            slice.stop,
+        assert isinstance(_slice, Slice)
+        assert _slice in self, "Slice %08x..%08x does not fit in table %08x..%08x" % (
+            _slice.start,
+            _slice.stop,
             self.start,
             self.stop,
         )
         # Find the slice in which the starting point falls.
-        i = bisect(self.slices, slice) - 1
+        i = bisect(self.slices, _slice) - 1
         target = self.slices[i]
         # If the new slice does not fit in the target slice,
         # the new slice overlaps at least two slices.
         # Because of the invariant that no gaps can share a border,
         # this means the new slice overlaps at least one named slice.
+        # TODO This is not true anymore, update logic to overwrite multiple slices.
         assert (
-            target.name is None and slice in target
-        ), f"Overlapping slices:\n     new={slice}\nexisting={target}"
-        # Inserting an unnamed slice is a no-op.
-        if slice.name is None:
-            return
+            target.name is None and _slice in target
+        ), f"Overlapping slices:\n     new={_slice}\nexisting={target}"
         # Insert left gap.
-        if slice.start > target.start:
-            self.slices.insert(i, Slice(target.start, slice.start))
+        if _slice.start > target.start:
+            self.slices.insert(i, Slice(target.start, _slice.start))
             i += 1
         # Insert new slice.
-        self.slices[i] = slice
+        self.slices[i] = _slice
         # Insert right gap.
-        if slice.stop < target.stop:
-            self.slices.insert(i + 1, Slice(slice.stop, target.stop))
+        if _slice.stop < target.stop:
+            self.slices.insert(i + 1, Slice(_slice.stop, target.stop))
 
     def __repr__(self):
-        return "[\n" + "\n".join(["  " + repr(slice) for slice in self.slices]) + "\n]"
+        return (
+            "[\n" + "\n".join(["  " + repr(_slice) for _slice in self.slices]) + "\n]"
+        )
+
+    SECTION_ORDER = [
+        "init",
+        "extab",
+        "extabindex",
+        "text",
+        "ctors",
+        "dtors",
+        "rodata",
+        "data",
+        "bss",
+        "sdata",
+        "sbss",
+        "sdata2",
+        "sbss2",
+    ]
+
+    def object_slices(self, order=SECTION_ORDER) -> ObjectSlices:
+        """Returns a dict of objects keyed by object name.
+        An object is a list of slices in different sections with the same name."""
+        # Create sort buckets for each section.
+        # TODO A deque might be more appropriate.
+        buckets = [[] for _ in range(0, len(order))]
+        # Remember the sections of each object.
+        object_sections = dict()
+        # Transform slices list to buckets / objects.
+        for _slice in self.slices:
+            if not _slice.has_name():
+                continue
+            buckets[order.index(_slice.section)].append(_slice)
+            sections = object_sections.get(_slice.name, set())
+            sections.add(_slice.section)
+            object_sections[_slice.name] = sections
+        # Sort each bucket.
+        for bucket in buckets:
+            bucket.sort(key=lambda _slice: _slice.start)
+        # Merge buckets.
+        objects = ObjectSlices()
+        while sum(len(bucket) for bucket in buckets) > 0:
+            # Select next object name.
+            resolved_row = False
+            for i, bucket in enumerate(buckets):
+                if len(bucket) == 0:
+                    continue
+                name = bucket[0].name
+                slices = [bucket[0]]
+                # Discover dependencies of slice.
+                deps_match = True
+                for j, dep_bucket in enumerate(buckets):
+                    if i == j:
+                        continue
+                    if order[j] in object_sections[name]:
+                        # If the dependency section doesn't contain our object,
+                        # try another section first.
+                        if dep_bucket[0].name != name:
+                            deps_match = False
+                            break
+                        slices.append(dep_bucket[0])
+                # All dependencies match with lowest addresses.
+                if deps_match:
+                    j = 0
+                    for _slice in slices:
+                        while (
+                            len(buckets[j]) == 0
+                            or buckets[j][0].section != _slice.section
+                        ):
+                            j += 1
+                        buckets[j].pop(0)
+                    resolved_row = True
+                    objects.objects[name] = slices
+                    break
+            # If no bucket could be resolved, it's impossible to sort
+            assert resolved_row, "Merging failed at slices:\n" + "\n".join(
+                (
+                    f"{hex(bucket[0].start)} {order[i]} = {bucket[0]}"
+                    for i, bucket in enumerate(buckets)
+                    if len(bucket) > 0
+                )
+            )
+        return objects
+
+    def set_sections(self, sections):
+        """Sets the slices' sections based on the given list of sections.
+        The sections must be sorted."""
+        i = 0
+        for slice_idx, _slice in enumerate(self.slices):
+            assert i < len(sections)
+            # Move on to next section if slice begins outside bounds of last slice.
+            while sections[i].stop <= _slice.start:
+                i += 1
+                assert i < len(sections)
+            # Split slice if it beings outside bounds of current slice.
+            # i.e. There's a gap between last and current slice.
+            if sections[i].start > _slice.start:
+                gap_slice = copy(_slice)
+                _slice.start = sections[i].start
+                gap_slice.stop = _slice.start
+                gap_slice.name = None
+                gap_slice.section = None
+                self.slices.insert(slice_idx, gap_slice)
+                slice_idx += 1
+            # Split slice if slice ends outside bounds.
+            if _slice.stop > sections[i].stop:
+                assert (
+                    not _slice.has_name()
+                ), "Refusing to split named slice across sections"
+                assert i + 1 < len(sections), "Slice ends outside section table"
+                # Shrink left slice.
+                old_stop = _slice.stop
+                _slice.stop = sections[i].stop
+                # Create right slice.
+                # This slice will be processed in the next iteration.
+                right_slice = copy(_slice)
+                right_slice.start = sections[i].stop
+                right_slice.stop = old_stop
+                self.slices.insert(slice_idx + 1, right_slice)
+            _slice.section = sections[i].name
 
 
 class SlicesCSVReader:
@@ -184,7 +346,7 @@ class SlicesCSVReader:
     def __init__(self, file):
         self.reader = csv.reader(file)
         # Read CSV header.
-        header = self.reader.__next__()
+        header = next(self.reader)
         self.cols = len(header)
         # The name field separates tags and ranges.
         name_idx = header.index("name")

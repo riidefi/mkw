@@ -37,6 +37,9 @@ class SymbolsList:
     def __getitem__(self, addr):
         return self._by_addr[addr]
 
+    def __contains__(self, key):
+        return (key in self._by_addr) or (key in self._by_name)
+
     def get(self, addr):
         """Looks up a symbol by address."""
         return self._by_addr.get(addr)
@@ -79,8 +82,17 @@ class SymbolsList:
         assert addr == entry.addr
         self.put(entry)
 
-    def __delitem__(self, addr):
-        sym = self._by_addr.pop(addr)
+    def __delitem__(self, key):
+        if isinstance(key, int):
+            sym = self._by_addr.pop(key)
+        elif isinstance(key, Symbol):
+            sym = self._by_addr.pop(key.addr)
+        elif isinstance(key, str):
+            sym = self._by_name.pop(key)
+            self._by_addr.pop(sym.addr)
+            return
+        else:
+            assert False, "invalid key"
         assert sym is not None
         del self._by_name[sym.name]
 
