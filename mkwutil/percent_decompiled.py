@@ -81,7 +81,7 @@ def percent_decompiled(dir="."):
         assert lib.section == "text", "For now only text section per lib supported"
         lib_progress = simple_count(dol_slices.slice(lib.start, lib.stop))
         lib_total = (len(lib), None)
-        matrix.append(analyze(lib.name, lib_progress, lib_total))
+        matrix.append(analyze("> " + lib.name, lib_progress, lib_total))
     # REL progress.
     rel_slices = SliceTable.load_rel_slices()
     rel_progress = simple_count(rel_slices)
@@ -103,7 +103,8 @@ def percent_decompiled(dir="."):
         ]
     )
     # Print table.
-    writer = pytablewriter.UnicodeTableWriter(
+    print("-" * 31)
+    writer = pytablewriter.BorderlessTableWriter(
         headers=["part", "code", "data"],
         column_styles=[
             Style(align="left"),
@@ -114,8 +115,8 @@ def percent_decompiled(dir="."):
         value_matrix=matrix,
     )
     writer.write_table()
+    print("-" * 31)
 
-    print("-" * 8)
     # Player stats.
     print("Player:")
     print(" - %u BR (main.dol)" % (dol_progress[0] / dol_total[0] * 4999 + 5000))
