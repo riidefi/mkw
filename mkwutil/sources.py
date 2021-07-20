@@ -1,3 +1,8 @@
+"""
+Lists the source code files that make up Mario Kart Wii.
+"""
+
+
 from dataclasses import dataclass
 from itertools import chain
 
@@ -15,9 +20,9 @@ class Source:
     opts: str
 
 
-"""
-main.dol
-"""
+#
+# main.dol
+#
 
 
 SOURCES_TRK = [
@@ -161,9 +166,9 @@ SOURCES_DOL = list(chain(
     SOURCES_EGG_MATH,
 ))
 
-"""
-StaticR.rel
-"""
+#
+# StaticR.rel
+#
 
 SOURCES_REL = [
     Source(src="source/game/ui/MessageGroup.cpp", cc='4201_127', opts=REL_OPTS),

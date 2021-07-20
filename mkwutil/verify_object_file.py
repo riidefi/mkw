@@ -21,7 +21,7 @@ def verify_object_file(dst: str, src: str, obj_slices: list):
             have_size = section.data_size
             if want_size != have_size:
                 match = False
-                warn = "[!] %s %s want=0x%x got=0x%x" % (
+                warn = "[!] Size mismatch: %s %s want=0x%x got=0x%x" % (
                     src,
                     section_name,
                     want_size,
