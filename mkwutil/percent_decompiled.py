@@ -5,8 +5,8 @@ import pytablewriter
 from pytablewriter.style import Style
 from termcolor import colored
 
-from mkwutil.slices import Slice, SliceTable
-from mkwutil.sections import REL_SECTIONS, Section, DOL_SECTIONS
+from mkwutil.slices import SliceTable
+from mkwutil.sections import Section, REL_SECTIONS, DOL_SECTIONS, DOL_LIBS
 
 
 def simple_count(slices: SliceTable) -> tuple[int, int]:
@@ -57,14 +57,6 @@ def get_progress(slices, filter):
         progress[1] += o_data_total
 
     return progress
-
-
-DOL_LIBS = [
-    Slice(name="DOL/RVL", start=0x80123F88, stop=0x8020F62C, section="text"),
-    Slice(name="DOL/EGG", start=0x8020F62C, stop=0x80244DD4, section="text"),
-    # TODO Add DWC slice
-    Slice(name="DOL/SPY", start=0x800EF378, stop=0x80123F88, section="text"),
-]
 
 
 def percent_decompiled(dir="."):

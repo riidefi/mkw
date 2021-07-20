@@ -1,47 +1,49 @@
 from bisect import bisect, bisect_left
 from copy import copy
 import csv
-from functools import reduce
+from dataclasses import dataclass, field
 import math
-from os import name
 from pathlib import Path
+from typing import Callable, Generator, Optional
 
-from termcolor import colored
 
-
+@dataclass
 class Slice:
-    def __init__(self, start, stop, name=None, section=None, tags=set()):
-        assert start <= stop, "Slice has negative length"
-        self.start = start
-        self.stop = stop
-        self.name = name
-        self.section = section
-        self.tags = tags
+    """A continuous memory region."""
 
-    def __contains__(self, key):
+    start: int
+    stop: int
+    name: str = None
+    section: "Section" = None
+    tags: set[str] = field(default_factory=set)
+
+    def __post_init__(self):
+        assert self.start <= self.stop
+
+    def __contains__(self, key) -> bool:
         if isinstance(key, int):
             return self.start <= key < self.stop
         if isinstance(key, type(self)):
             return self.start <= key.start and self.stop >= key.stop
         return False
 
-    def __len__(self):
+    def __len__(self) -> int:
         assert self.start <= self.stop, "Slice has negative length"
         return self.stop - self.start
 
-    def __eq__(self, other):
+    def __eq__(self, other: "Slice") -> bool:
         """Checks whether two slices occupy the same region."""
         if not isinstance(other, type(self)):
             return False
         return self.start == other.start and self.stop == other.stop
 
-    def __gt__(self, other):
+    def __gt__(self, other: "Slice") -> bool:
         """Checks whether this slice starts after another slice."""
         if not isinstance(other, type(self)):
             return False
         return self.start > other.start
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         repr = "{ %08x..%08x" % (self.start, self.stop)
         if self.name is not None:
             repr += " " + self.name
@@ -50,11 +52,11 @@ class Slice:
         repr += " }"
         return repr
 
-    def has_name(self):
+    def has_name(self) -> bool:
         """Returns whether the slice is named. Unnamed slices get handled"""
         return self.name is not None
 
-    def __copy__(self):
+    def __copy__(self) -> "Slice":
         """Returns a copy of the slice."""
         return type(self)(self.start, self.stop, self.name, self.section, self.tags)
 
@@ -76,7 +78,12 @@ class ObjectSlices:
 class SliceTable:
     """A list of contiguous slices for a given range."""
 
-    def __init__(self, start=0x8000_0000, stop=math.inf):
+    def __init__(
+        self, start=0x8000_0000, stop=math.inf, sections: Optional[list] = None
+    ):
+        if sections is not None:
+            start = sections[0].start
+            stop = sections[-1].stop
         assert start < stop, "Non-positive slice table size"
         self.slices = [Slice(start, stop)]
         self.start = start
@@ -94,47 +101,49 @@ class SliceTable:
             this.set_sections(sections)
         return this
 
-    def load_dol_slices(sections=None):
+    @staticmethod
+    def load_dol_slices(sections=None) -> "SliceTable":
         """Loads pack/dol_slices.csv in the default DOL region."""
         return SliceTable.load_path(
             Path(__file__).parent / ".." / "pack" / "dol_slices.csv", sections=sections
         )
 
-    def load_rel_slices():
+    @staticmethod
+    def load_rel_slices(sections=None) -> "SliceTable":
         """Loads pack/rel_slices.csv in the default DOL region."""
         return SliceTable.load_path(
-            Path(__file__).parent / ".." / "pack" / "rel_slices.csv"
+            Path(__file__).parent / ".." / "pack" / "rel_slices.csv", sections=sections
         )
 
-    def __contains__(self, slice):
+    def __contains__(self, _slice: Slice) -> bool:
         """Returns whether the range of a slice lies within the table.
         The table is not actually checked for membership."""
-        return self.start <= slice.start and self.stop >= slice.stop
+        return self.start <= _slice.start and self.stop >= _slice.stop
 
     def __iter__(self):
         return self.slices.__iter__()
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size()
 
-    def size(self):
+    def size(self) -> int:
         return self.stop - self.start
 
-    def count(self):
+    def count(self) -> int:
         return len(self.slices)
 
-    def read_from(self, file):
+    def read_from(self, file) -> None:
         for slice in SlicesCSVReader(file):
             self.add(slice)
 
-    def find(self, addr):
+    def find(self, addr: int) -> tuple[Optional[Slice], Optional[int]]:
         """Returns the slice the address falls into."""
         for i, slice in enumerate(self.slices):
             if addr in slice:
                 return slice, i
         return None, None
 
-    def slice(self, start, stop):
+    def slice(self, start: int, stop: int) -> "SliceTable":
         """Returns a copy of the slice table for a given range."""
         _, start_idx = self.find(start)
         assert start_idx is not None, f"Start {hex(start)} lies outside table."
@@ -159,14 +168,14 @@ class SliceTable:
     #        if slice.name is not None:
     #            writer.write(slice)
 
-    def find_parent(self, slice):
+    def find_parent(self, _slice: Slice) -> Optional[Slice]:
         """Searches for a slice in the table containing the given slice."""
-        i = bisect_left(self.slices, slice)
+        i = bisect_left(self.slices, _slice)
         if i < len(self.slices):
             return self.slices[i]
         return None
 
-    def sum_named_slices(self):
+    def sum_named_slices(self) -> int:
         """Returns the sum of the lengths of all named/known slices."""
         t = 0
         for s in self.segs:
@@ -174,7 +183,7 @@ class SliceTable:
                 t += len(s)
         return t
 
-    def filter(self, filter_func):
+    def filter(self, filter_func: Callable[[Slice], bool]) -> "SliceTable":
         """Returns a new slice table with only slices that passed the filter function."""
         # A more "pythonic" approach to this would be SliceTable([for x in table if x ...])
         filtered = SliceTable(self.start, self.stop)
@@ -186,7 +195,7 @@ class SliceTable:
     # Filter function for SliceTable.filter
     ONLY_ENABLED = lambda slice: "enabled" in slice.tags
 
-    def add(self, _slice: Slice):
+    def add(self, _slice: Slice) -> None:
         """Adds a slice to the table, changing gaps as appropriate.
         Panics if a named slice overlaps with the slice to be inserted"""
         assert isinstance(_slice, Slice)
@@ -217,7 +226,7 @@ class SliceTable:
         if _slice.stop < target.stop:
             self.slices.insert(i + 1, Slice(_slice.stop, target.stop))
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             "[\n" + "\n".join(["  " + repr(_slice) for _slice in self.slices]) + "\n]"
         )
@@ -238,7 +247,7 @@ class SliceTable:
         "sbss2",
     ]
 
-    def object_slices(self, order=SECTION_ORDER) -> ObjectSlices:
+    def object_slices(self, order: list[str] = SECTION_ORDER) -> ObjectSlices:
         """Returns a dict of objects keyed by object name.
         An object is a list of slices in different sections with the same name."""
         # Create sort buckets for each section.
@@ -302,7 +311,7 @@ class SliceTable:
             )
         return objects
 
-    def set_sections(self, sections):
+    def set_sections(self, sections: list) -> None:
         """Sets the slices' sections based on the given list of sections.
         The sections must be sorted."""
         i = 0
@@ -364,13 +373,13 @@ class SlicesCSVReader:
             assert section == section_fields[i + 1].removesuffix("End")
             self.sections.append(section)
 
-    def __iter__(self):
+    def __iter__(self) -> Generator[Slice, None, None]:
         """Returns all slices in the file."""
         for row in self.reader:
             for slice in self.parse_row(row):
                 yield slice
 
-    def parse_row(self, row):
+    def parse_row(self, row: str) -> Generator[Slice, None, None]:
         """Returns all slices in a row."""
         if len(row) == 0:
             return

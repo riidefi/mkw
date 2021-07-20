@@ -1,3 +1,6 @@
+from mkwutil.slices import Slice
+
+
 class Section:
     def __init__(self, name: str, type: str, start: int, stop: int):
         self.name = name
@@ -30,6 +33,15 @@ DOL_SECTIONS = [
     Section("sbss", "bss", 0x80385FC0, 0x80386FA0),
     Section("sdata2", "data", 0x80386FA0, 0x80389140),
     Section("sbss2", "bss", 0x80389140, 0x8038917C),
+]
+
+DOL_LIBS = [
+    Slice(name="DOL/NW4R", start=0x80021BB0, stop=0x800BBB80, section="text"),
+    Slice(name="DOL/RFL", start=0x800BBB80, stop=0x800CC7E4, section="text"),
+    Slice(name="DOL/DWC", start=0x800CC7E4, stop=0x800EF378, section="text"),
+    Slice(name="DOL/SPY", start=0x800EF378, stop=0x80123F88, section="text"),
+    Slice(name="DOL/RVL", start=0x80123F88, stop=0x8020F62C, section="text"),
+    Slice(name="DOL/EGG", start=0x8020F62C, stop=0x80244DD4, section="text"),
 ]
 
 REL_SECTIONS = [
