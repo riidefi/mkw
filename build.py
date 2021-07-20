@@ -1,4 +1,4 @@
-import csv
+from itertools import chain
 import os
 import os.path
 from pathlib import Path
@@ -10,6 +10,7 @@ import multiprocessing
 
 from termcolor import colored
 
+from mkwutil.sources import SOURCES_DOL, SOURCES_REL
 from mkwutil.slices import SliceTable
 from mkwutil.sections import DOL_SECTIONS
 from mkwutil.verify_object_file import verify_object_file
@@ -21,19 +22,21 @@ from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.percent_decompiled import percent_decompiled
 
 import colorama
-from colorama import Fore, Style
 
 colorama.init()
 
 # Remember which files are stripped.
 dol_slices = SliceTable.load_dol_slices(sections=DOL_SECTIONS)
 stripped_files = set()
-with open("pack/dol_slices.csv") as f:
-    rd = csv.DictReader(f)
-    for line in rd:
-        if line["strip"]:
-            stripped_files.add(line["name"])
+for _slice in dol_slices:
+    if "strip" in _slice.tags:
+        stripped_files.add(Path(_slice.name).stem)
 dol_object_slices = dol_slices.object_slices()
+# Rename objects to stem, not full path.
+dol_object_slices.objects = {
+    Path(k).stem: v for k, v in dol_object_slices.objects.items()
+}
+
 
 def native_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
@@ -125,12 +128,14 @@ def compile_source_impl(src, dst, version="default", additional="-ipa file"):
         print(command)
     subprocess.run(command, check=True)
 
+
 gSourceQueue = []
+
 
 def compile_queued_sources():
     max_hw_concurrency = multiprocessing.cpu_count()
-    print(Fore.YELLOW + f"max_hw_concurrency={max_hw_concurrency}" + Style.RESET_ALL)
-    
+    print(colored(f"max_hw_concurrency={max_hw_concurrency}", color="yellow"))
+
     pool = ThreadPool(max_hw_concurrency)
 
     pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
@@ -143,55 +148,66 @@ def compile_queued_sources():
     #
     for s in gSourceQueue:
         src, dst = s[0:2]
-        if src in stripped_files:
+        if src.stem in stripped_files:
             continue
         # Verify ELF file section sizes.
-        obj_slices = dol_object_slices.get(src)
+        obj_slices = dol_object_slices.get(src.stem)
         if obj_slices:
             verify_object_file(dst, src, obj_slices)
         else:
-            print(Fore.YELLOW + "# Skipping slices verification on " + src + Style.RESET_ALL)
+            print(colored(f"Skipping slices verification on {src}", color="yellow"))
 
     gSourceQueue.clear()
 
+
 # Queued
-def compile_source(src, dst, version="default", additional="-ipa file"):
+def compile_source(src, version="default", additional="-ipa file"):
+    dst = (Path("out") / src.parts[-1]).with_suffix(".o")
     print(f'{colored("CC", "green")} {src}')
     gSourceQueue.append((src, dst, version, additional))
 
-def assemble(dst, src):
+
+def assemble(dst: Path, src: Path) -> None:
     print(f'{colored("AS", "green")} {src}')
     subprocess.run([GAS, src, "-mgekko", "-Iasm", "-o", dst], check=True, text=True)
 
 
-def link(dst, objs, lcf, map_path, partial=False):
+def link(
+    dst: Path, objs: list[Path], lcf: Path, map_path: Path, partial: bool = False
+) -> bool:
     print(map_path)
-    cmd = [MWLD] + objs + ["-o", dst, "-lcf", lcf, "-fp", "hard", "-linkmode", "moreram", "-map", map_path]
+    cmd = (
+        [MWLD]
+        + objs
+        + [
+            "-o",
+            dst,
+            "-lcf",
+            lcf,
+            "-fp",
+            "hard",
+            "-linkmode",
+            "moreram",
+            "-map",
+            map_path,
+        ]
+    )
     if partial:
         cmd.append("-r")
     subprocess.run(cmd, check=True, text=True)
-
-
-def make_obj(src):
-    substitutions = (".cpp", ".asm", ".c", ".s")
-    for sub in substitutions:
-        src = src.replace(sub, ".o")
-    return src
 
 
 def compile_sources():
     out_dir = Path("out")
     out_dir.mkdir(exist_ok=True)
 
-    # compile sources
-    # TODO exec() is bad practice
-    with open("sources.py", "r") as sourcespy:
-        exec(sourcespy.read())
+    for src in chain(SOURCES_DOL, SOURCES_REL):
+        compile_source(Path(src.src), src.cc, src.opts)
 
     compile_queued_sources()
 
     asm_files = [
-        str(x.relative_to(os.getcwd()))
+        x.relative_to(os.getcwd())
         for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")
     ]
 
@@ -199,9 +215,11 @@ def compile_sources():
     (out_dir / "rel").mkdir(exist_ok=True)
 
     for asm in asm_files:
-        # Hack: Should use pathlib for this
-        out_o = "out" + asm[len("asm") :]
-        assemble(make_obj(out_o), asm)
+        out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
+        # Optimization: Do not assemble ASM files if the target object already exists.
+        if out_o.exists():
+            continue
+        assemble(out_o, asm)
 
 
 def link_dol(o_files: list[Path]):
