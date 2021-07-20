@@ -28,7 +28,7 @@ __ArenaLo = (_db_stack_addr + 0x1f) & ~0x1f;
 __ArenaHi = 0x81700000;
 
 {% for sym in symbols -%}
-{{ sym.name }} = {{ "0x08%x" | format(sym.addr) }};
+{{ sym.name }} = {{ "0x%08x" | format(sym.addr) }};
 {% endfor %}
 }
 
@@ -463,8 +463,6 @@ SBQueryEngineSetPublicIP
 SBEngineHaltUpdates
 SBEngineCleanup
 SBQueryEngineUpdateServer
-ParseSingleQR2Reply
-ProcessIncomingReplies
 SBQueryEngineThink
 SBQueryEngineAddQueryKey
 SBQueryEngineRemoveServerFromFIFOs

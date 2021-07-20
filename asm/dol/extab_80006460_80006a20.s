@@ -1,7 +1,6 @@
-
 .include "macros.inc"
 
-.section extab_, "wa" # 0x80006460 - 0x80006A20
+.section extab_, "wa" # { 80006460..80006a20 (extab) }
 .4byte 0x28080000
 .4byte 0x00000070
 .4byte 0x00000010

@@ -15,6 +15,7 @@ Changes:
 
 from capstone import *
 from capstone.ppc import *
+import struct
 
 
 def sign_extend_16(value):
@@ -98,45 +99,11 @@ blacklistedInsns = {
     PPC_INS_MFASR,
 }
 
-labels = set()
-labelNames = {}
 
-
-def addr_to_label(addr, insn_addr):
-    if addr in labels:
-        if addr in labelNames:
-            return labelNames[addr]
-        else:
-            return "lbl_%08X" % addr
-    else:
-        return hex(addr - insn_addr)
-
-
-def insn_to_text(insn, raw):
+def insn_to_text_capstone(insn, raw):
     # Probably data, not a real instruction
     if insn.id == PPC_INS_BDNZ and (insn.bytes[0] & 1):
         return None
-    if insn.id in {PPC_INS_B, PPC_INS_BL, PPC_INS_BDZ, PPC_INS_BDNZ}:
-        return "%s %s" % (
-            insn.mnemonic,
-            addr_to_label(insn.operands[0].imm, insn.address),
-        )
-    elif insn.id == PPC_INS_BC:
-        branch_pred = "+" if (insn.bytes[1] & 0x20) else ""
-        if insn.operands[0].type == PPC_OP_IMM:
-            return "%s%s %s" % (
-                insn.mnemonic,
-                branch_pred,
-                addr_to_label(insn.operands[0].imm, insn.address),
-            )
-        elif insn.operands[1].type == PPC_OP_IMM:
-            return "%s%s %s, %s" % (
-                insn.mnemonic,
-                branch_pred,
-                insn.reg_name(insn.operands[0].value.reg),
-                addr_to_label(insn.operands[1].imm, insn.address),
-            )
-
     # Sign-extend immediate values because Capstone is an idiot and doesn't do that automatically
     if insn.id in {PPC_INS_ADDI, PPC_INS_ADDIC, PPC_INS_SUBFIC, PPC_INS_MULLI} and (
         insn.operands[2].imm & 0x8000
@@ -167,7 +134,7 @@ def insn_to_text(insn, raw):
 
 
 def disasm_ps(inst):
-    """Disassembles special ps instruction."""
+    """Disassembles paired-singles instruction."""
     RA = (inst >> 16) & 0x1F
     RB = (inst >> 11) & 0x1F
     FA = (inst >> 16) & 0x1F
@@ -300,30 +267,11 @@ def disasm_mcrxr(inst):
     return "mcrxr cr%i" % crd
 
 
-def disassemble_callback(filecontent, address, offset, insn, buf):
-    """Disassembles code."""
-
-    prefix_comment = "/* %08X  %02X %02X %02X %02X */" % (
-        address,
-        buf[0],
-        buf[1],
-        buf[2],
-        buf[3],
-    )
-    # prefix_comment = '/* %08X */' % address
+def insn_to_text(insn, raw):
+    """Disassembles instruction."""
     asm = None
-
-    def read_u32b(filecontent, offset):
-        return (
-            (filecontent[offset + 0] << 24)
-            | (filecontent[offset + 1] << 16)
-            | (filecontent[offset + 2] << 8)
-            | filecontent[offset + 3]
-        )
-
-    raw = read_u32b(filecontent, offset)
     if insn is not None:
-        asm = insn_to_text(insn, raw)
+        asm = insn_to_text_capstone(insn, raw)
     else:  # Capstone couldn't disassemble it
         idx = (raw & 0xFC000000) >> 26
         idx2 = (raw & 0x000007FE) >> 1
@@ -346,7 +294,7 @@ def disassemble_callback(filecontent, address, offset, insn, buf):
             asm = disasm_ps_mem(raw, idx)
     if asm is None:
         asm = ".4byte 0x%08X  /* unknown instruction */" % raw
-    print("%s\t%s" % (prefix_comment, asm))
+    return asm
 
 
 # entryPoint = base.entry_point
@@ -355,33 +303,117 @@ def disassemble_callback(filecontent, address, offset, insn, buf):
 # labelNames[entryPoint] = '__start'
 
 
-def disasm_iter(filecontent, offset, address, size, callback):
-    """Calls callback for every instruction in the specified code section."""
+class Instruction:
+    """A Broadway CPU instruction and its location."""
 
-    if size == 0:
-        return
-    start = address
-    end = address + size
-    while address < end:
-        code = filecontent[offset + (address - start) : offset + size]
-        for insn in cs.disasm(code, address):
+    def __init__(self, address, insn, bytes):
+        self.address = address
+        self.insn = insn
+        self.bytes = bytes
+
+    def prefix_text(self):
+        # return '/* %08X */' % address
+        return "/* %08X  %02X %02X %02X %02X */\t" % (
+            self.address,
+            self.bytes[0],
+            self.bytes[1],
+            self.bytes[2],
+            self.bytes[3],
+        )
+
+    def disassemble(self):
+        return self.prefix_text() + self.disassemble_inner()
+
+    def disassemble_inner(self):
+        """Disassembles code."""
+        raw = struct.unpack(">I", self.bytes)[0]
+        asm = insn_to_text(self.insn, raw)
+        # Relative addresses for branch instructions.
+        branch_info = self.disassemble_branch()
+        if branch_info is not None:
+            branch_text, target_addr = branch_info
+            return f"{branch_text} {hex(target_addr-self.address)}"
+        return asm.strip()
+
+    def disassemble_branch(self):
+        """Helper to split a branch-to-immediate instruction into text and address."""
+        if self.insn is None:
+            return None
+        if self.insn.id in {PPC_INS_B, PPC_INS_BL, PPC_INS_BDZ, PPC_INS_BDNZ}:
+            return self.insn.mnemonic, self.insn.operands[0].imm
+        elif self.insn.id == PPC_INS_BC:
+            branch_pred = "+" if (self.insn.bytes[1] & 0x20) else ""
+            if self.insn.operands[0].type == PPC_OP_IMM:
+                return f"{self.insn.mnemonic}{branch_pred}", self.insn.operands[0].imm
+            elif self.insn.operands[1].type == PPC_OP_IMM:
+                reg_name = self.insn.reg_name(self.insn.operands[0].value.reg)
+                return (
+                    f"{self.insn.mnemonic}{branch_pred} {reg_name},",
+                    self.insn.operands[1].imm,
+                )
+        return None
+
+
+def label_name(addr):
+    return "lbl_%08x" % (addr)
+
+
+class InlineInstruction(Instruction):
+    """A Broadway CPU instruction in the context of C/C++ inline assembly."""
+
+    def __init__(self, address, insn, bytes, labels, symbols):
+        super().__init__(address, insn, bytes)
+        self.labels = labels
+        self.symbols = symbols
+
+    def reference_addr(self, addr):
+        """Get a nice reference to immediate address from operand (label or symbol)."""
+        if addr in self.labels:
+            return label_name(addr)
+        sym = self.symbols.get(addr)
+        if sym is not None:
+            return sym.name
+        return hex(addr)
+
+    def disassemble_inner(self):
+        """Returns inline disassembly of instruction."""
+        # Nice address reference for branch instructions.
+        branch_info = self.disassemble_branch()
+        if branch_info is not None:
+            branch_text, addr = branch_info
+            return f"{branch_text} {self.reference_addr(addr)}"
+        # Fall back to generic diassembly.
+        return super().disassemble_inner()
+
+    def prefix_text(self):
+        """Override to have no prefix."""
+        return ""
+
+
+def disasm_iter(data, address):
+    """Returns an iterator over every instruction in the specified code section."""
+    assert address % 4 == 0, "Code is not aligned"
+    assert len(data) % 4 == 0, "Odd code length"
+    # Repeatedly invoke capstone.
+    i = 0
+    while i < len(data):
+        # Invoke capstone.
+        for insn in cs.disasm(data[i:], address):
             address = insn.address
-            if insn.id in blacklistedInsns:
-                callback(
-                    filecontent, address, offset + address - start, None, insn.bytes
-                )
-            else:
-                callback(
-                    filecontent, address, offset + address - start, insn, insn.bytes
-                )
-            address += 4
-        if address < end:
-            o = offset + address - start
-            callback(
-                filecontent,
+            yield Instruction(
                 address,
-                offset + address - start,
+                insn if insn.id not in blacklistedInsns else None,
+                insn.bytes,
+            )
+            i += 4
+            address += 4
+        if i < len(data):
+            # Capstone aborts at unknown instructions.
+            # Emit custom instruction.
+            yield Instruction(
+                address,
                 None,
-                filecontent[o : o + 4],
+                data[i : i + 4],
             )
             address += 4
+            i += 4

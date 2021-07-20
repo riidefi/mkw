@@ -1,23 +1,22 @@
-
 .include "macros.inc"
 
-.section .text, "ax" # 0x800AF1A0 - 0x800CCB4C
+.section .text, "ax" # { 800af1a0..800ccb4c (text) }
 /* 800AF1A0  2C 04 00 00 */	cmpwi r4, 0
 /* 800AF1A4  40 82 00 0C */	bne 0xc
 /* 800AF1A8  80 63 00 04 */	lwz r3, 4(r3)
-/* 800AF1AC  4E 80 00 20 */	blr 
+/* 800AF1AC  4E 80 00 20 */	blr
 /* 800AF1B0  A0 03 00 0A */	lhz r0, 0xa(r3)
 /* 800AF1B4  7C 64 00 2E */	lwzx r3, r4, r0
-/* 800AF1B8  4E 80 00 20 */	blr 
+/* 800AF1B8  4E 80 00 20 */	blr
 /* 800AF1BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF1C0  38 C0 00 00 */	li r6, 0
 /* 800AF1C4  38 A0 00 00 */	li r5, 0
 /* 800AF1C8  48 00 00 1C */	b 0x1c
-/* 800AF1CC  60 00 00 00 */	nop 
+/* 800AF1CC  60 00 00 00 */	nop
 /* 800AF1D0  7C 04 30 00 */	cmpw r4, r6
 /* 800AF1D4  40 82 00 0C */	bne 0xc
 /* 800AF1D8  7C A3 2B 78 */	mr r3, r5
-/* 800AF1DC  4E 80 00 20 */	blr 
+/* 800AF1DC  4E 80 00 20 */	blr
 /* 800AF1E0  38 C6 00 01 */	addi r6, r6, 1
 /* 800AF1E4  2C 05 00 00 */	cmpwi r5, 0
 /* 800AF1E8  41 82 00 14 */	beq 0x14
@@ -29,7 +28,7 @@
 /* 800AF200  2C 05 00 00 */	cmpwi r5, 0
 /* 800AF204  40 82 FF CC */	bne -0x34
 /* 800AF208  38 60 00 00 */	li r3, 0
-/* 800AF20C  4E 80 00 20 */	blr 
+/* 800AF20C  4E 80 00 20 */	blr
 /* 800AF210  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800AF214  7C 08 02 A6 */	mflr r0
 /* 800AF218  2C 03 00 00 */	cmpwi r3, 0
@@ -62,7 +61,7 @@
 /* 800AF284  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800AF288  7C 08 03 A6 */	mtlr r0
 /* 800AF28C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800AF290  4E 80 00 20 */	blr 
+/* 800AF290  4E 80 00 20 */	blr
 /* 800AF294  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF298  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF29C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -83,7 +82,7 @@
 /* 800AF2D8  7C 06 28 40 */	cmplw r6, r5
 /* 800AF2DC  40 82 FF D4 */	bne -0x2c
 /* 800AF2E0  7C A3 2B 78 */	mr r3, r5
-/* 800AF2E4  4E 80 00 20 */	blr 
+/* 800AF2E4  4E 80 00 20 */	blr
 /* 800AF2E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF2EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF2F0  80 C3 00 04 */	lwz r6, 4(r3)
@@ -102,7 +101,7 @@
 /* 800AF324  7C E6 3B 78 */	mr r6, r7
 /* 800AF328  7C 06 28 40 */	cmplw r6, r5
 /* 800AF32C  40 82 FF D4 */	bne -0x2c
-/* 800AF330  4E 80 00 20 */	blr 
+/* 800AF330  4E 80 00 20 */	blr
 /* 800AF334  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF338  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF33C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -116,7 +115,7 @@
 /* 800AF35C  38 04 00 01 */	addi r0, r4, 1
 /* 800AF360  90 03 00 00 */	stw r0, 0(r3)
 /* 800AF364  7C A3 2B 78 */	mr r3, r5
-/* 800AF368  4E 80 00 20 */	blr 
+/* 800AF368  4E 80 00 20 */	blr
 /* 800AF36C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF370  80 C4 00 00 */	lwz r6, 0(r4)
 /* 800AF374  38 00 00 00 */	li r0, 0
@@ -129,36 +128,36 @@
 /* 800AF390  7C C3 33 78 */	mr r3, r6
 /* 800AF394  90 04 00 00 */	stw r0, 0(r4)
 /* 800AF398  90 04 00 04 */	stw r0, 4(r4)
-/* 800AF39C  4E 80 00 20 */	blr 
+/* 800AF39C  4E 80 00 20 */	blr
 /* 800AF3A0  80 03 00 00 */	lwz r0, 0(r3)
 /* 800AF3A4  7C 00 20 40 */	cmplw r0, r4
 /* 800AF3A8  41 82 00 0C */	beq 0xc
 /* 800AF3AC  38 60 00 00 */	li r3, 0
-/* 800AF3B0  4E 80 00 20 */	blr 
+/* 800AF3B0  4E 80 00 20 */	blr
 /* 800AF3B4  A0 03 00 04 */	lhz r0, 4(r3)
 /* 800AF3B8  28 00 FE FF */	cmplwi r0, 0xfeff
 /* 800AF3BC  41 82 00 0C */	beq 0xc
 /* 800AF3C0  38 60 00 00 */	li r3, 0
-/* 800AF3C4  4E 80 00 20 */	blr 
+/* 800AF3C4  4E 80 00 20 */	blr
 /* 800AF3C8  A0 03 00 06 */	lhz r0, 6(r3)
 /* 800AF3CC  7C 00 28 40 */	cmplw r0, r5
 /* 800AF3D0  41 82 00 0C */	beq 0xc
 /* 800AF3D4  38 60 00 00 */	li r3, 0
-/* 800AF3D8  4E 80 00 20 */	blr 
+/* 800AF3D8  4E 80 00 20 */	blr
 /* 800AF3DC  54 C4 1B 78 */	rlwinm r4, r6, 3, 0xd, 0x1c
 /* 800AF3E0  80 A3 00 08 */	lwz r5, 8(r3)
 /* 800AF3E4  38 04 00 10 */	addi r0, r4, 0x10
 /* 800AF3E8  7C 05 00 40 */	cmplw r5, r0
 /* 800AF3EC  40 80 00 0C */	bge 0xc
 /* 800AF3F0  38 60 00 00 */	li r3, 0
-/* 800AF3F4  4E 80 00 20 */	blr 
+/* 800AF3F4  4E 80 00 20 */	blr
 /* 800AF3F8  A0 63 00 0E */	lhz r3, 0xe(r3)
 /* 800AF3FC  7C 06 18 50 */	subf r0, r6, r3
 /* 800AF400  7C 63 33 38 */	orc r3, r3, r6
 /* 800AF404  54 00 F8 7E */	srwi r0, r0, 1
 /* 800AF408  7C 00 18 50 */	subf r0, r0, r3
 /* 800AF40C  54 03 0F FE */	srwi r3, r0, 0x1f
-/* 800AF410  4E 80 00 20 */	blr 
+/* 800AF410  4E 80 00 20 */	blr
 /* 800AF414  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF418  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF41C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -191,7 +190,7 @@
 /* 800AF488  90 03 00 00 */	stw r0, 0(r3)
 /* 800AF48C  54 A6 04 3E */	clrlwi r6, r5, 0x10
 /* 800AF490  7C C3 33 78 */	mr r3, r6
-/* 800AF494  4E 80 00 20 */	blr 
+/* 800AF494  4E 80 00 20 */	blr
 /* 800AF498  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF49C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF4A0  80 A3 00 00 */	lwz r5, 0(r3)
@@ -200,7 +199,7 @@
 /* 800AF4AC  A0 65 00 00 */	lhz r3, 0(r5)
 /* 800AF4B0  38 04 00 02 */	addi r0, r4, 2
 /* 800AF4B4  90 06 00 00 */	stw r0, 0(r6)
-/* 800AF4B8  4E 80 00 20 */	blr 
+/* 800AF4B8  4E 80 00 20 */	blr
 /* 800AF4BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF4C0  80 A3 00 00 */	lwz r5, 0(r3)
 /* 800AF4C4  7C 66 1B 78 */	mr r6, r3
@@ -208,7 +207,7 @@
 /* 800AF4CC  88 65 00 00 */	lbz r3, 0(r5)
 /* 800AF4D0  38 04 00 01 */	addi r0, r4, 1
 /* 800AF4D4  90 06 00 00 */	stw r0, 0(r6)
-/* 800AF4D8  4E 80 00 20 */	blr 
+/* 800AF4D8  4E 80 00 20 */	blr
 /* 800AF4DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF4E0  80 83 00 00 */	lwz r4, 0(r3)
 /* 800AF4E4  38 00 00 00 */	li r0, 0
@@ -233,11 +232,11 @@
 /* 800AF530  38 04 00 01 */	addi r0, r4, 1
 /* 800AF534  90 03 00 00 */	stw r0, 0(r3)
 /* 800AF538  7C C3 33 78 */	mr r3, r6
-/* 800AF53C  4E 80 00 20 */	blr 
+/* 800AF53C  4E 80 00 20 */	blr
 /* 800AF540  3C 80 80 27 */	lis r4, 0x8027
 /* 800AF544  38 84 4C 2C */	addi r4, r4, 0x4c2c
 /* 800AF548  90 83 00 00 */	stw r4, 0(r3)
-/* 800AF54C  4E 80 00 20 */	blr 
+/* 800AF54C  4E 80 00 20 */	blr
 /* 800AF550  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800AF554  7C 08 02 A6 */	mflr r0
 /* 800AF558  2C 03 00 00 */	cmpwi r3, 0
@@ -253,7 +252,7 @@
 /* 800AF580  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800AF584  7C 08 03 A6 */	mtlr r0
 /* 800AF588  38 21 00 10 */	addi r1, r1, 0x10
-/* 800AF58C  4E 80 00 20 */	blr 
+/* 800AF58C  4E 80 00 20 */	blr
 /* 800AF590  94 21 FF B0 */	stwu r1, -0x50(r1)
 /* 800AF594  7C 08 02 A6 */	mflr r0
 /* 800AF598  90 01 00 54 */	stw r0, 0x54(r1)
@@ -328,7 +327,7 @@
 /* 800AF6AC  83 A1 00 24 */	lwz r29, 0x24(r1)
 /* 800AF6B0  7C 08 03 A6 */	mtlr r0
 /* 800AF6B4  38 21 00 50 */	addi r1, r1, 0x50
-/* 800AF6B8  4E 80 00 20 */	blr 
+/* 800AF6B8  4E 80 00 20 */	blr
 /* 800AF6BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF6C0  94 21 FF A0 */	stwu r1, -0x60(r1)
 /* 800AF6C4  7C 08 02 A6 */	mflr r0
@@ -450,7 +449,7 @@
 /* 800AF894  80 01 00 64 */	lwz r0, 0x64(r1)
 /* 800AF898  7C 08 03 A6 */	mtlr r0
 /* 800AF89C  38 21 00 60 */	addi r1, r1, 0x60
-/* 800AF8A0  4E 80 00 20 */	blr 
+/* 800AF8A0  4E 80 00 20 */	blr
 /* 800AF8A4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF8A8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF8AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -478,7 +477,7 @@
 /* 800AF904  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800AF908  7C 08 03 A6 */	mtlr r0
 /* 800AF90C  38 21 00 30 */	addi r1, r1, 0x30
-/* 800AF910  4E 80 00 20 */	blr 
+/* 800AF910  4E 80 00 20 */	blr
 /* 800AF914  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF918  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF91C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -530,14 +529,14 @@
 /* 800AF9D4  83 A1 00 24 */	lwz r29, 0x24(r1)
 /* 800AF9D8  7C 08 03 A6 */	mtlr r0
 /* 800AF9DC  38 21 00 30 */	addi r1, r1, 0x30
-/* 800AF9E0  4E 80 00 20 */	blr 
+/* 800AF9E0  4E 80 00 20 */	blr
 /* 800AF9E4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF9E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF9EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AF9F0  3C 80 80 27 */	lis r4, 0x8027
 /* 800AF9F4  38 84 4C 18 */	addi r4, r4, 0x4c18
 /* 800AF9F8  90 83 00 00 */	stw r4, 0(r3)
-/* 800AF9FC  4E 80 00 20 */	blr 
+/* 800AF9FC  4E 80 00 20 */	blr
 /* 800AFA00  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800AFA04  7C 08 02 A6 */	mflr r0
 /* 800AFA08  2C 03 00 00 */	cmpwi r3, 0
@@ -553,7 +552,7 @@
 /* 800AFA30  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800AFA34  7C 08 03 A6 */	mtlr r0
 /* 800AFA38  38 21 00 10 */	addi r1, r1, 0x10
-/* 800AFA3C  4E 80 00 20 */	blr 
+/* 800AFA3C  4E 80 00 20 */	blr
 /* 800AFA40  94 21 FF B0 */	stwu r1, -0x50(r1)
 /* 800AFA44  7C 08 02 A6 */	mflr r0
 /* 800AFA48  90 01 00 54 */	stw r0, 0x54(r1)
@@ -628,7 +627,7 @@
 /* 800AFB5C  83 A1 00 24 */	lwz r29, 0x24(r1)
 /* 800AFB60  7C 08 03 A6 */	mtlr r0
 /* 800AFB64  38 21 00 50 */	addi r1, r1, 0x50
-/* 800AFB68  4E 80 00 20 */	blr 
+/* 800AFB68  4E 80 00 20 */	blr
 /* 800AFB6C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFB70  94 21 FF A0 */	stwu r1, -0x60(r1)
 /* 800AFB74  7C 08 02 A6 */	mflr r0
@@ -750,7 +749,7 @@
 /* 800AFD44  80 01 00 64 */	lwz r0, 0x64(r1)
 /* 800AFD48  7C 08 03 A6 */	mtlr r0
 /* 800AFD4C  38 21 00 60 */	addi r1, r1, 0x60
-/* 800AFD50  4E 80 00 20 */	blr 
+/* 800AFD50  4E 80 00 20 */	blr
 /* 800AFD54  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFD58  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFD5C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -778,7 +777,7 @@
 /* 800AFDB4  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800AFDB8  7C 08 03 A6 */	mtlr r0
 /* 800AFDBC  38 21 00 30 */	addi r1, r1, 0x30
-/* 800AFDC0  4E 80 00 20 */	blr 
+/* 800AFDC0  4E 80 00 20 */	blr
 /* 800AFDC4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFDC8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFDCC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -830,36 +829,36 @@
 /* 800AFE84  83 A1 00 24 */	lwz r29, 0x24(r1)
 /* 800AFE88  7C 08 03 A6 */	mtlr r0
 /* 800AFE8C  38 21 00 30 */	addi r1, r1, 0x30
-/* 800AFE90  4E 80 00 20 */	blr 
+/* 800AFE90  4E 80 00 20 */	blr
 /* 800AFE94  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFE98  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFE9C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEA0  38 60 00 00 */	li r3, 0
-/* 800AFEA4  4E 80 00 20 */	blr 
+/* 800AFEA4  4E 80 00 20 */	blr
 /* 800AFEA8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEAC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEB0  38 60 00 00 */	li r3, 0
-/* 800AFEB4  4E 80 00 20 */	blr 
+/* 800AFEB4  4E 80 00 20 */	blr
 /* 800AFEB8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEBC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEC0  38 60 00 00 */	li r3, 0
-/* 800AFEC4  4E 80 00 20 */	blr 
+/* 800AFEC4  4E 80 00 20 */	blr
 /* 800AFEC8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFECC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFED0  38 60 00 00 */	li r3, 0
-/* 800AFED4  4E 80 00 20 */	blr 
+/* 800AFED4  4E 80 00 20 */	blr
 /* 800AFED8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEDC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEE0  38 00 00 00 */	li r0, 0
 /* 800AFEE4  90 0D 96 40 */	stw r0, -0x69c0(r13)
-/* 800AFEE8  4E 80 00 20 */	blr 
+/* 800AFEE8  4E 80 00 20 */	blr
 /* 800AFEEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
-/* 800AFEF0  4E 80 00 20 */	blr 
+/* 800AFEF0  4E 80 00 20 */	blr
 /* 800AFEF4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEF8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFEFC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFF00  38 60 00 01 */	li r3, 1
-/* 800AFF04  4E 80 00 20 */	blr 
+/* 800AFF04  4E 80 00 20 */	blr
 /* 800AFF08  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFF0C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFF10  2C 04 00 00 */	cmpwi r4, 0
@@ -886,7 +885,7 @@
 /* 800AFF64  7C E6 3B 78 */	mr r6, r7
 /* 800AFF68  90 C3 00 04 */	stw r6, 4(r3)
 /* 800AFF6C  80 63 00 04 */	lwz r3, 4(r3)
-/* 800AFF70  4E 80 00 20 */	blr 
+/* 800AFF70  4E 80 00 20 */	blr
 /* 800AFF74  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFF78  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800AFF7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -909,7 +908,7 @@
 /* 800AFFC0  7C 05 03 78 */	mr r5, r0
 /* 800AFFC4  90 A3 00 00 */	stw r5, 0(r3)
 /* 800AFFC8  80 63 00 04 */	lwz r3, 4(r3)
-/* 800AFFCC  4E 80 00 20 */	blr 
+/* 800AFFCC  4E 80 00 20 */	blr
 /* 800AFFD0  2C 05 00 00 */	cmpwi r5, 0
 /* 800AFFD4  41 82 00 10 */	beq 0x10
 /* 800AFFD8  28 05 00 02 */	cmplwi r5, 2
@@ -921,7 +920,7 @@
 /* 800AFFF0  80 03 00 00 */	lwz r0, 0(r3)
 /* 800AFFF4  90 03 00 04 */	stw r0, 4(r3)
 /* 800AFFF8  2C 04 00 00 */	cmpwi r4, 0
-/* 800AFFFC  4D 82 00 20 */	beqlr 
+/* 800AFFFC  4D 82 00 20 */	beqlr
 /* 800B0000  80 03 00 04 */	lwz r0, 4(r3)
 /* 800B0004  38 A0 00 00 */	li r5, 0
 /* 800B0008  80 C3 00 00 */	lwz r6, 0(r3)
@@ -943,12 +942,12 @@
 /* 800B0048  48 00 00 08 */	b 0x8
 /* 800B004C  7C E6 3B 78 */	mr r6, r7
 /* 800B0050  90 C3 00 04 */	stw r6, 4(r3)
-/* 800B0054  4E 80 00 20 */	blr 
+/* 800B0054  4E 80 00 20 */	blr
 /* 800B0058  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B005C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0060  38 0D 96 40 */	addi r0, r13, -27072
 /* 800B0064  90 0D 96 48 */	stw r0, -0x69b8(r13)
-/* 800B0068  4E 80 00 20 */	blr 
+/* 800B0068  4E 80 00 20 */	blr
 /* 800B006C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0070  80 84 00 3C */	lwz r4, 0x3c(r4)
 /* 800B0074  38 00 00 00 */	li r0, 0
@@ -956,22 +955,22 @@
 /* 800B007C  90 64 00 08 */	stw r3, 8(r4)
 /* 800B0080  81 84 00 0C */	lwz r12, 0xc(r4)
 /* 800B0084  2C 0C 00 00 */	cmpwi r12, 0
-/* 800B0088  4D 82 00 20 */	beqlr 
+/* 800B0088  4D 82 00 20 */	beqlr
 /* 800B008C  80 A4 00 10 */	lwz r5, 0x10(r4)
 /* 800B0090  7D 89 03 A6 */	mtctr r12
-/* 800B0094  4E 80 04 20 */	bctr 
-/* 800B0098  4E 80 00 20 */	blr 
+/* 800B0094  4E 80 04 20 */	bctr
+/* 800B0098  4E 80 00 20 */	blr
 /* 800B009C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B00A0  80 84 00 3C */	lwz r4, 0x3c(r4)
 /* 800B00A4  38 00 00 00 */	li r0, 0
 /* 800B00A8  98 04 00 24 */	stb r0, 0x24(r4)
 /* 800B00AC  81 84 00 1C */	lwz r12, 0x1c(r4)
 /* 800B00B0  2C 0C 00 00 */	cmpwi r12, 0
-/* 800B00B4  4D 82 00 20 */	beqlr 
+/* 800B00B4  4D 82 00 20 */	beqlr
 /* 800B00B8  80 A4 00 20 */	lwz r5, 0x20(r4)
 /* 800B00BC  7D 89 03 A6 */	mtctr r12
-/* 800B00C0  4E 80 04 20 */	bctr 
-/* 800B00C4  4E 80 00 20 */	blr 
+/* 800B00C0  4E 80 04 20 */	bctr
+/* 800B00C4  4E 80 00 20 */	blr
 /* 800B00C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B00CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B00D0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -999,7 +998,7 @@
 /* 800B0128  90 C3 00 20 */	stw r6, 0x20(r3)
 /* 800B012C  90 63 00 64 */	stw r3, 0x64(r3)
 /* 800B0130  48 00 00 08 */	b 0x8
-/* 800B0134  4E 80 04 21 */	bctrl 
+/* 800B0134  4E 80 04 21 */	bctrl
 /* 800B0138  7C 83 23 78 */	mr r3, r4
 /* 800B013C  38 9F 00 28 */	addi r4, r31, 0x28
 /* 800B0140  48 0A E1 15 */	bl 0xae114
@@ -1020,7 +1019,7 @@
 /* 800B017C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B0180  7C 08 03 A6 */	mtlr r0
 /* 800B0184  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0188  4E 80 00 20 */	blr 
+/* 800B0188  4E 80 00 20 */	blr
 /* 800B018C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0190  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800B0194  7C 08 02 A6 */	mflr r0
@@ -1050,7 +1049,7 @@
 /* 800B01F4  90 E3 00 20 */	stw r7, 0x20(r3)
 /* 800B01F8  90 63 00 64 */	stw r3, 0x64(r3)
 /* 800B01FC  48 00 00 08 */	b 0x8
-/* 800B0200  4E 80 04 21 */	bctrl 
+/* 800B0200  4E 80 04 21 */	bctrl
 /* 800B0204  80 D6 00 34 */	lwz r6, 0x34(r22)
 /* 800B0208  38 7E 00 14 */	addi r3, r30, 0x14
 /* 800B020C  82 F6 00 00 */	lwz r23, 0(r22)
@@ -1097,7 +1096,7 @@
 /* 800B02B0  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800B02B4  7C 08 03 A6 */	mtlr r0
 /* 800B02B8  38 21 00 30 */	addi r1, r1, 0x30
-/* 800B02BC  4E 80 00 20 */	blr 
+/* 800B02BC  4E 80 00 20 */	blr
 /* 800B02C0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B02C4  7C 08 02 A6 */	mflr r0
 /* 800B02C8  2C 03 00 00 */	cmpwi r3, 0
@@ -1116,7 +1115,7 @@
 /* 800B02FC  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B0300  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B0304  7D 89 03 A6 */	mtctr r12
-/* 800B0308  4E 80 04 21 */	bctrl 
+/* 800B0308  4E 80 04 21 */	bctrl
 /* 800B030C  2C 1F 00 00 */	cmpwi r31, 0
 /* 800B0310  40 81 00 0C */	ble 0xc
 /* 800B0314  7F C3 F3 78 */	mr r3, r30
@@ -1127,7 +1126,7 @@
 /* 800B0328  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B032C  7C 08 03 A6 */	mtlr r0
 /* 800B0330  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0334  4E 80 00 20 */	blr 
+/* 800B0334  4E 80 00 20 */	blr
 /* 800B0338  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B033C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0340  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -1149,7 +1148,7 @@
 /* 800B0380  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800B0384  7C 08 03 A6 */	mtlr r0
 /* 800B0388  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B038C  4E 80 00 20 */	blr 
+/* 800B038C  4E 80 00 20 */	blr
 /* 800B0390  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B0394  7C 08 02 A6 */	mflr r0
 /* 800B0398  90 01 00 14 */	stw r0, 0x14(r1)
@@ -1183,7 +1182,7 @@
 /* 800B0408  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B040C  7C 08 03 A6 */	mtlr r0
 /* 800B0410  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0414  4E 80 00 20 */	blr 
+/* 800B0414  4E 80 00 20 */	blr
 /* 800B0418  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B041C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0420  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -1246,7 +1245,7 @@
 /* 800B0504  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800B0508  7C 08 03 A6 */	mtlr r0
 /* 800B050C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B0510  4E 80 00 20 */	blr 
+/* 800B0510  4E 80 00 20 */	blr
 /* 800B0514  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0518  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B051C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1297,7 +1296,7 @@
 /* 800B05D0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B05D4  7C 08 03 A6 */	mtlr r0
 /* 800B05D8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B05DC  4E 80 00 20 */	blr 
+/* 800B05DC  4E 80 00 20 */	blr
 /* 800B05E0  38 63 00 14 */	addi r3, r3, 0x14
 /* 800B05E4  4B FF F9 EC */	b -0x614
 /* 800B05E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1328,27 +1327,27 @@
 /* 800B064C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B0650  7C 08 03 A6 */	mtlr r0
 /* 800B0654  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0658  4E 80 00 20 */	blr 
+/* 800B0658  4E 80 00 20 */	blr
 /* 800B065C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0660  38 60 00 01 */	li r3, 1
-/* 800B0664  4E 80 00 20 */	blr 
+/* 800B0664  4E 80 00 20 */	blr
 /* 800B0668  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B066C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0670  80 63 00 14 */	lwz r3, 0x14(r3)
-/* 800B0674  4E 80 00 20 */	blr 
+/* 800B0674  4E 80 00 20 */	blr
 /* 800B0678  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B067C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0680  80 63 00 18 */	lwz r3, 0x18(r3)
-/* 800B0684  4E 80 00 20 */	blr 
+/* 800B0684  4E 80 00 20 */	blr
 /* 800B0688  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B068C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0690  38 6D 96 50 */	addi r3, r13, -27056
-/* 800B0694  4E 80 00 20 */	blr 
+/* 800B0694  4E 80 00 20 */	blr
 /* 800B0698  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B069C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B06A0  38 0D 96 48 */	addi r0, r13, -27064
 /* 800B06A4  90 0D 96 50 */	stw r0, -0x69b0(r13)
-/* 800B06A8  4E 80 00 20 */	blr 
+/* 800B06A8  4E 80 00 20 */	blr
 /* 800B06AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B06B0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B06B4  7C 08 02 A6 */	mflr r0
@@ -1382,7 +1381,7 @@
 /* 800B0724  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B0728  7C 08 03 A6 */	mtlr r0
 /* 800B072C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0730  4E 80 00 20 */	blr 
+/* 800B0730  4E 80 00 20 */	blr
 /* 800B0734  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0738  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B073C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1418,7 +1417,7 @@
 /* 800B07B4  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B07B8  7C 08 03 A6 */	mtlr r0
 /* 800B07BC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B07C0  4E 80 00 20 */	blr 
+/* 800B07C0  4E 80 00 20 */	blr
 /* 800B07C4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B07C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B07CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1443,7 +1442,7 @@
 /* 800B0818  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B081C  7C 08 03 A6 */	mtlr r0
 /* 800B0820  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0824  4E 80 00 20 */	blr 
+/* 800B0824  4E 80 00 20 */	blr
 /* 800B0828  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B082C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0830  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -1458,7 +1457,7 @@
 /* 800B0854  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800B0858  7C 08 03 A6 */	mtlr r0
 /* 800B085C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0860  4E 80 00 20 */	blr 
+/* 800B0860  4E 80 00 20 */	blr
 /* 800B0864  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0868  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B086C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1514,7 +1513,7 @@
 /* 800B0934  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800B0938  7C 08 03 A6 */	mtlr r0
 /* 800B093C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B0940  4E 80 00 20 */	blr 
+/* 800B0940  4E 80 00 20 */	blr
 /* 800B0944  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0948  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B094C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1570,7 +1569,7 @@
 /* 800B0A14  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800B0A18  7C 08 03 A6 */	mtlr r0
 /* 800B0A1C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B0A20  4E 80 00 20 */	blr 
+/* 800B0A20  4E 80 00 20 */	blr
 /* 800B0A24  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0A28  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0A2C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -1595,12 +1594,12 @@
 /* 800B0A78  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800B0A7C  7C 08 03 A6 */	mtlr r0
 /* 800B0A80  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0A84  4E 80 00 20 */	blr 
+/* 800B0A84  4E 80 00 20 */	blr
 /* 800B0A88  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0A8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0A90  38 0D 96 50 */	addi r0, r13, -27056
 /* 800B0A94  90 0D 96 58 */	stw r0, -0x69a8(r13)
-/* 800B0A98  4E 80 00 20 */	blr 
+/* 800B0A98  4E 80 00 20 */	blr
 /* 800B0A9C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0AA0  80 84 01 48 */	lwz r4, 0x148(r4)
 /* 800B0AA4  38 00 00 00 */	li r0, 0
@@ -1608,11 +1607,11 @@
 /* 800B0AAC  90 64 00 08 */	stw r3, 8(r4)
 /* 800B0AB0  81 84 00 0C */	lwz r12, 0xc(r4)
 /* 800B0AB4  2C 0C 00 00 */	cmpwi r12, 0
-/* 800B0AB8  4D 82 00 20 */	beqlr 
+/* 800B0AB8  4D 82 00 20 */	beqlr
 /* 800B0ABC  80 A4 00 10 */	lwz r5, 0x10(r4)
 /* 800B0AC0  7D 89 03 A6 */	mtctr r12
-/* 800B0AC4  4E 80 04 20 */	bctr 
-/* 800B0AC8  4E 80 00 20 */	blr 
+/* 800B0AC4  4E 80 04 20 */	bctr
+/* 800B0AC8  4E 80 00 20 */	blr
 /* 800B0ACC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0AD0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B0AD4  7C 08 02 A6 */	mflr r0
@@ -1641,7 +1640,7 @@
 /* 800B0B30  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B0B34  7C 08 03 A6 */	mtlr r0
 /* 800B0B38  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0B3C  4E 80 00 20 */	blr 
+/* 800B0B3C  4E 80 00 20 */	blr
 /* 800B0B40  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B0B44  7C 08 02 A6 */	mflr r0
 /* 800B0B48  3C E0 80 27 */	lis r7, 0x8027
@@ -1669,7 +1668,7 @@
 /* 800B0BA0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B0BA4  7C 08 03 A6 */	mtlr r0
 /* 800B0BA8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0BAC  4E 80 00 20 */	blr 
+/* 800B0BAC  4E 80 00 20 */	blr
 /* 800B0BB0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B0BB4  7C 08 02 A6 */	mflr r0
 /* 800B0BB8  2C 03 00 00 */	cmpwi r3, 0
@@ -1688,7 +1687,7 @@
 /* 800B0BEC  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B0BF0  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B0BF4  7D 89 03 A6 */	mtctr r12
-/* 800B0BF8  4E 80 04 21 */	bctrl 
+/* 800B0BF8  4E 80 04 21 */	bctrl
 /* 800B0BFC  2C 1F 00 00 */	cmpwi r31, 0
 /* 800B0C00  40 81 00 0C */	ble 0xc
 /* 800B0C04  7F C3 F3 78 */	mr r3, r30
@@ -1699,7 +1698,7 @@
 /* 800B0C18  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B0C1C  7C 08 03 A6 */	mtlr r0
 /* 800B0C20  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B0C24  4E 80 00 20 */	blr 
+/* 800B0C24  4E 80 00 20 */	blr
 /* 800B0C28  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0C2C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0C30  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -1717,7 +1716,7 @@
 /* 800B0C60  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B0C64  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B0C68  7D 89 03 A6 */	mtctr r12
-/* 800B0C6C  4E 80 04 21 */	bctrl 
+/* 800B0C6C  4E 80 04 21 */	bctrl
 /* 800B0C70  57 E3 07 FE */	clrlwi r3, r31, 0x1f
 /* 800B0C74  57 E0 FF FE */	rlwinm r0, r31, 0x1f, 0x1f, 0x1f
 /* 800B0C78  98 7D 01 68 */	stb r3, 0x168(r29)
@@ -1759,7 +1758,7 @@
 /* 800B0D08  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800B0D0C  7C 08 03 A6 */	mtlr r0
 /* 800B0D10  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B0D14  4E 80 00 20 */	blr 
+/* 800B0D14  4E 80 00 20 */	blr
 /* 800B0D18  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0D1C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B0D20  94 21 FE 60 */	stwu r1, -0x1a0(r1)
@@ -1777,7 +1776,7 @@
 /* 800B0D50  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B0D54  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B0D58  7D 89 03 A6 */	mtctr r12
-/* 800B0D5C  4E 80 04 21 */	bctrl 
+/* 800B0D5C  4E 80 04 21 */	bctrl
 /* 800B0D60  8B 9F 00 1E */	lbz r28, 0x1e(r31)
 /* 800B0D64  55 DB 07 FE */	clrlwi r27, r14, 0x1f
 /* 800B0D68  93 81 01 48 */	stw r28, 0x148(r1)
@@ -2238,7 +2237,7 @@
 /* 800B1484  80 01 01 A4 */	lwz r0, 0x1a4(r1)
 /* 800B1488  7C 08 03 A6 */	mtlr r0
 /* 800B148C  38 21 01 A0 */	addi r1, r1, 0x1a0
-/* 800B1490  4E 80 00 20 */	blr 
+/* 800B1490  4E 80 00 20 */	blr
 /* 800B1494  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1498  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B149C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -2261,7 +2260,7 @@
 /* 800B14E0  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800B14E4  7C 08 03 A6 */	mtlr r0
 /* 800B14E8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B14EC  4E 80 00 20 */	blr 
+/* 800B14EC  4E 80 00 20 */	blr
 /* 800B14F0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B14F4  7C 08 02 A6 */	mflr r0
 /* 800B14F8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -2292,7 +2291,7 @@
 /* 800B155C  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800B1560  7C 08 03 A6 */	mtlr r0
 /* 800B1564  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B1568  4E 80 00 20 */	blr 
+/* 800B1568  4E 80 00 20 */	blr
 /* 800B156C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1570  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B1574  7C 08 02 A6 */	mflr r0
@@ -2334,7 +2333,7 @@
 /* 800B1604  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800B1608  7C 08 03 A6 */	mtlr r0
 /* 800B160C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B1610  4E 80 00 20 */	blr 
+/* 800B1610  4E 80 00 20 */	blr
 /* 800B1614  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1618  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B161C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -2368,7 +2367,7 @@
 /* 800B168C  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800B1690  7C 08 03 A6 */	mtlr r0
 /* 800B1694  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B1698  4E 80 00 20 */	blr 
+/* 800B1698  4E 80 00 20 */	blr
 /* 800B169C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B16A0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B16A4  7C 08 02 A6 */	mflr r0
@@ -2411,7 +2410,7 @@
 /* 800B1738  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800B173C  7C 08 03 A6 */	mtlr r0
 /* 800B1740  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B1744  4E 80 00 20 */	blr 
+/* 800B1744  4E 80 00 20 */	blr
 /* 800B1748  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B174C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1750  38 63 00 14 */	addi r3, r3, 0x14
@@ -2419,16 +2418,16 @@
 /* 800B1758  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B175C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1760  80 63 00 14 */	lwz r3, 0x14(r3)
-/* 800B1764  4E 80 00 20 */	blr 
+/* 800B1764  4E 80 00 20 */	blr
 /* 800B1768  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B176C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1770  80 63 00 18 */	lwz r3, 0x18(r3)
-/* 800B1774  4E 80 00 20 */	blr 
+/* 800B1774  4E 80 00 20 */	blr
 /* 800B1778  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B177C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1780  38 0D 96 48 */	addi r0, r13, -27064
 /* 800B1784  90 0D 96 70 */	stw r0, -0x6990(r13)
-/* 800B1788  4E 80 00 20 */	blr 
+/* 800B1788  4E 80 00 20 */	blr
 /* 800B178C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1790  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B1794  7C 08 02 A6 */	mflr r0
@@ -2453,7 +2452,7 @@
 /* 800B17E0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800B17E4  7C 08 03 A6 */	mtlr r0
 /* 800B17E8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B17EC  4E 80 00 20 */	blr 
+/* 800B17EC  4E 80 00 20 */	blr
 /* 800B17F0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B17F4  7C 08 02 A6 */	mflr r0
 /* 800B17F8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -2483,7 +2482,7 @@
 /* 800B1858  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800B185C  7C 08 03 A6 */	mtlr r0
 /* 800B1860  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B1864  4E 80 00 20 */	blr 
+/* 800B1864  4E 80 00 20 */	blr
 /* 800B1868  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B186C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1870  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -2513,7 +2512,7 @@
 /* 800B18D0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800B18D4  7C 08 03 A6 */	mtlr r0
 /* 800B18D8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B18DC  4E 80 00 20 */	blr 
+/* 800B18DC  4E 80 00 20 */	blr
 /* 800B18E0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B18E4  7C 08 02 A6 */	mflr r0
 /* 800B18E8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -2529,7 +2528,7 @@
 /* 800B1910  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B1914  7C 08 03 A6 */	mtlr r0
 /* 800B1918  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B191C  4E 80 00 20 */	blr 
+/* 800B191C  4E 80 00 20 */	blr
 /* 800B1920  48 0E FF 74 */	b 0xeff74
 /* 800B1924  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1928  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -2566,7 +2565,7 @@
 /* 800B19A4  90 A3 00 04 */	stw r5, 4(r3)
 /* 800B19A8  80 04 00 08 */	lwz r0, 8(r4)
 /* 800B19AC  90 03 00 0C */	stw r0, 0xc(r3)
-/* 800B19B0  4E 80 00 20 */	blr 
+/* 800B19B0  4E 80 00 20 */	blr
 /* 800B19B4  38 85 00 0C */	addi r4, r5, 0xc
 /* 800B19B8  80 A5 00 0C */	lwz r5, 0xc(r5)
 /* 800B19BC  80 04 00 04 */	lwz r0, 4(r4)
@@ -2574,7 +2573,7 @@
 /* 800B19C4  90 A3 00 04 */	stw r5, 4(r3)
 /* 800B19C8  80 04 00 08 */	lwz r0, 8(r4)
 /* 800B19CC  90 03 00 0C */	stw r0, 0xc(r3)
-/* 800B19D0  4E 80 00 20 */	blr 
+/* 800B19D0  4E 80 00 20 */	blr
 /* 800B19D4  38 85 00 18 */	addi r4, r5, 0x18
 /* 800B19D8  80 A5 00 18 */	lwz r5, 0x18(r5)
 /* 800B19DC  80 04 00 04 */	lwz r0, 4(r4)
@@ -2582,7 +2581,7 @@
 /* 800B19E4  90 A3 00 04 */	stw r5, 4(r3)
 /* 800B19E8  80 04 00 08 */	lwz r0, 8(r4)
 /* 800B19EC  90 03 00 0C */	stw r0, 0xc(r3)
-/* 800B19F0  4E 80 00 20 */	blr 
+/* 800B19F0  4E 80 00 20 */	blr
 /* 800B19F4  38 85 00 24 */	addi r4, r5, 0x24
 /* 800B19F8  80 A5 00 24 */	lwz r5, 0x24(r5)
 /* 800B19FC  80 04 00 04 */	lwz r0, 4(r4)
@@ -2590,7 +2589,7 @@
 /* 800B1A04  90 A3 00 04 */	stw r5, 4(r3)
 /* 800B1A08  80 04 00 08 */	lwz r0, 8(r4)
 /* 800B1A0C  90 03 00 0C */	stw r0, 0xc(r3)
-/* 800B1A10  4E 80 00 20 */	blr 
+/* 800B1A10  4E 80 00 20 */	blr
 /* 800B1A14  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1A18  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1A1C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -2614,7 +2613,7 @@
 /* 800B1A64  98 83 00 14 */	stb r4, 0x14(r3)
 /* 800B1A68  98 83 00 15 */	stb r4, 0x15(r3)
 /* 800B1A6C  98 83 00 16 */	stb r4, 0x16(r3)
-/* 800B1A70  4E 80 00 20 */	blr 
+/* 800B1A70  4E 80 00 20 */	blr
 /* 800B1A74  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1A78  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1A7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -2633,18 +2632,18 @@
 /* 800B1AB0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B1AB4  7C 08 03 A6 */	mtlr r0
 /* 800B1AB8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B1ABC  4E 80 00 20 */	blr 
+/* 800B1ABC  4E 80 00 20 */	blr
 /* 800B1AC0  7C 64 1B 78 */	mr r4, r3
 /* 800B1AC4  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1AC8  38 00 00 00 */	li r0, 0
 /* 800B1ACC  90 04 00 10 */	stw r0, 0x10(r4)
-/* 800B1AD0  4E 80 00 20 */	blr 
+/* 800B1AD0  4E 80 00 20 */	blr
 /* 800B1AD4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1AD8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1ADC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1AE0  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1AE4  A0 63 00 0C */	lhz r3, 0xc(r3)
-/* 800B1AE8  4E 80 00 20 */	blr 
+/* 800B1AE8  4E 80 00 20 */	blr
 /* 800B1AEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1AF0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B1AF4  7C 08 02 A6 */	mflr r0
@@ -2655,63 +2654,63 @@
 /* 800B1B08  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B1B0C  81 8C 00 18 */	lwz r12, 0x18(r12)
 /* 800B1B10  7D 89 03 A6 */	mtctr r12
-/* 800B1B14  4E 80 04 21 */	bctrl 
+/* 800B1B14  4E 80 04 21 */	bctrl
 /* 800B1B18  81 9E 00 00 */	lwz r12, 0(r30)
 /* 800B1B1C  7C 7F 1B 78 */	mr r31, r3
 /* 800B1B20  7F C3 F3 78 */	mr r3, r30
 /* 800B1B24  81 8C 00 14 */	lwz r12, 0x14(r12)
 /* 800B1B28  7D 89 03 A6 */	mtctr r12
-/* 800B1B2C  4E 80 04 21 */	bctrl 
+/* 800B1B2C  4E 80 04 21 */	bctrl
 /* 800B1B30  7C 63 FA 14 */	add r3, r3, r31
 /* 800B1B34  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800B1B38  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800B1B3C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B1B40  7C 08 03 A6 */	mtlr r0
 /* 800B1B44  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B1B48  4E 80 00 20 */	blr 
+/* 800B1B48  4E 80 00 20 */	blr
 /* 800B1B4C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1B50  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1B54  A0 63 00 08 */	lhz r3, 8(r3)
-/* 800B1B58  4E 80 00 20 */	blr 
+/* 800B1B58  4E 80 00 20 */	blr
 /* 800B1B5C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1B60  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1B64  A0 63 00 0A */	lhz r3, 0xa(r3)
-/* 800B1B68  4E 80 00 20 */	blr 
+/* 800B1B68  4E 80 00 20 */	blr
 /* 800B1B6C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1B70  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1B74  A0 63 00 08 */	lhz r3, 8(r3)
-/* 800B1B78  4E 80 00 20 */	blr 
+/* 800B1B78  4E 80 00 20 */	blr
 /* 800B1B7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1B80  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1B84  A0 63 00 12 */	lhz r3, 0x12(r3)
-/* 800B1B88  4E 80 00 20 */	blr 
+/* 800B1B88  4E 80 00 20 */	blr
 /* 800B1B8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1B90  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1B94  A0 63 00 10 */	lhz r3, 0x10(r3)
-/* 800B1B98  4E 80 00 20 */	blr 
+/* 800B1B98  4E 80 00 20 */	blr
 /* 800B1B9C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1BA0  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1BA4  A0 63 00 0C */	lhz r3, 0xc(r3)
-/* 800B1BA8  4E 80 00 20 */	blr 
+/* 800B1BA8  4E 80 00 20 */	blr
 /* 800B1BAC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1BB0  38 60 00 01 */	li r3, 1
-/* 800B1BB4  4E 80 00 20 */	blr 
+/* 800B1BB4  4E 80 00 20 */	blr
 /* 800B1BB8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1BBC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1BC0  38 60 00 00 */	li r3, 0
-/* 800B1BC4  4E 80 00 20 */	blr 
+/* 800B1BC4  4E 80 00 20 */	blr
 /* 800B1BC8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1BCC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1BD0  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1BD4  A0 63 00 0E */	lhz r3, 0xe(r3)
-/* 800B1BD8  4E 80 00 20 */	blr 
+/* 800B1BD8  4E 80 00 20 */	blr
 /* 800B1BDC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1BE0  A0 03 00 14 */	lhz r0, 0x14(r3)
 /* 800B1BE4  7C 64 1B 78 */	mr r4, r3
 /* 800B1BE8  54 03 80 1E */	slwi r3, r0, 0x10
 /* 800B1BEC  88 04 00 16 */	lbz r0, 0x16(r4)
 /* 800B1BF0  50 03 44 2E */	rlwimi r3, r0, 8, 0x10, 0x17
-/* 800B1BF4  4E 80 00 20 */	blr 
+/* 800B1BF4  4E 80 00 20 */	blr
 /* 800B1BF8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1BFC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1C00  88 C4 00 00 */	lbz r6, 0(r4)
@@ -2720,7 +2719,7 @@
 /* 800B1C0C  98 C3 00 14 */	stb r6, 0x14(r3)
 /* 800B1C10  98 A3 00 15 */	stb r5, 0x15(r3)
 /* 800B1C14  98 03 00 16 */	stb r0, 0x16(r3)
-/* 800B1C18  4E 80 00 20 */	blr 
+/* 800B1C18  4E 80 00 20 */	blr
 /* 800B1C1C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1C20  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B1C24  7C 08 02 A6 */	mflr r0
@@ -2737,7 +2736,7 @@
 /* 800B1C50  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B1C54  81 8C 00 54 */	lwz r12, 0x54(r12)
 /* 800B1C58  7D 89 03 A6 */	mtctr r12
-/* 800B1C5C  4E 80 04 21 */	bctrl 
+/* 800B1C5C  4E 80 04 21 */	bctrl
 /* 800B1C60  2C 03 00 00 */	cmpwi r3, 0
 /* 800B1C64  41 82 00 0C */	beq 0xc
 /* 800B1C68  7F C0 F3 78 */	mr r0, r30
@@ -2757,10 +2756,10 @@
 /* 800B1CA0  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800B1CA4  7C 08 03 A6 */	mtlr r0
 /* 800B1CA8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B1CAC  4E 80 00 20 */	blr 
+/* 800B1CAC  4E 80 00 20 */	blr
 /* 800B1CB0  80 63 00 10 */	lwz r3, 0x10(r3)
 /* 800B1CB4  B0 83 00 0E */	sth r4, 0xe(r3)
-/* 800B1CB8  4E 80 00 20 */	blr 
+/* 800B1CB8  4E 80 00 20 */	blr
 /* 800B1CBC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1CC0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B1CC4  7C 08 02 A6 */	mflr r0
@@ -2772,7 +2771,7 @@
 /* 800B1CDC  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B1CE0  81 8C 00 54 */	lwz r12, 0x54(r12)
 /* 800B1CE4  7D 89 03 A6 */	mtctr r12
-/* 800B1CE8  4E 80 04 21 */	bctrl 
+/* 800B1CE8  4E 80 04 21 */	bctrl
 /* 800B1CEC  2C 03 00 00 */	cmpwi r3, 0
 /* 800B1CF0  41 82 00 08 */	beq 0x8
 /* 800B1CF4  48 00 00 08 */	b 0x8
@@ -2796,7 +2795,7 @@
 /* 800B1D3C  80 61 00 0C */	lwz r3, 0xc(r1)
 /* 800B1D40  7C 08 03 A6 */	mtlr r0
 /* 800B1D44  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B1D48  4E 80 00 20 */	blr 
+/* 800B1D48  4E 80 00 20 */	blr
 /* 800B1D4C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1D50  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B1D54  7C 08 02 A6 */	mflr r0
@@ -2804,7 +2803,7 @@
 /* 800B1D5C  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B1D60  81 8C 00 48 */	lwz r12, 0x48(r12)
 /* 800B1D64  7D 89 03 A6 */	mtctr r12
-/* 800B1D68  4E 80 04 21 */	bctrl 
+/* 800B1D68  4E 80 04 21 */	bctrl
 /* 800B1D6C  38 00 00 00 */	li r0, 0
 /* 800B1D70  98 01 00 08 */	stb r0, 8(r1)
 /* 800B1D74  7C 64 1B 78 */	mr r4, r3
@@ -2816,7 +2815,7 @@
 /* 800B1D8C  50 83 44 2E */	rlwimi r3, r4, 8, 0x10, 0x17
 /* 800B1D90  7C 08 03 A6 */	mtlr r0
 /* 800B1D94  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B1D98  4E 80 00 20 */	blr 
+/* 800B1D98  4E 80 00 20 */	blr
 /* 800B1D9C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1DA0  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800B1DA4  7C 08 02 A6 */	mflr r0
@@ -2831,7 +2830,7 @@
 /* 800B1DC8  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B1DCC  81 8C 00 54 */	lwz r12, 0x54(r12)
 /* 800B1DD0  7D 89 03 A6 */	mtctr r12
-/* 800B1DD4  4E 80 04 21 */	bctrl 
+/* 800B1DD4  4E 80 04 21 */	bctrl
 /* 800B1DD8  2C 03 00 00 */	cmpwi r3, 0
 /* 800B1DDC  41 82 00 08 */	beq 0x8
 /* 800B1DE0  48 00 00 08 */	b 0x8
@@ -2880,7 +2879,7 @@
 /* 800B1E8C  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800B1E90  7C 08 03 A6 */	mtlr r0
 /* 800B1E94  38 21 00 30 */	addi r1, r1, 0x30
-/* 800B1E98  4E 80 00 20 */	blr 
+/* 800B1E98  4E 80 00 20 */	blr
 /* 800B1E9C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1EA0  A0 0D 81 C8 */	lhz r0, -0x7e38(r13)
 /* 800B1EA4  2C 00 00 00 */	cmpwi r0, 0
@@ -2890,11 +2889,11 @@
 /* 800B1EB4  48 00 00 A4 */	b 0xa4
 /* 800B1EB8  28 04 00 20 */	cmplwi r4, 0x20
 /* 800B1EBC  38 60 00 00 */	li r3, 0
-/* 800B1EC0  4D 80 00 20 */	bltlr 
+/* 800B1EC0  4D 80 00 20 */	bltlr
 /* 800B1EC4  28 04 00 FF */	cmplwi r4, 0xff
-/* 800B1EC8  4D 81 00 20 */	bgtlr 
+/* 800B1EC8  4D 81 00 20 */	bgtlr
 /* 800B1ECC  38 60 00 01 */	li r3, 1
-/* 800B1ED0  4E 80 00 20 */	blr 
+/* 800B1ED0  4E 80 00 20 */	blr
 /* 800B1ED4  28 04 00 FF */	cmplwi r4, 0xff
 /* 800B1ED8  40 81 00 0C */	ble 0xc
 /* 800B1EDC  38 00 00 00 */	li r0, 0
@@ -2911,7 +2910,7 @@
 /* 800B1F08  38 00 00 01 */	li r0, 1
 /* 800B1F0C  2C 00 00 00 */	cmpwi r0, 0
 /* 800B1F10  38 60 00 01 */	li r3, 1
-/* 800B1F14  4C 82 00 20 */	bnelr 
+/* 800B1F14  4C 82 00 20 */	bnelr
 /* 800B1F18  54 85 C6 3E */	rlwinm r5, r4, 0x18, 0x18, 0x1f
 /* 800B1F1C  54 84 06 3E */	clrlwi r4, r4, 0x18
 /* 800B1F20  28 05 00 81 */	cmplwi r5, 0x81
@@ -2925,11 +2924,11 @@
 /* 800B1F40  41 81 00 08 */	bgt 0x8
 /* 800B1F44  38 00 00 01 */	li r0, 1
 /* 800B1F48  2C 00 00 00 */	cmpwi r0, 0
-/* 800B1F4C  4C 82 00 20 */	bnelr 
+/* 800B1F4C  4C 82 00 20 */	bnelr
 /* 800B1F50  38 60 00 00 */	li r3, 0
-/* 800B1F54  4E 80 00 20 */	blr 
+/* 800B1F54  4E 80 00 20 */	blr
 /* 800B1F58  38 60 00 00 */	li r3, 0
-/* 800B1F5C  4E 80 00 20 */	blr 
+/* 800B1F5C  4E 80 00 20 */	blr
 /* 800B1F60  A0 0D 81 C8 */	lhz r0, -0x7e38(r13)
 /* 800B1F64  2C 00 00 00 */	cmpwi r0, 0
 /* 800B1F68  41 82 00 10 */	beq 0x10
@@ -2937,11 +2936,11 @@
 /* 800B1F70  41 82 00 10 */	beq 0x10
 /* 800B1F74  48 00 00 14 */	b 0x14
 /* 800B1F78  38 60 00 03 */	li r3, 3
-/* 800B1F7C  4E 80 00 20 */	blr 
+/* 800B1F7C  4E 80 00 20 */	blr
 /* 800B1F80  38 60 00 02 */	li r3, 2
-/* 800B1F84  4E 80 00 20 */	blr 
+/* 800B1F84  4E 80 00 20 */	blr
 /* 800B1F88  38 60 00 03 */	li r3, 3
-/* 800B1F8C  4E 80 00 20 */	blr 
+/* 800B1F8C  4E 80 00 20 */	blr
 /* 800B1F90  3C 80 80 27 */	lis r4, 0x8027
 /* 800B1F94  3C A0 80 27 */	lis r5, 0x8027
 /* 800B1F98  38 84 4E 08 */	addi r4, r4, 0x4e08
@@ -2962,7 +2961,7 @@
 /* 800B1FD4  90 83 00 14 */	stw r4, 0x14(r3)
 /* 800B1FD8  B0 83 00 18 */	sth r4, 0x18(r3)
 /* 800B1FDC  B0 03 00 1A */	sth r0, 0x1a(r3)
-/* 800B1FE0  4E 80 00 20 */	blr 
+/* 800B1FE0  4E 80 00 20 */	blr
 /* 800B1FE4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1FE8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B1FEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -2981,28 +2980,28 @@
 /* 800B2020  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B2024  7C 08 03 A6 */	mtlr r0
 /* 800B2028  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B202C  4E 80 00 20 */	blr 
+/* 800B202C  4E 80 00 20 */	blr
 /* 800B2030  90 83 00 10 */	stw r4, 0x10(r3)
 /* 800B2034  90 A3 00 14 */	stw r5, 0x14(r3)
-/* 800B2038  4E 80 00 20 */	blr 
+/* 800B2038  4E 80 00 20 */	blr
 /* 800B203C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2040  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B2044  88 63 00 15 */	lbz r3, 0x15(r3)
-/* 800B2048  4E 80 00 20 */	blr 
+/* 800B2048  4E 80 00 20 */	blr
 /* 800B204C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2050  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B2054  88 63 00 14 */	lbz r3, 0x14(r3)
-/* 800B2058  4E 80 00 20 */	blr 
+/* 800B2058  4E 80 00 20 */	blr
 /* 800B205C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2060  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B2064  88 63 00 16 */	lbz r3, 0x16(r3)
-/* 800B2068  4E 80 00 20 */	blr 
+/* 800B2068  4E 80 00 20 */	blr
 /* 800B206C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2070  80 83 00 14 */	lwz r4, 0x14(r3)
 /* 800B2074  88 64 00 16 */	lbz r3, 0x16(r4)
 /* 800B2078  88 04 00 14 */	lbz r0, 0x14(r4)
 /* 800B207C  7C 63 00 50 */	subf r3, r3, r0
-/* 800B2080  4E 80 00 20 */	blr 
+/* 800B2080  4E 80 00 20 */	blr
 /* 800B2084  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2088  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B208C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -3010,40 +3009,40 @@
 /* 800B2094  80 63 00 08 */	lwz r3, 8(r3)
 /* 800B2098  88 63 00 02 */	lbz r3, 2(r3)
 /* 800B209C  7C 63 07 74 */	extsb r3, r3
-/* 800B20A0  4E 80 00 20 */	blr 
+/* 800B20A0  4E 80 00 20 */	blr
 /* 800B20A4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B20A8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B20AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B20B0  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B20B4  80 63 00 08 */	lwz r3, 8(r3)
 /* 800B20B8  88 63 00 01 */	lbz r3, 1(r3)
-/* 800B20BC  4E 80 00 20 */	blr 
+/* 800B20BC  4E 80 00 20 */	blr
 /* 800B20C0  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B20C4  80 63 00 08 */	lwz r3, 8(r3)
 /* 800B20C8  88 63 00 00 */	lbz r3, 0(r3)
-/* 800B20CC  4E 80 00 20 */	blr 
+/* 800B20CC  4E 80 00 20 */	blr
 /* 800B20D0  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B20D4  80 63 00 08 */	lwz r3, 8(r3)
 /* 800B20D8  88 63 00 03 */	lbz r3, 3(r3)
-/* 800B20DC  4E 80 00 20 */	blr 
+/* 800B20DC  4E 80 00 20 */	blr
 /* 800B20E0  38 60 00 02 */	li r3, 2
-/* 800B20E4  4E 80 00 20 */	blr 
+/* 800B20E4  4E 80 00 20 */	blr
 /* 800B20E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B20EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B20F0  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B20F4  80 63 00 08 */	lwz r3, 8(r3)
 /* 800B20F8  A0 63 00 0A */	lhz r3, 0xa(r3)
-/* 800B20FC  4E 80 00 20 */	blr 
+/* 800B20FC  4E 80 00 20 */	blr
 /* 800B2100  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B2104  88 63 00 01 */	lbz r3, 1(r3)
 /* 800B2108  7C 63 07 74 */	extsb r3, r3
-/* 800B210C  4E 80 00 20 */	blr 
+/* 800B210C  4E 80 00 20 */	blr
 /* 800B2110  80 83 00 14 */	lwz r4, 0x14(r3)
 /* 800B2114  A0 04 00 04 */	lhz r0, 4(r4)
 /* 800B2118  54 03 80 1E */	slwi r3, r0, 0x10
 /* 800B211C  88 04 00 06 */	lbz r0, 6(r4)
 /* 800B2120  50 03 44 2E */	rlwimi r3, r0, 8, 0x10, 0x17
-/* 800B2124  4E 80 00 20 */	blr 
+/* 800B2124  4E 80 00 20 */	blr
 /* 800B2128  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B212C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2130  80 63 00 14 */	lwz r3, 0x14(r3)
@@ -3053,7 +3052,7 @@
 /* 800B2140  98 03 00 05 */	stb r0, 5(r3)
 /* 800B2144  88 04 00 02 */	lbz r0, 2(r4)
 /* 800B2148  98 03 00 06 */	stb r0, 6(r3)
-/* 800B214C  4E 80 00 20 */	blr 
+/* 800B214C  4E 80 00 20 */	blr
 /* 800B2150  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B2154  7C 08 02 A6 */	mflr r0
 /* 800B2158  90 01 00 14 */	stw r0, 0x14(r1)
@@ -3069,7 +3068,7 @@
 /* 800B2180  80 C3 00 14 */	lwz r6, 0x14(r3)
 /* 800B2184  80 C6 00 10 */	lwz r6, 0x10(r6)
 /* 800B2188  48 00 00 3C */	b 0x3c
-/* 800B218C  60 00 00 00 */	nop 
+/* 800B218C  60 00 00 00 */	nop
 /* 800B2190  A0 06 00 00 */	lhz r0, 0(r6)
 /* 800B2194  7C 00 20 40 */	cmplw r0, r4
 /* 800B2198  41 81 00 28 */	bgt 0x28
@@ -3100,11 +3099,11 @@
 /* 800B21FC  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800B2200  7C 08 03 A6 */	mtlr r0
 /* 800B2204  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2208  4E 80 00 20 */	blr 
+/* 800B2208  4E 80 00 20 */	blr
 /* 800B220C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2210  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B2214  98 83 00 01 */	stb r4, 1(r3)
-/* 800B2218  4E 80 00 20 */	blr 
+/* 800B2218  4E 80 00 20 */	blr
 /* 800B221C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2220  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B2224  7C 08 02 A6 */	mflr r0
@@ -3112,7 +3111,7 @@
 /* 800B222C  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B2230  81 8C 00 4C */	lwz r12, 0x4c(r12)
 /* 800B2234  7D 89 03 A6 */	mtctr r12
-/* 800B2238  4E 80 04 21 */	bctrl 
+/* 800B2238  4E 80 04 21 */	bctrl
 /* 800B223C  54 60 46 3E */	srwi r0, r3, 0x18
 /* 800B2240  98 01 00 08 */	stb r0, 8(r1)
 /* 800B2244  54 60 86 3E */	rlwinm r0, r3, 0x10, 0x18, 0x1f
@@ -3124,7 +3123,7 @@
 /* 800B225C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B2260  7C 08 03 A6 */	mtlr r0
 /* 800B2264  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2268  4E 80 00 20 */	blr 
+/* 800B2268  4E 80 00 20 */	blr
 /* 800B226C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2270  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B2274  7C 08 02 A6 */	mflr r0
@@ -3141,7 +3140,7 @@
 /* 800B22A0  80 C3 00 14 */	lwz r6, 0x14(r3)
 /* 800B22A4  80 C6 00 10 */	lwz r6, 0x10(r6)
 /* 800B22A8  48 00 00 3C */	b 0x3c
-/* 800B22AC  60 00 00 00 */	nop 
+/* 800B22AC  60 00 00 00 */	nop
 /* 800B22B0  A0 06 00 00 */	lhz r0, 0(r6)
 /* 800B22B4  7C 00 20 40 */	cmplw r0, r4
 /* 800B22B8  41 81 00 28 */	bgt 0x28
@@ -3194,7 +3193,7 @@
 /* 800B2374  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B2378  7C 08 03 A6 */	mtlr r0
 /* 800B237C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2380  4E 80 00 20 */	blr 
+/* 800B2380  4E 80 00 20 */	blr
 /* 800B2384  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2388  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B238C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -3246,7 +3245,7 @@
 /* 800B2444  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800B2448  7C 08 03 A6 */	mtlr r0
 /* 800B244C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2450  4E 80 00 20 */	blr 
+/* 800B2450  4E 80 00 20 */	blr
 /* 800B2454  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2458  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B245C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -3265,7 +3264,7 @@
 /* 800B2490  80 C3 00 14 */	lwz r6, 0x14(r3)
 /* 800B2494  80 C6 00 10 */	lwz r6, 0x10(r6)
 /* 800B2498  48 00 00 3C */	b 0x3c
-/* 800B249C  60 00 00 00 */	nop 
+/* 800B249C  60 00 00 00 */	nop
 /* 800B24A0  A0 06 00 00 */	lhz r0, 0(r6)
 /* 800B24A4  7C 00 20 40 */	cmplw r0, r4
 /* 800B24A8  41 81 00 28 */	bgt 0x28
@@ -3296,11 +3295,11 @@
 /* 800B250C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B2510  7C 08 03 A6 */	mtlr r0
 /* 800B2514  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2518  4E 80 00 20 */	blr 
+/* 800B2518  4E 80 00 20 */	blr
 /* 800B251C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2520  80 63 00 14 */	lwz r3, 0x14(r3)
 /* 800B2524  88 63 00 07 */	lbz r3, 7(r3)
-/* 800B2528  4E 80 00 20 */	blr 
+/* 800B2528  4E 80 00 20 */	blr
 /* 800B252C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2530  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B2534  7C 08 02 A6 */	mflr r0
@@ -3317,7 +3316,7 @@
 /* 800B2560  80 C3 00 14 */	lwz r6, 0x14(r3)
 /* 800B2564  80 C6 00 10 */	lwz r6, 0x10(r6)
 /* 800B2568  48 00 00 3C */	b 0x3c
-/* 800B256C  60 00 00 00 */	nop 
+/* 800B256C  60 00 00 00 */	nop
 /* 800B2570  A0 06 00 00 */	lhz r0, 0(r6)
 /* 800B2574  7C 00 20 40 */	cmplw r0, r4
 /* 800B2578  41 81 00 28 */	bgt 0x28
@@ -3346,7 +3345,7 @@
 /* 800B25D4  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800B25D8  7C 08 03 A6 */	mtlr r0
 /* 800B25DC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B25E0  4E 80 00 20 */	blr 
+/* 800B25E0  4E 80 00 20 */	blr
 /* 800B25E4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B25E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B25EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -3359,19 +3358,19 @@
 /* 800B2608  41 82 00 28 */	beq 0x28
 /* 800B260C  2C 00 00 02 */	cmpwi r0, 2
 /* 800B2610  41 82 00 38 */	beq 0x38
-/* 800B2614  4E 80 00 20 */	blr 
+/* 800B2614  4E 80 00 20 */	blr
 /* 800B2618  A0 04 00 00 */	lhz r0, 0(r4)
 /* 800B261C  A0 64 00 0C */	lhz r3, 0xc(r4)
 /* 800B2620  7C 00 28 50 */	subf r0, r0, r5
 /* 800B2624  7C 03 02 14 */	add r0, r3, r0
 /* 800B2628  54 03 04 3E */	clrlwi r3, r0, 0x10
-/* 800B262C  4E 80 00 20 */	blr 
+/* 800B262C  4E 80 00 20 */	blr
 /* 800B2630  A0 04 00 00 */	lhz r0, 0(r4)
 /* 800B2634  7C 00 28 50 */	subf r0, r0, r5
 /* 800B2638  54 00 08 3C */	slwi r0, r0, 1
 /* 800B263C  7C 64 02 14 */	add r3, r4, r0
 /* 800B2640  A0 63 00 0C */	lhz r3, 0xc(r3)
-/* 800B2644  4E 80 00 20 */	blr 
+/* 800B2644  4E 80 00 20 */	blr
 /* 800B2648  38 C4 00 0C */	addi r6, r4, 0xc
 /* 800B264C  A0 84 00 0C */	lhz r4, 0xc(r4)
 /* 800B2650  38 E6 00 02 */	addi r7, r6, 2
@@ -3397,15 +3396,15 @@
 /* 800B26A0  38 C4 FF FC */	addi r6, r4, -4
 /* 800B26A4  48 00 00 0C */	b 0xc
 /* 800B26A8  A0 64 00 02 */	lhz r3, 2(r4)
-/* 800B26AC  4E 80 00 20 */	blr 
+/* 800B26AC  4E 80 00 20 */	blr
 /* 800B26B0  7C 07 30 40 */	cmplw r7, r6
 /* 800B26B4  40 81 FF B4 */	ble -0x4c
-/* 800B26B8  4E 80 00 20 */	blr 
+/* 800B26B8  4E 80 00 20 */	blr
 /* 800B26BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B26C0  80 A3 00 14 */	lwz r5, 0x14(r3)
 /* 800B26C4  80 C5 00 0C */	lwz r6, 0xc(r5)
 /* 800B26C8  48 00 00 3C */	b 0x3c
-/* 800B26CC  60 00 00 00 */	nop 
+/* 800B26CC  60 00 00 00 */	nop
 /* 800B26D0  A0 66 00 00 */	lhz r3, 0(r6)
 /* 800B26D4  7C 03 20 40 */	cmplw r3, r4
 /* 800B26D8  41 81 00 28 */	bgt 0x28
@@ -3417,12 +3416,12 @@
 /* 800B26F0  7C 03 00 50 */	subf r0, r3, r0
 /* 800B26F4  7C 66 02 14 */	add r3, r6, r0
 /* 800B26F8  38 63 00 08 */	addi r3, r3, 8
-/* 800B26FC  4E 80 00 20 */	blr 
+/* 800B26FC  4E 80 00 20 */	blr
 /* 800B2700  80 C6 00 04 */	lwz r6, 4(r6)
 /* 800B2704  2C 06 00 00 */	cmpwi r6, 0
 /* 800B2708  40 82 FF C8 */	bne -0x38
 /* 800B270C  38 65 00 04 */	addi r3, r5, 4
-/* 800B2710  4E 80 00 20 */	blr 
+/* 800B2710  4E 80 00 20 */	blr
 /* 800B2714  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2718  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B271C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -3491,7 +3490,7 @@
 /* 800B2818  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800B281C  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800B2820  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2824  4E 80 00 20 */	blr 
+/* 800B2824  4E 80 00 20 */	blr
 /* 800B2828  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B282C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2830  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -3508,7 +3507,7 @@
 /* 800B285C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B2860  7C 08 03 A6 */	mtlr r0
 /* 800B2864  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2868  4E 80 00 20 */	blr 
+/* 800B2868  4E 80 00 20 */	blr
 /* 800B286C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2870  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B2874  7C 08 02 A6 */	mflr r0
@@ -3531,7 +3530,7 @@
 /* 800B28B8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B28BC  7C 08 03 A6 */	mtlr r0
 /* 800B28C0  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B28C4  4E 80 00 20 */	blr 
+/* 800B28C4  4E 80 00 20 */	blr
 /* 800B28C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B28CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B28D0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -3557,7 +3556,7 @@
 /* 800B2920  7C 69 03 A6 */	mtctr r3
 /* 800B2924  2C 03 00 00 */	cmpwi r3, 0
 /* 800B2928  40 81 00 98 */	ble 0x98
-/* 800B292C  60 00 00 00 */	nop 
+/* 800B292C  60 00 00 00 */	nop
 /* 800B2930  80 64 00 00 */	lwz r3, 0(r4)
 /* 800B2934  3C 03 B9 B7 */	addis r0, r3, 0xb9b7
 /* 800B2938  28 00 4E 46 */	cmplwi r0, 0x4e46
@@ -3605,7 +3604,7 @@
 /* 800B29E0  7F C3 F3 78 */	mr r3, r30
 /* 800B29E4  81 8C 00 58 */	lwz r12, 0x58(r12)
 /* 800B29E8  7D 89 03 A6 */	mtctr r12
-/* 800B29EC  4E 80 04 21 */	bctrl 
+/* 800B29EC  4E 80 04 21 */	bctrl
 /* 800B29F0  7C 64 1B 78 */	mr r4, r3
 /* 800B29F4  7F C3 F3 78 */	mr r3, r30
 /* 800B29F8  4B FF EF 79 */	bl -0x1088
@@ -3615,7 +3614,7 @@
 /* 800B2A08  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800B2A0C  7C 08 03 A6 */	mtlr r0
 /* 800B2A10  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2A14  4E 80 00 20 */	blr 
+/* 800B2A14  4E 80 00 20 */	blr
 /* 800B2A18  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2A1C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2A20  A0 03 00 0C */	lhz r0, 0xc(r3)
@@ -3623,7 +3622,7 @@
 /* 800B2A28  38 E0 00 00 */	li r7, 0
 /* 800B2A2C  7C A3 02 14 */	add r5, r3, r0
 /* 800B2A30  48 00 00 DC */	b 0xdc
-/* 800B2A34  60 00 00 00 */	nop 
+/* 800B2A34  60 00 00 00 */	nop
 /* 800B2A38  80 85 00 00 */	lwz r4, 0(r5)
 /* 800B2A3C  3C 04 B9 B7 */	addis r0, r4, 0xb9b7
 /* 800B2A40  28 00 4E 46 */	cmplwi r0, 0x4e46
@@ -3673,7 +3672,7 @@
 /* 800B2AF0  90 05 00 10 */	stw r0, 0x10(r5)
 /* 800B2AF4  48 00 00 0C */	b 0xc
 /* 800B2AF8  38 60 00 00 */	li r3, 0
-/* 800B2AFC  4E 80 00 20 */	blr 
+/* 800B2AFC  4E 80 00 20 */	blr
 /* 800B2B00  80 05 00 04 */	lwz r0, 4(r5)
 /* 800B2B04  38 E7 00 01 */	addi r7, r7, 1
 /* 800B2B08  7C A5 02 14 */	add r5, r5, r0
@@ -3684,7 +3683,7 @@
 /* 800B2B1C  38 04 4E 55 */	addi r0, r4, 0x4e55
 /* 800B2B20  90 03 00 00 */	stw r0, 0(r3)
 /* 800B2B24  7C C3 33 78 */	mr r3, r6
-/* 800B2B28  4E 80 00 20 */	blr 
+/* 800B2B28  4E 80 00 20 */	blr
 /* 800B2B2C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B2B30  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800B2B34  38 C0 FF FF */	li r6, -1
@@ -3909,7 +3908,7 @@
 /* 800B2EA0  83 A1 00 24 */	lwz r29, 0x24(r1)
 /* 800B2EA4  83 81 00 20 */	lwz r28, 0x20(r1)
 /* 800B2EA8  38 21 00 30 */	addi r1, r1, 0x30
-/* 800B2EAC  4E 80 00 20 */	blr 
+/* 800B2EAC  4E 80 00 20 */	blr
 /* 800B2EB0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B2EB4  7C 08 02 A6 */	mflr r0
 /* 800B2EB8  2C 03 00 00 */	cmpwi r3, 0
@@ -3925,7 +3924,7 @@
 /* 800B2EE0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B2EE4  7C 08 03 A6 */	mtlr r0
 /* 800B2EE8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B2EEC  4E 80 00 20 */	blr 
+/* 800B2EEC  4E 80 00 20 */	blr
 /* 800B2EF0  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800B2EF4  7C 08 02 A6 */	mflr r0
 /* 800B2EF8  3C A0 80 2F */	lis r5, 0x802f
@@ -3969,7 +3968,7 @@
 /* 800B2F90  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B2F94  81 8C 00 30 */	lwz r12, 0x30(r12)
 /* 800B2F98  7D 89 03 A6 */	mtctr r12
-/* 800B2F9C  4E 80 04 21 */	bctrl 
+/* 800B2F9C  4E 80 04 21 */	bctrl
 /* 800B2FA0  38 03 FF FC */	addi r0, r3, -4
 /* 800B2FA4  28 00 00 02 */	cmplwi r0, 2
 /* 800B2FA8  40 81 03 E8 */	ble 0x3e8
@@ -4555,7 +4554,7 @@
 /* 800B38B8  83 E1 00 2C */	lwz r31, 0x2c(r1)
 /* 800B38BC  7C 08 03 A6 */	mtlr r0
 /* 800B38C0  38 21 00 30 */	addi r1, r1, 0x30
-/* 800B38C4  4E 80 00 20 */	blr 
+/* 800B38C4  4E 80 00 20 */	blr
 /* 800B38C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B38CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B38D0  94 21 FF C0 */	stwu r1, -0x40(r1)
@@ -4574,7 +4573,7 @@
 /* 800B3904  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B3908  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B390C  7D 89 03 A6 */	mtctr r12
-/* 800B3910  4E 80 04 21 */	bctrl 
+/* 800B3910  4E 80 04 21 */	bctrl
 /* 800B3914  6C 60 80 00 */	xoris r0, r3, 0x8000
 /* 800B3918  3F E0 43 30 */	lis r31, 0x4330
 /* 800B391C  90 01 00 0C */	stw r0, 0xc(r1)
@@ -4587,7 +4586,7 @@
 /* 800B3938  81 8C 00 0C */	lwz r12, 0xc(r12)
 /* 800B393C  EF FF 00 24 */	fdivs f31, f31, f0
 /* 800B3940  7D 89 03 A6 */	mtctr r12
-/* 800B3944  4E 80 04 21 */	bctrl 
+/* 800B3944  4E 80 04 21 */	bctrl
 /* 800B3948  6C 60 80 00 */	xoris r0, r3, 0x8000
 /* 800B394C  90 01 00 14 */	stw r0, 0x14(r1)
 /* 800B3950  C8 22 93 48 */	lfd f1, -0x6cb8(r2)
@@ -4606,7 +4605,7 @@
 /* 800B3984  80 01 00 44 */	lwz r0, 0x44(r1)
 /* 800B3988  7C 08 03 A6 */	mtlr r0
 /* 800B398C  38 21 00 40 */	addi r1, r1, 0x40
-/* 800B3990  4E 80 00 20 */	blr 
+/* 800B3990  4E 80 00 20 */	blr
 /* 800B3994  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B3998  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B399C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -4622,7 +4621,7 @@
 /* 800B39C4  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B39C8  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B39CC  7D 89 03 A6 */	mtctr r12
-/* 800B39D0  4E 80 04 21 */	bctrl 
+/* 800B39D0  4E 80 04 21 */	bctrl
 /* 800B39D4  6C 63 80 00 */	xoris r3, r3, 0x8000
 /* 800B39D8  3C 00 43 30 */	lis r0, 0x4330
 /* 800B39DC  90 61 00 0C */	stw r3, 0xc(r1)
@@ -4639,7 +4638,7 @@
 /* 800B3A08  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800B3A0C  7C 08 03 A6 */	mtlr r0
 /* 800B3A10  38 21 00 30 */	addi r1, r1, 0x30
-/* 800B3A14  4E 80 00 20 */	blr 
+/* 800B3A14  4E 80 00 20 */	blr
 /* 800B3A18  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B3A1C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B3A20  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -4651,7 +4650,7 @@
 /* 800B3A38  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B3A3C  81 8C 00 0C */	lwz r12, 0xc(r12)
 /* 800B3A40  7D 89 03 A6 */	mtctr r12
-/* 800B3A44  4E 80 04 21 */	bctrl 
+/* 800B3A44  4E 80 04 21 */	bctrl
 /* 800B3A48  6C 63 80 00 */	xoris r3, r3, 0x8000
 /* 800B3A4C  3C 00 43 30 */	lis r0, 0x4330
 /* 800B3A50  90 61 00 0C */	stw r3, 0xc(r1)
@@ -4665,7 +4664,7 @@
 /* 800B3A70  EC 20 00 72 */	fmuls f1, f0, f1
 /* 800B3A74  7C 08 03 A6 */	mtlr r0
 /* 800B3A78  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B3A7C  4E 80 00 20 */	blr 
+/* 800B3A7C  4E 80 00 20 */	blr
 /* 800B3A80  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B3A84  7C 08 02 A6 */	mflr r0
 /* 800B3A88  90 01 00 24 */	stw r0, 0x24(r1)
@@ -4675,7 +4674,7 @@
 /* 800B3A98  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B3A9C  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B3AA0  7D 89 03 A6 */	mtctr r12
-/* 800B3AA4  4E 80 04 21 */	bctrl 
+/* 800B3AA4  4E 80 04 21 */	bctrl
 /* 800B3AA8  6C 63 80 00 */	xoris r3, r3, 0x8000
 /* 800B3AAC  3C 00 43 30 */	lis r0, 0x4330
 /* 800B3AB0  90 61 00 0C */	stw r3, 0xc(r1)
@@ -4689,7 +4688,7 @@
 /* 800B3AD0  EC 20 00 72 */	fmuls f1, f0, f1
 /* 800B3AD4  7C 08 03 A6 */	mtlr r0
 /* 800B3AD8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B3ADC  4E 80 00 20 */	blr 
+/* 800B3ADC  4E 80 00 20 */	blr
 /* 800B3AE0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B3AE4  7C 08 02 A6 */	mflr r0
 /* 800B3AE8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -4699,7 +4698,7 @@
 /* 800B3AF8  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B3AFC  81 8C 00 14 */	lwz r12, 0x14(r12)
 /* 800B3B00  7D 89 03 A6 */	mtctr r12
-/* 800B3B04  4E 80 04 21 */	bctrl 
+/* 800B3B04  4E 80 04 21 */	bctrl
 /* 800B3B08  6C 63 80 00 */	xoris r3, r3, 0x8000
 /* 800B3B0C  3C 00 43 30 */	lis r0, 0x4330
 /* 800B3B10  90 61 00 0C */	stw r3, 0xc(r1)
@@ -4713,7 +4712,7 @@
 /* 800B3B30  EC 20 00 72 */	fmuls f1, f0, f1
 /* 800B3B34  7C 08 03 A6 */	mtlr r0
 /* 800B3B38  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B3B3C  4E 80 00 20 */	blr 
+/* 800B3B3C  4E 80 00 20 */	blr
 /* 800B3B40  94 21 FF B0 */	stwu r1, -0x50(r1)
 /* 800B3B44  7C 08 02 A6 */	mflr r0
 /* 800B3B48  90 01 00 54 */	stw r0, 0x54(r1)
@@ -4730,7 +4729,7 @@
 /* 800B3B74  90 01 00 28 */	stw r0, 0x28(r1)
 /* 800B3B78  81 8C 00 50 */	lwz r12, 0x50(r12)
 /* 800B3B7C  7D 89 03 A6 */	mtctr r12
-/* 800B3B80  4E 80 04 21 */	bctrl 
+/* 800B3B80  4E 80 04 21 */	bctrl
 /* 800B3B84  88 1F 00 43 */	lbz r0, 0x43(r31)
 /* 800B3B88  2C 00 00 00 */	cmpwi r0, 0
 /* 800B3B8C  41 82 00 5C */	beq 0x5c
@@ -4789,7 +4788,7 @@
 /* 800B3C60  80 01 00 54 */	lwz r0, 0x54(r1)
 /* 800B3C64  7C 08 03 A6 */	mtlr r0
 /* 800B3C68  38 21 00 50 */	addi r1, r1, 0x50
-/* 800B3C6C  4E 80 00 20 */	blr 
+/* 800B3C6C  4E 80 00 20 */	blr
 /* 800B3C70  94 21 FF 50 */	stwu r1, -0xb0(r1)
 /* 800B3C74  7C 08 02 A6 */	mflr r0
 /* 800B3C78  90 01 00 B4 */	stw r0, 0xb4(r1)
@@ -4948,7 +4947,7 @@
 /* 800B3EDC  80 01 00 B4 */	lwz r0, 0xb4(r1)
 /* 800B3EE0  7C 08 03 A6 */	mtlr r0
 /* 800B3EE4  38 21 00 B0 */	addi r1, r1, 0xb0
-/* 800B3EE8  4E 80 00 20 */	blr 
+/* 800B3EE8  4E 80 00 20 */	blr
 /* 800B3EEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B3EF0  80 03 00 20 */	lwz r0, 0x20(r3)
 /* 800B3EF4  88 C3 00 18 */	lbz r6, 0x18(r3)
@@ -5033,7 +5032,7 @@
 /* 800B4030  98 A3 00 13 */	stb r5, 0x13(r3)
 /* 800B4034  7C 00 22 14 */	add r0, r0, r4
 /* 800B4038  98 03 00 17 */	stb r0, 0x17(r3)
-/* 800B403C  4E 80 00 20 */	blr 
+/* 800B403C  4E 80 00 20 */	blr
 /* 800B4040  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B4044  7C 08 02 A6 */	mflr r0
 /* 800B4048  90 01 00 24 */	stw r0, 0x24(r1)
@@ -5238,7 +5237,7 @@
 /* 800B4364  83 C1 00 18 */	lwz r30, 0x18(r1)
 /* 800B4368  7C 08 03 A6 */	mtlr r0
 /* 800B436C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B4370  4E 80 00 20 */	blr 
+/* 800B4370  4E 80 00 20 */	blr
 /* 800B4374  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B4378  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B437C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -5264,7 +5263,7 @@
 /* 800B43CC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B43D0  7C 08 03 A6 */	mtlr r0
 /* 800B43D4  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B43D8  4E 80 00 20 */	blr 
+/* 800B43D8  4E 80 00 20 */	blr
 /* 800B43DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B43E0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B43E4  7C 08 02 A6 */	mflr r0
@@ -5287,7 +5286,7 @@
 /* 800B4428  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B442C  7C 08 03 A6 */	mtlr r0
 /* 800B4430  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B4434  4E 80 00 20 */	blr 
+/* 800B4434  4E 80 00 20 */	blr
 /* 800B4438  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B443C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B4440  94 21 FF D0 */	stwu r1, -0x30(r1)
@@ -5305,7 +5304,7 @@
 /* 800B4470  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B4474  81 8C 00 34 */	lwz r12, 0x34(r12)
 /* 800B4478  7D 89 03 A6 */	mtctr r12
-/* 800B447C  4E 80 04 21 */	bctrl 
+/* 800B447C  4E 80 04 21 */	bctrl
 /* 800B4480  48 00 00 08 */	b 0x8
 /* 800B4484  38 60 00 00 */	li r3, 0
 /* 800B4488  6C 63 80 00 */	xoris r3, r3, 0x8000
@@ -5325,7 +5324,7 @@
 /* 800B44C0  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800B44C4  7C 08 03 A6 */	mtlr r0
 /* 800B44C8  38 21 00 30 */	addi r1, r1, 0x30
-/* 800B44CC  4E 80 00 20 */	blr 
+/* 800B44CC  4E 80 00 20 */	blr
 /* 800B44D0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B44D4  7C 08 02 A6 */	mflr r0
 /* 800B44D8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -5338,7 +5337,7 @@
 /* 800B44F4  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B44F8  81 8C 00 34 */	lwz r12, 0x34(r12)
 /* 800B44FC  7D 89 03 A6 */	mtctr r12
-/* 800B4500  4E 80 04 21 */	bctrl 
+/* 800B4500  4E 80 04 21 */	bctrl
 /* 800B4504  48 00 00 08 */	b 0x8
 /* 800B4508  38 60 00 00 */	li r3, 0
 /* 800B450C  6C 63 80 00 */	xoris r3, r3, 0x8000
@@ -5356,7 +5355,7 @@
 /* 800B453C  EC 20 08 2A */	fadds f1, f0, f1
 /* 800B4540  7C 08 03 A6 */	mtlr r0
 /* 800B4544  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B4548  4E 80 00 20 */	blr 
+/* 800B4548  4E 80 00 20 */	blr
 /* 800B454C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B4550  94 21 FE 70 */	stwu r1, -0x190(r1)
 /* 800B4554  7C 08 02 A6 */	mflr r0
@@ -5578,7 +5577,7 @@
 /* 800B48B4  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B48B8  7D 41 53 78 */	mr r1, r10
 /* 800B48BC  7C 08 03 A6 */	mtlr r0
-/* 800B48C0  4E 80 00 20 */	blr 
+/* 800B48C0  4E 80 00 20 */	blr
 /* 800B48C4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B48C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B48CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -5802,7 +5801,7 @@
 /* 800B4C34  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B4C38  7D 41 53 78 */	mr r1, r10
 /* 800B4C3C  7C 08 03 A6 */	mtlr r0
-/* 800B4C40  4E 80 00 20 */	blr 
+/* 800B4C40  4E 80 00 20 */	blr
 /* 800B4C44  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B4C48  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B4C4C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -6017,7 +6016,7 @@
 /* 800B4F90  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B4F94  7D 41 53 78 */	mr r1, r10
 /* 800B4F98  7C 08 03 A6 */	mtlr r0
-/* 800B4F9C  4E 80 00 20 */	blr 
+/* 800B4F9C  4E 80 00 20 */	blr
 /* 800B4FA0  94 21 FE F0 */	stwu r1, -0x110(r1)
 /* 800B4FA4  7C 08 02 A6 */	mflr r0
 /* 800B4FA8  90 01 01 14 */	stw r0, 0x114(r1)
@@ -6205,7 +6204,7 @@
 /* 800B5280  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B5284  7D 41 53 78 */	mr r1, r10
 /* 800B5288  7C 08 03 A6 */	mtlr r0
-/* 800B528C  4E 80 00 20 */	blr 
+/* 800B528C  4E 80 00 20 */	blr
 /* 800B5290  94 21 FE F0 */	stwu r1, -0x110(r1)
 /* 800B5294  7C 08 02 A6 */	mflr r0
 /* 800B5298  90 01 01 14 */	stw r0, 0x114(r1)
@@ -6374,7 +6373,7 @@
 /* 800B5524  80 01 01 14 */	lwz r0, 0x114(r1)
 /* 800B5528  7C 08 03 A6 */	mtlr r0
 /* 800B552C  38 21 01 10 */	addi r1, r1, 0x110
-/* 800B5530  4E 80 00 20 */	blr 
+/* 800B5530  4E 80 00 20 */	blr
 /* 800B5534  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B5538  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B553C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -6546,7 +6545,7 @@
 /* 800B57D4  80 01 01 14 */	lwz r0, 0x114(r1)
 /* 800B57D8  7C 08 03 A6 */	mtlr r0
 /* 800B57DC  38 21 01 10 */	addi r1, r1, 0x110
-/* 800B57E0  4E 80 00 20 */	blr 
+/* 800B57E0  4E 80 00 20 */	blr
 /* 800B57E4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B57E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B57EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -6711,7 +6710,7 @@
 /* 800B5A68  80 01 01 14 */	lwz r0, 0x114(r1)
 /* 800B5A6C  7C 08 03 A6 */	mtlr r0
 /* 800B5A70  38 21 01 10 */	addi r1, r1, 0x110
-/* 800B5A74  4E 80 00 20 */	blr 
+/* 800B5A74  4E 80 00 20 */	blr
 /* 800B5A78  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B5A7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B5A80  94 21 FF 00 */	stwu r1, -0x100(r1)
@@ -6897,7 +6896,7 @@
 /* 800B5D50  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B5D54  7D 41 53 78 */	mr r1, r10
 /* 800B5D58  7C 08 03 A6 */	mtlr r0
-/* 800B5D5C  4E 80 00 20 */	blr 
+/* 800B5D5C  4E 80 00 20 */	blr
 /* 800B5D60  94 21 FF 70 */	stwu r1, -0x90(r1)
 /* 800B5D64  7C 08 02 A6 */	mflr r0
 /* 800B5D68  90 01 00 94 */	stw r0, 0x94(r1)
@@ -7056,7 +7055,7 @@
 /* 800B5FCC  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B5FD0  7D 41 53 78 */	mr r1, r10
 /* 800B5FD4  7C 08 03 A6 */	mtlr r0
-/* 800B5FD8  4E 80 00 20 */	blr 
+/* 800B5FD8  4E 80 00 20 */	blr
 /* 800B5FDC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B5FE0  94 21 FF 70 */	stwu r1, -0x90(r1)
 /* 800B5FE4  7C 08 02 A6 */	mflr r0
@@ -7186,7 +7185,7 @@
 /* 800B61D4  80 01 00 94 */	lwz r0, 0x94(r1)
 /* 800B61D8  7C 08 03 A6 */	mtlr r0
 /* 800B61DC  38 21 00 90 */	addi r1, r1, 0x90
-/* 800B61E0  4E 80 00 20 */	blr 
+/* 800B61E0  4E 80 00 20 */	blr
 /* 800B61E4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B61E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B61EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -7256,7 +7255,7 @@
 /* 800B62EC  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B62F0  7D 41 53 78 */	mr r1, r10
 /* 800B62F4  7C 08 03 A6 */	mtlr r0
-/* 800B62F8  4E 80 00 20 */	blr 
+/* 800B62F8  4E 80 00 20 */	blr
 /* 800B62FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B6300  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B6304  7C 08 02 A6 */	mflr r0
@@ -7299,7 +7298,7 @@
 /* 800B6398  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B639C  7D 41 53 78 */	mr r1, r10
 /* 800B63A0  7C 08 03 A6 */	mtlr r0
-/* 800B63A4  4E 80 00 20 */	blr 
+/* 800B63A4  4E 80 00 20 */	blr
 /* 800B63A8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B63AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B63B0  48 00 09 F0 */	b 0x9f0
@@ -7444,7 +7443,7 @@
 /* 800B65DC  80 01 00 A4 */	lwz r0, 0xa4(r1)
 /* 800B65E0  7C 08 03 A6 */	mtlr r0
 /* 800B65E4  38 21 00 A0 */	addi r1, r1, 0xa0
-/* 800B65E8  4E 80 00 20 */	blr 
+/* 800B65E8  4E 80 00 20 */	blr
 /* 800B65EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B65F0  94 21 FE 20 */	stwu r1, -0x1e0(r1)
 /* 800B65F4  7C 08 02 A6 */	mflr r0
@@ -7497,7 +7496,7 @@
 /* 800B66B0  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B66B4  81 8C 00 34 */	lwz r12, 0x34(r12)
 /* 800B66B8  7D 89 03 A6 */	mtctr r12
-/* 800B66BC  4E 80 04 21 */	bctrl 
+/* 800B66BC  4E 80 04 21 */	bctrl
 /* 800B66C0  48 00 00 08 */	b 0x8
 /* 800B66C4  7E 83 A3 78 */	mr r3, r20
 /* 800B66C8  6C 63 80 00 */	xoris r3, r3, 0x8000
@@ -7523,7 +7522,7 @@
 /* 800B6718  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B671C  81 8C 00 34 */	lwz r12, 0x34(r12)
 /* 800B6720  7D 89 03 A6 */	mtctr r12
-/* 800B6724  4E 80 04 21 */	bctrl 
+/* 800B6724  4E 80 04 21 */	bctrl
 /* 800B6728  48 00 00 08 */	b 0x8
 /* 800B672C  38 60 00 00 */	li r3, 0
 /* 800B6730  6C 63 80 00 */	xoris r3, r3, 0x8000
@@ -7556,7 +7555,7 @@
 /* 800B679C  D0 01 00 74 */	stfs f0, 0x74(r1)
 /* 800B67A0  92 A1 00 98 */	stw r21, 0x98(r1)
 /* 800B67A4  4B F6 AC AD */	bl -0x95354
-/* 800B67A8  60 00 00 00 */	nop 
+/* 800B67A8  60 00 00 00 */	nop
 /* 800B67AC  C3 A2 93 64 */	lfs f29, -0x6c9c(r2)
 /* 800B67B0  7C 7A 1B 78 */	mr r26, r3
 /* 800B67B4  CB C2 93 68 */	lfd f30, -0x6c98(r2)
@@ -7705,7 +7704,7 @@
 /* 800B69F0  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B69F4  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B69F8  7D 89 03 A6 */	mtctr r12
-/* 800B69FC  4E 80 04 21 */	bctrl 
+/* 800B69FC  4E 80 04 21 */	bctrl
 /* 800B6A00  C0 21 00 80 */	lfs f1, 0x80(r1)
 /* 800B6A04  C0 01 00 78 */	lfs f0, 0x78(r1)
 /* 800B6A08  EC 01 00 28 */	fsubs f0, f1, f0
@@ -7734,7 +7733,7 @@
 /* 800B6A64  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B6A68  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B6A6C  7D 89 03 A6 */	mtctr r12
-/* 800B6A70  4E 80 04 21 */	bctrl 
+/* 800B6A70  4E 80 04 21 */	bctrl
 /* 800B6A74  80 01 00 D0 */	lwz r0, 0xd0(r1)
 /* 800B6A78  90 01 00 98 */	stw r0, 0x98(r1)
 /* 800B6A7C  C0 21 00 88 */	lfs f1, 0x88(r1)
@@ -7801,7 +7800,7 @@
 /* 800B6B70  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B6B74  81 8C 00 48 */	lwz r12, 0x48(r12)
 /* 800B6B78  7D 89 03 A6 */	mtctr r12
-/* 800B6B7C  4E 80 04 21 */	bctrl 
+/* 800B6B7C  4E 80 04 21 */	bctrl
 /* 800B6B80  6C 60 80 00 */	xoris r0, r3, 0x8000
 /* 800B6B84  90 01 01 54 */	stw r0, 0x154(r1)
 /* 800B6B88  92 A1 01 50 */	stw r21, 0x150(r1)
@@ -7839,7 +7838,7 @@
 /* 800B6C08  38 61 00 98 */	addi r3, r1, 0x98
 /* 800B6C0C  39 81 00 9C */	addi r12, r1, 0x9c
 /* 800B6C10  4B F6 A8 41 */	bl -0x957c0
-/* 800B6C14  60 00 00 00 */	nop 
+/* 800B6C14  60 00 00 00 */	nop
 /* 800B6C18  7C 7A 1B 78 */	mr r26, r3
 /* 800B6C1C  80 61 00 98 */	lwz r3, 0x98(r1)
 /* 800B6C20  7C 03 F8 40 */	cmplw r3, r31
@@ -7862,12 +7861,12 @@
 /* 800B6C64  80 01 01 E4 */	lwz r0, 0x1e4(r1)
 /* 800B6C68  7C 08 03 A6 */	mtlr r0
 /* 800B6C6C  38 21 01 E0 */	addi r1, r1, 0x1e0
-/* 800B6C70  4E 80 00 20 */	blr 
+/* 800B6C70  4E 80 00 20 */	blr
 /* 800B6C74  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B6C78  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B6C7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B6C80  C0 23 00 50 */	lfs f1, 0x50(r3)
-/* 800B6C84  4E 80 00 20 */	blr 
+/* 800B6C84  4E 80 00 20 */	blr
 /* 800B6C88  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B6C8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B6C90  94 21 FF C0 */	stwu r1, -0x40(r1)
@@ -7937,7 +7936,7 @@
 /* 800B6D90  83 A1 00 24 */	lwz r29, 0x24(r1)
 /* 800B6D94  7C 08 03 A6 */	mtlr r0
 /* 800B6D98  38 21 00 40 */	addi r1, r1, 0x40
-/* 800B6D9C  4E 80 00 20 */	blr 
+/* 800B6D9C  4E 80 00 20 */	blr
 /* 800B6DA0  94 21 FD 80 */	stwu r1, -0x280(r1)
 /* 800B6DA4  7C 08 02 A6 */	mflr r0
 /* 800B6DA8  90 01 02 84 */	stw r0, 0x284(r1)
@@ -8003,7 +8002,7 @@
 /* 800B6E98  38 61 00 48 */	addi r3, r1, 0x48
 /* 800B6E9C  39 81 00 4C */	addi r12, r1, 0x4c
 /* 800B6EA0  4B F6 A5 B1 */	bl -0x95a50
-/* 800B6EA4  60 00 00 00 */	nop 
+/* 800B6EA4  60 00 00 00 */	nop
 /* 800B6EA8  C3 A2 93 64 */	lfs f29, -0x6c9c(r2)
 /* 800B6EAC  7C 7A 1B 78 */	mr r26, r3
 /* 800B6EB0  C3 C2 93 70 */	lfs f30, -0x6c90(r2)
@@ -8146,7 +8145,7 @@
 /* 800B70D4  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B70D8  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800B70DC  7D 89 03 A6 */	mtctr r12
-/* 800B70E0  4E 80 04 21 */	bctrl 
+/* 800B70E0  4E 80 04 21 */	bctrl
 /* 800B70E4  C0 21 00 40 */	lfs f1, 0x40(r1)
 /* 800B70E8  C0 01 00 38 */	lfs f0, 0x38(r1)
 /* 800B70EC  EC 01 00 28 */	fsubs f0, f1, f0
@@ -8173,7 +8172,7 @@
 /* 800B7140  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B7144  81 8C 00 0C */	lwz r12, 0xc(r12)
 /* 800B7148  7D 89 03 A6 */	mtctr r12
-/* 800B714C  4E 80 04 21 */	bctrl 
+/* 800B714C  4E 80 04 21 */	bctrl
 /* 800B7150  2C 03 00 03 */	cmpwi r3, 3
 /* 800B7154  40 82 04 5C */	bne 0x45c
 /* 800B7158  80 17 00 5C */	lwz r0, 0x5c(r23)
@@ -8489,7 +8488,7 @@
 /* 800B7630  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B7634  81 8C 00 48 */	lwz r12, 0x48(r12)
 /* 800B7638  7D 89 03 A6 */	mtctr r12
-/* 800B763C  4E 80 04 21 */	bctrl 
+/* 800B763C  4E 80 04 21 */	bctrl
 /* 800B7640  6C 60 80 00 */	xoris r0, r3, 0x8000
 /* 800B7644  90 01 01 B4 */	stw r0, 0x1b4(r1)
 /* 800B7648  92 C1 01 B0 */	stw r22, 0x1b0(r1)
@@ -8518,7 +8517,7 @@
 /* 800B76A4  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B76A8  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 800B76AC  7D 89 03 A6 */	mtctr r12
-/* 800B76B0  4E 80 04 21 */	bctrl 
+/* 800B76B0  4E 80 04 21 */	bctrl
 /* 800B76B4  7C 03 00 D0 */	neg r0, r3
 /* 800B76B8  92 C1 01 B0 */	stw r22, 0x1b0(r1)
 /* 800B76BC  6C 00 80 00 */	xoris r0, r0, 0x8000
@@ -8539,7 +8538,7 @@
 /* 800B76F8  38 61 00 48 */	addi r3, r1, 0x48
 /* 800B76FC  39 81 00 4C */	addi r12, r1, 0x4c
 /* 800B7700  4B F6 9D 51 */	bl -0x962b0
-/* 800B7704  60 00 00 00 */	nop 
+/* 800B7704  60 00 00 00 */	nop
 /* 800B7708  7C 7A 1B 78 */	mr r26, r3
 /* 800B770C  80 E1 00 48 */	lwz r7, 0x48(r1)
 /* 800B7710  7C 18 38 50 */	subf r0, r24, r7
@@ -8588,7 +8587,7 @@
 /* 800B77BC  80 01 02 84 */	lwz r0, 0x284(r1)
 /* 800B77C0  7C 08 03 A6 */	mtlr r0
 /* 800B77C4  38 21 02 80 */	addi r1, r1, 0x280
-/* 800B77C8  4E 80 00 20 */	blr 
+/* 800B77C8  4E 80 00 20 */	blr
 /* 800B77CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B77D0  94 21 FE 50 */	stwu r1, -0x1b0(r1)
 /* 800B77D4  7C 08 02 A6 */	mflr r0
@@ -9049,13 +9048,13 @@
 /* 800B7EF0  80 01 01 B4 */	lwz r0, 0x1b4(r1)
 /* 800B7EF4  7C 08 03 A6 */	mtlr r0
 /* 800B7EF8  38 21 01 B0 */	addi r1, r1, 0x1b0
-/* 800B7EFC  4E 80 00 20 */	blr 
+/* 800B7EFC  4E 80 00 20 */	blr
 /* 800B7F00  80 03 00 5C */	lwz r0, 0x5c(r3)
 /* 800B7F04  7C 00 20 38 */	and r0, r0, r4
 /* 800B7F08  7C 05 00 50 */	subf r0, r5, r0
 /* 800B7F0C  7C 00 00 34 */	cntlzw r0, r0
 /* 800B7F10  54 03 D9 7E */	srwi r3, r0, 5
-/* 800B7F14  4E 80 00 20 */	blr 
+/* 800B7F14  4E 80 00 20 */	blr
 /* 800B7F18  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B7F1C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B7F20  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -9080,7 +9079,7 @@
 /* 800B7F6C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B7F70  7C 08 03 A6 */	mtlr r0
 /* 800B7F74  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B7F78  4E 80 00 20 */	blr 
+/* 800B7F78  4E 80 00 20 */	blr
 /* 800B7F7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B7F80  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800B7F84  7C 08 02 A6 */	mflr r0
@@ -9103,7 +9102,7 @@
 /* 800B7FC8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800B7FCC  7C 08 03 A6 */	mtlr r0
 /* 800B7FD0  38 21 00 10 */	addi r1, r1, 0x10
-/* 800B7FD4  4E 80 00 20 */	blr 
+/* 800B7FD4  4E 80 00 20 */	blr
 /* 800B7FD8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B7FDC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B7FE0  94 21 FF D0 */	stwu r1, -0x30(r1)
@@ -9121,7 +9120,7 @@
 /* 800B8010  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B8014  81 8C 00 34 */	lwz r12, 0x34(r12)
 /* 800B8018  7D 89 03 A6 */	mtctr r12
-/* 800B801C  4E 80 04 21 */	bctrl 
+/* 800B801C  4E 80 04 21 */	bctrl
 /* 800B8020  48 00 00 08 */	b 0x8
 /* 800B8024  38 60 00 00 */	li r3, 0
 /* 800B8028  6C 63 80 00 */	xoris r3, r3, 0x8000
@@ -9141,7 +9140,7 @@
 /* 800B8060  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800B8064  7C 08 03 A6 */	mtlr r0
 /* 800B8068  38 21 00 30 */	addi r1, r1, 0x30
-/* 800B806C  4E 80 00 20 */	blr 
+/* 800B806C  4E 80 00 20 */	blr
 /* 800B8070  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B8074  7C 08 02 A6 */	mflr r0
 /* 800B8078  90 01 00 24 */	stw r0, 0x24(r1)
@@ -9154,7 +9153,7 @@
 /* 800B8094  81 83 00 00 */	lwz r12, 0(r3)
 /* 800B8098  81 8C 00 34 */	lwz r12, 0x34(r12)
 /* 800B809C  7D 89 03 A6 */	mtctr r12
-/* 800B80A0  4E 80 04 21 */	bctrl 
+/* 800B80A0  4E 80 04 21 */	bctrl
 /* 800B80A4  48 00 00 08 */	b 0x8
 /* 800B80A8  38 60 00 00 */	li r3, 0
 /* 800B80AC  6C 63 80 00 */	xoris r3, r3, 0x8000
@@ -9172,7 +9171,7 @@
 /* 800B80DC  EC 20 08 2A */	fadds f1, f0, f1
 /* 800B80E0  7C 08 03 A6 */	mtlr r0
 /* 800B80E4  38 21 00 20 */	addi r1, r1, 0x20
-/* 800B80E8  4E 80 00 20 */	blr 
+/* 800B80E8  4E 80 00 20 */	blr
 /* 800B80EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B80F0  94 21 FE 70 */	stwu r1, -0x190(r1)
 /* 800B80F4  7C 08 02 A6 */	mflr r0
@@ -9394,7 +9393,7 @@
 /* 800B8454  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B8458  7D 41 53 78 */	mr r1, r10
 /* 800B845C  7C 08 03 A6 */	mtlr r0
-/* 800B8460  4E 80 00 20 */	blr 
+/* 800B8460  4E 80 00 20 */	blr
 /* 800B8464  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B8468  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B846C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -9618,7 +9617,7 @@
 /* 800B87D4  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B87D8  7D 41 53 78 */	mr r1, r10
 /* 800B87DC  7C 08 03 A6 */	mtlr r0
-/* 800B87E0  4E 80 00 20 */	blr 
+/* 800B87E0  4E 80 00 20 */	blr
 /* 800B87E4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B87E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B87EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -9833,7 +9832,7 @@
 /* 800B8B30  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B8B34  7D 41 53 78 */	mr r1, r10
 /* 800B8B38  7C 08 03 A6 */	mtlr r0
-/* 800B8B3C  4E 80 00 20 */	blr 
+/* 800B8B3C  4E 80 00 20 */	blr
 /* 800B8B40  94 21 FE F0 */	stwu r1, -0x110(r1)
 /* 800B8B44  7C 08 02 A6 */	mflr r0
 /* 800B8B48  90 01 01 14 */	stw r0, 0x114(r1)
@@ -10021,7 +10020,7 @@
 /* 800B8E20  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B8E24  7D 41 53 78 */	mr r1, r10
 /* 800B8E28  7C 08 03 A6 */	mtlr r0
-/* 800B8E2C  4E 80 00 20 */	blr 
+/* 800B8E2C  4E 80 00 20 */	blr
 /* 800B8E30  94 21 FE F0 */	stwu r1, -0x110(r1)
 /* 800B8E34  7C 08 02 A6 */	mflr r0
 /* 800B8E38  90 01 01 14 */	stw r0, 0x114(r1)
@@ -10190,7 +10189,7 @@
 /* 800B90C4  80 01 01 14 */	lwz r0, 0x114(r1)
 /* 800B90C8  7C 08 03 A6 */	mtlr r0
 /* 800B90CC  38 21 01 10 */	addi r1, r1, 0x110
-/* 800B90D0  4E 80 00 20 */	blr 
+/* 800B90D0  4E 80 00 20 */	blr
 /* 800B90D4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B90D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B90DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -10362,7 +10361,7 @@
 /* 800B9374  80 01 01 14 */	lwz r0, 0x114(r1)
 /* 800B9378  7C 08 03 A6 */	mtlr r0
 /* 800B937C  38 21 01 10 */	addi r1, r1, 0x110
-/* 800B9380  4E 80 00 20 */	blr 
+/* 800B9380  4E 80 00 20 */	blr
 /* 800B9384  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B9388  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B938C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -10527,7 +10526,7 @@
 /* 800B9608  80 01 01 14 */	lwz r0, 0x114(r1)
 /* 800B960C  7C 08 03 A6 */	mtlr r0
 /* 800B9610  38 21 01 10 */	addi r1, r1, 0x110
-/* 800B9614  4E 80 00 20 */	blr 
+/* 800B9614  4E 80 00 20 */	blr
 /* 800B9618  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B961C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B9620  94 21 FF 00 */	stwu r1, -0x100(r1)
@@ -10713,7 +10712,7 @@
 /* 800B98F0  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B98F4  7D 41 53 78 */	mr r1, r10
 /* 800B98F8  7C 08 03 A6 */	mtlr r0
-/* 800B98FC  4E 80 00 20 */	blr 
+/* 800B98FC  4E 80 00 20 */	blr
 /* 800B9900  94 21 FF 70 */	stwu r1, -0x90(r1)
 /* 800B9904  7C 08 02 A6 */	mflr r0
 /* 800B9908  90 01 00 94 */	stw r0, 0x94(r1)
@@ -10872,7 +10871,7 @@
 /* 800B9B6C  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B9B70  7D 41 53 78 */	mr r1, r10
 /* 800B9B74  7C 08 03 A6 */	mtlr r0
-/* 800B9B78  4E 80 00 20 */	blr 
+/* 800B9B78  4E 80 00 20 */	blr
 /* 800B9B7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B9B80  94 21 FF 70 */	stwu r1, -0x90(r1)
 /* 800B9B84  7C 08 02 A6 */	mflr r0
@@ -11002,7 +11001,7 @@
 /* 800B9D74  80 01 00 94 */	lwz r0, 0x94(r1)
 /* 800B9D78  7C 08 03 A6 */	mtlr r0
 /* 800B9D7C  38 21 00 90 */	addi r1, r1, 0x90
-/* 800B9D80  4E 80 00 20 */	blr 
+/* 800B9D80  4E 80 00 20 */	blr
 /* 800B9D84  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B9D88  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B9D8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -11072,7 +11071,7 @@
 /* 800B9E8C  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B9E90  7D 41 53 78 */	mr r1, r10
 /* 800B9E94  7C 08 03 A6 */	mtlr r0
-/* 800B9E98  4E 80 00 20 */	blr 
+/* 800B9E98  4E 80 00 20 */	blr
 /* 800B9E9C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B9EA0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800B9EA4  7C 08 02 A6 */	mflr r0
@@ -11115,7 +11114,7 @@
 /* 800B9F38  80 0A 00 04 */	lwz r0, 4(r10)
 /* 800B9F3C  7D 41 53 78 */	mr r1, r10
 /* 800B9F40  7C 08 03 A6 */	mtlr r0
-/* 800B9F44  4E 80 00 20 */	blr 
+/* 800B9F44  4E 80 00 20 */	blr
 /* 800B9F48  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B9F4C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800B9F50  48 00 0A 00 */	b 0xa00
@@ -11260,7 +11259,7 @@
 /* 800BA17C  80 01 00 A4 */	lwz r0, 0xa4(r1)
 /* 800BA180  7C 08 03 A6 */	mtlr r0
 /* 800BA184  38 21 00 A0 */	addi r1, r1, 0xa0
-/* 800BA188  4E 80 00 20 */	blr 
+/* 800BA188  4E 80 00 20 */	blr
 /* 800BA18C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BA190  94 21 FE 20 */	stwu r1, -0x1e0(r1)
 /* 800BA194  7C 08 02 A6 */	mflr r0
@@ -11313,7 +11312,7 @@
 /* 800BA250  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BA254  81 8C 00 34 */	lwz r12, 0x34(r12)
 /* 800BA258  7D 89 03 A6 */	mtctr r12
-/* 800BA25C  4E 80 04 21 */	bctrl 
+/* 800BA25C  4E 80 04 21 */	bctrl
 /* 800BA260  48 00 00 08 */	b 0x8
 /* 800BA264  7E 83 A3 78 */	mr r3, r20
 /* 800BA268  6C 63 80 00 */	xoris r3, r3, 0x8000
@@ -11339,7 +11338,7 @@
 /* 800BA2B8  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BA2BC  81 8C 00 34 */	lwz r12, 0x34(r12)
 /* 800BA2C0  7D 89 03 A6 */	mtctr r12
-/* 800BA2C4  4E 80 04 21 */	bctrl 
+/* 800BA2C4  4E 80 04 21 */	bctrl
 /* 800BA2C8  48 00 00 08 */	b 0x8
 /* 800BA2CC  38 60 00 00 */	li r3, 0
 /* 800BA2D0  6C 63 80 00 */	xoris r3, r3, 0x8000
@@ -11372,7 +11371,7 @@
 /* 800BA33C  D0 01 00 74 */	stfs f0, 0x74(r1)
 /* 800BA340  92 A1 00 98 */	stw r21, 0x98(r1)
 /* 800BA344  4B F6 71 0D */	bl -0x98ef4
-/* 800BA348  60 00 00 00 */	nop 
+/* 800BA348  60 00 00 00 */	nop
 /* 800BA34C  C3 A2 93 64 */	lfs f29, -0x6c9c(r2)
 /* 800BA350  7C 79 1B 78 */	mr r25, r3
 /* 800BA354  CB C2 93 68 */	lfd f30, -0x6c98(r2)
@@ -11521,7 +11520,7 @@
 /* 800BA590  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BA594  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800BA598  7D 89 03 A6 */	mtctr r12
-/* 800BA59C  4E 80 04 21 */	bctrl 
+/* 800BA59C  4E 80 04 21 */	bctrl
 /* 800BA5A0  C0 21 00 80 */	lfs f1, 0x80(r1)
 /* 800BA5A4  C0 01 00 78 */	lfs f0, 0x78(r1)
 /* 800BA5A8  EC 01 00 28 */	fsubs f0, f1, f0
@@ -11550,7 +11549,7 @@
 /* 800BA604  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BA608  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800BA60C  7D 89 03 A6 */	mtctr r12
-/* 800BA610  4E 80 04 21 */	bctrl 
+/* 800BA610  4E 80 04 21 */	bctrl
 /* 800BA614  80 01 00 D0 */	lwz r0, 0xd0(r1)
 /* 800BA618  90 01 00 98 */	stw r0, 0x98(r1)
 /* 800BA61C  C0 21 00 88 */	lfs f1, 0x88(r1)
@@ -11617,7 +11616,7 @@
 /* 800BA710  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BA714  81 8C 00 48 */	lwz r12, 0x48(r12)
 /* 800BA718  7D 89 03 A6 */	mtctr r12
-/* 800BA71C  4E 80 04 21 */	bctrl 
+/* 800BA71C  4E 80 04 21 */	bctrl
 /* 800BA720  6C 60 80 00 */	xoris r0, r3, 0x8000
 /* 800BA724  90 01 01 54 */	stw r0, 0x154(r1)
 /* 800BA728  92 A1 01 50 */	stw r21, 0x150(r1)
@@ -11655,7 +11654,7 @@
 /* 800BA7A8  38 61 00 98 */	addi r3, r1, 0x98
 /* 800BA7AC  39 81 00 9C */	addi r12, r1, 0x9c
 /* 800BA7B0  4B F6 6C A1 */	bl -0x99360
-/* 800BA7B4  60 00 00 00 */	nop 
+/* 800BA7B4  60 00 00 00 */	nop
 /* 800BA7B8  7C 79 1B 78 */	mr r25, r3
 /* 800BA7BC  80 61 00 98 */	lwz r3, 0x98(r1)
 /* 800BA7C0  7C 03 F0 40 */	cmplw r3, r30
@@ -11678,12 +11677,12 @@
 /* 800BA804  80 01 01 E4 */	lwz r0, 0x1e4(r1)
 /* 800BA808  7C 08 03 A6 */	mtlr r0
 /* 800BA80C  38 21 01 E0 */	addi r1, r1, 0x1e0
-/* 800BA810  4E 80 00 20 */	blr 
+/* 800BA810  4E 80 00 20 */	blr
 /* 800BA814  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BA818  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BA81C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BA820  C0 23 00 50 */	lfs f1, 0x50(r3)
-/* 800BA824  4E 80 00 20 */	blr 
+/* 800BA824  4E 80 00 20 */	blr
 /* 800BA828  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BA82C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BA830  94 21 FF C0 */	stwu r1, -0x40(r1)
@@ -11757,7 +11756,7 @@
 /* 800BA940  83 A1 00 24 */	lwz r29, 0x24(r1)
 /* 800BA944  7C 08 03 A6 */	mtlr r0
 /* 800BA948  38 21 00 40 */	addi r1, r1, 0x40
-/* 800BA94C  4E 80 00 20 */	blr 
+/* 800BA94C  4E 80 00 20 */	blr
 /* 800BA950  94 21 FD 80 */	stwu r1, -0x280(r1)
 /* 800BA954  7C 08 02 A6 */	mflr r0
 /* 800BA958  90 01 02 84 */	stw r0, 0x284(r1)
@@ -11823,7 +11822,7 @@
 /* 800BAA48  38 61 00 48 */	addi r3, r1, 0x48
 /* 800BAA4C  39 81 00 4C */	addi r12, r1, 0x4c
 /* 800BAA50  4B F6 6A 01 */	bl -0x99600
-/* 800BAA54  60 00 00 00 */	nop 
+/* 800BAA54  60 00 00 00 */	nop
 /* 800BAA58  C3 A2 93 64 */	lfs f29, -0x6c9c(r2)
 /* 800BAA5C  7C 79 1B 78 */	mr r25, r3
 /* 800BAA60  C3 C2 93 70 */	lfs f30, -0x6c90(r2)
@@ -11966,7 +11965,7 @@
 /* 800BAC84  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BAC88  81 8C 00 10 */	lwz r12, 0x10(r12)
 /* 800BAC8C  7D 89 03 A6 */	mtctr r12
-/* 800BAC90  4E 80 04 21 */	bctrl 
+/* 800BAC90  4E 80 04 21 */	bctrl
 /* 800BAC94  C0 21 00 40 */	lfs f1, 0x40(r1)
 /* 800BAC98  C0 01 00 38 */	lfs f0, 0x38(r1)
 /* 800BAC9C  EC 01 00 28 */	fsubs f0, f1, f0
@@ -11993,7 +11992,7 @@
 /* 800BACF0  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BACF4  81 8C 00 0C */	lwz r12, 0xc(r12)
 /* 800BACF8  7D 89 03 A6 */	mtctr r12
-/* 800BACFC  4E 80 04 21 */	bctrl 
+/* 800BACFC  4E 80 04 21 */	bctrl
 /* 800BAD00  2C 03 00 03 */	cmpwi r3, 3
 /* 800BAD04  40 82 04 74 */	bne 0x474
 /* 800BAD08  80 16 00 5C */	lwz r0, 0x5c(r22)
@@ -12315,7 +12314,7 @@
 /* 800BB1F8  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BB1FC  81 8C 00 48 */	lwz r12, 0x48(r12)
 /* 800BB200  7D 89 03 A6 */	mtctr r12
-/* 800BB204  4E 80 04 21 */	bctrl 
+/* 800BB204  4E 80 04 21 */	bctrl
 /* 800BB208  6C 60 80 00 */	xoris r0, r3, 0x8000
 /* 800BB20C  90 01 01 B4 */	stw r0, 0x1b4(r1)
 /* 800BB210  93 E1 01 B0 */	stw r31, 0x1b0(r1)
@@ -12344,7 +12343,7 @@
 /* 800BB26C  81 83 00 00 */	lwz r12, 0(r3)
 /* 800BB270  81 8C 00 1C */	lwz r12, 0x1c(r12)
 /* 800BB274  7D 89 03 A6 */	mtctr r12
-/* 800BB278  4E 80 04 21 */	bctrl 
+/* 800BB278  4E 80 04 21 */	bctrl
 /* 800BB27C  7C 03 00 D0 */	neg r0, r3
 /* 800BB280  93 E1 01 B0 */	stw r31, 0x1b0(r1)
 /* 800BB284  6C 00 80 00 */	xoris r0, r0, 0x8000
@@ -12365,7 +12364,7 @@
 /* 800BB2C0  38 61 00 48 */	addi r3, r1, 0x48
 /* 800BB2C4  39 81 00 4C */	addi r12, r1, 0x4c
 /* 800BB2C8  4B F6 61 89 */	bl -0x99e78
-/* 800BB2CC  60 00 00 00 */	nop 
+/* 800BB2CC  60 00 00 00 */	nop
 /* 800BB2D0  7C 79 1B 78 */	mr r25, r3
 /* 800BB2D4  80 E1 00 48 */	lwz r7, 0x48(r1)
 /* 800BB2D8  7C 77 38 50 */	subf r3, r23, r7
@@ -12417,7 +12416,7 @@
 /* 800BB390  80 01 02 84 */	lwz r0, 0x284(r1)
 /* 800BB394  7C 08 03 A6 */	mtlr r0
 /* 800BB398  38 21 02 80 */	addi r1, r1, 0x280
-/* 800BB39C  4E 80 00 20 */	blr 
+/* 800BB39C  4E 80 00 20 */	blr
 /* 800BB3A0  94 21 FE 50 */	stwu r1, -0x1b0(r1)
 /* 800BB3A4  7C 08 02 A6 */	mflr r0
 /* 800BB3A8  90 01 01 B4 */	stw r0, 0x1b4(r1)
@@ -12877,13 +12876,13 @@
 /* 800BBAC0  80 01 01 B4 */	lwz r0, 0x1b4(r1)
 /* 800BBAC4  7C 08 03 A6 */	mtlr r0
 /* 800BBAC8  38 21 01 B0 */	addi r1, r1, 0x1b0
-/* 800BBACC  4E 80 00 20 */	blr 
+/* 800BBACC  4E 80 00 20 */	blr
 /* 800BBAD0  80 03 00 5C */	lwz r0, 0x5c(r3)
 /* 800BBAD4  7C 00 20 38 */	and r0, r0, r4
 /* 800BBAD8  7C 05 00 50 */	subf r0, r5, r0
 /* 800BBADC  7C 00 00 34 */	cntlzw r0, r0
 /* 800BBAE0  54 03 D9 7E */	srwi r3, r0, 5
-/* 800BBAE4  4E 80 00 20 */	blr 
+/* 800BBAE4  4E 80 00 20 */	blr
 /* 800BBAE8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BBAEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BBAF0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -12918,17 +12917,17 @@
 /* 800BBB64  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BBB68  7C 08 03 A6 */	mtlr r0
 /* 800BBB6C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BBB70  4E 80 00 20 */	blr 
+/* 800BBB70  4E 80 00 20 */	blr
 /* 800BBB74  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BBB78  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BBB7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BBB80  2C 03 00 00 */	cmpwi r3, 0
 /* 800BBB84  3C 60 00 05 */	lis r3, 5
 /* 800BBB88  38 63 CF 20 */	addi r3, r3, -12512
-/* 800BBB8C  4D 82 00 20 */	beqlr 
+/* 800BBB8C  4D 82 00 20 */	beqlr
 /* 800BBB90  3C 60 00 06 */	lis r3, 6
 /* 800BBB94  38 63 5F 20 */	addi r3, r3, 0x5f20
-/* 800BBB98  4E 80 00 20 */	blr 
+/* 800BBB98  4E 80 00 20 */	blr
 /* 800BBB9C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BBBA0  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800BBBA4  7C 08 02 A6 */	mflr r0
@@ -13147,7 +13146,7 @@
 /* 800BBEF8  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800BBEFC  7C 08 03 A6 */	mtlr r0
 /* 800BBF00  38 21 00 30 */	addi r1, r1, 0x30
-/* 800BBF04  4E 80 00 20 */	blr 
+/* 800BBF04  4E 80 00 20 */	blr
 /* 800BBF08  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BBF0C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BBF10  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -13189,7 +13188,7 @@
 /* 800BBFA0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BBFA4  7C 08 03 A6 */	mtlr r0
 /* 800BBFA8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BBFAC  4E 80 00 20 */	blr 
+/* 800BBFAC  4E 80 00 20 */	blr
 /* 800BBFB0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800BBFB4  7C 08 02 A6 */	mflr r0
 /* 800BBFB8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -13287,7 +13286,7 @@
 /* 800BC128  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BC12C  7C 08 03 A6 */	mtlr r0
 /* 800BC130  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BC134  4E 80 00 20 */	blr 
+/* 800BC134  4E 80 00 20 */	blr
 /* 800BC138  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC13C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC140  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -13426,7 +13425,7 @@
 /* 800BC354  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BC358  7C 08 03 A6 */	mtlr r0
 /* 800BC35C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BC360  4E 80 00 20 */	blr 
+/* 800BC360  4E 80 00 20 */	blr
 /* 800BC364  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC368  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC36C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -13434,7 +13433,7 @@
 /* 800BC374  7C 03 00 D0 */	neg r0, r3
 /* 800BC378  7C 00 1B 78 */	or r0, r0, r3
 /* 800BC37C  54 03 0F FE */	srwi r3, r0, 0x1f
-/* 800BC380  4E 80 00 20 */	blr 
+/* 800BC380  4E 80 00 20 */	blr
 /* 800BC384  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC388  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC38C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -13462,40 +13461,40 @@
 /* 800BC3E4  2C 03 00 00 */	cmpwi r3, 0
 /* 800BC3E8  40 82 00 0C */	bne 0xc
 /* 800BC3EC  38 60 00 00 */	li r3, 0
-/* 800BC3F0  4E 80 00 20 */	blr 
+/* 800BC3F0  4E 80 00 20 */	blr
 /* 800BC3F4  38 63 00 10 */	addi r3, r3, 0x10
-/* 800BC3F8  4E 80 00 20 */	blr 
+/* 800BC3F8  4E 80 00 20 */	blr
 /* 800BC3FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC400  80 6D 96 98 */	lwz r3, -0x6968(r13)
 /* 800BC404  2C 03 00 00 */	cmpwi r3, 0
 /* 800BC408  40 82 00 0C */	bne 0xc
 /* 800BC40C  38 60 00 00 */	li r3, 0
-/* 800BC410  4E 80 00 20 */	blr 
+/* 800BC410  4E 80 00 20 */	blr
 /* 800BC414  38 63 01 6C */	addi r3, r3, 0x16c
-/* 800BC418  4E 80 00 20 */	blr 
+/* 800BC418  4E 80 00 20 */	blr
 /* 800BC41C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC420  80 6D 96 98 */	lwz r3, -0x6968(r13)
 /* 800BC424  2C 03 00 00 */	cmpwi r3, 0
 /* 800BC428  40 82 00 0C */	bne 0xc
 /* 800BC42C  38 60 00 00 */	li r3, 0
-/* 800BC430  4E 80 00 20 */	blr 
+/* 800BC430  4E 80 00 20 */	blr
 /* 800BC434  38 63 00 C0 */	addi r3, r3, 0xc0
-/* 800BC438  4E 80 00 20 */	blr 
+/* 800BC438  4E 80 00 20 */	blr
 /* 800BC43C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC440  80 6D 96 98 */	lwz r3, -0x6968(r13)
 /* 800BC444  2C 03 00 00 */	cmpwi r3, 0
 /* 800BC448  40 82 00 0C */	bne 0xc
 /* 800BC44C  38 60 00 00 */	li r3, 0
-/* 800BC450  4E 80 00 20 */	blr 
+/* 800BC450  4E 80 00 20 */	blr
 /* 800BC454  80 63 1B 34 */	lwz r3, 0x1b34(r3)
-/* 800BC458  4E 80 00 20 */	blr 
+/* 800BC458  4E 80 00 20 */	blr
 /* 800BC45C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC460  80 8D 96 98 */	lwz r4, -0x6968(r13)
 /* 800BC464  90 64 1B 34 */	stw r3, 0x1b34(r4)
-/* 800BC468  4E 80 00 20 */	blr 
+/* 800BC468  4E 80 00 20 */	blr
 /* 800BC46C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC470  80 6D 96 98 */	lwz r3, -0x6968(r13)
-/* 800BC474  4E 80 00 20 */	blr 
+/* 800BC474  4E 80 00 20 */	blr
 /* 800BC478  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC47C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC480  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -13531,19 +13530,19 @@
 /* 800BC4F8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BC4FC  7C 08 03 A6 */	mtlr r0
 /* 800BC500  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BC504  4E 80 00 20 */	blr 
+/* 800BC504  4E 80 00 20 */	blr
 /* 800BC508  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC50C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC510  80 6D 96 98 */	lwz r3, -0x6968(r13)
 /* 800BC514  2C 03 00 00 */	cmpwi r3, 0
 /* 800BC518  40 82 00 0C */	bne 0xc
 /* 800BC51C  80 6D 96 9C */	lwz r3, -0x6964(r13)
-/* 800BC520  4E 80 00 20 */	blr 
+/* 800BC520  4E 80 00 20 */	blr
 /* 800BC524  41 82 00 0C */	beq 0xc
 /* 800BC528  80 63 1B 48 */	lwz r3, 0x1b48(r3)
-/* 800BC52C  4E 80 00 20 */	blr 
+/* 800BC52C  4E 80 00 20 */	blr
 /* 800BC530  38 60 00 00 */	li r3, 0
-/* 800BC534  4E 80 00 20 */	blr 
+/* 800BC534  4E 80 00 20 */	blr
 /* 800BC538  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC53C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC540  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -13584,17 +13583,17 @@
 /* 800BC5CC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BC5D0  7C 08 03 A6 */	mtlr r0
 /* 800BC5D4  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BC5D8  4E 80 00 20 */	blr 
+/* 800BC5D8  4E 80 00 20 */	blr
 /* 800BC5DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC5E0  80 8D 96 98 */	lwz r4, -0x6968(r13)
 /* 800BC5E4  2C 04 00 00 */	cmpwi r4, 0
 /* 800BC5E8  40 82 00 0C */	bne 0xc
 /* 800BC5EC  38 60 00 00 */	li r3, 0
-/* 800BC5F0  4E 80 00 20 */	blr 
+/* 800BC5F0  4E 80 00 20 */	blr
 /* 800BC5F4  1C 03 01 E0 */	mulli r0, r3, 0x1e0
 /* 800BC5F8  7C 64 02 14 */	add r3, r4, r0
 /* 800BC5FC  38 63 1B 50 */	addi r3, r3, 0x1b50
-/* 800BC600  4E 80 00 20 */	blr 
+/* 800BC600  4E 80 00 20 */	blr
 /* 800BC604  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC608  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC60C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -13602,36 +13601,36 @@
 /* 800BC614  2C 03 00 00 */	cmpwi r3, 0
 /* 800BC618  40 82 00 0C */	bne 0xc
 /* 800BC61C  38 60 00 00 */	li r3, 0
-/* 800BC620  4E 80 00 20 */	blr 
+/* 800BC620  4E 80 00 20 */	blr
 /* 800BC624  38 63 1A AC */	addi r3, r3, 0x1aac
-/* 800BC628  4E 80 00 20 */	blr 
+/* 800BC628  4E 80 00 20 */	blr
 /* 800BC62C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC630  80 6D 96 98 */	lwz r3, -0x6968(r13)
 /* 800BC634  2C 03 00 00 */	cmpwi r3, 0
 /* 800BC638  40 82 00 0C */	bne 0xc
 /* 800BC63C  38 60 00 00 */	li r3, 0
-/* 800BC640  4E 80 00 20 */	blr 
+/* 800BC640  4E 80 00 20 */	blr
 /* 800BC644  80 63 1B 38 */	lwz r3, 0x1b38(r3)
-/* 800BC648  4E 80 00 20 */	blr 
+/* 800BC648  4E 80 00 20 */	blr
 /* 800BC64C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC650  80 6D 96 98 */	lwz r3, -0x6968(r13)
 /* 800BC654  2C 03 00 00 */	cmpwi r3, 0
 /* 800BC658  40 82 00 0C */	bne 0xc
 /* 800BC65C  38 60 00 00 */	li r3, 0
-/* 800BC660  4E 80 00 20 */	blr 
+/* 800BC660  4E 80 00 20 */	blr
 /* 800BC664  80 63 1B 48 */	lwz r3, 0x1b48(r3)
-/* 800BC668  4E 80 00 20 */	blr 
+/* 800BC668  4E 80 00 20 */	blr
 /* 800BC66C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC670  80 AD 96 98 */	lwz r5, -0x6968(r13)
 /* 800BC674  2C 05 00 00 */	cmpwi r5, 0
-/* 800BC678  4D 82 00 20 */	beqlr 
+/* 800BC678  4D 82 00 20 */	beqlr
 /* 800BC67C  38 00 00 01 */	li r0, 1
 /* 800BC680  88 85 1B 3C */	lbz r4, 0x1b3c(r5)
 /* 800BC684  7C 00 18 30 */	slw r0, r0, r3
 /* 800BC688  54 00 06 3E */	clrlwi r0, r0, 0x18
 /* 800BC68C  7C 80 03 78 */	or r0, r4, r0
 /* 800BC690  98 05 1B 3C */	stb r0, 0x1b3c(r5)
-/* 800BC694  4E 80 00 20 */	blr 
+/* 800BC694  4E 80 00 20 */	blr
 /* 800BC698  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC69C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC6A0  80 6D 96 98 */	lwz r3, -0x6968(r13)
@@ -13641,7 +13640,7 @@
 /* 800BC6B0  38 83 1B 3C */	addi r4, r3, 0x1b3c
 /* 800BC6B4  88 04 00 00 */	lbz r0, 0(r4)
 /* 800BC6B8  54 03 07 FE */	clrlwi r3, r0, 0x1f
-/* 800BC6BC  4E 80 00 20 */	blr 
+/* 800BC6BC  4E 80 00 20 */	blr
 /* 800BC6C0  80 6D 96 98 */	lwz r3, -0x6968(r13)
 /* 800BC6C4  38 8D 96 A0 */	addi r4, r13, -26976
 /* 800BC6C8  2C 03 00 00 */	cmpwi r3, 0
@@ -13649,10 +13648,10 @@
 /* 800BC6D0  38 83 1B 3C */	addi r4, r3, 0x1b3c
 /* 800BC6D4  88 04 00 00 */	lbz r0, 0(r4)
 /* 800BC6D8  54 03 FF FE */	rlwinm r3, r0, 0x1f, 0x1f, 0x1f
-/* 800BC6DC  4E 80 00 20 */	blr 
+/* 800BC6DC  4E 80 00 20 */	blr
 /* 800BC6E0  3C 60 80 27 */	lis r3, 0x8027
 /* 800BC6E4  38 63 4F 78 */	addi r3, r3, 0x4f78
-/* 800BC6E8  4E 80 00 20 */	blr 
+/* 800BC6E8  4E 80 00 20 */	blr
 /* 800BC6EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC6F0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800BC6F4  7C 08 02 A6 */	mflr r0
@@ -13722,7 +13721,7 @@
 /* 800BC7F4  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BC7F8  7C 08 03 A6 */	mtlr r0
 /* 800BC7FC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BC800  4E 80 00 20 */	blr 
+/* 800BC800  4E 80 00 20 */	blr
 /* 800BC804  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC808  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC80C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -13819,7 +13818,7 @@
 /* 800BC978  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800BC97C  7C 08 03 A6 */	mtlr r0
 /* 800BC980  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BC984  4E 80 00 20 */	blr 
+/* 800BC984  4E 80 00 20 */	blr
 /* 800BC988  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC98C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BC990  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -13892,7 +13891,7 @@
 /* 800BCA9C  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800BCAA0  7C 08 03 A6 */	mtlr r0
 /* 800BCAA4  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BCAA8  4E 80 00 20 */	blr 
+/* 800BCAA8  4E 80 00 20 */	blr
 /* 800BCAAC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BCAB0  4B FF F5 00 */	b -0xb00
 /* 800BCAB4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -13955,7 +13954,7 @@
 /* 800BCB98  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800BCB9C  7C 08 03 A6 */	mtlr r0
 /* 800BCBA0  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BCBA4  4E 80 00 20 */	blr 
+/* 800BCBA4  4E 80 00 20 */	blr
 /* 800BCBA8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BCBAC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BCBB0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -13997,7 +13996,7 @@
 /* 800BCC40  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800BCC44  7C 08 03 A6 */	mtlr r0
 /* 800BCC48  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BCC4C  4E 80 00 20 */	blr 
+/* 800BCC4C  4E 80 00 20 */	blr
 /* 800BCC50  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800BCC54  7C 08 02 A6 */	mflr r0
 /* 800BCC58  90 01 00 14 */	stw r0, 0x14(r1)
@@ -14024,7 +14023,7 @@
 /* 800BCCAC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BCCB0  7C 08 03 A6 */	mtlr r0
 /* 800BCCB4  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BCCB8  4E 80 00 20 */	blr 
+/* 800BCCB8  4E 80 00 20 */	blr
 /* 800BCCBC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BCCC0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800BCCC4  7C 08 02 A6 */	mflr r0
@@ -14062,7 +14061,7 @@
 /* 800BCD44  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BCD48  7C 08 03 A6 */	mtlr r0
 /* 800BCD4C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BCD50  4E 80 00 20 */	blr 
+/* 800BCD50  4E 80 00 20 */	blr
 /* 800BCD54  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BCD58  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BCD5C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -14162,7 +14161,7 @@
 /* 800BCED4  80 01 00 B4 */	lwz r0, 0xb4(r1)
 /* 800BCED8  7C 08 03 A6 */	mtlr r0
 /* 800BCEDC  38 21 00 B0 */	addi r1, r1, 0xb0
-/* 800BCEE0  4E 80 00 20 */	blr 
+/* 800BCEE0  4E 80 00 20 */	blr
 /* 800BCEE4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BCEE8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BCEEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -14256,7 +14255,7 @@
 /* 800BD04C  80 01 00 B4 */	lwz r0, 0xb4(r1)
 /* 800BD050  7C 08 03 A6 */	mtlr r0
 /* 800BD054  38 21 00 B0 */	addi r1, r1, 0xb0
-/* 800BD058  4E 80 00 20 */	blr 
+/* 800BD058  4E 80 00 20 */	blr
 /* 800BD05C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD060  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BD064  7C 08 02 A6 */	mflr r0
@@ -14330,7 +14329,7 @@
 /* 800BD174  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BD178  7C 08 03 A6 */	mtlr r0
 /* 800BD17C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BD180  4E 80 00 20 */	blr 
+/* 800BD180  4E 80 00 20 */	blr
 /* 800BD184  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD188  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD18C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -14424,7 +14423,7 @@
 /* 800BD2EC  80 01 00 B4 */	lwz r0, 0xb4(r1)
 /* 800BD2F0  7C 08 03 A6 */	mtlr r0
 /* 800BD2F4  38 21 00 B0 */	addi r1, r1, 0xb0
-/* 800BD2F8  4E 80 00 20 */	blr 
+/* 800BD2F8  4E 80 00 20 */	blr
 /* 800BD2FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD300  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BD304  7C 08 02 A6 */	mflr r0
@@ -14498,7 +14497,7 @@
 /* 800BD414  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BD418  7C 08 03 A6 */	mtlr r0
 /* 800BD41C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BD420  4E 80 00 20 */	blr 
+/* 800BD420  4E 80 00 20 */	blr
 /* 800BD424  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD428  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD42C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -14592,7 +14591,7 @@
 /* 800BD58C  80 01 00 B4 */	lwz r0, 0xb4(r1)
 /* 800BD590  7C 08 03 A6 */	mtlr r0
 /* 800BD594  38 21 00 B0 */	addi r1, r1, 0xb0
-/* 800BD598  4E 80 00 20 */	blr 
+/* 800BD598  4E 80 00 20 */	blr
 /* 800BD59C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD5A0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BD5A4  7C 08 02 A6 */	mflr r0
@@ -14666,7 +14665,7 @@
 /* 800BD6B4  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BD6B8  7C 08 03 A6 */	mtlr r0
 /* 800BD6BC  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BD6C0  4E 80 00 20 */	blr 
+/* 800BD6C0  4E 80 00 20 */	blr
 /* 800BD6C4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD6C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD6CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -14696,7 +14695,7 @@
 /* 800BD72C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BD730  7C 08 03 A6 */	mtlr r0
 /* 800BD734  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BD738  4E 80 00 20 */	blr 
+/* 800BD738  4E 80 00 20 */	blr
 /* 800BD73C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD740  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800BD744  7C 08 02 A6 */	mflr r0
@@ -14715,7 +14714,7 @@
 /* 800BD778  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BD77C  7C 08 03 A6 */	mtlr r0
 /* 800BD780  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BD784  4E 80 00 20 */	blr 
+/* 800BD784  4E 80 00 20 */	blr
 /* 800BD788  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD78C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD790  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -14748,7 +14747,7 @@
 /* 800BD7FC  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800BD800  7C 08 03 A6 */	mtlr r0
 /* 800BD804  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BD808  4E 80 00 20 */	blr 
+/* 800BD808  4E 80 00 20 */	blr
 /* 800BD80C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD810  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800BD814  7C 08 02 A6 */	mflr r0
@@ -14766,7 +14765,7 @@
 /* 800BD844  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800BD848  7C 08 03 A6 */	mtlr r0
 /* 800BD84C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BD850  4E 80 00 20 */	blr 
+/* 800BD850  4E 80 00 20 */	blr
 /* 800BD854  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD858  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD85C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -14793,7 +14792,7 @@
 /* 800BD8B0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800BD8B4  7C 08 03 A6 */	mtlr r0
 /* 800BD8B8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BD8BC  4E 80 00 20 */	blr 
+/* 800BD8BC  4E 80 00 20 */	blr
 /* 800BD8C0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BD8C4  7C 08 02 A6 */	mflr r0
 /* 800BD8C8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -14824,7 +14823,7 @@
 /* 800BD92C  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800BD930  7C 08 03 A6 */	mtlr r0
 /* 800BD934  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BD938  4E 80 00 20 */	blr 
+/* 800BD938  4E 80 00 20 */	blr
 /* 800BD93C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD940  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800BD944  7C 08 02 A6 */	mflr r0
@@ -14854,7 +14853,7 @@
 /* 800BD9A4  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800BD9A8  7C 08 03 A6 */	mtlr r0
 /* 800BD9AC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BD9B0  4E 80 00 20 */	blr 
+/* 800BD9B0  4E 80 00 20 */	blr
 /* 800BD9B4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD9B8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BD9BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -14872,12 +14871,12 @@
 /* 800BD9EC  81 83 01 CC */	lwz r12, 0x1cc(r3)
 /* 800BD9F0  80 7F 00 00 */	lwz r3, 0(r31)
 /* 800BD9F4  7D 89 03 A6 */	mtctr r12
-/* 800BD9F8  4E 80 04 21 */	bctrl 
+/* 800BD9F8  4E 80 04 21 */	bctrl
 /* 800BD9FC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800BDA00  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800BDA04  7C 08 03 A6 */	mtlr r0
 /* 800BDA08  38 21 00 10 */	addi r1, r1, 0x10
-/* 800BDA0C  4E 80 00 20 */	blr 
+/* 800BDA0C  4E 80 00 20 */	blr
 /* 800BDA10  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BDA14  7C 08 02 A6 */	mflr r0
 /* 800BDA18  90 01 00 24 */	stw r0, 0x24(r1)
@@ -14899,7 +14898,7 @@
 /* 800BDA58  38 84 50 18 */	addi r4, r4, 0x5018
 /* 800BDA5C  7C 84 00 2E */	lwzx r4, r4, r0
 /* 800BDA60  7C 89 03 A6 */	mtctr r4
-/* 800BDA64  4E 80 04 20 */	bctr 
+/* 800BDA64  4E 80 04 20 */	bctr
 /* 800BDA68  38 00 00 01 */	li r0, 1
 /* 800BDA6C  98 03 01 D8 */	stb r0, 0x1d8(r3)
 /* 800BDA70  4B FF EA 01 */	bl -0x1600
@@ -15029,13 +15028,13 @@
 /* 800BDC60  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BDC64  41 82 00 0C */	beq 0xc
 /* 800BDC68  7D 89 03 A6 */	mtctr r12
-/* 800BDC6C  4E 80 04 21 */	bctrl 
+/* 800BDC6C  4E 80 04 21 */	bctrl
 /* 800BDC70  39 61 00 20 */	addi r11, r1, 0x20
 /* 800BDC74  4B F6 39 79 */	bl -0x9c688
 /* 800BDC78  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BDC7C  7C 08 03 A6 */	mtlr r0
 /* 800BDC80  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BDC84  4E 80 00 20 */	blr 
+/* 800BDC84  4E 80 00 20 */	blr
 /* 800BDC88  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BDC8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BDC90  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -15182,13 +15181,13 @@
 /* 800BDEC4  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BDEC8  41 82 00 0C */	beq 0xc
 /* 800BDECC  7D 89 03 A6 */	mtctr r12
-/* 800BDED0  4E 80 04 21 */	bctrl 
+/* 800BDED0  4E 80 04 21 */	bctrl
 /* 800BDED4  39 61 00 20 */	addi r11, r1, 0x20
 /* 800BDED8  4B F6 37 15 */	bl -0x9c8ec
 /* 800BDEDC  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BDEE0  7C 08 03 A6 */	mtlr r0
 /* 800BDEE4  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BDEE8  4E 80 00 20 */	blr 
+/* 800BDEE8  4E 80 00 20 */	blr
 /* 800BDEEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BDEF0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BDEF4  7C 08 02 A6 */	mflr r0
@@ -15332,13 +15331,13 @@
 /* 800BE11C  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BE120  41 82 00 0C */	beq 0xc
 /* 800BE124  7D 89 03 A6 */	mtctr r12
-/* 800BE128  4E 80 04 21 */	bctrl 
+/* 800BE128  4E 80 04 21 */	bctrl
 /* 800BE12C  39 61 00 20 */	addi r11, r1, 0x20
 /* 800BE130  4B F6 34 BD */	bl -0x9cb44
 /* 800BE134  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BE138  7C 08 03 A6 */	mtlr r0
 /* 800BE13C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BE140  4E 80 00 20 */	blr 
+/* 800BE140  4E 80 00 20 */	blr
 /* 800BE144  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BE148  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BE14C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -15551,7 +15550,7 @@
 /* 800BE488  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800BE48C  7C 08 03 A6 */	mtlr r0
 /* 800BE490  38 21 00 30 */	addi r1, r1, 0x30
-/* 800BE494  4E 80 00 20 */	blr 
+/* 800BE494  4E 80 00 20 */	blr
 /* 800BE498  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BE49C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BE4A0  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -15681,13 +15680,13 @@
 /* 800BE690  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BE694  41 82 00 0C */	beq 0xc
 /* 800BE698  7D 89 03 A6 */	mtctr r12
-/* 800BE69C  4E 80 04 21 */	bctrl 
+/* 800BE69C  4E 80 04 21 */	bctrl
 /* 800BE6A0  39 61 00 20 */	addi r11, r1, 0x20
 /* 800BE6A4  4B F6 2F 49 */	bl -0x9d0b8
 /* 800BE6A8  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BE6AC  7C 08 03 A6 */	mtlr r0
 /* 800BE6B0  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BE6B4  4E 80 00 20 */	blr 
+/* 800BE6B4  4E 80 00 20 */	blr
 /* 800BE6B8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BE6BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BE6C0  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -15842,13 +15841,13 @@
 /* 800BE914  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BE918  41 82 00 0C */	beq 0xc
 /* 800BE91C  7D 89 03 A6 */	mtctr r12
-/* 800BE920  4E 80 04 21 */	bctrl 
+/* 800BE920  4E 80 04 21 */	bctrl
 /* 800BE924  39 61 00 20 */	addi r11, r1, 0x20
 /* 800BE928  4B F6 2C C5 */	bl -0x9d33c
 /* 800BE92C  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BE930  7C 08 03 A6 */	mtlr r0
 /* 800BE934  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BE938  4E 80 00 20 */	blr 
+/* 800BE938  4E 80 00 20 */	blr
 /* 800BE93C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BE940  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800BE944  7C 08 02 A6 */	mflr r0
@@ -15950,7 +15949,7 @@
 /* 800BEAC4  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800BEAC8  7C 08 03 A6 */	mtlr r0
 /* 800BEACC  38 21 00 30 */	addi r1, r1, 0x30
-/* 800BEAD0  4E 80 00 20 */	blr 
+/* 800BEAD0  4E 80 00 20 */	blr
 /* 800BEAD4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BEAD8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BEADC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -16095,7 +16094,7 @@
 /* 800BED08  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BED0C  41 82 00 0C */	beq 0xc
 /* 800BED10  7D 89 03 A6 */	mtctr r12
-/* 800BED14  4E 80 04 21 */	bctrl 
+/* 800BED14  4E 80 04 21 */	bctrl
 /* 800BED18  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BED1C  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800BED20  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -16103,7 +16102,7 @@
 /* 800BED28  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800BED2C  7C 08 03 A6 */	mtlr r0
 /* 800BED30  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BED34  4E 80 00 20 */	blr 
+/* 800BED34  4E 80 00 20 */	blr
 /* 800BED38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BED3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BED40  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -16259,13 +16258,13 @@
 /* 800BEF98  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BEF9C  41 82 00 0C */	beq 0xc
 /* 800BEFA0  7D 89 03 A6 */	mtctr r12
-/* 800BEFA4  4E 80 04 21 */	bctrl 
+/* 800BEFA4  4E 80 04 21 */	bctrl
 /* 800BEFA8  39 61 00 20 */	addi r11, r1, 0x20
 /* 800BEFAC  4B F6 26 41 */	bl -0x9d9c0
 /* 800BEFB0  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BEFB4  7C 08 03 A6 */	mtlr r0
 /* 800BEFB8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BEFBC  4E 80 00 20 */	blr 
+/* 800BEFBC  4E 80 00 20 */	blr
 /* 800BEFC0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BEFC4  7C 08 02 A6 */	mflr r0
 /* 800BEFC8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -16401,7 +16400,7 @@
 /* 800BF1D0  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800BF1D4  7C 08 03 A6 */	mtlr r0
 /* 800BF1D8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BF1DC  4E 80 00 20 */	blr 
+/* 800BF1DC  4E 80 00 20 */	blr
 /* 800BF1E0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BF1E4  7C 08 02 A6 */	mflr r0
 /* 800BF1E8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -16623,13 +16622,13 @@
 /* 800BF548  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BF54C  41 82 00 0C */	beq 0xc
 /* 800BF550  7D 89 03 A6 */	mtctr r12
-/* 800BF554  4E 80 04 21 */	bctrl 
+/* 800BF554  4E 80 04 21 */	bctrl
 /* 800BF558  39 61 00 20 */	addi r11, r1, 0x20
 /* 800BF55C  4B F6 20 8D */	bl -0x9df74
 /* 800BF560  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BF564  7C 08 03 A6 */	mtlr r0
 /* 800BF568  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BF56C  4E 80 00 20 */	blr 
+/* 800BF56C  4E 80 00 20 */	blr
 /* 800BF570  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800BF574  7C 08 02 A6 */	mflr r0
 /* 800BF578  90 01 00 34 */	stw r0, 0x34(r1)
@@ -16759,7 +16758,7 @@
 /* 800BF768  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800BF76C  7C 08 03 A6 */	mtlr r0
 /* 800BF770  38 21 00 30 */	addi r1, r1, 0x30
-/* 800BF774  4E 80 00 20 */	blr 
+/* 800BF774  4E 80 00 20 */	blr
 /* 800BF778  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BF77C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BF780  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -16839,7 +16838,7 @@
 /* 800BF8A8  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BF8AC  41 82 00 0C */	beq 0xc
 /* 800BF8B0  7D 89 03 A6 */	mtctr r12
-/* 800BF8B4  4E 80 04 21 */	bctrl 
+/* 800BF8B4  4E 80 04 21 */	bctrl
 /* 800BF8B8  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BF8BC  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800BF8C0  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -16847,7 +16846,7 @@
 /* 800BF8C8  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800BF8CC  7C 08 03 A6 */	mtlr r0
 /* 800BF8D0  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BF8D4  4E 80 00 20 */	blr 
+/* 800BF8D4  4E 80 00 20 */	blr
 /* 800BF8D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BF8DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BF8E0  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -16948,7 +16947,7 @@
 /* 800BFA5C  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BFA60  7C 08 03 A6 */	mtlr r0
 /* 800BFA64  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BFA68  4E 80 00 20 */	blr 
+/* 800BFA68  4E 80 00 20 */	blr
 /* 800BFA6C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BFA70  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BFA74  7C 08 02 A6 */	mflr r0
@@ -17025,7 +17024,7 @@
 /* 800BFB90  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BFB94  41 82 00 0C */	beq 0xc
 /* 800BFB98  7D 89 03 A6 */	mtctr r12
-/* 800BFB9C  4E 80 04 21 */	bctrl 
+/* 800BFB9C  4E 80 04 21 */	bctrl
 /* 800BFBA0  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BFBA4  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800BFBA8  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -17033,7 +17032,7 @@
 /* 800BFBB0  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800BFBB4  7C 08 03 A6 */	mtlr r0
 /* 800BFBB8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BFBBC  4E 80 00 20 */	blr 
+/* 800BFBBC  4E 80 00 20 */	blr
 /* 800BFBC0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800BFBC4  7C 08 02 A6 */	mflr r0
 /* 800BFBC8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -17127,7 +17126,7 @@
 /* 800BFD28  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BFD2C  7C 08 03 A6 */	mtlr r0
 /* 800BFD30  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BFD34  4E 80 00 20 */	blr 
+/* 800BFD34  4E 80 00 20 */	blr
 /* 800BFD38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BFD3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BFD40  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -17210,7 +17209,7 @@
 /* 800BFE74  2C 0C 00 00 */	cmpwi r12, 0
 /* 800BFE78  41 82 00 0C */	beq 0xc
 /* 800BFE7C  7D 89 03 A6 */	mtctr r12
-/* 800BFE80  4E 80 04 21 */	bctrl 
+/* 800BFE80  4E 80 04 21 */	bctrl
 /* 800BFE84  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800BFE88  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800BFE8C  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -17218,7 +17217,7 @@
 /* 800BFE94  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800BFE98  7C 08 03 A6 */	mtlr r0
 /* 800BFE9C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800BFEA0  4E 80 00 20 */	blr 
+/* 800BFEA0  4E 80 00 20 */	blr
 /* 800BFEA4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BFEA8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800BFEAC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -17329,7 +17328,7 @@
 /* 800C0050  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C0054  7C 08 03 A6 */	mtlr r0
 /* 800C0058  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C005C  4E 80 00 20 */	blr 
+/* 800C005C  4E 80 00 20 */	blr
 /* 800C0060  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C0064  7C 08 02 A6 */	mflr r0
 /* 800C0068  90 01 00 24 */	stw r0, 0x24(r1)
@@ -17413,7 +17412,7 @@
 /* 800C01A0  2C 0C 00 00 */	cmpwi r12, 0
 /* 800C01A4  41 82 00 0C */	beq 0xc
 /* 800C01A8  7D 89 03 A6 */	mtctr r12
-/* 800C01AC  4E 80 04 21 */	bctrl 
+/* 800C01AC  4E 80 04 21 */	bctrl
 /* 800C01B0  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C01B4  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800C01B8  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -17421,7 +17420,7 @@
 /* 800C01C0  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800C01C4  7C 08 03 A6 */	mtlr r0
 /* 800C01C8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C01CC  4E 80 00 20 */	blr 
+/* 800C01CC  4E 80 00 20 */	blr
 /* 800C01D0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C01D4  7C 08 02 A6 */	mflr r0
 /* 800C01D8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -17558,7 +17557,7 @@
 /* 800C03E4  2C 0C 00 00 */	cmpwi r12, 0
 /* 800C03E8  41 82 00 0C */	beq 0xc
 /* 800C03EC  7D 89 03 A6 */	mtctr r12
-/* 800C03F0  4E 80 04 21 */	bctrl 
+/* 800C03F0  4E 80 04 21 */	bctrl
 /* 800C03F4  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C03F8  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800C03FC  83 C1 00 18 */	lwz r30, 0x18(r1)
@@ -17566,7 +17565,7 @@
 /* 800C0404  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800C0408  7C 08 03 A6 */	mtlr r0
 /* 800C040C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C0410  4E 80 00 20 */	blr 
+/* 800C0410  4E 80 00 20 */	blr
 /* 800C0414  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0418  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C041C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -17669,7 +17668,7 @@
 /* 800C05A0  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800C05A4  7C 08 03 A6 */	mtlr r0
 /* 800C05A8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C05AC  4E 80 00 20 */	blr 
+/* 800C05AC  4E 80 00 20 */	blr
 /* 800C05B0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C05B4  7C 08 02 A6 */	mflr r0
 /* 800C05B8  38 A0 00 01 */	li r5, 1
@@ -17724,7 +17723,7 @@
 /* 800C067C  38 63 82 60 */	addi r3, r3, -32160
 /* 800C0680  7C 08 03 A6 */	mtlr r0
 /* 800C0684  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C0688  4E 80 00 20 */	blr 
+/* 800C0688  4E 80 00 20 */	blr
 /* 800C068C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0690  94 21 FF 90 */	stwu r1, -0x70(r1)
 /* 800C0694  7C 08 02 A6 */	mflr r0
@@ -17752,7 +17751,7 @@
 /* 800C06EC  80 01 00 74 */	lwz r0, 0x74(r1)
 /* 800C06F0  7C 08 03 A6 */	mtlr r0
 /* 800C06F4  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C06F8  4E 80 00 20 */	blr 
+/* 800C06F8  4E 80 00 20 */	blr
 /* 800C06FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0700  94 21 FF A0 */	stwu r1, -0x60(r1)
 /* 800C0704  7C 08 02 A6 */	mflr r0
@@ -17972,7 +17971,7 @@
 /* 800C0A5C  80 01 00 64 */	lwz r0, 0x64(r1)
 /* 800C0A60  7C 08 03 A6 */	mtlr r0
 /* 800C0A64  38 21 00 60 */	addi r1, r1, 0x60
-/* 800C0A68  4E 80 00 20 */	blr 
+/* 800C0A68  4E 80 00 20 */	blr
 /* 800C0A6C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0A70  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C0A74  7C 08 02 A6 */	mflr r0
@@ -17992,17 +17991,17 @@
 /* 800C0AAC  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C0AB0  7C 08 03 A6 */	mtlr r0
 /* 800C0AB4  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C0AB8  4E 80 00 20 */	blr 
+/* 800C0AB8  4E 80 00 20 */	blr
 /* 800C0ABC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0AC0  90 83 00 60 */	stw r4, 0x60(r3)
-/* 800C0AC4  4E 80 00 20 */	blr 
+/* 800C0AC4  4E 80 00 20 */	blr
 /* 800C0AC8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0ACC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0AD0  3C 80 80 25 */	lis r4, 0x8025
 /* 800C0AD4  54 60 10 3A */	slwi r0, r3, 2
 /* 800C0AD8  38 84 B9 20 */	addi r4, r4, -18144
 /* 800C0ADC  7C 64 00 2E */	lwzx r3, r4, r0
-/* 800C0AE0  4E 80 00 20 */	blr 
+/* 800C0AE0  4E 80 00 20 */	blr
 /* 800C0AE4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0AE8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0AEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -18016,7 +18015,7 @@
 /* 800C0B0C  54 80 10 3A */	slwi r0, r4, 2
 /* 800C0B10  38 63 B8 B0 */	addi r3, r3, -18256
 /* 800C0B14  7C 63 00 2E */	lwzx r3, r3, r0
-/* 800C0B18  4E 80 00 20 */	blr 
+/* 800C0B18  4E 80 00 20 */	blr
 /* 800C0B1C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0B20  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C0B24  7C 08 02 A6 */	mflr r0
@@ -18202,7 +18201,7 @@
 /* 800C0DF4  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800C0DF8  7C 08 03 A6 */	mtlr r0
 /* 800C0DFC  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C0E00  4E 80 00 20 */	blr 
+/* 800C0E00  4E 80 00 20 */	blr
 /* 800C0E04  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0E08  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C0E0C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -18253,7 +18252,7 @@
 /* 800C0EC0  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C0EC4  7C 08 03 A6 */	mtlr r0
 /* 800C0EC8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C0ECC  4E 80 00 20 */	blr 
+/* 800C0ECC  4E 80 00 20 */	blr
 /* 800C0ED0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C0ED4  7C 08 02 A6 */	mflr r0
 /* 800C0ED8  38 80 00 00 */	li r4, 0
@@ -18301,7 +18300,7 @@
 /* 800C0F80  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C0F84  7C 08 03 A6 */	mtlr r0
 /* 800C0F88  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C0F8C  4E 80 00 20 */	blr 
+/* 800C0F8C  4E 80 00 20 */	blr
 /* 800C0F90  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800C0F94  7C 08 02 A6 */	mflr r0
 /* 800C0F98  38 A0 00 07 */	li r5, 7
@@ -18624,7 +18623,7 @@
 /* 800C148C  83 81 00 20 */	lwz r28, 0x20(r1)
 /* 800C1490  7C 08 03 A6 */	mtlr r0
 /* 800C1494  38 21 00 30 */	addi r1, r1, 0x30
-/* 800C1498  4E 80 00 20 */	blr 
+/* 800C1498  4E 80 00 20 */	blr
 /* 800C149C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C14A0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C14A4  7C 08 02 A6 */	mflr r0
@@ -18786,7 +18785,7 @@
 /* 800C1714  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800C1718  7C 08 03 A6 */	mtlr r0
 /* 800C171C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C1720  4E 80 00 20 */	blr 
+/* 800C1720  4E 80 00 20 */	blr
 /* 800C1724  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C1728  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C172C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -19239,7 +19238,7 @@
 /* 800C1E28  80 01 02 F4 */	lwz r0, 0x2f4(r1)
 /* 800C1E2C  7C 08 03 A6 */	mtlr r0
 /* 800C1E30  38 21 02 F0 */	addi r1, r1, 0x2f0
-/* 800C1E34  4E 80 00 20 */	blr 
+/* 800C1E34  4E 80 00 20 */	blr
 /* 800C1E38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C1E3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C1E40  94 21 FF B0 */	stwu r1, -0x50(r1)
@@ -19431,7 +19430,7 @@
 /* 800C2128  39 09 50 58 */	addi r8, r9, 0x5058
 /* 800C212C  38 A0 00 00 */	li r5, 0
 /* 800C2130  48 00 00 94 */	b 0x94
-/* 800C2134  60 00 00 00 */	nop 
+/* 800C2134  60 00 00 00 */	nop
 /* 800C2138  80 C8 00 0C */	lwz r6, 0xc(r8)
 /* 800C213C  80 FC 00 10 */	lwz r7, 0x10(r28)
 /* 800C2140  2C 06 00 00 */	cmpwi r6, 0
@@ -19597,7 +19596,7 @@
 /* 800C23C0  7F 29 03 A6 */	mtctr r25
 /* 800C23C4  2C 19 00 00 */	cmpwi r25, 0
 /* 800C23C8  40 81 00 34 */	ble 0x34
-/* 800C23CC  60 00 00 00 */	nop 
+/* 800C23CC  60 00 00 00 */	nop
 /* 800C23D0  88 1D 00 00 */	lbz r0, 0(r29)
 /* 800C23D4  2C 1F 00 00 */	cmpwi r31, 0
 /* 800C23D8  98 1B 80 00 */	stb r0, -0x8000(r27)
@@ -19621,7 +19620,7 @@
 /* 800C2420  80 01 00 54 */	lwz r0, 0x54(r1)
 /* 800C2424  7C 08 03 A6 */	mtlr r0
 /* 800C2428  38 21 00 50 */	addi r1, r1, 0x50
-/* 800C242C  4E 80 00 20 */	blr 
+/* 800C242C  4E 80 00 20 */	blr
 /* 800C2430  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C2434  7C 08 02 A6 */	mflr r0
 /* 800C2438  90 01 00 24 */	stw r0, 0x24(r1)
@@ -19693,7 +19692,7 @@
 /* 800C2540  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C2544  7C 08 03 A6 */	mtlr r0
 /* 800C2548  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C254C  4E 80 00 20 */	blr 
+/* 800C254C  4E 80 00 20 */	blr
 /* 800C2550  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800C2554  7C 08 02 A6 */	mflr r0
 /* 800C2558  90 01 00 34 */	stw r0, 0x34(r1)
@@ -19769,7 +19768,7 @@
 /* 800C2670  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800C2674  7C 08 03 A6 */	mtlr r0
 /* 800C2678  38 21 00 30 */	addi r1, r1, 0x30
-/* 800C267C  4E 80 00 20 */	blr 
+/* 800C267C  4E 80 00 20 */	blr
 /* 800C2680  94 21 EE 80 */	stwu r1, -0x1180(r1)
 /* 800C2684  7C 08 02 A6 */	mflr r0
 /* 800C2688  90 01 11 84 */	stw r0, 0x1184(r1)
@@ -20087,7 +20086,7 @@
 /* 800C2B68  7C 63 22 14 */	add r3, r3, r4
 /* 800C2B6C  38 C3 FF FC */	addi r6, r3, -4
 /* 800C2B70  7C 09 03 A6 */	mtctr r0
-/* 800C2B74  60 00 00 00 */	nop 
+/* 800C2B74  60 00 00 00 */	nop
 /* 800C2B78  80 85 00 04 */	lwz r4, 4(r5)
 /* 800C2B7C  84 05 00 08 */	lwzu r0, 8(r5)
 /* 800C2B80  90 86 00 04 */	stw r4, 4(r6)
@@ -20822,7 +20821,7 @@
 /* 800C36E4  80 01 11 84 */	lwz r0, 0x1184(r1)
 /* 800C36E8  7C 08 03 A6 */	mtlr r0
 /* 800C36EC  38 21 11 80 */	addi r1, r1, 0x1180
-/* 800C36F0  4E 80 00 20 */	blr 
+/* 800C36F0  4E 80 00 20 */	blr
 /* 800C36F4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C36F8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C36FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -20943,7 +20942,7 @@
 /* 800C38C8  80 01 00 54 */	lwz r0, 0x54(r1)
 /* 800C38CC  7C 08 03 A6 */	mtlr r0
 /* 800C38D0  38 21 00 50 */	addi r1, r1, 0x50
-/* 800C38D4  4E 80 00 20 */	blr 
+/* 800C38D4  4E 80 00 20 */	blr
 /* 800C38D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C38DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C38E0  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -21091,7 +21090,7 @@
 /* 800C3B18  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800C3B1C  7C 08 03 A6 */	mtlr r0
 /* 800C3B20  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C3B24  4E 80 00 20 */	blr 
+/* 800C3B24  4E 80 00 20 */	blr
 /* 800C3B28  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C3B2C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C3B30  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -21264,7 +21263,7 @@
 /* 800C3DCC  83 C1 00 18 */	lwz r30, 0x18(r1)
 /* 800C3DD0  7C 08 03 A6 */	mtlr r0
 /* 800C3DD4  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C3DD8  4E 80 00 20 */	blr 
+/* 800C3DD8  4E 80 00 20 */	blr
 /* 800C3DDC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C3DE0  94 21 FE D0 */	stwu r1, -0x130(r1)
 /* 800C3DE4  DB E1 01 20 */	stfd f31, 0x120(r1)
@@ -21593,7 +21592,7 @@
 /* 800C42F0  C9 E1 00 20 */	lfd f15, 0x20(r1)
 /* 800C42F4  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800C42F8  38 21 01 30 */	addi r1, r1, 0x130
-/* 800C42FC  4E 80 00 20 */	blr 
+/* 800C42FC  4E 80 00 20 */	blr
 /* 800C4300  94 21 FF A0 */	stwu r1, -0x60(r1)
 /* 800C4304  7C 08 02 A6 */	mflr r0
 /* 800C4308  90 01 00 64 */	stw r0, 0x64(r1)
@@ -22132,7 +22131,7 @@
 /* 800C4B5C  80 01 00 64 */	lwz r0, 0x64(r1)
 /* 800C4B60  7C 08 03 A6 */	mtlr r0
 /* 800C4B64  38 21 00 60 */	addi r1, r1, 0x60
-/* 800C4B68  4E 80 00 20 */	blr 
+/* 800C4B68  4E 80 00 20 */	blr
 /* 800C4B6C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C4B70  94 21 FF 40 */	stwu r1, -0xc0(r1)
 /* 800C4B74  7C 08 02 A6 */	mflr r0
@@ -22257,7 +22256,7 @@
 /* 800C4D50  83 C1 00 68 */	lwz r30, 0x68(r1)
 /* 800C4D54  7C 08 03 A6 */	mtlr r0
 /* 800C4D58  38 21 00 C0 */	addi r1, r1, 0xc0
-/* 800C4D5C  4E 80 00 20 */	blr 
+/* 800C4D5C  4E 80 00 20 */	blr
 /* 800C4D60  2C 03 00 40 */	cmpwi r3, 0x40
 /* 800C4D64  41 82 00 30 */	beq 0x30
 /* 800C4D68  2C 03 00 60 */	cmpwi r3, 0x60
@@ -22272,13 +22271,13 @@
 /* 800C4D8C  41 82 00 18 */	beq 0x18
 /* 800C4D90  48 00 00 1C */	b 0x1c
 /* 800C4D94  38 60 00 40 */	li r3, 0x40
-/* 800C4D98  4E 80 00 20 */	blr 
+/* 800C4D98  4E 80 00 20 */	blr
 /* 800C4D9C  38 60 00 80 */	li r3, 0x80
-/* 800C4DA0  4E 80 00 20 */	blr 
+/* 800C4DA0  4E 80 00 20 */	blr
 /* 800C4DA4  38 60 01 00 */	li r3, 0x100
-/* 800C4DA8  4E 80 00 20 */	blr 
+/* 800C4DA8  4E 80 00 20 */	blr
 /* 800C4DAC  38 60 00 40 */	li r3, 0x40
-/* 800C4DB0  4E 80 00 20 */	blr 
+/* 800C4DB0  4E 80 00 20 */	blr
 /* 800C4DB4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C4DB8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C4DBC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -22297,7 +22296,7 @@
 /* 800C4DF0  41 82 00 08 */	beq 0x8
 /* 800C4DF4  3C 84 00 02 */	addis r4, r4, 2
 /* 800C4DF8  7C 83 23 78 */	mr r3, r4
-/* 800C4DFC  4E 80 00 20 */	blr 
+/* 800C4DFC  4E 80 00 20 */	blr
 /* 800C4E00  94 21 FF 90 */	stwu r1, -0x70(r1)
 /* 800C4E04  7C 08 02 A6 */	mflr r0
 /* 800C4E08  90 01 00 74 */	stw r0, 0x74(r1)
@@ -22326,7 +22325,7 @@
 /* 800C4E64  80 01 00 74 */	lwz r0, 0x74(r1)
 /* 800C4E68  7C 08 03 A6 */	mtlr r0
 /* 800C4E6C  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C4E70  4E 80 00 20 */	blr 
+/* 800C4E70  4E 80 00 20 */	blr
 /* 800C4E74  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C4E78  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C4E7C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -22657,7 +22656,7 @@
 /* 800C5390  80 01 02 24 */	lwz r0, 0x224(r1)
 /* 800C5394  7C 08 03 A6 */	mtlr r0
 /* 800C5398  38 21 02 20 */	addi r1, r1, 0x220
-/* 800C539C  4E 80 00 20 */	blr 
+/* 800C539C  4E 80 00 20 */	blr
 /* 800C53A0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C53A4  7C 08 02 A6 */	mflr r0
 /* 800C53A8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -22670,7 +22669,7 @@
 /* 800C53C4  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C53C8  7C 08 03 A6 */	mtlr r0
 /* 800C53CC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C53D0  4E 80 00 20 */	blr 
+/* 800C53D0  4E 80 00 20 */	blr
 /* 800C53D4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C53D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C53DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -22683,11 +22682,11 @@
 /* 800C53F8  41 82 00 10 */	beq 0x10
 /* 800C53FC  80 63 00 28 */	lwz r3, 0x28(r3)
 /* 800C5400  7D 89 03 A6 */	mtctr r12
-/* 800C5404  4E 80 04 21 */	bctrl 
+/* 800C5404  4E 80 04 21 */	bctrl
 /* 800C5408  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C540C  7C 08 03 A6 */	mtlr r0
 /* 800C5410  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C5414  4E 80 00 20 */	blr 
+/* 800C5414  4E 80 00 20 */	blr
 /* 800C5418  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C541C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C5420  94 21 FF A0 */	stwu r1, -0x60(r1)
@@ -22742,7 +22741,7 @@
 /* 800C54E4  83 C1 00 58 */	lwz r30, 0x58(r1)
 /* 800C54E8  7C 08 03 A6 */	mtlr r0
 /* 800C54EC  38 21 00 60 */	addi r1, r1, 0x60
-/* 800C54F0  4E 80 00 20 */	blr 
+/* 800C54F0  4E 80 00 20 */	blr
 /* 800C54F4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C54F8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C54FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -22791,7 +22790,7 @@
 /* 800C55A8  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C55AC  7C 08 03 A6 */	mtlr r0
 /* 800C55B0  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C55B4  4E 80 00 20 */	blr 
+/* 800C55B4  4E 80 00 20 */	blr
 /* 800C55B8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C55BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C55C0  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -22839,7 +22838,7 @@
 /* 800C5668  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800C566C  7C 08 03 A6 */	mtlr r0
 /* 800C5670  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C5674  4E 80 00 20 */	blr 
+/* 800C5674  4E 80 00 20 */	blr
 /* 800C5678  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C567C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C5680  94 21 FF 90 */	stwu r1, -0x70(r1)
@@ -22921,7 +22920,7 @@
 /* 800C57B0  83 81 00 60 */	lwz r28, 0x60(r1)
 /* 800C57B4  7C 08 03 A6 */	mtlr r0
 /* 800C57B8  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C57BC  4E 80 00 20 */	blr 
+/* 800C57BC  4E 80 00 20 */	blr
 /* 800C57C0  38 60 00 00 */	li r3, 0
 /* 800C57C4  38 80 00 00 */	li r4, 0
 /* 800C57C8  4B FF A1 18 */	b -0x5ee8
@@ -22982,7 +22981,7 @@
 /* 800C58A4  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800C58A8  7C 08 03 A6 */	mtlr r0
 /* 800C58AC  38 21 00 30 */	addi r1, r1, 0x30
-/* 800C58B0  4E 80 00 20 */	blr 
+/* 800C58B0  4E 80 00 20 */	blr
 /* 800C58B4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C58B8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C58BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -23045,7 +23044,7 @@
 /* 800C59A0  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800C59A4  7C 08 03 A6 */	mtlr r0
 /* 800C59A8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C59AC  4E 80 00 20 */	blr 
+/* 800C59AC  4E 80 00 20 */	blr
 /* 800C59B0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C59B4  7C 08 02 A6 */	mflr r0
 /* 800C59B8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -23055,7 +23054,7 @@
 /* 800C59C8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C59CC  7C 08 03 A6 */	mtlr r0
 /* 800C59D0  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C59D4  4E 80 00 20 */	blr 
+/* 800C59D4  4E 80 00 20 */	blr
 /* 800C59D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C59DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C59E0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -23121,7 +23120,7 @@
 /* 800C5AD0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C5AD4  7C 08 03 A6 */	mtlr r0
 /* 800C5AD8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C5ADC  4E 80 00 20 */	blr 
+/* 800C5ADC  4E 80 00 20 */	blr
 /* 800C5AE0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C5AE4  7C 08 02 A6 */	mflr r0
 /* 800C5AE8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -23201,7 +23200,7 @@
 /* 800C5C10  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C5C14  7C 08 03 A6 */	mtlr r0
 /* 800C5C18  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C5C1C  4E 80 00 20 */	blr 
+/* 800C5C1C  4E 80 00 20 */	blr
 /* 800C5C20  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C5C24  7C 08 02 A6 */	mflr r0
 /* 800C5C28  90 01 00 14 */	stw r0, 0x14(r1)
@@ -23229,7 +23228,7 @@
 /* 800C5C80  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C5C84  7C 08 03 A6 */	mtlr r0
 /* 800C5C88  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C5C8C  4E 80 00 20 */	blr 
+/* 800C5C8C  4E 80 00 20 */	blr
 /* 800C5C90  3C A0 80 0C */	lis r5, 0x800c
 /* 800C5C94  38 60 00 00 */	li r3, 0
 /* 800C5C98  38 A5 5C 20 */	addi r5, r5, 0x5c20
@@ -23355,7 +23354,7 @@
 /* 800C5E78  80 01 00 A4 */	lwz r0, 0xa4(r1)
 /* 800C5E7C  7C 08 03 A6 */	mtlr r0
 /* 800C5E80  38 21 00 A0 */	addi r1, r1, 0xa0
-/* 800C5E84  4E 80 00 20 */	blr 
+/* 800C5E84  4E 80 00 20 */	blr
 /* 800C5E88  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C5E8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C5E90  94 21 FF 00 */	stwu r1, -0x100(r1)
@@ -23452,7 +23451,7 @@
 /* 800C5FFC  80 01 01 04 */	lwz r0, 0x104(r1)
 /* 800C6000  7C 08 03 A6 */	mtlr r0
 /* 800C6004  38 21 01 00 */	addi r1, r1, 0x100
-/* 800C6008  4E 80 00 20 */	blr 
+/* 800C6008  4E 80 00 20 */	blr
 /* 800C600C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C6010  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C6014  7C 08 02 A6 */	mflr r0
@@ -23506,7 +23505,7 @@
 /* 800C60D4  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C60D8  7C 08 03 A6 */	mtlr r0
 /* 800C60DC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C60E0  4E 80 00 20 */	blr 
+/* 800C60E0  4E 80 00 20 */	blr
 /* 800C60E4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C60E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C60EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -23552,7 +23551,7 @@
 /* 800C618C  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800C6190  7C 08 03 A6 */	mtlr r0
 /* 800C6194  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C6198  4E 80 00 20 */	blr 
+/* 800C6198  4E 80 00 20 */	blr
 /* 800C619C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C61A0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C61A4  7C 08 02 A6 */	mflr r0
@@ -23585,7 +23584,7 @@
 /* 800C6210  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C6214  7C 08 03 A6 */	mtlr r0
 /* 800C6218  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C621C  4E 80 00 20 */	blr 
+/* 800C621C  4E 80 00 20 */	blr
 /* 800C6220  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C6224  7C 08 02 A6 */	mflr r0
 /* 800C6228  90 01 00 14 */	stw r0, 0x14(r1)
@@ -23617,7 +23616,7 @@
 /* 800C6290  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C6294  7C 08 03 A6 */	mtlr r0
 /* 800C6298  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C629C  4E 80 00 20 */	blr 
+/* 800C629C  4E 80 00 20 */	blr
 /* 800C62A0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C62A4  7C 08 02 A6 */	mflr r0
 /* 800C62A8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -23671,7 +23670,7 @@
 /* 800C6368  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800C636C  7C 08 03 A6 */	mtlr r0
 /* 800C6370  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C6374  4E 80 00 20 */	blr 
+/* 800C6374  4E 80 00 20 */	blr
 /* 800C6378  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C637C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C6380  3C A0 00 0A */	lis r5, 0xa
@@ -23695,7 +23694,7 @@
 /* 800C63C8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C63CC  7C 08 03 A6 */	mtlr r0
 /* 800C63D0  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C63D4  4E 80 00 20 */	blr 
+/* 800C63D4  4E 80 00 20 */	blr
 /* 800C63D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C63DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C63E0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -23722,7 +23721,7 @@
 /* 800C6434  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C6438  7C 08 03 A6 */	mtlr r0
 /* 800C643C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C6440  4E 80 00 20 */	blr 
+/* 800C6440  4E 80 00 20 */	blr
 /* 800C6444  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C6448  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C644C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -23753,7 +23752,7 @@
 /* 800C64B0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C64B4  7C 08 03 A6 */	mtlr r0
 /* 800C64B8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C64BC  4E 80 00 20 */	blr 
+/* 800C64BC  4E 80 00 20 */	blr
 /* 800C64C0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C64C4  7C 08 02 A6 */	mflr r0
 /* 800C64C8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -23829,7 +23828,7 @@
 /* 800C65E0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C65E4  7C 08 03 A6 */	mtlr r0
 /* 800C65E8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C65EC  4E 80 00 20 */	blr 
+/* 800C65EC  4E 80 00 20 */	blr
 /* 800C65F0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C65F4  7C 08 02 A6 */	mflr r0
 /* 800C65F8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -23859,7 +23858,7 @@
 /* 800C6658  2C 0C 00 00 */	cmpwi r12, 0
 /* 800C665C  41 82 00 8C */	beq 0x8c
 /* 800C6660  7D 89 03 A6 */	mtctr r12
-/* 800C6664  4E 80 04 21 */	bctrl 
+/* 800C6664  4E 80 04 21 */	bctrl
 /* 800C6668  48 00 00 80 */	b 0x80
 /* 800C666C  4B FF 5F E5 */	bl -0xa01c
 /* 800C6670  2C 03 FF F4 */	cmpwi r3, -12
@@ -23880,7 +23879,7 @@
 /* 800C66AC  2C 0C 00 00 */	cmpwi r12, 0
 /* 800C66B0  41 82 00 38 */	beq 0x38
 /* 800C66B4  7D 89 03 A6 */	mtctr r12
-/* 800C66B8  4E 80 04 21 */	bctrl 
+/* 800C66B8  4E 80 04 21 */	bctrl
 /* 800C66BC  48 00 00 2C */	b 0x2c
 /* 800C66C0  38 60 00 03 */	li r3, 3
 /* 800C66C4  4B FF 5F AD */	bl -0xa054
@@ -23891,13 +23890,13 @@
 /* 800C66D8  2C 0C 00 00 */	cmpwi r12, 0
 /* 800C66DC  41 82 00 0C */	beq 0xc
 /* 800C66E0  7D 89 03 A6 */	mtctr r12
-/* 800C66E4  4E 80 04 21 */	bctrl 
+/* 800C66E4  4E 80 04 21 */	bctrl
 /* 800C66E8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C66EC  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C66F0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C66F4  7C 08 03 A6 */	mtlr r0
 /* 800C66F8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C66FC  4E 80 00 20 */	blr 
+/* 800C66FC  4E 80 00 20 */	blr
 /* 800C6700  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C6704  7C 08 02 A6 */	mflr r0
 /* 800C6708  90 01 00 14 */	stw r0, 0x14(r1)
@@ -23939,14 +23938,14 @@
 /* 800C6798  2C 0C 00 00 */	cmpwi r12, 0
 /* 800C679C  41 82 00 0C */	beq 0xc
 /* 800C67A0  7D 89 03 A6 */	mtctr r12
-/* 800C67A4  4E 80 04 21 */	bctrl 
+/* 800C67A4  4E 80 04 21 */	bctrl
 /* 800C67A8  4B FF 5C D9 */	bl -0xa328
 /* 800C67AC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C67B0  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C67B4  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C67B8  7C 08 03 A6 */	mtlr r0
 /* 800C67BC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C67C0  4E 80 00 20 */	blr 
+/* 800C67C0  4E 80 00 20 */	blr
 /* 800C67C4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C67C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C67CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -23961,7 +23960,7 @@
 /* 800C67F0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C67F4  7C 08 03 A6 */	mtlr r0
 /* 800C67F8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C67FC  4E 80 00 20 */	blr 
+/* 800C67FC  4E 80 00 20 */	blr
 /* 800C6800  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C6804  7C 08 02 A6 */	mflr r0
 /* 800C6808  90 01 00 14 */	stw r0, 0x14(r1)
@@ -23988,7 +23987,7 @@
 /* 800C685C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C6860  7C 08 03 A6 */	mtlr r0
 /* 800C6864  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C6868  4E 80 00 20 */	blr 
+/* 800C6868  4E 80 00 20 */	blr
 /* 800C686C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C6870  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C6874  7C 08 02 A6 */	mflr r0
@@ -24019,7 +24018,7 @@
 /* 800C68D8  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C68DC  7C 08 03 A6 */	mtlr r0
 /* 800C68E0  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C68E4  4E 80 00 20 */	blr 
+/* 800C68E4  4E 80 00 20 */	blr
 /* 800C68E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C68EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C68F0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -24061,7 +24060,7 @@
 /* 800C6980  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C6984  7C 08 03 A6 */	mtlr r0
 /* 800C6988  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C698C  4E 80 00 20 */	blr 
+/* 800C698C  4E 80 00 20 */	blr
 /* 800C6990  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C6994  7C 08 02 A6 */	mflr r0
 /* 800C6998  90 01 00 24 */	stw r0, 0x24(r1)
@@ -24149,7 +24148,7 @@
 /* 800C6AE0  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800C6AE4  7C 08 03 A6 */	mtlr r0
 /* 800C6AE8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C6AEC  4E 80 00 20 */	blr 
+/* 800C6AEC  4E 80 00 20 */	blr
 /* 800C6AF0  94 21 FF 90 */	stwu r1, -0x70(r1)
 /* 800C6AF4  7C 08 02 A6 */	mflr r0
 /* 800C6AF8  28 03 00 64 */	cmplwi r3, 0x64
@@ -24240,7 +24239,7 @@
 /* 800C6C4C  83 A1 00 64 */	lwz r29, 0x64(r1)
 /* 800C6C50  7C 08 03 A6 */	mtlr r0
 /* 800C6C54  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C6C58  4E 80 00 20 */	blr 
+/* 800C6C58  4E 80 00 20 */	blr
 /* 800C6C5C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C6C60  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C6C64  7C 08 02 A6 */	mflr r0
@@ -24353,7 +24352,7 @@
 /* 800C6E10  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C6E14  7C 08 03 A6 */	mtlr r0
 /* 800C6E18  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C6E1C  4E 80 00 20 */	blr 
+/* 800C6E1C  4E 80 00 20 */	blr
 /* 800C6E20  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C6E24  7C 08 02 A6 */	mflr r0
 /* 800C6E28  90 01 00 14 */	stw r0, 0x14(r1)
@@ -24373,7 +24372,7 @@
 /* 800C6E60  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C6E64  7C 08 03 A6 */	mtlr r0
 /* 800C6E68  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C6E6C  4E 80 00 20 */	blr 
+/* 800C6E6C  4E 80 00 20 */	blr
 /* 800C6E70  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C6E74  7C 08 02 A6 */	mflr r0
 /* 800C6E78  90 01 00 14 */	stw r0, 0x14(r1)
@@ -24393,7 +24392,7 @@
 /* 800C6EB0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C6EB4  7C 08 03 A6 */	mtlr r0
 /* 800C6EB8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C6EBC  4E 80 00 20 */	blr 
+/* 800C6EBC  4E 80 00 20 */	blr
 /* 800C6EC0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C6EC4  7C 08 02 A6 */	mflr r0
 /* 800C6EC8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -24500,7 +24499,7 @@
 /* 800C705C  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C7060  7C 08 03 A6 */	mtlr r0
 /* 800C7064  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C7068  4E 80 00 20 */	blr 
+/* 800C7068  4E 80 00 20 */	blr
 /* 800C706C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7070  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C7074  7C 08 02 A6 */	mflr r0
@@ -24519,7 +24518,7 @@
 /* 800C70A8  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C70AC  7C 08 03 A6 */	mtlr r0
 /* 800C70B0  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C70B4  4E 80 00 20 */	blr 
+/* 800C70B4  4E 80 00 20 */	blr
 /* 800C70B8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C70BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C70C0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -24535,7 +24534,7 @@
 /* 800C70E8  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C70EC  7C 08 03 A6 */	mtlr r0
 /* 800C70F0  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C70F4  4E 80 00 20 */	blr 
+/* 800C70F4  4E 80 00 20 */	blr
 /* 800C70F8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C70FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7100  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -24561,7 +24560,7 @@
 /* 800C7150  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C7154  7C 08 03 A6 */	mtlr r0
 /* 800C7158  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C715C  4E 80 00 20 */	blr 
+/* 800C715C  4E 80 00 20 */	blr
 /* 800C7160  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C7164  7C 08 02 A6 */	mflr r0
 /* 800C7168  2C 03 00 00 */	cmpwi r3, 0
@@ -24590,7 +24589,7 @@
 /* 800C71C4  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C71C8  7C 08 03 A6 */	mtlr r0
 /* 800C71CC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C71D0  4E 80 00 20 */	blr 
+/* 800C71D0  4E 80 00 20 */	blr
 /* 800C71D4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C71D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C71DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -24634,7 +24633,7 @@
 /* 800C7274  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C7278  7C 08 03 A6 */	mtlr r0
 /* 800C727C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C7280  4E 80 00 20 */	blr 
+/* 800C7280  4E 80 00 20 */	blr
 /* 800C7284  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7288  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C728C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -24652,24 +24651,24 @@
 /* 800C72BC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C72C0  7C 08 03 A6 */	mtlr r0
 /* 800C72C4  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C72C8  4E 80 00 20 */	blr 
+/* 800C72C8  4E 80 00 20 */	blr
 /* 800C72CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C72D0  3C 80 20 00 */	lis r4, 0x2000
 /* 800C72D4  38 00 00 00 */	li r0, 0
 /* 800C72D8  90 83 00 46 */	stw r4, 0x46(r3)
 /* 800C72DC  90 03 00 4A */	stw r0, 0x4a(r3)
-/* 800C72E0  4E 80 00 20 */	blr 
+/* 800C72E0  4E 80 00 20 */	blr
 /* 800C72E4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C72E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C72EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C72F0  2C 83 00 00 */	cmpwi cr1, r3, 0
 /* 800C72F4  40 86 00 0C */	bne cr1, 0xc
 /* 800C72F8  38 60 00 00 */	li r3, 0
-/* 800C72FC  4E 80 00 20 */	blr 
+/* 800C72FC  4E 80 00 20 */	blr
 /* 800C7300  2C 04 00 00 */	cmpwi r4, 0
 /* 800C7304  40 82 00 0C */	bne 0xc
 /* 800C7308  38 60 00 00 */	li r3, 0
-/* 800C730C  4E 80 00 20 */	blr 
+/* 800C730C  4E 80 00 20 */	blr
 /* 800C7310  40 86 00 0C */	bne cr1, 0xc
 /* 800C7314  38 A0 00 00 */	li r5, 0
 /* 800C7318  48 00 00 24 */	b 0x24
@@ -24684,7 +24683,7 @@
 /* 800C733C  2C 05 00 00 */	cmpwi r5, 0
 /* 800C7340  40 82 00 0C */	bne 0xc
 /* 800C7344  38 60 00 00 */	li r3, 0
-/* 800C7348  4E 80 00 20 */	blr 
+/* 800C7348  4E 80 00 20 */	blr
 /* 800C734C  2C 04 00 00 */	cmpwi r4, 0
 /* 800C7350  40 82 00 0C */	bne 0xc
 /* 800C7354  38 A0 00 00 */	li r5, 0
@@ -24700,7 +24699,7 @@
 /* 800C737C  2C 05 00 00 */	cmpwi r5, 0
 /* 800C7380  40 82 00 0C */	bne 0xc
 /* 800C7384  38 60 00 00 */	li r3, 0
-/* 800C7388  4E 80 00 20 */	blr 
+/* 800C7388  4E 80 00 20 */	blr
 /* 800C738C  2C 03 00 00 */	cmpwi r3, 0
 /* 800C7390  40 82 00 0C */	bne 0xc
 /* 800C7394  38 00 00 00 */	li r0, 0
@@ -24725,7 +24724,7 @@
 /* 800C73E0  2C 00 00 00 */	cmpwi r0, 0
 /* 800C73E4  41 82 00 0C */	beq 0xc
 /* 800C73E8  38 60 00 00 */	li r3, 0
-/* 800C73EC  4E 80 00 20 */	blr 
+/* 800C73EC  4E 80 00 20 */	blr
 /* 800C73F0  2C 04 00 00 */	cmpwi r4, 0
 /* 800C73F4  40 82 00 0C */	bne 0xc
 /* 800C73F8  38 00 00 00 */	li r0, 0
@@ -24750,26 +24749,26 @@
 /* 800C7444  2C 00 00 00 */	cmpwi r0, 0
 /* 800C7448  41 82 00 0C */	beq 0xc
 /* 800C744C  38 60 00 00 */	li r3, 0
-/* 800C7450  4E 80 00 20 */	blr 
+/* 800C7450  4E 80 00 20 */	blr
 /* 800C7454  80 A3 00 00 */	lwz r5, 0(r3)
 /* 800C7458  80 04 00 00 */	lwz r0, 0(r4)
 /* 800C745C  7C 05 00 40 */	cmplw r5, r0
 /* 800C7460  41 82 00 0C */	beq 0xc
 /* 800C7464  38 60 00 00 */	li r3, 0
-/* 800C7468  4E 80 00 20 */	blr 
+/* 800C7468  4E 80 00 20 */	blr
 /* 800C746C  80 63 00 04 */	lwz r3, 4(r3)
 /* 800C7470  80 04 00 04 */	lwz r0, 4(r4)
 /* 800C7474  7C 03 00 50 */	subf r0, r3, r0
 /* 800C7478  7C 00 00 34 */	cntlzw r0, r0
 /* 800C747C  54 03 D9 7E */	srwi r3, r0, 5
-/* 800C7480  4E 80 00 20 */	blr 
+/* 800C7480  4E 80 00 20 */	blr
 /* 800C7484  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7488  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C748C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7490  2C 03 00 00 */	cmpwi r3, 0
 /* 800C7494  40 82 00 0C */	bne 0xc
 /* 800C7498  38 60 00 00 */	li r3, 0
-/* 800C749C  4E 80 00 20 */	blr 
+/* 800C749C  4E 80 00 20 */	blr
 /* 800C74A0  80 03 00 00 */	lwz r0, 0(r3)
 /* 800C74A4  38 80 00 00 */	li r4, 0
 /* 800C74A8  2C 00 00 00 */	cmpwi r0, 0
@@ -24779,13 +24778,13 @@
 /* 800C74B8  41 82 00 08 */	beq 0x8
 /* 800C74BC  38 80 00 01 */	li r4, 1
 /* 800C74C0  7C 83 23 78 */	mr r3, r4
-/* 800C74C4  4E 80 00 20 */	blr 
+/* 800C74C4  4E 80 00 20 */	blr
 /* 800C74C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C74CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C74D0  2C 03 00 00 */	cmpwi r3, 0
 /* 800C74D4  40 82 00 0C */	bne 0xc
 /* 800C74D8  38 60 00 00 */	li r3, 0
-/* 800C74DC  4E 80 00 20 */	blr 
+/* 800C74DC  4E 80 00 20 */	blr
 /* 800C74E0  40 82 00 0C */	bne 0xc
 /* 800C74E4  38 80 00 00 */	li r4, 0
 /* 800C74E8  48 00 00 24 */	b 0x24
@@ -24800,7 +24799,7 @@
 /* 800C750C  2C 04 00 00 */	cmpwi r4, 0
 /* 800C7510  40 82 00 0C */	bne 0xc
 /* 800C7514  38 60 00 00 */	li r3, 0
-/* 800C7518  4E 80 00 20 */	blr 
+/* 800C7518  4E 80 00 20 */	blr
 /* 800C751C  2C 03 00 00 */	cmpwi r3, 0
 /* 800C7520  40 82 00 0C */	bne 0xc
 /* 800C7524  38 00 00 00 */	li r0, 0
@@ -24825,15 +24824,15 @@
 /* 800C7570  2C 00 00 00 */	cmpwi r0, 0
 /* 800C7574  41 82 00 0C */	beq 0xc
 /* 800C7578  38 60 00 00 */	li r3, 0
-/* 800C757C  4E 80 00 20 */	blr 
+/* 800C757C  4E 80 00 20 */	blr
 /* 800C7580  80 03 00 00 */	lwz r0, 0(r3)
 /* 800C7584  54 00 0F FE */	srwi r0, r0, 0x1f
 /* 800C7588  68 03 00 01 */	xori r3, r0, 1
-/* 800C758C  4E 80 00 20 */	blr 
+/* 800C758C  4E 80 00 20 */	blr
 /* 800C7590  2C 03 00 00 */	cmpwi r3, 0
 /* 800C7594  40 82 00 0C */	bne 0xc
 /* 800C7598  38 60 00 00 */	li r3, 0
-/* 800C759C  4E 80 00 20 */	blr 
+/* 800C759C  4E 80 00 20 */	blr
 /* 800C75A0  40 82 00 0C */	bne 0xc
 /* 800C75A4  38 80 00 00 */	li r4, 0
 /* 800C75A8  48 00 00 24 */	b 0x24
@@ -24848,10 +24847,10 @@
 /* 800C75CC  2C 04 00 00 */	cmpwi r4, 0
 /* 800C75D0  40 82 00 0C */	bne 0xc
 /* 800C75D4  38 60 00 00 */	li r3, 0
-/* 800C75D8  4E 80 00 20 */	blr 
+/* 800C75D8  4E 80 00 20 */	blr
 /* 800C75DC  80 03 00 00 */	lwz r0, 0(r3)
 /* 800C75E0  54 03 1F FE */	rlwinm r3, r0, 3, 0x1f, 0x1f
-/* 800C75E4  4E 80 00 20 */	blr 
+/* 800C75E4  4E 80 00 20 */	blr
 /* 800C75E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C75EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C75F0  94 21 FF E0 */	stwu r1, -0x20(r1)
@@ -24907,7 +24906,7 @@
 /* 800C76B8  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C76BC  7C 08 03 A6 */	mtlr r0
 /* 800C76C0  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C76C4  4E 80 00 20 */	blr 
+/* 800C76C4  4E 80 00 20 */	blr
 /* 800C76C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C76CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C76D0  94 21 FF A0 */	stwu r1, -0x60(r1)
@@ -24937,7 +24936,7 @@
 /* 800C7730  83 E1 00 5C */	lwz r31, 0x5c(r1)
 /* 800C7734  7C 08 03 A6 */	mtlr r0
 /* 800C7738  38 21 00 60 */	addi r1, r1, 0x60
-/* 800C773C  4E 80 00 20 */	blr 
+/* 800C773C  4E 80 00 20 */	blr
 /* 800C7740  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C7744  7C 08 02 A6 */	mflr r0
 /* 800C7748  90 01 00 14 */	stw r0, 0x14(r1)
@@ -24972,7 +24971,7 @@
 /* 800C77BC  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C77C0  7C 08 03 A6 */	mtlr r0
 /* 800C77C4  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C77C8  4E 80 00 20 */	blr 
+/* 800C77C8  4E 80 00 20 */	blr
 /* 800C77CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C77D0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C77D4  7C 08 02 A6 */	mflr r0
@@ -25007,7 +25006,7 @@
 /* 800C7848  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C784C  7C 08 03 A6 */	mtlr r0
 /* 800C7850  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C7854  4E 80 00 20 */	blr 
+/* 800C7854  4E 80 00 20 */	blr
 /* 800C7858  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C785C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7860  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -25037,7 +25036,7 @@
 /* 800C78C0  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C78C4  7C 08 03 A6 */	mtlr r0
 /* 800C78C8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C78CC  4E 80 00 20 */	blr 
+/* 800C78CC  4E 80 00 20 */	blr
 /* 800C78D0  38 C0 00 00 */	li r6, 0
 /* 800C78D4  38 E0 00 00 */	li r7, 0
 /* 800C78D8  38 00 00 02 */	li r0, 2
@@ -25045,7 +25044,7 @@
 /* 800C78E0  89 03 00 00 */	lbz r8, 0(r3)
 /* 800C78E4  39 20 00 00 */	li r9, 0
 /* 800C78E8  7C 09 03 A6 */	mtctr r0
-/* 800C78EC  60 00 00 00 */	nop 
+/* 800C78EC  60 00 00 00 */	nop
 /* 800C78F0  54 E5 04 21 */	rlwinm. r5, r7, 0, 0x10, 0x10
 /* 800C78F4  41 82 00 10 */	beq 0x10
 /* 800C78F8  54 E7 0C 3C */	rlwinm r7, r7, 1, 0x10, 0x1e
@@ -25097,7 +25096,7 @@
 /* 800C79B0  7C 06 20 40 */	cmplw r6, r4
 /* 800C79B4  41 80 FF 2C */	blt -0xd4
 /* 800C79B8  7C E3 3B 78 */	mr r3, r7
-/* 800C79BC  4E 80 00 20 */	blr 
+/* 800C79BC  4E 80 00 20 */	blr
 /* 800C79C0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C79C4  7C 08 02 A6 */	mflr r0
 /* 800C79C8  90 01 00 14 */	stw r0, 0x14(r1)
@@ -25139,7 +25138,7 @@
 /* 800C7A58  48 00 01 00 */	b 0x100
 /* 800C7A5C  39 40 00 00 */	li r10, 0
 /* 800C7A60  7C 09 03 A6 */	mtctr r0
-/* 800C7A64  60 00 00 00 */	nop 
+/* 800C7A64  60 00 00 00 */	nop
 /* 800C7A68  57 C4 04 21 */	rlwinm. r4, r30, 0, 0x10, 0x10
 /* 800C7A6C  41 82 00 10 */	beq 0x10
 /* 800C7A70  57 DE 0C 3C */	rlwinm r30, r30, 1, 0x10, 0x1e
@@ -25196,7 +25195,7 @@
 /* 800C7B3C  81 9F 00 A8 */	lwz r12, 0xa8(r31)
 /* 800C7B40  57 C3 04 3E */	clrlwi r3, r30, 0x10
 /* 800C7B44  7D 89 03 A6 */	mtctr r12
-/* 800C7B48  4E 80 04 21 */	bctrl 
+/* 800C7B48  4E 80 04 21 */	bctrl
 /* 800C7B4C  80 7F 00 00 */	lwz r3, 0(r31)
 /* 800C7B50  3C 63 00 02 */	addis r3, r3, 2
 /* 800C7B54  B3 C3 F1 DE */	sth r30, -0xe22(r3)
@@ -25205,7 +25204,7 @@
 /* 800C7B60  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C7B64  7C 08 03 A6 */	mtlr r0
 /* 800C7B68  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C7B6C  4E 80 00 20 */	blr 
+/* 800C7B6C  4E 80 00 20 */	blr
 /* 800C7B70  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C7B74  7C 08 02 A6 */	mflr r0
 /* 800C7B78  90 01 00 14 */	stw r0, 0x14(r1)
@@ -25254,7 +25253,7 @@
 /* 800C7C24  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C7C28  7C 08 03 A6 */	mtlr r0
 /* 800C7C2C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C7C30  4E 80 00 20 */	blr 
+/* 800C7C30  4E 80 00 20 */	blr
 /* 800C7C34  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7C38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7C3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -25299,7 +25298,7 @@
 /* 800C7CD8  48 00 00 F4 */	b 0xf4
 /* 800C7CDC  39 40 00 00 */	li r10, 0
 /* 800C7CE0  7C 09 03 A6 */	mtctr r0
-/* 800C7CE4  60 00 00 00 */	nop 
+/* 800C7CE4  60 00 00 00 */	nop
 /* 800C7CE8  57 C4 04 21 */	rlwinm. r4, r30, 0, 0x10, 0x10
 /* 800C7CEC  41 82 00 10 */	beq 0x10
 /* 800C7CF0  57 DE 0C 3C */	rlwinm r30, r30, 1, 0x10, 0x1e
@@ -25356,13 +25355,13 @@
 /* 800C7DBC  81 9F 00 A8 */	lwz r12, 0xa8(r31)
 /* 800C7DC0  57 C3 04 3E */	clrlwi r3, r30, 0x10
 /* 800C7DC4  7D 89 03 A6 */	mtctr r12
-/* 800C7DC8  4E 80 04 21 */	bctrl 
+/* 800C7DC8  4E 80 04 21 */	bctrl
 /* 800C7DCC  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800C7DD0  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C7DD4  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C7DD8  7C 08 03 A6 */	mtlr r0
 /* 800C7DDC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C7DE0  4E 80 00 20 */	blr 
+/* 800C7DE0  4E 80 00 20 */	blr
 /* 800C7DE4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7DE8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C7DEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -25425,7 +25424,7 @@
 /* 800C7ED0  83 A1 00 64 */	lwz r29, 0x64(r1)
 /* 800C7ED4  7C 08 03 A6 */	mtlr r0
 /* 800C7ED8  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C7EDC  4E 80 00 20 */	blr 
+/* 800C7EDC  4E 80 00 20 */	blr
 /* 800C7EE0  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800C7EE4  7C 08 02 A6 */	mflr r0
 /* 800C7EE8  90 01 00 34 */	stw r0, 0x34(r1)
@@ -25531,7 +25530,7 @@
 /* 800C8078  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800C807C  7C 08 03 A6 */	mtlr r0
 /* 800C8080  38 21 00 30 */	addi r1, r1, 0x30
-/* 800C8084  4E 80 00 20 */	blr 
+/* 800C8084  4E 80 00 20 */	blr
 /* 800C8088  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C808C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8090  38 00 00 01 */	li r0, 1
@@ -25543,19 +25542,19 @@
 /* 800C80A8  7C 00 30 39 */	and. r0, r0, r6
 /* 800C80AC  41 82 00 28 */	beq 0x28
 /* 800C80B0  38 60 00 00 */	li r3, 0
-/* 800C80B4  4E 80 00 20 */	blr 
+/* 800C80B4  4E 80 00 20 */	blr
 /* 800C80B8  2C 05 00 02 */	cmpwi r5, 2
 /* 800C80BC  40 82 00 18 */	bne 0x18
 /* 800C80C0  A0 03 00 04 */	lhz r0, 4(r3)
 /* 800C80C4  7C 00 30 39 */	and. r0, r0, r6
 /* 800C80C8  40 82 00 0C */	bne 0xc
 /* 800C80CC  38 60 00 00 */	li r3, 0
-/* 800C80D0  4E 80 00 20 */	blr 
+/* 800C80D0  4E 80 00 20 */	blr
 /* 800C80D4  1C 04 00 4A */	mulli r0, r4, 0x4a
 /* 800C80D8  7C 63 02 14 */	add r3, r3, r0
 /* 800C80DC  38 63 00 20 */	addi r3, r3, 0x20
 /* 800C80E0  4B FF F3 B0 */	b -0xc50
-/* 800C80E4  4E 80 00 20 */	blr 
+/* 800C80E4  4E 80 00 20 */	blr
 /* 800C80E8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C80EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C80F0  94 21 FF 90 */	stwu r1, -0x70(r1)
@@ -25630,7 +25629,7 @@
 /* 800C8204  83 81 00 60 */	lwz r28, 0x60(r1)
 /* 800C8208  7C 08 03 A6 */	mtlr r0
 /* 800C820C  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C8210  4E 80 00 20 */	blr 
+/* 800C8210  4E 80 00 20 */	blr
 /* 800C8214  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8218  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C821C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -25807,7 +25806,7 @@
 /* 800C84C8  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800C84CC  7C 08 03 A6 */	mtlr r0
 /* 800C84D0  38 21 00 30 */	addi r1, r1, 0x30
-/* 800C84D4  4E 80 00 20 */	blr 
+/* 800C84D4  4E 80 00 20 */	blr
 /* 800C84D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C84DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C84E0  94 21 FF D0 */	stwu r1, -0x30(r1)
@@ -25857,7 +25856,7 @@
 /* 800C8590  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800C8594  7C 08 03 A6 */	mtlr r0
 /* 800C8598  38 21 00 30 */	addi r1, r1, 0x30
-/* 800C859C  4E 80 00 20 */	blr 
+/* 800C859C  4E 80 00 20 */	blr
 /* 800C85A0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C85A4  7C 08 02 A6 */	mflr r0
 /* 800C85A8  28 03 00 03 */	cmplwi r3, 3
@@ -25913,7 +25912,7 @@
 /* 800C8670  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800C8674  7C 08 03 A6 */	mtlr r0
 /* 800C8678  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C867C  4E 80 00 20 */	blr 
+/* 800C867C  4E 80 00 20 */	blr
 /* 800C8680  38 80 00 00 */	li r4, 0
 /* 800C8684  4B FF FF 1C */	b -0xe4
 /* 800C8688  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -25976,7 +25975,7 @@
 /* 800C876C  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C8770  7C 08 03 A6 */	mtlr r0
 /* 800C8774  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C8778  4E 80 00 20 */	blr 
+/* 800C8778  4E 80 00 20 */	blr
 /* 800C877C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8780  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800C8784  7C 08 02 A6 */	mflr r0
@@ -26028,16 +26027,16 @@
 /* 800C883C  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C8840  7C 08 03 A6 */	mtlr r0
 /* 800C8844  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C8848  4E 80 00 20 */	blr 
+/* 800C8848  4E 80 00 20 */	blr
 /* 800C884C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8850  54 63 32 B2 */	rlwinm r3, r3, 6, 0xa, 0x19
-/* 800C8854  4E 80 00 20 */	blr 
+/* 800C8854  4E 80 00 20 */	blr
 /* 800C8858  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C885C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8860  2C 03 00 00 */	cmpwi r3, 0
-/* 800C8864  4D 82 00 20 */	beqlr 
+/* 800C8864  4D 82 00 20 */	beqlr
 /* 800C8868  2C 05 00 00 */	cmpwi r5, 0
-/* 800C886C  4D 82 00 20 */	beqlr 
+/* 800C886C  4D 82 00 20 */	beqlr
 /* 800C8870  38 04 FF FF */	addi r0, r4, -1
 /* 800C8874  38 E0 00 00 */	li r7, 0
 /* 800C8878  28 00 00 01 */	cmplwi r0, 1
@@ -26057,7 +26056,7 @@
 /* 800C88B0  41 82 00 54 */	beq 0x54
 /* 800C88B4  48 00 00 54 */	b 0x54
 /* 800C88B8  28 06 00 64 */	cmplwi r6, 0x64
-/* 800C88BC  4D 81 00 20 */	bgtlr 
+/* 800C88BC  4D 81 00 20 */	bgtlr
 /* 800C88C0  38 00 00 03 */	li r0, 3
 /* 800C88C4  38 80 00 02 */	li r4, 2
 /* 800C88C8  98 83 00 10 */	stb r4, 0x10(r3)
@@ -26065,7 +26064,7 @@
 /* 800C88D0  98 03 00 12 */	stb r0, 0x12(r3)
 /* 800C88D4  48 00 00 34 */	b 0x34
 /* 800C88D8  28 06 27 10 */	cmplwi r6, 0x2710
-/* 800C88DC  4D 81 00 20 */	bgtlr 
+/* 800C88DC  4D 81 00 20 */	bgtlr
 /* 800C88E0  38 80 FF FF */	li r4, -1
 /* 800C88E4  38 00 00 00 */	li r0, 0
 /* 800C88E8  50 80 78 A0 */	rlwimi r0, r4, 0xf, 2, 0x10
@@ -26081,7 +26080,7 @@
 /* 800C8910  80 63 00 08 */	lwz r3, 8(r3)
 /* 800C8914  54 05 30 32 */	slwi r5, r0, 6
 /* 800C8918  4B F3 D7 20 */	b -0xc28e0
-/* 800C891C  4E 80 00 20 */	blr 
+/* 800C891C  4E 80 00 20 */	blr
 /* 800C8920  94 21 FF 90 */	stwu r1, -0x70(r1)
 /* 800C8924  7C 08 02 A6 */	mflr r0
 /* 800C8928  90 01 00 74 */	stw r0, 0x74(r1)
@@ -26219,7 +26218,7 @@
 /* 800C8B38  2C 0C 00 00 */	cmpwi r12, 0
 /* 800C8B3C  41 82 00 0C */	beq 0xc
 /* 800C8B40  7D 89 03 A6 */	mtctr r12
-/* 800C8B44  4E 80 04 21 */	bctrl 
+/* 800C8B44  4E 80 04 21 */	bctrl
 /* 800C8B48  80 01 00 74 */	lwz r0, 0x74(r1)
 /* 800C8B4C  83 E1 00 6C */	lwz r31, 0x6c(r1)
 /* 800C8B50  83 C1 00 68 */	lwz r30, 0x68(r1)
@@ -26227,7 +26226,7 @@
 /* 800C8B58  83 81 00 60 */	lwz r28, 0x60(r1)
 /* 800C8B5C  7C 08 03 A6 */	mtlr r0
 /* 800C8B60  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C8B64  4E 80 00 20 */	blr 
+/* 800C8B64  4E 80 00 20 */	blr
 /* 800C8B68  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8B6C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8B70  94 21 FF 90 */	stwu r1, -0x70(r1)
@@ -26322,7 +26321,7 @@
 /* 800C8CD4  83 81 00 60 */	lwz r28, 0x60(r1)
 /* 800C8CD8  7C 08 03 A6 */	mtlr r0
 /* 800C8CDC  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C8CE0  4E 80 00 20 */	blr 
+/* 800C8CE0  4E 80 00 20 */	blr
 /* 800C8CE4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8CE8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8CEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -26428,7 +26427,7 @@
 /* 800C8E7C  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C8E80  7C 08 03 A6 */	mtlr r0
 /* 800C8E84  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C8E88  4E 80 00 20 */	blr 
+/* 800C8E88  4E 80 00 20 */	blr
 /* 800C8E8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8E90  94 21 FF 90 */	stwu r1, -0x70(r1)
 /* 800C8E94  7C 08 02 A6 */	mflr r0
@@ -26508,7 +26507,7 @@
 /* 800C8FBC  80 01 00 74 */	lwz r0, 0x74(r1)
 /* 800C8FC0  7C 08 03 A6 */	mtlr r0
 /* 800C8FC4  38 21 00 70 */	addi r1, r1, 0x70
-/* 800C8FC8  4E 80 00 20 */	blr 
+/* 800C8FC8  4E 80 00 20 */	blr
 /* 800C8FCC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C8FD0  94 21 FF A0 */	stwu r1, -0x60(r1)
 /* 800C8FD4  7C 08 02 A6 */	mflr r0
@@ -26604,13 +26603,13 @@
 /* 800C913C  B0 1F 00 10 */	sth r0, 0x10(r31)
 /* 800C9140  81 9F 00 04 */	lwz r12, 4(r31)
 /* 800C9144  7D 89 03 A6 */	mtctr r12
-/* 800C9148  4E 80 04 21 */	bctrl 
+/* 800C9148  4E 80 04 21 */	bctrl
 /* 800C914C  80 01 00 64 */	lwz r0, 0x64(r1)
 /* 800C9150  83 E1 00 5C */	lwz r31, 0x5c(r1)
 /* 800C9154  83 C1 00 58 */	lwz r30, 0x58(r1)
 /* 800C9158  7C 08 03 A6 */	mtlr r0
 /* 800C915C  38 21 00 60 */	addi r1, r1, 0x60
-/* 800C9160  4E 80 00 20 */	blr 
+/* 800C9160  4E 80 00 20 */	blr
 /* 800C9164  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C9168  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C916C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -26796,7 +26795,7 @@
 /* 800C943C  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800C9440  7C 08 03 A6 */	mtlr r0
 /* 800C9444  38 21 00 30 */	addi r1, r1, 0x30
-/* 800C9448  4E 80 00 20 */	blr 
+/* 800C9448  4E 80 00 20 */	blr
 /* 800C944C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C9450  94 21 FF 40 */	stwu r1, -0xc0(r1)
 /* 800C9454  7C 08 02 A6 */	mflr r0
@@ -26859,7 +26858,7 @@
 /* 800C9538  83 81 00 B0 */	lwz r28, 0xb0(r1)
 /* 800C953C  7C 08 03 A6 */	mtlr r0
 /* 800C9540  38 21 00 C0 */	addi r1, r1, 0xc0
-/* 800C9544  4E 80 00 20 */	blr 
+/* 800C9544  4E 80 00 20 */	blr
 /* 800C9548  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C954C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C9550  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -26884,7 +26883,7 @@
 /* 800C959C  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800C95A0  7C 08 03 A6 */	mtlr r0
 /* 800C95A4  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C95A8  4E 80 00 20 */	blr 
+/* 800C95A8  4E 80 00 20 */	blr
 /* 800C95AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C95B0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C95B4  7C 08 02 A6 */	mflr r0
@@ -26964,7 +26963,7 @@
 /* 800C96DC  2C 0C 00 00 */	cmpwi r12, 0
 /* 800C96E0  41 82 00 0C */	beq 0xc
 /* 800C96E4  7D 89 03 A6 */	mtctr r12
-/* 800C96E8  4E 80 04 21 */	bctrl 
+/* 800C96E8  4E 80 04 21 */	bctrl
 /* 800C96EC  4B FF 2D 95 */	bl -0xd26c
 /* 800C96F0  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800C96F4  83 E1 00 1C */	lwz r31, 0x1c(r1)
@@ -26972,10 +26971,10 @@
 /* 800C96FC  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800C9700  7C 08 03 A6 */	mtlr r0
 /* 800C9704  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C9708  4E 80 00 20 */	blr 
+/* 800C9708  4E 80 00 20 */	blr
 /* 800C970C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C9710  A0 63 00 0E */	lhz r3, 0xe(r3)
-/* 800C9714  4E 80 00 20 */	blr 
+/* 800C9714  4E 80 00 20 */	blr
 /* 800C9718  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C971C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C9720  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -27016,28 +27015,28 @@
 /* 800C97AC  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C97B0  7C 08 03 A6 */	mtlr r0
 /* 800C97B4  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C97B8  4E 80 00 20 */	blr 
+/* 800C97B8  4E 80 00 20 */	blr
 /* 800C97BC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C97C0  80 03 00 00 */	lwz r0, 0(r3)
 /* 800C97C4  2C 00 00 03 */	cmpwi r0, 3
-/* 800C97C8  4C 82 00 20 */	bnelr 
+/* 800C97C8  4C 82 00 20 */	bnelr
 /* 800C97CC  98 83 00 10 */	stb r4, 0x10(r3)
 /* 800C97D0  98 A3 00 11 */	stb r5, 0x11(r3)
 /* 800C97D4  98 C3 00 12 */	stb r6, 0x12(r3)
-/* 800C97D8  4E 80 00 20 */	blr 
+/* 800C97D8  4E 80 00 20 */	blr
 /* 800C97DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C97E0  80 A3 00 00 */	lwz r5, 0(r3)
 /* 800C97E4  38 05 FF FF */	addi r0, r5, -1
 /* 800C97E8  28 00 00 01 */	cmplwi r0, 1
 /* 800C97EC  40 81 00 14 */	ble 0x14
 /* 800C97F0  2C 05 00 00 */	cmpwi r5, 0
-/* 800C97F4  4C 82 00 20 */	bnelr 
+/* 800C97F4  4C 82 00 20 */	bnelr
 /* 800C97F8  98 83 00 12 */	stb r4, 0x12(r3)
-/* 800C97FC  4E 80 00 20 */	blr 
+/* 800C97FC  4E 80 00 20 */	blr
 /* 800C9800  80 03 00 10 */	lwz r0, 0x10(r3)
 /* 800C9804  50 80 F0 02 */	rlwimi r0, r4, 0x1e, 0, 1
 /* 800C9808  90 03 00 10 */	stw r0, 0x10(r3)
-/* 800C980C  4E 80 00 20 */	blr 
+/* 800C980C  4E 80 00 20 */	blr
 /* 800C9810  94 21 FF 60 */	stwu r1, -0xa0(r1)
 /* 800C9814  7C 08 02 A6 */	mflr r0
 /* 800C9818  2C 03 00 00 */	cmpwi r3, 0
@@ -27102,7 +27101,7 @@
 /* 800C9904  83 C1 00 98 */	lwz r30, 0x98(r1)
 /* 800C9908  7C 08 03 A6 */	mtlr r0
 /* 800C990C  38 21 00 A0 */	addi r1, r1, 0xa0
-/* 800C9910  4E 80 00 20 */	blr 
+/* 800C9910  4E 80 00 20 */	blr
 /* 800C9914  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C9918  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C991C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -27141,7 +27140,7 @@
 /* 800C99A0  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800C99A4  7C 08 03 A6 */	mtlr r0
 /* 800C99A8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800C99AC  4E 80 00 20 */	blr 
+/* 800C99AC  4E 80 00 20 */	blr
 /* 800C99B0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800C99B4  7C 08 02 A6 */	mflr r0
 /* 800C99B8  2C 04 00 02 */	cmpwi r4, 2
@@ -27223,7 +27222,7 @@
 /* 800C9AE8  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800C9AEC  7C 08 03 A6 */	mtlr r0
 /* 800C9AF0  38 21 00 20 */	addi r1, r1, 0x20
-/* 800C9AF4  4E 80 00 20 */	blr 
+/* 800C9AF4  4E 80 00 20 */	blr
 /* 800C9AF8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C9AFC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800C9B00  94 21 F9 80 */	stwu r1, -0x680(r1)
@@ -27343,7 +27342,7 @@
 /* 800C9CC8  38 A1 02 DF */	addi r5, r1, 0x2df
 /* 800C9CCC  38 84 FF FF */	addi r4, r4, -1
 /* 800C9CD0  7C 09 03 A6 */	mtctr r0
-/* 800C9CD4  60 00 00 00 */	nop 
+/* 800C9CD4  60 00 00 00 */	nop
 /* 800C9CD8  88 64 00 01 */	lbz r3, 1(r4)
 /* 800C9CDC  8C 04 00 02 */	lbzu r0, 2(r4)
 /* 800C9CE0  98 65 00 01 */	stb r3, 1(r5)
@@ -27541,7 +27540,7 @@
 /* 800C9FE0  38 A1 00 57 */	addi r5, r1, 0x57
 /* 800C9FE4  38 83 FF FF */	addi r4, r3, -1
 /* 800C9FE8  7C 09 03 A6 */	mtctr r0
-/* 800C9FEC  60 00 00 00 */	nop 
+/* 800C9FEC  60 00 00 00 */	nop
 /* 800C9FF0  88 64 00 01 */	lbz r3, 1(r4)
 /* 800C9FF4  8C 04 00 02 */	lbzu r0, 2(r4)
 /* 800C9FF8  98 65 00 01 */	stb r3, 1(r5)
@@ -27619,7 +27618,7 @@
 /* 800CA118  38 A1 01 2F */	addi r5, r1, 0x12f
 /* 800CA11C  38 83 FF FF */	addi r4, r3, -1
 /* 800CA120  7C 09 03 A6 */	mtctr r0
-/* 800CA124  60 00 00 00 */	nop 
+/* 800CA124  60 00 00 00 */	nop
 /* 800CA128  88 64 00 01 */	lbz r3, 1(r4)
 /* 800CA12C  8C 04 00 02 */	lbzu r0, 2(r4)
 /* 800CA130  98 65 00 01 */	stb r3, 1(r5)
@@ -27870,7 +27869,7 @@
 /* 800CA504  80 01 06 84 */	lwz r0, 0x684(r1)
 /* 800CA508  7C 08 03 A6 */	mtlr r0
 /* 800CA50C  38 21 06 80 */	addi r1, r1, 0x680
-/* 800CA510  4E 80 00 20 */	blr 
+/* 800CA510  4E 80 00 20 */	blr
 /* 800CA514  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA518  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA51C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -27885,7 +27884,7 @@
 /* 800CA540  39 01 00 1F */	addi r8, r1, 0x1f
 /* 800CA544  38 E6 FF FF */	addi r7, r6, -1
 /* 800CA548  7C 09 03 A6 */	mtctr r0
-/* 800CA54C  60 00 00 00 */	nop 
+/* 800CA54C  60 00 00 00 */	nop
 /* 800CA550  88 C7 00 01 */	lbz r6, 1(r7)
 /* 800CA554  8C 07 00 02 */	lbzu r0, 2(r7)
 /* 800CA558  98 C8 00 01 */	stb r6, 1(r8)
@@ -27950,7 +27949,7 @@
 /* 800CA644  80 01 05 64 */	lwz r0, 0x564(r1)
 /* 800CA648  7C 08 03 A6 */	mtlr r0
 /* 800CA64C  38 21 05 60 */	addi r1, r1, 0x560
-/* 800CA650  4E 80 00 20 */	blr 
+/* 800CA650  4E 80 00 20 */	blr
 /* 800CA654  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA658  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA65C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -28042,19 +28041,19 @@
 /* 800CA7B4  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800CA7B8  7C 08 03 A6 */	mtlr r0
 /* 800CA7BC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CA7C0  4E 80 00 20 */	blr 
+/* 800CA7C0  4E 80 00 20 */	blr
 /* 800CA7C4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA7C8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA7CC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA7D0  28 03 00 06 */	cmplwi r3, 6
 /* 800CA7D4  41 80 00 0C */	blt 0xc
 /* 800CA7D8  38 60 00 00 */	li r3, 0
-/* 800CA7DC  4E 80 00 20 */	blr 
+/* 800CA7DC  4E 80 00 20 */	blr
 /* 800CA7E0  1C 03 00 4A */	mulli r0, r3, 0x4a
 /* 800CA7E4  3C 60 80 25 */	lis r3, 0x8025
 /* 800CA7E8  38 63 C4 D0 */	addi r3, r3, -15152
 /* 800CA7EC  7C 63 02 14 */	add r3, r3, r0
-/* 800CA7F0  4E 80 00 20 */	blr 
+/* 800CA7F0  4E 80 00 20 */	blr
 /* 800CA7F4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA7F8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CA7FC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -28105,7 +28104,7 @@
 /* 800CA8B0  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800CA8B4  7C 08 03 A6 */	mtlr r0
 /* 800CA8B8  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CA8BC  4E 80 00 20 */	blr 
+/* 800CA8BC  4E 80 00 20 */	blr
 /* 800CA8C0  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800CA8C4  7C 08 02 A6 */	mflr r0
 /* 800CA8C8  A0 83 00 00 */	lhz r4, 0(r3)
@@ -28386,7 +28385,7 @@
 /* 800CAD14  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800CAD18  7C 08 03 A6 */	mtlr r0
 /* 800CAD1C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CAD20  4E 80 00 20 */	blr 
+/* 800CAD20  4E 80 00 20 */	blr
 /* 800CAD24  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CAD28  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CAD2C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -28400,7 +28399,7 @@
 /* 800CAD4C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800CAD50  7C 08 03 A6 */	mtlr r0
 /* 800CAD54  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CAD58  4E 80 00 20 */	blr 
+/* 800CAD58  4E 80 00 20 */	blr
 /* 800CAD5C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CAD60  80 A3 00 04 */	lwz r5, 4(r3)
 /* 800CAD64  80 04 00 04 */	lwz r0, 4(r4)
@@ -28409,7 +28408,7 @@
 /* 800CAD70  7C 05 00 40 */	cmplw r5, r0
 /* 800CAD74  41 82 00 0C */	beq 0xc
 /* 800CAD78  38 60 00 00 */	li r3, 0
-/* 800CAD7C  4E 80 00 20 */	blr 
+/* 800CAD7C  4E 80 00 20 */	blr
 /* 800CAD80  80 A3 00 08 */	lwz r5, 8(r3)
 /* 800CAD84  80 04 00 08 */	lwz r0, 8(r4)
 /* 800CAD88  54 A5 00 32 */	rlwinm r5, r5, 0, 0, 0x19
@@ -28417,19 +28416,19 @@
 /* 800CAD90  7C 05 00 40 */	cmplw r5, r0
 /* 800CAD94  41 82 00 0C */	beq 0xc
 /* 800CAD98  38 60 00 00 */	li r3, 0
-/* 800CAD9C  4E 80 00 20 */	blr 
+/* 800CAD9C  4E 80 00 20 */	blr
 /* 800CADA0  A0 A3 00 0E */	lhz r5, 0xe(r3)
 /* 800CADA4  A0 04 00 0E */	lhz r0, 0xe(r4)
 /* 800CADA8  7C 05 00 00 */	cmpw r5, r0
 /* 800CADAC  41 82 00 0C */	beq 0xc
 /* 800CADB0  38 60 00 00 */	li r3, 0
-/* 800CADB4  4E 80 00 20 */	blr 
+/* 800CADB4  4E 80 00 20 */	blr
 /* 800CADB8  A0 A3 00 10 */	lhz r5, 0x10(r3)
 /* 800CADBC  A0 04 00 10 */	lhz r0, 0x10(r4)
 /* 800CADC0  7C 05 00 00 */	cmpw r5, r0
 /* 800CADC4  41 82 00 0C */	beq 0xc
 /* 800CADC8  38 60 00 00 */	li r3, 0
-/* 800CADCC  4E 80 00 20 */	blr 
+/* 800CADCC  4E 80 00 20 */	blr
 /* 800CADD0  A0 A3 00 12 */	lhz r5, 0x12(r3)
 /* 800CADD4  A0 04 00 12 */	lhz r0, 0x12(r4)
 /* 800CADD8  54 A5 04 3C */	rlwinm r5, r5, 0, 0x10, 0x1e
@@ -28437,7 +28436,7 @@
 /* 800CADE0  7C 05 00 00 */	cmpw r5, r0
 /* 800CADE4  41 82 00 0C */	beq 0xc
 /* 800CADE8  38 60 00 00 */	li r3, 0
-/* 800CADEC  4E 80 00 20 */	blr 
+/* 800CADEC  4E 80 00 20 */	blr
 /* 800CADF0  A0 A3 00 14 */	lhz r5, 0x14(r3)
 /* 800CADF4  A0 04 00 14 */	lhz r0, 0x14(r4)
 /* 800CADF8  54 A5 04 3C */	rlwinm r5, r5, 0, 0x10, 0x1e
@@ -28445,7 +28444,7 @@
 /* 800CAE00  7C 05 00 00 */	cmpw r5, r0
 /* 800CAE04  41 82 00 0C */	beq 0xc
 /* 800CAE08  38 60 00 00 */	li r3, 0
-/* 800CAE0C  4E 80 00 20 */	blr 
+/* 800CAE0C  4E 80 00 20 */	blr
 /* 800CAE10  A0 A3 00 0C */	lhz r5, 0xc(r3)
 /* 800CAE14  A0 04 00 0C */	lhz r0, 0xc(r4)
 /* 800CAE18  54 A5 04 38 */	rlwinm r5, r5, 0, 0x10, 0x1c
@@ -28453,7 +28452,7 @@
 /* 800CAE20  7C 05 00 00 */	cmpw r5, r0
 /* 800CAE24  41 82 00 0C */	beq 0xc
 /* 800CAE28  38 60 00 00 */	li r3, 0
-/* 800CAE2C  4E 80 00 20 */	blr 
+/* 800CAE2C  4E 80 00 20 */	blr
 /* 800CAE30  A0 A3 00 02 */	lhz r5, 2(r3)
 /* 800CAE34  A0 04 00 02 */	lhz r0, 2(r4)
 /* 800CAE38  54 A5 04 34 */	rlwinm r5, r5, 0, 0x10, 0x1a
@@ -28461,7 +28460,7 @@
 /* 800CAE40  7C 05 00 00 */	cmpw r5, r0
 /* 800CAE44  41 82 00 0C */	beq 0xc
 /* 800CAE48  38 60 00 00 */	li r3, 0
-/* 800CAE4C  4E 80 00 20 */	blr 
+/* 800CAE4C  4E 80 00 20 */	blr
 /* 800CAE50  A0 63 00 00 */	lhz r3, 0(r3)
 /* 800CAE54  A0 04 00 00 */	lhz r0, 0(r4)
 /* 800CAE58  54 63 04 32 */	rlwinm r3, r3, 0, 0x10, 0x19
@@ -28469,7 +28468,7 @@
 /* 800CAE60  7C 03 00 50 */	subf r0, r3, r0
 /* 800CAE64  7C 00 00 34 */	cntlzw r0, r0
 /* 800CAE68  54 03 D9 7E */	srwi r3, r0, 5
-/* 800CAE6C  4E 80 00 20 */	blr 
+/* 800CAE6C  4E 80 00 20 */	blr
 /* 800CAE70  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800CAE74  7C 08 02 A6 */	mflr r0
 /* 800CAE78  38 A0 00 14 */	li r5, 0x14
@@ -28570,7 +28569,7 @@
 /* 800CAFF4  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800CAFF8  7C 08 03 A6 */	mtlr r0
 /* 800CAFFC  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CB000  4E 80 00 20 */	blr 
+/* 800CB000  4E 80 00 20 */	blr
 /* 800CB004  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB008  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB00C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -28599,7 +28598,7 @@
 /* 800CB068  7F A5 EB 78 */	mr r5, r29
 /* 800CB06C  38 60 00 01 */	li r3, 1
 /* 800CB070  7C 09 03 A6 */	mtctr r0
-/* 800CB074  60 00 00 00 */	nop 
+/* 800CB074  60 00 00 00 */	nop
 /* 800CB078  A0 C5 00 00 */	lhz r6, 0(r5)
 /* 800CB07C  A0 04 00 00 */	lhz r0, 0(r4)
 /* 800CB080  7C 06 00 40 */	cmplw r6, r0
@@ -28621,7 +28620,7 @@
 /* 800CB0C0  7F A5 EB 78 */	mr r5, r29
 /* 800CB0C4  38 60 00 01 */	li r3, 1
 /* 800CB0C8  7C 09 03 A6 */	mtctr r0
-/* 800CB0CC  60 00 00 00 */	nop 
+/* 800CB0CC  60 00 00 00 */	nop
 /* 800CB0D0  A0 C5 00 16 */	lhz r6, 0x16(r5)
 /* 800CB0D4  A0 04 00 16 */	lhz r0, 0x16(r4)
 /* 800CB0D8  7C 06 00 40 */	cmplw r6, r0
@@ -28740,7 +28739,7 @@
 /* 800CB29C  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800CB2A0  7C 08 03 A6 */	mtlr r0
 /* 800CB2A4  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CB2A8  4E 80 00 20 */	blr 
+/* 800CB2A8  4E 80 00 20 */	blr
 /* 800CB2AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB2B0  94 21 FE 20 */	stwu r1, -0x1e0(r1)
 /* 800CB2B4  7C 08 02 A6 */	mflr r0
@@ -28817,7 +28816,7 @@
 /* 800CB3D0  80 01 01 E4 */	lwz r0, 0x1e4(r1)
 /* 800CB3D4  7C 08 03 A6 */	mtlr r0
 /* 800CB3D8  38 21 01 E0 */	addi r1, r1, 0x1e0
-/* 800CB3DC  4E 80 00 20 */	blr 
+/* 800CB3DC  4E 80 00 20 */	blr
 /* 800CB3E0  94 21 FE 20 */	stwu r1, -0x1e0(r1)
 /* 800CB3E4  7C 08 02 A6 */	mflr r0
 /* 800CB3E8  90 01 01 E4 */	stw r0, 0x1e4(r1)
@@ -28907,7 +28906,7 @@
 /* 800CB538  80 01 01 E4 */	lwz r0, 0x1e4(r1)
 /* 800CB53C  7C 08 03 A6 */	mtlr r0
 /* 800CB540  38 21 01 E0 */	addi r1, r1, 0x1e0
-/* 800CB544  4E 80 00 20 */	blr 
+/* 800CB544  4E 80 00 20 */	blr
 /* 800CB548  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB54C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB550  94 21 FE 20 */	stwu r1, -0x1e0(r1)
@@ -28992,7 +28991,7 @@
 /* 800CB68C  80 01 01 E4 */	lwz r0, 0x1e4(r1)
 /* 800CB690  7C 08 03 A6 */	mtlr r0
 /* 800CB694  38 21 01 E0 */	addi r1, r1, 0x1e0
-/* 800CB698  4E 80 00 20 */	blr 
+/* 800CB698  4E 80 00 20 */	blr
 /* 800CB69C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB6A0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800CB6A4  7C 08 02 A6 */	mflr r0
@@ -29070,7 +29069,7 @@
 /* 800CB7C4  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800CB7C8  7C 08 03 A6 */	mtlr r0
 /* 800CB7CC  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CB7D0  4E 80 00 20 */	blr 
+/* 800CB7D0  4E 80 00 20 */	blr
 /* 800CB7D4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB7D8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB7DC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29094,7 +29093,7 @@
 /* 800CB824  80 01 00 64 */	lwz r0, 0x64(r1)
 /* 800CB828  7C 08 03 A6 */	mtlr r0
 /* 800CB82C  38 21 00 60 */	addi r1, r1, 0x60
-/* 800CB830  4E 80 00 20 */	blr 
+/* 800CB830  4E 80 00 20 */	blr
 /* 800CB834  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB838  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CB83C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29125,7 +29124,7 @@
 /* 800CB8A0  83 E1 00 5C */	lwz r31, 0x5c(r1)
 /* 800CB8A4  7C 08 03 A6 */	mtlr r0
 /* 800CB8A8  38 21 00 60 */	addi r1, r1, 0x60
-/* 800CB8AC  4E 80 00 20 */	blr 
+/* 800CB8AC  4E 80 00 20 */	blr
 /* 800CB8B0  94 21 FF A0 */	stwu r1, -0x60(r1)
 /* 800CB8B4  7C 08 02 A6 */	mflr r0
 /* 800CB8B8  38 80 00 4C */	li r4, 0x4c
@@ -29153,7 +29152,7 @@
 /* 800CB910  83 E1 00 5C */	lwz r31, 0x5c(r1)
 /* 800CB914  7C 08 03 A6 */	mtlr r0
 /* 800CB918  38 21 00 60 */	addi r1, r1, 0x60
-/* 800CB91C  4E 80 00 20 */	blr 
+/* 800CB91C  4E 80 00 20 */	blr
 /* 800CB920  94 21 FF 90 */	stwu r1, -0x70(r1)
 /* 800CB924  7C 08 02 A6 */	mflr r0
 /* 800CB928  2C 03 00 00 */	cmpwi r3, 0
@@ -29222,7 +29221,7 @@
 /* 800CBA24  83 A1 00 64 */	lwz r29, 0x64(r1)
 /* 800CBA28  7C 08 03 A6 */	mtlr r0
 /* 800CBA2C  38 21 00 70 */	addi r1, r1, 0x70
-/* 800CBA30  4E 80 00 20 */	blr 
+/* 800CBA30  4E 80 00 20 */	blr
 /* 800CBA34  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBA38  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBA3C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29244,7 +29243,7 @@
 /* 800CBA7C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800CBA80  7C 08 03 A6 */	mtlr r0
 /* 800CBA84  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CBA88  4E 80 00 20 */	blr 
+/* 800CBA88  4E 80 00 20 */	blr
 /* 800CBA8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBA90  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800CBA94  7C 08 02 A6 */	mflr r0
@@ -29292,7 +29291,7 @@
 /* 800CBB3C  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800CBB40  7C 08 03 A6 */	mtlr r0
 /* 800CBB44  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CBB48  4E 80 00 20 */	blr 
+/* 800CBB48  4E 80 00 20 */	blr
 /* 800CBB4C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBB50  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800CBB54  7C 08 02 A6 */	mflr r0
@@ -29306,7 +29305,7 @@
 /* 800CBB74  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800CBB78  7C 08 03 A6 */	mtlr r0
 /* 800CBB7C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CBB80  4E 80 00 20 */	blr 
+/* 800CBB80  4E 80 00 20 */	blr
 /* 800CBB84  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBB88  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBB8C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29321,7 +29320,7 @@
 /* 800CBBB0  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800CBBB4  7C 08 03 A6 */	mtlr r0
 /* 800CBBB8  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CBBBC  4E 80 00 20 */	blr 
+/* 800CBBBC  4E 80 00 20 */	blr
 /* 800CBBC0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800CBBC4  7C 08 02 A6 */	mflr r0
 /* 800CBBC8  90 01 00 24 */	stw r0, 0x24(r1)
@@ -29405,7 +29404,7 @@
 /* 800CBD00  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800CBD04  7C 08 03 A6 */	mtlr r0
 /* 800CBD08  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CBD0C  4E 80 00 20 */	blr 
+/* 800CBD0C  4E 80 00 20 */	blr
 /* 800CBD10  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800CBD14  7C 08 02 A6 */	mflr r0
 /* 800CBD18  90 01 00 14 */	stw r0, 0x14(r1)
@@ -29421,7 +29420,7 @@
 /* 800CBD40  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800CBD44  7C 08 03 A6 */	mtlr r0
 /* 800CBD48  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CBD4C  4E 80 00 20 */	blr 
+/* 800CBD4C  4E 80 00 20 */	blr
 /* 800CBD50  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800CBD54  7C 08 02 A6 */	mflr r0
 /* 800CBD58  90 01 00 14 */	stw r0, 0x14(r1)
@@ -29458,7 +29457,7 @@
 /* 800CBDD4  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800CBDD8  7C 08 03 A6 */	mtlr r0
 /* 800CBDDC  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CBDE0  4E 80 00 20 */	blr 
+/* 800CBDE0  4E 80 00 20 */	blr
 /* 800CBDE4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBDE8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBDEC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29476,7 +29475,7 @@
 /* 800CBE1C  80 01 00 14 */	lwz r0, 0x14(r1)
 /* 800CBE20  7C 08 03 A6 */	mtlr r0
 /* 800CBE24  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CBE28  4E 80 00 20 */	blr 
+/* 800CBE28  4E 80 00 20 */	blr
 /* 800CBE2C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBE30  94 21 FF F0 */	stwu r1, -0x10(r1)
 /* 800CBE34  7C 08 02 A6 */	mflr r0
@@ -29502,7 +29501,7 @@
 /* 800CBE84  83 E1 00 0C */	lwz r31, 0xc(r1)
 /* 800CBE88  7C 08 03 A6 */	mtlr r0
 /* 800CBE8C  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CBE90  4E 80 00 20 */	blr 
+/* 800CBE90  4E 80 00 20 */	blr
 /* 800CBE94  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBE98  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBE9C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29571,7 +29570,7 @@
 /* 800CBF98  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800CBF9C  7C 08 03 A6 */	mtlr r0
 /* 800CBFA0  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CBFA4  4E 80 00 20 */	blr 
+/* 800CBFA4  4E 80 00 20 */	blr
 /* 800CBFA8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBFAC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CBFB0  94 21 FF F0 */	stwu r1, -0x10(r1)
@@ -29611,7 +29610,7 @@
 /* 800CC038  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800CC03C  7C 08 03 A6 */	mtlr r0
 /* 800CC040  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CC044  4E 80 00 20 */	blr 
+/* 800CC044  4E 80 00 20 */	blr
 /* 800CC048  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC04C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC050  94 21 FE F0 */	stwu r1, -0x110(r1)
@@ -29693,12 +29692,12 @@
 /* 800CC180  80 01 01 14 */	lwz r0, 0x114(r1)
 /* 800CC184  7C 08 03 A6 */	mtlr r0
 /* 800CC188  38 21 01 10 */	addi r1, r1, 0x110
-/* 800CC18C  4E 80 00 20 */	blr 
+/* 800CC18C  4E 80 00 20 */	blr
 /* 800CC190  1C 63 00 4C */	mulli r3, r3, 0x4c
 /* 800CC194  38 04 FF FF */	addi r0, r4, -1
 /* 800CC198  38 63 00 08 */	addi r3, r3, 8
 /* 800CC19C  7C 63 01 D6 */	mullw r3, r3, r0
-/* 800CC1A0  4E 80 00 20 */	blr 
+/* 800CC1A0  4E 80 00 20 */	blr
 /* 800CC1A4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC1A8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC1AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29750,7 +29749,7 @@
 /* 800CC264  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 800CC268  7C 08 03 A6 */	mtlr r0
 /* 800CC26C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CC270  4E 80 00 20 */	blr 
+/* 800CC270  4E 80 00 20 */	blr
 /* 800CC274  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC278  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC27C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29826,7 +29825,7 @@
 /* 800CC394  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800CC398  7C 08 03 A6 */	mtlr r0
 /* 800CC39C  38 21 00 30 */	addi r1, r1, 0x30
-/* 800CC3A0  4E 80 00 20 */	blr 
+/* 800CC3A0  4E 80 00 20 */	blr
 /* 800CC3A4  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC3A8  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC3AC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29845,7 +29844,7 @@
 /* 800CC3E0  38 03 00 08 */	addi r0, r3, 8
 /* 800CC3E4  7C 04 01 D6 */	mullw r0, r4, r0
 /* 800CC3E8  7C 65 02 14 */	add r3, r5, r0
-/* 800CC3EC  4E 80 00 20 */	blr 
+/* 800CC3EC  4E 80 00 20 */	blr
 /* 800CC3F0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800CC3F4  7C 08 02 A6 */	mflr r0
 /* 800CC3F8  2C 03 00 00 */	cmpwi r3, 0
@@ -29878,7 +29877,7 @@
 /* 800CC464  83 A1 00 14 */	lwz r29, 0x14(r1)
 /* 800CC468  7C 08 03 A6 */	mtlr r0
 /* 800CC46C  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CC470  4E 80 00 20 */	blr 
+/* 800CC470  4E 80 00 20 */	blr
 /* 800CC474  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC478  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC47C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
@@ -29932,7 +29931,7 @@
 /* 800CC53C  83 C1 00 08 */	lwz r30, 8(r1)
 /* 800CC540  7C 08 03 A6 */	mtlr r0
 /* 800CC544  38 21 00 10 */	addi r1, r1, 0x10
-/* 800CC548  4E 80 00 20 */	blr 
+/* 800CC548  4E 80 00 20 */	blr
 /* 800CC54C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC550  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800CC554  7C 08 02 A6 */	mflr r0
@@ -30036,7 +30035,7 @@
 /* 800CC6DC  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800CC6E0  7C 08 03 A6 */	mtlr r0
 /* 800CC6E4  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CC6E8  4E 80 00 20 */	blr 
+/* 800CC6E8  4E 80 00 20 */	blr
 /* 800CC6EC  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 800CC6F0  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800CC6F4  7C 08 02 A6 */	mflr r0
@@ -30098,7 +30097,7 @@
 /* 800CC7D4  83 81 00 10 */	lwz r28, 0x10(r1)
 /* 800CC7D8  7C 08 03 A6 */	mtlr r0
 /* 800CC7DC  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CC7E0  4E 80 00 20 */	blr 
+/* 800CC7E0  4E 80 00 20 */	blr
 /* 800CC7E4  94 21 FF D0 */	stwu r1, -0x30(r1)
 /* 800CC7E8  7C 08 02 A6 */	mflr r0
 /* 800CC7EC  90 01 00 34 */	stw r0, 0x34(r1)
@@ -30198,7 +30197,7 @@
 /* 800CC964  80 01 00 34 */	lwz r0, 0x34(r1)
 /* 800CC968  7C 08 03 A6 */	mtlr r0
 /* 800CC96C  38 21 00 30 */	addi r1, r1, 0x30
-/* 800CC970  4E 80 00 20 */	blr 
+/* 800CC970  4E 80 00 20 */	blr
 /* 800CC974  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 800CC978  54 80 07 BF */	clrlwi. r0, r4, 0x1e
 /* 800CC97C  93 E1 00 1C */	stw r31, 0x1c(r1)
@@ -30316,4 +30315,4 @@
 /* 800CCB3C  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 800CCB40  83 C1 00 18 */	lwz r30, 0x18(r1)
 /* 800CCB44  38 21 00 20 */	addi r1, r1, 0x20
-/* 800CCB48  4E 80 00 20 */	blr 
+/* 800CCB48  4E 80 00 20 */	blr

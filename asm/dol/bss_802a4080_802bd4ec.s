@@ -1,5 +1,4 @@
-
 .include "macros.inc"
 
-.section .bss, "wa" # 0x802A4080 - 0x802BD4EC
+.section .bss, "wa" # { 802a4080..802bd4ec (bss) }
 .skip 0x1946c
