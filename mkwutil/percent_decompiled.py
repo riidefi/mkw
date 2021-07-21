@@ -83,7 +83,6 @@ def percent_decompiled(dir="."):
     def piecewise_add(x, y):
         return list(a + b for a, b in zip(x, y))
 
-    footer_idx = len(matrix)
     matrix.append(
         [
             colored(cell, attrs=["bold"])
