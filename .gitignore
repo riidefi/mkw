@@ -31,12 +31,8 @@
 /pack/rel.lcf
 
 # Executables
-mwasmeppc.exe
-mwcceppc.exe
-mwldeppc.exe
-makedol.exe
-powerpc-eabi-as.exe
-elf2dol.exe
+*.exe
+*.dll
 *.out
 *.app
 
@@ -51,6 +47,7 @@ out
 *.pyc
 __pycache__/
 /env/
+.pytest_cache
 
 tmp
 *.rel
@@ -58,6 +55,7 @@ tmp
 !/artifacts/orig/pal/rel/dol_rel.bin
 !/artifacts/orig/pal/rel/rel_abs.bin
 *.map
+out.html
 
 # Compiler tools bundle
 tools.7z

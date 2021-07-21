@@ -10,8 +10,8 @@ args = parser.parse_args()
 
 symbols = SymbolsList()
 with open(args.symbols, "r") as f:
-    symbols.read(f)
+    symbols.read_from(f)
 temp_filename = args.symbols.with_name("." + args.symbols.name + ".tmp")
-with open(temp_filename, "w", newline='') as f:
-    symbols.write(f)
+with open(temp_filename, "w", newline="") as f:
+    symbols.write_to(f)
 os.replace(temp_filename, args.symbols)
