@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("elf", type=Path)
 args = parser.parse_args()
 
-with open(args.elf, 'rb') as f:
+with open(args.elf, "rb") as f:
     elf_file = ELFFile(f)
     for section in elf_file.iter_sections():
         section_name = section.name.removeprefix(".")

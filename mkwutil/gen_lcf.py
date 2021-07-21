@@ -1,32 +1,60 @@
 import argparse
-import csv
 import jinja2
 from pathlib import Path
+import re
 
-from mkwutil.symbols import SymbolsList
+from elftools.elf.elffile import ELFFile
+
+from mkwutil.slices import SliceTable
+from mkwutil.symbols import Symbol, SymbolsList
 
 
-def gen_lcf(src, dst, object_paths, slices_path, symbols_path):
+MATCH_UNK = re.compile(r"^unk_([0-9a-f]{8})$")
+
+
+def gen_lcf(
+    src: Path,
+    dst: Path,
+    object_paths: list[Path],
+    slices_path: Path,
+    symbols_path: Path,
+):
+    """Generates the LCF."""
     # Read slices and search for stripped objects.
+    slices = SliceTable.load_path(slices_path)
+    slices = slices.filter(SliceTable.ONLY_ENABLED)
     stripped = set()
-    for entry in csv.DictReader(open(slices_path, "r")):
-        strip_opt = entry.get("strip")
-        if strip_opt is None:
-            continue
-        if strip_opt.strip() != "1":
-            continue
-        stripped.add(Path(entry["name"]).stem)
+    for _slice in slices:
+        if _slice.has_name() and "strip" in _slice.tags:
+            stripped.add(Path(_slice.name).stem)
     # Read symbols list.
     symbols = SymbolsList()
-    symbols.read(open(symbols_path, "r"))
+    symbols.read_from(open(symbols_path, "r"))
+    # Scan objects for references to unknown symbols (unk_XXX).
+    # We'll add those implicitly to LCF.
+    for obj_path in object_paths:
+        with open(obj_path, "rb") as file:
+            elf = ELFFile(file)
+            symtab = elf.get_section_by_name(".symtab")
+            for symbol in symtab.iter_symbols():
+                match = MATCH_UNK.match(symbol.name)
+                if not match:
+                    continue
+                addr = int(match.group(1), 16)
+                symbols.put(Symbol(addr, symbol.name))
+    # Remove all symbols that fall into named slices.
+    # They will be included in the object files, not the linker command file.
+    for sym in symbols:
+        _slice, _ = slices.find(sym.addr)
+        assert _slice is not None
+        if _slice.has_name():
+            del symbols[sym]
     # Create list of FORCEFILES.
     force_files = []
     for obj_path in object_paths:
-        obj_path = Path(obj_path)
         if obj_path.stem in stripped:
             continue
         force_files.append(str(obj_path.parent / (obj_path.stem + ".o")))
-
     # Compile template.
     template = jinja2.Template(src.read_text())
     # Render template to string.
