@@ -1,7 +1,6 @@
-
 .include "macros.inc"
 
-.section .text, "ax" # 0x80111DE8 - 0x80111F0C
+.section .text, "ax" # { 80111de8..80111f0c (text) }
 /* 80111DE8  94 21 FF E0 */	stwu r1, -0x20(r1)
 /* 80111DEC  7C 08 02 A6 */	mflr r0
 /* 80111DF0  90 01 00 24 */	stw r0, 0x24(r1)
@@ -74,4 +73,4 @@
 /* 80111EFC  83 E1 00 1C */	lwz r31, 0x1c(r1)
 /* 80111F00  7C 08 03 A6 */	mtlr r0
 /* 80111F04  38 21 00 20 */	addi r1, r1, 0x20
-/* 80111F08  4E 80 00 20 */	blr 
+/* 80111F08  4E 80 00 20 */	blr

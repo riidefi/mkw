@@ -9,8 +9,7 @@ out\dol\ctors_80244de0_80244e88.o
 out\dol\dtors_80244ea4_80244eac.o
 out\dol\rodata_80244ec0_80248010.o
 out\dol\data_80258580_80274148.o
-out\dol\bss_802a4080_802bd4ec.o
-out\dol\bss_802bd4ec_802f2338.o
+out\dol\bss_802a4080_802f2338.o
 out\dol\sdata_80384c00_803850a0.o
 out\dol\sbss_80385fc0_803862a8.o
 out\dol\sdata2_80386fa0_80387cac.o
