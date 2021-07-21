@@ -96,6 +96,8 @@ class AsmGenerator:
         self.dump_section_header()
         self.dump_section_body()
 
+def addr_in_sym(addr, sym):
+    return sym.addr <= addr < sym.addr + sym.size
 
 class CAsmGenerator:
     """Generates C files with assembly functions."""
@@ -111,15 +113,28 @@ class CAsmGenerator:
         self.extern_functions_seen = set()
         self.extern_functions = list()
 
+    # Validated iterator of own_symbols
+    def __symbols(self):
+        for sym in self.own_symbols:
+            assert (
+                sym.addr == addr
+            ), f"Currently at {hex(addr)} but next symbol is at {hex(sym.addr)}"
+            
+            yield sym
+            addr += sym.size
+        
+        assert (
+            addr == self.slice.stop
+        ), f"Disassembled up to {hex(addr)} but slice goes to {hex(self.slice.stop)}"
+        
+
     # TODO not a good name
     def dump_section(self):
         """Writes the C file to output."""
         addr = self.slice.start
         functions = []
-        for sym in self.own_symbols:
-            assert (
-                sym.addr == addr
-            ), f"Currently at {hex(addr)} but next symbol is at {hex(sym.addr)}"
+        
+        for sym in self.__symbols():
             func_body = self.disassemble_function(sym)
             functions.append(
                 {
@@ -129,10 +144,7 @@ class CAsmGenerator:
                     "inline_asm": func_body,
                 }
             )
-            addr += sym.size
-        assert (
-            addr == self.slice.stop
-        ), f"Disassembled up to {hex(addr)} but slice goes to {hex(self.slice.stop)}"
+
         # Sort extern functions.
         self.extern_functions.sort(key=lambda sym: sym.addr)
         # Write out to C file.
@@ -141,6 +153,67 @@ class CAsmGenerator:
             functions=functions, extern_functions=self.extern_functions
         )
         stream.dump(self.output)
+
+    def __jumps_of(self, insns):
+        for ins in insns:
+            branch_info = ins.disassemble_branch()
+            if branch_info is None:
+                continue
+
+            yield branch_info
+
+    def __name_addr(self, addr):
+        # If it's a known symbol, use its name.
+        if addr in self.symbols:    
+            return self.symbols[addr]
+
+        # If the target address is unknown we still need to create a symbol.
+        ext_sym = Symbol(addr, "unk_%08x" % addr)
+        self.symbols.put(ext_sym)
+        return ext_sym
+
+    def __analyze_jumps_addr(self, addr, labels):
+        # If target address is within symbol, we have a label.
+        if addr_in_sym(addr, sym):
+            labels.add(addr)
+            return
+
+        # This is within the translation unit
+        if addr in self.own_symbols:
+            return
+
+        # Check if we haven't declared it previously
+        if addr not in self.extern_functions_seen:
+            self.extern_functions_seen.add(addr)
+
+            sym_name = self.__name_addr(addr)
+            self.extern_functions.append(sym_name)
+
+    # Walk instructions to collect:
+    #   jumps inside functions (labels)
+    #   long jumps to other functions (extern symbol references)
+    def __analyze_jumps(self, insns):
+        labels = set()
+        for _, addr in self.__jumps_of(insns):
+            self.__analyze_jumps_addr(addr, labels)
+
+        return labels
+
+    # Disassemble instructions.
+    def __disasm_instructions(self, labels, sorted_labels):
+        for ins in insns:
+            # TODO is there a better way to specialize a Python object?
+            ins = InlineInstruction(
+                ins.address, ins.insn, ins.bytes, labels, self.symbols
+            )
+            # Insert next label if address matches.
+            if len(sorted_labels) > 0 and sorted_labels[0] <= ins.address:
+                label = sorted_labels.pop(0)
+                yield f"{label_name(label)}:"
+
+            # Actual instruction.
+            yield f"  {ins.disassemble()};"
+
 
     def disassemble_function(self, sym):
         """Generates the inline assembly function body as a stream of lines."""
@@ -151,48 +224,11 @@ class CAsmGenerator:
         data_stop = data_start + sym.size
         data = self.data[data_start:data_stop]
         insns = list(disasm_iter(data, sym.addr))
-        # Walk instructions to collect:
-        #   jumps inside functions (labels)
-        #   long jumps to other functions (extern symbol references)
-        labels = set()
-        for ins in insns:
-            branch_info = ins.disassemble_branch()
-            if branch_info is not None:
-                _, addr = branch_info
-                # If target address is within symbol, we have a label.
-                if sym.addr <= addr < sym.addr + sym.size:
-                    labels.add(addr)
-                # And extern function declaration if:
-                #   1. Target address is not within translation unit
-                #   2. We haven't declared it previously
-                elif (addr not in self.own_symbols) and (
-                    addr not in self.extern_functions_seen
-                ):
-                    # If it's a known symbol, use its name.
-                    if addr in self.symbols:
-                        self.extern_functions_seen.add(addr)
-                        self.extern_functions.append(self.symbols[addr])
-                    # If the target address is unknown we still need to create a symbol.
-                    else:
-                        self.extern_functions_seen.add(addr)
-                        ext_sym = Symbol(addr, "unk_%08x" % addr)
-                        self.symbols.put(ext_sym)
-                        self.extern_functions.append(ext_sym)
 
-        sorted_labels = list(sorted(labels))
-        # Disassemble instructions.
-        func_body = []
-        for ins in insns:
-            # TODO is there a better way to specialize a Python object?
-            ins = InlineInstruction(
-                ins.address, ins.insn, ins.bytes, labels, self.symbols
-            )
-            # Insert next label if address matches.
-            if len(sorted_labels) > 0 and sorted_labels[0] <= ins.address:
-                label = sorted_labels.pop(0)
-                func_body.append(f"{label_name(label)}:")
-            # Actual instruction.
-            func_body.append(f"  {ins.disassemble()};")
+        labels = self.__analyze_jumps()
+        sorted_labels = list(sorted(labels))    
+        func_body = list(self.__disasm_instructions(labels, sorted_labels))
+
         return func_body
 
 
@@ -221,32 +257,55 @@ class DOLSrcGenerator:
         self.dol_asm_sources = set()
         self.dol_decomp_sources = set()
 
-    def run(self):
-        """Runs ASM generation for main.dol."""
-        for section in DOL_SECTIONS:
-            self.__process_section(section)
-        # Delete stale ASM files.
+    # Delete stale ASM files.
+    def __prune_asm(self):
         for path in self.dol_asm_dir.iterdir():
             if path.suffix != ".s":
                 continue
             if path.stem not in self.dol_asm_sources:
                 os.remove(path)
-        # Give all ASM slices a name. This makes the slice table unusable.
+
+    def __stem_for_asm_slice(self, _slice):
+        if _slice.has_name():
+            return Path(Path(_slice.name).name)
+
+        return get_asm_path(Path("dol"), _slice)
+    
+    def __outpath_of_asm_slice(self, _slice):
+        # Wrong term maybe
+        stem = self.__stem_for_asm_slice(_slice)
+        out_path = Path("out") / stem.with_suffix(".o")
+        return str(out_path)
+
+    # Iterator of all non-empty sections
+    def __slice_sections(self):
         for _slice in self.slices:
             if _slice.section is None:
                 continue
-            out_path = None
-            if not _slice.has_name():
-                out_path = get_asm_path(Path("dol"), _slice)
-            else:
-                out_path = Path(Path(_slice.name).name)
-            out_path = Path("out") / out_path.with_suffix(".o")
-            _slice.name = str(out_path)
-        # Write list of objects for linker.
+
+            yield _slice
+
+    # Give all ASM slices a name. This makes the slice table unusable.
+    def __name_asm_slices(self):
+        for _slice in self.__slice_sections():
+            _slice.name = self.__outpath_of_asm_slice(_slice)
+
+    # Write list of objects for linker.
+    def __write_objlist(self):
         object_names = self.slices.object_slices().objects.keys()
         with open(self.pack_dir / "dol_objects.txt", "w") as file:
             for name in object_names:
                 print(Path(name), file=file)
+
+    def run(self):
+        """Runs ASM generation for main.dol."""
+        for section in DOL_SECTIONS:
+            self.__process_section(section)
+
+        self.__prune_asm()        
+        self.__name_asm_slices()
+        self.__write_objlist()
+        
 
     def __process_section(self, section: Section):
         """Processes a program section and all its slices."""
@@ -255,15 +314,24 @@ class DOLSrcGenerator:
         for _slice in subtable:
             self.__process_slice(section, _slice)
 
+    # If the slice should be output as a .s file
+    def __slice_dest_asm(self, _slice):
+        return not _slice.has_name()
+
+    # If the slice should be output as a .c file
+    def __slice_dest_c(self, _slice):
+        return _slice.has_name()
+
     def __process_slice(self, section: Section, _slice: Slice):
         """Process a slice in slices.csv or a gap."""
         print(f"  {_slice}")
-        # Generate ASM file.
-        if not _slice.has_name():
+        
+        if self.__slice_dest_asm(_slice):
             self.__gen_asm(section, _slice)
-        # Generate C code file.
+            return
+
         # TODO Ideally this would work on the notion of objects instead of slices.
-        else:
+        if self.__slice_dest_c(_slice):
             source_path = Path(_slice.name)
             if source_path.stem not in self.dol_decomp_sources:
                 self.dol_decomp_sources.add(source_path.stem)
@@ -276,6 +344,7 @@ class DOLSrcGenerator:
         c_path = Path(_slice.name)
         if c_path.exists():
             return
+
         c_path.parent.mkdir(parents=True, exist_ok=True)
         print(f"    => {_slice.name}")
         data = self.dol.virtual_read(_slice.start, len(_slice))
@@ -376,6 +445,40 @@ class RELSrcGenerator:
             gen = AsmGenerator(data, _slice, SymbolsList(), asm_file)
             gen.dump_section()
 
+def __read_symbol_map(symbols_path):
+    symbols = SymbolsList()
+
+    with open(symbols_path, "r") as file:
+        symbols.read_from(file)
+
+        return symbols
+
+    raise RuntimeError("Cannot find symbols")
+
+def __read_dol(dol_path):
+    with open(dol_path, "rb") as file:
+        dol = DolBinary(file)
+
+        return dol
+
+    raise RuntimeError("Cannot find DOL")
+
+# Map out slices in DOL.
+def __read_enabled_slices(dol, slices_path):
+    dol_slices = SliceTable(dol.start, dol.stop)
+    with open(slices_path) as file:
+        dol_slices.read_from(file)
+        
+        return dol_slices.filter(SliceTable.ONLY_ENABLED)
+
+    raise RuntimeError("Cannot find dol_slices.csv")
+
+def __read_rel(rel_path):
+    with open(rel_path, "rb") as file:
+        return Rel(file)
+
+    raise RuntimeError("Cannot find StaticR.rel")
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate ASM blobs and linker object lists."
@@ -394,21 +497,11 @@ def main():
     args = parser.parse_args()
     args.asm_dir.mkdir(exist_ok=True)
 
-    # Read symbol map.
-    symbols = SymbolsList()
-    symbols_path = args.pack_dir / "symbols.txt"
-    with open(symbols_path, "r") as file:
-        symbols.read_from(file)
+    symbols = __read_symbol_map(args.pack_dir / "symbols.txt")
 
-    # Read DOL.
-    dol_path = args.binary_dir / "main.dol"
-    with open(dol_path, "rb") as file:
-        dol = DolBinary(file)
-    # Map out slices in DOL.
-    dol_slices = SliceTable(dol.start, dol.stop)
-    with open(args.pack_dir / "dol_slices.csv") as file:
-        dol_slices.read_from(file)
-    dol_slices = dol_slices.filter(SliceTable.ONLY_ENABLED)
+    dol = __read_dol(args.binary_dir / "main.dol")
+    dol_slices = __read_enabled_slices(dol, args.pack_dir / "dol_slices.csv")
+    
     # Disassemble DOL sections.
     dol_asm_dir = args.asm_dir / "dol"
     dol_asm_dir.mkdir(exist_ok=True)
@@ -417,10 +510,7 @@ def main():
     )
     dol_gen.run()
 
-    # Read REL.
-    rel_path = args.binary_dir / "StaticR.rel"
-    with open(rel_path, "rb") as file:
-        rel = Rel(file)
+    rel = __read_rel(args.binary_dir / "StaticR.rel")
     # Dump StaticR.rel segments.
     rel_bin_dir = args.binary_dir / "rel"
     dump_staticr(rel, rel_bin_dir)
