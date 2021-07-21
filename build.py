@@ -47,20 +47,7 @@ def windows_binary(path):
 
 VERBOSE = False
 
-DEVKITPPC = os.environ.get("DEVKITPPC")
-if DEVKITPPC is None:
-    # devkitPPC not specified in env.
-    # Default to ./tools/devkitppc
-    DEVKITPPC = Path().joinpath("tools", "devkitppc")
-    if not os.path.isdir(DEVKITPPC):
-        print(
-            f'Could not find devkitPPC under "{DEVKITPPC}" and $DEVKITPPC var is not set.',
-            file=sys.stderr,
-        )
-        sys.exit(1)
-
-
-GAS = native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
+GAS = native_binary(os.path.join("C:\\devkitPro\\devkitPPC", "bin", "powerpc-eabi-as"))
 
 MWLD = windows_binary(os.path.join("tools", "mwldeppc.exe"))
 
