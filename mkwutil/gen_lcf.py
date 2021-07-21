@@ -36,6 +36,7 @@ def gen_lcf(
         with open(obj_path, "rb") as file:
             elf = ELFFile(file)
             symtab = elf.get_section_by_name(".symtab")
+            assert symtab is not None, "ELF has no symbol table"
             for symbol in symtab.iter_symbols():
                 match = MATCH_UNK.match(symbol.name)
                 if not match:
