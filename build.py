@@ -10,7 +10,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-from multiprocessing.dummy import Pool as ThreadPool
+from multiprocessing.dummy import Pool as ThreadPool, Lock
 import multiprocessing
 
 import colorama
@@ -28,6 +28,7 @@ from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.percent_decompiled import percent_decompiled
 
 colorama.init()
+print_mutex = Lock()
 
 # Remember which files are stripped.
 dol_slices = SliceTable.load_dol_slices(sections=DOL_SECTIONS)
@@ -129,9 +130,16 @@ def compile_source_impl(src, dst, version="default", additional="-ipa file"):
     """Compiles a source file."""
     # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
-    if VERBOSE:
-        print(command)
-    subprocess.run(command, check=True)
+    process = subprocess.Popen(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    lines = list(iter(process.stdout.readline, ""))
+    with print_mutex:
+        print(f'{colored("CC", "green")} {src}')
+        if VERBOSE:
+            print(command)
+        for line in lines:
+            print("   " + line.strip())
+    process.wait()
+    assert process.returncode == 0, f"{command} exited with returncode {process.returncode}"
 
 
 gSourceQueue = []
@@ -166,10 +174,9 @@ def compile_queued_sources():
 
 
 # Queued
-def compile_source(src, version="default", additional="-ipa file"):
-    """Compiles a C/C++ file."""
+def queue_compile_source(src, version="default", additional="-ipa file"):
+    """Queues a C/C++ file for compilation."""
     dst = (Path("out") / src.parts[-1]).with_suffix(".o")
-    print(f'{colored("CC", "green")} {src}')
     gSourceQueue.append((src, dst, version, additional))
 
 
@@ -211,7 +218,7 @@ def compile_sources():
     out_dir.mkdir(exist_ok=True)
 
     for src in chain(SOURCES_DOL, SOURCES_REL):
-        compile_source(Path(src.src), src.cc, src.opts)
+        queue_compile_source(Path(src.src), src.cc, src.opts)
 
     compile_queued_sources()
 

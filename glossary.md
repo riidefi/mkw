@@ -7,8 +7,8 @@ An area of program address space with a specific kind of content.
 | Name         | Purpose                                 | DOL | REL |
 | ------------ | --------------------------------------- | --- | --- |
 | `init`       | Program entrypoint                      | Yes | No  |
-| `extab`      | ?                                       | Yes | ?   |
-| `extabindex` | ?                                       | Yes | ?   |
+| `extab`      | Exception Table                         | Yes | No  |
+| `extabindex` | Exception Table                         | Yes | No  |
 | `text`       | Program code                            | Yes | Yes |
 | `ctors`      | Pointers to code to execute on startup  | Yes | Yes |
 | `dtors`      | Pointers to code to execute on shutdown | Yes | Yes |
