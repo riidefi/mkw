@@ -8,6 +8,7 @@ import os
 from os import PathLike
 from pathlib import Path
 import struct
+from typing import Optional
 
 REL_BASE = 0x805102E0
 
@@ -148,6 +149,15 @@ class Rel:
         s.data = file.read()
         s.length = len(s.data)
         self.section_info[index] = s
+
+    def virtual_read(self, vaddr: int, size: int, sections, section_idx) -> Optional[bytes]:
+        # Find the virtual address section where vaddr falls into.
+        section_virtual_idx, section_virtual = next((seg for seg in enumerate(sections) if vaddr in seg[1]), None)
+        # Map to REL section number.
+        section_idx = section_idx[section_virtual_idx]
+        # Calculate addres.
+        relative_addr = vaddr - section_virtual.start
+        return self.section_info[section_idx].data[relative_addr:relative_addr+size]
 
 
 class RelHeader:
@@ -331,9 +341,7 @@ class RelRelEntry:
         return entry.getvalue()
 
 
-def dump_staticr(rel, path):
-    _path = Path(path)
-
+def dump_staticr(rel: Rel, _path: Path) -> None:
     rel.dump_reloc(0, _path / "dol_rel.bin")
     rel.dump_reloc(1, _path / "rel_abs.bin")
 

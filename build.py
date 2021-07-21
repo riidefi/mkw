@@ -1,4 +1,9 @@
-import csv
+"""
+Build script for Mario Kart Wii.
+"""
+
+
+from itertools import chain
 import os
 import os.path
 from pathlib import Path
@@ -8,7 +13,12 @@ import sys
 from multiprocessing.dummy import Pool as ThreadPool
 import multiprocessing
 
-from mkwutil.gen_asm import read_slices
+import colorama
+from termcolor import colored
+
+from mkwutil.sources import SOURCES_DOL, SOURCES_REL
+from mkwutil.slices import SliceTable
+from mkwutil.sections import DOL_SECTIONS
 from mkwutil.verify_object_file import verify_object_file
 from mkwutil.gen_lcf import gen_lcf
 from mkwutil.pack_main_dol import pack_main_dol
@@ -17,29 +27,28 @@ from mkwutil.verify_main_dol import verify_dol
 from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.percent_decompiled import percent_decompiled
 
-import colorama
-from colorama import Fore, Style
-
 colorama.init()
 
-dol_slices = read_slices("pack/dol_slices.csv", verbose=False)
-dol_slices = { sl.obj_file : sl for sl in dol_slices }
-
 # Remember which files are stripped.
+dol_slices = SliceTable.load_dol_slices(sections=DOL_SECTIONS)
 stripped_files = set()
-with open("pack/dol_slices.csv") as f:
-    rd = csv.DictReader(f)
-    for line in rd:
-        if line["strip"]:
-            stripped_files.add(line["name"])
+for _slice in dol_slices:
+    if "strip" in _slice.tags:
+        stripped_files.add(Path(_slice.name).stem)
+dol_object_slices = dol_slices.object_slices()
+# Rename objects to stem, not full path.
+dol_object_slices.objects = {
+    Path(k).stem: v for k, v in dol_object_slices.objects.items()
+}
 
-def native_binary(path):
+
+def __native_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
         return path + ".exe"
     return path
 
 
-def windows_binary(path):
+def __windows_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
         return path
     return "wine " + path
@@ -60,12 +69,12 @@ if DEVKITPPC is None:
         sys.exit(1)
 
 
-GAS = native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
+GAS = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
 
-MWLD = windows_binary(os.path.join("tools", "mwldeppc.exe"))
+MWLD = __windows_binary(os.path.join("tools", "mwldeppc.exe"))
 
 CWCC_PATHS = {
-    "default": windows_binary(os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")),
+    "default": __windows_binary(os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")),
     # For the main game
     # August 17, 2007
     # 4.2.0.1 Build 127
@@ -74,15 +83,15 @@ CWCC_PATHS = {
     # We don't have this, so we use build 142:
     # This version has the infuriating bug where random
     # nops are inserted into your code.
-    "4201_127": windows_binary(os.path.join(".", "tools", "4201_142", "mwcceppc.exe")),
+    "4201_127": __windows_binary(os.path.join(".", "tools", "4201_142", "mwcceppc.exe")),
     # For most of RVL
     # We actually have the correct version
-    "4199_60831": windows_binary(
+    "4199_60831": __windows_binary(
         os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")
     ),
     # For HBM/WPAD, NHTTP/SSL
     # We use build 60831
-    "4199_60726": windows_binary(
+    "4199_60726": __windows_binary(
         os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")
     ),
 }
@@ -117,18 +126,22 @@ CWCC_OPT = " ".join(
 
 
 def compile_source_impl(src, dst, version="default", additional="-ipa file"):
+    """Compiles a source file."""
     # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
     if VERBOSE:
         print(command)
     subprocess.run(command, check=True)
 
+
 gSourceQueue = []
 
+
 def compile_queued_sources():
+    """Dispatches multiple threads to compile all queued sources."""
     max_hw_concurrency = multiprocessing.cpu_count()
-    print(Fore.YELLOW + f"max_hw_concurrency={max_hw_concurrency}" + Style.RESET_ALL)
-    
+    print(colored(f"max_hw_concurrency={max_hw_concurrency}", color="yellow"))
+
     pool = ThreadPool(max_hw_concurrency)
 
     pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
@@ -139,55 +152,71 @@ def compile_queued_sources():
     #
     # colorama doesn't seem to work with multithreading
     #
-    for s in gSourceQueue:
-        src, dst = s[0:2]
-        if src in stripped_files:
+    for (src, dst, _, _) in gSourceQueue:
+        if src.stem in stripped_files:
             continue
         # Verify ELF file section sizes.
-        tha_slice = dol_slices.get(src)
-        if tha_slice:
-            verify_object_file(dst, src, tha_slice)
+        obj_slices = dol_object_slices.get(src.stem)
+        if obj_slices:
+            verify_object_file(dst, src, obj_slices)
         else:
-            print(Fore.YELLOW + "# Skipping slices verification on " + src + Style.RESET_ALL)
+            print(colored(f"Skipping slices verification on {src}", color="yellow"))
 
     gSourceQueue.clear()
 
+
 # Queued
-def compile_source(src, dst, version="default", additional="-ipa file"):
+def compile_source(src, version="default", additional="-ipa file"):
+    """Compiles a C/C++ file."""
+    dst = (Path("out") / src.parts[-1]).with_suffix(".o")
+    print(f'{colored("CC", "green")} {src}')
     gSourceQueue.append((src, dst, version, additional))
 
-def assemble(dst, src):
+
+def assemble(dst: Path, src: Path) -> None:
+    """Assembles a .s file."""
+    print(f'{colored("AS", "green")} {src}')
     subprocess.run([GAS, src, "-mgekko", "-Iasm", "-o", dst], check=True, text=True)
 
 
-def link(dst, objs, lcf, map_path, partial=False):
-    print(map_path)
-    cmd = [MWLD] + objs + ["-o", dst, "-lcf", lcf, "-fp", "hard", "-linkmode", "moreram", "-map", map_path]
+def link(
+    dst: Path, objs: list[Path], lcf: Path, map_path: Path, partial: bool = False
+) -> bool:
+    """Links an ELF."""
+    print(f'{colored("LD", "green")} {dst}')
+    cmd = (
+        [MWLD]
+        + objs
+        + [
+            "-o",
+            dst,
+            "-lcf",
+            lcf,
+            "-fp",
+            "hard",
+            "-linkmode",
+            "moreram",
+            "-map",
+            map_path,
+        ]
+    )
     if partial:
         cmd.append("-r")
     subprocess.run(cmd, check=True, text=True)
 
 
-def make_obj(src):
-    substitutions = (".cpp", ".asm", ".c", ".s")
-    for sub in substitutions:
-        src = src.replace(sub, ".o")
-    return src
-
-
 def compile_sources():
+    """Compiles all C/C++ and ASM files."""
     out_dir = Path("out")
     out_dir.mkdir(exist_ok=True)
 
-    # compile sources
-    # TODO exec() is bad practice
-    with open("sources.py", "r") as sourcespy:
-        exec(sourcespy.read())
+    for src in chain(SOURCES_DOL, SOURCES_REL):
+        compile_source(Path(src.src), src.cc, src.opts)
 
     compile_queued_sources()
 
     asm_files = [
-        str(x.relative_to(os.getcwd()))
+        x.relative_to(os.getcwd())
         for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")
     ]
 
@@ -195,12 +224,15 @@ def compile_sources():
     (out_dir / "rel").mkdir(exist_ok=True)
 
     for asm in asm_files:
-        # Hack: Should use pathlib for this
-        out_o = "out" + asm[len("asm") :]
-        assemble(make_obj(out_o), asm)
+        out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
+        # Optimization: Do not assemble ASM files if the target object already exists.
+        if out_o.exists():
+            continue
+        assemble(out_o, asm)
 
 
-def link_dol(o_files):
+def link_dol(o_files: list[Path]):
+    """Links main.dol."""
     # Generate LCF.
     src_lcf_path = Path("pack", "dol.lcf.j2")
     dst_lcf_path = Path("pack", "dol.lcf")
@@ -220,7 +252,8 @@ def link_dol(o_files):
     return dol_path
 
 
-def link_rel(o_files):
+def link_rel(o_files: list[Path]):
+    """Links StaticR.rel."""
     # Generate LCF.
     src_lcf_path = Path("pack", "rel.lcf.j2")
     dst_lcf_path = Path("pack", "rel.lcf")
@@ -242,12 +275,15 @@ def link_rel(o_files):
 
 
 def build():
+    """Builds the game."""
     Path("target").mkdir(exist_ok=True)
 
     dol_objects_path = Path("pack/dol_objects.txt")
     rel_objects_path = Path("pack/rel_objects.txt")
     dol_objects = open(dol_objects_path, "r").readlines()
+    dol_objects = [Path(x.strip()) for x in dol_objects]
     rel_objects = open(rel_objects_path, "r").readlines()
+    rel_objects = [Path(x.strip()) for x in rel_objects]
 
     compile_sources()
 
@@ -261,4 +297,5 @@ def build():
     percent_decompiled()
 
 
-build()
+if __name__ == "__main__":
+    build()
