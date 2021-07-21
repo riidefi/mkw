@@ -3,4 +3,4 @@
 .section .init, "ax" # { 80004000..80005f34 (init) }
 
 .asciz "Metrowerks Target Resident Kernel for PowerPC"
-.align 8
+.balign 0x100
