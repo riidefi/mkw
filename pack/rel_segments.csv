@@ -1,7 +1,0 @@
-name,type,start,end
-text,code,805103B4,8088F400
-ctors,data,8088F400,8088F704
-dtors,data,8088F704,8088F710
-rodata,data,8088F710,808B2BD0
-data,data,808B2BD0,808DD3D4
-bss,bss,809BD6E0,809C4F90

@@ -1,387 +1,382 @@
+"""
+Assembly file generators.
+"""
+
 import argparse
-import csv
-from contextlib import redirect_stdout
-import os
 from pathlib import Path
+import os
 import struct
 
-from .ppc_dis import disasm_iter, disassemble_callback
-from .dol import DolBinary, Segment
+import jinja2
 
-from .rel import Rel, dump_staticr
-
-
-read_u32 = lambda f: struct.unpack(">L", f.read(4))[0]
-read_u16 = lambda f: struct.unpack(">H", f.read(2))[0]
-read_u8 = lambda f: struct.unpack(">B", f.read(1))[0]
-
-
-def read_segments_iter(name):
-    with open(name) as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            yield row["name"], Segment(int(row["start"], 16), int(row["end"], 16))
+from mkwutil.ppc_dis import InlineInstruction, disasm_iter, label_name
+from mkwutil.dol import DolBinary
+from mkwutil.rel import Rel, dump_staticr
+from mkwutil.symbols import Symbol, SymbolsList
+from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS, REL_SECTION_IDX, Section
+from mkwutil.slices import Slice, SliceTable
 
 
-def read_segments(name):
-    result = {}
-    for name, segment in read_segments_iter(name):
-        result[name] = segment
-    return result
+jinja_env = jinja2.Environment(
+    loader=jinja2.PackageLoader("mkwutil", "gen_asm"),
+    autoescape=jinja2.select_autoescape(),
+)
+jinja_env.filters["addr"] = lambda x: "0x%08x" % (x)
 
 
-class Slice:
-    def __init__(self, obj_file, segments):
-        self.obj_file = obj_file
-        self.segments = segments
+class AsmGenerator:
+    """Generates assembly files."""
 
-    def __repr__(self):
-        return "Slice { %s, %u segs }" % (self.obj_file, len(self.segments))
+    def __init__(self, data, _slice, symbols, output):
+        self.data = data
+        self.slice = _slice
+        self.symbols = symbols
+        self.output = output
+
+    # TODO Define symbols in ASM
+
+    def dump_bss(self):
+        """Writes a bss segment."""
+        print(".skip 0x%x" % len(self.slice), file=self.output)
+
+    def dump_data(self):
+        """Writes a data segment."""
+        data = self.data
+        while len(data) >= 4:
+            int_val = struct.unpack(">I", data[:4])[0]
+            print(".4byte 0x%08X" % (int_val), file=self.output)
+            data = data[4:]
+        for byte_val in data:
+            print(".byte 0x%02x" % (byte_val), file=self.output)
+
+    def dump_text(self):
+        """Writes a disassembled text segment."""
+        for ins in disasm_iter(self.data, self.slice.start):
+            print(ins.disassemble(), file=self.output)
+
+    def dump_section_body(self):
+        name = self.slice.section
+        if "bss" in name:
+            self.dump_bss()
+        elif name in ("text", "init"):
+            self.dump_text()
+        else:
+            self.dump_data()
+
+    def format_segname(self, name):
+        if "extab" in name:
+            return name + "_"
+        return "." + name
+
+    def dump_section_header(self):
+        """Writes the header to output."""
+        # section permissions
+        perm = self.compute_perm()
+        print(
+            f""".include "macros.inc"
+
+.section {self.format_segname(self.slice.section)}, "{perm}" # {self.slice}""",
+            file=self.output,
+        )
+
+    def compute_perm(self):
+        """Computes the memory permissions."""
+        name = self.slice.section
+        perm = "wa"
+        if name in ("text", "init"):
+            perm = "ax"
+        # if "bss" in name:
+        #     perm = "ba"
+        if name == "rodata" or "2" in name:
+            perm = perm.replace("w", "")
+        return perm
+
+    def dump_section(self):
+        """Writes unit header and body to output."""
+        self.dump_section_header()
+        self.dump_section_body()
 
 
-# Limitation: slices must be ordered
-def read_slices(name, verbose=True):
-    lines = open(name).readlines()
-    reader = csv.DictReader(lines)
-    for row in reader:
-        if not row.pop("enabled"):
-            continue
-        if "strip" in row:
-            row.pop("strip")
-        name = row.pop("name")
-        segments = {}
+class CAsmGenerator:
+    """Generates C files with assembly functions."""
 
-        for cell, value in row.items():
-            segment_attributes = ["Start", "End"]
-            seg_name = ""
-            seg_type = ""
-            for attr in segment_attributes:
-                if cell.endswith(attr):
-                    seg_type = attr
-                    seg_name = cell[: -len(attr)]
-            assert seg_name and seg_type
+    def __init__(self, data, _slice, symbols, output):
+        self.data = data
+        self.slice = _slice
+        self.symbols = symbols
+        self.own_symbols = self.symbols.slice(self.slice.start, self.slice.stop)
+        self.own_symbols.derive_sizes(self.slice.stop)
+        self.output = output
+        # The list of seen extern functions.
+        self.extern_functions_seen = set()
+        self.extern_functions = list()
 
-            if not value:
+    # TODO not a good name
+    def dump_section(self):
+        """Writes the C file to output."""
+        addr = self.slice.start
+        functions = []
+        for sym in self.own_symbols:
+            assert (
+                sym.addr == addr
+            ), f"Currently at {hex(addr)} but next symbol is at {hex(sym.addr)}"
+            func_body = self.disassemble_function(sym)
+            functions.append(
+                {
+                    "addr": sym.addr,
+                    "size": sym.size,
+                    "name": sym.name,
+                    "inline_asm": func_body,
+                }
+            )
+            addr += sym.size
+        assert (
+            addr == self.slice.stop
+        ), f"Disassembled up to {hex(addr)} but slice goes to {hex(self.slice.stop)}"
+        # Sort extern functions.
+        self.extern_functions.sort(key=lambda sym: sym.addr)
+        # Write out to C file.
+        template = jinja_env.get_template("source.c.j2")
+        stream = template.stream(
+            functions=functions, extern_functions=self.extern_functions
+        )
+        stream.dump(self.output)
+
+    def disassemble_function(self, sym):
+        """Generates the inline assembly function body as a stream of lines."""
+        assert isinstance(sym.size, int)
+        assert sym.size > 0
+        # Grab the instructions.
+        data_start = sym.addr - self.slice.start
+        data_stop = data_start + sym.size
+        data = self.data[data_start:data_stop]
+        insns = list(disasm_iter(data, sym.addr))
+        # Walk instructions to collect:
+        #   jumps inside functions (labels)
+        #   long jumps to other functions (extern symbol references)
+        labels = set()
+        for ins in insns:
+            branch_info = ins.disassemble_branch()
+            if branch_info is not None:
+                _, addr = branch_info
+                # If target address is within symbol, we have a label.
+                if sym.addr <= addr < sym.addr + sym.size:
+                    labels.add(addr)
+                # And extern function declaration if:
+                #   1. Target address is not within translation unit
+                #   2. We haven't declared it previously
+                elif (addr not in self.own_symbols) and (
+                    addr not in self.extern_functions_seen
+                ):
+                    # If it's a known symbol, use its name.
+                    if addr in self.symbols:
+                        self.extern_functions_seen.add(addr)
+                        self.extern_functions.append(self.symbols[addr])
+                    # If the target address is unknown we still need to create a symbol.
+                    else:
+                        self.extern_functions_seen.add(addr)
+                        ext_sym = Symbol(addr, "unk_%08x" % addr)
+                        self.symbols.put(ext_sym)
+                        self.extern_functions.append(ext_sym)
+
+        sorted_labels = list(sorted(labels))
+        # Disassemble instructions.
+        func_body = []
+        for ins in insns:
+            # TODO is there a better way to specialize a Python object?
+            ins = InlineInstruction(
+                ins.address, ins.insn, ins.bytes, labels, self.symbols
+            )
+            # Insert next label if address matches.
+            if len(sorted_labels) > 0 and sorted_labels[0] <= ins.address:
+                label = sorted_labels.pop(0)
+                func_body.append(f"{label_name(label)}:")
+            # Actual instruction.
+            func_body.append(f"  {ins.disassemble()};")
+        return func_body
+
+
+def get_asm_path(folder, _slice):
+    assert _slice.section is not None
+    return folder / ("%s_%08x_%08x.s" % (_slice.section, _slice.start, _slice.stop))
+
+
+class DOLSrcGenerator:
+    def __init__(
+        self,
+        slices: SliceTable,
+        dol: DolBinary,
+        symbols: SymbolsList,
+        dol_asm_dir: Path,
+        pack_dir: Path,
+        regen_asm: bool,
+    ):
+        self.slices = slices
+        self.slices.set_sections(DOL_SECTIONS)
+        self.dol = dol
+        self.symbols = symbols
+        self.dol_asm_dir = dol_asm_dir
+        self.pack_dir = pack_dir
+        self.regen_asm = regen_asm
+        self.dol_asm_sources = set()
+        self.dol_decomp_sources = set()
+
+    def run(self):
+        """Runs ASM generation for main.dol."""
+        for section in DOL_SECTIONS:
+            self.__process_section(section)
+        # Delete stale ASM files.
+        for path in self.dol_asm_dir.iterdir():
+            if path.suffix != ".s":
                 continue
-
-            if not seg_name in segments:
-                segments[seg_name] = Segment(0, 0)
-
-            if seg_type == "Start":
-                segments[seg_name].begin = int(value, 16)
-            elif seg_type == "End":
-                segments[seg_name].end = int(value, 16)
-
-        if verbose:
-            print("#### %s %s" % (name, segments))
-        yield Slice(name, segments)
-
-
-def get_asm_path(name, gap, folder):
-    folder.mkdir(exist_ok=True)
-    return folder / ("%s_%08x_%08x.s" % (name, gap.begin, gap.end))
-
-
-def format_segname(name):
-    if "extab" in name:
-        return name + "_"
-    return "." + name
-
-
-def read_u32b(filecontent, offset):
-    return (
-        (filecontent[offset + 0] << 24)
-        | (filecontent[offset + 1] << 16)
-        | (filecontent[offset + 2] << 8)
-        | filecontent[offset + 3]
-    )
-
-
-# stdout must be redirected
-def dump_bss(size):
-    print(".skip 0x%x" % size)
-
-
-# stdout must be redirected
-def dump_data(image, addr_start, seg):
-    for i in range(seg.begin, seg.end, 4):
-        if seg.end - i >= 4:
-            print(".4byte 0x%08X" % read_u32b(image, i - addr_start))
-            continue
-
-        for j in range(i, seg.end):
-            print(".byte 0x%02x" % image[j - addr_start])
-
-
-# stdout must be redirected
-def dump_text(image, addr_start, seg):
-    disasm_iter(
-        image, seg.begin - addr_start, seg.begin, seg.size(), disassemble_callback
-    )
-
-
-def compute_perm(name):
-    perm = "wa"
-    if name == "text" or name == "init":
-        perm = "ax"
-
-    # if "bss" in name:
-    #     perm = "ba"
-
-    if name == "rodata" or "2" in name:
-        perm = perm.replace("w", "")
-
-    return perm
-
-
-# stdout must be redirected
-def dump_section_body(name, image, addr_start, seg):
-    if "bss" in name:
-        dump_bss(seg.size())
-        return
-
-    if name == "text" or name == "init":
-        dump_text(image, addr_start, seg)
-        return
-
-    dump_data(image, addr_start, seg)
-
-
-# stdout must be redirected
-def dump_section_header(name, seg):
-    # section permissions
-    perm = compute_perm(name)
-
-    print(
-        '\n.section %s, "%s" # 0x%08X - 0x%08X'
-        % (format_segname(name), perm, seg.begin, seg.end)
-    )
-
-
-# stdout must be redirected
-def dump_section(name, image, addr_start, seg):
-    dump_section_header(name, seg)
-    dump_section_body(name, image, addr_start, seg)
-
-
-# stdout must be redirected
-def dump_object_file(image, addr_start, segments):
-    print('\n.include "macros.inc"')
-
-    for segment_name, segment in segments:
-        dump_section(segment_name, image, addr_start, segment)
-
-
-def disassemble_object_file(path, image, addr_start, segments):
-    if os.path.exists(path):
-        return  # Don't bother updating existing file
-    with open(path, "w") as file:
-        with redirect_stdout(file):
-            dump_object_file(image, addr_start, segments)
-
-
-def disasm(folder, name, image, addr_start, seg, is_data):
-    path = get_asm_path(name, seg, folder)
-    disassemble_object_file(path, image, addr_start, [(name, seg)])
-    return path
-
-
-def gen_start_segs(segments):
-    # Start segs:
-    # ['text']: (0, 0x8...)
-    start_seg = {}
-    for name, seg in segments.items():
-        start_seg[name] = Segment(0, seg.begin)
-
-    return start_seg
-
-
-def gen_end_segs(segments):
-    # End segs:
-    # ['text']: (0x8..., 0)
-    end_seg = {}
-    for name, seg in segments.items():
-        end_seg[name] = Segment(seg.end, 0)
-
-    return end_seg
-
-
-def find_gaps(all_slices):
-    last_segments = all_slices[0].segments
-
-    # [1:] to skip initial (previously start_seg)
-    for slice_obj in all_slices[1:]:
-        obj_file = slice_obj.obj_file
-        slice = slice_obj.segments
-        for name, segment in slice.items():
-            if last_segments[name].end != segment.begin:
-                # There's a gap!
-
-                print(
-                    "[.%s] Gap from %x to %x"
-                    % (name, last_segments[name].end, segment.begin)
-                )
-                yield name, Segment(last_segments[name].end, segment.begin)
-
-            last_segments[name] = segment
-        if not obj_file.startswith("#"):
-            yield obj_file, None
-
-
-def find_o_files(all_slices, folder):
-    """Returns all paths to object files that will assemble the binary."""
-    for name, gap_seg in find_gaps(all_slices):
-        if gap_seg is None:
-            yield name, gap_seg, "??"
-            continue
-        path = get_asm_path(name, gap_seg, folder)
-        print(path)
-        path.stem.replace(".s", ".o")
-        yield name, gap_seg, path
-
-
-def unpack_binary(folder, all_slices, image, addr_start):
-    # Disassemble all slices if they don't exist already.
-    # Keep track of the expected paths.
-    asm_paths = set()
-    for name, gap_seg, dest in find_o_files(all_slices, folder):
-        is_decompiled = gap_seg is None
-
-        if not is_decompiled:
-            # print("name %s dest %s" % (name, dest))
-            asm_path = disasm(folder, name, image, addr_start, gap_seg, False)
-            asm_paths.add(str(asm_path.relative_to(folder)))
-            kind = Path(dest.parent.name)  # dol or rel
-            yield Path("out", kind, dest.stem + ".o")
-
-        if is_decompiled:
-            object_name = Path(name).stem + ".o"
-            yield Path("out", object_name)
-    # Check with paths we actually have.
-    # Delete asm blobs that don't match those we just unpacked.
-    for path in folder.iterdir():
-        have_path = path.relative_to(folder)
-        if have_path.suffix != ".s":
-            continue
-        if str(have_path) in asm_paths:
-            continue
-        print(f"Removing {path}")
-        os.remove(path)
-
-
-def compute_end_cap(segments):
-    # Final 0x8 -> 0x8; second part ignored
-    end_seg = gen_end_segs(segments)
-
-    end_slice = Slice("# 0x80 [finish] -> 0x80 [ignored]", end_seg)
-
-    return end_slice
-
-
-def compute_begin_cap(segments):
-    # Final 0x8 -> 0x8; second part ignored
-    start_seg = gen_start_segs(segments)
-
-    start_slice = Slice("# 0 [ignored] -> 0x80 [start]", start_seg)
-
-    return start_slice
-
-
-def gen_cuts(slices, segments):
-    # Initial 0 -> 0x8; first part ignored
-
-    start_slice = compute_begin_cap(segments)
-    end_slice = compute_end_cap(segments)
-
-    return [start_slice] + slices + [end_slice]
-
-
-def compute_cuts_from_spreadsheets(segments, decomplog):
-    # segments: binary descriptor, .text: 0x8..0x8
-    # decomplog: slices, what decompiled code replaces
-
-    slices = list(read_slices(decomplog))
-    segments = read_segments(segments)
-
-    return slices, segments, gen_cuts(slices, segments)
-
-
-def unpack_base_dol(asm_dir, pack_dir, binary_dir):
-    base_dol = DolBinary(binary_dir / "main.dol")
-
-    _, _, cuts = compute_cuts_from_spreadsheets(
-        pack_dir / "dol_segments.csv",
-        pack_dir / "dol_slices.csv",
-    )
-
-    # o_files
-    return list(
-        unpack_binary(asm_dir / "dol", cuts, base_dol.image, base_dol.image_base)
-    )
-
-
-## REL
-
-
-def load_rel_binary(segments, binary_dir) -> (bytearray, int):
-    print(segments)
-    max_vaddr = max(segments[seg].end for seg in segments)
-    image_base = 0x80000000
-    image = bytearray(max_vaddr - image_base)
-
-    rel_segment_dir = binary_dir / "rel"
-    for segment in segments:
-        rel_segment_path = rel_segment_dir / (segment + ".bin")
-        with open(rel_segment_path, "rb") as file:
-            data = file.read()
-
-            segment_data = segments[segment]
-
-            start = segment_data.begin
-            end = segment_data.end
-
-            data_len = len(data)  # virtual
-
-            for i in range(start, end):
-                # try:
-                #    x = data[i - start]
-                # except:
-                #    print(segment, hex(i), hex(start), hex(end),i - start, len(data))
-                #    print(end - (start + len(data)))
-
-                # Hack for alignment (miss by 16)
-                if i - start >= data_len:
-                    continue
-                image[i - image_base] = data[i - start]
-
-    return image, image_base
-
-
-def unpack_staticr_rel(asm_dir, pack_dir, binary_dir):
-    _, segments, cuts = compute_cuts_from_spreadsheets(
-        pack_dir / "rel_segments.csv",
-        pack_dir / "rel_slices.csv",
-    )
-
-    image, image_base = load_rel_binary(segments, binary_dir)
-
-    # o_files
-    return list(unpack_binary(asm_dir / "rel", cuts, image, image_base))
-
-
-def unpack_everything(asm_dir, pack_dir, binary_dir):
-    """Unpack all ASM blobs into asm_dir."""
-    dol_o_files = unpack_base_dol(asm_dir, pack_dir, binary_dir)
-    with open(pack_dir / "dol_objects.txt", "w") as file:
-        for path in dol_o_files:
-            print(path, file=file)
-    rel_o_files = unpack_staticr_rel(asm_dir, pack_dir, binary_dir)
-    with open(pack_dir / "rel_objects.txt", "w") as file:
-        for path in rel_o_files:
-            print(path, file=file)
-
-
-if __name__ == "__main__":
+            if path.stem not in self.dol_asm_sources:
+                os.remove(path)
+        # Give all ASM slices a name. This makes the slice table unusable.
+        for _slice in self.slices:
+            if _slice.section is None:
+                continue
+            out_path = None
+            if not _slice.has_name():
+                out_path = get_asm_path(Path("dol"), _slice)
+            else:
+                out_path = Path(Path(_slice.name).name)
+            out_path = Path("out") / out_path.with_suffix(".o")
+            _slice.name = str(out_path)
+        # Write list of objects for linker.
+        object_names = self.slices.object_slices().objects.keys()
+        with open(self.pack_dir / "dol_objects.txt", "w") as file:
+            for name in object_names:
+                print(Path(name), file=file)
+
+    def __process_section(self, section: Section):
+        """Processes a program section and all its slices."""
+        subtable = self.slices.slice(section.start, section.stop)
+        print(f".{section.name} ({section.type}): {subtable.count()} slices")
+        for _slice in subtable:
+            self.__process_slice(section, _slice)
+
+    def __process_slice(self, section: Section, _slice: Slice):
+        """Process a slice in slices.csv or a gap."""
+        print(f"  {_slice}")
+        # Generate ASM file.
+        if not _slice.has_name():
+            self.__gen_asm(section, _slice)
+        # Generate C code file.
+        # TODO Ideally this would work on the notion of objects instead of slices.
+        else:
+            source_path = Path(_slice.name)
+            if source_path.stem not in self.dol_decomp_sources:
+                self.dol_decomp_sources.add(source_path.stem)
+            if section.type == "code":
+                self.__gen_c(_slice)
+
+    def __gen_c(self, _slice: Slice):
+        """Generates a C file with inline assembly if not exists."""
+        # Generate C inline assembly.
+        c_path = Path(_slice.name)
+        if c_path.exists():
+            return
+        c_path.parent.mkdir(parents=True, exist_ok=True)
+        print(f"    => {_slice.name}")
+        data = self.dol.virtual_read(_slice.start, len(_slice))
+        with open(c_path, "w") as file:
+            gen = CAsmGenerator(data, _slice, self.symbols, file)
+            gen.dump_section()
+
+    def __gen_asm(self, section: Section, _slice: Slice):
+        """Generates an ASM file."""
+        asm_path = get_asm_path(self.dol_asm_dir, _slice)
+        self.dol_asm_sources.add(asm_path.stem)
+        if not self.regen_asm and asm_path.exists():
+            return
+        print(f"    => {asm_path}")
+        with open(asm_path, "w") as asm_file:
+            data = (
+                self.dol.virtual_read(_slice.start, len(_slice))
+                if section.type != "bss"
+                else None
+            )
+            gen = AsmGenerator(data, _slice, self.symbols, asm_file)
+            gen.dump_section()
+
+
+class RELSrcGenerator:
+    def __init__(
+        self,
+        slices: SliceTable,
+        rel: Rel,
+        rel_asm_dir: Path,
+        rel_bin_dir: Path,
+        pack_dir: Path,
+        regen_asm: bool
+    ):
+        self.slices = slices
+        self.slices.set_sections(REL_SECTIONS)
+        self.rel = rel
+        self.rel_asm_dir = rel_asm_dir
+        self.rel_bin_dir = rel_bin_dir
+        self.pack_dir = pack_dir
+        self.regen_asm = regen_asm
+        self.rel_asm_sources = set()
+
+    def run(self):
+        """Runs ASM generation for StaticR.rel"""
+        for section in REL_SECTIONS:
+            self.__process_section(section)
+        # Delete stale ASM files.
+        for path in self.rel_asm_dir.iterdir():
+            if path.suffix != ".s":
+                continue
+            if path.stem not in self.rel_asm_sources:
+                os.remove(path)
+        # Give all ASM slices a name. This makes the slice table unusable.
+        for _slice in self.slices:
+            if _slice.section is None:
+                continue
+            out_path = None
+            if not _slice.has_name():
+                out_path = get_asm_path(Path("rel"), _slice)
+            else:
+                out_path = Path(Path(_slice.name).name)
+            out_path = Path("out") / out_path.with_suffix(".o")
+            _slice.name = str(out_path)
+        # Write list of objects for linker.
+        object_names = self.slices.object_slices().objects.keys()
+        with open(self.pack_dir / "rel_objects.txt", "w") as file:
+            for name in object_names:
+                print(Path(name), file=file)  
+
+    def __process_section(self, section: Section):
+        """Processes a library section and all its slices."""
+        subtable = self.slices.slice(section.start, section.stop)
+        print(f".{section.name} ({section.type}): {subtable.count()} slices")
+        for _slice in subtable:
+            self.__process_slice(section, _slice)
+
+    def __process_slice(self, section: Section, _slice: Slice):
+        """Process a slice in slices.csv or a gap."""
+        print(f"  {_slice}")
+        # Generate ASM file.
+        if not _slice.has_name():
+            self.__gen_asm(section, _slice)
+
+    def __gen_asm(self, section: Section, _slice: Slice):
+        """Generates an ASM file."""
+        asm_path = get_asm_path(self.rel_asm_dir, _slice)
+        self.rel_asm_sources.add(asm_path.stem)
+        if not self.regen_asm and asm_path.exists():
+            return
+        print(f"    => {asm_path}")
+        with open(asm_path, "w") as asm_file:
+            data = (
+                self.rel.virtual_read(_slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX)
+                if section.type != "bss"
+                else None
+            )
+            gen = AsmGenerator(data, _slice, SymbolsList(), asm_file)
+            gen.dump_section()
+
+def main():
     parser = argparse.ArgumentParser(
         description="Generate ASM blobs and linker object lists."
     )
@@ -395,21 +390,51 @@ if __name__ == "__main__":
         default="./artifacts/orig/pal",
         help="Binary containing main.dol and StaticR.rel",
     )
+    parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
     args = parser.parse_args()
     args.asm_dir.mkdir(exist_ok=True)
 
-    # Feel free to move this around, dump staticr.rel segments
-    with open("artifacts/orig/pal/StaticR.rel", 'rb') as f:
-        dump_staticr(Rel(f), "artifacts/orig/pal/rel")
+    # Read symbol map.
+    symbols = SymbolsList()
+    symbols_path = args.pack_dir / "symbols.txt"
+    with open(symbols_path, "r") as file:
+        symbols.read_from(file)
 
-    # Write the macros file.
-    with open(args.asm_dir / "macros.inc", "w") as file:
-        file.write("# PowerPC Register Constants\n")
-        for i in range(0, 32):
-            file.write(".set r%i, %i\n" % (i, i))
-        for i in range(0, 32):
-            file.write(".set f%i, %i\n" % (i, i))
-        for i in range(0, 8):
-            file.write(".set qr%i, %i\n" % (i, i))
+    # Read DOL.
+    dol_path = args.binary_dir / "main.dol"
+    with open(dol_path, "rb") as file:
+        dol = DolBinary(file)
+    # Map out slices in DOL.
+    dol_slices = SliceTable(dol.start, dol.stop)
+    with open(args.pack_dir / "dol_slices.csv") as file:
+        dol_slices.read_from(file)
+    dol_slices = dol_slices.filter(SliceTable.ONLY_ENABLED)
+    # Disassemble DOL sections.
+    dol_asm_dir = args.asm_dir / "dol"
+    dol_asm_dir.mkdir(exist_ok=True)
+    dol_gen = DOLSrcGenerator(
+        dol_slices, dol, symbols, dol_asm_dir, args.pack_dir, args.regen_asm
+    )
+    dol_gen.run()
 
-    unpack_everything(args.asm_dir, args.pack_dir, args.binary_dir)
+    # Read REL.
+    rel_path = args.binary_dir / "StaticR.rel"
+    with open(rel_path, "rb") as file:
+        rel = Rel(file)
+    # Dump StaticR.rel segments.
+    rel_bin_dir = args.binary_dir / "rel"
+    dump_staticr(rel, rel_bin_dir)
+    # Map out slices in REL.
+    rel_slices = SliceTable.load_rel_slices(sections=REL_SECTIONS)
+    rel_slices.filter(SliceTable.ONLY_ENABLED)
+    # Disassemble REL sections.
+    rel_asm_dir = args.asm_dir / "rel"
+    rel_asm_dir.mkdir(exist_ok=True)
+    rel_gen = RELSrcGenerator(
+        rel_slices, rel, rel_asm_dir, rel_bin_dir, args.pack_dir, args.regen_asm
+    )
+    rel_gen.run()
+
+
+if __name__ == "__main__":
+    main()

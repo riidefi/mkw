@@ -80,6 +80,8 @@ The dead-stripping feature can be re-enabled by:
   - [pack/rel_slices.csv](./pack/rel_slices.csv)
 - Entries must be sorted in the spreadsheet (current limitation).
 - After modifying slices, run `python3 -m mkwutil.gen_asm`.
+- Add your new build target to `mkwutil/sources.py`.
+- Run `build.py`.
 
 ## .rel support
 Most of Mario Kart Wii's game code is located inside a relocatable module (StaticR.rel for release builds). The decompilation builds this. 

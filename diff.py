@@ -540,7 +540,14 @@ def search_map_file(
             return cands[0]
     elif project.map_format == "mw":
         #                                         ram   elf rom                                                       object name
-        find = re.findall(re.compile(r'  \S+ \S+ (\S+) (\S+)  . ' + fn_name + r'(?: \(entry of \.(?:init|text)\))? \t(\S+)'), contents)
+        find = re.findall(
+            re.compile(
+                r"  \S+ \S+ (\S+) (\S+)  . "
+                + fn_name
+                + r"(?: \(entry of \.(?:init|text)\))? \t(\S+)"
+            ),
+            contents,
+        )
         if len(find) > 1:
             fail(f"Found multiple occurrences of function {fn_name} in map file.")
         if len(find) == 1:
@@ -557,7 +564,9 @@ def search_map_file(
             ]
             if len(objfiles) > 1:
                 all_objects = "\n".join(objfiles)
-                fail(f"Found multiple objects of the same name {objname} in {project.mw_build_dir}, cannot determine which to diff against: \n{all_objects}")
+                fail(
+                    f"Found multiple objects of the same name {objname} in {project.mw_build_dir}, cannot determine which to diff against: \n{all_objects}"
+                )
             if len(objfiles) == 1:
                 objfile = objfiles[0]
                 # TODO Currently the ram-rom conversion only works for diffing ELF
@@ -608,7 +617,11 @@ def dump_elf(
     return (
         project.myimg,
         (objdump_flags + flags1, project.baseimg, None),
-        (objdump_flags + flags2 + maybe_get_objdump_source_flags(config), project.myimg, None),
+        (
+            objdump_flags + flags2 + maybe_get_objdump_source_flags(config),
+            project.myimg,
+            None,
+        ),
     )
 
 
@@ -1301,12 +1314,21 @@ def do_diff(basedump: str, mydump: str, config: Config) -> List[OutputLine]:
                     out2, branch2 = split_off_branch(line2.original)
                 branchless1 = out1
                 branchless2 = out2
-                out1, out2 = color_fields(arch.re_imm, out1, out2, lambda s: f"{Fore.LIGHTBLUE_EX}{s}{Style.RESET_ALL}")
+                out1, out2 = color_fields(
+                    arch.re_imm,
+                    out1,
+                    out2,
+                    lambda s: f"{Fore.LIGHTBLUE_EX}{s}{Style.RESET_ALL}",
+                )
 
                 same_relative_target = False
                 if line1.branch_target is not None and line2.branch_target is not None:
-                    relative_target1 = eval_line_num(line1.branch_target) - eval_line_num(line1.line_num)
-                    relative_target2 = eval_line_num(line2.branch_target) - eval_line_num(line2.line_num)
+                    relative_target1 = eval_line_num(
+                        line1.branch_target
+                    ) - eval_line_num(line1.line_num)
+                    relative_target2 = eval_line_num(
+                        line2.branch_target
+                    ) - eval_line_num(line2.line_num)
                     same_relative_target = relative_target1 == relative_target2
 
                 if not same_relative_target:
@@ -1314,14 +1336,20 @@ def do_diff(basedump: str, mydump: str, config: Config) -> List[OutputLine]:
 
                 out1 += branch1
                 out2 += branch2
-                if normalize_imms(branchless1, arch) == normalize_imms(branchless2, arch):
+                if normalize_imms(branchless1, arch) == normalize_imms(
+                    branchless2, arch
+                ):
                     if not same_relative_target:
                         # only imms differences
                         sym_color = Fore.LIGHTBLUE_EX
                         line_prefix = "i"
                 else:
-                    out1, out2 = color_fields(arch.re_sprel, out1, out2, sc3.color_symbol, sc4.color_symbol)
-                    if normalize_stack(branchless1, arch) == normalize_stack(branchless2, arch):
+                    out1, out2 = color_fields(
+                        arch.re_sprel, out1, out2, sc3.color_symbol, sc4.color_symbol
+                    )
+                    if normalize_stack(branchless1, arch) == normalize_stack(
+                        branchless2, arch
+                    ):
                         # only stack differences (luckily stack and imm
                         # differences can't be combined in MIPS, so we
                         # don't have to think about that case)
@@ -1329,7 +1357,9 @@ def do_diff(basedump: str, mydump: str, config: Config) -> List[OutputLine]:
                         line_prefix = "s"
                     else:
                         # regs differences and maybe imms as well
-                        out1, out2 = color_fields(arch.re_reg, out1, out2, sc1.color_symbol, sc2.color_symbol)
+                        out1, out2 = color_fields(
+                            arch.re_reg, out1, out2, sc1.color_symbol, sc2.color_symbol
+                        )
                         line_color1 = line_color2 = sym_color = Fore.YELLOW
                         line_prefix = "r"
         elif line1 and line2:
@@ -1686,9 +1716,13 @@ def main() -> None:
         fail("Threeway diffing requires -w.")
 
     if args.diff_elf_symbol:
-        make_target, basecmd, mycmd = dump_elf(args.start, args.end, args.diff_elf_symbol, config, project)
+        make_target, basecmd, mycmd = dump_elf(
+            args.start, args.end, args.diff_elf_symbol, config, project
+        )
     elif config.diff_obj:
-        make_target, basecmd, mycmd = dump_objfile(args.start, args.end, config, project)
+        make_target, basecmd, mycmd = dump_objfile(
+            args.start, args.end, config, project
+        )
     else:
         make_target, basecmd, mycmd = dump_binary(args.start, args.end, config, project)
 

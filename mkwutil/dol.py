@@ -1,89 +1,140 @@
+"""
+DOL binary executable parser.
+"""
+
+from pathlib import Path
 import struct
-from itertools import chain
+from typing import Optional
 
 
-read_u32 = lambda f: struct.unpack(">L", f.read(4))[0]
-read_u16 = lambda f: struct.unpack(">H", f.read(2))[0]
-read_u8 = lambda f: struct.unpack(">B", f.read(1))[0]
-
-
-class Segment:
+class DolSegment:
     """Describes a DOL segment."""
 
-    def __init__(self, begin: int, end: int):
-        assert isinstance(begin, int) and isinstance(end, int)
-        self.begin = begin
-        self.end = end
+    def __init__(self, index: int, start: int, stop: int, offset=None):
+        assert isinstance(start, int) and isinstance(stop, int)
+        assert start <= stop
+        self.index = index
+        self.start = start
+        self.stop = stop
+        self.offset = offset
+        self.data = None
+
+    # Section names in MKW.
+    NAMES = [
+        "init",  # 0x00
+        "text",  # 0x01
+        "",  # 0x02
+        "",  # 0x03
+        "",  # 0x04
+        "",  # 0x05
+        "",  # 0x06
+        "extab",  # 0x07
+        "extabindex",  # 0x08
+        "ctors",  # 0x09
+        "dtors",  # 0x0a
+        "rodata",  # 0x0b
+        "data",  # 0x0c
+        "sdata",  # 0xd
+        "sdata2",  # 0x0e
+    ]
 
     def __repr__(self):
-        return "(%s, %s)" % (hex(self.begin), hex(self.end))
+        return "%08x..%08x" % (self.start, self.stop)
 
     def empty(self):
-        return self.begin == self.end
+        """Returns whether the segment is empty."""
+        return self.start == self.stop
 
     def size(self):
-        return self.end - self.begin
+        """Returns the length of the segment in bytes."""
+        return self.stop - self.start
+
+    def __len__(self):
+        return self.size()
+
+    def __contains__(self, key):
+        return isinstance(key, int) and self.start <= key < self.stop
+
+    def virtual_read(self, vaddr, size):
+        """Returns the bytes at the given virtual address."""
+        if self.data is None:
+            return None
+        assert vaddr in self, f"Virtual address {vaddr} not within segment {self}"
+        offset = vaddr - self.start
+        assert (
+            offset + size <= self.stop
+        ), f"Out-of-bounds read: {offset + size} > {self.stop}"
+        result = self.data[offset : offset + size]
+        assert len(result) == size
+        return result
+
+    def name(self):
+        if self.index == -1:
+            return "bss"
+        try:
+            return self.NAMES[self.index]
+        except IndexError:
+            return ""
 
 
 class DolBinary:
     """Describes a DOL executable."""
 
-    def __init__(self, file):
-        file = open(file, "rb")
-        self.text_ofs = [read_u32(file) for _ in range(7)]
-        self.data_ofs = [read_u32(file) for _ in range(11)]
+    SEGMENT_COUNT = 18
 
-        text_vaddr = [read_u32(file) for _ in range(7)]
-        data_vaddr = [read_u32(file) for _ in range(11)]
-
-        self.text_size = [read_u32(file) for _ in range(7)]
-        self.data_size = [read_u32(file) for _ in range(11)]
-
-        self.text_segs = [Segment(x, x + y) for x, y in zip(text_vaddr, self.text_size)]
-        self.data_segs = [Segment(x, x + y) for x, y in zip(data_vaddr, self.data_size)]
-
-        bss_vaddr = read_u32(file)
-        bss_size = read_u32(file)
-
-        self.bss = Segment(bss_vaddr, bss_vaddr + bss_size)
-
-        self.entry_point = read_u32(file)
-
-        max_vaddr = max(x.end for x in self.text_segs + self.data_segs)
-        self.image_base = 0x80000000
-        self.image = bytearray(max_vaddr - self.image_base)
-
-        for i in range(7):
-            if not self.text_size[i]:
-                continue
-            file.seek(self.text_ofs[i])
-            offset = text_vaddr[i] - self.image_base
-            self.image[offset : offset + self.text_size[i]] = file.read(
-                self.text_size[i]
+    def __init__(self, file, read_body=True):
+        # Open file if path-like.
+        if isinstance(file, str) or isinstance(file, Path):
+            with open(file, "rb") as file:
+                return self.__init__(file, read_body)
+        # Read header.
+        segment_offsets = list(
+            bin[0]
+            for bin in struct.iter_unpack(">I", file.read(DolBinary.SEGMENT_COUNT * 4))
+        )
+        segment_addrs = list(
+            bin[0]
+            for bin in struct.iter_unpack(">I", file.read(DolBinary.SEGMENT_COUNT * 4))
+        )
+        segment_lens = list(
+            bin[0]
+            for bin in struct.iter_unpack(">I", file.read(DolBinary.SEGMENT_COUNT * 4))
+        )
+        self.segments: list[DolSegment] = []
+        for i in range(0, DolBinary.SEGMENT_COUNT):
+            self.segments.append(
+                DolSegment(
+                    i,
+                    segment_addrs[i],
+                    segment_addrs[i] + segment_lens[i],
+                    segment_offsets[i],
+                )
             )
+        bss_addr, bss_len = struct.unpack(">II", file.read(8))
+        self.bss = DolSegment(-1, bss_addr, bss_addr + bss_len)
+        self.entry_point = struct.unpack(">I", file.read(4))[0]
+        # Determine bounds.
+        self.start = min(seg.start for seg in self.segments if len(seg) > 0)
+        self.stop = max(seg.stop for seg in self.segments if len(seg) > 0)
+        self.stop = max(self.stop, self.bss.stop)
+        # Read segment content.
+        if read_body:
+            for segment in self.segments:
+                if len(segment) <= 0:
+                    continue
+                file.seek(segment.offset)
+                segment.data = file.read(segment.size())
 
-        for i in range(11):
-            if not self.data_size[i]:
-                continue
-            file.seek(self.data_ofs[i])
-            offset = data_vaddr[i] - self.image_base
-            self.image[offset : offset + self.data_size[i]] = file.read(
-                self.data_size[i]
-            )
+    def virtual_read(self, vaddr: int, size: int) -> Optional[bytes]:
+        """Returns the bytes at the given virtual address. Must span exactly one segment."""
+        segment = next((seg for seg in self.segments if vaddr in seg), None)
+        if segment is None:
+            return None
+        return segment.virtual_read(vaddr, size)
 
-    def get_text_segment(self, num):
-        """Reads the binary content of a text segment."""
-        offset = self.text_segs[num].begin - self.image_base
-        return self.image[offset : offset + self.text_size[num]]
-
-    def get_data_segment(self, num):
-        """Reads the binary content of a data segment."""
-        offset = self.data_segs[num].begin - self.image_base
-        return self.image[offset : offset + self.data_size[num]]
-
-    def virtual_to_rom(self, vaddr):
-        for seg, ofs in chain(zip(self.text_segs, self.text_ofs), zip(self.data_segs, self.data_ofs)):
-            if vaddr >= seg.begin and vaddr <= seg.end:
-                return vaddr - seg.begin + ofs
-
-        assert not "Address not found"
+    def virtual_to_rom(self, vaddr: int) -> Optional[int]:
+        """Returns the DOL offset given a virtual address."""
+        for seg in self.segments:
+            if seg.start <= vaddr < self.stop:
+                return seg.offset + (vaddr - seg.start)
+        return None
