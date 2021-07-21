@@ -1,5 +1,4 @@
-
 .include "macros.inc"
 
-.section .sdata, "wa" # 0x8038572C - 0x80385730
+.section .sdata, "wa" # { 8038572c..80385730 (sdata) }
 .4byte 0x00000000

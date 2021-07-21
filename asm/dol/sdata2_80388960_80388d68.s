@@ -1,7 +1,6 @@
-
 .include "macros.inc"
 
-.section .sdata2, "a" # 0x80388960 - 0x80388D68
+.section .sdata2, "a" # { 80388960..80388d68 (sdata2) }
 .4byte 0x43300000
 .4byte 0x80000000
 .4byte 0x0000D007

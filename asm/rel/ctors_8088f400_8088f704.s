@@ -1,7 +1,6 @@
-
 .include "macros.inc"
 
-.section .ctors, "wa" # 0x8088F400 - 0x8088F704
+.section .ctors, "wa" # { 8088f400..8088f704 (ctors) }
 .4byte 0x00000000
 .4byte 0x00000000
 .4byte 0x00000000

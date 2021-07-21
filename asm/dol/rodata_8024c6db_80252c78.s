@@ -1,7 +1,6 @@
-
 .include "macros.inc"
 
-.section .rodata, "a" # 0x8024C6DB - 0x80252C78
+.section .rodata, "a" # { 8024c6db..80252c78 (rodata) }
 .4byte 0x00000000
 .4byte 0x00801308
 .4byte 0x68801308

@@ -1,7 +1,6 @@
-
 .include "macros.inc"
 
-.section .text, "ax" # 0x80085578 - 0x80085600
+.section .text, "ax" # { 80085578..80085600 (text) }
 /* 80085578  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 8008557C  00 00 00 00 */	.4byte 0x00000000  /* unknown instruction */
 /* 80085580  C0 04 00 00 */	lfs f0, 0(r4)
@@ -19,7 +18,7 @@
 /* 800855B0  EC 40 08 28 */	fsubs f2, f0, f1
 /* 800855B4  FC 42 08 2E */	fsel f2, f2, f0, f1
 /* 800855B8  D0 43 00 08 */	stfs f2, 8(r3)
-/* 800855BC  4E 80 00 20 */	blr 
+/* 800855BC  4E 80 00 20 */	blr
 /* 800855C0  C0 04 00 00 */	lfs f0, 0(r4)
 /* 800855C4  C0 25 00 00 */	lfs f1, 0(r5)
 /* 800855C8  EC 41 00 28 */	fsubs f2, f1, f0
@@ -35,4 +34,4 @@
 /* 800855F0  EC 41 00 28 */	fsubs f2, f1, f0
 /* 800855F4  FC 42 08 2E */	fsel f2, f2, f0, f1
 /* 800855F8  D0 43 00 08 */	stfs f2, 8(r3)
-/* 800855FC  4E 80 00 20 */	blr 
+/* 800855FC  4E 80 00 20 */	blr

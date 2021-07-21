@@ -1,6 +1,5 @@
-
 .include "macros.inc"
 
-.section .data, "wa" # 0x8027B876 - 0x8027B878
+.section .data, "wa" # { 8027b876..8027b878 (data) }
 .byte 0x00
 .byte 0x00
