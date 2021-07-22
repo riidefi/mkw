@@ -67,6 +67,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/mtx/rvlMtx2.c,,,,,,,0x8019a9c4,0x8019abe4,,,,,,,,,,,,,,,0x80388890,0x803888a8,,
 1,,source/rvl/mtx/rvlVec.c,,,,,,,0x8019abe4,0x8019ae08,,,,,,,,,,,,,,,0x803888a8,0x803888b4,,
 1,,source/rvl/mtx/rvlQuat.c,,,,,,,0x8019ae08,0x8019b178,,,,,0x80252c78,0x80252c84,,,,,,,,,0x803888b8,0x803888cc,,
+1,,source/rvl/nand/nand.c,,,,,,,0x8019b314,0x8019f1a8,,,,,,,,,,,,,,,,,,
 1,,source/rvl/pad/rvlPadClamp.c,,,,,,,0x801ae5d8,0x801ae880,,,,,0x80252dd0,0x80252de6,,,,,,,,,0x80388930,0x80388938,,
 1,,source/rvl/pad/rvlPad.c,,,,,,,0x801ae880,0x801b0180,,,,,,,0x8029cc80,0x8029ccd8,0x803481b0,0x80348230,0x80385b08,0x80385b28,0x80386998,0x803869C4,,,,
 1,,source/rvl/si/siBios.c,,,,,,,,,,,,,,,,,,,,,0x803869f0,0x803869f8,,,,
