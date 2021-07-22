@@ -3,7 +3,7 @@ on: [push, pull_request]
 name: GitHub Pages
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       
