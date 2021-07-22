@@ -6,6 +6,7 @@ import argparse
 from colorama import Fore, Style
 import hashlib
 from pathlib import Path
+import sys
 
 from .dol import DolBinary
 
@@ -86,6 +87,8 @@ def verify_dol(reference: Path, target: Path):
     print(
         Fore.RED + Style.BRIGHT + "[DOL] Oof: Output doesn't match." + Style.RESET_ALL
     )
+
+    sys.exit(1)
 
 
 if __name__ == "__main__":
