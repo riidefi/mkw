@@ -28,6 +28,124 @@ def test_slice_table():
         Slice(14, 16),
     ]
 
+def test_slice_table_remove_1():
+    # Create a gap spanning some slices.
+    table = SliceTable(0, 10)
+    for x in range(2, 10, 2):
+        table.add(Slice(x, x+2, "slice"))
+    assert str(table) == """[
+  { 00000000..00000002 }
+  { 00000002..00000004 slice }
+  { 00000004..00000006 slice }
+  { 00000006..00000008 slice }
+  { 00000008..0000000a slice }
+]"""
+    table.remove(3, 7)
+    assert str(table) == """[
+  { 00000000..00000002 }
+  { 00000002..00000003 slice }
+  { 00000003..00000007 }
+  { 00000007..00000008 slice }
+  { 00000008..0000000a slice }
+]"""
+
+
+def test_slice_table_remove_2():
+    # Create a gap spanning the entire table.
+    table = SliceTable(0, 10)
+    for x in range(0, 10, 2):
+        table.add(Slice(x, x+2, "slice"))
+    table.remove(0, 10)
+    assert str(table) == """[
+  { 00000000..0000000a }
+]"""
+
+def test_slice_table_remove_3():
+    # Create a gap where a gap already is.
+    table = SliceTable(0, 6)
+    for x in range(2, 6, 2):
+        table.add(Slice(x, x+2, "slice"))
+    table.remove(0, 2)
+    assert str(table) == """[
+  { 00000000..00000002 }
+  { 00000002..00000004 slice }
+  { 00000004..00000006 slice }
+]"""
+
+
+def test_slice_table_remove_4():
+    # Shoot a hole in a slice.
+    table = SliceTable(0, 10)
+    table.add(Slice(0, 10, "slice"))
+    table.remove(4, 5)
+    assert str(table) == """[
+  { 00000000..00000004 slice }
+  { 00000004..00000005 }
+  { 00000005..0000000a slice }
+]"""
+
+def test_slice_table_remove_5():
+    # Remove exact slice.
+    table = SliceTable(0, 6)
+    for x in range(0, 6, 2):
+        table.add(Slice(x, x+2, "slice"))
+    table.remove(2, 4)
+    assert str(table) == """[
+  { 00000000..00000002 slice }
+  { 00000002..00000004 }
+  { 00000004..00000006 slice }
+]"""
+
+def test_slice_table_remove_6():
+    # Remove slice prefix.
+    table = SliceTable(0, 6)
+    for x in range(2, 6, 2):
+        table.add(Slice(x, x+2, "slice"))
+    assert str(table) == """[
+  { 00000000..00000002 }
+  { 00000002..00000004 slice }
+  { 00000004..00000006 slice }
+]"""
+    table.remove(2, 3)
+    assert str(table) == """[
+  { 00000000..00000003 }
+  { 00000003..00000004 slice }
+  { 00000004..00000006 slice }
+]"""
+
+def test_slice_table_remove_7():
+    # Remove slice prefix.
+    table = SliceTable(0, 6)
+    for x in range(2, 6, 2):
+        table.add(Slice(x, x+2, "slice"))
+    assert str(table) == """[
+  { 00000000..00000002 }
+  { 00000002..00000004 slice }
+  { 00000004..00000006 slice }
+]"""
+    table.remove(0, 3)
+    assert str(table) == """[
+  { 00000000..00000003 }
+  { 00000003..00000004 slice }
+  { 00000004..00000006 slice }
+]"""
+
+def test_slice_table_remove_8():
+    # Remove slice suffix.
+    table = SliceTable(0, 6)
+    for x in range(0, 4, 2):
+        table.add(Slice(x, x+2, "slice"))
+    assert str(table) == """[
+  { 00000000..00000002 slice }
+  { 00000002..00000004 slice }
+  { 00000004..00000006 }
+]"""
+    table.remove(3, 4)
+    assert str(table) == """[
+  { 00000000..00000002 slice }
+  { 00000002..00000003 slice }
+  { 00000003..00000006 }
+]"""
 
 def test_dol_slices():
     table = SliceTable.load_dol_slices()
@@ -42,13 +160,3 @@ def test_rel_slices():
     assert isinstance(table, SliceTable)
     objs = table.object_slices()
     assert isinstance(objs, ObjectSlices)
-
-
-def test_object_slices_sort_names():
-    objects = ObjectSlices()
-    objects.insert(Slice(name="s0", start=0x01, stop=0x02, section="text"))
-    objects.insert(Slice(name="s2", start=0x06, stop=0x07, section="data"))
-    objects.insert(Slice(name="s3", start=0x03, stop=0x04, section="text"))
-    objects.insert(Slice(name="s1", start=0x02, stop=0x03, section="text"))
-    objects.insert(Slice(name="s1", start=0x05, stop=0x06, section="data"))
-    assert objects.sorted_names(order=["text", "data"]) == ["s0", "s1", "s2", "s3"]
