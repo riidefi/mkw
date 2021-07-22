@@ -1,3 +1,10 @@
 #pragma once
 
 #define UNKNOWN_FUNCTION(name) void name(void)
+
+#pragma section "binary_blobs"
+#define MARK_BINARY_BLOB(name, start, stop) \
+  __declspec(section "binary_blobs") \
+  static const char MARK_BINARY_BLOB_##name[] \
+  = "BINARY_BLOB: " #name "\t" #start "\t" #stop "\n" \
+  __attribute__((force_export))

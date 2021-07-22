@@ -17,6 +17,7 @@ UNKNOWN_FUNCTION({{ function.name }});
 // Symbol: {{ function.name }}
 // Function signature is unknown.
 // PAL: {{ function.addr | addr }}..{{ (function.addr+function.size) | addr }}
+MARK_BINARY_BLOB({{ function.name }}, {{ function.addr | addr }}, {{ (function.addr+function.size) | addr }});
 asm UNKNOWN_FUNCTION({{ function.name }}) {
   nofralloc;
 {%- for line in function.inline_asm %}
