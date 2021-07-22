@@ -805,7 +805,7 @@ asm UNKNOWN_FUNCTION(nandCreateDir) {
   li r3, -102;
   b lbl_8019bbc8;
 lbl_8019bb4c:
-  rlwinm .r0, r27, 0, 0x1b, 0x1b;
+  rlwinm. r0, r27, 0, 0x1b, 0x1b;
   bne lbl_8019bb5c;
   li r3, -101;
   b lbl_8019bbc8;
@@ -3303,7 +3303,7 @@ asm UNKNOWN_FUNCTION(nandRemoveTailToken) {
   mr r29, r3;
   bne lbl_8019daec;
   lbz r0, 1(r4);
-  extsb .r0, r0;
+  extsb. r0, r0;
   bne lbl_8019daec;
   li r4, 0x2f;
   li r0, 0;
@@ -3313,7 +3313,7 @@ asm UNKNOWN_FUNCTION(nandRemoveTailToken) {
 lbl_8019daec:
   mr r3, r30;
   bl strlen;
-  addic .r31, r3, -1;
+  addic. r31, r3, -1;
   addi r0, r31, 1;
   add r3, r30, r31;
   mtctr r0;
@@ -3381,7 +3381,7 @@ lbl_8019dba0:
   li r3, 0;
   lbz r0, 1(r4);
   stbx r3, r27, r30;
-  extsb .r0, r0;
+  extsb. r0, r0;
   bne lbl_8019dbe0;
   stb r3, 0(r28);
   b lbl_8019dc30;
@@ -3442,7 +3442,7 @@ asm UNKNOWN_FUNCTION(nandGetRelativeName) {
 lbl_8019dc84:
   mr r3, r31;
   bl strlen;
-  addic .r4, r3, -1;
+  addic. r4, r3, -1;
   addi r0, r4, 1;
   add r3, r31, r4;
   mtctr r0;
@@ -3523,7 +3523,7 @@ lbl_8019dd5c:
   b lbl_8019de00;
 lbl_8019dd90:
   lbz r0, 0x188(r1);
-  extsb .r0, r0;
+  extsb. r0, r0;
   beq lbl_8019ddf4;
   mr r3, r30;
   addi r4, r13, -29140;
@@ -3602,7 +3602,7 @@ asm UNKNOWN_FUNCTION(nandIsUnderPrivatePath) {
   cmpwi r3, 0;
   bne lbl_8019de90;
   lbz r0, 9(r31);
-  extsb .r0, r0;
+  extsb. r0, r0;
   beq lbl_8019de90;
   li r3, 1;
   b lbl_8019de94;
@@ -3791,7 +3791,7 @@ lbl_8019e094:
   lbz r0, -1(r4);
   cmpwi r0, 0x2f;
   bne lbl_8019e0d0;
-  addic .r0, r3, -1;
+  addic. r0, r3, -1;
   beq lbl_8019e0d0;
   li r0, 0;
   stb r0, -1(r4);
@@ -3995,7 +3995,7 @@ lbl_8019e320:
   subfc r3, r31, r4;
   subfe r5, r5, r0;
   subfe r5, r0, r0;
-  neg .r5, r5;
+  neg. r5, r5;
   bne lbl_8019e314;
 lbl_8019e360:
   li r3, 1;
@@ -4172,7 +4172,7 @@ lbl_8019e538:
   lbz r0, 0x33(r4);
   cmpwi r0, 0x2f;
   bne lbl_8019e574;
-  addic .r0, r3, -1;
+  addic. r0, r3, -1;
   beq lbl_8019e574;
   li r0, 0;
   stb r0, 0x33(r4);
@@ -4187,7 +4187,7 @@ lbl_8019e574:
   cmpwi r3, 0;
   bne lbl_8019e5ac;
   lbz r0, 0x3d(r28);
-  extsb .r0, r0;
+  extsb. r0, r0;
   beq lbl_8019e5ac;
   li r0, 1;
   b lbl_8019e5b0;
@@ -4264,7 +4264,7 @@ lbl_8019e680:
   lbz r0, -1(r4);
   cmpwi r0, 0x2f;
   bne lbl_8019e6c0;
-  addic .r0, r3, -1;
+  addic. r0, r3, -1;
   beq lbl_8019e6c0;
   li r0, 0;
   stb r0, -1(r4);
@@ -4279,7 +4279,7 @@ lbl_8019e6c0:
   cmpwi r3, 0;
   bne lbl_8019e6f8;
   lbz r0, 0x19(r1);
-  extsb .r0, r0;
+  extsb. r0, r0;
   beq lbl_8019e6f8;
   li r0, 1;
   b lbl_8019e6fc;
