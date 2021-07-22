@@ -1,0 +1,27 @@
+---
+on: [push, pull_request]
+name: GitHub Pages
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - name: Install dependencies
+        run: pip3 install -r requirements.txt
+
+      - name: Run graphic.py
+        run: python3 -m mkwutil.graphic
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: out/website
+          clean: true
+          dry-run: ${{ github.ref != 'refs/heads/master' }}
