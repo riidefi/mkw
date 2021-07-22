@@ -6,6 +6,7 @@ import argparse
 from colorama import Fore, Style
 import hashlib
 from pathlib import Path
+import sys
 
 
 def verify_rel(target):
@@ -22,6 +23,8 @@ def verify_rel(target):
         )
         return
 
+
+
     want_len = 4903876
     if len(content) != want_len:
         print(
@@ -33,6 +36,8 @@ def verify_rel(target):
     print(
         Fore.RED + Style.BRIGHT + "[REL] Oof: Output doesn't match." + Style.RESET_ALL
     )
+
+    sys.exit(1)
 
 
 if __name__ == "__main__":

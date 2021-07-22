@@ -157,8 +157,14 @@ class Rel:
         section_idx = section_idx[section_virtual_idx]
         # Calculate addres.
         relative_addr = vaddr - section_virtual.start
-        return self.section_info[section_idx].data[relative_addr:relative_addr+size]
+        result = self.section_info[section_idx].data[relative_addr:relative_addr+size]
+        if len(result) == size:
+            return result
 
+        assert size >= len(result)
+        print("Warning: Size %s exceeds section size %s" % (size, len(result)))
+
+        return result + bytes(size - len(result))
 
 class RelHeader:
     """Holds a .rel header."""
