@@ -1,50 +1,14 @@
+#include "nand.h"
 #include "decomp.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <wchar.h>
+
+#include <rvl/os/os.h>
+
 // Extern function references.
-// PAL: 0x80006038
-extern UNKNOWN_FUNCTION(memset);
-// PAL: 0x8001182c
-extern UNKNOWN_FUNCTION(vsnprintf);
-// PAL: 0x80011938
-extern UNKNOWN_FUNCTION(snprintf);
-// PAL: 0x80011a2c
-extern UNKNOWN_FUNCTION(sprintf);
-// PAL: 0x80013120
-extern UNKNOWN_FUNCTION(strcpy);
-// PAL: 0x800131e0
-extern UNKNOWN_FUNCTION(strncpy);
-// PAL: 0x80013224
-extern UNKNOWN_FUNCTION(strcat);
-// PAL: 0x8001329c
-extern UNKNOWN_FUNCTION(strcmp);
-// PAL: 0x800133b8
-extern UNKNOWN_FUNCTION(strncmp);
-// PAL: 0x8001543c
-extern UNKNOWN_FUNCTION(atoi);
-// PAL: 0x800179d0
-extern UNKNOWN_FUNCTION(wcsncpy);
-// PAL: 0x80017a14
-extern UNKNOWN_FUNCTION(wcscmp);
-// PAL: 0x80021254
-extern UNKNOWN_FUNCTION(strlen);
-// PAL: 0x80021590
-extern UNKNOWN_FUNCTION(_savegpr_23);
-// PAL: 0x80021598
-extern UNKNOWN_FUNCTION(_savegpr_25);
-// PAL: 0x8002159c
-extern UNKNOWN_FUNCTION(_savegpr_26);
-// PAL: 0x800215a0
-extern UNKNOWN_FUNCTION(_savegpr_27);
-// PAL: 0x800215dc
-extern UNKNOWN_FUNCTION(_restgpr_23);
-// PAL: 0x800215e4
-extern UNKNOWN_FUNCTION(_restgpr_25);
-// PAL: 0x800215e8
-extern UNKNOWN_FUNCTION(_restgpr_26);
-// PAL: 0x800215ec
-extern UNKNOWN_FUNCTION(_restgpr_27);
-// PAL: 0x800216f0
-extern UNKNOWN_FUNCTION(__div2i);
 // PAL: 0x801671d0
 extern UNKNOWN_FUNCTION(unk_801671d0);
 // PAL: 0x80167224
@@ -115,68 +79,37 @@ extern UNKNOWN_FUNCTION(unk_8016b40c);
 extern UNKNOWN_FUNCTION(OSRegisterVersion);
 // PAL: 0x801a25d0
 extern UNKNOWN_FUNCTION(OSReport);
-// PAL: 0x801a65ac
-extern UNKNOWN_FUNCTION(OSDisableInterrupts);
-// PAL: 0x801a65d4
-extern UNKNOWN_FUNCTION(OSRestoreInterrupts);
 // PAL: 0x801a8238
 extern UNKNOWN_FUNCTION(OSRegisterResetFunction);
-// PAL: 0x801aad5c
-extern UNKNOWN_FUNCTION(OSGetTime);
-// PAL: 0x801aafa8
-extern UNKNOWN_FUNCTION(OSTicksToCalendarTime);
 
 // Function declarations.
 UNKNOWN_FUNCTION(nandCreate);
-UNKNOWN_FUNCTION(NANDCreate);
 UNKNOWN_FUNCTION(NANDPrivateCreate);
 UNKNOWN_FUNCTION(NANDPrivateCreateAsync);
-UNKNOWN_FUNCTION(NANDDelete);
 UNKNOWN_FUNCTION(NANDPrivateDelete);
 UNKNOWN_FUNCTION(NANDPrivateDeleteAsync);
-UNKNOWN_FUNCTION(NANDRead);
-UNKNOWN_FUNCTION(NANDReadAsync);
-UNKNOWN_FUNCTION(NANDWrite);
-UNKNOWN_FUNCTION(NANDWriteAsync);
-UNKNOWN_FUNCTION(NANDSeek);
-UNKNOWN_FUNCTION(NANDSeekAsync);
 UNKNOWN_FUNCTION(nandCreateDir);
-UNKNOWN_FUNCTION(NANDCreateDir);
 UNKNOWN_FUNCTION(NANDPrivateCreateDir);
 UNKNOWN_FUNCTION(NANDPrivateCreateDirAsync);
 UNKNOWN_FUNCTION(nandMove);
-UNKNOWN_FUNCTION(NANDMove);
-UNKNOWN_FUNCTION(NANDGetLength);
 UNKNOWN_FUNCTION(nandGetFileStatusAsyncCallback);
-UNKNOWN_FUNCTION(NANDGetLengthAsync);
 UNKNOWN_FUNCTION(nandComposePerm);
 UNKNOWN_FUNCTION(nandSplitPerm);
 UNKNOWN_FUNCTION(nandGetStatus);
 UNKNOWN_FUNCTION(nandGetStatusCallback);
-UNKNOWN_FUNCTION(NANDGetStatus);
 UNKNOWN_FUNCTION(NANDPrivateGetStatus);
 UNKNOWN_FUNCTION(NANDPrivateGetStatusAsync);
 UNKNOWN_FUNCTION(nandSetStatus);
-UNKNOWN_FUNCTION(NANDSetStatus);
 UNKNOWN_FUNCTION(NANDPrivateSetStatus);
-UNKNOWN_FUNCTION(NANDSetUserData);
-UNKNOWN_FUNCTION(NANDGetUserData);
 UNKNOWN_FUNCTION(nandOpen);
-UNKNOWN_FUNCTION(NANDOpen);
 UNKNOWN_FUNCTION(NANDPrivateOpen);
-UNKNOWN_FUNCTION(NANDOpenAsync);
 UNKNOWN_FUNCTION(NANDPrivateOpenAsync);
 UNKNOWN_FUNCTION(nandOpenCallback);
-UNKNOWN_FUNCTION(NANDClose);
-UNKNOWN_FUNCTION(NANDCloseAsync);
-UNKNOWN_FUNCTION(NANDSafeOpen);
 UNKNOWN_FUNCTION(nandSafeOpen);
-UNKNOWN_FUNCTION(NANDSafeClose);
 UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync);
 UNKNOWN_FUNCTION(nandSafeOpenAsync);
 UNKNOWN_FUNCTION(nandSafeOpenCallback);
 UNKNOWN_FUNCTION(nandReadOpenCallback);
-UNKNOWN_FUNCTION(NANDSafeCloseAsync);
 UNKNOWN_FUNCTION(nandSafeCloseCallback);
 UNKNOWN_FUNCTION(nandReadCloseCallback);
 UNKNOWN_FUNCTION(nandCloseCallback);
@@ -191,20 +124,14 @@ UNKNOWN_FUNCTION(nandReportErrorCode);
 UNKNOWN_FUNCTION(nandConvertErrorCode);
 UNKNOWN_FUNCTION(nandGenerateAbsPath);
 UNKNOWN_FUNCTION(nandGetParentDirectory);
-UNKNOWN_FUNCTION(NANDInit);
 UNKNOWN_FUNCTION(nandOnShutdown);
-UNKNOWN_FUNCTION(NANDGetCurrentDir);
-UNKNOWN_FUNCTION(NANDGetHomeDir);
 UNKNOWN_FUNCTION(nandCallback);
 UNKNOWN_FUNCTION(nandGetType);
-UNKNOWN_FUNCTION(NANDGetType);
 UNKNOWN_FUNCTION(NANDPrivateGetTypeAsync);
 UNKNOWN_FUNCTION(nandGetTypeCallback);
 UNKNOWN_FUNCTION(nandGetHomeDir);
-UNKNOWN_FUNCTION(NANDInitBanner);
 UNKNOWN_FUNCTION(NANDSecretGetUsage);
 UNKNOWN_FUNCTION(nandCalcUsage);
-UNKNOWN_FUNCTION(NANDCheck);
 UNKNOWN_FUNCTION(reserveFileDescriptor);
 UNKNOWN_FUNCTION(NANDLoggingAddMessageAsync);
 UNKNOWN_FUNCTION(asyncRoutine);
@@ -296,10 +223,9 @@ lbl_8019b424:
 }
 
 // Symbol: NANDCreate
-// Function signature is unknown.
 // PAL: 0x8019b43c..0x8019b4b0
 MARK_BINARY_BLOB(NANDCreate, 0x8019b43c, 0x8019b4b0);
-asm UNKNOWN_FUNCTION(NANDCreate) {
+asm s32 NANDCreate(const char*, u8, u8) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -414,10 +340,9 @@ lbl_8019b584:
 }
 
 // Symbol: NANDDelete
-// Function signature is unknown.
 // PAL: 0x8019b59c..0x8019b64c
 MARK_BINARY_BLOB(NANDDelete, 0x8019b59c, 0x8019b64c);
-asm UNKNOWN_FUNCTION(NANDDelete) {
+asm s32 NANDDelete(const char*) {
   nofralloc;
   stwu r1, -0x50(r1);
   mflr r0;
@@ -576,10 +501,9 @@ lbl_8019b788:
 }
 
 // Symbol: NANDRead
-// Function signature is unknown.
 // PAL: 0x8019b7a4..0x8019b80c
 MARK_BINARY_BLOB(NANDRead, 0x8019b7a4, 0x8019b80c);
-asm UNKNOWN_FUNCTION(NANDRead) {
+asm s32 NANDRead(NANDFileInfo*, void*, u32) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -612,10 +536,9 @@ lbl_8019b7f0:
 }
 
 // Symbol: NANDReadAsync
-// Function signature is unknown.
 // PAL: 0x8019b80c..0x8019b884
 MARK_BINARY_BLOB(NANDReadAsync, 0x8019b80c, 0x8019b884);
-asm UNKNOWN_FUNCTION(NANDReadAsync) {
+asm s32 NANDReadAsync(NANDFileInfo*, void*, u32, NANDCallback) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -652,10 +575,9 @@ lbl_8019b86c:
 }
 
 // Symbol: NANDWrite
-// Function signature is unknown.
 // PAL: 0x8019b884..0x8019b8ec
 MARK_BINARY_BLOB(NANDWrite, 0x8019b884, 0x8019b8ec);
-asm UNKNOWN_FUNCTION(NANDWrite) {
+asm s32 NANDWrite(NANDFileInfo*, const void*, u32) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -688,10 +610,9 @@ lbl_8019b8d0:
 }
 
 // Symbol: NANDWriteAsync
-// Function signature is unknown.
 // PAL: 0x8019b8ec..0x8019b964
 MARK_BINARY_BLOB(NANDWriteAsync, 0x8019b8ec, 0x8019b964);
-asm UNKNOWN_FUNCTION(NANDWriteAsync) {
+asm s32 NANDWriteAsync(NANDFileInfo*, const void*, u32, NANDCallback) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -728,10 +649,9 @@ lbl_8019b94c:
 }
 
 // Symbol: NANDSeek
-// Function signature is unknown.
 // PAL: 0x8019b964..0x8019ba04
 MARK_BINARY_BLOB(NANDSeek, 0x8019b964, 0x8019ba04);
-asm UNKNOWN_FUNCTION(NANDSeek) {
+asm s32 NANDSeek(NANDFileInfo*, s32, s32) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -783,10 +703,9 @@ lbl_8019b9e8:
 }
 
 // Symbol: NANDSeekAsync
-// Function signature is unknown.
 // PAL: 0x8019ba04..0x8019bab4
 MARK_BINARY_BLOB(NANDSeekAsync, 0x8019ba04, 0x8019bab4);
-asm UNKNOWN_FUNCTION(NANDSeekAsync) {
+asm s32 NANDSeekAsync(NANDFileInfo*, s32, s32, NANDCallback) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -929,10 +848,9 @@ lbl_8019bbc8:
 }
 
 // Symbol: NANDCreateDir
-// Function signature is unknown.
 // PAL: 0x8019bbe0..0x8019bc54
 MARK_BINARY_BLOB(NANDCreateDir, 0x8019bbe0, 0x8019bc54);
-asm UNKNOWN_FUNCTION(NANDCreateDir) {
+asm s32 NANDCreateDir(const char*, u8, u8) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1167,10 +1085,9 @@ lbl_8019bec8:
 }
 
 // Symbol: NANDMove
-// Function signature is unknown.
 // PAL: 0x8019bee8..0x8019bf4c
 MARK_BINARY_BLOB(NANDMove, 0x8019bee8, 0x8019bf4c);
-asm UNKNOWN_FUNCTION(NANDMove) {
+asm s32 NANDMove(const char*, const char*) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1202,10 +1119,9 @@ lbl_8019bf34:
 }
 
 // Symbol: NANDGetLength
-// Function signature is unknown.
 // PAL: 0x8019bf4c..0x8019bfd4
 MARK_BINARY_BLOB(NANDGetLength, 0x8019bf4c, 0x8019bfd4);
-asm UNKNOWN_FUNCTION(NANDGetLength) {
+asm s32 NANDGetLength(NANDFileInfo*, u32*) {
   nofralloc;
   clrlwi r11, r1, 0x1b;
   mr r12, r1;
@@ -1286,10 +1202,10 @@ lbl_8019c020:
 }
 
 // Symbol: NANDGetLengthAsync
-// Function signature is unknown.
 // PAL: 0x8019c048..0x8019c0d8
 MARK_BINARY_BLOB(NANDGetLengthAsync, 0x8019c048, 0x8019c0d8);
-asm UNKNOWN_FUNCTION(NANDGetLengthAsync) {
+asm s32 NANDGetLengthAsync(NANDFileInfo*, u32*, NANDCallback,
+                           NANDCommandBlock*) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1550,10 +1466,9 @@ lbl_8019c350:
 }
 
 // Symbol: NANDGetStatus
-// Function signature is unknown.
 // PAL: 0x8019c380..0x8019c3e4
 MARK_BINARY_BLOB(NANDGetStatus, 0x8019c380, 0x8019c3e4);
-asm UNKNOWN_FUNCTION(NANDGetStatus) {
+asm s32 NANDGetStatus(const char*, NANDStatus*) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1757,10 +1672,9 @@ lbl_8019c5f4:
 }
 
 // Symbol: NANDSetStatus
-// Function signature is unknown.
 // PAL: 0x8019c614..0x8019c678
 MARK_BINARY_BLOB(NANDSetStatus, 0x8019c614, 0x8019c678);
-asm UNKNOWN_FUNCTION(NANDSetStatus) {
+asm s32 NANDSetStatus(const char*, const NANDStatus*) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1827,24 +1741,14 @@ lbl_8019c6c4:
 }
 
 // Symbol: NANDSetUserData
-// Function signature is unknown.
 // PAL: 0x8019c6dc..0x8019c6e4
-MARK_BINARY_BLOB(NANDSetUserData, 0x8019c6dc, 0x8019c6e4);
-asm UNKNOWN_FUNCTION(NANDSetUserData) {
-  nofralloc;
-  stw r4, 0(r3);
-  blr;
+void NANDSetUserData(NANDCommandBlock* block, void* userData) {
+  block->userData = userData;
 }
 
 // Symbol: NANDGetUserData
-// Function signature is unknown.
 // PAL: 0x8019c6e4..0x8019c6ec
-MARK_BINARY_BLOB(NANDGetUserData, 0x8019c6e4, 0x8019c6ec);
-asm UNKNOWN_FUNCTION(NANDGetUserData) {
-  nofralloc;
-  lwz r3, 0(r3);
-  blr;
-}
+void* NANDGetUserData(const NANDCommandBlock* block) { return block->userData; }
 
 // Symbol: nandOpen
 // Function signature is unknown.
@@ -1931,10 +1835,9 @@ lbl_8019c7e8:
 }
 
 // Symbol: NANDOpen
-// Function signature is unknown.
 // PAL: 0x8019c800..0x8019c88c
 MARK_BINARY_BLOB(NANDOpen, 0x8019c800, 0x8019c88c);
-asm UNKNOWN_FUNCTION(NANDOpen) {
+asm s32 NANDOpen(const char*, NANDFileInfo*, u8) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -2023,10 +1926,10 @@ lbl_8019c8fc:
 }
 
 // Symbol: NANDOpenAsync
-// Function signature is unknown.
 // PAL: 0x8019c918..0x8019c990
 MARK_BINARY_BLOB(NANDOpenAsync, 0x8019c918, 0x8019c990);
-asm UNKNOWN_FUNCTION(NANDOpenAsync) {
+asm s32 NANDOpenAsync(const char*, NANDFileInfo*, u8, NANDCallback,
+                      NANDCommandBlock*) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -2143,10 +2046,9 @@ lbl_8019ca6c:
 }
 
 // Symbol: NANDClose
-// Function signature is unknown.
 // PAL: 0x8019ca80..0x8019caec
 MARK_BINARY_BLOB(NANDClose, 0x8019ca80, 0x8019caec);
-asm UNKNOWN_FUNCTION(NANDClose) {
+asm s32 NANDClose(NANDFileInfo*) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -2185,7 +2087,7 @@ lbl_8019cad8:
 // Function signature is unknown.
 // PAL: 0x8019caec..0x8019cb74
 MARK_BINARY_BLOB(NANDCloseAsync, 0x8019caec, 0x8019cb74);
-asm UNKNOWN_FUNCTION(NANDCloseAsync) {
+asm s32 NANDCloseAsync(NANDFileInfo*, NANDCallback, NANDCommandBlock*) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -2227,10 +2129,9 @@ lbl_8019cb58:
 }
 
 // Symbol: NANDSafeOpen
-// Function signature is unknown.
 // PAL: 0x8019cb74..0x8019cb80
 MARK_BINARY_BLOB(NANDSafeOpen, 0x8019cb74, 0x8019cb80);
-asm UNKNOWN_FUNCTION(NANDSafeOpen) {
+asm s32 NANDSafeOpen(const char*, NANDFileInfo*, u8, void*, u32) {
   nofralloc;
   li r8, 0;
   li r9, 0;
@@ -2508,10 +2409,9 @@ lbl_8019cf10:
 }
 
 // Symbol: NANDSafeClose
-// Function signature is unknown.
 // PAL: 0x8019cf28..0x8019d104
 MARK_BINARY_BLOB(NANDSafeClose, 0x8019cf28, 0x8019d104);
-asm UNKNOWN_FUNCTION(NANDSafeClose) {
+asm s32 NANDSafeClose(NANDFileInfo*) {
   nofralloc;
   li r4, 0;
   b lbl_8019cf30;
@@ -3110,10 +3010,9 @@ lbl_8019d70c:
 }
 
 // Symbol: NANDSafeCloseAsync
-// Function signature is unknown.
 // PAL: 0x8019d720..0x8019d824
 MARK_BINARY_BLOB(NANDSafeCloseAsync, 0x8019d720, 0x8019d824);
-asm UNKNOWN_FUNCTION(NANDSafeCloseAsync) {
+asm s32 NANDSafeCloseAsync(NANDFileInfo*, NANDCallback, NANDCommandBlock*) {
   nofralloc;
   li r6, 0;
   b lbl_8019d728;
@@ -3959,10 +3858,9 @@ lbl_8019e170:
 }
 
 // Symbol: NANDInit
-// Function signature is unknown.
 // PAL: 0x8019e18c..0x8019e2b8
 MARK_BINARY_BLOB(NANDInit, 0x8019e18c, 0x8019e2b8);
-asm UNKNOWN_FUNCTION(NANDInit) {
+asm s32 NANDInit(void) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -4117,10 +4015,9 @@ lbl_8019e36c:
 }
 
 // Symbol: NANDGetCurrentDir
-// Function signature is unknown.
 // PAL: 0x8019e390..0x8019e40c
 MARK_BINARY_BLOB(NANDGetCurrentDir, 0x8019e390, 0x8019e40c);
-asm UNKNOWN_FUNCTION(NANDGetCurrentDir) {
+asm s32 NANDGetCurrentDir(char[64]) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4160,10 +4057,9 @@ lbl_8019e3f4:
 }
 
 // Symbol: NANDGetHomeDir
-// Function signature is unknown.
 // PAL: 0x8019e40c..0x8019e460
 MARK_BINARY_BLOB(NANDGetHomeDir, 0x8019e40c, 0x8019e460);
-asm UNKNOWN_FUNCTION(NANDGetHomeDir) {
+asm s32 NANDGetHomeDir(char[64]) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4426,10 +4322,9 @@ lbl_8019e758:
 }
 
 // Symbol: NANDGetType
-// Function signature is unknown.
 // PAL: 0x8019e770..0x8019e7b4
 MARK_BINARY_BLOB(NANDGetType, 0x8019e770, 0x8019e7b4);
-asm UNKNOWN_FUNCTION(NANDGetType) {
+asm s32 NANDGetType(const char*, u8*) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4533,10 +4428,9 @@ asm UNKNOWN_FUNCTION(nandGetHomeDir) {
 }
 
 // Symbol: NANDInitBanner
-// Function signature is unknown.
 // PAL: 0x8019e880..0x8019e95c
 MARK_BINARY_BLOB(NANDInitBanner, 0x8019e880, 0x8019e95c);
-asm UNKNOWN_FUNCTION(NANDInitBanner) {
+asm void NANDInitBanner(NANDBanner*, u32, const u16*, const u16*) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -4716,10 +4610,9 @@ lbl_8019eab0:
 }
 
 // Symbol: NANDCheck
-// Function signature is unknown.
 // PAL: 0x8019ead0..0x8019ebd8
 MARK_BINARY_BLOB(NANDCheck, 0x8019ead0, 0x8019ebd8);
-asm UNKNOWN_FUNCTION(NANDCheck) {
+asm s32 NANDCheck(u32, u32, u32*) {
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -5215,4 +5108,3 @@ lbl_8019f190:
   addi r1, r1, 0x90;
   blr;
 }
-
