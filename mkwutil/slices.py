@@ -251,6 +251,7 @@ class SliceTable:
             begin_slice = Slice(start, old_stop)
             self.slices.insert(i + 1, begin_slice)
             i += 2
+            # If gap stops within named slice, create copy of original slice.
             if old_stop > stop:
                 end_slice = copy(old_slice)
                 end_slice.start = stop
@@ -261,17 +262,6 @@ class SliceTable:
             begin_slice = self.slices[i - 1]
         else:
             i += 1
-        # If gap ends in current slice, create a copy.
-        if stop < begin_slice.stop and begin_slice.has_name():
-            old_stop = begin_slice.stop
-            begin_slice.stop = start
-            self.slices.insert(i, Slice(start, stop))
-            i += 1
-            end_slice = copy(begin_slice)
-            end_slice.start = stop
-            end_slice.stop = old_stop
-            self.slices.insert(i, end_slice)
-            return
         # Extend slice.
         begin_slice.name = None
         begin_slice.stop = stop

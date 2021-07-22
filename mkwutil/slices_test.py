@@ -114,6 +114,23 @@ def test_slice_table_remove_6():
 ]"""
 
 def test_slice_table_remove_7():
+    # Remove slice prefix.
+    table = SliceTable(0, 6)
+    for x in range(2, 6, 2):
+        table.add(Slice(x, x+2, "slice"))
+    assert str(table) == """[
+  { 00000000..00000002 }
+  { 00000002..00000004 slice }
+  { 00000004..00000006 slice }
+]"""
+    table.remove(0, 3)
+    assert str(table) == """[
+  { 00000000..00000003 }
+  { 00000003..00000004 slice }
+  { 00000004..00000006 slice }
+]"""
+
+def test_slice_table_remove_8():
     # Remove slice suffix.
     table = SliceTable(0, 6)
     for x in range(0, 4, 2):
