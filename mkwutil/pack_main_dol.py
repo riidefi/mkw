@@ -8,14 +8,19 @@ from elftools.elf.constants import P_FLAGS
 from elftools.elf.elffile import ELFFile
 
 
+def segment_is_dummy(seg):
+    """Returns whether segment contains dummy info."""
+    return seg["p_vaddr"] == 0xA000_0000  # Binary blobs section
+
+
 def segment_is_text(seg):
     """Returns whether segment is executable text."""
-    return seg["p_flags"] & P_FLAGS.PF_X == P_FLAGS.PF_X
+    return not segment_is_dummy(seg) and seg["p_flags"] & P_FLAGS.PF_X == P_FLAGS.PF_X
 
 
 def segment_is_data(seg):
     """Returns whether segment is data."""
-    return not segment_is_text(seg) and not segment_is_bss(seg)
+    return not segment_is_dummy(seg) and not segment_is_text(seg) and not segment_is_bss(seg)
 
 
 def segment_is_bss(seg):

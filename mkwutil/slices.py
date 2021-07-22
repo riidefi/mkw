@@ -18,6 +18,8 @@ class Slice:
     tags: set[str] = field(default_factory=set)
 
     def __post_init__(self):
+        assert isinstance(self.start, int)
+        assert isinstance(self.stop, int)
         assert self.start <= self.stop
 
     def __contains__(self, key) -> bool:
@@ -65,7 +67,7 @@ class Slice:
 class ObjectSlices:
     """ObjectSlices is an immutable view of slices grouped by slice name."""
 
-    objects: dict=field(default_factory=dict)
+    objects: dict = field(default_factory=dict)
 
     def get(self, name: str) -> list[Slice]:
         assert isinstance(name, str)
@@ -79,7 +81,7 @@ class SliceTable:
     """A list of contiguous slices for a given range."""
 
     def __init__(
-        self, start=0x8000_0000, stop=math.inf, sections: Optional[list] = None
+        self, start=0x8000_0000, stop=0x1_0000_0000, sections: Optional[list] = None
     ):
         if sections is not None:
             start = sections[0].start
@@ -199,7 +201,7 @@ class SliceTable:
         """Adds a slice to the table, changing gaps as appropriate.
         Panics if a named slice overlaps with the slice to be inserted"""
         assert isinstance(_slice, Slice)
-        assert(len(_slice) > 0), str(_slice)
+        assert len(_slice) > 0, str(_slice)
         assert _slice in self, "Slice %08x..%08x does not fit in table %08x..%08x" % (
             _slice.start,
             _slice.stop,
@@ -226,6 +228,52 @@ class SliceTable:
         # Insert right gap.
         if _slice.stop < target.stop:
             self.slices.insert(i + 1, Slice(_slice.stop, target.stop))
+
+    def remove(self, start: int = None, stop: int = None, _slice: Slice = None) -> None:
+        """Removes the specified range or slice and inserts a gap at its place."""
+        if isinstance(_slice, Slice):
+            return self.__remove(_slice.start, _slice.stop)
+        else:
+            return self.__remove(start, stop)
+
+    def __remove(self, start: int, stop: int) -> None:
+        assert isinstance(start, int)
+        assert isinstance(stop, int)
+        start = max(start, self.start)
+        stop = min(stop, self.stop)
+        # Search for the beginning of the gap.
+        begin_slice, i = self.find(start)
+        # If gap starts within named slice, create new gap slice.
+        if begin_slice.start < start and begin_slice.has_name():
+            old_stop = begin_slice.stop
+            begin_slice.stop = start
+            old_slice = begin_slice
+            begin_slice = Slice(start, old_stop)
+            self.slices.insert(i + 1, begin_slice)
+            i += 2
+            # If gap stops within named slice, create copy of original slice.
+            if old_stop > stop:
+                end_slice = copy(old_slice)
+                end_slice.start = stop
+                end_slice.stop = old_stop
+                self.slices.insert(i, end_slice)
+        # If bordering with a gap on the left, select gap.
+        elif begin_slice.start == start and i > 0 and not self.slices[i - 1].has_name():
+            begin_slice = self.slices[i - 1]
+        else:
+            i += 1
+        # Extend slice.
+        begin_slice.name = None
+        begin_slice.stop = stop
+        # Remove overlapping slices.
+        while i < len(self.slices) and self.slices[i].stop <= stop:
+            self.slices.pop(i)
+        if i < len(self.slices):
+            self.slices[i].start = stop
+        # If bordering with a right gap, merge gaps.
+        if i < len(self.slices) and not self.slices[i].has_name():
+            begin_slice.stop = self.slices[i].stop
+            self.slices.pop(i)
 
     def __repr__(self) -> str:
         return (

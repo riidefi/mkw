@@ -15,9 +15,6 @@ jobs:
       - name: Install dependencies
         run: pip3 install -r requirements.txt
 
-      - name: Percent decompiled
-        run: python3 -m mkwutil.percent_decompiled
-
       - name: Extract tooling
         env:
           TOOLS_URL: 'http://163.172.81.216:12369/tools.7z'
