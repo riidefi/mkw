@@ -33,6 +33,12 @@ typedef struct {
   u8 icon[8][4608];   // 0x60a0
 } NANDBanner;
 
+typedef enum ISFSError {
+  ISFS_ERROR_OK = 0,
+  ISFS_ERROR_NOEXISTS = -106,
+  ISFS_ERROR_UNKNOWN = -117
+} ISFSError;
+
 s32 NANDInit(void);
 
 s32 NANDCreate(const char*, u8, u8);
