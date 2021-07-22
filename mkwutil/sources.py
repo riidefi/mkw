@@ -45,6 +45,9 @@ SOURCES_RVL_MTX = [
     Source(src="source/rvl/mtx/rvlVec.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/mtx/rvlQuat.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_NAND = [
+    Source(src="source/rvl/nand/nand.c", cc='4199_60831', opts=RVL_OPTS)
+]
 SOURCES_RVL_PAD = [
     Source(src="source/rvl/pad/rvlPadClamp.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/pad/rvlPad.c", cc='4199_60831', opts=RVL_OPTS + " -inline on,noauto "),
@@ -149,6 +152,7 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_ARC,
     SOURCES_RVL_MEM,
     SOURCES_RVL_MTX,
+    SOURCES_RVL_NAND,
     SOURCES_RVL_PAD,
     SOURCES_RVL_SI,
     SOURCES_RVL_TPL,
