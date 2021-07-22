@@ -91,13 +91,15 @@ def lib_boxes():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-o", "--output", type=Path, default="out.html")
+    parser.add_argument("-o", "--output", type=Path, default="./out/website", help="Output dir")
     parser.add_argument("-s", "--silent", action="store_true", help="Don't open web browser")
     args = parser.parse_args()
-    with open(args.output, "w") as file:
+    args.output.mkdir(parents=True, exist_ok=True)
+    index_path = args.output / "index.html"
+    with open(index_path, "w") as file:
         jinja_env.get_template("index.html.j2").stream({
         "dol_decomp": standard_boxes(),
         "dol_libraries": lib_boxes(),
     }).dump(file)
     if not args.silent:
-        webbrowser.open(args.output)
+        webbrowser.open(index_path)
