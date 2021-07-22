@@ -114,7 +114,7 @@ class CAsmGenerator:
         self.extern_functions = list()
 
     # Validated iterator of own_symbols
-    def __symbols(self):
+    def __symbols(self, addr):
         for sym in self.own_symbols:
             assert (
                 sym.addr == addr
@@ -134,7 +134,7 @@ class CAsmGenerator:
         addr = self.slice.start
         functions = []
         
-        for sym in self.__symbols():
+        for sym in self.__symbols(addr):
             func_body = self.disassemble_function(sym)
             functions.append(
                 {
@@ -172,7 +172,7 @@ class CAsmGenerator:
         self.symbols.put(ext_sym)
         return ext_sym
 
-    def __analyze_jumps_addr(self, addr, labels):
+    def __analyze_jumps_addr(self, sym, addr, labels):
         # If target address is within symbol, we have a label.
         if addr_in_sym(addr, sym):
             labels.add(addr)
@@ -192,15 +192,14 @@ class CAsmGenerator:
     # Walk instructions to collect:
     #   jumps inside functions (labels)
     #   long jumps to other functions (extern symbol references)
-    def __analyze_jumps(self, insns):
+    def __analyze_jumps(self, sym, insns):
         labels = set()
         for _, addr in self.__jumps_of(insns):
-            self.__analyze_jumps_addr(addr, labels)
-
+            self.__analyze_jumps_addr(sym, addr, labels)
         return labels
 
     # Disassemble instructions.
-    def __disasm_instructions(self, labels, sorted_labels):
+    def __disasm_instructions(self, insns, labels, sorted_labels):
         for ins in insns:
             # TODO is there a better way to specialize a Python object?
             ins = InlineInstruction(
@@ -225,9 +224,9 @@ class CAsmGenerator:
         data = self.data[data_start:data_stop]
         insns = list(disasm_iter(data, sym.addr))
 
-        labels = self.__analyze_jumps()
+        labels = self.__analyze_jumps(sym, insns)
         sorted_labels = list(sorted(labels))    
-        func_body = list(self.__disasm_instructions(labels, sorted_labels))
+        func_body = list(self.__disasm_instructions(insns, labels, sorted_labels))
 
         return func_body
 
