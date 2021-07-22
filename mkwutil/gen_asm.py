@@ -96,19 +96,22 @@ class AsmGenerator:
         self.dump_section_header()
         self.dump_section_body()
 
+
 def addr_in_sym(addr, sym):
     return sym.addr <= addr < sym.addr + sym.size
+
 
 class CAsmGenerator:
     """Generates C files with assembly functions."""
 
-    def __init__(self, data, _slice, symbols, output):
+    def __init__(self, data, _slice, symbols, out_h, out_c):
         self.data = data
         self.slice = _slice
         self.symbols = symbols
         self.own_symbols = self.symbols.slice(self.slice.start, self.slice.stop)
         self.own_symbols.derive_sizes(self.slice.stop)
-        self.output = output
+        self.out_h = out_h
+        self.out_c = out_c
         # The list of seen extern functions.
         self.extern_functions_seen = set()
         self.extern_functions = list()
@@ -119,21 +122,20 @@ class CAsmGenerator:
             assert (
                 sym.addr == addr
             ), f"Currently at {hex(addr)} but next symbol is at {hex(sym.addr)}"
-            
+
             yield sym
             addr += sym.size
-        
+
         assert (
             addr == self.slice.stop
         ), f"Disassembled up to {hex(addr)} but slice goes to {hex(self.slice.stop)}"
-        
 
     # TODO not a good name
     def dump_section(self):
         """Writes the C file to output."""
         addr = self.slice.start
         functions = []
-        
+
         for sym in self.__symbols(addr):
             func_body = self.disassemble_function(sym)
             functions.append(
@@ -149,10 +151,14 @@ class CAsmGenerator:
         self.extern_functions.sort(key=lambda sym: sym.addr)
         # Write out to C file.
         template = jinja_env.get_template("source.c.j2")
-        stream = template.stream(
-            functions=functions, extern_functions=self.extern_functions
-        )
-        stream.dump(self.output)
+        template.stream(
+            header=Path(self.out_h.name).name,
+            functions=functions,
+            extern_functions=self.extern_functions,
+        ).dump(self.out_c)
+        # Write out to H file.
+        template = jinja_env.get_template("source.h.j2")
+        template.stream(functions=functions).dump(self.out_h)
 
     def __jumps_of(self, insns):
         for ins in insns:
@@ -164,7 +170,7 @@ class CAsmGenerator:
 
     def __name_addr(self, addr):
         # If it's a known symbol, use its name.
-        if addr in self.symbols:    
+        if addr in self.symbols:
             return self.symbols[addr]
 
         # If the target address is unknown we still need to create a symbol.
@@ -213,7 +219,6 @@ class CAsmGenerator:
             # Actual instruction.
             yield f"  {ins.disassemble()};"
 
-
     def disassemble_function(self, sym):
         """Generates the inline assembly function body as a stream of lines."""
         assert isinstance(sym.size, int)
@@ -225,7 +230,7 @@ class CAsmGenerator:
         insns = list(disasm_iter(data, sym.addr))
 
         labels = self.__analyze_jumps(sym, insns)
-        sorted_labels = list(sorted(labels))    
+        sorted_labels = list(sorted(labels))
         func_body = list(self.__disasm_instructions(insns, labels, sorted_labels))
 
         return func_body
@@ -269,7 +274,7 @@ class DOLSrcGenerator:
             return Path(Path(_slice.name).name)
 
         return get_asm_path(Path("dol"), _slice)
-    
+
     def __outpath_of_asm_slice(self, _slice):
         # Wrong term maybe
         stem = self.__stem_for_asm_slice(_slice)
@@ -301,10 +306,9 @@ class DOLSrcGenerator:
         for section in DOL_SECTIONS:
             self.__process_section(section)
 
-        self.__prune_asm()        
+        self.__prune_asm()
         self.__name_asm_slices()
         self.__write_objlist()
-        
 
     def __process_section(self, section: Section):
         """Processes a program section and all its slices."""
@@ -324,7 +328,7 @@ class DOLSrcGenerator:
     def __process_slice(self, section: Section, _slice: Slice):
         """Process a slice in slices.csv or a gap."""
         print(f"  {_slice}")
-        
+
         if self.__slice_dest_asm(_slice):
             self.__gen_asm(section, _slice)
             return
@@ -343,12 +347,15 @@ class DOLSrcGenerator:
         c_path = Path(_slice.name)
         if c_path.exists():
             return
+        h_path = c_path.with_suffix(".h")
+        if h_path.exists():
+            return
 
         c_path.parent.mkdir(parents=True, exist_ok=True)
         print(f"    => {_slice.name}")
         data = self.dol.virtual_read(_slice.start, len(_slice))
-        with open(c_path, "w") as file:
-            gen = CAsmGenerator(data, _slice, self.symbols, file)
+        with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
+            gen = CAsmGenerator(data, _slice, self.symbols, h_file, c_file)
             gen.dump_section()
 
     def __gen_asm(self, section: Section, _slice: Slice):
@@ -376,7 +383,7 @@ class RELSrcGenerator:
         rel_asm_dir: Path,
         rel_bin_dir: Path,
         pack_dir: Path,
-        regen_asm: bool
+        regen_asm: bool,
     ):
         self.slices = slices
         self.slices.set_sections(REL_SECTIONS)
@@ -412,7 +419,7 @@ class RELSrcGenerator:
         object_names = self.slices.object_slices().objects.keys()
         with open(self.pack_dir / "rel_objects.txt", "w") as file:
             for name in object_names:
-                print(Path(name), file=file)  
+                print(Path(name), file=file)
 
     def __process_section(self, section: Section):
         """Processes a library section and all its slices."""
@@ -437,12 +444,15 @@ class RELSrcGenerator:
         print(f"    => {asm_path}")
         with open(asm_path, "w") as asm_file:
             data = (
-                self.rel.virtual_read(_slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX)
+                self.rel.virtual_read(
+                    _slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX
+                )
                 if section.type != "bss"
                 else None
             )
             gen = AsmGenerator(data, _slice, SymbolsList(), asm_file)
             gen.dump_section()
+
 
 def __read_symbol_map(symbols_path):
     symbols = SymbolsList()
@@ -454,6 +464,7 @@ def __read_symbol_map(symbols_path):
 
     raise RuntimeError("Cannot find symbols")
 
+
 def __read_dol(dol_path):
     with open(dol_path, "rb") as file:
         dol = DolBinary(file)
@@ -462,21 +473,24 @@ def __read_dol(dol_path):
 
     raise RuntimeError("Cannot find DOL")
 
+
 # Map out slices in DOL.
 def __read_enabled_slices(dol, slices_path):
     dol_slices = SliceTable(dol.start, dol.stop)
     with open(slices_path) as file:
         dol_slices.read_from(file)
-        
+
         return dol_slices.filter(SliceTable.ONLY_ENABLED)
 
     raise RuntimeError("Cannot find dol_slices.csv")
+
 
 def __read_rel(rel_path):
     with open(rel_path, "rb") as file:
         return Rel(file)
 
     raise RuntimeError("Cannot find StaticR.rel")
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -500,7 +514,7 @@ def main():
 
     dol = __read_dol(args.binary_dir / "main.dol")
     dol_slices = __read_enabled_slices(dol, args.pack_dir / "dol_slices.csv")
-    
+
     # Disassemble DOL sections.
     dol_asm_dir = args.asm_dir / "dol"
     dol_asm_dir.mkdir(exist_ok=True)

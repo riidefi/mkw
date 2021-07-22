@@ -1,4 +1,4 @@
-#include "decomp.h"
+#include "{{ header }}"
 
 {% if extern_functions | length > 0 -%}
 // Extern function references.
@@ -8,10 +8,6 @@ extern UNKNOWN_FUNCTION({{ function.name }});
 {%- endfor %}
 
 {% endif -%}
-// Function declarations.
-{%- for function in functions %}
-UNKNOWN_FUNCTION({{ function.name }});
-{%- endfor %}
 
 {% for function in functions -%}
 // Symbol: {{ function.name }}
