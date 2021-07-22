@@ -78,7 +78,7 @@ def __load_binary_blob_slices(elf_file) -> Generator[Slice, None, None]:
         yield Slice(start, stop, name)
 
 
-def load_binary_blob_slices(elf_path: Path) -> SliceTable:
+def load_binary_blob_slices(elf_path: Path) -> list[Slice]:
     """Loads all inline assembly slices from the ELF."""
     with open(elf_path, "rb") as file:
         return list(__load_binary_blob_slices(file))
