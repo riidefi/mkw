@@ -4,19 +4,9 @@
 
 #include <rvl/os/os.h>
 
+#include "ipcMain.h"
+
 // Extern function references.
-// PAL: 0x80192f7c
-extern UNKNOWN_FUNCTION(IPCInit);
-// PAL: 0x80193010
-extern UNKNOWN_FUNCTION(IPCReadReg);
-// PAL: 0x80193020
-extern UNKNOWN_FUNCTION(IPCWriteReg);
-// PAL: 0x80193030
-extern UNKNOWN_FUNCTION(IPCGetBufferHi);
-// PAL: 0x80193038
-extern UNKNOWN_FUNCTION(IPCGetBufferLo);
-// PAL: 0x80193040
-extern UNKNOWN_FUNCTION(IPCSetBufferLo);
 // PAL: 0x801949b8
 extern UNKNOWN_FUNCTION(iosCreateHeap);
 // PAL: 0x80194cec
@@ -55,7 +45,7 @@ extern UNKNOWN_FUNCTION(OSWakeupThread);
 // PAL: 0x80193048..0x80193074
 MARK_BINARY_BLOB(strnlen, 0x80193048, 0x80193074);
 asm UNKNOWN_FUNCTION(strnlen) {
-// clang-format off
+  // clang-format off
   nofralloc;
   mr r5, r3;
   b lbl_80193054;
@@ -71,7 +61,7 @@ lbl_80193054:
 lbl_8019306c:
   subf r3, r3, r5;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IpcReplyHandler
@@ -79,7 +69,7 @@ lbl_8019306c:
 // PAL: 0x80193074..0x801932cc
 MARK_BINARY_BLOB(IpcReplyHandler, 0x80193074, 0x801932cc);
 asm UNKNOWN_FUNCTION(IpcReplyHandler) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x2e0(r1);
   mflr r0;
@@ -249,7 +239,7 @@ lbl_801932ac:
   mtlr r0;
   addi r1, r1, 0x2e0;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IPCInterruptHandler
@@ -257,7 +247,7 @@ lbl_801932ac:
 // PAL: 0x801932cc..0x80193478
 MARK_BINARY_BLOB(IPCInterruptHandler, 0x801932cc, 0x80193478);
 asm UNKNOWN_FUNCTION(IPCInterruptHandler) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -373,7 +363,7 @@ lbl_80193460:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IPCCltInit
@@ -381,7 +371,7 @@ lbl_80193460:
 // PAL: 0x80193478..0x8019352c
 MARK_BINARY_BLOB(IPCCltInit, 0x80193478, 0x8019352c);
 asm UNKNOWN_FUNCTION(IPCCltInit) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -430,7 +420,7 @@ lbl_8019350c:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IPCCltReInit
@@ -438,7 +428,7 @@ lbl_8019350c:
 // PAL: 0x8019352c..0x801935a0
 MARK_BINARY_BLOB(IPCCltReInit, 0x8019352c, 0x801935a0);
 asm UNKNOWN_FUNCTION(IPCCltReInit) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -471,7 +461,7 @@ lbl_80193580:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __ios_Ipc2
@@ -479,7 +469,7 @@ lbl_80193580:
 // PAL: 0x801935a0..0x801937e0
 MARK_BINARY_BLOB(__ios_Ipc2, 0x801935a0, 0x801937e0);
 asm UNKNOWN_FUNCTION(__ios_Ipc2) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -639,7 +629,7 @@ lbl_801937bc:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_OpenAsync
@@ -647,7 +637,7 @@ lbl_801937bc:
 // PAL: 0x801937e0..0x801938f8
 MARK_BINARY_BLOB(IOS_OpenAsync, 0x801937e0, 0x801938f8);
 asm UNKNOWN_FUNCTION(IOS_OpenAsync) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -728,7 +718,7 @@ lbl_801938dc:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_Open
@@ -736,7 +726,7 @@ lbl_801938dc:
 // PAL: 0x801938f8..0x80193a18
 MARK_BINARY_BLOB(IOS_Open, 0x801938f8, 0x80193a18);
 asm UNKNOWN_FUNCTION(IOS_Open) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -819,7 +809,7 @@ lbl_801939f4:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_CloseAsync
@@ -827,7 +817,7 @@ lbl_801939f4:
 // PAL: 0x80193a18..0x80193ad8
 MARK_BINARY_BLOB(IOS_CloseAsync, 0x80193a18, 0x80193ad8);
 asm UNKNOWN_FUNCTION(IOS_CloseAsync) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -881,7 +871,7 @@ lbl_80193ab4:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_Close
@@ -889,7 +879,7 @@ lbl_80193ab4:
 // PAL: 0x80193ad8..0x80193b80
 MARK_BINARY_BLOB(IOS_Close, 0x80193ad8, 0x80193b80);
 asm UNKNOWN_FUNCTION(IOS_Close) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -937,7 +927,7 @@ lbl_80193b64:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_ReadAsync
@@ -945,7 +935,7 @@ lbl_80193b64:
 // PAL: 0x80193b80..0x80193c80
 MARK_BINARY_BLOB(IOS_ReadAsync, 0x80193b80, 0x80193c80);
 asm UNKNOWN_FUNCTION(IOS_ReadAsync) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -1019,7 +1009,7 @@ lbl_80193c64:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_Read
@@ -1027,7 +1017,7 @@ lbl_80193c64:
 // PAL: 0x80193c80..0x80193d88
 MARK_BINARY_BLOB(IOS_Read, 0x80193c80, 0x80193d88);
 asm UNKNOWN_FUNCTION(IOS_Read) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1103,7 +1093,7 @@ lbl_80193d64:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_WriteAsync
@@ -1111,7 +1101,7 @@ lbl_80193d64:
 // PAL: 0x80193d88..0x80193e88
 MARK_BINARY_BLOB(IOS_WriteAsync, 0x80193d88, 0x80193e88);
 asm UNKNOWN_FUNCTION(IOS_WriteAsync) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -1185,7 +1175,7 @@ lbl_80193e6c:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_Write
@@ -1193,7 +1183,7 @@ lbl_80193e6c:
 // PAL: 0x80193e88..0x80193f90
 MARK_BINARY_BLOB(IOS_Write, 0x80193e88, 0x80193f90);
 asm UNKNOWN_FUNCTION(IOS_Write) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1269,7 +1259,7 @@ lbl_80193f6c:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_SeekAsync
@@ -1277,7 +1267,7 @@ lbl_80193f6c:
 // PAL: 0x80193f90..0x80194070
 MARK_BINARY_BLOB(IOS_SeekAsync, 0x80193f90, 0x80194070);
 asm UNKNOWN_FUNCTION(IOS_SeekAsync) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -1341,7 +1331,7 @@ lbl_80194054:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_Seek
@@ -1349,7 +1339,7 @@ lbl_80194054:
 // PAL: 0x80194070..0x80194158
 MARK_BINARY_BLOB(IOS_Seek, 0x80194070, 0x80194158);
 asm UNKNOWN_FUNCTION(IOS_Seek) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1415,7 +1405,7 @@ lbl_80194134:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_IoctlAsync
@@ -1423,7 +1413,7 @@ lbl_80194134:
 // PAL: 0x80194158..0x80194290
 MARK_BINARY_BLOB(IOS_IoctlAsync, 0x80194158, 0x80194290);
 asm UNKNOWN_FUNCTION(IOS_IoctlAsync) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x40(r1);
   mflr r0;
@@ -1513,7 +1503,7 @@ lbl_80194274:
   mtlr r0;
   addi r1, r1, 0x40;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_Ioctl
@@ -1521,7 +1511,7 @@ lbl_80194274:
 // PAL: 0x80194290..0x801943c0
 MARK_BINARY_BLOB(IOS_Ioctl, 0x80194290, 0x801943c0);
 asm UNKNOWN_FUNCTION(IOS_Ioctl) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -1609,7 +1599,7 @@ lbl_801943a4:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __ios_Ioctlv
@@ -1617,7 +1607,7 @@ lbl_801943a4:
 // PAL: 0x801943c0..0x801944fc
 MARK_BINARY_BLOB(__ios_Ioctlv, 0x801943c0, 0x801944fc);
 asm UNKNOWN_FUNCTION(__ios_Ioctlv) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1710,7 +1700,7 @@ lbl_801944e0:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_IoctlvAsync
@@ -1718,7 +1708,7 @@ lbl_801944e0:
 // PAL: 0x801944fc..0x801945e0
 MARK_BINARY_BLOB(IOS_IoctlvAsync, 0x801944fc, 0x801945e0);
 asm UNKNOWN_FUNCTION(IOS_IoctlvAsync) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -1781,7 +1771,7 @@ lbl_801945c4:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_Ioctlv
@@ -1789,7 +1779,7 @@ lbl_801945c4:
 // PAL: 0x801945e0..0x801946bc
 MARK_BINARY_BLOB(IOS_Ioctlv, 0x801945e0, 0x801946bc);
 asm UNKNOWN_FUNCTION(IOS_Ioctlv) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -1850,7 +1840,7 @@ lbl_801946a0:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: IOS_IoctlvReboot
@@ -1858,7 +1848,7 @@ lbl_801946a0:
 // PAL: 0x801946bc..0x801949b8
 MARK_BINARY_BLOB(IOS_IoctlvReboot, 0x801946bc, 0x801949b8);
 asm UNKNOWN_FUNCTION(IOS_IoctlvReboot) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -2066,6 +2056,5 @@ lbl_8019499c:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
-// clang-format on
+  // clang-format on
 }
-
