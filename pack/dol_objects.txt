@@ -161,12 +161,13 @@ out\rvlArchive.o
 out\dol\text_80124e80_80169bcc.o
 out\fs.o
 out\dol\text_8016b49c_80192f7c.o
+out\dol\data_8027e772_8029cc80.o
+out\dol\sdata_803857f6_80385a08.o
+out\dol\sbss_80386448_803867e8.o
 out\ipcMain.o
 out\ipcclt.o
 out\dol\text_801949b8_801981ec.o
-out\dol\data_8027e772_8029cc80.o
-out\dol\sdata_803857f6_80385a08.o
-out\dol\sbss_80386448_80386838.o
+out\dol\sbss_803867fc_80386838.o
 out\rvlMemHeap.o
 out\rvlMemExpHeap.o
 out\rvlMemFrmHeap.o
