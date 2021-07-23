@@ -1,5 +1,7 @@
 #include "pad.h"
 
+#include <math.h>
+
 static const PADClampRegion PADClampRegionV1 = {
     30, 180, 15, 72, 47, 15, 59, 37, 62, 50,
 };
@@ -7,9 +9,6 @@ static const PADClampRegion PADClampRegionV1 = {
 static const PADClampRegion PADClampRegionV2 = {
     0, 180, 0, 87, 62, 0, 74, 52, 80, 68,
 };
-
-f64 sqrt(f64);
-inline f32 sqrtf(f32 x) { return (f32)sqrt(x); }
 
 // Clamps a Vec2 into a circle with bounds min <= len(vec) <= r
 void PAD_ClampCircle(s8* outX, s8* outY, s8 r, s8 min) {
