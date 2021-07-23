@@ -1,5 +1,7 @@
 #include "mtx.h"
 
+#include <math.h>
+
 void PSQUATMultiply(const register Quaternion* quat1,
                     const register Quaternion* quat2,
                     register Quaternion* out) {
@@ -132,9 +134,6 @@ loc1:
   }
 }
 
-double sqrt(double);
-inline float sqrtf(float x) { return (float)sqrt(x); }
-
 void C_QUATMtx(Quaternion* r, const Mtx m) {
   f32 vv0, vv1;
   s32 i, j, k;
@@ -175,4 +174,33 @@ void C_QUATLerp(const Quaternion* quat1, const Quaternion* quat2,
   out->y = f * (quat2->y - quat1->y) + quat1->y;
   out->z = f * (quat2->z - quat1->z) + quat1->z;
   out->w = f * (quat2->w - quat1->w) + quat1->w;
+}
+
+void C_QUATSlerp(const Quaternion* quat1, const Quaternion* quat2,
+                 Quaternion* out, f32 f) {
+  f32 vv1, vv2, vv3, vv4, vv5;
+
+  vv3 = quat1->x * quat2->x + quat1->y * quat2->y + quat1->z * quat2->z +
+        quat1->w * quat2->w;
+  vv5 = 1.0F;
+
+  if (vv3 < 0.0F) {
+    vv3 = -vv3;
+    vv5 = -vv5;
+  }
+
+  if (vv3 <= 1.0F - 0.00001f) {
+    vv1 = acosf(vv3);
+    vv2 = sinf(vv1);
+    vv4 = sinf((1.0F - f) * vv1) / vv2;
+    vv5 *= sinf(f * vv1) / vv2;
+  } else {
+    vv4 = 1.0F - f;
+    vv5 = vv5 * f;
+  }
+
+  out->x = vv4 * quat1->x + vv5 * quat2->x;
+  out->y = vv4 * quat1->y + vv5 * quat2->y;
+  out->z = vv4 * quat1->z + vv5 * quat2->z;
+  out->w = vv4 * quat1->w + vv5 * quat2->w;
 }

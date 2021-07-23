@@ -40,6 +40,7 @@
 0x8001b590 cos
 0x8001ba98 sin
 0x8001bb64 tan
+0x8001bbdc acos
 0x8001bbf4 sqrt
 0x8001bc98 strncasecmp
 0x8001bc9c strcasecmp
