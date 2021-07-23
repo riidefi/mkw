@@ -106,6 +106,7 @@ void C_QUATMtx(Quaternion*, const Mtx);
 // PAL: 0x8019b114
 void C_QUATLerp(const Quaternion*, const Quaternion*, Quaternion*, f32);
 // PAL: 0x8019b178
+void C_QUATSlerp(const Quaternion*, const Quaternion*, Quaternion*, f32);
 
 #ifdef __cplusplus
 }
