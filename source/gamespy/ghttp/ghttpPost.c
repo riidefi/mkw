@@ -459,7 +459,6 @@ static int ghiPostGetNoFilesContentLength(struct GHIConnection* connection) {
 
   total += (num - 1); // '&'
 
-  GSI_UNUSED(foundSoapAlready);
   return total;
 }
 
@@ -586,7 +585,6 @@ static int ghiPostGetHasFilesContentLength(struct GHIConnection* connection) {
   ///////////////
   total += endLen;
 
-  GSI_UNUSED(foundSoapAlready);
   return total;
 }
 

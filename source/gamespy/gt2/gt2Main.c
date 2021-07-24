@@ -18,6 +18,9 @@ devsupport@gamespy.com
 
 #define GTI2_INVALID_IP_MASK 0xE0000000
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 /*********************
 ** SOCKET FUNCTIONS **
 *********************/

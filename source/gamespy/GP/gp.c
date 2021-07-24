@@ -16,9 +16,15 @@ Please see the GameSpy Presence SDK documentation for more information
 #include <stdlib.h>
 #include <string.h>
 
+#include "gp.h"
 #include "gpi.h"
 
 #define NOFILE 1
+
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+// Ignore warning: (10178) function has no prototype
+#pragma warning off(10178)
 
 // FUNCTIONS
 ///////////

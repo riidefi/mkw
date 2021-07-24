@@ -24,6 +24,9 @@ Please see the GameSpy Presence SDK documentation for more information
 //////////
 char GPIInfoCacheFilename[FILENAME_MAX + 1] = "gp.info";
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // FUNCTIONS
 ///////////
 static int gpiProfilesTableHash(const void* arg, int numBuckets) {

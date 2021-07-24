@@ -25,6 +25,9 @@ Please see the GameSpy Presence SDK documentation for more information
 #define GPI_DATA_SIZE (1 * 1024)
 //#define GPI_CONFIRM_FILES
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // FUNCTIONS
 ///////////
 #ifndef NOFILE

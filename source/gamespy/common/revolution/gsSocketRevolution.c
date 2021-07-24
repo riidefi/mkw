@@ -34,9 +34,8 @@ static int CheckRcode(int rcode, int errCode) {
   return errCode;
 }
 
-int socket(int pf, int type, int protocol) {
+int socket(int pf, int type, int) {
   int rcode = SOSocket(pf, type, 0);
-  GSI_UNUSED(protocol);
   return CheckRcode(rcode, INVALID_SOCKET);
 }
 int closesocket(SOCKET sock) {
@@ -88,12 +87,12 @@ SOCKET accept(SOCKET sock, SOCKADDR* addr, int* len)
 }
 */
 
-int recv(SOCKET sock, char* buf, int len, int flags) {
+int recv(SOCKET sock, char* buf, int len, int) {
   // TODO flags hardcoded to 4 here.
   int rcode = SORecv(sock, buf, len, 4);
   return CheckRcode(rcode, REVOlUTION_SOCKET_ERROR);
 }
-int recvfrom(SOCKET sock, char* buf, int len, int flags, SOCKADDR* addr,
+int recvfrom(SOCKET sock, char* buf, int len, int, SOCKADDR* addr,
              int* fromlen) {
   int rcode;
   addr->len = (u8)*fromlen;
@@ -147,8 +146,7 @@ unsigned long inet_addr(const char* name) {
   return addr.addr;
 }
 
-int GOAGetLastError(SOCKET sock) {
-  GSI_UNUSED(sock);
+int GOAGetLastError(SOCKET) {
   return GSIRevolutionErrno;
 }
 

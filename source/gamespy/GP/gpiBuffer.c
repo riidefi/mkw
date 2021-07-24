@@ -21,6 +21,9 @@ Please see the GameSpy Presence SDK documentation for more information
 /////////
 #define GPI_DUMP_NET_TRAFFIC
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // FUNCTIONS
 ///////////
 GPResult gpiAppendCharToBuffer(GPConnection* connection,

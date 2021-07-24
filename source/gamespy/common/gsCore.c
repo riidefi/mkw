@@ -31,7 +31,6 @@ static void gsiCoreAtExitShutdown(void) {
   // delete queue critical section
   GSCoreMgr* aCore = gsiGetStaticCore();
   gsiDeleteCriticalSection(&aCore->mQueueCrit);
-  GSI_UNUSED(aCore);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -263,8 +262,6 @@ void gsCoreThink(gsi_time theMS) {
 
   // leave queue critical section
   gsiLeaveCriticalSection(&aCore->mQueueCrit);
-
-  GSI_UNUSED(theMS);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -384,7 +381,6 @@ void gsiCoreCancelTask(GSTask* theTask) {
       (theTask->mCancelFunc)(theTask->mTaskData);
   }
   gsiLeaveCriticalSection(&aCore->mQueueCrit);
-  GSI_UNUSED(aCore);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -15,6 +15,9 @@ devsupport@gamespy.com
 #include "ghttpConnection.h"
 #include "ghttpMain.h"
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // Resize the buffer.
 /////////////////////
 GHTTPBool ghiResizeBuffer(GHIBuffer* buffer, int sizeIncrement) {

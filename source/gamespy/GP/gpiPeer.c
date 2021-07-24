@@ -18,6 +18,9 @@ Please see the GameSpy Presence SDK documentation for more information
 #include <stdlib.h>
 #include <string.h>
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // FUNCTIONS
 ///////////
 static GPResult gpiProcessPeerInitiatingConnection(GPConnection* connection,

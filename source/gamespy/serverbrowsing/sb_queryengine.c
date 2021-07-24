@@ -1,6 +1,9 @@
 #include "sb_internal.h"
 #include "sb_serverbrowsing.h"
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 #ifdef GSI_MANIC_DEBUG
 // Make sure the server isn't already in the fifo
 void FIFODebugCheckAdd(SBServerFIFO* fifo, SBServer server) {

@@ -31,6 +31,9 @@ Please see the GameSpy Presence SDK documentation for more information
 #pragma warning(disable : 4127)
 #endif // _MSC_VER
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // FUNCTIONS
 ///////////
 void strzcpy(char* dest, const char* src, size_t len) {

@@ -23,6 +23,9 @@ static int ghiConnectionsLen;
 static int ghiNumConnections;
 static int ghiNextUniqueID;
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // Finds a gsifree slot in the ghiConnections array.
 // If there are no gsifree slots, the array size will be increased.
 ////////////////////////////////////////////////////////////////

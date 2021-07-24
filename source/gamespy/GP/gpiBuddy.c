@@ -906,11 +906,8 @@ GPResult gpiAuthBuddyRequest(GPConnection* connection, GPProfile profile) {
   return GP_NO_ERROR;
 }
 
-GPIBool gpiFixBuddyIndices(GPConnection* connection, GPIProfile* profile,
-                           void* data) {
+GPIBool gpiFixBuddyIndices(GPConnection*, GPIProfile* profile, void* data) {
   int baseIndex = (int)(unsigned long)data;
-
-  GSI_UNUSED(connection);
 
   if (profile->buddyStatus && (profile->buddyStatus->buddyIndex > baseIndex))
     profile->buddyStatus->buddyIndex--;

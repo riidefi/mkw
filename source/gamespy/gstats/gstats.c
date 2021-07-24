@@ -22,6 +22,9 @@ INCLUDES
 #include "../md5.h"
 // clang-format on
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 #ifdef __cplusplus
 extern "C" {
 #endif

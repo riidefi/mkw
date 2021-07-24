@@ -41,6 +41,9 @@ const char*
         "xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
         "xsd=\"http://www.w3.org/2001/XMLSchema\""};
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Warning: Do not store pointers to other GSXml* objects within a GSXml object

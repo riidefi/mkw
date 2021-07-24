@@ -366,7 +366,7 @@ void SOiFree(u32 name, void* ptr, s32 size) {
   }
 }
 
-int SOiPrepare(const char* funcName, s32* pRmId) {
+int SOiPrepare(const char*, s32* pRmId) {
   int result = SO_SUCCESS;
   int enabled = OSDisableInterrupts();
 
@@ -401,7 +401,7 @@ int SOiPrepare(const char* funcName, s32* pRmId) {
   return result;
 }
 
-int SOiConclude(const char* funcName, int result) {
+int SOiConclude(const char*, int result) {
   int enabled = OSDisableInterrupts();
   OSThread* cur = OSGetCurrentThread();
   if (cur)
@@ -519,7 +519,7 @@ int SOiPrepareTempRm(const char* funcName, s32* pRmId, int* pIsTempRm) {
   return result;
 }
 
-int SOiConcludeTempRm(const char* funcName, int result, int isTempRm) {
+int SOiConcludeTempRm(const char*, int result, int isTempRm) {
   int enabled;
 
   if (isTempRm == true) {

@@ -118,7 +118,7 @@ CWCC_OPT = " ".join(
         # "-pragma \"aggressive_inline on\"",
         # "-pragma \"auto_inline on\"",
         "-inline auto",
-        "-w notinlined -W noimplicitconv",
+        "-w notinlined -W noimplicitconv -w nounwanted",
         "-nostdinc",
         "-msgstyle gcc -lang=c99 -DREVOKART",
         "-func_align 4",

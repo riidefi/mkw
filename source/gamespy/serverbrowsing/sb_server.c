@@ -28,6 +28,9 @@ __declspec(thread)
     HashTable g_SBRefStrList = NULL;
 #endif
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 /***********
  * REF COUNTING STRING HASHTABLE FUNCTIONS
  **********/

@@ -16,6 +16,9 @@ Please see the GameSpy Presence SDK documentation for more information
 #include "gpi.h"
 #include <stdlib.h>
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // FUNCTIONS
 ///////////
 GPResult gpiFailedOpCallback(GPConnection* connection,

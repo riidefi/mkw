@@ -3,6 +3,11 @@
 // UDP Communication Engine
 #include "gsUdpEngine.h"
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+// Ignore warning: (10178) function has no prototype
+#pragma warning off(10178)
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Internal Structures

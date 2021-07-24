@@ -7,6 +7,9 @@
 // Future Versions:
 // ICMP Ping support (icmp engine)
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // internal callback proxy for server list
 static void ListCallback(SBServerList* serverlist, SBListCallbackReason reason,
                          SBServer server, void* instance) {

@@ -160,7 +160,6 @@ const char* gt2IPToHostInfo(unsigned int ip, char*** aliases,
 
   host = gethostbyaddr((const char*)&ip, 4, AF_INET);
 
-  GSI_UNUSED(ip);
   return gti2HandleHostInfo(host, aliases, ips);
 }
 

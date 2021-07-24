@@ -7,11 +7,13 @@ INCLUDES
 #include "../natneg/natneg.h"
 #include "qr2regkeys.h"
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifdef __MWERKS__ // Codewarrior requires function prototypes
 qr2_error_t qr2_initW(/*[out]*/ qr2_t* qrec, const unsigned short* ip,
                       int baseport, const unsigned short* gamename,
                       const unsigned short* secret_key, int ispublic,
@@ -52,7 +54,6 @@ qr2_error_t qr2_initA(/*[out]*/ qr2_t* qrec, const char* ip, int baseport,
                       qr2_keylistcallback_t key_list_callback,
                       qr2_countcallback_t playerteam_count_callback,
                       qr2_adderrorcallback_t adderror_callback, void* userdata);
-#endif
 
 /********
 DEFINES
@@ -435,7 +436,8 @@ void qr2_think(qr2_t qrec) {
 
 // Linker will remove this function through dead-stripping.
 // We use this to force some strings to be defined.
-void define_some_strings() {
+void qr2_define_some_strings();
+void qr2_define_some_strings() {
   char* x;
   void (*foo)(void);
   x = "Received %d bytes on query socket\r\n"; // 0x8027d0a4

@@ -14,6 +14,9 @@ devsupport@gamespy.com
 #include "ghttpMain.h"
 #include "ghttpPost.h"
 
+// Ignore warning: (10369) expression has no side effect
+#pragma warn_no_side_effect off
+
 // Parse the URL into:
 //   server address (and IP)
 //   server port
