@@ -3,8 +3,9 @@
 #include <rk_types.h> // expects
 #include <stdbool.h>  // bool
 
+#include <rvl/os/osError.h>
+
 void OSPanic(...);
-void OSReport(...);
 
 struct rvlArchiveNode {
   union {
