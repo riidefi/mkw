@@ -1,9 +1,6 @@
-#include <dwc/common/dwci_error.h>
-#include <rk_types.h>
+#include "dwc_error.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "dwci_error.h"
 
 //! @brief The last error code encountered.
 //!
@@ -95,7 +92,3 @@ void DWCi_SetError(int lastError, int errorCode) {
     DWC_Printf(-1, "FATALERROR_SET\n");
 #endif
 }
-
-#ifdef __cplusplus
-}
-#endif

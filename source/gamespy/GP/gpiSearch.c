@@ -956,8 +956,8 @@ static GPResult gpiProcessSearch(GPConnection* connection,
                 if (arg->numNicks <= 0)
                   continue;
 
-                  // Add it.
-                  //////////
+                // Add it.
+                //////////
                 tempPtr =
                     gsirealloc(arg->uniquenicks, sizeof(char*) * arg->numNicks);
                 if (tempPtr == NULL)

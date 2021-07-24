@@ -435,7 +435,8 @@ void qr2_think(qr2_t qrec) {
 
 // Linker will remove this function through dead-stripping.
 // We use this to force some strings to be defined.
-void define_some_strings() {
+void qr2_define_some_strings();
+void qr2_define_some_strings() {
   char* x;
   void (*foo)(void);
   x = "Received %d bytes on query socket\r\n"; // 0x8027d0a4
