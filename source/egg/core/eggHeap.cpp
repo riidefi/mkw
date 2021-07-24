@@ -10,9 +10,9 @@
 #include <egg/core/eggThread.hpp>
 #include <egg/eggInternal.hpp>
 #include <nw4r/ut/utList.hpp>
+#include <rvl/os/osError.h>
 #include <rvl/os/osThread.h>
 
-extern "C" void OSReport(const char*, ...);
 extern "C" struct OSThread* OSGetCurrentThread();
 
 namespace EGG {
