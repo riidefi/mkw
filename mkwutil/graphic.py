@@ -11,6 +11,9 @@ from mkwutil.sections import DOL_LIBS, DOL_SECTIONS
 from mkwutil.slices import Slice, SliceTable
 
 
+random.seed("OwO")
+
+
 DOL_BEGIN = DOL_SECTIONS[0].start
 DOL_END = DOL_SECTIONS[-1].stop
 DOL_SIZE = DOL_END - DOL_BEGIN
@@ -89,17 +92,24 @@ def lib_boxes():
         slices.add(_slice)
     return map(Box.from_slice, slices)
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-o", "--output", type=Path, default="./out/website", help="Output dir")
-    parser.add_argument("-s", "--silent", action="store_true", help="Don't open web browser")
+    parser.add_argument(
+        "-o", "--output", type=Path, default="./out/website", help="Output dir"
+    )
+    parser.add_argument(
+        "-s", "--silent", action="store_true", help="Don't open web browser"
+    )
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     index_path = args.output / "index.html"
     with open(index_path, "w") as file:
-        jinja_env.get_template("index.html.j2").stream({
-        "dol_decomp": standard_boxes(),
-        "dol_libraries": lib_boxes(),
-    }).dump(file)
+        jinja_env.get_template("index.html.j2").stream(
+            {
+                "dol_decomp": standard_boxes(),
+                "dol_libraries": lib_boxes(),
+            }
+        ).dump(file)
     if not args.silent:
         webbrowser.open(index_path)
