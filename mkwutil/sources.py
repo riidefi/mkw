@@ -32,6 +32,9 @@ SOURCES_TRK = [
 SOURCES_RVL_ARC = [
     Source(src="source/rvl/arc/rvlArchive.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_FS = [
+    Source(src="source/rvl/fs/fs.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_MEM = [
     Source(src="source/rvl/mem/rvlMemHeap.cpp", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/mem/rvlMemExpHeap.c", cc='4199_60831', opts=RVL_OPTS),
@@ -151,6 +154,7 @@ SOURCES_EGG_MATH = [
 SOURCES_DOL = list(chain(
     SOURCES_TRK,
     SOURCES_RVL_ARC,
+    SOURCES_RVL_FS,
     SOURCES_RVL_MEM,
     SOURCES_RVL_MTX,
     SOURCES_RVL_NAND,

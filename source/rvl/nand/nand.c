@@ -6,7 +6,9 @@
 #include <string.h>
 #include <wchar.h>
 
+#include <rvl/fs/fs.h>
 #include <rvl/os/os.h>
+#include <rvl/os/osError.h>
 
 // Extern function references.
 // PAL: 0x801671d0
@@ -17,68 +19,20 @@ extern UNKNOWN_FUNCTION(unk_80167224);
 extern UNKNOWN_FUNCTION(unk_80167904);
 // PAL: 0x8016799c
 extern UNKNOWN_FUNCTION(unk_8016799c);
-// PAL: 0x80169bcc
-extern UNKNOWN_FUNCTION(unk_80169bcc);
-// PAL: 0x80169e74
-extern UNKNOWN_FUNCTION(unk_80169e74);
-// PAL: 0x80169f68
-extern UNKNOWN_FUNCTION(unk_80169f68);
-// PAL: 0x8016a05c
-extern UNKNOWN_FUNCTION(unk_8016a05c);
-// PAL: 0x8016a1b0
-extern UNKNOWN_FUNCTION(unk_8016a1b0);
-// PAL: 0x8016a2f8
-extern UNKNOWN_FUNCTION(unk_8016a2f8);
-// PAL: 0x8016a3fc
-extern UNKNOWN_FUNCTION(unk_8016a3fc);
-// PAL: 0x8016a500
-extern UNKNOWN_FUNCTION(unk_8016a500);
-// PAL: 0x8016a658
-extern UNKNOWN_FUNCTION(unk_8016a658);
-// PAL: 0x8016a78c
-extern UNKNOWN_FUNCTION(unk_8016a78c);
-// PAL: 0x8016a864
-extern UNKNOWN_FUNCTION(unk_8016a864);
-// PAL: 0x8016a934
-extern UNKNOWN_FUNCTION(unk_8016a934);
-// PAL: 0x8016aa38
-extern UNKNOWN_FUNCTION(unk_8016aa38);
-// PAL: 0x8016ab3c
-extern UNKNOWN_FUNCTION(unk_8016ab3c);
-// PAL: 0x8016ac74
-extern UNKNOWN_FUNCTION(unk_8016ac74);
-// PAL: 0x8016ad68
-extern UNKNOWN_FUNCTION(unk_8016ad68);
-// PAL: 0x8016ae5c
-extern UNKNOWN_FUNCTION(unk_8016ae5c);
-// PAL: 0x8016af24
-extern UNKNOWN_FUNCTION(unk_8016af24);
-// PAL: 0x8016afdc
-extern UNKNOWN_FUNCTION(unk_8016afdc);
-// PAL: 0x8016b0ac
-extern UNKNOWN_FUNCTION(unk_8016b0ac);
 // PAL: 0x8016b16c
-extern UNKNOWN_FUNCTION(unk_8016b16c);
-// PAL: 0x8016b170
-extern UNKNOWN_FUNCTION(unk_8016b170);
+extern UNKNOWN_FUNCTION(ISFS_Seek);
 // PAL: 0x8016b1fc
-extern UNKNOWN_FUNCTION(unk_8016b1fc);
+extern UNKNOWN_FUNCTION(ISFS_Read);
 // PAL: 0x8016b21c
-extern UNKNOWN_FUNCTION(unk_8016b21c);
+extern UNKNOWN_FUNCTION(ISFS_ReadAsync);
 // PAL: 0x8016b2c0
-extern UNKNOWN_FUNCTION(unk_8016b2c0);
+extern UNKNOWN_FUNCTION(ISFS_Write);
 // PAL: 0x8016b2e0
-extern UNKNOWN_FUNCTION(unk_8016b2e0);
+extern UNKNOWN_FUNCTION(ISFS_WriteAsync);
 // PAL: 0x8016b384
-extern UNKNOWN_FUNCTION(unk_8016b384);
-// PAL: 0x8016b388
-extern UNKNOWN_FUNCTION(unk_8016b388);
-// PAL: 0x8016b40c
-extern UNKNOWN_FUNCTION(unk_8016b40c);
+extern UNKNOWN_FUNCTION(ISFS_Close);
 // PAL: 0x801a0504
 extern UNKNOWN_FUNCTION(OSRegisterVersion);
-// PAL: 0x801a25d0
-extern UNKNOWN_FUNCTION(OSReport);
 // PAL: 0x801a8238
 extern UNKNOWN_FUNCTION(OSRegisterResetFunction);
 
@@ -141,6 +95,7 @@ UNKNOWN_FUNCTION(asyncRoutine);
 // PAL: 0x8019b314..0x8019b43c
 MARK_BINARY_BLOB(nandCreate, 0x8019b314, 0x8019b43c);
 asm UNKNOWN_FUNCTION(nandCreate) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -204,7 +159,7 @@ lbl_8019b3c8:
   mr r9, r29;
   addi r3, r1, 0x18;
   addi r8, r8, -7072;
-  bl unk_8016ad68;
+  bl ISFS_CreateFileAsync;
   b lbl_8019b424;
 lbl_8019b40c:
   lwz r5, 0x10(r1);
@@ -212,7 +167,7 @@ lbl_8019b40c:
   lwz r6, 0xc(r1);
   addi r3, r1, 0x18;
   lwz r7, 8(r1);
-  bl unk_8016ac74;
+  bl ISFS_CreateFile;
 lbl_8019b424:
   addi r11, r1, 0x70;
   bl _restgpr_27;
@@ -220,6 +175,7 @@ lbl_8019b424:
   mtlr r0;
   addi r1, r1, 0x70;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDCreate
@@ -258,13 +214,14 @@ lbl_8019b494:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDPrivateCreate
-// Function signature is unknown.
 // PAL: 0x8019b4b0..0x8019b524
 MARK_BINARY_BLOB(NANDPrivateCreate, 0x8019b4b0, 0x8019b524);
 asm UNKNOWN_FUNCTION(NANDPrivateCreate) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -297,13 +254,14 @@ lbl_8019b508:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDPrivateCreateAsync
-// Function signature is unknown.
 // PAL: 0x8019b524..0x8019b59c
 MARK_BINARY_BLOB(NANDPrivateCreateAsync, 0x8019b524, 0x8019b59c);
 asm UNKNOWN_FUNCTION(NANDPrivateCreateAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -337,6 +295,7 @@ lbl_8019b584:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDDelete
@@ -383,7 +342,7 @@ lbl_8019b5c4:
   b lbl_8019b634;
 lbl_8019b62c:
   addi r3, r1, 8;
-  bl unk_8016a78c;
+  bl ISFS_Delete;
 lbl_8019b634:
   bl nandConvertErrorCode;
 lbl_8019b638:
@@ -395,10 +354,10 @@ lbl_8019b638:
 }
 
 // Symbol: NANDPrivateDelete
-// Function signature is unknown.
 // PAL: 0x8019b64c..0x8019b6e4
 MARK_BINARY_BLOB(NANDPrivateDelete, 0x8019b64c, 0x8019b6e4);
 asm UNKNOWN_FUNCTION(NANDPrivateDelete) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x50(r1);
   mflr r0;
@@ -432,7 +391,7 @@ lbl_8019b674:
   stw r0, 0x44(r1);
   bl nandGenerateAbsPath;
   addi r3, r1, 8;
-  bl unk_8016a78c;
+  bl ISFS_Delete;
   bl nandConvertErrorCode;
 lbl_8019b6d0:
   lwz r0, 0x54(r1);
@@ -440,13 +399,14 @@ lbl_8019b6d0:
   mtlr r0;
   addi r1, r1, 0x50;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDPrivateDeleteAsync
-// Function signature is unknown.
 // PAL: 0x8019b6e4..0x8019b7a4
 MARK_BINARY_BLOB(NANDPrivateDeleteAsync, 0x8019b6e4, 0x8019b7a4);
 asm UNKNOWN_FUNCTION(NANDPrivateDeleteAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x60(r1);
   mflr r0;
@@ -488,7 +448,7 @@ lbl_8019b71c:
   mr r5, r31;
   addi r3, r1, 8;
   addi r4, r4, -7072;
-  bl unk_8016a864;
+  bl ISFS_DeleteAsync;
   bl nandConvertErrorCode;
 lbl_8019b788:
   lwz r0, 0x64(r1);
@@ -498,6 +458,7 @@ lbl_8019b788:
   mtlr r0;
   addi r1, r1, 0x60;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDRead
@@ -520,7 +481,7 @@ asm s32 NANDRead(NANDFileInfo*, void*, u32) {
   lwz r3, 0(r29);
   mr r4, r30;
   mr r5, r31;
-  bl unk_8016b1fc;
+  bl ISFS_Read;
   bl nandConvertErrorCode;
   b lbl_8019b7f0;
 lbl_8019b7ec:
@@ -563,7 +524,7 @@ lbl_8019b848:
   lwz r3, 0(r27);
   mr r7, r31;
   addi r6, r6, -7072;
-  bl unk_8016b21c;
+  bl ISFS_ReadAsync;
   bl nandConvertErrorCode;
 lbl_8019b86c:
   addi r11, r1, 0x20;
@@ -594,7 +555,7 @@ asm s32 NANDWrite(NANDFileInfo*, const void*, u32) {
   lwz r3, 0(r29);
   mr r4, r30;
   mr r5, r31;
-  bl unk_8016b2c0;
+  bl ISFS_Write;
   bl nandConvertErrorCode;
   b lbl_8019b8d0;
 lbl_8019b8cc:
@@ -637,7 +598,7 @@ lbl_8019b928:
   lwz r3, 0(r27);
   mr r7, r31;
   addi r6, r6, -7072;
-  bl unk_8016b2e0;
+  bl ISFS_WriteAsync;
   bl nandConvertErrorCode;
 lbl_8019b94c:
   addi r11, r1, 0x20;
@@ -690,7 +651,7 @@ lbl_8019b9d8:
   li r5, 2;
 lbl_8019b9dc:
   mr r4, r30;
-  bl unk_8016b16c;
+  bl ISFS_Seek;
   bl nandConvertErrorCode;
 lbl_8019b9e8:
   lwz r0, 0x24(r1);
@@ -749,7 +710,7 @@ lbl_8019ba84:
   mr r4, r28;
   mr r7, r31;
   addi r6, r6, -7072;
-  bl unk_8016b170;
+  bl ISFS_SeekAsync;
   bl nandConvertErrorCode;
 lbl_8019ba9c:
   addi r11, r1, 0x20;
@@ -765,6 +726,7 @@ lbl_8019ba9c:
 // PAL: 0x8019bab4..0x8019bbe0
 MARK_BINARY_BLOB(nandCreateDir, 0x8019bab4, 0x8019bbe0);
 asm UNKNOWN_FUNCTION(nandCreateDir) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -829,7 +791,7 @@ lbl_8019bb5c:
   mr r9, r29;
   addi r3, r1, 0x18;
   addi r8, r8, -7072;
-  bl unk_80169f68;
+  bl ISFS_CreateDirAsync;
   b lbl_8019bbc8;
 lbl_8019bbb0:
   lwz r5, 0x10(r1);
@@ -837,7 +799,7 @@ lbl_8019bbb0:
   lwz r6, 0xc(r1);
   addi r3, r1, 0x18;
   lwz r7, 8(r1);
-  bl unk_80169e74;
+  bl ISFS_CreateDir;
 lbl_8019bbc8:
   addi r11, r1, 0x70;
   bl _restgpr_27;
@@ -845,6 +807,7 @@ lbl_8019bbc8:
   mtlr r0;
   addi r1, r1, 0x70;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDCreateDir
@@ -890,6 +853,7 @@ lbl_8019bc38:
 // PAL: 0x8019bc54..0x8019bcc8
 MARK_BINARY_BLOB(NANDPrivateCreateDir, 0x8019bc54, 0x8019bcc8);
 asm UNKNOWN_FUNCTION(NANDPrivateCreateDir) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -922,6 +886,7 @@ lbl_8019bcac:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDPrivateCreateDirAsync
@@ -929,6 +894,7 @@ lbl_8019bcac:
 // PAL: 0x8019bcc8..0x8019bd40
 MARK_BINARY_BLOB(NANDPrivateCreateDirAsync, 0x8019bcc8, 0x8019bd40);
 asm UNKNOWN_FUNCTION(NANDPrivateCreateDirAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -962,6 +928,7 @@ lbl_8019bd28:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandMove
@@ -969,6 +936,7 @@ lbl_8019bd28:
 // PAL: 0x8019bd40..0x8019bee8
 MARK_BINARY_BLOB(nandMove, 0x8019bd40, 0x8019bee8);
 asm UNKNOWN_FUNCTION(nandMove) {
+  // clang-format off
   nofralloc;
   stwu r1, -0xb0(r1);
   mflr r0;
@@ -1067,12 +1035,12 @@ lbl_8019be98:
   addi r3, r1, 0x58;
   addi r4, r1, 0x18;
   addi r5, r5, -7072;
-  bl unk_8016aa38;
+  bl ISFS_RenameAsync;
   b lbl_8019bec8;
 lbl_8019bebc:
   addi r3, r1, 0x58;
   addi r4, r1, 0x18;
-  bl unk_8016a934;
+  bl ISFS_Rename;
 lbl_8019bec8:
   lwz r0, 0xb4(r1);
   lwz r31, 0xac(r1);
@@ -1082,6 +1050,7 @@ lbl_8019bec8:
   mtlr r0;
   addi r1, r1, 0xb0;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDMove
@@ -1141,7 +1110,7 @@ asm s32 NANDGetLength(NANDFileInfo*, u32*) {
 lbl_8019bf88:
   lwz r3, 0(r30);
   addi r4, r1, 0x20;
-  bl unk_8016afdc;
+  bl ISFS_GetFileStats;
   cmpwi r3, 0;
   bne lbl_8019bfb4;
   cmpwi r31, 0;
@@ -1167,6 +1136,7 @@ lbl_8019bfb8:
 // PAL: 0x8019bfd4..0x8019c048
 MARK_BINARY_BLOB(nandGetFileStatusAsyncCallback, 0x8019bfd4, 0x8019c048);
 asm UNKNOWN_FUNCTION(nandGetFileStatusAsyncCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1199,6 +1169,7 @@ lbl_8019c020:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDGetLengthAsync
@@ -1234,7 +1205,7 @@ lbl_8019c088:
   addi r5, r5, -16428;
   stw r3, 0x78(r31);
   lwz r3, 0(r28);
-  bl unk_8016b0ac;
+  bl ISFS_GetFileStatsAsync;
   bl nandConvertErrorCode;
 lbl_8019c0b8:
   lwz r0, 0x24(r1);
@@ -1252,6 +1223,7 @@ lbl_8019c0b8:
 // PAL: 0x8019c0d8..0x8019c12c
 MARK_BINARY_BLOB(nandComposePerm, 0x8019c0d8, 0x8019c12c);
 asm UNKNOWN_FUNCTION(nandComposePerm) {
+  // clang-format off
   nofralloc;
   clrlwi. r0, r4, 0x1f;
   li r7, 0;
@@ -1280,6 +1252,7 @@ lbl_8019c118:
 lbl_8019c124:
   stb r7, 0(r3);
   blr;
+  // clang-format on
 }
 
 // Symbol: nandSplitPerm
@@ -1287,6 +1260,7 @@ lbl_8019c124:
 // PAL: 0x8019c12c..0x8019c1b8
 MARK_BINARY_BLOB(nandSplitPerm, 0x8019c12c, 0x8019c1b8);
 asm UNKNOWN_FUNCTION(nandSplitPerm) {
+  // clang-format off
   nofralloc;
   li r7, 0;
   rlwinm. r0, r3, 0, 0x1b, 0x1b;
@@ -1328,6 +1302,7 @@ lbl_8019c1a0:
   ori r0, r0, 2;
   stw r0, 0(r6);
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGetStatus
@@ -1335,6 +1310,7 @@ lbl_8019c1a0:
 // PAL: 0x8019c1b8..0x8019c30c
 MARK_BINARY_BLOB(nandGetStatus, 0x8019c1b8, 0x8019c30c);
 asm UNKNOWN_FUNCTION(nandGetStatus) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -1388,7 +1364,7 @@ lbl_8019c254:
   addi r8, r29, 0x28;
   addi r9, r29, 0x2c;
   addi r10, r10, -15604;
-  bl unk_8016a658;
+  bl ISFS_GetAttrAsync;
   b lbl_8019c2ec;
 lbl_8019c28c:
   li r0, 0;
@@ -1403,7 +1379,7 @@ lbl_8019c28c:
   addi r9, r1, 0x10;
   stw r0, 0x14(r1);
   stw r0, 0x10(r1);
-  bl unk_8016a500;
+  bl ISFS_GetAttr;
   cmpwi r3, 0;
   mr r31, r3;
   bne lbl_8019c2e8;
@@ -1425,6 +1401,7 @@ lbl_8019c2ec:
   mtlr r0;
   addi r1, r1, 0x70;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGetStatusCallback
@@ -1432,6 +1409,7 @@ lbl_8019c2ec:
 // PAL: 0x8019c30c..0x8019c380
 MARK_BINARY_BLOB(nandGetStatusCallback, 0x8019c30c, 0x8019c380);
 asm UNKNOWN_FUNCTION(nandGetStatusCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1463,6 +1441,7 @@ lbl_8019c350:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDGetStatus
@@ -1504,6 +1483,7 @@ lbl_8019c3cc:
 // PAL: 0x8019c3e4..0x8019c448
 MARK_BINARY_BLOB(NANDPrivateGetStatus, 0x8019c3e4, 0x8019c448);
 asm UNKNOWN_FUNCTION(NANDPrivateGetStatus) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1532,6 +1512,7 @@ lbl_8019c430:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDPrivateGetStatusAsync
@@ -1539,6 +1520,7 @@ lbl_8019c430:
 // PAL: 0x8019c448..0x8019c4cc
 MARK_BINARY_BLOB(NANDPrivateGetStatusAsync, 0x8019c448, 0x8019c4cc);
 asm UNKNOWN_FUNCTION(NANDPrivateGetStatusAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1575,6 +1557,7 @@ lbl_8019c4ac:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandSetStatus
@@ -1582,6 +1565,7 @@ lbl_8019c4ac:
 // PAL: 0x8019c4cc..0x8019c614
 MARK_BINARY_BLOB(nandSetStatus, 0x8019c4cc, 0x8019c614);
 asm UNKNOWN_FUNCTION(nandSetStatus) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -1649,7 +1633,7 @@ lbl_8019c57c:
   lwz r7, 0x18(r1);
   lwz r8, 0x14(r1);
   lwz r9, 0x10(r1);
-  bl unk_8016a3fc;
+  bl ISFS_SetAttrAsync;
   b lbl_8019c5f4;
 lbl_8019c5d4:
   lwz r4, 0(r28);
@@ -1659,7 +1643,7 @@ lbl_8019c5d4:
   lwz r7, 0x18(r1);
   lwz r8, 0x14(r1);
   lwz r9, 0x10(r1);
-  bl unk_8016a2f8;
+  bl ISFS_SetAttr;
 lbl_8019c5f4:
   lwz r0, 0x74(r1);
   lwz r31, 0x6c(r1);
@@ -1669,6 +1653,7 @@ lbl_8019c5f4:
   mtlr r0;
   addi r1, r1, 0x70;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDSetStatus
@@ -1710,6 +1695,7 @@ lbl_8019c660:
 // PAL: 0x8019c678..0x8019c6dc
 MARK_BINARY_BLOB(NANDPrivateSetStatus, 0x8019c678, 0x8019c6dc);
 asm UNKNOWN_FUNCTION(NANDPrivateSetStatus) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1738,6 +1724,7 @@ lbl_8019c6c4:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDSetUserData
@@ -1755,6 +1742,7 @@ void* NANDGetUserData(const NANDCommandBlock* block) { return block->userData; }
 // PAL: 0x8019c6ec..0x8019c800
 MARK_BINARY_BLOB(nandOpen, 0x8019c6ec, 0x8019c800);
 asm UNKNOWN_FUNCTION(nandOpen) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x60(r1);
   mflr r0;
@@ -1819,12 +1807,12 @@ lbl_8019c7b8:
   mr r6, r28;
   addi r3, r1, 8;
   addi r5, r5, -13816;
-  bl unk_8016af24;
+  bl ISFS_OpenAsync;
   b lbl_8019c7e8;
 lbl_8019c7dc:
   mr r4, r31;
   addi r3, r1, 8;
-  bl unk_8016ae5c;
+  bl ISFS_Open;
 lbl_8019c7e8:
   addi r11, r1, 0x60;
   bl _restgpr_27;
@@ -1832,6 +1820,7 @@ lbl_8019c7e8:
   mtlr r0;
   addi r1, r1, 0x60;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDOpen
@@ -1884,6 +1873,7 @@ lbl_8019c870:
 // PAL: 0x8019c88c..0x8019c918
 MARK_BINARY_BLOB(NANDPrivateOpen, 0x8019c88c, 0x8019c918);
 asm UNKNOWN_FUNCTION(NANDPrivateOpen) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1923,6 +1913,7 @@ lbl_8019c8fc:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDOpenAsync
@@ -1970,6 +1961,7 @@ lbl_8019c978:
 // PAL: 0x8019c990..0x8019ca08
 MARK_BINARY_BLOB(NANDPrivateOpenAsync, 0x8019c990, 0x8019ca08);
 asm UNKNOWN_FUNCTION(NANDPrivateOpenAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -2003,6 +1995,7 @@ lbl_8019c9f0:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandOpenCallback
@@ -2010,6 +2003,7 @@ lbl_8019c9f0:
 // PAL: 0x8019ca08..0x8019ca80
 MARK_BINARY_BLOB(nandOpenCallback, 0x8019ca08, 0x8019ca80);
 asm UNKNOWN_FUNCTION(nandOpenCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -2043,6 +2037,7 @@ lbl_8019ca6c:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDClose
@@ -2068,7 +2063,7 @@ lbl_8019caa8:
   b lbl_8019cad8;
 lbl_8019cabc:
   lwz r3, 0(r31);
-  bl unk_8016b384;
+  bl ISFS_Close;
   cmpwi r3, 0;
   bne lbl_8019cad4;
   li r0, 2;
@@ -2084,7 +2079,6 @@ lbl_8019cad8:
 }
 
 // Symbol: NANDCloseAsync
-// Function signature is unknown.
 // PAL: 0x8019caec..0x8019cb74
 MARK_BINARY_BLOB(NANDCloseAsync, 0x8019caec, 0x8019cb74);
 asm s32 NANDCloseAsync(NANDFileInfo*, NANDCallback, NANDCommandBlock*) {
@@ -2116,7 +2110,7 @@ lbl_8019cb38:
   stw r29, 8(r31);
   addi r4, r4, -9660;
   lwz r3, 0(r29);
-  bl unk_8016b388;
+  bl ISFS_CloseAsync;
   bl nandConvertErrorCode;
 lbl_8019cb58:
   lwz r0, 0x24(r1);
@@ -2143,6 +2137,7 @@ asm s32 NANDSafeOpen(const char*, NANDFileInfo*, u8, void*, u32) {
 // PAL: 0x8019cb80..0x8019cf28
 MARK_BINARY_BLOB(nandSafeOpen, 0x8019cb80, 0x8019cf28);
 asm UNKNOWN_FUNCTION(nandSafeOpen) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x90(r1);
   mflr r0;
@@ -2188,7 +2183,7 @@ lbl_8019cc14:
   bne lbl_8019cc68;
   addi r3, r28, 8;
   li r4, 1;
-  bl unk_8016ae5c;
+  bl ISFS_Open;
   cmpwi r3, 0;
   blt lbl_8019cc60;
   li r0, 2;
@@ -2225,7 +2220,7 @@ lbl_8019cc68:
   li r7, 3;
   stw r0, 0x28(r1);
   stb r0, 0x2c(r1);
-  bl unk_80169e74;
+  bl ISFS_CreateDir;
   cmpwi r3, 0;
   beq lbl_8019ccc4;
   cmpwi r3, -105;
@@ -2242,7 +2237,7 @@ lbl_8019ccc4:
   addi r7, r1, 0x14;
   addi r8, r1, 0x10;
   addi r9, r1, 0xc;
-  bl unk_8016a500;
+  bl ISFS_GetAttr;
   cmpwi r3, 0;
   beq lbl_8019ccfc;
   bl nandConvertErrorCode;
@@ -2250,7 +2245,7 @@ lbl_8019ccc4:
 lbl_8019ccfc:
   addi r3, r28, 8;
   li r4, 1;
-  bl unk_8016ae5c;
+  bl ISFS_Open;
   cmpwi r3, 0;
   stw r3, 4(r28);
   bge lbl_8019cd1c;
@@ -2278,7 +2273,7 @@ lbl_8019cd1c:
   li r5, 3;
   li r6, 0;
   li r7, 0;
-  bl unk_80169e74;
+  bl ISFS_CreateDir;
   cmpwi r3, 0;
   beq lbl_8019cd84;
   bl nandConvertErrorCode;
@@ -2316,7 +2311,7 @@ lbl_8019cde4:
   lwz r5, 0x14(r1);
   lwz r6, 0x10(r1);
   lwz r7, 0xc(r1);
-  bl unk_8016ac74;
+  bl ISFS_CreateFile;
   cmpwi r3, 0;
   beq lbl_8019ce0c;
   bl nandConvertErrorCode;
@@ -2328,7 +2323,7 @@ lbl_8019ce0c:
   bne lbl_8019ce30;
   addi r3, r28, 0x48;
   li r4, 2;
-  bl unk_8016ae5c;
+  bl ISFS_Open;
   stw r3, 0(r28);
   b lbl_8019ce48;
 lbl_8019ce30:
@@ -2336,7 +2331,7 @@ lbl_8019ce30:
   bne lbl_8019ce48;
   addi r3, r28, 0x48;
   li r4, 3;
-  bl unk_8016ae5c;
+  bl ISFS_Open;
   stw r3, 0(r28);
 lbl_8019ce48:
   lwz r3, 0(r28);
@@ -2353,7 +2348,7 @@ lbl_8019ce6c:
   mr r3, r26;
   mr r4, r29;
   mr r5, r30;
-  bl unk_8016b1fc;
+  bl ISFS_Read;
   cmpwi r3, 0;
   mr r5, r3;
   bne lbl_8019ce90;
@@ -2365,7 +2360,7 @@ lbl_8019ce90:
 lbl_8019ce98:
   mr r3, r27;
   mr r4, r29;
-  bl unk_8016b2c0;
+  bl ISFS_Write;
   cmpwi r3, 0;
   bge lbl_8019ce6c;
   mr r5, r3;
@@ -2379,7 +2374,7 @@ lbl_8019cec4:
   lwz r3, 0(r28);
   li r4, 0;
   li r5, 0;
-  bl unk_8016b16c;
+  bl ISFS_Seek;
   cmpwi r3, 0;
   beq lbl_8019cee4;
   bl nandConvertErrorCode;
@@ -2406,6 +2401,7 @@ lbl_8019cf10:
   mtlr r0;
   addi r1, r1, 0x90;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDSafeClose
@@ -2465,7 +2461,7 @@ lbl_8019cfd4:
   cmplwi r3, 1;
   bne lbl_8019d01c;
   lwz r3, 0(r29);
-  bl unk_8016b384;
+  bl ISFS_Close;
   cmpwi r3, 0;
   bne lbl_8019d014;
   li r0, 7;
@@ -2487,7 +2483,7 @@ lbl_8019d01c:
   cmplwi r0, 1;
   bgt lbl_8019d0d4;
   lwz r3, 0(r29);
-  bl unk_8016b384;
+  bl ISFS_Close;
   cmpwi r3, 0;
   beq lbl_8019d044;
   bl nandConvertErrorCode;
@@ -2496,7 +2492,7 @@ lbl_8019d044:
   li r31, 6;
   lwz r3, 4(r29);
   stb r31, 0x89(r29);
-  bl unk_8016b384;
+  bl ISFS_Close;
   cmpwi r3, 0;
   beq lbl_8019d064;
   bl nandConvertErrorCode;
@@ -2506,7 +2502,7 @@ lbl_8019d064:
   addi r3, r29, 0x48;
   stb r0, 0x89(r29);
   addi r4, r29, 8;
-  bl unk_8016a934;
+  bl ISFS_Rename;
   cmpwi r3, 0;
   beq lbl_8019d088;
   bl nandConvertErrorCode;
@@ -2520,7 +2516,7 @@ lbl_8019d088:
   addi r4, r29, 0x48;
   bl nandGetParentDirectory;
   addi r3, r1, 8;
-  bl unk_8016a78c;
+  bl ISFS_Delete;
   cmpwi r3, 0;
   bne lbl_8019d0cc;
   li r4, 9;
@@ -2554,6 +2550,7 @@ lbl_8019d0e8:
 // PAL: 0x8019d104..0x8019d130
 MARK_BINARY_BLOB(NANDPrivateSafeOpenAsync, 0x8019d104, 0x8019d130);
 asm UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -2566,6 +2563,7 @@ asm UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync) {
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandSafeOpenAsync
@@ -2573,6 +2571,7 @@ asm UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync) {
 // PAL: 0x8019d130..0x8019d298
 MARK_BINARY_BLOB(nandSafeOpenAsync, 0x8019d130, 0x8019d298);
 asm UNKNOWN_FUNCTION(nandSafeOpenAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -2626,7 +2625,7 @@ lbl_8019d1d0:
   stw r28, 4(r29);
   addi r5, r5, -10616;
   li r4, 1;
-  bl unk_8016af24;
+  bl ISFS_OpenAsync;
   cmpwi r3, 0;
   bne lbl_8019d208;
   li r3, 0;
@@ -2654,7 +2653,7 @@ lbl_8019d210:
   li r7, 3;
   stw r26, 0x80(r29);
   stw r27, 0x84(r29);
-  bl unk_80169f68;
+  bl ISFS_CreateDirAsync;
   cmpwi r3, 0;
   bne lbl_8019d26c;
   b lbl_8019d274;
@@ -2673,6 +2672,7 @@ lbl_8019d280:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandSafeOpenCallback
@@ -2680,6 +2680,7 @@ lbl_8019d280:
 // PAL: 0x8019d298..0x8019d688
 MARK_BINARY_BLOB(nandSafeOpenCallback, 0x8019d298, 0x8019d688);
 asm UNKNOWN_FUNCTION(nandSafeOpenCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -2737,7 +2738,7 @@ lbl_8019d330:
   addi r9, r4, 0x2c;
   addi r10, r10, -11624;
   addi r4, r4, 0x18;
-  bl unk_8016a658;
+  bl ISFS_GetAttrAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d370:
@@ -2748,7 +2749,7 @@ lbl_8019d370:
   addi r3, r31, 8;
   li r4, 1;
   addi r5, r5, -11624;
-  bl unk_8016af24;
+  bl ISFS_OpenAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d398:
@@ -2775,7 +2776,7 @@ lbl_8019d398:
   li r5, 3;
   li r6, 0;
   li r7, 0;
-  bl unk_80169f68;
+  bl ISFS_CreateDirAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d400:
@@ -2816,7 +2817,7 @@ lbl_8019d46c:
   addi r3, r31, 0x48;
   lwz r7, 0x2c(r30);
   addi r8, r8, -11624;
-  bl unk_8016ad68;
+  bl ISFS_CreateFileAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d498:
@@ -2832,7 +2833,7 @@ lbl_8019d498:
   addi r3, r31, 0x48;
   li r4, 2;
   addi r5, r5, -11624;
-  bl unk_8016af24;
+  bl ISFS_OpenAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d4d4:
@@ -2843,7 +2844,7 @@ lbl_8019d4d4:
   addi r3, r31, 0x48;
   li r4, 3;
   addi r5, r5, -11624;
-  bl unk_8016af24;
+  bl ISFS_OpenAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d4fc:
@@ -2863,7 +2864,7 @@ lbl_8019d504:
   lwz r4, 0x80(r4);
   lwz r3, 4(r31);
   lwz r5, 0x84(r30);
-  bl unk_8016b21c;
+  bl ISFS_ReadAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d544:
@@ -2875,7 +2876,7 @@ lbl_8019d544:
   mr r7, r30;
   lwz r5, 0x84(r30);
   addi r6, r6, -11624;
-  bl unk_8016b21c;
+  bl ISFS_ReadAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d570:
@@ -2891,7 +2892,7 @@ lbl_8019d570:
   mr r7, r30;
   lwz r3, 0(r31);
   addi r6, r6, -11624;
-  bl unk_8016b2e0;
+  bl ISFS_WriteAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d5ac:
@@ -2902,7 +2903,7 @@ lbl_8019d5ac:
   li r4, 0;
   addi r6, r6, -11624;
   li r5, 0;
-  bl unk_8016b170;
+  bl ISFS_SeekAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d5d4:
@@ -2957,6 +2958,7 @@ lbl_8019d670:
   mtlr r0;
   addi r1, r1, 0x70;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandReadOpenCallback
@@ -2964,6 +2966,7 @@ lbl_8019d670:
 // PAL: 0x8019d688..0x8019d720
 MARK_BINARY_BLOB(nandReadOpenCallback, 0x8019d688, 0x8019d720);
 asm UNKNOWN_FUNCTION(nandReadOpenCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3007,6 +3010,7 @@ lbl_8019d70c:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDSafeCloseAsync
@@ -3058,7 +3062,7 @@ lbl_8019d794:
   stw r29, 4(r30);
   addi r4, r4, -9752;
   lwz r3, 0(r28);
-  bl unk_8016b388;
+  bl ISFS_CloseAsync;
   b lbl_8019d800;
 lbl_8019d7c4:
   addi r0, r3, 0xfe;
@@ -3073,7 +3077,7 @@ lbl_8019d7c4:
   stw r29, 4(r30);
   stw r0, 0x7c(r30);
   lwz r3, 0(r28);
-  bl unk_8016b388;
+  bl ISFS_CloseAsync;
   b lbl_8019d800;
 lbl_8019d7fc:
   li r3, -101;
@@ -3095,6 +3099,7 @@ lbl_8019d804:
 // PAL: 0x8019d824..0x8019d9e8
 MARK_BINARY_BLOB(nandSafeCloseCallback, 0x8019d824, 0x8019d9e8);
 asm UNKNOWN_FUNCTION(nandSafeCloseCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x50(r1);
   mflr r0;
@@ -3134,7 +3139,7 @@ lbl_8019d88c:
   mr r5, r31;
   addi r4, r4, -10204;
   lwz r3, 4(r7);
-  bl unk_8016b388;
+  bl ISFS_CloseAsync;
   mr r6, r3;
   b lbl_8019d99c;
 lbl_8019d8bc:
@@ -3147,7 +3152,7 @@ lbl_8019d8bc:
   addi r3, r7, 0x48;
   addi r4, r7, 8;
   addi r5, r5, -10204;
-  bl unk_8016aa38;
+  bl ISFS_RenameAsync;
   mr r6, r3;
   b lbl_8019d99c;
 lbl_8019d8ec:
@@ -3177,7 +3182,7 @@ lbl_8019d8ec:
   mr r5, r31;
   addi r3, r1, 8;
   addi r4, r4, -10204;
-  bl unk_8016a864;
+  bl ISFS_DeleteAsync;
   mr r6, r3;
   b lbl_8019d99c;
 lbl_8019d960:
@@ -3219,6 +3224,7 @@ lbl_8019d9d4:
   mtlr r0;
   addi r1, r1, 0x50;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandReadCloseCallback
@@ -3226,6 +3232,7 @@ lbl_8019d9d4:
 // PAL: 0x8019d9e8..0x8019da44
 MARK_BINARY_BLOB(nandReadCloseCallback, 0x8019d9e8, 0x8019da44);
 asm UNKNOWN_FUNCTION(nandReadCloseCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3251,6 +3258,7 @@ lbl_8019da1c:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandCloseCallback
@@ -3258,6 +3266,7 @@ lbl_8019da1c:
 // PAL: 0x8019da44..0x8019daa0
 MARK_BINARY_BLOB(nandCloseCallback, 0x8019da44, 0x8019daa0);
 asm UNKNOWN_FUNCTION(nandCloseCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3283,6 +3292,7 @@ lbl_8019da78:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandRemoveTailToken
@@ -3290,6 +3300,7 @@ lbl_8019da78:
 // PAL: 0x8019daa0..0x8019db74
 MARK_BINARY_BLOB(nandRemoveTailToken, 0x8019daa0, 0x8019db74);
 asm UNKNOWN_FUNCTION(nandRemoveTailToken) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -3349,6 +3360,7 @@ lbl_8019db58:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGetHeadToken
@@ -3356,6 +3368,7 @@ lbl_8019db58:
 // PAL: 0x8019db74..0x8019dc48
 MARK_BINARY_BLOB(nandGetHeadToken, 0x8019db74, 0x8019dc48);
 asm UNKNOWN_FUNCTION(nandGetHeadToken) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -3416,6 +3429,7 @@ lbl_8019dc30:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGetRelativeName
@@ -3423,6 +3437,7 @@ lbl_8019dc30:
 // PAL: 0x8019dc48..0x8019dce0
 MARK_BINARY_BLOB(nandGetRelativeName, 0x8019dc48, 0x8019dce0);
 asm UNKNOWN_FUNCTION(nandGetRelativeName) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3466,6 +3481,7 @@ lbl_8019dcc8:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandConvertPath
@@ -3473,6 +3489,7 @@ lbl_8019dcc8:
 // PAL: 0x8019dce0..0x8019de1c
 MARK_BINARY_BLOB(nandConvertPath, 0x8019dce0, 0x8019de1c);
 asm UNKNOWN_FUNCTION(nandConvertPath) {
+  // clang-format off
   nofralloc;
 lbl_8019dce0:
   stwu r1, -0x220(r1);
@@ -3561,6 +3578,7 @@ lbl_8019de00:
   mtlr r0;
   addi r1, r1, 0x220;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandIsPrivatePath
@@ -3568,6 +3586,7 @@ lbl_8019de00:
 // PAL: 0x8019de1c..0x8019de50
 MARK_BINARY_BLOB(nandIsPrivatePath, 0x8019de1c, 0x8019de50);
 asm UNKNOWN_FUNCTION(nandIsPrivatePath) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3582,6 +3601,7 @@ asm UNKNOWN_FUNCTION(nandIsPrivatePath) {
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandIsUnderPrivatePath
@@ -3589,6 +3609,7 @@ asm UNKNOWN_FUNCTION(nandIsPrivatePath) {
 // PAL: 0x8019de50..0x8019dea8
 MARK_BINARY_BLOB(nandIsUnderPrivatePath, 0x8019de50, 0x8019dea8);
 asm UNKNOWN_FUNCTION(nandIsUnderPrivatePath) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3614,6 +3635,7 @@ lbl_8019de94:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandIsInitialized
@@ -3621,12 +3643,14 @@ lbl_8019de94:
 // PAL: 0x8019dea8..0x8019debc
 MARK_BINARY_BLOB(nandIsInitialized, 0x8019dea8, 0x8019debc);
 asm UNKNOWN_FUNCTION(nandIsInitialized) {
+  // clang-format off
   nofralloc;
   lwz r3, -0x63b8(r13);
   addi r0, r3, -2;
   cntlzw r0, r0;
   srwi r3, r0, 5;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandReportErrorCode
@@ -3634,8 +3658,10 @@ asm UNKNOWN_FUNCTION(nandIsInitialized) {
 // PAL: 0x8019debc..0x8019dec0
 MARK_BINARY_BLOB(nandReportErrorCode, 0x8019debc, 0x8019dec0);
 asm UNKNOWN_FUNCTION(nandReportErrorCode) {
+  // clang-format off
   nofralloc;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandConvertErrorCode
@@ -3643,6 +3669,7 @@ asm UNKNOWN_FUNCTION(nandReportErrorCode) {
 // PAL: 0x8019dec0..0x8019e020
 MARK_BINARY_BLOB(nandConvertErrorCode, 0x8019dec0, 0x8019e020);
 asm UNKNOWN_FUNCTION(nandConvertErrorCode) {
+  // clang-format off
   nofralloc;
   clrlwi r11, r1, 0x1a;
   mr r12, r1;
@@ -3739,6 +3766,7 @@ lbl_8019e000:
   mtlr r0;
   mr r1, r10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGenerateAbsPath
@@ -3746,6 +3774,7 @@ lbl_8019e000:
 // PAL: 0x8019e020..0x8019e0e8
 MARK_BINARY_BLOB(nandGenerateAbsPath, 0x8019e020, 0x8019e0e8);
 asm UNKNOWN_FUNCTION(nandGenerateAbsPath) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -3802,6 +3831,7 @@ lbl_8019e0d0:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGetParentDirectory
@@ -3809,6 +3839,7 @@ lbl_8019e0d0:
 // PAL: 0x8019e0e8..0x8019e18c
 MARK_BINARY_BLOB(nandGetParentDirectory, 0x8019e0e8, 0x8019e18c);
 asm UNKNOWN_FUNCTION(nandGetParentDirectory) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -3855,6 +3886,7 @@ lbl_8019e170:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDInit
@@ -3886,7 +3918,7 @@ lbl_8019e1d8:
   li r0, 1;
   stw r0, -0x63b8(r13);
   bl OSRestoreInterrupts;
-  bl unk_80169bcc;
+  bl ISFS_OpenLib;
   cmpwi r3, 0;
   mr r30, r3;
   bne lbl_8019e288;
@@ -3952,6 +3984,7 @@ lbl_8019e2a0:
 // PAL: 0x8019e2b8..0x8019e390
 MARK_BINARY_BLOB(nandOnShutdown, 0x8019e2b8, 0x8019e390);
 asm UNKNOWN_FUNCTION(nandOnShutdown) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
   mflr r0;
@@ -3970,7 +4003,7 @@ asm UNKNOWN_FUNCTION(nandOnShutdown) {
   mr r28, r3;
   addi r4, r1, 8;
   addi r3, r5, -7292;
-  bl unk_8016b40c;
+  bl ISFS_ShutdownAsync;
   lis r3, 0x1062;
   lis r30, 0x8000;
   addi r29, r3, 0x4dd3;
@@ -4012,6 +4045,7 @@ lbl_8019e36c:
   li r0, 1;
   stw r0, 0(r4);
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDGetCurrentDir
@@ -4086,6 +4120,7 @@ lbl_8019e450:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandCallback
@@ -4093,6 +4128,7 @@ lbl_8019e450:
 // PAL: 0x8019e460..0x8019e49c
 MARK_BINARY_BLOB(nandCallback, 0x8019e460, 0x8019e49c);
 asm UNKNOWN_FUNCTION(nandCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4109,6 +4145,7 @@ asm UNKNOWN_FUNCTION(nandCallback) {
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGetType
@@ -4116,6 +4153,7 @@ asm UNKNOWN_FUNCTION(nandCallback) {
 // PAL: 0x8019e49c..0x8019e770
 MARK_BINARY_BLOB(nandGetType, 0x8019e49c, 0x8019e770);
 asm UNKNOWN_FUNCTION(nandGetType) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x70(r1);
   mflr r0;
@@ -4206,7 +4244,7 @@ lbl_8019e5c0:
   addi r5, r28, 0x30;
   addi r6, r6, -6148;
   li r4, 0;
-  bl unk_8016a1b0;
+  bl ISFS_ReadDirAsync;
   b lbl_8019e758;
 lbl_8019e5e4:
   li r0, 0;
@@ -4296,7 +4334,7 @@ lbl_8019e70c:
   stw r0, 8(r1);
   addi r5, r1, 8;
   li r4, 0;
-  bl unk_8016a05c;
+  bl ISFS_ReadDir;
   cmpwi r3, 0;
   beq lbl_8019e734;
   cmpwi r3, -102;
@@ -4319,6 +4357,7 @@ lbl_8019e758:
   mtlr r0;
   addi r1, r1, 0x70;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDGetType
@@ -4352,6 +4391,7 @@ lbl_8019e7a4:
 // PAL: 0x8019e7b4..0x8019e7fc
 MARK_BINARY_BLOB(NANDPrivateGetTypeAsync, 0x8019e7b4, 0x8019e7fc);
 asm UNKNOWN_FUNCTION(NANDPrivateGetTypeAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4373,6 +4413,7 @@ lbl_8019e7ec:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGetTypeCallback
@@ -4380,6 +4421,7 @@ lbl_8019e7ec:
 // PAL: 0x8019e7fc..0x8019e874
 MARK_BINARY_BLOB(nandGetTypeCallback, 0x8019e7fc, 0x8019e874);
 asm UNKNOWN_FUNCTION(nandGetTypeCallback) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4414,6 +4456,7 @@ lbl_8019e84c:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandGetHomeDir
@@ -4421,10 +4464,12 @@ lbl_8019e84c:
 // PAL: 0x8019e874..0x8019e880
 MARK_BINARY_BLOB(nandGetHomeDir, 0x8019e874, 0x8019e880);
 asm UNKNOWN_FUNCTION(nandGetHomeDir) {
+  // clang-format off
   nofralloc;
   lis r3, 0x8034;
   addi r3, r3, 0x6d20;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDInitBanner
@@ -4498,6 +4543,7 @@ lbl_8019e93c:
 // PAL: 0x8019e95c..0x8019ea14
 MARK_BINARY_BLOB(NANDSecretGetUsage, 0x8019e95c, 0x8019ea14);
 asm UNKNOWN_FUNCTION(NANDSecretGetUsage) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x60(r1);
   mflr r0;
@@ -4537,7 +4583,7 @@ lbl_8019e994:
   mr r4, r30;
   mr r5, r31;
   addi r3, r1, 8;
-  bl unk_8016ab3c;
+  bl ISFS_GetUsage;
   bl nandConvertErrorCode;
 lbl_8019e9f8:
   lwz r0, 0x64(r1);
@@ -4547,6 +4593,7 @@ lbl_8019e9f8:
   mtlr r0;
   addi r1, r1, 0x60;
   blr;
+  // clang-format on
 }
 
 // Symbol: nandCalcUsage
@@ -4554,6 +4601,7 @@ lbl_8019e9f8:
 // PAL: 0x8019ea14..0x8019ead0
 MARK_BINARY_BLOB(nandCalcUsage, 0x8019ea14, 0x8019ead0);
 asm UNKNOWN_FUNCTION(nandCalcUsage) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -4576,7 +4624,7 @@ lbl_8019ea50:
   addi r5, r1, 8;
   stw r31, 8(r1);
   lwz r3, 0(r30);
-  bl unk_8016ab3c;
+  bl ISFS_GetUsage;
   cmpwi r3, 0;
   bne lbl_8019ea94;
   lwz r4, 0(r28);
@@ -4607,6 +4655,7 @@ lbl_8019eab0:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDCheck
@@ -4637,7 +4686,7 @@ lbl_8019eb1c:
   bl nandGetHomeDir;
   addi r4, r1, 0x14;
   addi r5, r1, 0x10;
-  bl unk_8016ab3c;
+  bl ISFS_GetUsage;
   cmpwi r3, 0;
   beq lbl_8019eb3c;
   bl nandConvertErrorCode;
@@ -4695,6 +4744,7 @@ lbl_8019ebbc:
 // PAL: 0x8019ebd8..0x8019ec2c
 MARK_BINARY_BLOB(reserveFileDescriptor, 0x8019ebd8, 0x8019ec2c);
 asm UNKNOWN_FUNCTION(reserveFileDescriptor) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -4719,6 +4769,7 @@ lbl_8019ec0c:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
 }
 
 // Symbol: NANDLoggingAddMessageAsync
@@ -4726,6 +4777,7 @@ lbl_8019ec0c:
 // PAL: 0x8019ec2c..0x8019ed24
 MARK_BINARY_BLOB(NANDLoggingAddMessageAsync, 0x8019ec2c, 0x8019ed24);
 asm UNKNOWN_FUNCTION(NANDLoggingAddMessageAsync) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x80(r1);
   mflr r0;
@@ -4779,7 +4831,7 @@ lbl_8019eca0:
   stw r0, -0x63ac(r13);
   addi r5, r5, -4828;
   li r6, 0;
-  bl unk_8016af24;
+  bl ISFS_OpenAsync;
   cmpwi r3, 0;
   bne lbl_8019ed08;
   li r3, 1;
@@ -4793,6 +4845,7 @@ lbl_8019ed0c:
   mtlr r0;
   addi r1, r1, 0x80;
   blr;
+  // clang-format on
 }
 
 // Symbol: asyncRoutine
@@ -4800,6 +4853,7 @@ lbl_8019ed0c:
 // PAL: 0x8019ed24..0x8019f1a8
 MARK_BINARY_BLOB(asyncRoutine, 0x8019ed24, 0x8019f1a8);
 asm UNKNOWN_FUNCTION(asyncRoutine) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x90(r1);
   mflr r0;
@@ -4822,7 +4876,7 @@ asm UNKNOWN_FUNCTION(asyncRoutine) {
   li r4, 0;
   li r5, 0;
   li r7, 0;
-  bl unk_8016b170;
+  bl ISFS_SeekAsync;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4851,7 +4905,7 @@ lbl_8019edbc:
   li r5, 0x100;
   addi r6, r6, -4828;
   li r7, 0;
-  bl unk_8016b21c;
+  bl ISFS_ReadAsync;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4880,7 +4934,7 @@ lbl_8019ee28:
   li r4, 0;
   li r5, 0;
   li r7, 0;
-  bl unk_8016b170;
+  bl ISFS_SeekAsync;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -4970,7 +5024,7 @@ lbl_8019ef84:
   li r5, 0x100;
   stb r0, 0xff(r4);
   li r7, 0;
-  bl unk_8016b2e0;
+  bl ISFS_WriteAsync;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -5002,7 +5056,7 @@ lbl_8019eff0:
   addi r6, r6, -4828;
   li r5, 0;
   li r7, 0;
-  bl unk_8016b170;
+  bl ISFS_SeekAsync;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -5034,7 +5088,7 @@ lbl_8019f068:
   li r5, 0x100;
   addi r6, r6, -4828;
   li r7, 0;
-  bl unk_8016b2e0;
+  bl ISFS_WriteAsync;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -5061,7 +5115,7 @@ lbl_8019f0e0:
   lwz r3, -0x71a0(r13);
   addi r4, r4, -4828;
   li r5, 0;
-  bl unk_8016b388;
+  bl ISFS_CloseAsync;
   cmpwi r3, 0;
   beq lbl_8019f190;
   lwz r12, -0x63b0(r13);
@@ -5107,4 +5161,5 @@ lbl_8019f190:
   mtlr r0;
   addi r1, r1, 0x90;
   blr;
+  // clang-format on
 }
