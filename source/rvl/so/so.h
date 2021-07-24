@@ -201,6 +201,8 @@ int SOiWaitForDHCPEx(int timeout);
 // PAL: 0x801ecf20
 int SOSocket(int, int, int);
 
+int SOSocket2(int pf, int type, int protocol);
+
 int SOGetInterfaceOpt(IPInterface*, int, int, void*, int*);
 
 long SOGetHostID(void);

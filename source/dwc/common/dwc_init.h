@@ -1,23 +1,22 @@
 #pragma once
 
-#include <types.h>
 #include <DWC/common/dwc_memfunc.h>
-
+#include <types.h>
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 typedef enum {
-	DWC_SVR_DEV,
-	DWC_SVR_RELEASE,
-	DWC_SVR_PROHIBITED // test
+  DWC_SVR_DEV,
+  DWC_SVR_RELEASE,
+  DWC_SVR_PROHIBITED // test
 } DWC_AuthServer;
 //! @brief Initialize the DWC library.
 //!
 //! @param[in] authSvr TODO...
-int DWC_Init(DWC_AuthServer authSvr, const char* gameName, u32 gameCode, DWCAllocEx allocator, DWCFreeEx freeer);
+int DWC_Init(DWC_AuthServer authSvr, const char* gameName, u32 gameCode,
+             DWCAllocEx allocator, DWCFreeEx freeer);
 void DWC_Shutdown();
 u32 DWCi_GetGamecode();
 #ifdef __cplusplus
