@@ -812,6 +812,7 @@
 0x8016b384 ISFS_Close
 0x8016b388 ISFS_CloseAsync
 0x8016b40c ISFS_ShutdownAsync
+0x8016b388 ISFS_CloseAsync
 0x8016b850 GXInit
 0x8016cec4 GXGetGPStatus
 0x8016f438 GXSetDispCopySrc
@@ -1089,6 +1090,9 @@
 0x801aad74 OSGetTick
 0x801aad7c __OSGetSystemTime
 0x801aafa8 OSTicksToCalendarTime
+0x801ab648 __OSGetIPCBufferHi
+0x801ab650 __OSGetIPCBufferLo
+0x801ab658 __OSInitIPCBuffer
 0x801ae5d8 PAD_ClampCircle
 0x801ae6f4 PADClampCircle
 0x801ae7dc PADClampCircle2
