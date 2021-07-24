@@ -4,9 +4,7 @@
 extern "C" {
 #endif
 
-	
 enum dwcError { DWCErrorNone = 0, DWCErrorFatal = 9 };
-
 
 //! @brief @return Return if there is an error.
 //!

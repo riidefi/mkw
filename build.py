@@ -75,7 +75,9 @@ GAS = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
 MWLD = __windows_binary(os.path.join("tools", "mwldeppc.exe"))
 
 CWCC_PATHS = {
-    "default": __windows_binary(os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")),
+    "default": __windows_binary(
+        os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")
+    ),
     # For the main game
     # August 17, 2007
     # 4.2.0.1 Build 127
@@ -84,7 +86,9 @@ CWCC_PATHS = {
     # We don't have this, so we use build 142:
     # This version has the infuriating bug where random
     # nops are inserted into your code.
-    "4201_127": __windows_binary(os.path.join(".", "tools", "4201_142", "mwcceppc.exe")),
+    "4201_127": __windows_binary(
+        os.path.join(".", "tools", "4201_142", "mwcceppc.exe")
+    ),
     # For most of RVL
     # We actually have the correct version
     "4199_60831": __windows_binary(
@@ -115,10 +119,11 @@ CWCC_OPT = " ".join(
         "-Cpp_exceptions off",
         "-RTTI off",
         '-pragma "cats off"',  # ???
+        '-pragma "warning off(10178)"',  # suppress "function has no prototype"
         # "-pragma \"aggressive_inline on\"",
         # "-pragma \"auto_inline on\"",
         "-inline auto",
-        "-w notinlined -W noimplicitconv",
+        "-w notinlined -W noimplicitconv -w nounwanted",
         "-nostdinc",
         "-msgstyle gcc -lang=c99 -DREVOKART",
         "-func_align 4",
@@ -130,7 +135,9 @@ def compile_source_impl(src, dst, version="default", additional="-ipa file"):
     """Compiles a source file."""
     # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
-    process = subprocess.Popen(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    process = subprocess.Popen(
+        command, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
     lines = list(iter(process.stdout.readline, ""))
     with print_mutex:
         print(f'{colored("CC", "green")} {src}')
@@ -139,7 +146,9 @@ def compile_source_impl(src, dst, version="default", additional="-ipa file"):
         for line in lines:
             print("   " + line.strip())
     process.wait()
-    assert process.returncode == 0, f"{command} exited with returncode {process.returncode}"
+    assert (
+        process.returncode == 0
+    ), f"{command} exited with returncode {process.returncode}"
 
 
 gSourceQueue = []

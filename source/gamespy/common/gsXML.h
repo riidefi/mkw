@@ -104,8 +104,9 @@ gsi_bool gsXmlReadChildAsString(GSXmlStreamReader stream, const char* matchtag,
 gsi_bool gsXmlReadChildAsStringNT(GSXmlStreamReader stream,
                                   const char* matchtag, char valueOut[],
                                   int maxLen);
-// gsi_bool gsXmlReadChildAsUnicodeString   (GSXmlStreamReader stream, const
-// char * matchtag, gsi_char ** valueOut, int * lenOut);
+gsi_bool gsXmlReadChildAsUnicodeString(GSXmlStreamReader stream,
+                                       const char* matchtag,
+                                       gsi_char** valueOut, int* lenOut);
 gsi_bool gsXmlReadChildAsUnicodeStringNT(GSXmlStreamReader stream,
                                          const char* matchtag,
                                          gsi_char valueOut[], int maxLen);
