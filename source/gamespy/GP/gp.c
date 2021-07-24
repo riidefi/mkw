@@ -20,6 +20,9 @@ Please see the GameSpy Presence SDK documentation for more information
 
 #define NOFILE 1
 
+// Ignore warning: (10178) function has no prototype
+#pragma warning off(10178)
+
 // FUNCTIONS
 ///////////
 GPResult gpInitialize(GPConnection* connection, int productID, int namespaceID,
