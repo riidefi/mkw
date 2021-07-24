@@ -1,9 +1,6 @@
 #include "sb_internal.h"
 #include "sb_serverbrowsing.h"
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 #ifdef GSI_MANIC_DEBUG
 // Make sure the server isn't already in the fifo
 void FIFODebugCheckAdd(SBServerFIFO* fifo, SBServer server) {
@@ -455,7 +452,7 @@ static void ParseSingleQR2Reply(SBQueryEngine* engine, SBServer server,
 }
 
 static void ParseSingleGOAReply(SBQueryEngine* engine, SBServer server,
-                                char* data, int len) {
+                                char* data, int) {
   int isfinal;
   // need to check before parse as it will modify the string
   isfinal = (strstr(data, "\\final\\") != NULL);
@@ -471,46 +468,9 @@ static void ParseSingleGOAReply(SBQueryEngine* engine, SBServer server,
     FIFORemove(&engine->querylist, server);
     engine->ListCallback(engine, qe_updatesuccess, server, engine->instance);
   }
-
-  GSI_UNUSED(len);
 }
 
-static SBBool ParseSingleICMPReply(SBQueryEngine* engine, SBServer server,
-                                   char* data, int len) {
-#ifdef SB_ICMP_SUPPORT
-  SBIPHeader* ipheader = (SBIPHeader*)data;
-  SBICMPHeader* icmpheader;
-  int ipheaderlen;
-  goa_uint32 packetpublicip;
-  unsigned short packetpublicport;
-  // todo: byte alignment on PS2
-  ipheaderlen = (gsi_u8)(ipheader->ip_hl_ver & 15);
-  ipheaderlen *= 4;
-  icmpheader = (SBICMPHeader*)(data + ipheaderlen);
-  if (icmpheader->type != SB_ICMP_ECHO_REPLY)
-    return SBFalse;
-  if (icmpheader->un.idseq != server->updatetime)
-    return SBFalse;
-  if (len < ipheaderlen + (int)sizeof(SBICMPHeader) + 6)
-    return SBFalse; // not enough data
-  // check the server IP and port
-  memcpy(&packetpublicip, data + ipheaderlen + sizeof(SBICMPHeader), 4);
-  memcpy(&packetpublicport, data + ipheaderlen + sizeof(SBICMPHeader) + 4, 2);
-  if (packetpublicport != server->publicport ||
-      packetpublicip != server->publicip)
-    return SBFalse;
-  // else its a valid echo
-  server->updatetime = current_time() - server->updatetime;
-  server->state |= STATE_VALIDPING;
-  server->state &= (unsigned char)~(STATE_PENDINGICMPQUERY);
-  FIFORemove(&engine->querylist, server);
-  engine->ListCallback(engine, qe_updatesuccess, server, engine->instance);
-#else
-  GSI_UNUSED(engine);
-  GSI_UNUSED(server);
-  GSI_UNUSED(data);
-  GSI_UNUSED(len);
-#endif
+static SBBool ParseSingleICMPReply(SBQueryEngine*, SBServer, char*, int) {
   return SBTrue;
 }
 

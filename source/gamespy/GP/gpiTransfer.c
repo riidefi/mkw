@@ -25,9 +25,6 @@ Please see the GameSpy Presence SDK documentation for more information
 #define GPI_DATA_SIZE (1 * 1024)
 //#define GPI_CONFIRM_FILES
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // FUNCTIONS
 ///////////
 #ifndef NOFILE
@@ -488,8 +485,6 @@ static GPIBool gpiHandleSendRequest(GPConnection* connection, GPIPeer* peer,
   transfer->totalSize = totalSize;
 
   return GPITrue;
-
-  GSI_UNUSED(bufferLen);
 }
 
 static GPIBool gpiHandleSendReply(GPConnection* connection,
@@ -544,8 +539,6 @@ static GPIBool gpiHandleSendReply(GPConnection* connection,
   }
 
   return GPITrue;
-
-  GSI_UNUSED(bufferLen);
 }
 
 static GPIBool gpiHandleBegin(GPConnection* connection, GPITransfer* transfer,
@@ -1086,11 +1079,7 @@ static GPIBool gpiHandleTransferCancel(GPConnection* connection,
   return GPITrue;
 }
 
-static GPIBool gpiHandleTransferKeepalive(GPConnection* connection,
-                                          GPITransfer* transfer) {
-  GSI_UNUSED(connection);
-  GSI_UNUSED(transfer);
-
+static GPIBool gpiHandleTransferKeepalive(GPConnection*, GPITransfer*) {
   // Ignore keep-alive.
   /////////////////////
   return GPITrue;
@@ -1657,9 +1646,8 @@ GPResult gpiSendTransferReply(GPConnection* connection,
   return GP_NO_ERROR;
 }
 
-void gpiHandleTransferMessage(GPConnection* connection, GPIPeer* peer, int type,
-                              const char* headers, const char* buffer,
-                              int len) {
+void gpiHandleTransferMessage(GPConnection* connection, GPIPeer* peer, int,
+                              const char* headers, const char*, int) {
   char value[64];
   GPITransferID transferID;
 #ifndef NOFILE
@@ -1734,8 +1722,4 @@ void gpiHandleTransferMessage(GPConnection* connection, GPIPeer* peer, int type,
   if (!success)
     gpiTransferError(connection, transfer);
 #endif
-
-  GSI_UNUSED(type);
-  GSI_UNUSED(buffer);
-  GSI_UNUSED(len);
 }

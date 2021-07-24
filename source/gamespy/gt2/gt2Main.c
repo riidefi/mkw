@@ -18,9 +18,6 @@ devsupport@gamespy.com
 
 #define GTI2_INVALID_IP_MASK 0xE0000000
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 /*********************
 ** SOCKET FUNCTIONS **
 *********************/
@@ -224,20 +221,16 @@ void gt2CloseConnectionHard(GT2Connection connection) {
   gti2CloseConnection(connection, GT2True);
 }
 
-static void gti2CloseAllConnectionsMap(void* elem, void* clientData) {
+static void gti2CloseAllConnectionsMap(void* elem, void*) {
   gt2CloseConnection(*(GT2Connection*)elem);
-
-  GSI_UNUSED(clientData);
 }
 
 void gt2CloseAllConnections(GT2Socket socket) {
   TableMapSafe(socket->connections, gti2CloseAllConnectionsMap, NULL);
 }
 
-static void gti2CloseAllConnectionsHardMap(void* elem, void* clientData) {
+static void gti2CloseAllConnectionsHardMap(void* elem, void*) {
   gt2CloseConnectionHard(*(GT2Connection*)elem);
-
-  GSI_UNUSED(clientData);
 }
 
 void gt2CloseAllConnectionsHard(GT2Socket socket) {

@@ -469,7 +469,7 @@ void MEM_CHUNK_POOLCreate(MEM_CHUNK_POOL* _this, const char* szNameIn,
 }
 
 //--------------------------------------------------------------------------
-MEM_CHUNK* MEM_CHUNK_POOLFindPreviousFreeChunk(MEM_CHUNK_POOL* _this,
+MEM_CHUNK* MEM_CHUNK_POOLFindPreviousFreeChunk(MEM_CHUNK_POOL*,
                                                MEM_CHUNK* header)
 // find previous free chunk
 // return NULL	 if start header is not free, and there is nothing free before
@@ -480,13 +480,11 @@ MEM_CHUNK* MEM_CHUNK_POOLFindPreviousFreeChunk(MEM_CHUNK_POOL* _this,
     // header->prev <= _this->HeaderEnd));
     header = header->prev;
   }
-
-  GSI_UNUSED(_this);
   return header;
 }
 
 //--------------------------------------------------------------------------
-MEM_CHUNK* MEM_CHUNK_POOLFindNextFreeChunk(MEM_CHUNK_POOL* _this,
+MEM_CHUNK* MEM_CHUNK_POOLFindNextFreeChunk(MEM_CHUNK_POOL*,
                                            MEM_CHUNK* header_in)
 // find previous free chunk
 // return NULL if no next free chunk.
@@ -498,7 +496,6 @@ MEM_CHUNK* MEM_CHUNK_POOLFindNextFreeChunk(MEM_CHUNK_POOL* _this,
   if (header == header_in)
     return NULL;
 
-  GSI_UNUSED(_this);
   return header;
 }
 
@@ -1413,66 +1410,7 @@ void gsMemMgrDumpStats() {
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-void gsMemMgrDumpAllocations() {
-#if (0)
-  struct GSIMemoryBlock* aBlockPtr = NULL;
-  gsi_time aStartTime = 0;
-  gsi_i32 aNumAllocations = 0;
-  gsi_i32 aNumBytesAllocated = 0;
-
-  gsiEnterCriticalSection(&gMemCrit);
-
-  aStartTime = current_time();
-  aBlockPtr = (GSIMemoryBlock*)gMemoryMgr->mPoolStart;
-
-  // Announce start
-  gsDebugFormat(GSIDebugCat_App, GSIDebugType_Memory, GSIDebugLevel_Comment,
-                "Dumping allocations from pool - [0x%08x] %d bytes.\r\n",
-                gMemoryMgr->mPoolStart, gMemoryMgr->mPoolSize);
-
-  // Dump information about each allocated block
-  //    -  Do this in linear order, not list order
-  while (aBlockPtr != NULL) {
-    // If it's in use, verify contents and dump info
-    if (gsiMemBlockIsFlagged(aBlockPtr, BlockFlag_Used)) {
-      int anObjectSize = gsiMemBlockGetObjectSize(aBlockPtr);
-      aNumAllocations++;
-      aNumBytesAllocated += anObjectSize;
-
-      if (aBlockPtr == gMemoryMgr->mPoolStart) {
-        gsDebugFormat(GSIDebugCat_App, GSIDebugType_Memory,
-                      GSIDebugLevel_Comment,
-                      "\t[0x%08x] Size: %d (memmgr instance)\r\n",
-                      (gsi_u32)aBlockPtr, anObjectSize);
-      } else {
-        gsDebugFormat(GSIDebugCat_App, GSIDebugType_Memory,
-                      GSIDebugLevel_Comment, "\t[0x%08x] Size: %d\r\n",
-                      (gsi_u32)(gsiMemBlockGetObjectPtr(aBlockPtr)),
-                      anObjectSize);
-      }
-    } else {
-      // Verify that the block has the correct memory fill
-    }
-    // Get linear next (not list next!)
-    aBlockPtr = gsiMemBlockGetLinearNext(aBlockPtr);
-  }
-
-  // Announce finish
-  gsDebugFormat(GSIDebugCat_App, GSIDebugType_Memory, GSIDebugLevel_Comment,
-                "\t--%d allocations, %d bytes allocated.\r\n", aNumAllocations,
-                aNumBytesAllocated);
-  gsDebugFormat(GSIDebugCat_App, GSIDebugType_Memory, GSIDebugLevel_Comment,
-                "\t--%d peak memory usage\r\n", gMemoryMgr->mPeakMemoryUsage);
-
-  gsDebugFormat(GSIDebugCat_App, GSIDebugType_Memory, GSIDebugLevel_Comment,
-                "Memory dump complete. (%d ms)\r\n",
-                current_time() - aStartTime);
-
-  gsiLeaveCriticalSection(&gMemCrit);
-
-  GSI_UNUSED(aStartTime); // may be unused if common debug is not defined
-#endif
-}
+void gsMemMgrDumpAllocations() {}
 
 #if (1) // test stuff
 

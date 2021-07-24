@@ -21,9 +21,6 @@ Please see the GameSpy Presence SDK documentation for more information
 /////////
 #define GPI_DUMP_NET_TRAFFIC
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // FUNCTIONS
 ///////////
 GPResult gpiAppendCharToBuffer(GPConnection* connection,
@@ -191,29 +188,7 @@ static GPResult gpiSendData(GPConnection* connection, SOCKET sock,
   return GP_NO_ERROR;
 }
 
-GPResult gpiSendOrBufferChar(GPConnection* connection, GPIPeer_st peer,
-                             char c) {
-  // GPIBool closed;
-  // int sent;
-  /*
-          assert(peer->outputBuffer.buffer != NULL);
-
-          // Only try to send if the buffer is empty and there are no messages.
-          /////////////////////////////////////////////////////////////////////
-          if(!(peer->outputBuffer.len - peer->outputBuffer.pos) &&
-     !ArrayLength(peer->messages))
-          {
-                  CHECK_RESULT(gpiSendData(connection, peer->sock, &c, 1,
-     &closed, &sent, "PT")); if(sent) return GP_NO_ERROR;
-          }
-
-          // Buffer if not sent.
-          //////////////////////
-          return gpiAppendCharToBuffer(connection, &peer->outputBuffer, c);
-          */
-  GSI_UNUSED(c);
-  GSI_UNUSED(peer);
-  GSI_UNUSED(connection);
+GPResult gpiSendOrBufferChar(GPConnection*, GPIPeer_st, char) {
   return GP_NO_ERROR;
 }
 
@@ -321,11 +296,6 @@ gpiSendOrBufferStringLen(
                 CHECK_RESULT(gpiAppendStringToBufferLen(connection,
 &peer->outputBuffer, &string[total], remaining));
 
-
-        GSI_UNUSED(stringLen);
-        GSI_UNUSED(string);
-        GSI_UNUSED(peer);
-        GSI_UNUSED(connection);
         return GP_NO_ERROR;
 }
 */
@@ -445,8 +415,6 @@ GPResult gpiRecvToBuffer(GPConnection* connection, SOCKET sock,
   inputBuffer->size = size;
   *bytesRead = total;
   *connClosed = closed;
-
-  GSI_UNUSED(id); // to get rid of codewarrior warnings
 
   return GP_NO_ERROR;
 }
@@ -579,9 +547,8 @@ GPResult gpiSendBufferToPeer(GPConnection* connection, unsigned int ip,
   return GP_NO_ERROR;
 }
 
-GPResult gpiReadMessageFromBuffer(GPConnection* connection,
-                                  GPIBuffer* inputBuffer, char** message,
-                                  int* type, int* plen) {
+GPResult gpiReadMessageFromBuffer(GPConnection*, GPIBuffer* inputBuffer,
+                                  char** message, int* type, int* plen) {
   char* str;
   int len;
   char intValue[16];
@@ -646,11 +613,10 @@ GPResult gpiReadMessageFromBuffer(GPConnection* connection,
     }
   }
 
-  GSI_UNUSED(connection);
   return GP_NO_ERROR;
 }
 
-GPResult gpiClipBufferToPosition(GPConnection* connection, GPIBuffer* buffer) {
+GPResult gpiClipBufferToPosition(GPConnection*, GPIBuffer* buffer) {
   if (!buffer || !buffer->buffer || !buffer->pos)
     return GP_NO_ERROR;
 
@@ -661,6 +627,5 @@ GPResult gpiClipBufferToPosition(GPConnection* connection, GPIBuffer* buffer) {
   buffer->buffer[buffer->len] = '\0';
   buffer->pos = 0;
 
-  GSI_UNUSED(connection);
   return GP_NO_ERROR;
 }

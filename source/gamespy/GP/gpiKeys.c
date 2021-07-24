@@ -1,8 +1,5 @@
 #include "gpi.h"
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 void gpiStatusInfoKeyFree(void* element) {
   GPIKey* aKey = (GPIKey*)element;
   freeclear(aKey->keyName);

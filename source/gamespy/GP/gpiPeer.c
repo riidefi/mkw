@@ -18,9 +18,6 @@ Please see the GameSpy Presence SDK documentation for more information
 #include <stdlib.h>
 #include <string.h>
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // FUNCTIONS
 ///////////
 static GPResult gpiProcessPeerInitiatingConnection(GPConnection* connection,
@@ -557,7 +554,7 @@ static GPResult gpiProcessPeer(GPConnection* connection, GPIPeer* peer) {
   return result;
 }
 
-void gpiDestroyPeer(GPConnection* connection, GPIPeer* peer) {
+void gpiDestroyPeer(GPConnection*, GPIPeer* peer) {
 #ifndef NOFILE
   // Cleanup any transfers that use this peer.
   ////////////////////////////////////////////
@@ -573,8 +570,6 @@ void gpiDestroyPeer(GPConnection* connection, GPIPeer* peer) {
     peer->messages = NULL;
   }
   freeclear(peer);
-
-  GSI_UNUSED(connection);
 }
 
 void gpiRemovePeer(GPConnection* connection, GPIPeer* peer) {
@@ -1000,8 +995,8 @@ GPResult gpiPeerFinishTransferMessage(GPConnection* connection, GPIPeer* peer,
   return GP_NO_ERROR;
 }
 
-void gpiPeerLeftCallback(unsigned int ip, unsigned short port,
-                         GSUdpCloseReason reason, void* userData) {
+void gpiPeerLeftCallback(unsigned int ip, unsigned short port, GSUdpCloseReason,
+                         void* userData) {
 
   GPConnection* connection = (GPConnection*)userData;
   GPIPeer* aPeer;
@@ -1015,14 +1010,11 @@ void gpiPeerLeftCallback(unsigned int ip, unsigned short port,
                   port, aPeer->profile);
     aPeer->state = GPI_PEER_DISCONNECTED;
   }
-
-  GSI_UNUSED(anAddr);
-  GSI_UNUSED(reason);
 }
 
 void gpiPeerMessageCallback(unsigned int ip, unsigned short port,
                             unsigned char* message, unsigned int messageLength,
-                            gsi_bool reliable, void* userData) {
+                            gsi_bool, void* userData) {
   GPConnection* connection = (GPConnection*)userData;
   GPIPeer* aPeer;
   unsigned char* buff;
@@ -1075,12 +1067,10 @@ void gpiPeerMessageCallback(unsigned int ip, unsigned short port,
   aPeer->inputBuffer.len += messageLength;
   aPeer->inputBuffer.size = size;
   buff[aPeer->inputBuffer.len] = '\0';
-  GSI_UNUSED(reliable);
-  GSI_UNUSED(anAddr);
 }
 
 void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port,
-                             GSUdpErrorCode error, gsi_bool rejected,
+                             GSUdpErrorCode, gsi_bool rejected,
                              void* userData) {
   GPConnection* connection = (GPConnection*)userData;
   GPIPeer* aPeer;
@@ -1105,19 +1095,11 @@ void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port,
   gsDebugFormat(GSIDebugCat_GP, GSIDebugType_Network, GSIDebugLevel_Notice,
                 "Peer Connection accepted: ip-port: %s:%d\n", inet_ntoa(anAddr),
                 port);
+}
+void gpiPeerPingReplyCallback(unsigned int, unsigned short, unsigned int
 
-  GSI_UNUSED(userData);
-  GSI_UNUSED(rejected);
-  GSI_UNUSED(error);
-  GSI_UNUSED(anAddr);
-}
-void gpiPeerPingReplyCallback(unsigned int ip, unsigned short port,
-                              unsigned int latency, void* userData) {
-  GSI_UNUSED(userData);
-  GSI_UNUSED(latency);
-  GSI_UNUSED(port);
-  GSI_UNUSED(ip);
-}
+                              ,
+                              void*) {}
 
 // gpiPeerAddOp notes:
 // Assumes non-null inputs!

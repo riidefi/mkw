@@ -21,9 +21,6 @@ Please see the GameSpy Presence SDK documentation for more information
 //////////
 #define KEEPALIVE_TIMEOUT (60 * 2000)
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // FUNCTIONS
 ///////////
 GPResult gpiInitialize(GPConnection* connection, int productID, int namespaceID,
@@ -146,11 +143,7 @@ void gpiDestroy(GPConnection* connection) {
   *connection = NULL;
 }
 
-static GPIBool gpiResetProfile(GPConnection* connection, GPIProfile* profile,
-                               void* data) {
-  GSI_UNUSED(connection);
-  GSI_UNUSED(data);
-
+static GPIBool gpiResetProfile(GPConnection*, GPIProfile* profile, void*) {
   profile->buddyStatus = NULL;
   profile->buddyStatusInfo = NULL;
   profile->authSig = NULL;
@@ -525,9 +518,7 @@ GPResult gpiEnable(GPConnection* connection, GPEnum state) {
 }
 
 static GPIBool gpiFreeProfileInfo(GPConnection* connection, GPIProfile* profile,
-                                  void* data) {
-  GSI_UNUSED(data);
-
+                                  void*) {
   gpiFreeInfoCache(profile);
   freeclear(profile->peerSig);
 
@@ -574,9 +565,6 @@ static int nTotalMemory;
 static GPIBool gpiReportProfile(GPConnection* connection, GPIProfile* profile,
                                 void* data) {
   int temp;
-
-  GSI_UNUSED(connection);
-  GSI_UNUSED(data);
 
   nProfiles++;
   nTotalMemory += sizeof(GPIProfile);

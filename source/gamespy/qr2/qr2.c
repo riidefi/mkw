@@ -7,9 +7,6 @@ INCLUDES
 #include "../natneg/natneg.h"
 #include "qr2regkeys.h"
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -1150,8 +1147,6 @@ static void qr_process_query(qr2_t qrec, qr2_buffer_t buf, uchar* qdata,
     sendto(qrec->hbsock, buf->buffer, buf->len, 0, sender,
            sizeof(struct sockaddr_in));
   }
-
-  GSI_UNUSED(sender);
 }
 
 /*

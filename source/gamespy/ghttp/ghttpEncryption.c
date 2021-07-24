@@ -2,9 +2,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ghttpCommon.h"
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 GHTTPBool ghttpSetRequestEncryptionEngine(GHTTPRequest request,
@@ -145,7 +142,7 @@ GHIEncryptionResult ghiEncryptorSslInitFunc(struct GHIConnection* connection,
 
 // Destroy the engine
 GHIEncryptionResult
-ghiEncryptorSslCleanupFunc(struct GHIConnection* connection,
+ghiEncryptorSslCleanupFunc(struct GHIConnection*,
                            struct GHIEncryptor* theEncryptor) {
   if (theEncryptor != NULL) {
     gsRevoExInterface* sslInterface =
@@ -162,8 +159,6 @@ ghiEncryptorSslCleanupFunc(struct GHIConnection* connection,
 
   gsDebugFormat(GSIDebugCat_HTTP, GSIDebugType_Misc, GSIDebugLevel_Debug,
                 "GameSpy SSL (RevoEx) engine cleanup called\r\n");
-
-  GSI_UNUSED(connection);
 
   return GHIEncryptionResult_Success;
 }
@@ -275,7 +270,7 @@ ghiEncryptorSslStartFunc(struct GHIConnection* connection,
 
 // Encrypt and send some data
 GHIEncryptionResult
-ghiEncryptorSslEncryptSend(struct GHIConnection* connection,
+ghiEncryptorSslEncryptSend(struct GHIConnection*,
                            struct GHIEncryptor* theEncryptor,
                            const char* thePlainTextBuffer,
                            int thePlainTextLength, int* theBytesSentOut) {
@@ -322,13 +317,12 @@ ghiEncryptorSslEncryptSend(struct GHIConnection* connection,
     GS_ASSERT(result > 0);
     *theBytesSentOut = result;
   }
-  GSI_UNUSED(connection);
   return GHIEncryptionResult_Success;
 }
 
 // Receive and decrypt some data
 GHIEncryptionResult
-ghiEncryptorSslDecryptRecv(struct GHIConnection* connection,
+ghiEncryptorSslDecryptRecv(struct GHIConnection*,
                            struct GHIEncryptor* theEncryptor,
                            char* theDecryptedBuffer, int* theDecryptedLength) {
   gsRevoExInterface* sslInterface =
@@ -378,38 +372,21 @@ ghiEncryptorSslDecryptRecv(struct GHIConnection* connection,
     GS_ASSERT(result > 0);
     *theDecryptedLength = result;
   }
-  GSI_UNUSED(connection);
   return GHIEncryptionResult_Success;
 }
 
-GHIEncryptionResult ghiEncryptorSslEncryptFunc(
-    struct GHIConnection* connection, struct GHIEncryptor* theEncryptor,
-    const char* thePlainTextBuffer, int thePlainTextLength,
-    char* theEncryptedBuffer, int* theEncryptedLength) {
+GHIEncryptionResult ghiEncryptorSslEncryptFunc(struct GHIConnection*,
+                                               struct GHIEncryptor*,
+                                               const char*, int, char*, int*) {
   GS_FAIL(); // Should never call this for RevoEx SSL!  It uses encrypt on send
-
-  GSI_UNUSED(connection);
-  GSI_UNUSED(theEncryptor);
-  GSI_UNUSED(thePlainTextBuffer);
-  GSI_UNUSED(thePlainTextLength);
-  GSI_UNUSED(theEncryptedBuffer);
-  GSI_UNUSED(theEncryptedLength);
 
   return GHIEncryptionResult_Error;
 }
 
-GHIEncryptionResult ghiEncryptorSslDecryptFunc(
-    struct GHIConnection* connection, struct GHIEncryptor* theEncryptor,
-    const char* theEncryptedBuffer, int* theEncryptedLength,
-    char* theDecryptedBuffer, int* theDecryptedLength) {
+GHIEncryptionResult ghiEncryptorSslDecryptFunc(struct GHIConnection*,
+                                               struct GHIEncryptor*,
+                                               const char*, int*, char*, int*) {
   GS_FAIL(); // Should never call this for RevoEx SSL!  It uses decrypt on recv
-
-  GSI_UNUSED(connection);
-  GSI_UNUSED(theEncryptor);
-  GSI_UNUSED(theEncryptedBuffer);
-  GSI_UNUSED(theEncryptedLength);
-  GSI_UNUSED(theDecryptedBuffer);
-  GSI_UNUSED(theDecryptedLength);
 
   return GHIEncryptionResult_Error;
 }

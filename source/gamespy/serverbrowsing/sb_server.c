@@ -28,9 +28,6 @@ __declspec(thread)
     HashTable g_SBRefStrList = NULL;
 #endif
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 /***********
  * REF COUNTING STRING HASHTABLE FUNCTIONS
  **********/
@@ -54,23 +51,20 @@ static void RefStringFree(void* elem) {
 
 #ifndef EXTERN_REFSTR_HASH
 
-HashTable SBRefStrHash(SBServerList* slist) {
+HashTable SBRefStrHash(SBServerList*) {
   if (g_SBRefStrList == NULL)
     g_SBRefStrList =
         TableNew2(sizeof(SBRefString), LIST_NUMKEYBUCKETS, LIST_NUMKEYCHAINS,
                   RefStringHash, RefStringCompare, RefStringFree);
 
-  GSI_UNUSED(slist);
   return g_SBRefStrList;
 }
 
-void SBRefStrHashCleanup(SBServerList* slist) {
+void SBRefStrHashCleanup(SBServerList*) {
   if (g_SBRefStrList != NULL && TableCount(g_SBRefStrList) == 0) {
     TableFree(g_SBRefStrList);
     g_SBRefStrList = NULL;
   }
-
-  GSI_UNUSED(slist);
 }
 
 #endif
@@ -622,7 +616,7 @@ int SBServerGetPing(SBServer server) { return (int)server->updatetime; }
 #define NUM_CHAINS 4
 
 // todo: benchmark sorted darray vs. hashtable - memory + speed
-SBServer SBAllocServer(SBServerList* slist, goa_uint32 publicip,
+SBServer SBAllocServer(SBServerList*, goa_uint32 publicip,
                        unsigned short publicport) {
   SBServer server;
   server = (SBServer)gsimalloc(sizeof(struct _SBServer));
@@ -644,7 +638,6 @@ SBServer SBAllocServer(SBServerList* slist, goa_uint32 publicip,
   server->privateip = 0;
   server->privateport = 0;
 
-  GSI_UNUSED(slist);
   return server;
 }
 

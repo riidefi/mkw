@@ -3,8 +3,6 @@
 // UDP Communication Engine
 #include "gsUdpEngine.h"
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
 // Ignore warning: (10178) function has no prototype
 #pragma warning off(10178)
 
@@ -131,7 +129,7 @@ int gsUdpRemotePeerCompare2(const void* theFirstPeer,
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Lets the Message Handler and App know about network errors
-void gsUdpSocketError(GT2Socket theSocket) {
+void gsUdpSocketError(GT2Socket) {
   int i, len;
   GSUdpEngineObject* aUdp = gsUdpEngineGetEngine();
 
@@ -147,7 +145,6 @@ void gsUdpSocketError(GT2Socket theSocket) {
     if (aMsgHandler->mNetworkError)
       aMsgHandler->mNetworkError(GS_UDP_NETWORK_ERROR, aMsgHandler->mUserData);
   }
-  GSI_UNUSED(theSocket);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +197,6 @@ void gsUdpClosedRoutingCB(GT2Connection theConnection, GT2CloseReason reason) {
   if (index != NOT_FOUND) {
     ArrayDeleteAt(aUdp->mRemotePeers, index);
   }
-  GSI_UNUSED(anAddr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +205,7 @@ void gsUdpClosedRoutingCB(GT2Connection theConnection, GT2CloseReason reason) {
 // higher level app or message handler know that it accepted the request to
 // to message a peer.
 void gsUdpConnectedRoutingCB(GT2Connection theConnection, GT2Result theResult,
-                             GT2Byte* theMessage, int theMessageLen) {
+                             GT2Byte*, int) {
   GSUdpEngineObject* aUdp = gsUdpEngineGetEngine();
   int aIndex, len;
   GSUdpErrorCode aCode;
@@ -287,9 +283,6 @@ void gsUdpConnectedRoutingCB(GT2Connection theConnection, GT2Result theResult,
     }
     aUdp->mAppPendingConnections--;
   }
-  GSI_UNUSED(theMessage);
-  GSI_UNUSED(theMessageLen);
-  GSI_UNUSED(anAddr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -326,7 +319,6 @@ void gsUdpPingRoutingCB(GT2Connection theConnection, int theLatency) {
                         gt2GetRemotePort(theConnection),
                         (unsigned int)theLatency, aUdp->mAppUserData);
   }
-  GSI_UNUSED(anAddr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -376,14 +368,13 @@ void gsUdpReceivedRoutingCB(GT2Connection theConnection, GT2Byte* theMessage,
         gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
         theMessage, (unsigned int)theMessageLen, reliable, aUdp->mAppUserData);
   }
-  GSI_UNUSED(anAddr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Messages that are not recognized are passed only to the higher level app
 // since message handlers always request to talk to peers
-GT2Bool gsUdpUnrecognizedMsgCB(GT2Socket theSocket, unsigned int theIp,
+GT2Bool gsUdpUnrecognizedMsgCB(GT2Socket, unsigned int theIp,
                                unsigned short thePort, GT2Byte* theMessage,
                                int theMsgLen) {
   GSUdpEngineObject* aUdp = gsUdpEngineGetEngine();
@@ -399,9 +390,6 @@ GT2Bool gsUdpUnrecognizedMsgCB(GT2Socket theSocket, unsigned int theIp,
                                  (unsigned int)theMsgLen, aUdp->mAppUserData);
     return aRet ? GT2True : GT2False;
   }
-
-  GSI_UNUSED(theSocket);
-  GSI_UNUSED(anAddr);
   return GT2False;
 }
 
@@ -410,9 +398,9 @@ GT2Bool gsUdpUnrecognizedMsgCB(GT2Socket theSocket, unsigned int theIp,
 // Requests for communication from a peer is handled by first checking if the
 // initial message has a message handler registered for it.  Otherwise
 // the message is passed onto the app.
-void gsUdpConnAttemptCB(GT2Socket socket, GT2Connection connection,
-                        unsigned int ip, unsigned short port, int latency,
-                        GT2Byte* message, int len) {
+void gsUdpConnAttemptCB(GT2Socket, GT2Connection connection, unsigned int ip,
+                        unsigned short port, int latency, GT2Byte* message,
+                        int len) {
   // Get the message handler for the connection
   int index;
   GSUdpMsgHandler aHandler;
@@ -466,8 +454,6 @@ void gsUdpConnAttemptCB(GT2Socket socket, GT2Connection connection,
     gt2Reject(connection, NULL, 0);
     ArrayRemoveAt(aUdp->mRemotePeers, ArrayLength(aUdp->mRemotePeers) - 1);
   }
-  GSI_UNUSED(socket);
-  GSI_UNUSED(anAddr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

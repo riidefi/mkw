@@ -131,11 +131,9 @@ void gsiCancelSoap(GSSoapTask* theTask) {
 ///////////////////////////////////////////////////////////////////////////////
 //////////  HTTP CALLBACKS  //////////
 
-static GHTTPBool gsiSoapTaskHttpCompletedCallback(GHTTPRequest request,
-                                                  GHTTPResult result,
-                                                  char* buffer,
-                                                  GHTTPByteCount bufferLen,
-                                                  void* param) {
+static GHTTPBool
+gsiSoapTaskHttpCompletedCallback(GHTTPRequest, GHTTPResult result, char* buffer,
+                                 GHTTPByteCount bufferLen, void* param) {
   gsi_bool parseResult = gsi_false;
 
   GSSoapTask* aSoapTask = (GSSoapTask*)param;
@@ -157,8 +155,6 @@ static GHTTPBool gsiSoapTaskHttpCompletedCallback(GHTTPRequest request,
       }
     }
   }
-
-  GSI_UNUSED(request);
 
   return GHTTPFalse; // don't let http free the buffer
 }
@@ -231,14 +227,12 @@ static void gsiSoapTaskCancel(void* theTask) {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Called when the soap task completes or is cancelled/timed out
-static void gsiSoapTaskCallback(void* theTask, GSTaskResult theResult) {
+static void gsiSoapTaskCallback(void* theTask, GSTaskResult) {
   // Call the developer callback
   GSSoapTask* aSoapTask = (GSSoapTask*)theTask;
 
   (aSoapTask->mCallbackFunc)(aSoapTask->mRequestResult, aSoapTask->mRequestSoap,
                              aSoapTask->mResponseSoap, aSoapTask->mUserData);
-
-  GSI_UNUSED(theResult);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

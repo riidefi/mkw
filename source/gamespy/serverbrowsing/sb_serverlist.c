@@ -509,11 +509,6 @@ static SBError SendWithRetry(SBServerList* slist, char* data, int len) {
       break; // send ok
   }
 
-#ifdef INSOCK
-  GSI_UNUSED(data);
-  GSI_UNUSED(len);
-#endif
-
   if (ret <= 0)
     return sbe_connecterror;
   else

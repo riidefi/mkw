@@ -24,9 +24,6 @@ Please see the GameSpy Presence SDK documentation for more information
 //////////
 char GPIInfoCacheFilename[FILENAME_MAX + 1] = "gp.info";
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // FUNCTIONS
 ///////////
 static int gpiProfilesTableHash(const void* arg, int numBuckets) {
@@ -345,11 +342,9 @@ typedef struct GPIFindProfileByUserData {
   GPIBool found;
 } GPIFindProfileByUserData;
 
-static GPIBool gpiCheckProfileForUser(GPConnection* connection,
-                                      GPIProfile* profile, void* udata) {
+static GPIBool gpiCheckProfileForUser(GPConnection*, GPIProfile* profile,
+                                      void* udata) {
   GPIFindProfileByUserData* data = (GPIFindProfileByUserData*)udata;
-
-  GSI_UNUSED(connection);
 
   // Check for a valid cache.
   ///////////////////////////
@@ -418,7 +413,7 @@ typedef struct GPIFindProfileData {
   GPIProfile* profile;
 } GPIFindProfileData;
 
-static GPIBool gpiCheckForBuddy(GPConnection* connection, GPIProfile* profile,
+static GPIBool gpiCheckForBuddy(GPConnection*, GPIProfile* profile,
                                 void* udata) {
   GPIFindProfileData* data = (GPIFindProfileData*)udata;
   if (profile->buddyStatus &&
@@ -430,8 +425,6 @@ static GPIBool gpiCheckForBuddy(GPConnection* connection, GPIProfile* profile,
     data->profile = profile;
     return GPIFalse;
   }
-
-  GSI_UNUSED(connection);
 
   return GPITrue;
 }

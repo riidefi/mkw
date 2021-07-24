@@ -18,9 +18,6 @@ devsupport@gamespy.com
 #pragma warning(disable : 4127)
 #endif // _MSC_VER
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // Proxy server.
 ////////////////
 char* ghiProxyAddress;

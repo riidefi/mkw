@@ -14,9 +14,6 @@ devsupport@gamespy.com
 #include "ghttpMain.h"
 #include "ghttpPost.h"
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // Parse the URL into:
 //   server address (and IP)
 //   server port
@@ -180,9 +177,6 @@ void ghiDoHostLookup(GHIConnection* connection) {
   // Check to see if asynch lookup is taking place
   ////////////////////////////////////////////////
   if (connection->handle) {
-    GSI_UNUSED(host);
-    GSI_UNUSED(server);
-
     // Lookup incomplete - set to lookupPending state
     /////////////////////////////////////////////////
     connection->state = GHTTPLookupPending;
@@ -241,7 +235,6 @@ void ghiDoHostLookup(GHIConnection* connection) {
       return;
     } else {
       // thread created properly - continue into lookupPending state
-      GSI_UNUSED(host);
     }
 #endif
   }
@@ -659,8 +652,6 @@ void ghiDoSendingRequest(GHIConnection* connection) {
   else
     connection->state = GHTTPWaiting;
   ghiCallProgressCallback(connection, NULL, 0);
-
-  GSI_UNUSED(oldPos);
 }
 
 /************
@@ -1014,7 +1005,6 @@ static int ghiParseChunkSize(GHIConnection* connection) {
   len = connection->chunkHeaderLen;
 
   assert(len);
-  GSI_UNUSED(len);
 
   rcode = sscanf(header, "%x", &num);
   if (rcode != 1)

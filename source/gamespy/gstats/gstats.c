@@ -22,9 +22,6 @@ INCLUDES
 #include "../md5.h"
 // clang-format on
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -1310,7 +1307,7 @@ static int FindRequest(reqtype_t reqtype, int localid, int profileid) {
 }
 
 /* process the playerauth result */
-static void ProcessPlayerAuth(const char* buf, int len) {
+static void ProcessPlayerAuth(const char* buf, int) {
   // \\pauthr\\100000\\lid\\1
   int reqindex;
   char* errmsg;
@@ -1324,12 +1321,10 @@ static void ProcessPlayerAuth(const char* buf, int len) {
     return;
   ((serverreq_t*)ArrayNth(serverreqs, reqindex))->profileid = pid;
   CallReqCallback(reqindex, (pid > 0), 0, errmsg, 0);
-
-  GSI_UNUSED(len);
 }
 
 /* process the get profileid result */
-static void ProcessGetPid(const char* buf, int len) {
+static void ProcessGetPid(const char* buf, int) {
   // \\getpidr\\100000\\lid\\1
   int reqindex;
   int pid;
@@ -1341,12 +1336,10 @@ static void ProcessGetPid(const char* buf, int len) {
     return;
   ((serverreq_t*)ArrayNth(serverreqs, reqindex))->profileid = pid;
   CallReqCallback(reqindex, (pid > 0), 0, NULL, 0);
-
-  GSI_UNUSED(len);
 }
 
 /* process the get data result */
-static void ProcessGetData(const char* buf, int len) {
+static void ProcessGetData(const char* buf, int) {
   // \\getpdr\\1\\lid\\1\\mod\\1234\\length\\5\\data\\mydata\\final
   int reqindex;
   int pid;
@@ -1370,12 +1363,10 @@ static void ProcessGetData(const char* buf, int len) {
   } else
     data += 6; // skip the key
   CallReqCallback(reqindex, success, modified, data, length);
-
-  GSI_UNUSED(len);
 }
 
 /* process the set data result */
-static void ProcessSetData(const char* buf, int len) {
+static void ProcessSetData(const char* buf, int) {
   // \\setpdr\\1\\lid\\2\\pid\\100000\\mod\\12345
   int reqindex;
   int pid;
@@ -1390,8 +1381,6 @@ static void ProcessSetData(const char* buf, int len) {
   if (reqindex == -1)
     return;
   CallReqCallback(reqindex, success, modified, NULL, 0);
-
-  GSI_UNUSED(len);
 }
 
 /* process a single statement */
@@ -1494,27 +1483,24 @@ int GetPlayerIndex(statsgame_t game, int pnum) {
 }
 
 static int ServerOpInt(statsgame_t game, char* name, BucketFunc func, int value,
-                       int index) {
+                       int) {
   int* ret;
   DoFunc(func, game, name, &value, bt_int, ret);
 
-  GSI_UNUSED(index);
   return *(int*)ret;
 }
 static double ServerOpFloat(statsgame_t game, char* name, BucketFunc func,
-                            double value, int index) {
+                            double value, int) {
   double* ret;
   DoFunc(func, game, name, &value, bt_float, ret);
 
-  GSI_UNUSED(index);
   return *(double*)ret;
 }
 static char* ServerOpString(statsgame_t game, char* name, BucketFunc func,
-                            char* value, int index) {
+                            char* value, int ) {
   char* ret;
   DoFunc(func, game, name, value, bt_string, ret);
 
-  GSI_UNUSED(index);
   return ret;
 }
 

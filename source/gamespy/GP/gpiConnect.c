@@ -18,9 +18,6 @@ Please see the GameSpy Presence SDK documentation for more information
 #include <stdlib.h>
 #include <string.h>
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // DEFINES
 /////////
 // Connection Manager Address.
@@ -251,7 +248,6 @@ GPResult gpiConnect(GPConnection* connection, const char nick[GP_NICK_LEN],
     // Get the firewall setting.
     ////////////////////////////
 #if defined(GS_WIRELESS_DEVICE)
-  GSI_UNUSED(firewall);
   iconnection->firewall = GPITrue;
 #else
   switch (firewall) {
@@ -798,9 +794,8 @@ GPResult gpiCheckConnect(GPConnection* connection) {
 }
 
 static GPIBool gpiDisconnectCleanupProfile(GPConnection* connection,
-                                           GPIProfile* profile, void* data) {
+                                           GPIProfile* profile, void*) {
   GPIConnection* iconnection = (GPIConnection*)*connection;
-  GSI_UNUSED(data);
 
   // Even if we cache buddy/block info, free it up to get rid of mem
   // leaks, just don't remove the profile until we save the cache.

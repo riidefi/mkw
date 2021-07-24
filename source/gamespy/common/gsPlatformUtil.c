@@ -642,8 +642,6 @@ void B64Decode(const char* input, char* output, int inlen, int* outlen,
 
   if (outlen)
     *outlen = writepos;
-
-  GSI_UNUSED(holdin);
 }
 
 void B64Encode(const char* input, char* output, int inlen, int encodingType) {

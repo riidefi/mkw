@@ -7,9 +7,6 @@
 // Future Versions:
 // ICMP Ping support (icmp engine)
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 // internal callback proxy for server list
 static void ListCallback(SBServerList* serverlist, SBListCallbackReason reason,
                          SBServer server, void* instance) {
@@ -83,9 +80,8 @@ static void ListCallback(SBServerList* serverlist, SBListCallbackReason reason,
 }
 
 // internal callback proxy for query engine
-static void EngineCallback(SBQueryEnginePtr engine,
-                           SBQueryEngineCallbackReason reason, SBServer server,
-                           void* instance) {
+static void EngineCallback(SBQueryEnginePtr, SBQueryEngineCallbackReason reason,
+                           SBServer server, void* instance) {
   ServerBrowser sb = (ServerBrowser)instance;
   switch (reason) {
   case qe_updatefailed:
@@ -106,8 +102,6 @@ static void EngineCallback(SBQueryEnginePtr engine,
   if (server != NULL && server->publicip == sb->triggerIP &&
       server->publicport == sb->triggerPort)
     sb->triggerIP = 0; // clear the trigger
-
-  GSI_UNUSED(engine);
 }
 
 ServerBrowser
@@ -258,11 +252,7 @@ SBError ServerBrowserSendNatNegotiateCookieToServerA(ServerBrowser sb,
                                           cookie);
 }
 
-static void NatNegProgressCallback(NegotiateState state, void* userdata) {
-  // we don't do anything here
-  GSI_UNUSED(state);
-  GSI_UNUSED(userdata);
-}
+static void NatNegProgressCallback(NegotiateState, void*) {}
 
 SBError ServerBrowserAuxUpdateIPA(ServerBrowser sb, const char* ip,
                                   unsigned short port, SBBool viaMaster,
@@ -377,7 +367,7 @@ void ServerBrowserClear(ServerBrowser sb) {
   SBServerListClear(&sb->list);
 }
 
-const char* ServerBrowserErrorDescA(ServerBrowser sb, SBError error) {
+const char* ServerBrowserErrorDescA(ServerBrowser, SBError error) {
   switch (error) {
   case sbe_noerror:
     return "None";
@@ -404,8 +394,6 @@ const char* ServerBrowserErrorDescA(ServerBrowser sb, SBError error) {
     return "Duplicate update request error";
     // break;
   }
-
-  GSI_UNUSED(sb);
   return "";
 }
 

@@ -41,9 +41,6 @@ const char*
         "xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
         "xsd=\"http://www.w3.org/2001/XMLSchema\""};
 
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
-
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Warning: Do not store pointers to other GSXml* objects within a GSXml object
@@ -314,18 +311,11 @@ gsi_bool gsXmlCloseWriter(GSXmlStreamWriter stream) {
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-static void gsiXmlUtilElementFree(void* elem) {
-  GSI_UNUSED(elem);
-  // GSXmlElement * dataPtr = (GSXmlElement*)elem;
-}
+static void gsiXmlUtilElementFree(void*) {}
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-static void gsiXmlUtilAttributeFree(void* elem) {
-  GSI_UNUSED(elem);
-  // GSXmlAttribute * dataPtr = (GSXmlAttribute*)elem;
-  // gsifree(dataPtr);
-}
+static void gsiXmlUtilAttributeFree(void*) {}
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -345,7 +335,7 @@ int gsXmlWriterGetDataLength(GSXmlStreamWriter stream) {
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-static gsi_bool gsiXmlUtilSkipWhiteSpace(GSIXmlStreamReader* stream,
+static gsi_bool gsiXmlUtilSkipWhiteSpace(GSIXmlStreamReader*,
                                          const char* buffer, int len,
                                          int* pos) {
   GS_ASSERT(buffer != NULL);
@@ -358,8 +348,6 @@ static gsi_bool gsiXmlUtilSkipWhiteSpace(GSIXmlStreamReader* stream,
       return gsi_true;
     (*pos)++; // move to next character
   }
-
-  GSI_UNUSED(stream);
   return gsi_false;
 }
 

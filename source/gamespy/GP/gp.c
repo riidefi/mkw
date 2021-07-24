@@ -20,9 +20,6 @@ Please see the GameSpy Presence SDK documentation for more information
 #include "gpi.h"
 
 #define NOFILE 1
-
-// Ignore warning: (10369) expression has no side effect
-#pragma warn_no_side_effect off
 // Ignore warning: (10178) function has no prototype
 #pragma warning off(10178)
 
@@ -722,8 +719,7 @@ GPResult gpDeleteProfile(GPConnection* connection, GPCallback callback,
   return gpiDeleteProfile(connection, callback, param);
 }
 
-GPResult gpProfileFromID(GPConnection* connection, GPProfile* profile, int id) {
-  GSI_UNUSED(connection);
+GPResult gpProfileFromID(GPConnection*, GPProfile* profile, int id) {
 
   // Set the profile.
   // This function is depreciated & may be removed from future versions.
@@ -735,9 +731,7 @@ GPResult gpProfileFromID(GPConnection* connection, GPProfile* profile, int id) {
 
 // gpIDFromProfile
 //////////////////
-GPResult gpIDFromProfile(GPConnection* connection, GPProfile profile, int* id) {
-  GSI_UNUSED(connection);
-
+GPResult gpIDFromProfile(GPConnection*, GPProfile profile, int* id) {
   // ID is the same as GPProfile
   // This function is depreciated & may be removed from future versions.
   //////////////////////////////////////////////////////////////////////
@@ -1484,10 +1478,9 @@ GPResult gpSetStatusInfoA(GPConnection* connection, GPEnum statusState,
                           unsigned int hostIp, unsigned int hostPrivateIp,
                           unsigned short queryPort, unsigned short hostPort,
                           unsigned int sessionFlags, const char* richStatus,
-                          int richStatusLen, const char* gameType,
-                          int gameTypeLen, const char* gameVariant,
-                          int gameVariantLen, const char* gameMapName,
-                          int gameMapNameLen) {
+                          int, const char* gameType, int,
+                          const char* gameVariant, int, const char* gameMapName,
+                          int) {
   GPIConnection* iconnection;
 
   char gameTypeFixed[GP_STATUS_BASIC_STR_LEN];
@@ -1598,10 +1591,6 @@ GPResult gpSetStatusInfoA(GPConnection* connection, GPEnum statusState,
                           gameMapNameFixed);
   gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, "\\final\\");
 
-  GSI_UNUSED(richStatusLen);
-  GSI_UNUSED(gameTypeLen);
-  GSI_UNUSED(gameVariantLen);
-  GSI_UNUSED(gameMapNameLen);
   return GP_NO_ERROR;
 }
 

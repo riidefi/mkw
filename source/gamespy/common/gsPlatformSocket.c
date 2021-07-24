@@ -49,18 +49,6 @@ int SetSockBlocking(SOCKET sock, int isblocking) {
   return 0;
 }
 
-/*
-int SetSockBroadcast(SOCKET sock) {
-  GSI_UNUSED(sock);
-  return 1;
-}
-
-int DisableNagle(SOCKET sock) {
-  GSI_UNUSED(sock);
-  return 0;
-}
-*/
-
 int SetReceiveBufferSize(SOCKET sock, int size) {
   int rcode;
   rcode =

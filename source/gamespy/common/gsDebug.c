@@ -40,16 +40,11 @@ static gsi_u32 gsiDebugLog2(gsi_u32 theInt) {
 
 // default supplied debug function, will receive debug text
 // this is platform specific
-static void gsiDebugCallback(GSIDebugCategory category, GSIDebugType type,
-                             GSIDebugLevel level, const char* format,
-                             va_list params) {
+static void gsiDebugCallback(GSIDebugCategory, GSIDebugType, GSIDebugLevel,
+                             const char* format, va_list params) {
   static char string[256];
   vsprintf(string, format, params);
   OSReport(string);
-
-  GSI_UNUSED(category);
-  GSI_UNUSED(type);
-  GSI_UNUSED(level);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

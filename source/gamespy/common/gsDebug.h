@@ -85,71 +85,22 @@ extern char* gGSIDebugLevelStrings[GSIDebugLevel_Count];
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Only include static data and functions if GSI_COMMON_DEBUG is defined
-#ifndef GSI_COMMON_DEBUG
-#define gsDebugFormat
+#define gsDebugFormat(...)                                                     \
+  _Pragma("push");                                                             \
+  _Pragma("warn_no_side_effect off");                                          \
+  (__VA_ARGS__);                                                               \
+  _Pragma("pop")
 #define gsDebugVaList
-#define gsDebugBinary
+#define gsDebugBinary(...)                                                     \
+  _Pragma("push");                                                             \
+  _Pragma("warn_no_side_effect off");                                          \
+  (__VA_ARGS__);                                                               \
+  _Pragma("pop")
 #define gsSetDebugLevel
 #define gsSetDebugFile
 #define gsOpenDebugFile
 #define gsGetDebugFile
 #define gsSetDebugCallback
-#else
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-// User supplied debug function, will receive debug text
-typedef void (*GSIDebugCallback)(GSIDebugCategory, GSIDebugType, GSIDebugLevel,
-                                 const char*, va_list);
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-// Global debug instance
-typedef struct GSIDebugInstance {
-  FILE* mGSIDebugFile;
-  GSIDebugCallback mDebugCallback;
-  gsi_i32 mInitialized;
-
-  GSICriticalSection mDebugCrit;
-
-  GSIDebugLevel mGSIDebugLevel[GSIDebugCat_Count][GSIDebugType_Count];
-} GSIDebugInstance;
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-// Logging functions
-void gsDebugFormat(GSIDebugCategory theCat, GSIDebugType theType,
-                   GSIDebugLevel theLevel, const char* theTokenStr, ...);
-
-void gsDebugVaList(GSIDebugCategory theCat, GSIDebugType theType,
-                   GSIDebugLevel theLevel, const char* theTokenStr,
-                   va_list theParams);
-
-void gsDebugBinary(GSIDebugCategory theCat, GSIDebugType theType,
-                   GSIDebugLevel theLevel, const char* theBuffer,
-                   gsi_i32 theLength);
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-// Output functions
-void gsSetDebugLevel(GSIDebugCategory theCat, GSIDebugType theType,
-                     GSIDebugLevel theLevel);
-
-// Set the output file (NULL for no file)
-void gsSetDebugFile(FILE* theFile);
-
-// Open and set the debug file
-FILE* gsOpenDebugFile(const char* theFileName);
-
-// Retrieve the debug file
-FILE* gsGetDebugFile();
-
-// Set a callback to be triggered with debug output
-void gsSetDebugCallback(GSIDebugCallback theCallback);
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-#endif // GSI_COMMON_DEBUG
 
 #if defined(__LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) ||                 \
     defined(c_plusplus)

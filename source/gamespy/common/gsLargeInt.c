@@ -660,7 +660,6 @@ static gsi_bool gsiLargeIntSubDivide(l_word* src, l_word length,
   //	_asm {int 3}
   GSLINT_EXITTIMER(GSLintTimerSubDivide);
 
-  GSI_UNUSED(highbit);
   return gsi_true;
 }
 
@@ -1640,19 +1639,6 @@ gsi_bool gsiLargeIntMultM(gsLargeInt_t* x, gsLargeInt_t* y,
 }
 
 #endif
-/*
-//    Computes (src*src*r^-1)%mod
-static gsi_bool gsiLargeIntSquareM(const gsLargeInt_t *src, const gsLargeInt_t
-*mod, gsi_u32 modPrime, gsi_u32 R, gsLargeInt_t *dest)
-{
-        GSI_UNUSED(src);
-        GSI_UNUSED(mod);
-        GSI_UNUSED(modPrime);
-        GSI_UNUSED(R);
-        GSI_UNUSED(dest);
-        assert(0);
-        return gsi_true;
-}*/
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
