@@ -10,8 +10,8 @@ import struct
 import jinja2
 
 from mkwutil.ppc_dis import InlineInstruction, disasm_iter, label_name
-from mkwutil.dol import DolBinary
-from mkwutil.rel import Rel, dump_staticr
+from mkwutil.lib.dol import DolBinary
+from mkwutil.lib.rel import Rel, dump_staticr
 from mkwutil.symbols import Symbol, SymbolsList
 from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS, REL_SECTION_IDX, Section
 from mkwutil.slices import Slice, SliceTable
