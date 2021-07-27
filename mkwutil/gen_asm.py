@@ -9,13 +9,14 @@ import struct
 
 import jinja2
 
-from mkwutil.ppc_dis import InlineInstruction, disasm_iter, label_name
+from mkwutil.lib.ppc_dis import InlineInstruction, disasm_iter, label_name
 from mkwutil.lib.dol import DolBinary
 from mkwutil.lib.rel import Rel, dump_staticr
-from mkwutil.symbols import Symbol, SymbolsList
+from mkwutil.lib.symbols import Symbol, SymbolsList
 from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS, REL_SECTION_IDX, Section
-from mkwutil.slices import Slice, SliceTable
+from mkwutil.lib.slices import Slice, SliceTable
 
+from mkwutil.project import *
 
 jinja_env = jinja2.Environment(
     loader=jinja2.PackageLoader("mkwutil", "gen_asm"),
@@ -528,7 +529,7 @@ def main():
     rel_bin_dir = args.binary_dir / "rel"
     dump_staticr(rel, rel_bin_dir)
     # Map out slices in REL.
-    rel_slices = SliceTable.load_rel_slices(sections=REL_SECTIONS)
+    rel_slices = load_rel_slices(sections=REL_SECTIONS)
     rel_slices.filter(SliceTable.ONLY_ENABLED)
     # Disassemble REL sections.
     rel_asm_dir = args.asm_dir / "rel"

@@ -8,7 +8,7 @@ import webbrowser
 import jinja2
 
 from mkwutil.sections import DOL_LIBS, DOL_SECTIONS
-from mkwutil.slices import Slice, SliceTable
+from mkwutil.lib.slices import Slice, SliceTable
 
 
 random.seed("OwO")

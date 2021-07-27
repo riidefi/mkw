@@ -17,7 +17,7 @@ import colorama
 from termcolor import colored
 
 from sources import SOURCES_DOL, SOURCES_REL
-from mkwutil.slices import SliceTable
+from mkwutil.lib.slices import SliceTable
 from mkwutil.sections import DOL_SECTIONS
 from mkwutil.verify_object_file import verify_object_file
 from mkwutil.gen_lcf import gen_lcf
@@ -25,13 +25,15 @@ from mkwutil.pack_main_dol import pack_main_dol
 from mkwutil.pack_staticr_rel import pack_staticr_rel
 from mkwutil.verify_main_dol import verify_dol
 from mkwutil.verify_staticr_rel import verify_rel
-from mkwutil.percent_decompiled import percent_decompiled
+from mkwutil.progress.percent_decompiled import percent_decompiled
+
+from mkwutil.project import load_dol_slices
 
 colorama.init()
 print_mutex = Lock()
 
 # Remember which files are stripped.
-dol_slices = SliceTable.load_dol_slices(sections=DOL_SECTIONS)
+dol_slices = load_dol_slices(sections=DOL_SECTIONS)
 stripped_files = set()
 for _slice in dol_slices:
     if "strip" in _slice.tags:
