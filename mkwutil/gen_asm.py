@@ -222,7 +222,7 @@ class CAsmGenerator:
     def disassemble_function(self, sym):
         """Generates the inline assembly function body as a stream of lines."""
         assert isinstance(sym.size, int)
-        assert sym.size > 0
+        assert sym.size > 0, f"Empty symbol: {sym}"
         # Grab the instructions.
         data_start = sym.addr - self.slice.start
         data_stop = data_start + sym.size
