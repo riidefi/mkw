@@ -1,7 +1,7 @@
 from pathlib import Path
 import pytest
 
-from mkwutil.slices import ObjectSlices, Slice, SliceTable
+from mkwutil.lib.slices import ObjectSlices, Slice, SliceTable
 
 
 def test_slice_compare():

@@ -20,7 +20,7 @@ DOL_SIZE = DOL_END - DOL_BEGIN
 
 
 jinja_env = jinja2.Environment(
-    loader=jinja2.PackageLoader("mkwutil", "graphic"),
+    loader=jinja2.PackageLoader("mkwutil", "lib", "graphic"),
     autoescape=jinja2.select_autoescape(),
 )
 
