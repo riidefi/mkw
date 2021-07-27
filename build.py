@@ -16,7 +16,7 @@ import multiprocessing
 import colorama
 from termcolor import colored
 
-from mkwutil.sources import SOURCES_DOL, SOURCES_REL
+from sources import SOURCES_DOL, SOURCES_REL
 from mkwutil.slices import SliceTable
 from mkwutil.sections import DOL_SECTIONS
 from mkwutil.verify_object_file import verify_object_file
