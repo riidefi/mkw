@@ -59,7 +59,7 @@ class SymbolsList:
             # Binary search to determine first symbol with address >= start.
             sorted_by_addr = sorted_by_addr[bisect_left(sorted_by_addr, start) :]
         for addr in sorted_by_addr:
-            if stop > 0 and stop < addr:
+            if stop > 0 and stop <= addr:
                 break
             yield self._by_addr[addr]
 
