@@ -12,11 +12,19 @@ jobs:
           python-version: '3.x'
           architecture: 'x64'
 
-      - name: Install dependencies
-        run: pip3 install -r requirements.txt
-      
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
+        with:
+          requirement_files: requirements.txt
+
+      - uses: syphar/restore-pip-download-cache@v1
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+      - run: pip install -r requirements.txt
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
       - name: Install mkwutil in editable mode
-        run: pip3 install -e .
+        run: pip install -e .
 
       - name: Run tests
         run: pytest -vv
