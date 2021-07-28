@@ -5,8 +5,11 @@ out\rel\rodata_8088f710_808b2bd0.o
 out\rel\data_808b2bd0_808b2c30.o
 out\rel\bss_809bd6e0_809bd6e8.o
 out\JmpResourceCourse.o
-out\rel\text_805127ec_805f8b34.o
+out\rel\text_805127ec_80590128.o
+out\rel\data_808b2c3c_808dd3d4.o
+out\rel\bss_809bd6ec_809c1900.o
+out\KartComponent.o
+out\rel\text_805901d0_805f8b34.o
 out\MessageGroup.o
 out\rel\text_805f8b90_8088f400.o
-out\rel\data_808b2c3c_808dd3d4.o
-out\rel\bss_809bd6ec_809c4f90.o
+out\rel\bss_809c1910_809c4f90.o
