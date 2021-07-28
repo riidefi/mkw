@@ -30,6 +30,10 @@
 /pack/dol.lcf
 /pack/rel.lcf
 
+# Auto-generated assembly
+/asm/dol/
+/asm/rel/
+
 # Executables
 *.exe
 *.dll
@@ -57,9 +61,6 @@ tmp
 !/artifacts/orig/pal/rel/rel_abs.bin
 *.map
 out.html
-
-# Compiler tools bundle
-tools.7z
 
 # Editors
 .vscode/
