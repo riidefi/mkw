@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 import struct
 
-from mkwutil.dol import DolBinary
+from mkwutil.lib.dol import DolBinary
 
 
 def main():

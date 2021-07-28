@@ -1,7 +1,7 @@
 from pathlib import Path
 import pytest
 
-from mkwutil.slices import ObjectSlices, Slice, SliceTable
+from mkwutil.lib.slices import Slice, SliceTable
 
 
 def test_slice_compare():
@@ -146,17 +146,3 @@ def test_slice_table_remove_8():
   { 00000002..00000003 slice }
   { 00000003..00000006 }
 ]"""
-
-def test_dol_slices():
-    table = SliceTable.load_dol_slices()
-    assert isinstance(table, SliceTable)
-    objs = table.object_slices()
-    assert isinstance(objs, ObjectSlices)
-    assert len(objs) > 10
-
-
-def test_rel_slices():
-    table = SliceTable.load_rel_slices()
-    assert isinstance(table, SliceTable)
-    objs = table.object_slices()
-    assert isinstance(objs, ObjectSlices)

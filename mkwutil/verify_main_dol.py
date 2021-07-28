@@ -8,7 +8,7 @@ import hashlib
 from pathlib import Path
 import sys
 
-from .dol import DolBinary
+from .lib.dol import DolBinary
 
 
 def format_segment(name, at, at2, want_size, have_size, tag):

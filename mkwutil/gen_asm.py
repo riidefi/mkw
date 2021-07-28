@@ -9,13 +9,14 @@ import struct
 
 import jinja2
 
-from mkwutil.ppc_dis import InlineInstruction, disasm_iter, label_name
-from mkwutil.dol import DolBinary
-from mkwutil.rel import Rel, dump_staticr
-from mkwutil.symbols import Symbol, SymbolsList
+from mkwutil.lib.ppc_dis import InlineInstruction, disasm_iter, label_name
+from mkwutil.lib.dol import DolBinary
+from mkwutil.lib.rel import Rel, dump_staticr
+from mkwutil.lib.symbols import Symbol, SymbolsList
 from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS, REL_SECTION_IDX, Section
-from mkwutil.slices import Slice, SliceTable
+from mkwutil.lib.slices import Slice, SliceTable
 
+from mkwutil.project import *
 
 jinja_env = jinja2.Environment(
     loader=jinja2.PackageLoader("mkwutil", "gen_asm"),
@@ -453,45 +454,6 @@ class RELSrcGenerator:
             gen = AsmGenerator(data, _slice, SymbolsList(), asm_file)
             gen.dump_section()
 
-
-def __read_symbol_map(symbols_path):
-    symbols = SymbolsList()
-
-    with open(symbols_path, "r") as file:
-        symbols.read_from(file)
-
-        return symbols
-
-    raise RuntimeError("Cannot find symbols")
-
-
-def __read_dol(dol_path):
-    with open(dol_path, "rb") as file:
-        dol = DolBinary(file)
-
-        return dol
-
-    raise RuntimeError("Cannot find DOL")
-
-
-# Map out slices in DOL.
-def __read_enabled_slices(dol, slices_path):
-    dol_slices = SliceTable(dol.start, dol.stop)
-    with open(slices_path) as file:
-        dol_slices.read_from(file)
-
-        return dol_slices.filter(SliceTable.ONLY_ENABLED)
-
-    raise RuntimeError("Cannot find dol_slices.csv")
-
-
-def __read_rel(rel_path):
-    with open(rel_path, "rb") as file:
-        return Rel(file)
-
-    raise RuntimeError("Cannot find StaticR.rel")
-
-
 def main():
     parser = argparse.ArgumentParser(
         description="Generate ASM blobs and linker object lists."
@@ -510,10 +472,10 @@ def main():
     args = parser.parse_args()
     args.asm_dir.mkdir(exist_ok=True)
 
-    symbols = __read_symbol_map(args.pack_dir / "symbols.txt")
+    symbols = read_symbol_map(args.pack_dir / "symbols.txt")
 
-    dol = __read_dol(args.binary_dir / "main.dol")
-    dol_slices = __read_enabled_slices(dol, args.pack_dir / "dol_slices.csv")
+    dol = read_dol(args.binary_dir / "main.dol")
+    dol_slices = read_enabled_slices(dol, args.pack_dir / "dol_slices.csv")
 
     # Disassemble DOL sections.
     dol_asm_dir = args.asm_dir / "dol"
@@ -523,12 +485,12 @@ def main():
     )
     dol_gen.run()
 
-    rel = __read_rel(args.binary_dir / "StaticR.rel")
+    rel = read_rel(args.binary_dir / "StaticR.rel")
     # Dump StaticR.rel segments.
     rel_bin_dir = args.binary_dir / "rel"
     dump_staticr(rel, rel_bin_dir)
     # Map out slices in REL.
-    rel_slices = SliceTable.load_rel_slices(sections=REL_SECTIONS)
+    rel_slices = load_rel_slices(sections=REL_SECTIONS)
     rel_slices.filter(SliceTable.ONLY_ENABLED)
     # Disassemble REL sections.
     rel_asm_dir = args.asm_dir / "rel"
