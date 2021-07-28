@@ -185,4 +185,5 @@ SOURCES_REL = [
     Source(src="source/game/ui/ControlGroup.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/ui/UIControl.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/jmap/JmpResourceCourse.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartComponent.cpp", cc='4201_127', opts=REL_OPTS),
 ]
