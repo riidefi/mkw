@@ -86,5 +86,7 @@ private:
   OSMessage _C0;
 
   OSThread* _C4;
+  
+  nw4r::ut::Node mNode;
 };
 } // namespace EGG

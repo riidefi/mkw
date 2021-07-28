@@ -120,13 +120,11 @@ public:
   };
   u16 mFlag;
   // 2b implicit pad?
-  //! [+0x20, +0x24] unseen treeki -- globalLink
-  u32 _20;
-  u32 _24;
 
   //! @details List of child disposers.
   //! When Heap::dispose() is called, ~Disposer() will be called for all
   //! children.
+  nw4r::ut::Node mNode; //!< [+0x20]
   nw4r::ut::List mChildren; //!< [+0x28] sizeof=0xC
 
   const char* mName; //!< [+0x034] set to "NoName" in ctor

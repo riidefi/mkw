@@ -1,8 +1,11 @@
 #include "KartComponent.hpp"
+#include <cstddef>
 
 namespace Kart {
 
-void KartComponent::initList() { List_Init(&sList, 4); }
+void KartComponent::initList() {
+  List_Init(&sList, offsetof(KartComponent, mNode));
+}
 
 void KartComponent::setupInList(KartAccessor* accessor) {
   KartComponent* component = nullptr;

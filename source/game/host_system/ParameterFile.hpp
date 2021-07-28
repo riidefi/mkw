@@ -35,8 +35,8 @@ private:
     inline char* data() { return mData; }
     inline u32 size() const { return mSize; }
 
+    nw4r::ut::Node mNode;
   private:
-    nw4r::ut::Link m_link;
     char* mData;
     u32 mSize;
   };

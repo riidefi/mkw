@@ -5,6 +5,8 @@
 
 #define HEAP_PRIVATE public
 
+#include <stddef.h>
+
 #include <egg/core/eggDisposer.hpp>
 #include <egg/core/eggHeap.hpp>
 #include <egg/core/eggThread.hpp>
@@ -35,7 +37,7 @@ Thread* Heap::sAllocatableThread;
 #define SIZE_MB ((float)0x100000)
 
 void Heap::initialize() {
-  nw4r::ut::List_Init(&sHeapList, 32);
+  nw4r::ut::List_Init(&sHeapList, offsetof(Heap, mNode));
   OSInitMutex(&sRootMutex);
   sIsHeapListInitialized = true;
 }
@@ -46,7 +48,7 @@ Heap::Heap(MEMiHeapHead* pHeap) : Disposer(), mHeapHandle(pHeap) {
   mFlag = 0;
 
   // Initialize child heap linked list.
-  nw4r::ut::List_Init(&mChildren, 8);
+  nw4r::ut::List_Init(&mChildren, offsetof(Disposer, mLink));
 
   // The static Heap members (set by initialize()) must be configured first.
   EGG_ASSERT(sIsHeapListInitialized, "eggHeap.cpp", 63,

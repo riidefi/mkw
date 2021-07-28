@@ -8,7 +8,7 @@ nw4r::ut::List DvdFile::sDvdList;
 
 void DvdFile::initialize() {
   if (!sIsInitialized) {
-    nw4r::ut::List_Init(&sDvdList, 200);
+    nw4r::ut::List_Init(&sDvdList, offsetof(DvdFile, mNode));
     sIsInitialized = true;
   }
 }
