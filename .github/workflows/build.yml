@@ -43,6 +43,21 @@ jobs:
           # Move blobs
           Move-Item '.\tools\blobs\main.dol' '.\artifacts\orig\pal\main.dol'
           Move-Item '.\tools\blobs\StaticR.rel' '.\artifacts\orig\pal\StaticR.rel'
+          # Clean up
+          Remove-Item '.\tools.zip'
+          Remove-Item -LiteralPath 'tools2' -Force -Recurse
+
+      - name: Re-generate assembly
+        run: python -m mkwutil.gen_asm
+
+      # https://stackoverflow.com/a/56389437
+      - name: Verify assembly still the same
+        run: |
+          $ChangedFiles = $(git status --porcelain | Measure-Object | Select-Object -expand Count)
+          if ($ChangedFiles -gt 0) {
+            git status --porcelain
+            throw "Found $ChangedFiles changed files! Did you run gen_asm?"
+          }
 
       - name: Build mkw
         shell: bash
