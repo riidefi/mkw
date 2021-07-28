@@ -17,19 +17,24 @@ jobs:
 
       - name: Extract tooling
         env:
-          TOOLS_URL: 'http://163.172.81.216:12369/tools.7z'
+          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870047437757239356/tools.zip'
         run: |
           # Download tooling
-          Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.7z
-          $hash = (Get-FileHash '.\tools.7z').Hash
-          if ($hash -ne '0AC8F3CE1AA968EB83400D080519472EC590FBF613E5D55A204D6CF946012FAB')
+          Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.zip
+          $hash = (Get-FileHash '.\tools.zip').Hash
+          if ($hash -ne '3FB4330838A6FAC6D35BE9AFDF486EF1F0760E0AA6AE1B4A7CE37802BF1EC7DD')
           {
             echo "Invalid hash: $hash"
             exit 1
           }
-          # Extract using 7-zip
-          choco install 7zip
-          7z.exe x tools.7z -aoa -otools/
+          # Extract
+          Expand-Archive tools.zip
+          # Fix paths (tools/tools => tools)
+          Move-Item '.\tools' '.\tools2'
+          Move-Item '.\tools2\tools' '.\tools'
+          # Move blobs
+          Move-Item '.\tools\blobs\main.dol' '.\artifacts\orig\pal\main.dol'
+          Move-Item '.\tools\blobs\StaticR.rel' '.\artifacts\orig\pal\StaticR.rel'
 
       - name: Build mkw
         shell: bash
