@@ -48,6 +48,7 @@ out
 __pycache__/
 /env/
 .pytest_cache
+*.egg-info
 
 tmp
 *.rel

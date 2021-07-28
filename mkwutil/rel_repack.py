@@ -5,7 +5,7 @@ and/or reconstruct it back to its original form.
 
 import argparse
 
-from mkw.rel import Rel, dump_staticr, reconstruct_staticr
+from mkw.lib.rel import Rel, dump_staticr, reconstruct_staticr
 
 parser = argparse.ArgumentParser(description="Repack StaticR.Rel")
 parser.add_argument(

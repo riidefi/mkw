@@ -50,6 +50,12 @@ Then, each time you open a terminal, enter the venv:
 pip install -r requirements.txt
 ```
 
+### Unit testing
+
+We use [pytest](https://pytest.org).
+`pytest` requires the `mkwutil` package to be installed in editable mode.
+Run `pip install -e .` to do that.
+
 ## Building
 
 Run `python3 ./build.py` to build the game and verify build authenticity. Final results:

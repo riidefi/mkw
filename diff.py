@@ -574,7 +574,7 @@ def search_map_file(
                 # At this time it is recommended to always use -o when running the diff
                 # script as this mode does not make use of the ram-rom conversion.
 
-                from mkwutil import dol
+                from mkwutil.lib import dol
 
                 maindol = dol.DolBinary(project.myimg)
                 return objfile, maindol.virtual_to_rom(ram)

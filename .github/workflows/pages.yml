@@ -16,7 +16,7 @@ jobs:
         run: pip3 install -r requirements.txt
 
       - name: Run graphic.py
-        run: python3 -m mkwutil.graphic
+        run: python3 -m mkwutil.progress.graphic
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4

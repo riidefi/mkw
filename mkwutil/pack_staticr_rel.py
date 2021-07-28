@@ -8,7 +8,7 @@ import struct
 
 from elftools.elf.elffile import ELFFile
 
-from .rel import Rel, RelSection
+from .lib.rel import Rel, RelSection
 
 
 R_PPC_NONE = 0
