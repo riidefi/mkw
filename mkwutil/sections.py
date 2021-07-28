@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mkwutil.slices import Slice
+from mkwutil.lib.slices import Slice
 
 
 @dataclass

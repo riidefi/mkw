@@ -3,13 +3,14 @@ from pathlib import Path
 import re
 from typing import Generator
 
-from elftools.elf.elffile import ELFFile, Section as ELFSection
 import pytablewriter
 from pytablewriter.style import Style
 from termcolor import colored
 
-from mkwutil.slices import Slice, SliceTable
+from mkwutil.lib.slices import Slice, SliceTable
 from mkwutil.sections import Section, REL_SECTIONS, DOL_SECTIONS, DOL_LIBS
+
+from mkwutil.project import *
 
 
 def simple_count(slices: SliceTable) -> tuple[int, int]:
@@ -62,46 +63,14 @@ def get_progress(slices, filter):
     return progress
 
 
-MATCH_BINARY_BLOB = re.compile(
-    rb"BINARY_BLOB: (.+)\t(0x[0-9a-f]{8})\t(0x[0-9a-f]{8})\n"
-)
-
-
-def __load_binary_blob_slices(elf_file) -> Generator[Slice, None, None]:
-    elf = ELFFile(elf_file)
-    blobs: ELFSection = elf.get_section_by_name("binary_blobs")
-    if not blobs:
-        return
-    for match in MATCH_BINARY_BLOB.finditer(blobs.data()):
-        name = match.group(1).decode("ascii")
-        start, stop = int(match.group(2), 16), int(match.group(3), 16)
-        yield Slice(start, stop, name)
-
-
-def load_binary_blob_slices(elf_path: Path) -> list[Slice]:
-    """Loads all inline assembly slices from the ELF."""
-    with open(elf_path, "rb") as file:
-        return list(__load_binary_blob_slices(file))
-
-
-def mask_binary_blobs(main_slices: SliceTable, blob_slices: list[Slice]) -> None:
-    """Inserts a gap into the given slice table for each blob slice.
-    This is used to remove all inline ASM slices from the slice table, leaving only actual C/C++ code."""
-    for _slice in blob_slices:
-        # print("Ignoring", _slice)
-        main_slices.remove(_slice=_slice)
-    # print(main_slices)
-
 
 def percent_decompiled(dir="."):
     dir = Path(dir)
 
     matrix = []
     # DOL progress.
-    dol_slices = SliceTable.load_dol_slices()
-    dol_blob_slices = load_binary_blob_slices(
-        dir / "artifacts" / "target" / "pal" / "main.elf"
-    )
+    dol_slices = load_dol_slices()
+    dol_blob_slices = load_dol_binary_blob_slices(dir)
     mask_binary_blobs(dol_slices, dol_blob_slices)
     dol_progress = simple_count(dol_slices)
     dol_total = binary_total(DOL_SECTIONS)
@@ -113,7 +82,7 @@ def percent_decompiled(dir="."):
         lib_total = (len(lib), None)
         matrix.append(analyze("> " + lib.name, lib_progress, lib_total))
     # REL progress.
-    rel_slices = SliceTable.load_rel_slices()
+    rel_slices = load_rel_slices()
     rel_progress = simple_count(rel_slices)
     rel_total = binary_total(REL_SECTIONS)
     matrix.append(analyze("REL", rel_progress, rel_total))

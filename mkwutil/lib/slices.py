@@ -103,20 +103,6 @@ class SliceTable:
             this.set_sections(sections)
         return this
 
-    @staticmethod
-    def load_dol_slices(sections=None) -> "SliceTable":
-        """Loads pack/dol_slices.csv in the default DOL region."""
-        return SliceTable.load_path(
-            Path(__file__).parent / ".." / "pack" / "dol_slices.csv", sections=sections
-        )
-
-    @staticmethod
-    def load_rel_slices(sections=None) -> "SliceTable":
-        """Loads pack/rel_slices.csv in the default DOL region."""
-        return SliceTable.load_path(
-            Path(__file__).parent / ".." / "pack" / "rel_slices.csv", sections=sections
-        )
-
     def __contains__(self, _slice: Slice) -> bool:
         """Returns whether the range of a slice lies within the table.
         The table is not actually checked for membership."""

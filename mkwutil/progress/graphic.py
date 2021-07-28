@@ -8,7 +8,8 @@ import webbrowser
 import jinja2
 
 from mkwutil.sections import DOL_LIBS, DOL_SECTIONS
-from mkwutil.slices import Slice, SliceTable
+from mkwutil.lib.slices import Slice, SliceTable
+from mkwutil.project import load_dol_slices
 
 
 random.seed("OwO")
@@ -20,7 +21,7 @@ DOL_SIZE = DOL_END - DOL_BEGIN
 
 
 jinja_env = jinja2.Environment(
-    loader=jinja2.PackageLoader("mkwutil", "graphic"),
+    loader=jinja2.PackageLoader("mkwutil", "progress/graphic"),
     autoescape=jinja2.select_autoescape(),
 )
 
@@ -82,7 +83,7 @@ def percent_decomp_stats(slices: SliceTable) -> None:
 
 
 def standard_boxes():
-    slices = SliceTable.load_dol_slices(sections=DOL_SECTIONS)
+    slices = load_dol_slices(sections=DOL_SECTIONS)
     return map(Box.from_slice, slices)
 
 

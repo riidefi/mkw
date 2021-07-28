@@ -5,8 +5,8 @@ import re
 
 from elftools.elf.elffile import ELFFile
 
-from mkwutil.slices import SliceTable
-from mkwutil.symbols import Symbol, SymbolsList
+from mkwutil.lib.slices import SliceTable
+from mkwutil.lib.symbols import Symbol, SymbolsList
 
 
 MATCH_UNK = re.compile(r"^unk_([0-9a-f]{8})$")
