@@ -454,52 +454,47 @@ class RELSrcGenerator:
             gen = AsmGenerator(data, _slice, SymbolsList(), asm_file)
             gen.dump_section()
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Generate ASM blobs and linker object lists."
-    )
-    parser.add_argument("--asm_dir", type=Path, default="./asm", help="Path to ASM dir")
-    parser.add_argument(
-        "--pack_dir", type=Path, default="./pack", help="Path to link instructions dir"
-    )
-    parser.add_argument(
-        "--binary_dir",
-        type=Path,
-        default="./artifacts/orig/pal",
-        help="Binary containing main.dol and StaticR.rel",
-    )
-    parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
-    args = parser.parse_args()
-    args.asm_dir.mkdir(exist_ok=True)
 
-    symbols = read_symbol_map(args.pack_dir / "symbols.txt")
+def gen_asm(regen_asm=False):
+    asm_dir = Path("./asm")
+    pack_dir = Path("./pack")
+    binary_dir = Path("./artifacts/orig/pal")
 
-    dol = read_dol(args.binary_dir / "main.dol")
-    dol_slices = read_enabled_slices(dol, args.pack_dir / "dol_slices.csv")
+    asm_dir.mkdir(exist_ok=True)
+
+    symbols = read_symbol_map(pack_dir / "symbols.txt")
+
+    dol = read_dol(binary_dir / "main.dol")
+    dol_slices = read_enabled_slices(dol, pack_dir / "dol_slices.csv")
 
     # Disassemble DOL sections.
-    dol_asm_dir = args.asm_dir / "dol"
+    dol_asm_dir = asm_dir / "dol"
     dol_asm_dir.mkdir(exist_ok=True)
     dol_gen = DOLSrcGenerator(
-        dol_slices, dol, symbols, dol_asm_dir, args.pack_dir, args.regen_asm
+        dol_slices, dol, symbols, dol_asm_dir, pack_dir, regen_asm
     )
     dol_gen.run()
 
-    rel = read_rel(args.binary_dir / "StaticR.rel")
+    rel = read_rel(binary_dir / "StaticR.rel")
     # Dump StaticR.rel segments.
-    rel_bin_dir = args.binary_dir / "rel"
+    rel_bin_dir = binary_dir / "rel"
     dump_staticr(rel, rel_bin_dir)
     # Map out slices in REL.
     rel_slices = load_rel_slices(sections=REL_SECTIONS)
     rel_slices.filter(SliceTable.ONLY_ENABLED)
     # Disassemble REL sections.
-    rel_asm_dir = args.asm_dir / "rel"
+    rel_asm_dir = asm_dir / "rel"
     rel_asm_dir.mkdir(exist_ok=True)
     rel_gen = RELSrcGenerator(
-        rel_slices, rel, rel_asm_dir, rel_bin_dir, args.pack_dir, args.regen_asm
+        rel_slices, rel, rel_asm_dir, rel_bin_dir, pack_dir, regen_asm
     )
     rel_gen.run()
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="Generate ASM blobs and linker object lists."
+    )
+    parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
+    args = parser.parse_args()
+    gen_asm(args.regen_asm)

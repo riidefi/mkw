@@ -47,17 +47,15 @@ jobs:
           Remove-Item '.\tools.zip'
           Remove-Item -LiteralPath 'tools2' -Force -Recurse
 
-      - name: Re-generate assembly
-        run: python -m mkwutil.gen_asm
+      - uses: actions/cache@v2
+        with:
+          path: asm/dol
+          key: asm-dol
 
-      # https://stackoverflow.com/a/56389437
-      - name: Verify assembly still the same
-        run: |
-          $ChangedFiles = $(git status --porcelain | Measure-Object | Select-Object -expand Count)
-          if ($ChangedFiles -gt 0) {
-            git status --porcelain
-            throw "Found $ChangedFiles changed files! Did you run gen_asm?"
-          }
+      - uses: actions/cache@v2
+        with:
+          path: asm/rel
+          key: asm-rel
 
       - name: Build mkw
         shell: bash

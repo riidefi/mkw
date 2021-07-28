@@ -3,6 +3,7 @@ Build script for Mario Kart Wii.
 """
 
 
+import argparse
 from itertools import chain
 import os
 import os.path
@@ -26,8 +27,16 @@ from mkwutil.pack_staticr_rel import pack_staticr_rel
 from mkwutil.verify_main_dol import verify_dol
 from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.progress.percent_decompiled import percent_decompiled
-
+from mkwutil.gen_asm import gen_asm
 from mkwutil.project import load_dol_slices
+
+
+parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
+parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
+args = parser.parse_args()
+# Start by running gen_asm.
+gen_asm(args.regen_asm)
+
 
 colorama.init()
 print_mutex = Lock()

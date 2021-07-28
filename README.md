@@ -85,7 +85,6 @@ The dead-stripping feature can be re-enabled by:
   - [pack/dol_slices.csv](./pack/dol_slices.csv)
   - [pack/rel_slices.csv](./pack/rel_slices.csv)
 - Entries must be sorted in the spreadsheet (current limitation).
-- After modifying slices, run `python3 -m mkwutil.gen_asm`.
 - Add your new build target to `mkwutil/sources.py`.
 - Run `build.py`.
 
