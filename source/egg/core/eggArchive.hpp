@@ -6,6 +6,7 @@
 #pragma once
 
 #include <rk_types.h>
+#include <stddef.h>
 #include <string.h>
 
 #include <egg/core/eggDisposer.hpp>
@@ -102,7 +103,7 @@ private:
     mStatus = NOT_LOADED;
     mArcHandle.reset();
     if (!sIsArchiveListInitialized) {
-      nw4r::ut::List_Init(&sArchiveList, 52);
+      nw4r::ut::List_Init(&sArchiveList, offsetof(Archive, mLink));
       sIsArchiveListInitialized = true;
     }
     appendList(this);
@@ -129,7 +130,7 @@ private:
   int mRefCount;         //!< [+0x14] set to 1 in ct
   LowArchive mArcHandle; // 0x18
 
-  char _unk[8];
+  nw4r::ut::Node mLink;
 };
 
 } // namespace EGG
