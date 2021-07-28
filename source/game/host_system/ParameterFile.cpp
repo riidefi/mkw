@@ -8,7 +8,7 @@ namespace System {
 ParameterFile::ParameterFile(const char* path, u32 other) : mPath(path) {
   mTotalAllocated = 0;
   _18 = other;
-  nw4r::ut::List_Init(&mStrings, 0);
+  nw4r::ut::List_Init(&mStrings, offsetof(StringView, mNode));
 }
 
 ParameterFile::~ParameterFile() {
