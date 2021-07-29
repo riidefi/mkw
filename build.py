@@ -151,7 +151,6 @@ CWCC_OPT = " ".join(CW_ARGS)
 
 
 def compile_source_impl(src, dst, version="default", additional="-ipa file"):
-    return
     """Compiles a source file."""
     # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
