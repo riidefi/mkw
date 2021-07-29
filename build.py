@@ -63,6 +63,9 @@ def __native_binary(path):
 def __windows_binary(path):
     if sys.platform == "win32" or sys.platform == "msys":
         return path
+    if sys.platform == "darwin":
+        return os.path.abspath("./mkwutil/tools/crossover.sh") + " " + path
+
     return "wine " + path
 
 
@@ -111,43 +114,49 @@ CWCC_PATHS = {
         os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")
     ),
 }
-CWCC_OPT = " ".join(
-    [
-        "-nodefaults",
-        "-align powerpc",
-        "-enc SJIS",
-        "-c",
-        # "-I-",
-        "-gccinc",
-        "-i ./source/ -i ./source/platform",
-        # "-inline deferred",
-        "-proc gekko",
-        "-enum int",
-        "-O4,p",
-        "-inline auto",
-        "-W all",
-        "-fp hardware",
-        "-Cpp_exceptions off",
-        "-RTTI off",
-        '-pragma "cats off"',  # ???
-        '-pragma "warning off(10178)"',  # suppress "function has no prototype"
-        # "-pragma \"aggressive_inline on\"",
-        # "-pragma \"auto_inline on\"",
-        "-inline auto",
-        "-w notinlined -W noimplicitconv -w nounwanted",
-        "-nostdinc",
-        "-msgstyle gcc -lang=c99 -DREVOKART",
-        "-func_align 4",
-    ]
-)
+
+CW_ARGS = [
+    "-nodefaults",
+    "-align powerpc",
+    "-enc SJIS",
+    "-c",
+    # "-I-",
+    "-gccinc",
+    "-i ./source/ -i ./source/platform",
+    # "-inline deferred",
+    "-proc gekko",
+    "-enum int",
+    "-O4,p",
+    "-inline auto",
+    "-W all",
+    "-fp hardware",
+    "-Cpp_exceptions off",
+    "-RTTI off",
+    #'-pragma "cats off"',  # ???
+    # "-pragma \"aggressive_inline on\"",
+    # "-pragma \"auto_inline on\"",
+    "-inline auto",
+    "-w notinlined -W noimplicitconv -w nounwanted",
+    "-nostdinc",
+    "-msgstyle gcc -lang=c99 -DREVOKART",
+    "-func_align 4",
+]
+
+# Hack: $@ doesn't behave properly with this
+if sys.platform != "darwin":
+    # suppress "function has no prototype
+    CW_ARGS.append("-pragma \"warning off(10178)\"")
+
+CWCC_OPT = " ".join(CW_ARGS)
 
 
 def compile_source_impl(src, dst, version="default", additional="-ipa file"):
+    return
     """Compiles a source file."""
     # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
     process = subprocess.Popen(
-        command, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        command, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
     )
     lines = list(iter(process.stdout.readline, ""))
     with print_mutex:
@@ -229,7 +238,7 @@ def link(
     )
     if partial:
         cmd.append("-r")
-    subprocess.run(cmd, check=True, text=True)
+    subprocess.run(" ".join(str(x) for x in cmd), check=True, text=True, shell=True)
 
 
 def compile_sources():
