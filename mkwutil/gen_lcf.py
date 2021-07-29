@@ -11,6 +11,9 @@ from mkwutil.lib.symbols import Symbol, SymbolsList
 
 MATCH_UNK = re.compile(r"^unk_([0-9a-f]{8})$")
 
+# LCF must use forward slashes on linux/osx
+def format_path(p):
+    return "\"" + str(p).replace('\\', '/') + "\""
 
 def gen_lcf(
     src: Path,
@@ -55,7 +58,7 @@ def gen_lcf(
     for obj_path in object_paths:
         if obj_path.stem in stripped:
             continue
-        force_files.append(str(obj_path.parent / (obj_path.stem + ".o")))
+        force_files.append(format_path(obj_path.parent / (obj_path.stem + ".o")))
     # Compile template.
     template = jinja2.Template(src.read_text())
     # Render template to string.
