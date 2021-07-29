@@ -2,6 +2,7 @@ import argparse
 import jinja2
 from pathlib import Path
 import re
+import sys
 
 from elftools.elf.elffile import ELFFile
 
@@ -13,6 +14,9 @@ MATCH_UNK = re.compile(r"^unk_([0-9a-f]{8})$")
 
 # LCF must use forward slashes on linux/osx
 def format_path(p):
+    if sys.platform == "win32" or sys.platform == "msys":
+        return str(p)
+
     return "\"" + str(p).replace('\\', '/') + "\""
 
 def gen_lcf(
