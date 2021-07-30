@@ -1,17 +1,5 @@
 ---
-on:
-  push:
-    paths:
-      - '**.h'
-      - '**.c'
-      - '**.hpp'
-      - '**.cpp'
-  pull_request:
-    paths:
-      - '**.h'
-      - '**.c'
-      - '**.hpp'
-      - '**.cpp'
+on: [push, pull_request]
 name: Lint
 jobs:
   lint-clang-format:
@@ -19,14 +7,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install clang-format
-        run: sudo apt-get install -y clang-format
-      
+      - name: Check clang-format version
+        run: clang-format-12 --version
+
       - name: Verify formatting
         run: |
           find source -type f \
-               -name '*.h' \
-            -o -name '*.c' \
-            -o -name '*.hpp' \
-            -o -name '*.cpp' \
-            -exec clang-format --dry-run --Werror {} +
+            \( \
+                 -name '*.h' \
+              -o -name '*.c' \
+              -o -name '*.hpp' \
+              -o -name '*.cpp' \
+            \) \
+            -exec clang-format-12 --dry-run --Werror {} +
