@@ -1,5 +1,13 @@
 ---
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - 'tests/**'
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - 'tests/**'
+      - '*.md'
 name: GitHub Pages
 jobs:
   build:

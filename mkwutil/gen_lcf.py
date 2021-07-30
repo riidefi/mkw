@@ -1,6 +1,6 @@
 import argparse
 import jinja2
-from pathlib import Path
+from pathlib import Path,  PurePosixPath, PureWindowsPath
 import re
 import sys
 
@@ -15,9 +15,8 @@ MATCH_UNK = re.compile(r"^unk_([0-9a-f]{8})$")
 # LCF must use forward slashes on linux/osx
 def format_path(p):
     if sys.platform == "win32" or sys.platform == "msys":
-        return str(p)
-
-    return "\"" + str(p).replace('\\', '/') + "\""
+        return str(PureWindowsPath(p))
+    return str(PurePosixPath(p))
 
 def gen_lcf(
     src: Path,

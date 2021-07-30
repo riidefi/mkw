@@ -3,7 +3,7 @@ Assembly file generators.
 """
 
 import argparse
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import os
 import struct
 
@@ -300,7 +300,7 @@ class DOLSrcGenerator:
         object_names = self.slices.object_slices().objects.keys()
         with open(self.pack_dir / "dol_objects.txt", "w") as file:
             for name in object_names:
-                print(Path(name), file=file)
+                print(PurePosixPath(Path(name)), file=file)
 
     def run(self):
         """Runs ASM generation for main.dol."""
@@ -420,7 +420,7 @@ class RELSrcGenerator:
         object_names = self.slices.object_slices().objects.keys()
         with open(self.pack_dir / "rel_objects.txt", "w") as file:
             for name in object_names:
-                print(Path(name), file=file)
+                print(PurePosixPath(Path(name)), file=file)
 
     def __process_section(self, section: Section):
         """Processes a library section and all its slices."""
