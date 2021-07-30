@@ -17,12 +17,13 @@ def load_rel_slices(sections=None) -> "SliceTable":
         Path(__file__).parent / ".." / "pack" / "rel_slices.csv", sections=sections
     )
 
-def load_dol_binary_blob_slices(dir_="."):
-    dir_ = Path(dir_)
-
-    path = dir_ / "artifacts" / "target" / "pal" / "main.elf"
+def load_dol_binary_blob_slices(dir: Path):
+    path = dir / "artifacts" / "target" / "pal" / "main.elf"
     return load_binary_blob_slices(path)
 
+def load_rel_binary_blob_slices(dir: Path):
+    path = dir / "artifacts" / "target" / "pal" / "StaticR.elf"
+    return load_binary_blob_slices(path)
 
 def read_symbol_map(symbols_path):
     symbols = SymbolsList()

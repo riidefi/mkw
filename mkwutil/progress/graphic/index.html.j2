@@ -36,9 +36,15 @@ html {
   background-color: black;
   visibility: visible;
 }
+th {
+  padding: .2em 1em;
+}
 </style>
 </head>
 <body>
+
+<h2>Progress</h2>
+{{ percents_table }}
 
 {% macro slices(boxes, tooltip_class) -%}
 <div class="slices">
