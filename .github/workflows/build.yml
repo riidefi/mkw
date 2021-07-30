@@ -33,12 +33,12 @@ jobs:
 
       - name: Extract tooling
         env:
-          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870047437757239356/tools.zip'
+          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870608469558980649/tools.zip'
         run: |
           # Download tooling
           Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.zip
           $hash = (Get-FileHash '.\tools.zip').Hash
-          if ($hash -ne '3FB4330838A6FAC6D35BE9AFDF486EF1F0760E0AA6AE1B4A7CE37802BF1EC7DD')
+          if ($hash -ne '2D78EEB2B90A2E57DB4B5DC55F37468B115B344498B8875D2EC8ADDE5AB8B243')
           {
             echo "Invalid hash: $hash"
             exit 1
@@ -106,11 +106,12 @@ jobs:
 
       - name: Extract tooling
         env:
-          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870047437757239356/tools.zip'
+          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870608469558980649/tools.zip'
         run: |
-          wget "$TOOLS_URL" -o .\tools.zip
-          echo "3FB4330838A6FAC6D35BE9AFDF486EF1F0760E0AA6AE1B4A7CE37802BF1EC7DD tools.zip" | sha256sum --check --status
+          curl -sSf "$TOOLS_URL" -o ./tools.zip
+          echo "2D78EEB2B90A2E57DB4B5DC55F37468B115B344498B8875D2EC8ADDE5AB8B243 tools.zip" | sha256sum --check --status
           unzip -o tools.zip
+          chmod +x ./tools/devkitppc/bin/powerpc-eabi-as
           mv ./tools/blobs/* ./artifacts/orig/pal
           rm tools.zip
 

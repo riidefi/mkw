@@ -35,6 +35,7 @@
 /asm/rel/
 
 # Executables
+**/bin/*
 *.exe
 *.dll
 *.out
