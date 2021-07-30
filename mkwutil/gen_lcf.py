@@ -16,7 +16,7 @@ MATCH_UNK = re.compile(r"^unk_([0-9a-f]{8})$")
 def format_path(p):
     if sys.platform == "win32" or sys.platform == "msys":
         return str(PureWindowsPath(p))
-    return str(PurePosixPath(p))
+    return f'"{PurePosixPath(p)}"'
 
 def gen_lcf(
     src: Path,

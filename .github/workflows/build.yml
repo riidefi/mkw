@@ -14,7 +14,7 @@ jobs:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
-      
+
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
@@ -82,12 +82,12 @@ jobs:
           # wget -nc https://dl.winehq.org/wine-builds/winehq.key
           # sudo apt-key add winehq.key
           # rm winehq.key
-          # sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' 
+          # sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
           # sudo apt-get update
           # sudo apt-get install -y --no-install-recommends winehq-stable unzip
 
       - uses: actions/checkout@v2
-      
+
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
