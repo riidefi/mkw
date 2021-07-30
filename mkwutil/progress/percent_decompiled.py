@@ -37,31 +37,28 @@ def binary_total(sections: list[Section]) -> tuple[int, int]:
     return code_total, data_total
 
 
-def to_percent(frac):
+def __to_percent(frac):
     return "%7.3f%%" % (frac * 100)
 
 
-def analyze(prefix, progress, total):
-    cells = [""] * 3
-    cells[0] = prefix
-    if total[0]:
-        cells[1] = to_percent(progress[0] / total[0])
-    if total[1]:
-        cells[2] = to_percent(progress[1] / total[1])
+def analyze(
+    name: str,
+    split_code: int,
+    split_data: int,
+    decomp_code: int,
+    decomp_data: int,
+    total_code: int,
+    total_data: int,
+) -> list:
+    cells = [""] * 5
+    cells[0] = name
+    if total_code:
+        cells[1] = __to_percent(split_code / total_code)
+        cells[2] = __to_percent(decomp_code / total_code)
+    if total_data:
+        cells[3] = __to_percent(split_data / total_data)
+        cells[4] = __to_percent(decomp_data / total_data)
     return cells
-
-
-def get_progress(slices, filter):
-    progress = [0, 0]
-    for o_name, o_code_total, o_data_total in slices:
-        if not filter in o_name:
-            continue
-
-        progress[0] += o_code_total
-        progress[1] += o_data_total
-
-    return progress
-
 
 
 def percent_decompiled(dir="."):
@@ -69,43 +66,84 @@ def percent_decompiled(dir="."):
 
     matrix = []
     # DOL progress.
-    dol_slices = load_dol_slices()
+    dol_split_slices = load_dol_slices()
     dol_blob_slices = load_dol_binary_blob_slices(dir)
-    mask_binary_blobs(dol_slices, dol_blob_slices)
-    dol_progress = simple_count(dol_slices)
-    dol_total = binary_total(DOL_SECTIONS)
-    matrix.append(analyze("DOL", dol_progress, dol_total))
+    dol_decomp_slices = copy(dol_split_slices)
+    mask_binary_blobs(dol_decomp_slices, dol_blob_slices)
+    dol_split_code, dol_split_data = simple_count(dol_split_slices)
+    dol_decomp_code, dol_decomp_data = simple_count(dol_decomp_slices)
+    dol_total_code, dol_total_data = binary_total(DOL_SECTIONS)
+    matrix.append(
+        analyze(
+            "DOL",
+            dol_split_code,
+            dol_split_data,
+            dol_decomp_code,
+            dol_decomp_data,
+            dol_total_code,
+            dol_total_data,
+        )
+    )
     # DOL Libraries.
     for lib in DOL_LIBS:
         assert lib.section == "text", "For now only text section per lib supported"
-        lib_progress = simple_count(dol_slices.slice(lib.start, lib.stop))
-        lib_total = (len(lib), None)
-        matrix.append(analyze("> " + lib.name, lib_progress, lib_total))
+        lib_split_slices = dol_split_slices.slice(lib.start, lib.stop)
+        lib_decomp_slices = dol_decomp_slices.slice(lib.start, lib.stop)
+        lib_split_code, _ = simple_count(lib_split_slices)
+        lib_decomp_code, _ = simple_count(lib_decomp_slices)
+        lib_total_code = len(lib)
+        matrix.append(
+            analyze(
+                "> " + lib.name,
+                lib_split_code,
+                None,
+                lib_decomp_code,
+                None,
+                lib_total_code,
+                None,
+            )
+        )
     # REL progress.
-    rel_slices = load_rel_slices()
-    rel_progress = simple_count(rel_slices)
-    rel_total = binary_total(REL_SECTIONS)
-    matrix.append(analyze("REL", rel_progress, rel_total))
-    # Total progress.
-    def piecewise_add(x, y):
-        return list(a + b for a, b in zip(x, y))
-
+    rel_split_slices = load_rel_slices()
+    rel_blob_slices = load_rel_binary_blob_slices(dir)
+    rel_decomp_slices = copy(rel_split_slices)
+    mask_binary_blobs(rel_decomp_slices, rel_blob_slices)
+    rel_split_code, rel_split_data = simple_count(rel_split_slices)
+    rel_decomp_code, rel_decomp_data = simple_count(rel_decomp_slices)
+    rel_total_code, rel_total_data = binary_total(REL_SECTIONS)
+    matrix.append(
+        analyze(
+            "REL",
+            rel_split_code,
+            rel_split_data,
+            rel_decomp_code,
+            rel_decomp_data,
+            rel_total_code,
+            rel_total_data,
+        )
+    )
     matrix.append(
         [
             colored(cell, attrs=["bold"])
             for cell in analyze(
                 "TOTAL",
-                piecewise_add(dol_progress, rel_progress),
-                piecewise_add(dol_total, rel_total),
+                dol_split_code + rel_split_code,
+                dol_split_data + rel_split_data,
+                dol_decomp_code + rel_decomp_code,
+                dol_decomp_data + rel_decomp_data,
+                dol_total_code + rel_total_code,
+                dol_total_data + rel_total_data,
             )
         ]
     )
     # Print table.
-    print("-" * 31)
+    print("-" * 62)
     writer = pytablewriter.BorderlessTableWriter(
-        headers=["part", "code", "data"],
+        headers=["part", "code split", "code decomp", "data split", "data decomp"],
         column_styles=[
             Style(align="left"),
+            Style(align="right"),
+            Style(align="right"),
             Style(align="right"),
             Style(align="right"),
         ],
@@ -113,14 +151,14 @@ def percent_decompiled(dir="."):
         value_matrix=matrix,
     )
     writer.write_table()
-    print("-" * 31)
+    print("-" * 62)
 
     # Player stats.
     print("Player:")
-    print(" - %u BR (main.dol)" % (dol_progress[0] / dol_total[0] * 4999 + 5000))
-    print(" - %u VR (StaticR.rel)" % (rel_progress[0] / rel_total[0] * 4999 + 5000))
-    print("1 BR = %s lines of asm code." % (0.1 * round(10 * dol_total[0] / 4999 / 4)))
-    print("1 VR = %s lines of asm code." % (0.1 * round(10 * rel_total[0] / 4999 / 4)))
+    print(" - %u BR (main.dol)" % (dol_decomp_code / dol_total_code * 4999 + 5000))
+    print(" - %u VR (StaticR.rel)" % (rel_decomp_code / rel_total_code * 4999 + 5000))
+    print("1 BR = %s lines of asm code." % (0.1 * round(10 * dol_total_code / 4999 / 4)))
+    print("1 VR = %s lines of asm code." % (0.1 * round(10 * rel_total_code / 4999 / 4)))
 
 
 if __name__ == "__main__":

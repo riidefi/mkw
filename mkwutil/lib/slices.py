@@ -91,6 +91,11 @@ class SliceTable:
         self.start = start
         self.stop = stop
 
+    def __copy__(self) -> "SliceTable":
+        table = SliceTable(self.start, self.stop)
+        table.slices = list(map(copy, self.slices))
+        return table
+
     def load_path(file_path, sections=None):
         """Loads slices given a path to a CSV file."""
         if sections is not None:
