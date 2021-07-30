@@ -57,9 +57,56 @@ def analyze(
     return cells
 
 
-def percent_decompiled(dir="."):
-    dir = Path(dir)
+@dataclass
+class Stats:
+    matrix: list
+    dol_decomp_code: int
+    dol_total_code: int
+    rel_decomp_code: int
+    rel_total_code: int
 
+    def print(self):
+        # Make last row bold.
+        self.matrix[-1] = list(
+            map(lambda x: colored(x, attrs=["bold"]), self.matrix[-1])
+        )
+        # Print table.
+        print("-" * 50)
+        writer = pytablewriter.BorderlessTableWriter(
+            headers=["part", "code split", "code decomp", "data decomp"],
+            column_styles=[
+                Style(align="left"),
+                Style(align="right"),
+                Style(align="right"),
+                Style(align="right"),
+            ],
+            margin=1,
+            value_matrix=self.matrix,
+        )
+        writer.write_table()
+        print("-" * 50)
+
+        # Player stats.
+        print("Player:")
+        print(
+            " - %u BR (main.dol)"
+            % (self.dol_decomp_code / self.dol_total_code * 4999 + 5000)
+        )
+        print(
+            " - %u VR (StaticR.rel)"
+            % (self.rel_decomp_code / self.rel_total_code * 4999 + 5000)
+        )
+        print(
+            "1 BR = %s lines of asm code."
+            % (0.1 * round(10 * self.dol_total_code / 4999 / 4))
+        )
+        print(
+            "1 VR = %s lines of asm code."
+            % (0.1 * round(10 * self.rel_total_code / 4999 / 4))
+        )
+
+
+def build_stats(dir: Path) -> Stats:
     matrix = []
     # DOL progress.
     dol_split_slices = load_dol_slices()
@@ -116,41 +163,19 @@ def percent_decompiled(dir="."):
         )
     )
     matrix.append(
-        [
-            colored(cell, attrs=["bold"])
-            for cell in analyze(
-                "TOTAL",
-                dol_split_code + rel_split_code,
-                dol_decomp_code + rel_decomp_code,
-                dol_decomp_data + rel_decomp_data,
-                dol_total_code + rel_total_code,
-                dol_total_data + rel_total_data,
-            )
-        ]
+        analyze(
+            "TOTAL",
+            dol_split_code + rel_split_code,
+            dol_decomp_code + rel_decomp_code,
+            dol_decomp_data + rel_decomp_data,
+            dol_total_code + rel_total_code,
+            dol_total_data + rel_total_data,
+        )
     )
-    # Print table.
-    print("-" * 50)
-    writer = pytablewriter.BorderlessTableWriter(
-        headers=["part", "code split", "code decomp", "data decomp"],
-        column_styles=[
-            Style(align="left"),
-            Style(align="right"),
-            Style(align="right"),
-            Style(align="right"),
-        ],
-        margin=1,
-        value_matrix=matrix,
+    return Stats(
+        matrix, dol_decomp_code, dol_total_code, rel_decomp_code, rel_total_code
     )
-    writer.write_table()
-    print("-" * 50)
-
-    # Player stats.
-    print("Player:")
-    print(" - %u BR (main.dol)" % (dol_decomp_code / dol_total_code * 4999 + 5000))
-    print(" - %u VR (StaticR.rel)" % (rel_decomp_code / rel_total_code * 4999 + 5000))
-    print("1 BR = %s lines of asm code." % (0.1 * round(10 * dol_total_code / 4999 / 4)))
-    print("1 VR = %s lines of asm code." % (0.1 * round(10 * rel_total_code / 4999 / 4)))
 
 
 if __name__ == "__main__":
-    percent_decompiled()
+    build_stats(Path()).print()
