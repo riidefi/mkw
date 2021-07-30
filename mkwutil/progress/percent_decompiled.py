@@ -1,13 +1,11 @@
 from copy import copy
 from pathlib import Path
-import re
-from typing import Generator
 
 import pytablewriter
 from pytablewriter.style import Style
 from termcolor import colored
 
-from mkwutil.lib.slices import Slice, SliceTable
+from mkwutil.lib.slices import SliceTable
 from mkwutil.sections import Section, REL_SECTIONS, DOL_SECTIONS, DOL_LIBS
 
 from mkwutil.project import *
@@ -44,20 +42,18 @@ def __to_percent(frac):
 def analyze(
     name: str,
     split_code: int,
-    split_data: int,
     decomp_code: int,
     decomp_data: int,
     total_code: int,
     total_data: int,
 ) -> list:
-    cells = [""] * 5
+    cells = [""] * 4
     cells[0] = name
     if total_code:
         cells[1] = __to_percent(split_code / total_code)
         cells[2] = __to_percent(decomp_code / total_code)
     if total_data:
-        cells[3] = __to_percent(split_data / total_data)
-        cells[4] = __to_percent(decomp_data / total_data)
+        cells[3] = __to_percent(decomp_data / total_data)
     return cells
 
 
@@ -70,14 +66,13 @@ def percent_decompiled(dir="."):
     dol_blob_slices = load_dol_binary_blob_slices(dir)
     dol_decomp_slices = copy(dol_split_slices)
     mask_binary_blobs(dol_decomp_slices, dol_blob_slices)
-    dol_split_code, dol_split_data = simple_count(dol_split_slices)
+    dol_split_code, _ = simple_count(dol_split_slices)
     dol_decomp_code, dol_decomp_data = simple_count(dol_decomp_slices)
     dol_total_code, dol_total_data = binary_total(DOL_SECTIONS)
     matrix.append(
         analyze(
             "DOL",
             dol_split_code,
-            dol_split_data,
             dol_decomp_code,
             dol_decomp_data,
             dol_total_code,
@@ -96,7 +91,6 @@ def percent_decompiled(dir="."):
             analyze(
                 "> " + lib.name,
                 lib_split_code,
-                None,
                 lib_decomp_code,
                 None,
                 lib_total_code,
@@ -108,14 +102,13 @@ def percent_decompiled(dir="."):
     rel_blob_slices = load_rel_binary_blob_slices(dir)
     rel_decomp_slices = copy(rel_split_slices)
     mask_binary_blobs(rel_decomp_slices, rel_blob_slices)
-    rel_split_code, rel_split_data = simple_count(rel_split_slices)
+    rel_split_code, _ = simple_count(rel_split_slices)
     rel_decomp_code, rel_decomp_data = simple_count(rel_decomp_slices)
     rel_total_code, rel_total_data = binary_total(REL_SECTIONS)
     matrix.append(
         analyze(
             "REL",
             rel_split_code,
-            rel_split_data,
             rel_decomp_code,
             rel_decomp_data,
             rel_total_code,
@@ -128,7 +121,6 @@ def percent_decompiled(dir="."):
             for cell in analyze(
                 "TOTAL",
                 dol_split_code + rel_split_code,
-                dol_split_data + rel_split_data,
                 dol_decomp_code + rel_decomp_code,
                 dol_decomp_data + rel_decomp_data,
                 dol_total_code + rel_total_code,
@@ -137,12 +129,11 @@ def percent_decompiled(dir="."):
         ]
     )
     # Print table.
-    print("-" * 62)
+    print("-" * 50)
     writer = pytablewriter.BorderlessTableWriter(
-        headers=["part", "code split", "code decomp", "data split", "data decomp"],
+        headers=["part", "code split", "code decomp", "data decomp"],
         column_styles=[
             Style(align="left"),
-            Style(align="right"),
             Style(align="right"),
             Style(align="right"),
             Style(align="right"),
@@ -151,7 +142,7 @@ def percent_decompiled(dir="."):
         value_matrix=matrix,
     )
     writer.write_table()
-    print("-" * 62)
+    print("-" * 50)
 
     # Player stats.
     print("Player:")
