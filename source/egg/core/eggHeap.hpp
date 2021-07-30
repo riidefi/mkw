@@ -78,13 +78,13 @@ public:
   virtual u32 getAllocatableSize(s32 align) = 0;                   // [vt+0x24]
   virtual u32 adjust() = 0;                                        // [vt+0x28]
 
-HEAP_PRIVATE:
-  //! @brief   	Static linked-list of heaps.
-  //!
-  //! @details	When a heap is created, it is appended to this list.
-  //!				When it is deleted, it is removed.
-  //!
-  static nw4r::ut::List sHeapList;
+  HEAP_PRIVATE :
+      //! @brief   	Static linked-list of heaps.
+      //!
+      //! @details	When a heap is created, it is appended to this list.
+      //!				When it is deleted, it is removed.
+      //!
+      static nw4r::ut::List sHeapList;
 
   //! @brief   	Root heap mutex.
   //!
@@ -124,7 +124,7 @@ public:
   //! @details List of child disposers.
   //! When Heap::dispose() is called, ~Disposer() will be called for all
   //! children.
-  nw4r::ut::Node mNode; //!< [+0x20]
+  nw4r::ut::Node mNode;     //!< [+0x20]
   nw4r::ut::List mChildren; //!< [+0x28] sizeof=0xC
 
   const char* mName; //!< [+0x034] set to "NoName" in ctor
@@ -164,6 +164,10 @@ public:
   //!
   Heap(MEMiHeapHead* heapHandle);
 
+private:
+  inline Heap(const Heap&) {}
+
+public:
   //! @brief   	Allocate a block of memory in a heap.
   //!
   //! @details	TODO
@@ -263,7 +267,7 @@ public:
 #ifdef RII_CLIENT
     return 0;
 #else
-    return (int) mHeapHandle->arena_end;
+    return (int)mHeapHandle->arena_end;
 #endif
   }
 };

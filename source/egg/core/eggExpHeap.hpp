@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <rk_types.h>
 #include <egg/core/eggHeap.hpp>
+#include <rk_types.h>
 
 namespace EGG {
 
@@ -20,8 +20,8 @@ public:
     void addSize(u16 groupID, u32 size);
   };
 
-  // Always inline in MKW?
   ExpHeap(MEMHeapHandle heapHandle) : Heap(heapHandle) {}
+
   virtual ~ExpHeap() override;
 
   //! @brief Create an EGG ExpHeap and wrapped MEM ExpHeap in a certain region.
@@ -34,7 +34,6 @@ public:
   //!
   static ExpHeap* create(void* block, u32 size, u16 attr)
       __attribute__((never_inline));
-  
 
   //! @brief Create a new ExpHeap as a child of an existing heap.
   //!

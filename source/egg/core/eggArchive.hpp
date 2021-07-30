@@ -79,7 +79,8 @@ public:
   //!
   static Archive* mountNoFastGet(void* pArcStart, Heap* pHeap, int align);
 
-  //! @brief Unmount an archive. (Set the status as NOT_LOADED and decrease refcount)
+  //! @brief Unmount an archive. (Set the status as NOT_LOADED and decrease
+  //! refcount)
   //!
   void unmount();
 
@@ -108,6 +109,7 @@ private:
     }
     appendList(this);
   }
+  inline Archive(const Archive&) {}
   virtual ~Archive() override; //!< [vt+0x00]
 
   //! @brief   Append an archive to the static archive list.
