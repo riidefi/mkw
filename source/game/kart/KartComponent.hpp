@@ -15,6 +15,8 @@ public:
   KartComponent();
 
 private:
+  inline KartComponent(const KartComponent&) {}
+
   static nw4r::ut::List sList;
 
   KartAccessor* mAccessor;

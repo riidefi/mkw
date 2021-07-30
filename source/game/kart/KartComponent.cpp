@@ -14,9 +14,7 @@ void KartComponent::setupInList(KartAccessor* accessor) {
   }
 }
 
-KartComponent::KartComponent() {
-  mAccessor = nullptr;
-
+KartComponent::KartComponent() : mAccessor(nullptr) {
   List_Append(&sList, this);
 }
 

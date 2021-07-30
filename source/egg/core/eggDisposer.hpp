@@ -30,6 +30,9 @@ public:
   Disposer();
 
 private:
+  inline Disposer(const Disposer&) {}
+
+private:
   Heap* mContainHeap; //!< [+0x04] Heap that contains the instance of this
                       //!< disposer.
 

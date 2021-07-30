@@ -13,6 +13,11 @@ static BOOL gCurrentCntFile;
 class CntFile {
 public:
   CntFile();
+
+private:
+  inline CntFile(const CntFile&) {}
+
+public:
   virtual ~CntFile();
 
   virtual bool open();                                             // 0

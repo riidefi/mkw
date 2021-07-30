@@ -17,6 +17,10 @@ public:
   //! @brief Sets mIsOpen to false then calls CT
   DvdFile();
 
+private:
+  inline DvdFile(const DvdFile&) {}
+
+public:
   //! @brief Closes the file on the DVD.
   ~DvdFile() override;
 
