@@ -1,15 +1,19 @@
 import argparse
 import colorsys
 from dataclasses import dataclass
+from io import StringIO
 from pathlib import Path
 import random
 import webbrowser
 
 import jinja2
+from pytablewriter import HtmlTableWriter
+from pytablewriter.style import Style
 
 from mkwutil.sections import DOL_LIBS, DOL_SECTIONS
 from mkwutil.lib.slices import Slice, SliceTable
 from mkwutil.project import load_dol_slices
+from mkwutil.progress.percent_decompiled import build_stats
 
 
 random.seed("OwO")
@@ -94,6 +98,24 @@ def lib_boxes():
     return map(Box.from_slice, slices)
 
 
+def percent_decompiled_table() -> str:
+    stats = build_stats(Path())
+    writer = HtmlTableWriter(
+        headers=["part", "code split", "code decomp", "data decomp"],
+        column_styles=[
+            Style(align="left"),
+            Style(align="right"),
+            Style(align="right"),
+            Style(align="right"),
+        ],
+        margin=10,
+        value_matrix=stats.matrix,
+    )
+    writer.stream = StringIO()
+    writer.write_table()
+    return writer.stream.getvalue()
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -108,6 +130,7 @@ if __name__ == "__main__":
     with open(index_path, "w") as file:
         jinja_env.get_template("index.html.j2").stream(
             {
+                "percents_table": percent_decompiled_table(),
                 "dol_decomp": standard_boxes(),
                 "dol_libraries": lib_boxes(),
             }

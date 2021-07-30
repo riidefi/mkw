@@ -1,3 +1,4 @@
+from copy import copy
 from pathlib import Path
 import pytest
 
@@ -145,4 +146,21 @@ def test_slice_table_remove_8():
   { 00000000..00000002 slice }
   { 00000002..00000003 slice }
   { 00000003..00000006 }
+]"""
+
+def test_slice_table_copy():
+    table_1 = SliceTable(0, 6)
+    table_1.add(Slice(0, 2, "slice1"))
+    table_1.add(Slice(2, 4, "slice2"))
+    table_2 = copy(table_1)
+    table_1.slices[0].name = "sliceX"
+    assert str(table_1) == """[
+  { 00000000..00000002 sliceX }
+  { 00000002..00000004 slice2 }
+  { 00000004..00000006 }
+]"""
+    assert str(table_2) == """[
+  { 00000000..00000002 slice1 }
+  { 00000002..00000004 slice2 }
+  { 00000004..00000006 }
 ]"""

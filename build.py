@@ -26,7 +26,7 @@ from mkwutil.pack_main_dol import pack_main_dol
 from mkwutil.pack_staticr_rel import pack_staticr_rel
 from mkwutil.verify_main_dol import verify_dol
 from mkwutil.verify_staticr_rel import verify_rel
-from mkwutil.progress.percent_decompiled import percent_decompiled
+from mkwutil.progress.percent_decompiled import build_stats
 from mkwutil.gen_asm import gen_asm
 from mkwutil.project import load_dol_slices
 
@@ -335,7 +335,7 @@ def build():
     verify_dol(orig_dol_path, target_dol_path)
     verify_rel(target_rel_path)
 
-    percent_decompiled()
+    build_stats(Path()).print()
 
 
 if __name__ == "__main__":
