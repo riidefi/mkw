@@ -5,7 +5,7 @@ extern "C" {
 #endif
 
 #include <rk_types.h> // u32
-#include <stdbool.h>  // bool
+#include <stdbool.h> // bool
 
 //! Describes the type of an entry in an archive.
 //!
@@ -132,7 +132,7 @@ int ARCOpen(const rvlArchive* self, const char* path, rvlArchiveFile* pOut);
 //! @return If the operation succeeded.
 //!
 int ARCFastOpen(const rvlArchive* self, rvlArchiveEntryHandle path,
-                 rvlArchiveFile* pOut);
+                rvlArchiveFile* pOut);
 
 //! @brief Get the file data from a file handle.
 //!

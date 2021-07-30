@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rk_types.h>
 #include <egg/core/eggDisposer.hpp>
 #include <egg/core/eggHeap.hpp>
+#include <rk_types.h>
 
 namespace EGG {
 
@@ -40,7 +40,7 @@ private:
   int mID;                 //!< [+0x28]
   SceneManager* pSceneMgr; //!< [+0x2C] @see SceneManager::createScene
 
-public:  
+public:
   // inlines. actually above exit and below enter
   inline void setSceneMgr(SceneManager* mgr) { this->pSceneMgr = mgr; }
   inline void setParentScene(Scene* scene) { this->pParentScene = scene; }

@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-typedef s32 (*IOSCallback) (s32 errCode, void * data);
+typedef s32 (*IOSCallback)(s32 errCode, void* data);
 
 s32 IOS_Open(const char*, u32);
 s32 IOS_OpenAsync(const char*, u32, IOSCallback);
