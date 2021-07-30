@@ -1,12 +1,20 @@
 ---
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - 'tests/**'
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - 'tests/**'
+      - '*.md'
 name: Build
 jobs:
-  build:
+  build_windows:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
-      
+
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
@@ -25,12 +33,12 @@ jobs:
 
       - name: Extract tooling
         env:
-          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870047437757239356/tools.zip'
+          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870608469558980649/tools.zip'
         run: |
           # Download tooling
           Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.zip
           $hash = (Get-FileHash '.\tools.zip').Hash
-          if ($hash -ne '3FB4330838A6FAC6D35BE9AFDF486EF1F0760E0AA6AE1B4A7CE37802BF1EC7DD')
+          if ($hash -ne '2D78EEB2B90A2E57DB4B5DC55F37468B115B344498B8875D2EC8ADDE5AB8B243')
           {
             echo "Invalid hash: $hash"
             exit 1
@@ -60,3 +68,67 @@ jobs:
       - name: Build mkw
         shell: bash
         run: python ./build.py
+
+  build_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install deps
+        run: |
+          sudo dpkg --add-architecture i386
+          # --- Debian Wine
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends wine wine32 unzip
+          # --- WineHQ is broken
+          # wget -nc https://dl.winehq.org/wine-builds/winehq.key
+          # sudo apt-key add winehq.key
+          # rm winehq.key
+          # sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
+          # sudo apt-get update
+          # sudo apt-get install -y --no-install-recommends winehq-stable unzip
+
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv-linux
+        with:
+          requirement_files: requirements.txt
+
+      - uses: syphar/restore-pip-download-cache@v1
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+      - run: pip install -r requirements.txt
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+      - name: Extract tooling
+        env:
+          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870608469558980649/tools.zip'
+        run: |
+          curl -sSf "$TOOLS_URL" -o ./tools.zip
+          echo "2D78EEB2B90A2E57DB4B5DC55F37468B115B344498B8875D2EC8ADDE5AB8B243 tools.zip" | sha256sum --check --status
+          unzip -o tools.zip
+          chmod +x ./tools/devkitppc/bin/powerpc-eabi-as
+          mv ./tools/blobs/* ./artifacts/orig/pal
+          rm tools.zip
+
+      - uses: actions/cache@v2
+        with:
+          path: asm/dol
+          key: asm-dol
+
+      - uses: actions/cache@v2
+        with:
+          path: asm/rel
+          key: asm-rel
+
+      - name: Build mkw
+        shell: bash
+        run: |
+          # Create virtual display.
+          Xvfb :0 -screen 0 640x480x16 &
+          export DISPLAY=:0.0
+          python ./build.py -j 1

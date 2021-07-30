@@ -1,5 +1,17 @@
 ---
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - '**.h'
+      - '**.c'
+      - '**.hpp'
+      - '**.cpp'
+  pull_request:
+    paths:
+      - '**.h'
+      - '**.c'
+      - '**.hpp'
+      - '**.cpp'
 name: Lint
 jobs:
   lint-clang-format:

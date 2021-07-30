@@ -33,6 +33,13 @@ from mkwutil.project import load_dol_slices
 
 parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
 parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
+parser.add_argument(
+    "-j",
+    "--concurrency",
+    type=int,
+    default=multiprocessing.cpu_count(),
+    help="Compile concurrency",
+)
 args = parser.parse_args()
 # Start by running gen_asm.
 gen_asm(args.regen_asm)
@@ -145,7 +152,7 @@ CW_ARGS = [
 # Hack: $@ doesn't behave properly with this
 if sys.platform != "darwin":
     # suppress "function has no prototype
-    CW_ARGS.append("-pragma \"warning off(10178)\"")
+    CW_ARGS.append('-pragma "warning off(10178)"')
 
 CWCC_OPT = " ".join(CW_ARGS)
 
@@ -175,10 +182,9 @@ gSourceQueue = []
 
 def compile_queued_sources():
     """Dispatches multiple threads to compile all queued sources."""
-    max_hw_concurrency = multiprocessing.cpu_count()
-    print(colored(f"max_hw_concurrency={max_hw_concurrency}", color="yellow"))
+    print(colored(f"max_hw_concurrency={args.concurrency}", color="yellow"))
 
-    pool = ThreadPool(max_hw_concurrency)
+    pool = ThreadPool(args.concurrency)
 
     pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
 
