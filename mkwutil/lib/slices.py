@@ -223,43 +223,85 @@ class SliceTable:
             return self.__remove(start, stop)
 
     def __remove(self, start: int, stop: int) -> None:
-        assert isinstance(start, int)
-        assert isinstance(stop, int)
+        """Creates a gap spanning the given range."""
         start = max(start, self.start)
         stop = min(stop, self.stop)
-        # Search for the beginning of the gap.
-        begin_slice, i = self.find(start)
-        # If gap starts within named slice, create new gap slice.
-        if begin_slice.start < start and begin_slice.has_name():
-            old_stop = begin_slice.stop
-            begin_slice.stop = start
-            old_slice = begin_slice
-            begin_slice = Slice(start, old_stop)
-            self.slices.insert(i + 1, begin_slice)
-            i += 2
-            # If gap stops within named slice, create copy of original slice.
-            if old_stop > stop:
-                end_slice = copy(old_slice)
-                end_slice.start = stop
-                end_slice.stop = old_stop
-                self.slices.insert(i, end_slice)
-        # If bordering with a gap on the left, select gap.
-        elif begin_slice.start == start and i > 0 and not self.slices[i - 1].has_name():
-            begin_slice = self.slices[i - 1]
+        # Remove slice by slice.
+        _, idx = self.find(start)
+        while idx < len(self.slices) and self.slices[idx].start < stop:
+            target = self.slices[idx]
+            next_stop = min(stop, target.stop)
+            idx = self.__remove_slice(idx, max(start, target.start), next_stop)
+            idx += 1
+
+    def __remove_slice(self, idx: int, new_start: int, new_stop: int) -> int:
+        """Creates a gap in the slice at the given index.
+        Returns the index of the gap slice."""
+        target = self.slices[idx]
+        assert new_start < new_stop
+        assert target.start <= new_start
+        assert target.stop >= new_stop
+        # Remove entire slice.
+        if target.start == new_start and target.stop == new_stop:
+            _slice = copy(target)
+            _slice.name = None
+            self.slices[idx] = _slice
+            idx = self.__merge_left(idx)
+            idx = self.__merge_right(idx)
+            return idx
+        # Remove left part.
+        elif target.start == new_start:
+            gap = copy(target)
+            gap.name = None
+            gap.stop = new_stop
+            part = copy(target)
+            part.start = new_stop
+            self.slices[idx] = gap
+            self.slices.insert(idx + 1, part)
+            return self.__merge_left(idx)
+        # Remove right part.
+        elif target.stop == new_stop:
+            part = copy(target)
+            part.stop = new_start
+            gap = copy(target)
+            gap.name = None
+            gap.start = new_start
+            self.slices[idx] = part
+            self.slices.insert(idx + 1, gap)
+            idx += 1
+            return self.__merge_right(idx)
+        # Remove middle part.
         else:
-            i += 1
-        # Extend slice.
-        begin_slice.name = None
-        begin_slice.stop = stop
-        # Remove overlapping slices.
-        while i < len(self.slices) and self.slices[i].stop <= stop:
-            self.slices.pop(i)
-        if i < len(self.slices):
-            self.slices[i].start = stop
-        # If bordering with a right gap, merge gaps.
-        if i < len(self.slices) and not self.slices[i].has_name():
-            begin_slice.stop = self.slices[i].stop
-            self.slices.pop(i)
+            part_l = copy(target)
+            part_l.stop = new_start
+            gap = copy(target)
+            gap.name = None
+            gap.start = new_start
+            gap.stop = new_stop
+            part_r = copy(target)
+            part_r.start = new_stop
+            self.slices[idx] = part_l
+            self.slices.insert(idx + 1, gap)
+            self.slices.insert(idx + 2, part_r)
+            idx += 1
+            return idx
+
+    def __merge_left(self, idx: int) -> int:
+        """Merges gap slice at current index with possible left gap neighbor."""
+        assert not self.slices[idx].has_name()
+        if idx > 0 and not self.slices[idx - 1].has_name():
+            self.slices[idx - 1].stop = self.slices[idx].stop
+            self.slices.pop(idx)
+            return idx - 1
+        return idx
+
+    def __merge_right(self, idx: int) -> int:
+        """Merges gap slice at current index with possible right gap neighbor."""
+        assert not self.slices[idx].has_name()
+        if idx + 1 < len(self.slices) and not self.slices[idx + 1].has_name():
+            self.slices[idx + 1].start = self.slices[idx].start
+            self.slices.pop(idx)
+        return idx
 
     def __repr__(self) -> str:
         return (
