@@ -4,10 +4,13 @@ out/rvlTrkMem.o
 out/dol/init_80006068_80006460.o
 out/dol/extab_80006460_80006a20.o
 out/dol/extabindex_80006a20_800072c0.o
-out/dol/text_800072c0_8006a0c0.o
+out/dol/text_800072c0_80007f50.o
 out/dol/ctors_80244de0_80244e88.o
 out/dol/dtors_80244ea4_80244eac.o
-out/dol/rodata_80244ec0_80248010.o
+out/dol/rodata_80244ec0_80245010.o
+out/SystemResource.o
+out/dol/text_80007f7c_8006a0c0.o
+out/dol/rodata_802450b0_80248010.o
 out/dol/data_80258580_80274148.o
 out/dol/bss_802a4080_802f2338.o
 out/dol/sdata_80384c00_803850a0.o

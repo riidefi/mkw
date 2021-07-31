@@ -25,6 +25,9 @@ class Source:
 # main.dol
 #
 
+SOURCES_HOSTSYS = [
+    Source(src="source/game/host_system/SystemResource.cpp", cc='4201_127', opts=REL_OPTS),
+]
 
 SOURCES_TRK = [
     Source(src="source/rvl/trk/rvlTrkMem.c", cc='4199_60831', opts=RVL_OPTS),
@@ -156,6 +159,7 @@ SOURCES_EGG_MATH = [
     Source(src="source/egg/math/eggVector.cpp", cc='4201_127', opts=EGG_OPTS),
 ]
 SOURCES_DOL = list(chain(
+    SOURCES_HOSTSYS,
     SOURCES_TRK,
     SOURCES_RVL_ARC,
     SOURCES_RVL_FS,
