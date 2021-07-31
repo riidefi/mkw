@@ -40,6 +40,11 @@ parser.add_argument(
     default=multiprocessing.cpu_count(),
     help="Compile concurrency",
 )
+parser.add_argument(
+    "--single_file",
+    type=str,
+    default=None,
+    help="For quick iteration on a single file before we get full incremental builds")
 args = parser.parse_args()
 # Start by running gen_asm.
 gen_asm(args.regen_asm)
@@ -184,7 +189,11 @@ def compile_queued_sources():
     """Dispatches multiple threads to compile all queued sources."""
     print(colored(f"max_hw_concurrency={args.concurrency}", color="yellow"))
 
-    pool = ThreadPool(args.concurrency)
+    if not len(gSourceQueue):
+        print(colored("No sources to compile", color="red"))
+        return
+
+    pool = ThreadPool(min(args.concurrency, len(gSourceQueue)))
 
     pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
 
@@ -253,6 +262,11 @@ def compile_sources():
 
     for src in chain(SOURCES_DOL, SOURCES_REL):
         queue_compile_source(Path(src.src), src.cc, src.opts)
+
+    if args.single_file:
+        print(colored('[NOTE] Only compiling sources matching "%s".' % args.single_file, "red"))
+        global gSourceQueue
+        gSourceQueue = list(filter(lambda x: args.single_file in str(x[0]), gSourceQueue))
 
     compile_queued_sources()
 
