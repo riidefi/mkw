@@ -60,11 +60,6 @@ def pack_staticr_rel(elf_path, rel_path, orig_dir):
         rel.section_info[5] = read_elf_sec(elf, ".data")
         rel.section_info[6] = read_elf_sec(elf, ".bss")
 
-        # .rodata padding hack
-        rodata = rel.section_info[4]
-        rodata.data = rodata.data[:-16]
-        rodata.length = len(rodata.data)
-
         # Jump to _Unresolved
         _unresolved = 0x805553B0
         text = rel.section_info[1]
