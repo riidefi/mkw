@@ -1,6 +1,8 @@
 # mkw
 
 ![build badge](https://github.com/riidefi/mkw/actions/workflows/build.yml/badge.svg?branch=master)
+![dol progress badge](https://us-central1-mkw-re.cloudfunctions.net/GenBadgeHTTP?repo=riidefi/mkw&branch=master&run=build&badge=dol_progress&subject=DOL)
+![rel progress badge](https://us-central1-mkw-re.cloudfunctions.net/GenBadgeHTTP?repo=riidefi/mkw&branch=master&run=build&badge=rel_progress&subject=REL)
 
 A matching decompilation of Mario Kart Wii. All code in this repository will compile 1:1 to the original game.
 It produces the following files:
