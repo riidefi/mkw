@@ -133,6 +133,22 @@ jobs:
           export DISPLAY=:0.0
           python ./build.py -j 32
 
+      - name: Get DOL progress
+        run: python -m mkwutil.progress.percent_decompiled --short --part DOL > badge_dol_progress.txt
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: badge_dol_progress
+          path: badge_dol_progress.txt
+
+      - name: Get REL progress
+        run: python -m mkwutil.progress.percent_decompiled --short --part REL > badge_rel_progress.txt
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: badge_rel_progress
+          path: badge_rel_progress.txt
+
       - name: Run graphic.py
         run: python -m mkwutil.progress.graphic
 
