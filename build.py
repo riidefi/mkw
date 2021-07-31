@@ -8,6 +8,7 @@ from itertools import chain
 import os
 import os.path
 from pathlib import Path
+from random import randbytes
 import subprocess
 import sys
 
@@ -72,15 +73,6 @@ def __native_binary(path):
     return path
 
 
-def __windows_binary(path):
-    if sys.platform == "win32" or sys.platform == "msys":
-        return path
-    if sys.platform == "darwin":
-        return os.path.abspath("./mkwutil/tools/crossover.sh") + " " + path
-
-    return "wine " + path
-
-
 VERBOSE = False
 
 DEVKITPPC = os.environ.get("DEVKITPPC")
@@ -98,12 +90,10 @@ if DEVKITPPC is None:
 
 GAS = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
 
-MWLD = __windows_binary(os.path.join("tools", "mwldeppc.exe"))
+MWLD = os.path.join("tools", "mwldeppc.exe")
 
 CWCC_PATHS = {
-    "default": __windows_binary(
-        os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")
-    ),
+    "default": os.path.join(".", "tools", "4199_60831", "mwcceppc.exe"),
     # For the main game
     # August 17, 2007
     # 4.2.0.1 Build 127
@@ -112,19 +102,13 @@ CWCC_PATHS = {
     # We don't have this, so we use build 142:
     # This version has the infuriating bug where random
     # nops are inserted into your code.
-    "4201_127": __windows_binary(
-        os.path.join(".", "tools", "4201_142", "mwcceppc.exe")
-    ),
+    "4201_127": os.path.join(".", "tools", "4201_142", "mwcceppc.exe"),
     # For most of RVL
     # We actually have the correct version
-    "4199_60831": __windows_binary(
-        os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")
-    ),
+    "4199_60831": os.path.join(".", "tools", "4199_60831", "mwcceppc.exe"),
     # For HBM/WPAD, NHTTP/SSL
     # We use build 60831
-    "4199_60726": __windows_binary(
-        os.path.join(".", "tools", "4199_60831", "mwcceppc.exe")
-    ),
+    "4199_60726": os.path.join(".", "tools", "4199_60831", "mwcceppc.exe"),
 }
 
 CW_ARGS = [
@@ -162,24 +146,62 @@ if sys.platform != "darwin":
 CWCC_OPT = " ".join(CW_ARGS)
 
 
+def run_windows_cmd(cmd: str) -> tuple[list[str], int]:
+    """Runs a shell command and returns the stdout lines."""
+    if sys.platform == "win32" or sys.platform == "msys":
+        return __run_windows_cmd_win32(cmd)
+    return __run_windows_cmd_wine(cmd)
+
+
+def __run_windows_cmd_win32(cmd: str) -> tuple[list[str], int]:
+    process = subprocess.Popen(
+        cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
+    lines = process.stdout.readlines()
+    process.wait()
+    return lines, process.returncode
+
+
+def __unix_tmp_file():
+    name = f"mkw-build-{randbytes(16).hex()}.log"
+    # Wine with /dev/shm is slower than /tmp on Linux!
+    tmp_dir = Path("/tmp")
+    file_path = tmp_dir / name
+    file = open(file_path, "w+")
+    os.unlink(file_path)  # ensure file gets removed after build
+    return file
+
+
+def __run_windows_cmd_wine(cmd: str) -> tuple[list[str], int]:
+    if sys.platform == "darwin":
+        compat = os.path.abspath("./mkwutil/tools/crossover.sh")
+    else:
+        compat = "wine"
+    cmd = f"{compat} {cmd}"
+    with __unix_tmp_file() as stdout:
+        process = subprocess.run(
+            cmd, text=True, stdout=stdout, stderr=subprocess.STDOUT, shell=True
+        )
+        stdout.seek(0, 0)
+        return stdout.readlines(), process.returncode
+
+
+def __assert_command_success(returncode, command):
+    assert returncode == 0, f"{command} exited with returncode {returncode}"
+
+
 def compile_source_impl(src, dst, version="default", additional="-ipa file"):
     """Compiles a source file."""
     # Compile ELF object file.
     command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
-    process = subprocess.Popen(
-        command, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
-    )
-    lines = list(iter(process.stdout.readline, ""))
+    lines, returncode = run_windows_cmd(command)
     with print_mutex:
         print(f'{colored("CC", "green")} {src}')
         if VERBOSE:
             print(command)
         for line in lines:
             print("   " + line.strip())
-    process.wait()
-    assert (
-        process.returncode == 0
-    ), f"{command} exited with returncode {process.returncode}"
+    __assert_command_success(returncode, command)
 
 
 gSourceQueue = []
@@ -252,7 +274,11 @@ def link(
     )
     if partial:
         cmd.append("-r")
-    subprocess.run(" ".join(str(x) for x in cmd), check=True, text=True, shell=True)
+    command = " ".join(map(str, cmd))
+    lines, returncode = run_windows_cmd(command)
+    for line in lines:
+        print(line)
+    __assert_command_success(returncode, command)
 
 
 def compile_sources():
