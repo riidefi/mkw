@@ -1,4 +1,7 @@
 # mkw
+
+![build badge](https://github.com/riidefi/mkw/actions/workflows/build.yml/badge.svg?branch=master)
+
 A matching decompilation of Mario Kart Wii. All code in this repository will compile 1:1 to the original game.
 It produces the following files:
 mkw_pal.dol: `sha1: ac7d72448630ade7655fc8bc5fd7a6543cb53a49`
