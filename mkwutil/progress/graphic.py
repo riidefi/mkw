@@ -10,9 +10,9 @@ import jinja2
 from pytablewriter import HtmlTableWriter
 from pytablewriter.style import Style
 
-from mkwutil.sections import DOL_LIBS, DOL_SECTIONS
+from mkwutil.sections import DOL_LIBS, DOL_SECTIONS, REL_SECTIONS
 from mkwutil.lib.slices import Slice, SliceTable
-from mkwutil.project import load_dol_slices
+import mkwutil.project as project 
 from mkwutil.progress.percent_decompiled import build_stats
 
 
@@ -85,11 +85,28 @@ def percent_decomp_stats(slices: SliceTable) -> None:
 
     print("Code&Data Percent: %s" % (100 * n_code / total))
 
-
 def standard_boxes():
-    slices = load_dol_slices(sections=DOL_SECTIONS)
+    slices = project.load_dol_slices(sections=DOL_SECTIONS)
     return map(Box.from_slice, slices)
 
+def rel_boxes():
+    slices = project.load_rel_slices(sections=REL_SECTIONS)
+    return map(Box.from_slice, slices)
+
+def section_to_slice(s):
+    return Slice(name=s.name, start=s.start, stop=s.stop, section=s.type)
+
+def dol_section_boxes():
+    slices = SliceTable(sections=DOL_SECTIONS)
+    for s in DOL_SECTIONS:
+        slices.add(section_to_slice(s))
+    return map(Box.from_slice, slices)
+
+def rel_section_boxes():
+    slices = SliceTable(sections=REL_SECTIONS)
+    for s in REL_SECTIONS:
+        slices.add(section_to_slice(s))
+    return map(Box.from_slice, slices)
 
 def lib_boxes():
     slices = SliceTable(sections=DOL_SECTIONS)
@@ -133,6 +150,9 @@ if __name__ == "__main__":
                 "percents_table": percent_decompiled_table(),
                 "dol_decomp": standard_boxes(),
                 "dol_libraries": lib_boxes(),
+                "dol_sections": dol_section_boxes(),
+                "rel_decomp": rel_boxes(),
+                "rel_sections": rel_section_boxes(),
             }
         ).dump(file)
     if not args.silent:
