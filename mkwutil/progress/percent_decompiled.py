@@ -1,3 +1,4 @@
+import argparse
 from copy import copy
 from pathlib import Path
 
@@ -177,5 +178,21 @@ def build_stats(dir: Path) -> Stats:
     )
 
 
+def __main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-s", "--short", action="store_true", help="Only print percentage"
+    )
+    args = parser.parse_args()
+    stats = build_stats(Path())
+    if args.short:
+        progress = (stats.dol_decomp_code + stats.rel_decomp_code) / (
+            stats.dol_total_code + stats.rel_total_code
+        )
+        print(__to_percent(progress).strip())
+    else:
+        stats.print()
+
+
 if __name__ == "__main__":
-    build_stats(Path()).print()
+    __main()
