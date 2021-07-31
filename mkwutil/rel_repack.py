@@ -32,7 +32,7 @@ if not args.dump and not args.dump:
 if args.dump:
     print(f"Dumping {args.rel} to {args.dir}")
     with open(args.rel, "rb") as file:
-        rel = Rel(file)
+        rel = Rel(file, True)
         dump_staticr(rel, args.dir)
 
 if args.reconstruct:

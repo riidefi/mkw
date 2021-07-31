@@ -26,7 +26,7 @@ write_bool = lambda d: struct.pack(">?", d)
 class Rel:
     """Holds a .rel library."""
 
-    def __init__(self, file=None):
+    def __init__(self, file=None, verbose=False):
         if file is None:
             module_path = Path(__file__).parent
             with open(module_path / "rel_header.bin", "rb") as rel_header:
@@ -42,13 +42,13 @@ class Rel:
         # section info stuff
         self.section_info = [None] * self.header.num_sections
         for i in range(0, self.header.num_sections):
-            section = RelSection(file, self.header.section_info_offset, i)
+            section = RelSection(file, self.header.section_info_offset, i, verbose)
             self.section_info[i] = section
 
         # dumb way to divide by 8 and keep int
         self.imps = [None] * (self.header.imp_size >> 3)
         for i in range(0, self.header.imp_size >> 3):
-            self.imps[i] = RelImpEntry(file, self.header.imp_offset, i)
+            self.imps[i] = RelImpEntry(file, self.header.imp_offset, i, verbose)
 
         # assertion i guess
         assert self.header.rel_offset == self.imps[0].offset
@@ -233,7 +233,7 @@ class RelHeader:
 
 
 class RelSection:
-    def __init__(self, f=None, section_info_offset=None, sid=None):
+    def __init__(self, f=None, section_info_offset=None, sid=None, verbose=False):
         if f is None:
             self.offset = 0
             self.unk = False
@@ -253,10 +253,12 @@ class RelSection:
 
         # data
         # skip empty shit and bss
-        print(
-            f"section {sid}: {self.offset:X} {self.executable} {self.unk:X} {self.length:X}"
-        )
+        if verbose:
+            print(
+                f"section {sid}: {self.offset:X} {self.executable} {self.unk:X} {self.length:X}"
+            )
         if self.offset == 0 or self.length == 0:
+            self.data = None
             return
 
         f.seek(self.offset, os.SEEK_SET)
@@ -278,7 +280,7 @@ class RelSection:
 
 
 class RelImpEntry:
-    def __init__(self, f=None, imp_offset=None, sid=None):
+    def __init__(self, f=None, imp_offset=None, sid=None, verbose=False):
         if f is None:
             self.module_id = 0
             self.offset = 0
@@ -288,7 +290,8 @@ class RelImpEntry:
         f.seek(imp_offset + (sid * 8), os.SEEK_SET)
         self.module_id = read_u32(f)
         self.offset = read_u32(f)
-        print(f"imp {sid}: {self.module_id:X} {self.offset:X}")
+        if verbose:
+            print(f"imp {sid}: {self.module_id:X} {self.offset:X}")
 
 
 # funny name

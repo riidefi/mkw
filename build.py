@@ -369,11 +369,12 @@ def build():
     compile_sources()
 
     orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
+    orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
     target_dol_path = link_dol(dol_objects)
     target_rel_path = link_rel(rel_objects)
 
     verify_dol(orig_dol_path, target_dol_path)
-    verify_rel(target_rel_path)
+    verify_rel(orig_rel_path, target_rel_path)
 
     build_stats(Path()).print()
 
