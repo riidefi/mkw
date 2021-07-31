@@ -133,6 +133,15 @@ jobs:
           export DISPLAY=:0.0
           python ./build.py -j 32
 
+      - id: get_progress
+        name: Get progress
+        run: python -m mkwutil.progress.percent_decompiled --short > badge_progress.txt
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: badge_progress
+          path: badge_progress.txt
+
       - name: Run graphic.py
         run: python -m mkwutil.progress.graphic
 
