@@ -12,6 +12,10 @@ Contains the reference artifacts from the original game, and the generated final
 - `./artifacts/target/pal/main.dol`: Ouptut main executable.
 - `./artifacts/target/pal/StaticR.rel`: Output library.
 
+### `./build.py`: Main build script
+
+Uses `mkwutil` to rebuild MKW from decompiled sources and verifies the result.
+
 ### `./pack`: Link instructions
 
 Specifies which sections are decompiled and holds information needed to reconstruct final binaries.
@@ -54,6 +58,31 @@ Compiled / assembled object files.
 
 Default path of various compiler tooling.
 
-### `./mkwutil`: Python utilities
+### `./mkwutil`: Python code
 
-Various Python utilities packed in a module.
+The `mkwutil` Python package contains tooling for building and verifying artifacts.
+
+The Python files here implement parts of the build process.
+You can run them individually using `python -m mkwutil.<name>`.
+Please refer to their `--help` section or source code for usage instructions.
+
+#### `./mkwutil/lib`: Shared library code
+
+Various Python utilities.
+- `./slices.py` maintains a memory map of code / data areas.
+  Its primary purpose is to keep track which memory ranges are decompiled.
+  Data is persisted using the `slices.csv` format.
+- `./symbols.py`: Symbol list
+- `./dol.py`: main.dol binary file format
+- `./rel.py`: *.rel binary file format
+- `./binary_blob.py`: Binary blob (inline ASM) masking
+  to improve `percent_decompiled` accuracy.
+- `./verify_binary.py`: Binary verification subroutines
+
+#### `./mkwutil/progress`: Decompile progress
+
+Tools to calculate and visualize the progress of the project.
+
+#### `./mkwutil/tools`: Miscellaneous tools
+
+Dumping ground for tools outside of the build process.
