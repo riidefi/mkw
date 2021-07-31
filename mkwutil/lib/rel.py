@@ -150,14 +150,20 @@ class Rel:
         s.length = len(s.data)
         self.section_info[index] = s
 
-    def virtual_read(self, vaddr: int, size: int, sections, section_idx) -> Optional[bytes]:
+    def virtual_read(
+        self, vaddr: int, size: int, sections, section_idx
+    ) -> Optional[bytes]:
         # Find the virtual address section where vaddr falls into.
-        section_virtual_idx, section_virtual = next((seg for seg in enumerate(sections) if vaddr in seg[1]), None)
+        section_virtual_idx, section_virtual = next(
+            (seg for seg in enumerate(sections) if vaddr in seg[1]), None
+        )
         # Map to REL section number.
         section_idx = section_idx[section_virtual_idx]
         # Calculate addres.
         relative_addr = vaddr - section_virtual.start
-        result = self.section_info[section_idx].data[relative_addr:relative_addr+size]
+        result = self.section_info[section_idx].data[
+            relative_addr : relative_addr + size
+        ]
         if len(result) == size:
             return result
 
@@ -165,6 +171,7 @@ class Rel:
         print("Warning: Size %s exceeds section size %s" % (size, len(result)))
 
         return result + bytes(size - len(result))
+
 
 class RelHeader:
     """Holds a .rel header."""
@@ -318,9 +325,7 @@ class RelRelData:
     def reconstruct(self, file):
         for entry_bin in self.entries:
             # write R_RVL_SECT
-            file.write(write_u16(0))
-            file.write(write_u8(202))
-            file.write(write_u8(entry_bin))  # section id
+            file.write(struct.pack(">HBB", 0, 202, entry_bin))  # section id
 
             # write R_RVL_NOP
             file.write(b"\0" * 4)
@@ -333,18 +338,11 @@ class RelRelData:
 
 class RelRelEntry:
     def __init__(self, f):
-        self.offset = read_u16(f)
-        self.type = read_u8(f)
-        self.section = read_u8(f)
-        self.addend = read_u32(f)
+        data = f.read(struct.calcsize(">HBBL"))
+        self.offset, self.type, self.section, self.addend = struct.unpack(">HBBL", data)
 
     def reconstruct(self):
-        entry = io.BytesIO()
-        entry.write(write_u16(self.offset))
-        entry.write(write_u8(self.type))
-        entry.write(write_u8(self.section))
-        entry.write(write_u32(self.addend))
-        return entry.getvalue()
+        return struct.pack(">HBBL", self.offset, self.type, self.section, self.addend)
 
 
 def dump_staticr(rel: Rel, _path: Path) -> None:
