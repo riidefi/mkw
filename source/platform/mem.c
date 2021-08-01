@@ -1,16 +1,9 @@
 #include <string.h>
 
 #include <decomp.h>
+#include <rk_types.h>
 
-// Extern function references.
-// PAL: 0x8000f360
-extern UNKNOWN_FUNCTION(unk_8000f360);
-// PAL: 0x8000f41c
-extern UNKNOWN_FUNCTION(unk_8000f41c);
-// PAL: 0x8000f4c4
-extern UNKNOWN_FUNCTION(unk_8000f4c4);
-// PAL: 0x8000f584
-extern UNKNOWN_FUNCTION(unk_8000f584);
+#include "mem_cpy.h"
 
 // Symbol: memmove
 // PAL: 0x8000f1f0..0x8000f2bc
@@ -33,18 +26,18 @@ asm void* memmove(void*, const void*, size_t) {
   beq lbl_8000f23c;
   cmpwi r7, 0;
   bne lbl_8000f234;
-  bl unk_8000f4c4;
+  bl __copy_longs_unaligned;
   b lbl_8000f250;
 lbl_8000f234:
-  bl unk_8000f584;
+  bl __copy_longs_rev_unaligned;
   b lbl_8000f250;
 lbl_8000f23c:
   cmpwi r7, 0;
   bne lbl_8000f24c;
-  bl unk_8000f360;
+  bl __copy_longs_aligned;
   b lbl_8000f250;
 lbl_8000f24c:
-  bl unk_8000f41c;
+  bl __copy_longs_rev_aligned;
 lbl_8000f250:
   mr r3, r31;
   b lbl_8000f2a8;
@@ -86,74 +79,33 @@ lbl_8000f2a8:
 
 // Symbol: memchr
 // PAL: 0x8000f2bc..0x8000f2e8
-MARK_BINARY_BLOB(memchr, 0x8000f2bc, 0x8000f2e8);
-asm void* memchr(void* ptr, int value, size_t num) {
-  // clang-format off
-  nofralloc;
-  clrlwi r4, r4, 0x18;
-  addi r3, r3, -1;
-  addi r5, r5, 1;
-  b lbl_8000f2d8;
-lbl_8000f2cc:
-  lbzu r0, 1(r3);
-  cmplw r0, r4;
-  beqlr;
-lbl_8000f2d8:
-  addic. r5, r5, -1;
-  bne lbl_8000f2cc;
-  li r3, 0;
-  blr;
-  // clang-format on
+void* memchr(void* ptr, int value, size_t num) {
+  const u8* str;
+  u32 v = value & 0xff;
+  for (str = (u8*)ptr - 1, num++; --num;)
+    if ((*++str & 0xff) == v)
+      return (void*)str;
+  return NULL;
 }
 
 // Symbol: __memrchr
 // PAL: 0x8000f2e8..0x8000f314
-MARK_BINARY_BLOB(__memrchr, 0x8000f2e8, 0x8000f314);
-asm void * __memrchr(const void *ptr, int value, size_t num) {
-  // clang-format off
-  nofralloc;
-  add r3, r3, r5;
-  clrlwi r4, r4, 0x18;
-  addi r5, r5, 1;
-  b lbl_8000f304;
-lbl_8000f2f8:
-  lbzu r0, -1(r3);
-  cmplw r0, r4;
-  beqlr;
-lbl_8000f304:
-  addic. r5, r5, -1;
-  bne lbl_8000f2f8;
-  li r3, 0;
-  blr;
-  // clang-format on
+void* __memrchr(const void* ptr, int value, size_t num) {
+  const u8* str;
+  u32 v = value & 0xff;
+  for (str = (u8*)(ptr) + num, num++; --num;)
+    if (*--str == v)
+      return (void*)str;
+  return NULL;
 }
 
 // Symbol: memcmp
 // PAL: 0x8000f314..0x8000f360
-MARK_BINARY_BLOB(memcmp, 0x8000f314, 0x8000f360);
-asm int memcmp(const void* s1, const void* s2, size_t n) {
-  // clang-format off
-  nofralloc;
-  addi r7, r4, -1;
-  addi r6, r3, -1;
-  addi r4, r5, 1;
-  b lbl_8000f350;
-lbl_8000f324:
-  lbzu r3, 1(r6);
-  lbzu r0, 1(r7);
-  cmplw r3, r0;
-  beq lbl_8000f350;
-  lbz r4, 0(r6);
-  li r3, 1;
-  lbz r0, 0(r7);
-  cmplw r4, r0;
-  bgelr;
-  li r3, -1;
-  blr;
-lbl_8000f350:
-  addic. r4, r4, -1;
-  bne lbl_8000f324;
-  li r3, 0;
-  blr;
-  // clang-format on
+int memcmp(const void* s1, const void* s2, size_t n) {
+  const u8* p1;
+  const u8* p2;
+  for (p1 = (const u8*)(s1)-1, p2 = (const u8*)(s2)-1, n++; --n;)
+    if (*++p1 != *++p2)
+      return *p1 < *p2 ? -1 : 1;
+  return 0;
 }

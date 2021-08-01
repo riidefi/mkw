@@ -13,7 +13,9 @@ out/dol/rodata_80244ec0_80245010.o
 out/SystemResource.o
 out/dol/text_80007f7c_8000f1f0.o
 out/mem.o
-out/dol/text_8000f360_80011b00.o
+out/mem_cpy.o
+out/dol/text_8000f630_800100e4.o
+out/printf.o
 out/qsort.o
 out/dol/rodata_802450b0_80248010.o
 out/dol/data_80258580_80274148.o

@@ -36,6 +36,8 @@ SOURCES_TRK = [
 ]
 SOURCES_MSL_LIBC = [
     Source(src="source/platform/mem.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/mem_cpy.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/printf.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/qsort.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/rand.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/wchar.c", cc='4201_127', opts=MSL_LIBC_OPTS),
