@@ -11,6 +11,20 @@
 
 // Compiler intrinsics.
 
+// PAL: 0x8002156C
+extern void _savegpr_14(void);
+// PAL: 0x80021570
+extern void _savegpr_15(void);
+// PAL: 0x80021574
+extern void _savegpr_16(void);
+// PAL: 0x80021578
+extern void _savegpr_17(void);
+// PAL: 0x8002157C
+extern void _savegpr_18(void);
+// PAL: 0x80021580
+extern void _savegpr_19(void);
+// PAL: 0x80021584
+extern void _savegpr_20(void);
 // PAL: 0x80021588
 extern void _savegpr_21(void);
 // PAL: 0x8002158C
@@ -26,6 +40,20 @@ extern void _savegpr_26(void);
 // PAL: 0x800215a0
 extern void _savegpr_27(void);
 
+// PAL: 0x800215b8
+extern void _restgpr_14(void);
+// PAL: 0x800215bc
+extern void _restgpr_15(void);
+// PAL: 0x800215c0
+extern void _restgpr_16(void);
+// PAL: 0x800215c4
+extern void _restgpr_17(void);
+// PAL: 0x800215c8
+extern void _restgpr_18(void);
+// PAL: 0x800215cc
+extern void _restgpr_19(void);
+// PAL: 0x800215d0
+extern void _restgpr_20(void);
 // PAL: 0x800215d4
 extern void _restgpr_21(void);
 // PAL: 0x800215d8

@@ -488,7 +488,7 @@ class SlicesCSVReader:
                 continue
             if stop_str == "":
                 print(f"column {i} start_str {start_str} stop_str {stop_str}")
-            
+
             assert stop_str != ""
             start = int(start_str.strip(), 16)
             stop = int(stop_str, 16)
