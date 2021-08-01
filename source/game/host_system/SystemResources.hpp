@@ -22,4 +22,3 @@ u32 GetResourceID(eSystemResource idx);
 } // namespace Resource
 
 } // namespace System
-	

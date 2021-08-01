@@ -7,7 +7,7 @@ from typing import Generator, Optional
 from elftools.elf.elffile import ELFFile
 from elftools.elf.sections import StringTableSection, Symbol as ELFSymbol
 
-from mkwutil.symbols import Symbol, SymbolsList
+from mkwutil.lib.symbols import Symbol, SymbolsList
 
 
 @dataclass
