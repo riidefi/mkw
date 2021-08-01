@@ -2,7 +2,7 @@
 
 static asm void __save_gpr(void) {
   // clang-format off
-	nofralloc;
+  nofralloc;
 entry _savegpr_14
   stw r14,-72(r11);
 entry _savegpr_15
@@ -41,7 +41,7 @@ entry _savegpr_27
 
 static asm void __rest_gpr(void) {
   // clang-format off
-	nofralloc;
+  nofralloc;
 entry _restgpr_14
   lwz r14,-72(r11);
 entry _restgpr_15
