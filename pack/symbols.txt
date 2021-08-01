@@ -1203,4 +1203,5 @@
 0x8022f85c frsqrt__Q23EGG5MathfFf
 0x80270fd0 __ctype_mapC
 0x80271148 _current_locale
+0x802a3e08 __vt__Q23EGG12SceneManager
 0x80385520 NNMagicData

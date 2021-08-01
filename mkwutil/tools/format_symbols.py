@@ -2,7 +2,7 @@ import argparse
 import os
 from pathlib import Path
 
-from mkwutil.symbols import SymbolsList
+from mkwutil.lib.symbols import SymbolsList
 
 parser = argparse.ArgumentParser(description="Reformats symbols.txt")
 parser.add_argument("symbols", type=Path, help="Path to symbols.txt")
