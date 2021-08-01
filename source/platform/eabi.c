@@ -37,3 +37,41 @@ entry _savegpr_27
   stw r31,-4(r11);
   blr;
 }
+
+static asm void __rest_gpr(void)
+{
+	nofralloc;
+entry _restgpr_14
+  lwz r14,-72(r11);
+entry _restgpr_15
+  lwz r15,-68(r11);
+entry _restgpr_16
+  lwz r16,-64(r11);
+entry _restgpr_17
+  lwz r17,-60(r11);
+entry _restgpr_18
+  lwz r18,-56(r11);
+entry _restgpr_19
+  lwz r19,-52(r11);
+entry _restgpr_20
+  lwz r20,-48(r11);
+entry _restgpr_21
+  lwz r21,-44(r11);
+entry _restgpr_22
+  lwz r22,-40(r11);
+entry _restgpr_23
+  lwz r23,-36(r11);
+entry _restgpr_24
+  lwz r24,-32(r11);
+entry _restgpr_25
+  lwz r25,-28(r11);
+entry _restgpr_26
+  lwz r26,-24(r11);
+entry _restgpr_27
+  lwz r27,-20(r11);
+  lwz r28,-16(r11);
+  lwz r29,-12(r11);
+  lwz r30,-8(r11);
+  lwz r31,-4(r11);
+  blr;
+}
