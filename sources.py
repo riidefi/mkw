@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from itertools import chain
 
 
+MSL_LIBC_OPTS = '-ipa file'
 RVL_OPTS = '-ipa file'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 EGG_OPTS = '-ipa function -rostr'
@@ -34,9 +35,10 @@ SOURCES_TRK = [
     Source(src="source/rvl/trk/start.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_MSL_LIBC = [
-    Source(src="source/platform/rand.c", cc='4201_127', opts=RVL_OPTS),
-    Source(src="source/platform/wchar.c", cc='4201_127', opts=RVL_OPTS),
-    Source(src="source/platform/eabi.c", cc='4201_127', opts=RVL_OPTS),
+    Source(src="source/platform/qsort.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/rand.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/wchar.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/eabi.c", cc='4201_127', opts=MSL_LIBC_OPTS),
 ]
 SOURCES_RVL_ARC = [
     Source(src="source/rvl/arc/rvlArchive.c", cc='4199_60831', opts=RVL_OPTS),
