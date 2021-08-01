@@ -41,7 +41,9 @@ SOURCES_MSL_LIBC = [
     Source(src="source/platform/printf.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/qsort.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/rand.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/scanf.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/wchar.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/va_arg.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/eabi.c", cc='4201_127', opts=MSL_LIBC_OPTS),
 ]
 SOURCES_RVL_ARC = [

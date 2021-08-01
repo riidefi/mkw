@@ -3,7 +3,6 @@
 #include "gsDebug.h"
 #include "gsCommon.h"
 //#include <stdio.h>
-//#include <stdarg.h>
 
 // THIS FILE ONLY INCLUDED WHEN USING GAMESPY DEBUG FUNCTIONS
 //    (don't put this above the header includes or VC will whine

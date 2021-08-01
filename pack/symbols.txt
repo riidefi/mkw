@@ -45,6 +45,9 @@
 0x80011b00 qsort
 0x80011c70 rand
 0x80011c90 srand
+0x80011c98 parse_format
+0x80012320 __sformatter
+0x80012fb8 __StringRead
 0x80013040 sscanf
 0x80013120 strcpy
 0x800131e0 strncpy
@@ -56,6 +59,8 @@
 0x80013428 strcspn
 0x800135f0 strstr
 0x80014990 atof
+0x800149ec __strtoul
+0x800152a8 strtoul
 0x8001543c atoi
 0x80017998 wcslen
 0x800179d0 wcsncpy
@@ -68,6 +73,7 @@
 0x8001bc98 strncasecmp
 0x8001bc9c strcasecmp
 0x80021254 strlen
+0x80021270 __va_arg
 0x80021338 __register_global_object
 0x80021350 __destroy_global_chain
 0x80021478 __cvt_fp2unsigned

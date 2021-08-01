@@ -24,9 +24,12 @@ out/dol/data_80258580_80274148.o
 out/dol/bss_802a4080_802f2338.o
 out/dol/sdata_80384c00_80384c38.o
 out/rand.o
-out/dol/text_80011c98_80017998.o
+out/scanf.o
+out/dol/text_80013108_80017998.o
 out/wchar.o
-out/dol/text_80017a48_8002156c.o
+out/dol/text_80017a48_80021270.o
+out/va_arg.o
+out/dol/text_80021338_8002156c.o
 out/eabi.o
 out/dol/text_80021ba8_8006a0c0.o
 out/dol/sdata_80384c3c_803850a0.o

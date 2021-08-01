@@ -2,6 +2,8 @@
 
 #include <string.h>
 
+#include "va_arg.h"
+
 // Extern function references.
 // PAL: 0x8000dafc
 extern UNKNOWN_FUNCTION(unk_8000dafc);
@@ -19,8 +21,6 @@ extern UNKNOWN_FUNCTION(unk_8000fe34);
 extern UNKNOWN_FUNCTION(unk_80013108);
 // PAL: 0x800155d8
 extern UNKNOWN_FUNCTION(unk_800155d8);
-// PAL: 0x80021270
-extern UNKNOWN_FUNCTION(unk_80021270);
 
 // Symbol: double2hex
 // Function signature is unknown.
@@ -1058,7 +1058,7 @@ lbl_80010e40:
   bne lbl_80010e98;
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r31, 0(r3);
   b lbl_80010f20;
 lbl_80010e98:
@@ -1066,7 +1066,7 @@ lbl_80010e98:
   bne lbl_80010eb8;
   mr r3, r27;
   li r4, 2;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r30, 0(r3);
   lwz r29, 4(r3);
   b lbl_80010f20;
@@ -1075,7 +1075,7 @@ lbl_80010eb8:
   bne lbl_80010ed8;
   mr r3, r27;
   li r4, 2;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r30, 0(r3);
   lwz r29, 4(r3);
   b lbl_80010f20;
@@ -1084,7 +1084,7 @@ lbl_80010ed8:
   bne lbl_80010ef4;
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r31, 0(r3);
   b lbl_80010f20;
 lbl_80010ef4:
@@ -1092,13 +1092,13 @@ lbl_80010ef4:
   bne lbl_80010f10;
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r31, 0(r3);
   b lbl_80010f20;
 lbl_80010f10:
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r31, 0(r3);
 lbl_80010f20:
   lbz r0, 0x74(r1);
@@ -1156,7 +1156,7 @@ lbl_80010fcc:
   bne lbl_80010ff4;
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r31, 0(r3);
   b lbl_8001107c;
 lbl_80010ff4:
@@ -1164,7 +1164,7 @@ lbl_80010ff4:
   bne lbl_80011014;
   mr r3, r27;
   li r4, 2;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r30, 0(r3);
   lwz r29, 4(r3);
   b lbl_8001107c;
@@ -1173,7 +1173,7 @@ lbl_80011014:
   bne lbl_80011034;
   mr r3, r27;
   li r4, 2;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r30, 0(r3);
   lwz r29, 4(r3);
   b lbl_8001107c;
@@ -1182,7 +1182,7 @@ lbl_80011034:
   bne lbl_80011050;
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r31, 0(r3);
   b lbl_8001107c;
 lbl_80011050:
@@ -1190,13 +1190,13 @@ lbl_80011050:
   bne lbl_8001106c;
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r31, 0(r3);
   b lbl_8001107c;
 lbl_8001106c:
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r31, 0(r3);
 lbl_8001107c:
   lbz r0, 0x74(r1);
@@ -1254,13 +1254,13 @@ lbl_80011128:
   bne lbl_80011150;
   mr r3, r27;
   li r4, 3;
-  bl unk_80021270;
+  bl __va_arg;
   lfd f1, 0(r3);
   b lbl_80011160;
 lbl_80011150:
   mr r3, r27;
   li r4, 3;
-  bl unk_80021270;
+  bl __va_arg;
   lfd f1, 0(r3);
 lbl_80011160:
   lwz r7, 0x70(r1);
@@ -1284,13 +1284,13 @@ lbl_80011160:
   bne lbl_800111c0;
   mr r3, r27;
   li r4, 3;
-  bl unk_80021270;
+  bl __va_arg;
   lfd f1, 0(r3);
   b lbl_800111d0;
 lbl_800111c0:
   mr r3, r27;
   li r4, 3;
-  bl unk_80021270;
+  bl __va_arg;
   lfd f1, 0(r3);
 lbl_800111d0:
   lwz r7, 0x70(r1);
@@ -1314,7 +1314,7 @@ lbl_800111d0:
   bne lbl_8001127c;
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   cmpwi r28, 0;
   lwz r4, 0(r3);
   beq lbl_80011254;
@@ -1341,7 +1341,7 @@ lbl_80011260:
 lbl_8001127c:
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r18, 0(r3);
 lbl_8001128c:
   cmpwi r28, 0;
@@ -1401,7 +1401,7 @@ lbl_80011324:
 lbl_80011354:
   mr r3, r27;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lbz r0, 0x74(r1);
   lwz r3, 0(r3);
   cmpwi r0, 0;
@@ -1447,7 +1447,7 @@ lbl_800113dc:
   mr r3, r27;
   addi r18, r1, 0x80;
   li r4, 1;
-  bl unk_80021270;
+  bl __va_arg;
   lwz r0, 0(r3);
   li r19, 1;
   stb r0, 0x80(r1);
