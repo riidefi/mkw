@@ -21,6 +21,7 @@
 0x8000ec5c fclose
 0x8000f1f0 memmove
 0x8000f2bc memchr
+0x8000f2e8 __memrchr
 0x8000f314 memcmp
 0x800116e4 printf
 0x800117b0 vprintf
