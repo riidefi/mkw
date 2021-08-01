@@ -1,6 +1,7 @@
 enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataStart,rodataEnd,dataStart,dataEnd,bssStart,bssEnd,sdataStart,sdataEnd,sbssStart,sbssEnd,sdata2Start,sdata2End,sbss2Start,sbss2End
 1,,asm/trkHeader.s,0x80004000,0x80004100,,,,,,,,,,,,,,,,,,,,,,,,
 1,,source/rvl/trk/rvlTrkMem.c,0x80005f34,0x80006068,,,,,,,,,,,,,,,,,,,,,,,,
+1,,source/platform/wchar.c,,,,,,,0x80017998,0x80017a48,,,,,,,,,,,,,,,,,,
 1,,source/nw4r/g3d/g3d_camera.cpp,,,,,,,0x8006a0c0,0x8006a518,,,,,,,,,,,,,,,0x80387cac,0x80387cd8,,
 1,,source/nw4r/g3d/g3d_fog.cpp,,,,,,,0x800774d0,0x800775d0,,,,,,,,,,,,,,,0x80387d58,0x80387d5C,,
 1,,source/nw4r/math/mathTriangular.cpp,,,,,,,0x80085110,0x80085578,,,,,0x80248010,0x80249020,0x80274148,0x80274250,,,,,,,0x80387e80,0x80387ea4,,

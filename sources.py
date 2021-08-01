@@ -29,6 +29,9 @@ class Source:
 SOURCES_TRK = [
     Source(src="source/rvl/trk/rvlTrkMem.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_MSL_LIBC = [
+    Source(src="source/platform/wchar.c", cc='4201_127', opts=RVL_OPTS)
+]
 SOURCES_RVL_ARC = [
     Source(src="source/rvl/arc/rvlArchive.c", cc='4199_60831', opts=RVL_OPTS),
 ]
@@ -157,6 +160,7 @@ SOURCES_EGG_MATH = [
 ]
 SOURCES_DOL = list(chain(
     SOURCES_TRK,
+    SOURCES_MSL_LIBC,
     SOURCES_RVL_ARC,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
