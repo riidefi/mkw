@@ -135,6 +135,6 @@ class DolBinary:
     def virtual_to_rom(self, vaddr: int) -> Optional[int]:
         """Returns the DOL offset given a virtual address."""
         for seg in self.segments:
-            if seg.start <= vaddr < self.stop:
+            if vaddr >= seg.start and vaddr <= seg.stop:
                 return seg.offset + (vaddr - seg.start)
         return None

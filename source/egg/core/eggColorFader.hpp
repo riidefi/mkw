@@ -1,6 +1,6 @@
 #pragma once
-#include <Common/rk_types.h>
-#include <nw4r/ut/Color.h>
+#include <rk_types.h>
+#include <nw4r/ut/utColor.hpp>
 
 namespace EGG {
 class Fader {

@@ -1,3 +1,10 @@
+0x80007F34 outgoing_childCreate__Q23EGG5SceneFv
+0x80007F38 incoming_childDestroy__Q23EGG5SceneFv
+0x80007F3C reinit__Q23EGG5SceneFv
+0x80007F40 exit__Q23EGG5SceneFv
+0x80007F44 enter__Q23EGG5SceneFv
+0x80007F48 draw__Q23EGG5SceneFv
+0x80007F4C calc__Q23EGG5SceneFv
 0x80005f34 memcpy
 0x80005f84 __fill_mem
 0x80006038 memset
@@ -1203,4 +1210,5 @@
 0x8022f85c frsqrt__Q23EGG5MathfFf
 0x80270fd0 __ctype_mapC
 0x80271148 _current_locale
+0x802a3e08 __vt__Q23EGG12SceneManager
 0x80385520 NNMagicData

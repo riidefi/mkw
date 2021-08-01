@@ -6,7 +6,7 @@
 #pragma once
 
 #include <Common/rk_types.h>
-#include <EGG/core/eggHeap.hpp>
+#include <egg/core/eggHeap.hpp>
 #include <nw4r/ut/List.h>
 
 namespace System {

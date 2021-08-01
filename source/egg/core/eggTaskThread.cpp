@@ -3,8 +3,8 @@
  * @brief TODO.
  */
 
-#include <EGG/core/eggHeap.hpp>
-#include <EGG/core/eggTaskThread.hpp>
+#include <egg/core/eggHeap.hpp>
+#include <egg/core/eggTaskThread.hpp>
 #include <revolution/dvd.h>
 #include <revolution/os/OSFastCast.h>
 
