@@ -16,6 +16,9 @@
 0x8000c21c ftell
 0x8000c3e4 fseek
 0x8000c3e8 rewind
+0x8000c948 __close_all
+0x8000c9ec __flush_line_buffered_output_files
+0x8000ca70 __flush_all
 0x8000e610 fread
 0x8000e614 fwrite
 0x8000ec5c fclose

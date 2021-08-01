@@ -11,7 +11,9 @@ out/dol/ctors_80244de0_80244e88.o
 out/dol/dtors_80244ea4_80244eac.o
 out/dol/rodata_80244ec0_80245010.o
 out/SystemResource.o
-out/dol/text_80007f7c_8000f1f0.o
+out/dol/text_80007f7c_8000c948.o
+out/ansi_files.o
+out/dol/text_8000cadc_8000f1f0.o
 out/mem.o
 out/mem_cpy.o
 out/dol/text_8000f630_800100e4.o
