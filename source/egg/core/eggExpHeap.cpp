@@ -3,7 +3,7 @@
  * @brief EGG wraper for expanded heaps implementation.
  */
 
-#include <EGG/core/eggExpHeap.hpp>
+#include <egg/core/eggExpHeap.hpp>
 #include <nw4r/ut/utInlines.hpp>
 #include <rvl/mem/expHeap.h>
 

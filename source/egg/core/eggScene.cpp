@@ -1,11 +1,11 @@
-#include <EGG/core/eggHeap.hpp>
-#include <EGG/core/eggScene.hpp>
-#include <EGG/core/eggSceneManager.hpp>
+#include <egg/core/eggHeap.hpp>
+#include <egg/core/eggScene.hpp>
+#include <egg/core/eggSceneManager.hpp>
 
 namespace EGG {
 
 Scene::Scene() {
-  _10 = Heap::sCurrentHeap;
+  _10 = Heap::getCurrentHeap();
   mHeapMem1 = SceneManager::sHeapMem1_ForCreateScene;
   mHeapMem2 = SceneManager::sHeapMem2_ForCreateScene;
   mHeapDebug = SceneManager::sHeapDebug_ForCreateScene;

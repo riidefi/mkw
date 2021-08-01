@@ -85,7 +85,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/egg/core/eggGraphicsFifo.cpp,,,,,,,0x80229540,0x802296A8,,,,,,,0x802A30B0,0x802A30BC,,,,,0x80386E90,0x80386E99,,,,
 1,,source/egg/core/eggHeap.cpp,,,,,,,0x802296A8,0x80229FAC,,,,,0x80257740,0x80257824,0x802A30C0,0x802a30ec,0x80384320,0x80384348,,,0x80386EA0,0x80386EC0,0x80388D68,0x80388D80,,
 1,,source/egg/math/eggQuat.cpp,,,,,,,0x80239DFC,0x80239E10,,,,,,,,,,,,,,,,,,
-,,source/egg/core/eggScene.cpp,,,,,,,0x8023AD10,0x8023ADDC,,,,,,,,,,,,,,,,,,
+1,,source/egg/core/eggScene.cpp,,,,,,,0x8023AD10,0x8023ADDC,,,,,,,0x802A3DE0,0x802A3E08,,,,,,,,,,
 1,,source/egg/core/eggSceneManager.cpp,,,,,,,0x8023ADDC,0x8023AE4C,,,,,,,,,,,,,0x80386F00,0x80386F10,,,,
 1,,source/egg/core/eggStreamDecomp.cpp,,,,,,,0x80242498,0x80242504,,,,,,,0x802A3F78,0x802A3F90,,,,,,,,,,
 ,,source/egg/core/eggSystem.cpp,,,,,,,,,,,,,,,,,,,,,0x80386F60,0x80386F64,,,,

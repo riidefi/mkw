@@ -1,5 +1,5 @@
-#include <EGG/core/eggGraphicsFifo.hpp>
-#include <EGG/core/eggHeap.hpp>
+#include <egg/core/eggGraphicsFifo.hpp>
+#include <egg/core/eggHeap.hpp>
 #include <egg/eggInternal.hpp>
 #include <rvl/gx.h>
 
