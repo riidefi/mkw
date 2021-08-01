@@ -1,32 +1,41 @@
 #pragma once
 
-#include <rk_types.h>
 #include <egg/core/eggDisposer.hpp>
 #include <egg/core/eggHeap.hpp>
+#include <rk_types.h>
 
 namespace EGG {
 
 class SceneManager;
 
+// HACK: Only the first instance of this symbol will be kept
+#ifndef EGGSCENE_INLINEBODY
+#define EGGSCENE_INLINEBODY ;
+#else
+#undef EGGSCENE_INLINEBODY
+#define EGGSCENE_INLINEBODY                                                    \
+  {}
+#endif
+
 class Scene : public Disposer {
 public:
   virtual ~Scene(); //! [vt+0x08] Virtual destructor.
 
-  virtual void calc() {}                  //! [vt+0x0C]
-  virtual void draw() {}                  //! [vt+0x10]
-  virtual void enter() {}                 //! [vt+0x14]
-  virtual void exit() {}                  //! [vt+0x18]
-  virtual void reinit() {}                //! [vt+0x1C]
-  virtual void incoming_childDestroy() {} //! [vt+0x20]
-  virtual void outgoing_childCreate() {}  //! [vt+0x24]
+  virtual void calc() EGGSCENE_INLINEBODY                      //! [vt+0x0C]
+      virtual void draw() EGGSCENE_INLINEBODY                  //! [vt+0x10]
+      virtual void enter() EGGSCENE_INLINEBODY                 //! [vt+0x14]
+      virtual void exit() EGGSCENE_INLINEBODY                  //! [vt+0x18]
+      virtual void reinit() EGGSCENE_INLINEBODY                //! [vt+0x1C]
+      virtual void incoming_childDestroy() EGGSCENE_INLINEBODY //! [vt+0x20]
+      virtual void outgoing_childCreate() EGGSCENE_INLINEBODY  //! [vt+0x24]
 
-  //! @brief Constructor
-  Scene();
+      //! @brief Constructor
+      Scene();
 
 private:
   // -- vt + inherited mContainHeap from Disposer --
-  int _08;    // TODO get name from SceneManager usage
-  Scene* _0C; // TODO get name from SceneManager usage
+  // int _08;    // TODO get name from SceneManager usage
+  // Scene* _0C; // TODO get name from SceneManager usage
 
   Heap* _10; // something like mCreatorHeap? set to Heap::sCurrentHeap in ct
   Heap* mHeapMem1;  //!< [+0x14]
@@ -40,7 +49,7 @@ private:
   int mID;                 //!< [+0x28]
   SceneManager* pSceneMgr; //!< [+0x2C] @see SceneManager::createScene
 
-public:  
+public:
   // inlines. actually above exit and below enter
   inline void setSceneMgr(SceneManager* mgr) { this->pSceneMgr = mgr; }
   inline void setParentScene(Scene* scene) { this->pParentScene = scene; }
