@@ -218,7 +218,9 @@ out/dol/sdata_80385a10_80385b08.o
 out/dol/sdata2_803888b4_803888b8.o
 out/rvlQuat.o
 out/nand.o
-out/dol/text_8019f1a8_801a8238.o
+out/dol/text_8019f1a8_801a65ac.o
+out/osInterrupt.o
+out/dol/text_801a6d30_801a8238.o
 out/osReset.o
 out/dol/text_801a8a80_801a95ac.o
 out/osThread.o

@@ -65,7 +65,6 @@ typedef struct OSContext {
 
 } OSContext;
 
-
 // PAL: 0x801a9e84..0x801aa0f0
 int OSCreateThread(OSThread* thread, void* (*callable)(void*), void* user_data,
                    void* stack, u32 stack_size, s32 prio, u16 flag);

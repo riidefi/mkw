@@ -4,6 +4,7 @@
 
 #include "os.h"
 #include "osError.h"
+#include "osInterrupt.h"
 #include "osThread.h"
 
 // Extern function references.

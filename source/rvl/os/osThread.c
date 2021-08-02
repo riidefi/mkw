@@ -1,6 +1,7 @@
 #include "osThread.h"
 
 #include "os.h"
+#include "osInterrupt.h"
 
 // Extern function references.
 // PAL: 0x801a0610
@@ -36,7 +37,7 @@ extern UNKNOWN_FUNCTION(__OSUnlockAllMutex);
 // PAL: 0x801a95ac..0x801a961c
 MARK_BINARY_BLOB(OSSetSwitchThreadCallback, 0x801a95ac, 0x801a961c);
 asm OSSwitchFunction OSSetSwitchThreadCallback(OSSwitchFunction callable) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -70,7 +71,7 @@ lbl_801a9604:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __OSThreadInit
@@ -78,7 +79,7 @@ lbl_801a9604:
 // PAL: 0x801a961c..0x801a98a0
 MARK_BINARY_BLOB(__OSThreadInit, 0x801a961c, 0x801a98a0);
 asm UNKNOWN_FUNCTION(__OSThreadInit) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -249,7 +250,7 @@ lbl_801a9864:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSInitThreadQueue
@@ -257,23 +258,23 @@ lbl_801a9864:
 // PAL: 0x801a98a0..0x801a98b0
 MARK_BINARY_BLOB(OSInitThreadQueue, 0x801a98a0, 0x801a98b0);
 asm UNKNOWN_FUNCTION(OSInitThreadQueue) {
-// clang-format off
+  // clang-format off
   nofralloc;
   li r0, 0;
   stw r0, 4(r3);
   stw r0, 0(r3);
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSGetCurrentThread
 // PAL: 0x801a98b0..0x801a98b4
 MARK_BINARY_BLOB(OSGetCurrentThread, 0x801a98b0, 0x801a98b4);
 asm OSThread* OSGetCurrentThread() {
-// clang-format off
+  // clang-format off
   nofralloc;
   lis r3, 0x8000;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: GetFont__Q34nw4r3lyt7TextBoxCFv
@@ -281,18 +282,18 @@ asm OSThread* OSGetCurrentThread() {
 // PAL: 0x801a98b4..0x801a98bc
 MARK_BINARY_BLOB(GetFont__Q34nw4r3lyt7TextBoxCFv, 0x801a98b4, 0x801a98bc);
 asm UNKNOWN_FUNCTION(GetFont__Q34nw4r3lyt7TextBoxCFv) {
-// clang-format off
+  // clang-format off
   nofralloc;
   lwz r3, 0xe4(r3);
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSIsThreadTerminated
 // PAL: 0x801a98bc..0x801a98e8
 MARK_BINARY_BLOB(OSIsThreadTerminated, 0x801a98bc, 0x801a98e8);
 asm int OSIsThreadTerminated(OSThread*) {
-// clang-format off
+  // clang-format off
   nofralloc;
   lhz r0, 0x2c8(r3);
   li r3, 1;
@@ -306,7 +307,7 @@ lbl_801a98d8:
   or r0, r0, r3;
   srwi r3, r0, 0x1f;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSDisableScheduler
@@ -314,7 +315,7 @@ lbl_801a98d8:
 // PAL: 0x801a98e8..0x801a9924
 MARK_BINARY_BLOB(OSDisableScheduler, 0x801a98e8, 0x801a9924);
 asm UNKNOWN_FUNCTION(OSDisableScheduler) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -331,7 +332,7 @@ asm UNKNOWN_FUNCTION(OSDisableScheduler) {
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSEnableScheduler
@@ -339,7 +340,7 @@ asm UNKNOWN_FUNCTION(OSDisableScheduler) {
 // PAL: 0x801a9924..0x801a9960
 MARK_BINARY_BLOB(OSEnableScheduler, 0x801a9924, 0x801a9960);
 asm UNKNOWN_FUNCTION(OSEnableScheduler) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -356,7 +357,7 @@ asm UNKNOWN_FUNCTION(OSEnableScheduler) {
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: UnsetRun
@@ -364,7 +365,7 @@ asm UNKNOWN_FUNCTION(OSEnableScheduler) {
 // PAL: 0x801a9960..0x801a99c8
 MARK_BINARY_BLOB(UnsetRun, 0x801a9960, 0x801a99c8);
 asm UNKNOWN_FUNCTION(UnsetRun) {
-// clang-format off
+  // clang-format off
   nofralloc;
   lwz r5, 0x2e0(r3);
   lwz r4, 0x2dc(r3);
@@ -397,7 +398,7 @@ lbl_801a99bc:
   li r0, 0;
   stw r0, 0x2dc(r3);
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __OSGetEffectivePriority
@@ -405,7 +406,7 @@ lbl_801a99bc:
 // PAL: 0x801a99c8..0x801a9a04
 MARK_BINARY_BLOB(__OSGetEffectivePriority, 0x801a99c8, 0x801a9a04);
 asm UNKNOWN_FUNCTION(__OSGetEffectivePriority) {
-// clang-format off
+  // clang-format off
   nofralloc;
   lwz r4, 0x2d4(r3);
   lwz r3, 0x2f4(r3);
@@ -425,7 +426,7 @@ lbl_801a99f4:
   bne lbl_801a99d4;
   mr r3, r4;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: SetEffectivePriority
@@ -433,7 +434,7 @@ lbl_801a99f4:
 // PAL: 0x801a9a04..0x801a9bb8
 MARK_BINARY_BLOB(SetEffectivePriority, 0x801a9a04, 0x801a9bb8);
 asm UNKNOWN_FUNCTION(SetEffectivePriority) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -564,7 +565,7 @@ lbl_801a9ba0:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __OSPromoteThread
@@ -572,7 +573,7 @@ lbl_801a9ba0:
 // PAL: 0x801a9bb8..0x801a9c08
 MARK_BINARY_BLOB(__OSPromoteThread, 0x801a9bb8, 0x801a9c08);
 asm UNKNOWN_FUNCTION(__OSPromoteThread) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -596,7 +597,7 @@ lbl_801a9bf4:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: SelectThread
@@ -604,7 +605,7 @@ lbl_801a9bf4:
 // PAL: 0x801a9c08..0x801a9e30
 MARK_BINARY_BLOB(SelectThread, 0x801a9c08, 0x801a9e30);
 asm UNKNOWN_FUNCTION(SelectThread) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -758,7 +759,7 @@ lbl_801a9e18:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __OSReschedule
@@ -766,7 +767,7 @@ lbl_801a9e18:
 // PAL: 0x801a9e30..0x801a9e48
 MARK_BINARY_BLOB(__OSReschedule, 0x801a9e30, 0x801a9e48);
 asm UNKNOWN_FUNCTION(__OSReschedule) {
-// clang-format off
+  // clang-format off
   nofralloc;
   lwz r0, -0x62e4(r13);
   cmpwi r0, 0;
@@ -774,7 +775,7 @@ asm UNKNOWN_FUNCTION(__OSReschedule) {
   li r3, 0;
   b SelectThread;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSYieldThread
@@ -782,7 +783,7 @@ asm UNKNOWN_FUNCTION(__OSReschedule) {
 // PAL: 0x801a9e48..0x801a9e84
 MARK_BINARY_BLOB(OSYieldThread, 0x801a9e48, 0x801a9e84);
 asm UNKNOWN_FUNCTION(OSYieldThread) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -799,15 +800,16 @@ asm UNKNOWN_FUNCTION(OSYieldThread) {
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSCreateThread
 // PAL: 0x801a9e84..0x801aa0f0
 MARK_BINARY_BLOB(OSCreateThread, 0x801a9e84, 0x801aa0f0);
-asm int OSCreateThread(OSThread* thread, void* (*callable)(void*), void* user_data,
-                   void* stack, u32 stack_size, s32 prio, u16 flag) {
-// clang-format off
+asm int OSCreateThread(OSThread* thread, void* (*callable)(void*),
+                       void* user_data, void* stack, u32 stack_size, s32 prio,
+                       u16 flag) {
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -971,7 +973,7 @@ lbl_801aa0d8:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSExitThread
@@ -979,7 +981,7 @@ lbl_801aa0d8:
 // PAL: 0x801aa0f0..0x801aa1d4
 MARK_BINARY_BLOB(OSExitThread, 0x801aa0f0, 0x801aa1d4);
 asm UNKNOWN_FUNCTION(OSExitThread) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1045,14 +1047,14 @@ lbl_801aa1ac:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSCancelThread
 // PAL: 0x801aa1d4..0x801aa3ac
 MARK_BINARY_BLOB(OSCancelThread, 0x801aa1d4, 0x801aa3ac);
 asm void OSCancelThread(OSThread*) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1194,7 +1196,7 @@ lbl_801aa394:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSJoinThread
@@ -1202,7 +1204,7 @@ lbl_801aa394:
 // PAL: 0x801aa3ac..0x801aa4ec
 MARK_BINARY_BLOB(OSJoinThread, 0x801aa3ac, 0x801aa4ec);
 asm UNKNOWN_FUNCTION(OSJoinThread) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1297,14 +1299,14 @@ lbl_801aa4d0:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSDetachThread
 // PAL: 0x801aa4ec..0x801aa58c
 MARK_BINARY_BLOB(OSDetachThread, 0x801aa4ec, 0x801aa58c);
 asm void OSDetachThread(OSThread*) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1351,14 +1353,14 @@ lbl_801aa564:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSResumeThread
 // PAL: 0x801aa58c..0x801aa824
 MARK_BINARY_BLOB(OSResumeThread, 0x801aa58c, 0x801aa824);
 asm s32 OSResumeThread(OSThread*) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1555,7 +1557,7 @@ lbl_801aa7fc:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSSuspendThread
@@ -1563,7 +1565,7 @@ lbl_801aa7fc:
 // PAL: 0x801aa824..0x801aa9b8
 MARK_BINARY_BLOB(OSSuspendThread, 0x801aa824, 0x801aa9b8);
 asm UNKNOWN_FUNCTION(OSSuspendThread) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1682,7 +1684,7 @@ lbl_801aa990:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSSleepThread
@@ -1690,7 +1692,7 @@ lbl_801aa990:
 // PAL: 0x801aa9b8..0x801aaaa4
 MARK_BINARY_BLOB(OSSleepThread, 0x801aa9b8, 0x801aaaa4);
 asm UNKNOWN_FUNCTION(OSSleepThread) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1760,7 +1762,7 @@ lbl_801aaa84:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSWakeupThread
@@ -1768,7 +1770,7 @@ lbl_801aaa84:
 // PAL: 0x801aaaa4..0x801aab98
 MARK_BINARY_BLOB(OSWakeupThread, 0x801aaaa4, 0x801aab98);
 asm UNKNOWN_FUNCTION(OSWakeupThread) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -1838,7 +1840,7 @@ lbl_801aab78:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSSetThreadPriority
@@ -1846,7 +1848,7 @@ lbl_801aab78:
 // PAL: 0x801aab98..0x801aaca8
 MARK_BINARY_BLOB(OSSetThreadPriority, 0x801aab98, 0x801aaca8);
 asm UNKNOWN_FUNCTION(OSSetThreadPriority) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -1925,14 +1927,14 @@ lbl_801aac68:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: OSSleepTicks
 // PAL: 0x801aaca8..0x801aad5c
 MARK_BINARY_BLOB(OSSleepTicks, 0x801aaca8, 0x801aad5c);
 asm void OSSleepTicks(OSTime ticks) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x50(r1);
   mflr r0;
@@ -1981,6 +1983,5 @@ lbl_801aad3c:
   mtlr r0;
   addi r1, r1, 0x50;
   blr;
-// clang-format on
+  // clang-format on
 }
-

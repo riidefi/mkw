@@ -3,6 +3,7 @@
 #include <rk_types.h>
 
 #include <rvl/os/os.h>
+#include <rvl/os/osInterrupt.h>
 #include <rvl/os/osMutex.h>
 #include "rvlMemList.h"
 

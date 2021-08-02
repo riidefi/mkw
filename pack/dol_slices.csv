@@ -88,6 +88,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/mtx/rvlVec.c,,,,,,,0x8019abe4,0x8019ae08,,,,,,,,,,,,,,,0x803888a8,0x803888b4,,
 1,,source/rvl/mtx/rvlQuat.c,,,,,,,0x8019ae08,0x8019b314,,,,,0x80252c78,0x80252c84,,,,,,,,,0x803888b8,0x803888d0,,
 1,,source/rvl/nand/nand.c,,,,,,,0x8019b314,0x8019f1a8,,,,,,,,,,,,,,,,,,
+1,,source/rvl/os/osInterrupt.c,,,,,,,0x801a65ac ,0x801a6d30 ,,,,,,,,,,,,,,,,,,
 1,,source/rvl/os/osReset.c,,,,,,,0x801a8238 ,0x801a8a80 ,,,,,,,,,,,,,,,,,,
 1,,source/rvl/os/osThread.c,,,,,,,0x801a95ac ,0x801aad5c ,,,,,,,,,,,,,,,,,,
 1,,source/rvl/pad/rvlPadClamp.c,,,,,,,0x801ae5d8,0x801ae880,,,,,0x80252dd0,0x80252de6,,,,,,,,,0x80388930,0x80388938,,

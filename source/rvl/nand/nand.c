@@ -9,6 +9,7 @@
 #include <rvl/fs/fs.h>
 #include <rvl/os/os.h>
 #include <rvl/os/osError.h>
+#include <rvl/os/osInterrupt.h>
 
 // Extern function references.
 // PAL: 0x801671d0
