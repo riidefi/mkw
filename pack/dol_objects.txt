@@ -218,7 +218,9 @@ out/dol/sdata_80385a10_80385b08.o
 out/dol/sdata2_803888b4_803888b8.o
 out/rvlQuat.o
 out/nand.o
-out/dol/text_8019f1a8_801ae5d8.o
+out/dol/text_8019f1a8_801a8238.o
+out/osReset.o
+out/dol/text_801a8a80_801ae5d8.o
 out/dol/rodata_80252c84_80252dd0.o
 out/dol/sdata2_803888d0_80388930.o
 out/rvlPadClamp.o

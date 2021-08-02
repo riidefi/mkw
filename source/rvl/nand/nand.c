@@ -34,7 +34,7 @@ extern UNKNOWN_FUNCTION(ISFS_Close);
 // PAL: 0x801a0504
 extern UNKNOWN_FUNCTION(OSRegisterVersion);
 // PAL: 0x801a8238
-extern UNKNOWN_FUNCTION(OSRegisterResetFunction);
+extern UNKNOWN_FUNCTION(OSRegisterShutdownFunction);
 
 // Function declarations.
 UNKNOWN_FUNCTION(nandCreate);
@@ -3954,7 +3954,7 @@ lbl_8019e248:
   bl OSReport;
 lbl_8019e260:
   addi r3, r31, 0xa0;
-  bl OSRegisterResetFunction;
+  bl OSRegisterShutdownFunction;
   bl OSDisableInterrupts;
   li r0, 2;
   stw r0, -0x63b8(r13);

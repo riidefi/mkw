@@ -2,10 +2,6 @@
 
 #include <math.h>
 
-// Extern function references.
-// PAL: 0x8001b7a8
-extern UNKNOWN_FUNCTION(unk_8001b7a8);
-
 // Symbol: __ull2dec
 // Function signature is unknown.
 // PAL: 0x8000cadc..0x8000cbb8
@@ -1170,7 +1166,7 @@ lbl_8000da3c:
 lbl_8000da48:
   fmr f1, f31;
   addi r3, r1, 8;
-  bl unk_8001b7a8;
+  bl frexp;
   stfd f1, 0x10(r1);
   fmr f31, f1;
   lwz r4, 0x14(r1);
