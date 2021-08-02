@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include <rvl/os/os.h>
+#include <rvl/os/osThread.h>
 
 #include "ipcMain.h"
 
@@ -33,12 +34,6 @@ extern UNKNOWN_FUNCTION(OSClearContext);
 extern UNKNOWN_FUNCTION(unk_801a65f8);
 // PAL: 0x801a69bc
 extern UNKNOWN_FUNCTION(unk_801a69bc);
-// PAL: 0x801a98a0
-extern UNKNOWN_FUNCTION(unk_801a98a0);
-// PAL: 0x801aa9b8
-extern UNKNOWN_FUNCTION(OSSleepThread);
-// PAL: 0x801aaaa4
-extern UNKNOWN_FUNCTION(OSWakeupThread);
 
 // Symbol: strnlen
 // Function signature is unknown.
@@ -488,7 +483,7 @@ lbl_801935d4:
   cmpwi r4, 0;
   bne lbl_801935e4;
   addi r3, r3, 0x2c;
-  bl unk_801a98a0;
+  bl OSInitThreadQueue;
 lbl_801935e4:
   mr r3, r28;
   li r4, 0x20;
@@ -1921,7 +1916,7 @@ lbl_80194768:
   lwz r29, 8(r1);
   stw r3, -0x63fc(r13);
   addi r3, r3, 0x2c;
-  bl unk_801a98a0;
+  bl OSInitThreadQueue;
   mr r3, r29;
   li r4, 0x20;
   bl unk_801a162c;

@@ -220,7 +220,9 @@ out/rvlQuat.o
 out/nand.o
 out/dol/text_8019f1a8_801a8238.o
 out/osReset.o
-out/dol/text_801a8a80_801ae5d8.o
+out/dol/text_801a8a80_801a95ac.o
+out/osThread.o
+out/dol/text_801aad5c_801ae5d8.o
 out/dol/rodata_80252c84_80252dd0.o
 out/dol/sdata2_803888d0_80388930.o
 out/rvlPadClamp.o

@@ -80,6 +80,7 @@ SOURCES_RVL_NAND = [
 ]
 SOURCES_RVL_OS = [
     Source(src="source/rvl/os/osReset.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osThread.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_PAD = [
     Source(src="source/rvl/pad/rvlPadClamp.c", cc='4199_60831', opts=RVL_OPTS),

@@ -4,8 +4,8 @@
 
 #include "gsPlatform.h"
 
+#include <rvl/os/osMutex.h>
 #include <rvl/os/osSemaphore.h>
-#include <rvl/os/osThread.h>
 
 #ifdef __cplusplus
 extern "C" {

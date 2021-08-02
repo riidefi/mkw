@@ -2,7 +2,8 @@
 
 #include <rk_types.h>
 
-#include "rvl/os/osThread.h"
+#include <rvl/os/os.h>
+#include <rvl/os/osMutex.h>
 #include "rvlMemList.h"
 
 #ifdef __cplusplus
