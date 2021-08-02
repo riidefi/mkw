@@ -87,18 +87,13 @@ inline void* OSPhysicalToCached(u32 addr) { return (void*)(addr + 0x80000000); }
 // Symbol: __OSInterruptInit
 // PAL: 0x801a661c..0x801a66e0
 void __OSInterruptInit(void) {
-  OSInterruptHandlerTable =
-      (__OSInterruptHandler*)OSPhysicalToCached(OS_INTERRUPTTABLE_ADDR);
+  OSInterruptHandlerTable = (__OSInterruptHandler*)OSPhysicalToCached(0x3040);
   memset((void*)OSInterruptHandlerTable, 0, 32 * sizeof(__OSInterruptHandler));
-  *(u32*)OSPhysicalToCached(OS_INTERRUPTMASK_ADDR) = 0;
-  *(u32*)OSPhysicalToCached(OS_UINTERRUPTMASK_ADDR) = 0;
-  __PIRegs[PI_REG_INTMSK / 4] =
-      PI_INTMSK_REG_EXMSK_MASK | PI_INTMSK_REG_AIMSK_MASK |
-      PI_INTMSK_REG_DSPMSK_MASK | PI_INTMSK_REG_MEMMSK_MASK;
-  __ACRRegs[ACRPPCINTEN_OFFSET / 4] = ACRINTSTS_ACRIPCPPC_MASK;
-  __OSMaskInterrupts(OS_INTERRUPTMASK_MEM | OS_INTERRUPTMASK_DSP |
-                     OS_INTERRUPTMASK_AI | OS_INTERRUPTMASK_EXI |
-                     OS_INTERRUPTMASK_PI);
+  *(u32*)OSPhysicalToCached(0x00C4) = 0;
+  *(u32*)OSPhysicalToCached(0x00C8) = 0;
+  __PIRegs[0x004 / 4] = 0xf0;
+  __ACRRegs[0x034 / 4] = 0x40000000;
+  __OSMaskInterrupts(0xfffffff0u);
   __OSSetExceptionHandler(4, ExternalInterruptHandler);
 }
 
@@ -369,85 +364,85 @@ volatile u32 __OSLastInterruptSrr0;
 // Symbol: __OSDispatchInterrupt
 // PAL: 0x801a6a3c..0x801a6ce0
 void __OSDispatchInterrupt(u8, OSContext* context) {
-  u32 intsr = __PIRegs[PI_REG_INTSR / 4];
-  intsr &= ~PI_INTSR_REG_RSTVAL_MASK;
-  u32 mask = __PIRegs[PI_REG_INTMSK / 4];
+  u32 intsr = __PIRegs[0];
+  intsr &= ~0x00010000;
+  u32 mask = __PIRegs[1];
   if (intsr == 0 || (intsr & mask) == 0)
     OSLoadContext(context);
   u32 reg;
   u32 bits = 0;
-  if (intsr & PI_INTSR_REG_MEMINT_MASK) {
-    reg = __MEMRegs[MEM_INT_STAT_IDX];
-    if (reg & MEM_INT_STAT_INT0_MASK)
-      bits |= OS_INTERRUPTMASK_MEM_0;
-    if (reg & MEM_INT_STAT_INT1_MASK)
-      bits |= OS_INTERRUPTMASK_MEM_1;
-    if (reg & MEM_INT_STAT_INT2_MASK)
-      bits |= OS_INTERRUPTMASK_MEM_2;
-    if (reg & MEM_INT_STAT_INT3_MASK)
-      bits |= OS_INTERRUPTMASK_MEM_3;
-    if (reg & MEM_INT_STAT_ADRERR_MASK)
-      bits |= OS_INTERRUPTMASK_MEM_ADDRESS;
+  if (intsr & 0x00000080) {
+    reg = __MEMRegs[0x0000000f];
+    if (reg & 0x00000001)
+      bits |= (0x80000000u >> 0);
+    if (reg & 0x00000002)
+      bits |= (0x80000000u >> 1);
+    if (reg & 0x00000004)
+      bits |= (0x80000000u >> 2);
+    if (reg & 0x00000008)
+      bits |= (0x80000000u >> 3);
+    if (reg & 0x00000010)
+      bits |= (0x80000000u >> 4);
   }
-  if (intsr & PI_INTSR_REG_DSPINT_MASK) {
-    reg = __DSPRegs[DSP_CDCR_IDX];
-    if (reg & DSP_CDCR_AIINT_MASK)
-      bits |= OS_INTERRUPTMASK_DSP_AI;
-    if (reg & DSP_CDCR_ARAMINT_MASK)
-      bits |= OS_INTERRUPTMASK_DSP_ARAM;
-    if (reg & DSP_CDCR_DSPINT_MASK)
-      bits |= OS_INTERRUPTMASK_DSP_DSP;
+  if (intsr & 0x00000040) {
+    reg = __DSPRegs[0x00000005];
+    if (reg & 0x00000008)
+      bits |= (0x80000000u >> 5);
+    if (reg & 0x00000020)
+      bits |= (0x80000000u >> 6);
+    if (reg & 0x00000080)
+      bits |= (0x80000000u >> 7);
   }
-  if (intsr & PI_INTSR_REG_AIINT_MASK) {
-    reg = __AIRegs[AI_CR_IDX];
-    if (reg & AI_CR_AIINT_MASK)
-      bits |= OS_INTERRUPTMASK_AI_AI;
+  if (intsr & 0x00000020) {
+    reg = __AIRegs[0x00000000];
+    if (reg & 0x00000008)
+      bits |= (0x80000000u >> 8);
   }
-  if (intsr & PI_INTSR_REG_EXINT_MASK) {
-    reg = __EXIRegs[EXI_0CPR_IDX];
-    if (reg & EXI_0CPR_EXIINT_MASK)
-      bits |= OS_INTERRUPTMASK_EXI_0_EXI;
-    if (reg & EXI_0CPR_TCINT_MASK)
-      bits |= OS_INTERRUPTMASK_EXI_0_TC;
-    if (reg & EXI_0CPR_EXTINT_MASK)
-      bits |= OS_INTERRUPTMASK_EXI_0_EXT;
-    reg = __EXIRegs[EXI_1CPR_IDX];
-    if (reg & EXI_1CPR_EXIINT_MASK)
-      bits |= OS_INTERRUPTMASK_EXI_1_EXI;
-    if (reg & EXI_1CPR_TCINT_MASK)
-      bits |= OS_INTERRUPTMASK_EXI_1_TC;
-    if (reg & EXI_1CPR_EXTINT_MASK)
-      bits |= OS_INTERRUPTMASK_EXI_1_EXT;
-    reg = __EXIRegs[EXI_2CPR_IDX];
-    if (reg & EXI_2CPR_EXIINT_MASK)
-      bits |= OS_INTERRUPTMASK_EXI_2_EXI;
-    if (reg & EXI_2CPR_TCINT_MASK)
-      bits |= OS_INTERRUPTMASK_EXI_2_TC;
+  if (intsr & 0x00000010) {
+    reg = __EXIRegs[0x00000000];
+    if (reg & 0x00000002)
+      bits |= (0x80000000u >> 9);
+    if (reg & 0x00000008)
+      bits |= (0x80000000u >> 10);
+    if (reg & 0x00000800)
+      bits |= (0x80000000u >> 11);
+    reg = __EXIRegs[0x00000005];
+    if (reg & 0x00000002)
+      bits |= (0x80000000u >> 12);
+    if (reg & 0x00000008)
+      bits |= (0x80000000u >> 13);
+    if (reg & 0x00000800)
+      bits |= (0x80000000u >> 14);
+    reg = __EXIRegs[0x0000000a];
+    if (reg & 0x00000002)
+      bits |= (0x80000000u >> 15);
+    if (reg & 0x00000008)
+      bits |= (0x80000000u >> 16);
   }
-  if (intsr & PI_INTSR_REG_SDINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_HSP;
-  if (intsr & PI_INTSR_REG_DBGINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_DEBUG;
-  if (intsr & PI_INTSR_REG_PEINT1_MASK)
-    bits |= OS_INTERRUPTMASK_PI_PE_FINISH;
-  if (intsr & PI_INTSR_REG_PEINT0_MASK)
-    bits |= OS_INTERRUPTMASK_PI_PE_TOKEN;
-  if (intsr & PI_INTSR_REG_VIINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_VI;
-  if (intsr & PI_INTSR_REG_SIINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_SI;
-  if (intsr & PI_INTSR_REG_DIINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_DI;
-  if (intsr & PI_INTSR_REG_RSWINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_RSW;
-  if (intsr & PI_INTSR_REG_CPINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_CP;
-  if (intsr & PI_INTSR_REG_PIINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_ERROR;
-  if (intsr & PI_INTSR_REG_ACRINT_MASK)
-    bits |= OS_INTERRUPTMASK_PI_ACR;
-  u32 local5 = bits & ~(*(u32*)OSPhysicalToCached(OS_INTERRUPTMASK_ADDR) |
-                        *(u32*)OSPhysicalToCached(OS_UINTERRUPTMASK_ADDR));
+  if (intsr & 0x00002000)
+    bits |= (0x80000000u >> 26);
+  if (intsr & 0x00001000)
+    bits |= (0x80000000u >> 25);
+  if (intsr & 0x00000400)
+    bits |= (0x80000000u >> 19);
+  if (intsr & 0x00000200)
+    bits |= (0x80000000u >> 18);
+  if (intsr & 0x00000100)
+    bits |= (0x80000000u >> 24);
+  if (intsr & 0x00000008)
+    bits |= (0x80000000u >> 20);
+  if (intsr & 0x00000004)
+    bits |= (0x80000000u >> 21);
+  if (intsr & 0x00000002)
+    bits |= (0x80000000u >> 22);
+  if (intsr & 0x00000800)
+    bits |= (0x80000000u >> 17);
+  if (intsr & 0x00000001)
+    bits |= (0x80000000u >> 23);
+  if (intsr & 0x00004000)
+    bits |= (0x80000000u >> 27);
+  u32 local5 = bits & ~(*(u32*)OSPhysicalToCached(0x00C4) |
+                        *(u32*)OSPhysicalToCached(0x00C8));
   if (local5) {
     u32* prio;
     s16 interrupt;
@@ -459,7 +454,7 @@ void __OSDispatchInterrupt(u8, OSContext* context) {
     }
     __OSInterruptHandler handler = __OSGetInterruptHandler(interrupt);
     if (handler) {
-      if (__OS_INTERRUPT_MEM_ADDRESS < interrupt) {
+      if (4 < interrupt) {
         __OSLastInterrupt = interrupt;
         __OSLastInterruptTime = OSGetTime();
         __OSLastInterruptSrr0 = context->srr0;
@@ -471,7 +466,6 @@ void __OSDispatchInterrupt(u8, OSContext* context) {
       OSLoadContext(context);
     }
   }
-
   OSLoadContext(context);
 }
 
