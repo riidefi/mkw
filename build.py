@@ -136,6 +136,7 @@ CW_ARGS = [
     "-nostdinc",
     "-msgstyle gcc -lang=c99 -DREVOKART",
     "-func_align 4",
+    "-sym dwarf-2",
 ]
 
 # Hack: $@ doesn't behave properly with this

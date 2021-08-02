@@ -29,7 +29,7 @@ DOL_SECTIONS = [
     Section("extabindex", "data", 0x80006A20, 0x800072C0),
     Section("text", "code", 0x800072C0, 0x80244DE0),
     Section("ctors", "data", 0x80244DE0, 0x80244E90),
-    Section("dtors", "data", 0x80244EA4, 0x80244EAC),
+    Section("dtors", "data", 0x80244EA0, 0x80244EAC),
     Section("rodata", "data", 0x80244EC0, 0x80258580),
     Section("data", "data", 0x80258580, 0x802A4040),
     Section("bss", "bss", 0x802A4080, 0x80384C00),

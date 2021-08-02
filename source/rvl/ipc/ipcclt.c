@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include <rvl/os/os.h>
+#include <rvl/os/osInterrupt.h>
+#include <rvl/os/osThread.h>
 
 #include "ipcMain.h"
 
@@ -29,16 +31,6 @@ extern UNKNOWN_FUNCTION(unk_801a162c);
 extern UNKNOWN_FUNCTION(OSSetCurrentContext);
 // PAL: 0x801a2098
 extern UNKNOWN_FUNCTION(OSClearContext);
-// PAL: 0x801a65f8
-extern UNKNOWN_FUNCTION(unk_801a65f8);
-// PAL: 0x801a69bc
-extern UNKNOWN_FUNCTION(unk_801a69bc);
-// PAL: 0x801a98a0
-extern UNKNOWN_FUNCTION(unk_801a98a0);
-// PAL: 0x801aa9b8
-extern UNKNOWN_FUNCTION(OSSleepThread);
-// PAL: 0x801aaaa4
-extern UNKNOWN_FUNCTION(OSWakeupThread);
 
 // Symbol: strnlen
 // Function signature is unknown.
@@ -404,9 +396,9 @@ lbl_801934cc:
   lis r4, 0x8019;
   li r3, 0x1b;
   addi r4, r4, 0x32cc;
-  bl unk_801a65f8;
+  bl __OSSetInterruptHandler;
   li r3, 0x10;
-  bl unk_801a69bc;
+  bl __OSUnmaskInterrupts;
   li r3, 1;
   li r4, 0x38;
   bl IPCWriteReg;
@@ -488,7 +480,7 @@ lbl_801935d4:
   cmpwi r4, 0;
   bne lbl_801935e4;
   addi r3, r3, 0x2c;
-  bl unk_801a98a0;
+  bl OSInitThreadQueue;
 lbl_801935e4:
   mr r3, r28;
   li r4, 0x20;
@@ -1921,7 +1913,7 @@ lbl_80194768:
   lwz r29, 8(r1);
   stw r3, -0x63fc(r13);
   addi r3, r3, 0x2c;
-  bl unk_801a98a0;
+  bl OSInitThreadQueue;
   mr r3, r29;
   li r4, 0x20;
   bl unk_801a162c;

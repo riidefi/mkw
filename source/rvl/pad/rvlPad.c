@@ -12,7 +12,7 @@ void OSSetCurrentContext(OSContext*);
 void OSClearContext(OSContext*);
 void OSRegisterVersion(const char*);
 s64 OSGetTime();
-void OSRegisterResetFunction(OSResetFunctionInfo* info);
+void OSRegisterShutdownFunction(OSResetFunctionInfo* info);
 // Broadway / IOS global locations: https://wiibrew.org/wiki/Memory_Map
 u8 oslow_30e3 : (0x800030e3);
 u16 oslow_30e0 : (0x800030e0);
@@ -331,7 +331,7 @@ int PADInit(void) {
         (0x4du << 24) | (chan << 22) | ((oslow_30e0 & 0x3fffu) << 8);
   }
   SIRefreshSamplingRate();
-  OSRegisterResetFunction(&PAD_ResetFunctionInfo);
+  OSRegisterShutdownFunction(&PAD_ResetFunctionInfo);
   return PADReset(0xf0000000);
 }
 

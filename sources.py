@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from itertools import chain
 
 
+MSL_LIBC_OPTS = '-ipa file'
 RVL_OPTS = '-ipa file'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 EGG_OPTS = '-ipa function -rostr'
@@ -34,8 +35,21 @@ SOURCES_TRK = [
     Source(src="source/rvl/trk/start.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_MSL_LIBC = [
-    Source(src="source/platform/wchar.c", cc='4201_127', opts=RVL_OPTS),
-    Source(src="source/platform/eabi.c", cc='4201_127', opts=RVL_OPTS),
+    Source(src="source/platform/ansi_files.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/ansi_fp.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/float.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/mem.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/mem_cpy.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/printf.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/qsort.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/rand.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/scanf.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/wchar.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/ExceptionPPC.cpp", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/__init_cpp_exceptions.cpp", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/va_arg.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/eabi.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/global_destructor_chain.c", cc='4201_127', opts=MSL_LIBC_OPTS),
 ]
 SOURCES_RVL_ARC = [
     Source(src="source/rvl/arc/rvlArchive.c", cc='4199_60831', opts=RVL_OPTS),
@@ -62,7 +76,12 @@ SOURCES_RVL_MTX = [
     Source(src="source/rvl/mtx/rvlQuat.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_NAND = [
-    Source(src="source/rvl/nand/nand.c", cc='4199_60831', opts=RVL_OPTS)
+    Source(src="source/rvl/nand/nand.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_OS = [
+    Source(src="source/rvl/os/osInterrupt.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osReset.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osThread.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_PAD = [
     Source(src="source/rvl/pad/rvlPadClamp.c", cc='4199_60831', opts=RVL_OPTS),
@@ -175,6 +194,7 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_MEM,
     SOURCES_RVL_MTX,
     SOURCES_RVL_NAND,
+    SOURCES_RVL_OS,
     SOURCES_RVL_PAD,
     SOURCES_RVL_SI,
     SOURCES_RVL_TPL,

@@ -65,7 +65,9 @@ class AsmGenerator:
             self.dump_data()
 
     def format_segname(self, name):
-        if "extab" in name:
+        if name in ("extab", "extabindex"):
+            # The linker is supposed to auto-generate those.
+            # It will crash if we try to feed it those sections with object files.
             return name + "_"
         return "." + name
 

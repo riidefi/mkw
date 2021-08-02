@@ -1,13 +1,12 @@
 #include "ipcMain.h"
 
+#include <hardware.h>
+
 // Extern function references.
 // PAL: 0x801ab648
 extern void* __OSGetIPCBufferHi(void);
 // PAL: 0x801ab650
 extern void* __OSGetIPCBufferLo(void);
-
-// Hardware registers.
-u32 HOLLYWOOD_REGS[137] : 0xcd000000;
 
 // Static vars.
 static void* IPCAltBufferHi;
@@ -43,11 +42,11 @@ void IPCReInit(void) {
 
 // Symbol: IPCReadReg
 // PAL: 0x80193010..0x80193020
-u32 IPCReadReg(u32 reg) { return HOLLYWOOD_REGS[reg]; }
+u32 IPCReadReg(u32 reg) { return __ACRRegs[reg]; }
 
 // Symbol: IPCWriteReg
 // PAL: 0x80193020..0x80193030
-void IPCWriteReg(u32 reg, u32 data) { HOLLYWOOD_REGS[reg] = data; }
+void IPCWriteReg(u32 reg, u32 data) { __ACRRegs[reg] = data; }
 
 // Symbol: IPCGetBufferHi
 // PAL: 0x80193030..0x80193038
