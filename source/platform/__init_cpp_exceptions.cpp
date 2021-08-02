@@ -3,52 +3,33 @@
 #include "ExceptionPPC.h"
 #include "global_destructor_chain.h"
 
+static int fragmentID = -2;
+
+static inline void __exception_info_constants(void** info, char** R2) {
+  register char* temp;
+  asm {	mr temp, r2; }
+  *R2 = temp;
+  *info = (void*)_eti_init_info_;
+}
+
 // Symbol: __init_cpp_exceptions
 // PAL: 0x800211e4..0x80021220
-MARK_BINARY_BLOB(__init_cpp_exceptions, 0x800211e4, 0x80021220);
-extern asm void __init_cpp_exceptions(void) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  lwz r0, -0x7fb8(r13);
-  cmpwi r0, -2;
-  bne lbl_80021210;
-  lis r3, 0x8000;
-  mr r4, r2;
-  addi r3, r3, 0x7290;
-  bl __register_fragment;
-  stw r3, -0x7fb8(r13);
-lbl_80021210:
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void __init_cpp_exceptions(void) {
+  char* R2;
+  void* info;
+  if (fragmentID == -2) {
+    __exception_info_constants(&info, &R2);
+    fragmentID = __register_fragment((struct __eti_init_info*)info, R2);
+  }
 }
 
 // Symbol: __fini_cpp_exceptions
 // PAL: 0x80021220..0x80021254
-MARK_BINARY_BLOB(__fini_cpp_exceptions, 0x80021220, 0x80021254);
-asm void __fini_cpp_exceptions(void) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  lwz r3, -0x7fb8(r13);
-  cmpwi r3, -2;
-  beq lbl_80021244;
-  bl __unregister_fragment;
-  li r0, -2;
-  stw r0, -0x7fb8(r13);
-lbl_80021244:
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void __fini_cpp_exceptions(void) {
+  if (fragmentID != -2) {
+    __unregister_fragment(fragmentID);
+    fragmentID = -2;
+  }
 }
 
 #pragma section ".ctors$10"

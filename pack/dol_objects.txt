@@ -22,7 +22,7 @@ out/printf.o
 out/qsort.o
 out/dol/rodata_802450b0_80248010.o
 out/dol/data_80258580_80274148.o
-out/dol/bss_802a4080_802a6978.o
+out/dol/bss_802a4080_802a6968.o
 out/dol/sdata_80384c00_80384c38.o
 out/rand.o
 out/scanf.o
@@ -31,12 +31,14 @@ out/wchar.o
 out/dol/text_80017a48_80020dd8.o
 out/ExceptionPPC.o
 out/dol/text_80020e34_800211e4.o
+out/dol/bss_802a6974_802a6978.o
+out/dol/sdata_80384c3c_80384c48.o
 out/__init_cpp_exceptions.o
 out/dol/text_80021254_80021270.o
 out/va_arg.o
 out/dol/ctors_80244de4_80244e88.o
 out/dol/dtors_80244ea8_80244eac.o
-out/dol/sdata_80384c3c_803850a0.o
+out/dol/sdata_80384c4c_803850a0.o
 out/dol/sbss_80385fc0_803860a8.o
 out/global_destructor_chain.o
 out/dol/text_800213e4_8002156c.o
