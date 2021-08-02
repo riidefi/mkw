@@ -45,8 +45,11 @@ SOURCES_MSL_LIBC = [
     Source(src="source/platform/rand.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/scanf.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/wchar.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/ExceptionPPC.cpp", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/__init_cpp_exceptions.cpp", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/va_arg.c", cc='4201_127', opts=MSL_LIBC_OPTS),
     Source(src="source/platform/eabi.c", cc='4201_127', opts=MSL_LIBC_OPTS),
+    Source(src="source/platform/global_destructor_chain.c", cc='4201_127', opts=MSL_LIBC_OPTS),
 ]
 SOURCES_RVL_ARC = [
     Source(src="source/rvl/arc/rvlArchive.c", cc='4199_60831', opts=RVL_OPTS),

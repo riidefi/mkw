@@ -12,7 +12,7 @@ extern UNKNOWN_FUNCTION(unk_8000ed18);
 // PAL: 0x8000c948..0x8000c9ec
 MARK_BINARY_BLOB(__close_all, 0x8000c948, 0x8000c9ec);
 asm void __close_all(void) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -59,7 +59,7 @@ lbl_8000c9c8:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __flush_line_buffered_output_files
@@ -67,7 +67,7 @@ lbl_8000c9c8:
 // PAL: 0x8000c9ec..0x8000ca70
 MARK_BINARY_BLOB(__flush_line_buffered_output_files, 0x8000c9ec, 0x8000ca70);
 asm int __flush_line_buffered_output_files(void) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -105,7 +105,7 @@ lbl_8000ca4c:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __flush_all
@@ -113,7 +113,7 @@ lbl_8000ca4c:
 // PAL: 0x8000ca70..0x8000cadc
 MARK_BINARY_BLOB(__flush_all, 0x8000ca70, 0x8000cadc);
 asm int __flush_all(void) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -145,6 +145,5 @@ lbl_8000cab8:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
-

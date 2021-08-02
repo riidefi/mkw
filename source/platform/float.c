@@ -7,7 +7,7 @@
 // PAL: 0x8000ef04..0x8000ef64
 MARK_BINARY_BLOB(__fpclassifyf, 0x8000ef04, 0x8000ef64);
 asm UNKNOWN_FUNCTION(__fpclassifyf) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   stfs f1, 8(r1);
@@ -37,7 +37,7 @@ lbl_8000ef58:
 lbl_8000ef5c:
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __signbitd
@@ -45,7 +45,7 @@ lbl_8000ef5c:
 // PAL: 0x8000ef64..0x8000ef7c
 MARK_BINARY_BLOB(__signbitd, 0x8000ef64, 0x8000ef7c);
 asm UNKNOWN_FUNCTION(__signbitd) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   stfd f1, 8(r1);
@@ -53,14 +53,14 @@ asm UNKNOWN_FUNCTION(__signbitd) {
   rlwinm r3, r0, 0, 0, 0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __fpclassifyd
 // PAL: 0x8000ef7c..0x8000eff8
 MARK_BINARY_BLOB(__fpclassifyd, 0x8000ef7c, 0x8000eff8);
 asm UNKNOWN_FUNCTION(__fpclassifyd) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   stfd f1, 8(r1);
@@ -101,6 +101,5 @@ lbl_8000efec:
 lbl_8000eff0:
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
-

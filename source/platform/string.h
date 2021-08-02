@@ -13,7 +13,7 @@ void* memset(void*, s32, u32);
 
 void* memmove(void*, const void*, size_t);
 void* memchr(void* ptr, int value, size_t num);
-void * __memrchr(const void *ptr, int value, size_t num);
+void* __memrchr(const void* ptr, int value, size_t num);
 
 int memcmp(const void* s1, const void* s2, size_t n);
 

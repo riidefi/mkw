@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "va_arg.h"
 
@@ -24,7 +24,7 @@ UNKNOWN_FUNCTION(__StringRead);
 // PAL: 0x80011c98..0x80012320
 MARK_BINARY_BLOB(parse_format, 0x80011c98, 0x80012320);
 asm UNKNOWN_FUNCTION(parse_format) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x40(r1);
   lis r6, 0x8024;
@@ -484,7 +484,7 @@ lbl_80012310:
   lwz r30, 0x38(r1);
   addi r1, r1, 0x40;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __sformatter
@@ -492,7 +492,7 @@ lbl_80012310:
 // PAL: 0x80012320..0x80012fb8
 MARK_BINARY_BLOB(__sformatter, 0x80012320, 0x80012fb8);
 asm UNKNOWN_FUNCTION(__sformatter) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0xb0(r1);
   mflr r0;
@@ -1405,7 +1405,7 @@ lbl_80012fa0:
   mtlr r0;
   addi r1, r1, 0xb0;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __StringRead
@@ -1413,7 +1413,7 @@ lbl_80012fa0:
 // PAL: 0x80012fb8..0x80013040
 MARK_BINARY_BLOB(__StringRead, 0x80012fb8, 0x80013040);
 asm UNKNOWN_FUNCTION(__StringRead) {
-// clang-format off
+  // clang-format off
   nofralloc;
   cmpwi r5, 0;
   beq lbl_80012fd4;
@@ -1456,14 +1456,14 @@ lbl_80013030:
 lbl_80013038:
   li r3, 0;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: sscanf
 // PAL: 0x80013040..0x80013108
 MARK_BINARY_BLOB(sscanf, 0x80013040, 0x80013108);
 asm int sscanf(const char* str, const char* format, ...) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x90(r1);
   mflr r0;
@@ -1519,5 +1519,5 @@ lbl_800130f4:
   mtlr r0;
   addi r1, r1, 0x90;
   blr;
-// clang-format on
+  // clang-format on
 }

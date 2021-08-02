@@ -5,7 +5,7 @@
 // PAL: 0x8000f360..0x8000f41c
 MARK_BINARY_BLOB(__copy_longs_aligned, 0x8000f360, 0x8000f41c);
 asm UNKNOWN_FUNCTION(__copy_longs_aligned) {
-// clang-format off
+  // clang-format off
   nofralloc;
   neg r0, r3;
   addi r7, r4, -1;
@@ -61,7 +61,7 @@ lbl_8000f408:
   stbu r0, 1(r3);
   bne lbl_8000f408;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __copy_longs_rev_aligned
@@ -69,7 +69,7 @@ lbl_8000f408:
 // PAL: 0x8000f41c..0x8000f4c4
 MARK_BINARY_BLOB(__copy_longs_rev_aligned, 0x8000f41c, 0x8000f4c4);
 asm UNKNOWN_FUNCTION(__copy_longs_rev_aligned) {
-// clang-format off
+  // clang-format off
   nofralloc;
   add r6, r3, r5;
   add r4, r4, r5;
@@ -120,7 +120,7 @@ lbl_8000f4b0:
   stbu r0, -1(r6);
   bne lbl_8000f4b0;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __copy_longs_unaligned
@@ -128,7 +128,7 @@ lbl_8000f4b0:
 // PAL: 0x8000f4c4..0x8000f584
 MARK_BINARY_BLOB(__copy_longs_unaligned, 0x8000f4c4, 0x8000f584);
 asm UNKNOWN_FUNCTION(__copy_longs_unaligned) {
-// clang-format off
+  // clang-format off
   nofralloc;
   neg r0, r3;
   addi r7, r4, -1;
@@ -183,7 +183,7 @@ lbl_8000f570:
   stbu r0, 1(r3);
   bne lbl_8000f570;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: __copy_longs_rev_unaligned
@@ -191,7 +191,7 @@ lbl_8000f570:
 // PAL: 0x8000f584..0x8000f630
 MARK_BINARY_BLOB(__copy_longs_rev_unaligned, 0x8000f584, 0x8000f630);
 asm UNKNOWN_FUNCTION(__copy_longs_rev_unaligned) {
-// clang-format off
+  // clang-format off
   nofralloc;
   add r12, r3, r5;
   add r11, r4, r5;
@@ -241,6 +241,5 @@ lbl_8000f61c:
   stbu r0, -1(r12);
   bne lbl_8000f61c;
   blr;
-// clang-format on
+  // clang-format on
 }
-

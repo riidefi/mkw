@@ -5,7 +5,7 @@
 // PAL: 0x80021270..0x80021338
 MARK_BINARY_BLOB(__va_arg, 0x80021270, 0x80021338);
 asm UNKNOWN_FUNCTION(__va_arg) {
-// clang-format off
+  // clang-format off
   nofralloc;
   lbz r7, 0(r3);
   cmpwi r4, 3;
@@ -63,6 +63,5 @@ lbl_80021324:
 lbl_80021330:
   mr r3, r5;
   blr;
-// clang-format on
+  // clang-format on
 }
-
