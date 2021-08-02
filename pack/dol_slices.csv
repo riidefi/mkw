@@ -4,6 +4,8 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/trk/start.c,0x80006210,0x800062a0 ,,,,,,,,,,,,,,,,,,,,,,,,
 1,,source/game/host_system/SystemResource.cpp,,,,,,,0x80007f50,0x80007f7c,,,,,0x80245010,0x802450b0,,,,,,,,,,,,
 1,,source/platform/ansi_files.c,,,,,,,0x8000c948,0x8000cadc,,,,,,,,,,,,,,,,,,
+1,,source/platform/ansi_fp.c,,,,,,,0x8000cadc,0x8000e418,,,,,,,,,,,,,,,,,,
+1,,source/platform/float.c,,,,,,,0x8000ef04,0x8000eff8,,,,,,,,,,,,,,,,,,
 1,,source/platform/mem.c,,,,,,,0x8000f1f0,0x8000f360,,,,,,,,,,,,,,,,,,
 1,,source/platform/mem_cpy.c,,,,,,,0x8000f360,0x8000f630,,,,,,,,,,,,,,,,,,
 1,,source/platform/printf.c,,,,,,,0x800100e4,0x80011b00,,,,,,,,,,,,,,,,,,

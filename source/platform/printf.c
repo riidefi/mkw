@@ -6,7 +6,7 @@
 
 // Extern function references.
 // PAL: 0x8000dafc
-extern UNKNOWN_FUNCTION(unk_8000dafc);
+extern UNKNOWN_FUNCTION(__num2dec);
 // PAL: 0x8000e954
 extern UNKNOWN_FUNCTION(unk_8000e954);
 // PAL: 0x8000f138
@@ -57,7 +57,7 @@ lbl_80010138:
   addi r3, r1, 0x10;
   addi r4, r1, 0x38;
   sth r0, 0x12(r1);
-  bl unk_8000dafc;
+  bl __num2dec;
   lbz r0, 0x3d(r1);
   cmpwi r0, 0x30;
   beq lbl_80010174;
@@ -437,7 +437,7 @@ lbl_80010628:
   addi r3, r1, 8;
   addi r4, r1, 0xc;
   sth r0, 0xa(r1);
-  bl unk_8000dafc;
+  bl __num2dec;
   lbz r0, 0x10(r1);
   addi r5, r1, 0x11;
   add r5, r5, r0;

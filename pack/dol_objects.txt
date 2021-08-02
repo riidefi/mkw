@@ -13,7 +13,10 @@ out/dol/rodata_80244ec0_80245010.o
 out/SystemResource.o
 out/dol/text_80007f7c_8000c948.o
 out/ansi_files.o
-out/dol/text_8000cadc_8000f1f0.o
+out/ansi_fp.o
+out/dol/text_8000e418_8000ef04.o
+out/float.o
+out/dol/text_8000eff8_8000f1f0.o
 out/mem.o
 out/mem_cpy.o
 out/dol/text_8000f630_800100e4.o
