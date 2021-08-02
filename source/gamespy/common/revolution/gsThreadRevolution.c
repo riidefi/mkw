@@ -3,6 +3,7 @@
 #include "../gsCommon.h"
 
 #include <stdbool.h>
+#include <rvl/os/osInterrupt.h>
 
 // Begin of Threading for Revolution
 ///////////////////////////////////////////////////////////////////////////////

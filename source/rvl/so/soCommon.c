@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include <rvl/ios/ios.h>
+#include <rvl/os/osInterrupt.h>
 #include <rvl/os/osThread.h>
 
 // PAL: 0x80385ee0 @sdata (pointer)

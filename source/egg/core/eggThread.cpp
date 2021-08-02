@@ -2,6 +2,8 @@
 #include <egg/core/eggThread.hpp>
 #include <egg/eggInternal.hpp>
 
+#include <rvl/os/osMessage.h>
+
 namespace EGG {
 
 nw4r::ut::List Thread::sThreadList;
