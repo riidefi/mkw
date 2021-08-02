@@ -1,12 +1,101 @@
 #pragma once
 
+#include <decomp.h>
 #include <rk_types.h>
 
-#include "decomp.h"
+#include "osThread.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define __OS_INTERRUPT_MEM_0 0
+#define __OS_INTERRUPT_MEM_1 1
+#define __OS_INTERRUPT_MEM_2 2
+#define __OS_INTERRUPT_MEM_3 3
+#define __OS_INTERRUPT_MEM_ADDRESS 4
+#define __OS_INTERRUPT_DSP_AI 5
+#define __OS_INTERRUPT_DSP_ARAM 6
+#define __OS_INTERRUPT_DSP_DSP 7
+#define __OS_INTERRUPT_AI_AI 8
+#define __OS_INTERRUPT_EXI_0_EXI 9
+#define __OS_INTERRUPT_EXI_0_TC 10
+#define __OS_INTERRUPT_EXI_0_EXT 11
+#define __OS_INTERRUPT_EXI_1_EXI 12
+#define __OS_INTERRUPT_EXI_1_TC 13
+#define __OS_INTERRUPT_EXI_1_EXT 14
+#define __OS_INTERRUPT_EXI_2_EXI 15
+#define __OS_INTERRUPT_EXI_2_TC 16
+#define __OS_INTERRUPT_PI_CP 17
+#define __OS_INTERRUPT_PI_PE_TOKEN 18
+#define __OS_INTERRUPT_PI_PE_FINISH 19
+#define __OS_INTERRUPT_PI_SI 20
+#define __OS_INTERRUPT_PI_DI 21
+#define __OS_INTERRUPT_PI_RSW 22
+#define __OS_INTERRUPT_PI_ERROR 23
+#define __OS_INTERRUPT_PI_VI 24
+#define __OS_INTERRUPT_PI_DEBUG 25
+#define __OS_INTERRUPT_PI_HSP 26
+#define __OS_INTERRUPT_PI_ACR 27
+#define __OS_INTERRUPT_MAX 32
+
+#define OS_INTERRUPTMASK_MEM_0 (0x80000000u >> __OS_INTERRUPT_MEM_0)
+#define OS_INTERRUPTMASK_MEM_1 (0x80000000u >> __OS_INTERRUPT_MEM_1)
+#define OS_INTERRUPTMASK_MEM_2 (0x80000000u >> __OS_INTERRUPT_MEM_2)
+#define OS_INTERRUPTMASK_MEM_3 (0x80000000u >> __OS_INTERRUPT_MEM_3)
+#define OS_INTERRUPTMASK_MEM_ADDRESS (0x80000000u >> __OS_INTERRUPT_MEM_ADDRESS)
+#define OS_INTERRUPTMASK_MEM                                                   \
+  (OS_INTERRUPTMASK_MEM_0 | OS_INTERRUPTMASK_MEM_1 | OS_INTERRUPTMASK_MEM_2 |  \
+   OS_INTERRUPTMASK_MEM_3 | OS_INTERRUPTMASK_MEM_ADDRESS)
+#define OS_INTERRUPTMASK_DSP_AI (0x80000000u >> __OS_INTERRUPT_DSP_AI)
+#define OS_INTERRUPTMASK_DSP_ARAM (0x80000000u >> __OS_INTERRUPT_DSP_ARAM)
+#define OS_INTERRUPTMASK_DSP_DSP (0x80000000u >> __OS_INTERRUPT_DSP_DSP)
+#define OS_INTERRUPTMASK_DSP                                                   \
+  (OS_INTERRUPTMASK_DSP_AI | OS_INTERRUPTMASK_DSP_ARAM |                       \
+   OS_INTERRUPTMASK_DSP_DSP)
+#define OS_INTERRUPTMASK_AI_AI (0x80000000u >> __OS_INTERRUPT_AI_AI)
+#define OS_INTERRUPTMASK_AI                 (OS_INTERRUPTMASK_AI_AI)
+#define OS_INTERRUPTMASK_EXI_0_EXI (0x80000000u >> __OS_INTERRUPT_EXI_0_EXI)
+#define OS_INTERRUPTMASK_EXI_0_TC (0x80000000u >> __OS_INTERRUPT_EXI_0_TC)
+#define OS_INTERRUPTMASK_EXI_0_EXT (0x80000000u >> __OS_INTERRUPT_EXI_0_EXT)
+#define OS_INTERRUPTMASK_EXI_0                                                 \
+  (OS_INTERRUPTMASK_EXI_0_EXI | OS_INTERRUPTMASK_EXI_0_TC |                    \
+   OS_INTERRUPTMASK_EXI_0_EXT)
+#define OS_INTERRUPTMASK_EXI_1_EXI (0x80000000u >> __OS_INTERRUPT_EXI_1_EXI)
+#define OS_INTERRUPTMASK_EXI_1_TC (0x80000000u >> __OS_INTERRUPT_EXI_1_TC)
+#define OS_INTERRUPTMASK_EXI_1_EXT (0x80000000u >> __OS_INTERRUPT_EXI_1_EXT)
+#define OS_INTERRUPTMASK_EXI_1                                                 \
+  (OS_INTERRUPTMASK_EXI_1_EXI | OS_INTERRUPTMASK_EXI_1_TC |                    \
+   OS_INTERRUPTMASK_EXI_1_EXT)
+#define OS_INTERRUPTMASK_EXI_2_EXI (0x80000000u >> __OS_INTERRUPT_EXI_2_EXI)
+#define OS_INTERRUPTMASK_EXI_2_TC (0x80000000u >> __OS_INTERRUPT_EXI_2_TC)
+#define OS_INTERRUPTMASK_EXI                                                   \
+  (OS_INTERRUPTMASK_EXI_0_EXI | OS_INTERRUPTMASK_EXI_0_TC |                    \
+   OS_INTERRUPTMASK_EXI_0_EXT | OS_INTERRUPTMASK_EXI_1_EXI |                   \
+   OS_INTERRUPTMASK_EXI_1_TC | OS_INTERRUPTMASK_EXI_1_EXT |                    \
+   OS_INTERRUPTMASK_EXI_2_EXI | OS_INTERRUPTMASK_EXI_2_TC)
+#define OS_INTERRUPTMASK_PI_PE_TOKEN (0x80000000u >> __OS_INTERRUPT_PI_PE_TOKEN)
+#define OS_INTERRUPTMASK_PI_PE_FINISH                                          \
+  (0x80000000u >> __OS_INTERRUPT_PI_PE_FINISH)
+#define OS_INTERRUPTMASK_PI_PE                                                 \
+  (OS_INTERRUPTMASK_PI_PE_TOKEN | OS_INTERRUPTMASK_PI_PE_FINISH)
+#define OS_INTERRUPTMASK_PI_CP (0x80000000u >> __OS_INTERRUPT_PI_CP)
+#define OS_INTERRUPTMASK_PI_SI (0x80000000u >> __OS_INTERRUPT_PI_SI)
+#define OS_INTERRUPTMASK_PI_DI (0x80000000u >> __OS_INTERRUPT_PI_DI)
+#define OS_INTERRUPTMASK_PI_RSW (0x80000000u >> __OS_INTERRUPT_PI_RSW)
+#define OS_INTERRUPTMASK_PI_ERROR (0x80000000u >> __OS_INTERRUPT_PI_ERROR)
+#define OS_INTERRUPTMASK_PI_VI (0x80000000u >> __OS_INTERRUPT_PI_VI)
+#define OS_INTERRUPTMASK_PI_DEBUG (0x80000000u >> __OS_INTERRUPT_PI_DEBUG)
+#define OS_INTERRUPTMASK_PI_HSP (0x80000000u >> __OS_INTERRUPT_PI_HSP)
+#define OS_INTERRUPTMASK_PI_ACR (0x80000000u >> __OS_INTERRUPT_PI_ACR)
+#define OS_INTERRUPTMASK_PI                                                    \
+  (OS_INTERRUPTMASK_PI_CP | OS_INTERRUPTMASK_PI_SI | OS_INTERRUPTMASK_PI_DI |  \
+   OS_INTERRUPTMASK_PI_RSW | OS_INTERRUPTMASK_PI_ERROR |                       \
+   OS_INTERRUPTMASK_PI_VI | OS_INTERRUPTMASK_PI_PE_TOKEN |                     \
+   OS_INTERRUPTMASK_PI_PE_FINISH | OS_INTERRUPTMASK_PI_DEBUG |                 \
+   OS_INTERRUPTMASK_PI_HSP | OS_INTERRUPTMASK_PI_ACR)
+
+typedef void (*__OSInterruptHandler)(s16 interrupt, OSContext* context);
 
 // PAL: 0x801a65ac..0x801a65c0
 int OSDisableInterrupts(void);
@@ -15,21 +104,18 @@ int OSEnableInterrupts(void);
 // PAL: 0x801a65d4..0x801a65f8
 int OSRestoreInterrupts(int level);
 // PAL: 0x801a65f8..0x801a660c
-UNKNOWN_FUNCTION(__OSSetInterruptHandler);
+__OSInterruptHandler __OSSetInterruptHandler(s16 interrupt,
+                                             __OSInterruptHandler handler);
 // PAL: 0x801a660c..0x801a661c
-UNKNOWN_FUNCTION(__OSGetInterruptHandler);
+__OSInterruptHandler __OSGetInterruptHandler(s16 interrupt);
 // PAL: 0x801a661c..0x801a66e0
-UNKNOWN_FUNCTION(__OSInterruptInit);
-// PAL: 0x801a66e0..0x801a693c
-UNKNOWN_FUNCTION(SetInterruptMask);
+void __OSInterruptInit(void);
 // PAL: 0x801a693c..0x801a69bc
-UNKNOWN_FUNCTION(__OSMaskInterrupts);
+u32 __OSMaskInterrupts(u32);
 // PAL: 0x801a69bc..0x801a6a3c
-UNKNOWN_FUNCTION(__OSUnmaskInterrupts);
+u32 __OSUnmaskInterrupts(u32);
 // PAL: 0x801a6a3c..0x801a6ce0
-UNKNOWN_FUNCTION(__OSDispatchInterrupt);
-// PAL: 0x801a6ce0..0x801a6d30
-UNKNOWN_FUNCTION(ExternalInterruptHandler);
+void __OSDispatchInterrupt(u8 exception, OSContext* context);
 
 #ifdef __cplusplus
 }

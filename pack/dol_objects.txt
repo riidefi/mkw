@@ -195,7 +195,7 @@ out/rvlArchive.o
 out/dol/text_80124e80_80169bcc.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o
-out/dol/data_8027e772_8029cc80.o
+out/dol/data_8027e772_80290600.o
 out/dol/sdata_803857f6_80385a08.o
 out/dol/sbss_80386448_803867e8.o
 out/ipcMain.o
@@ -207,7 +207,7 @@ out/rvlMemExpHeap.o
 out/rvlMemFrmHeap.o
 out/rvlMemUnitHeap.o
 out/dol/bss_80346d18_803481b0.o
-out/dol/sbss_8038683c_80386998.o
+out/dol/sbss_8038683c_803868e8.o
 out/dol/sdata2_803884a4_80388860.o
 out/rvlMemAllocator.o
 out/rvlMemList.o
@@ -226,6 +226,8 @@ out/dol/text_801a8a80_801a95ac.o
 out/osThread.o
 out/dol/text_801aad5c_801ae5d8.o
 out/dol/rodata_80252c84_80252dd0.o
+out/dol/data_80290630_8029cc80.o
+out/dol/sbss_803868fc_80386998.o
 out/dol/sdata2_803888d0_80388930.o
 out/rvlPadClamp.o
 out/rvlPad.o

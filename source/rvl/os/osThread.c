@@ -23,7 +23,7 @@ extern UNKNOWN_FUNCTION(OSGetCurrentContext);
 // PAL: 0x801a1ed8
 extern UNKNOWN_FUNCTION(OSSaveContext);
 // PAL: 0x801a1f58
-extern UNKNOWN_FUNCTION(OSLoadContext);
+extern void        OSLoadContext       ( OSContext* context );
 // PAL: 0x801a2030
 extern UNKNOWN_FUNCTION(OSGetStackPointer);
 // PAL: 0x801a2098
