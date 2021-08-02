@@ -1750,7 +1750,7 @@ lbl_80011798:
 // Function signature is unknown.
 // PAL: 0x800117b0..0x8001182c
 MARK_BINARY_BLOB(vprintf, 0x800117b0, 0x8001182c);
-asm UNKNOWN_FUNCTION(vprintf) {
+asm int vprintf(const char* format, va_list arg) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);

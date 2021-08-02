@@ -35,8 +35,6 @@ OSTime OSGetTime(void);
 OSTime OSCalendarTimeToTicks(OSCalendarTime* td);
 void OSTicksToCalendarTime(OSTime ticks, OSCalendarTime* td);
 
-void OSPanic(char* file, int line, char* msg, ...);
-
 #ifdef __cplusplus
 }
 #endif

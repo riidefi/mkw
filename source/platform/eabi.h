@@ -69,3 +69,5 @@ extern void __shr2i(void);
 
 // PAL: 0x80021b00
 void __cvt_dbl_ull(void);
+
+unsigned long __cvt_fp2unsigned(double d);

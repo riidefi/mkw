@@ -1,5 +1,8 @@
 #include "pad.h"
 
+#include <rvl/os/os.h>
+#include <rvl/os/osContext.h>
+
 // TODO: Move to osMisc.h
 typedef int (*OSResetFunction)(int final);
 typedef struct OSResetFunctionInfo {
@@ -8,11 +11,10 @@ typedef struct OSResetFunctionInfo {
   u32 unk_08;
   u32 unk_0A;
 } OSResetFunctionInfo;
-void OSSetCurrentContext(OSContext*);
-void OSClearContext(OSContext*);
+
 void OSRegisterVersion(const char*);
-s64 OSGetTime();
 void OSRegisterShutdownFunction(OSResetFunctionInfo* info);
+
 // Broadway / IOS global locations: https://wiibrew.org/wiki/Memory_Map
 u8 oslow_30e3 : (0x800030e3);
 u16 oslow_30e0 : (0x800030e0);
@@ -20,7 +22,6 @@ u16 oslow_30e0 : (0x800030e0);
 #include "rvl/si/si.h"
 
 #include <string.h>
-
 
 // PAL: 0x80385b08 @sdata (pointer)
 // PAL: 0x8029cc80 @data (string literal)

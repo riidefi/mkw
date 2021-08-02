@@ -8,8 +8,15 @@
 extern "C" {
 #endif
 
+typedef struct OSShutdownFunctionInfo {
+  u32 func;
+  u32 priority;
+  u32 succ;
+  u32 prev;
+} OSShutdownFunctionInfo;
+
 // PAL: 0x801a8238..0x801a82c0
-UNKNOWN_FUNCTION(OSRegisterShutdownFunction);
+extern void OSRegisterShutdownFunction(OSShutdownFunctionInfo* info);
 // PAL: 0x801a82c0..0x801a8370
 UNKNOWN_FUNCTION(__OSCallShutdownFunctions);
 // PAL: 0x801a8370..0x801a8500

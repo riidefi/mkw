@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include <rvl/os/os.h>
+#include <rvl/os/osContext.h>
 #include <rvl/os/osInterrupt.h>
 #include <rvl/os/osThread.h>
 
@@ -27,10 +28,6 @@ extern UNKNOWN_FUNCTION(IPCiProfReply);
 extern UNKNOWN_FUNCTION(unk_801a1600);
 // PAL: 0x801a162c
 extern UNKNOWN_FUNCTION(unk_801a162c);
-// PAL: 0x801a1e70
-extern UNKNOWN_FUNCTION(OSSetCurrentContext);
-// PAL: 0x801a2098
-extern UNKNOWN_FUNCTION(OSClearContext);
 
 // Symbol: strnlen
 // Function signature is unknown.

@@ -3,7 +3,7 @@
 #include <decomp.h>
 #include <rk_types.h>
 
-#include "osThread.h"
+#include "osContext.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -54,7 +54,7 @@ extern "C" {
   (OS_INTERRUPTMASK_DSP_AI | OS_INTERRUPTMASK_DSP_ARAM |                       \
    OS_INTERRUPTMASK_DSP_DSP)
 #define OS_INTERRUPTMASK_AI_AI (0x80000000u >> __OS_INTERRUPT_AI_AI)
-#define OS_INTERRUPTMASK_AI                 (OS_INTERRUPTMASK_AI_AI)
+#define OS_INTERRUPTMASK_AI (OS_INTERRUPTMASK_AI_AI)
 #define OS_INTERRUPTMASK_EXI_0_EXI (0x80000000u >> __OS_INTERRUPT_EXI_0_EXI)
 #define OS_INTERRUPTMASK_EXI_0_TC (0x80000000u >> __OS_INTERRUPT_EXI_0_TC)
 #define OS_INTERRUPTMASK_EXI_0_EXT (0x80000000u >> __OS_INTERRUPT_EXI_0_EXT)
