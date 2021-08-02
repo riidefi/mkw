@@ -274,16 +274,6 @@ asm OSThread* OSGetCurrentThread() {
   // clang-format off
   nofralloc;
   lis r3, 0x8000;
-  // clang-format on
-}
-
-// Symbol: GetFont__Q34nw4r3lyt7TextBoxCFv
-// Function signature is unknown.
-// PAL: 0x801a98b4..0x801a98bc
-MARK_BINARY_BLOB(GetFont__Q34nw4r3lyt7TextBoxCFv, 0x801a98b4, 0x801a98bc);
-asm UNKNOWN_FUNCTION(GetFont__Q34nw4r3lyt7TextBoxCFv) {
-  // clang-format off
-  nofralloc;
   lwz r3, 0xe4(r3);
   blr;
   // clang-format on

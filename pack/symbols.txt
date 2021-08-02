@@ -1543,7 +1543,6 @@
 0x801a961c __OSThreadInit
 0x801a98a0 OSInitThreadQueue
 0x801a98b0 OSGetCurrentThread
-0x801a98b4 GetFont__Q34nw4r3lyt7TextBoxCFv
 0x801a98bc OSIsThreadTerminated
 0x801a98e8 OSDisableScheduler
 0x801a9924 OSEnableScheduler
