@@ -8,18 +8,30 @@
 extern "C" {
 #endif
 
+typedef struct OSAllocCell OSAllocCell;
+struct OSAllocCell {
+  OSAllocCell* pred;
+  OSAllocCell* succ;
+  s32 size;
+};
+typedef struct OSAllocHeap {
+  s32 size;
+  OSAllocCell* free;
+  OSAllocCell* allocated;
+} OSAllocHeap;
+
 // PAL: 0x801a0d9c..0x801a0e48
-UNKNOWN_FUNCTION(DLInsert);
+OSAllocCell* DLInsert(OSAllocCell* list, OSAllocCell* cell);
 // PAL: 0x801a0e48..0x801a0f40
-UNKNOWN_FUNCTION(OSAllocFromHeap);
+void* OSAllocFromHeap(int, u32);
 // PAL: 0x801a0f40..0x801a0fb8
-UNKNOWN_FUNCTION(OSFreeToHeap);
+void OSFreeToHeap(int, void*);
 // PAL: 0x801a0fb8..0x801a0fc8
-UNKNOWN_FUNCTION(set_CurrHeap);
+int OSSetCurrentHeap(int);
 // PAL: 0x801a0fc8..0x801a1038
-UNKNOWN_FUNCTION(OSInitAlloc);
+void* OSInitAlloc(void*, void*, int);
 // PAL: 0x801a1038..0x801a10a4
-UNKNOWN_FUNCTION(OSCreateHeap);
+int OSCreateHeap(void*, void*);
 
 #ifdef __cplusplus
 }

@@ -1439,7 +1439,7 @@
 0x801a0d9c DLInsert
 0x801a0e48 OSAllocFromHeap
 0x801a0f40 OSFreeToHeap
-0x801a0fb8 set_CurrHeap
+0x801a0fb8 OSSetCurrentHeap
 0x801a0fc8 OSInitAlloc
 0x801a1038 OSCreateHeap
 0x801a10a4 OSGetMEM1ArenaHi
