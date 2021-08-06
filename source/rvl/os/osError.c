@@ -5,24 +5,19 @@
 #include "os.h"
 #include "osContext.h"
 #include "osInterrupt.h"
+#include "osThread.h"
 
 // Extern function references.
 // PAL: 0x8012e564
-extern UNKNOWN_FUNCTION(unk_8012e564);
+extern UNKNOWN_FUNCTION(PPCMfmsr);
 // PAL: 0x8012e56c
-extern UNKNOWN_FUNCTION(unk_8012e56c);
+extern UNKNOWN_FUNCTION(PPCMtmsr);
 // PAL: 0x8012e5a4
-extern UNKNOWN_FUNCTION(unk_8012e5a4);
+extern UNKNOWN_FUNCTION(PPCHalt);
 // PAL: 0x8012e5e8
-extern UNKNOWN_FUNCTION(unk_8012e5e8);
+extern UNKNOWN_FUNCTION(PPCMffpscr);
 // PAL: 0x8012e608
-extern UNKNOWN_FUNCTION(unk_8012e608);
-// PAL: 0x801a98e8
-extern UNKNOWN_FUNCTION(OSDisableScheduler);
-// PAL: 0x801a9924
-extern UNKNOWN_FUNCTION(OSEnableScheduler);
-// PAL: 0x801a9e30
-extern UNKNOWN_FUNCTION(__OSReschedule);
+extern UNKNOWN_FUNCTION(PPCMtfpscr);
 
 // Symbol: OSReport
 // PAL: 0x801a25d0..0x801a265c
@@ -149,7 +144,7 @@ lbl_801a2748:
   addi r30, r30, 1;
   blt lbl_801a272c;
 lbl_801a2768:
-  bl unk_8012e5a4;
+  bl PPCHalt;
   lwz r0, 0x94(r1);
   lwz r31, 0x8c(r1);
   lwz r30, 0x88(r1);
@@ -185,11 +180,11 @@ asm OSErrorHandler OSSetErrorHandler(u16 error, OSErrorHandler handler) {
   mr r29, r3;
   stwx r28, r4, r0;
   bne lbl_801a29e8;
-  bl unk_8012e564;
+  bl PPCMfmsr;
   mr r31, r3;
   ori r3, r3, 0x2000;
-  bl unk_8012e56c;
-  bl unk_8012e5e8;
+  bl PPCMtmsr;
+  bl PPCMffpscr;
   cmpwi r28, 0;
   beq lbl_801a2984;
   lis r5, 0x8000;
@@ -323,9 +318,9 @@ lbl_801a29d0:
   lis r3, 0x6006;
   addi r0, r3, -1793;
   and r3, r4, r0;
-  bl unk_8012e608;
+  bl PPCMtfpscr;
   mr r3, r31;
-  bl unk_8012e56c;
+  bl PPCMtmsr;
 lbl_801a29e8:
   mr r3, r29;
   bl OSRestoreInterrupts;
@@ -380,23 +375,23 @@ lbl_801a2a6c:
   cmpwi r0, 0;
   beq lbl_801a2b5c;
   li r25, 0x10;
-  bl unk_8012e564;
+  bl PPCMfmsr;
   mr r23, r3;
   ori r3, r3, 0x2000;
-  bl unk_8012e56c;
+  bl PPCMtmsr;
   lis r3, 0x8000;
   lwz r3, 0xd8(r3);
   cmpwi r3, 0;
   beq lbl_801a2ab8;
   bl OSSaveFPUContext;
 lbl_801a2ab8:
-  bl unk_8012e5e8;
+  bl PPCMffpscr;
   lis r24, 0x6006;
   addi r0, r24, -1793;
   and r3, r3, r0;
-  bl unk_8012e608;
+  bl PPCMtfpscr;
   mr r3, r23;
-  bl unk_8012e56c;
+  bl PPCMtmsr;
   lis r23, 0x8000;
   lwz r0, 0xd8(r23);
   cmplw r0, r26;
@@ -537,7 +532,7 @@ lbl_801a2ccc:
   lwz r8, -0x630c(r13);
   crclr 6;
   bl OSReport;
-  bl unk_8012e5a4;
+  bl PPCHalt;
   addi r11, r1, 0x30;
   bl _restgpr_23;
   lwz r0, 0x34(r1);

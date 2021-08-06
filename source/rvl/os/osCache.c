@@ -6,21 +6,21 @@
 
 // Extern function references.
 // PAL: 0x8012e564
-extern UNKNOWN_FUNCTION(unk_8012e564);
+extern UNKNOWN_FUNCTION(PPCMfmsr);
 // PAL: 0x8012e56c
-extern UNKNOWN_FUNCTION(unk_8012e56c);
+extern UNKNOWN_FUNCTION(PPCMtmsr);
 // PAL: 0x8012e574
-extern UNKNOWN_FUNCTION(unk_8012e574);
+extern UNKNOWN_FUNCTION(PPCMfhid0);
 // PAL: 0x8012e584
-extern UNKNOWN_FUNCTION(unk_8012e584);
+extern UNKNOWN_FUNCTION(PPCMfl2cr);
 // PAL: 0x8012e58c
-extern UNKNOWN_FUNCTION(unk_8012e58c);
+extern UNKNOWN_FUNCTION(PPCMtl2cr);
 // PAL: 0x8012e5a4
-extern UNKNOWN_FUNCTION(unk_8012e5a4);
+extern UNKNOWN_FUNCTION(PPCHalt);
 // PAL: 0x8012e630
-extern UNKNOWN_FUNCTION(unk_8012e630);
+extern UNKNOWN_FUNCTION(PPCMfhid2);
 // PAL: 0x8012e638
-extern UNKNOWN_FUNCTION(unk_8012e638);
+extern UNKNOWN_FUNCTION(PPCMthid2);
 // PAL: 0x8015d3ac
 extern UNKNOWN_FUNCTION(DBPrintf);
 
@@ -376,7 +376,7 @@ lbl_801a19dc:
   stw r8, 0x1c(r1);
   stw r9, 0x20(r1);
   stw r10, 0x24(r1);
-  bl unk_8012e630;
+  bl PPCMfhid2;
   mr r30, r3;
   addi r3, r31, 0x30;
   crclr 6;
@@ -397,7 +397,7 @@ lbl_801a1a40:
   bl OSReport;
   mr r3, r29;
   bl OSDumpContext;
-  bl unk_8012e5a4;
+  bl PPCHalt;
 lbl_801a1a58:
   addi r3, r31, 0x98;
   crclr 6;
@@ -430,7 +430,7 @@ lbl_801a1aac:
   bl OSReport;
 lbl_801a1ac0:
   mr r3, r30;
-  bl unk_8012e638;
+  bl PPCMthid2;
   lwz r0, 0x84(r1);
   lwz r31, 0x7c(r1);
   lwz r30, 0x78(r1);
@@ -455,7 +455,7 @@ asm UNKNOWN_FUNCTION(__OSCacheInit) {
   lis r31, 0x8029;
   addi r31, r31, -3864;
   stw r30, 8(r1);
-  bl unk_8012e574;
+  bl PPCMfhid0;
   rlwinm. r0, r3, 0, 0x10, 0x10;
   bne lbl_801a1b1c;
   bl ICEnable;
@@ -463,7 +463,7 @@ asm UNKNOWN_FUNCTION(__OSCacheInit) {
   crclr 6;
   bl DBPrintf;
 lbl_801a1b1c:
-  bl unk_8012e574;
+  bl PPCMfhid0;
   rlwinm. r0, r3, 0, 0x11, 0x11;
   bne lbl_801a1b38;
   bl DCEnable;
@@ -471,50 +471,50 @@ lbl_801a1b1c:
   crclr 6;
   bl DBPrintf;
 lbl_801a1b38:
-  bl unk_8012e584;
+  bl PPCMfl2cr;
   rlwinm. r0, r3, 0, 0, 0;
   bne lbl_801a1be8;
-  bl unk_8012e564;
+  bl PPCMfmsr;
   mr r30, r3;
   sync;
   li r3, 0x30;
-  bl unk_8012e56c;
+  bl PPCMtmsr;
   sync;
   sync;
-  bl unk_8012e584;
+  bl PPCMfl2cr;
   clrlwi r3, r3, 1;
-  bl unk_8012e58c;
+  bl PPCMtl2cr;
   sync;
   sync;
-  bl unk_8012e584;
+  bl PPCMfl2cr;
   clrlwi r3, r3, 1;
-  bl unk_8012e58c;
+  bl PPCMtl2cr;
   sync;
-  bl unk_8012e584;
+  bl PPCMfl2cr;
   oris r3, r3, 0x20;
-  bl unk_8012e58c;
+  bl PPCMtl2cr;
 lbl_801a1b90:
-  bl unk_8012e584;
+  bl PPCMfl2cr;
   clrlwi. r0, r3, 0x1f;
   bne lbl_801a1b90;
-  bl unk_8012e584;
+  bl PPCMfl2cr;
   rlwinm r3, r3, 0, 0xb, 9;
-  bl unk_8012e58c;
+  bl PPCMtl2cr;
   b lbl_801a1bb8;
 lbl_801a1bac:
   addi r3, r31, 0;
   crclr 6;
   bl DBPrintf;
 lbl_801a1bb8:
-  bl unk_8012e584;
+  bl PPCMfl2cr;
   clrlwi. r0, r3, 0x1f;
   bne lbl_801a1bac;
   mr r3, r30;
-  bl unk_8012e56c;
-  bl unk_8012e584;
+  bl PPCMtmsr;
+  bl PPCMfl2cr;
   oris r0, r3, 0x8000;
   rlwinm r3, r0, 0, 0xb, 9;
-  bl unk_8012e58c;
+  bl PPCMtl2cr;
   addi r3, r31, 0x1ec;
   crclr 6;
   bl DBPrintf;
