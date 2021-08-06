@@ -124,6 +124,8 @@ public:
   //!
   static void* start(void* eggThread);
 
+  inline OSMessageQueue *getMesgQueue() { return &mMesgQueue; }
+
   //! When not NULL will override the heap used for allocations.
   inline Heap* getAllocatableHeap() { return mAlloctableHeap; }
 

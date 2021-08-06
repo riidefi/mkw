@@ -6,11 +6,15 @@
 extern "C" {
 #endif
 
-struct GXFifoObj;
+typedef u8 GXBool;
 
-void GXGetGPStatus(u8* overhi, u8* underlow, u8* readIdle, u8* cmdIdle,
-                   u8* brkpt);
+typedef struct GXFifoObj {
+  u8 _00[0x80];
+} GXFifoObj;
+
 GXFifoObj* GXInit(void* buf, u32 size);
+
+void GXSetDrawSync(u16 token);
 
 typedef struct GXRenderModeObj {
   int tv_mode;

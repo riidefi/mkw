@@ -25,7 +25,7 @@ struct Color {
     return *this;
   }
 
-  inline Color() { *this = 0xFFFFFFFF; }
+  inline Color() { /**this = 0xFFFFFFFF;*/ }
 
   inline Color(const Color& other) {
     mChannels.r = other.mChannels.r;
