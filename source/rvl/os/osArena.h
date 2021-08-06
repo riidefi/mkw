@@ -2,38 +2,36 @@
 
 #include <rk_types.h>
 
-#include "decomp.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 // PAL: 0x801a10a4..0x801a10ac
-UNKNOWN_FUNCTION(OSGetMEM1ArenaHi);
+void* OSGetMEM1ArenaHi();
 // PAL: 0x801a10ac..0x801a10b4
-UNKNOWN_FUNCTION(OSGetMEM2ArenaHi);
+void* OSGetMEM2ArenaHi();
 // PAL: 0x801a10b4..0x801a10bc
-UNKNOWN_FUNCTION(OSGetArenaHi);
+void* OSGetArenaHi();
 // PAL: 0x801a10bc..0x801a10c4
-UNKNOWN_FUNCTION(OSGetMEM1ArenaLo);
+void* OSGetMEM1ArenaLo();
 // PAL: 0x801a10c4..0x801a10cc
-UNKNOWN_FUNCTION(OSGetMEM2ArenaLo);
+void* OSGetMEM2ArenaLo();
 // PAL: 0x801a10cc..0x801a10d4
-UNKNOWN_FUNCTION(OSGetArenaLo);
+void* OSGetArenaLo();
 // PAL: 0x801a10d4..0x801a10dc
-UNKNOWN_FUNCTION(OSSetArenaHi_0);
+void OSSetMEM1ArenaHi(void*);
 // PAL: 0x801a10dc..0x801a10e4
-UNKNOWN_FUNCTION(OSSetMEM2ArenaHi);
+void OSSetMEM2ArenaHi(void*);
 // PAL: 0x801a10e4..0x801a10ec
-UNKNOWN_FUNCTION(OSSetArenaHi);
+void OSSetArenaHi(void*);
 // PAL: 0x801a10ec..0x801a10f4
-UNKNOWN_FUNCTION(OSSetArenaLo_0);
+void OSSetMEM1ArenaLo(void*);
 // PAL: 0x801a10f4..0x801a10fc
-UNKNOWN_FUNCTION(OSSetMEM2ArenaLo);
+void OSSetMEM2ArenaLo(void*);
 // PAL: 0x801a10fc..0x801a1104
-UNKNOWN_FUNCTION(OSSetArenaLo);
+void OSSetArenaLo(void*);
 // PAL: 0x801a1104..0x801a1138
-UNKNOWN_FUNCTION(OSAllocFromMEM1ArenaLo);
+void* OSAllocFromMEM1ArenaLo(u32 size, u32 align);
 
 #ifdef __cplusplus
 }
