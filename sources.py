@@ -80,6 +80,7 @@ SOURCES_RVL_NAND = [
 ]
 SOURCES_RVL_OS = [
     Source(src="source/rvl/os/osAlarm.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osAlloc.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osContext.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osError.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osInterrupt.c", cc='4199_60831', opts=RVL_OPTS),

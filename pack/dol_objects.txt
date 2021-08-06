@@ -220,7 +220,8 @@ out/rvlQuat.o
 out/nand.o
 out/dol/text_8019f1a8_801a05b8.o
 out/osAlarm.o
-out/dol/text_801a0d9c_801a1c1c.o
+out/osAlloc.o
+out/dol/text_801a1138_801a1c1c.o
 out/dol/rodata_80252c84_80252dd0.o
 out/dol/data_8028f068_8028f320.o
 out/osContext.o
