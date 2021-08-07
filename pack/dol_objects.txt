@@ -241,7 +241,7 @@ out/dol/sbss_803868c0_803868e8.o
 out/osInterrupt.o
 out/osLink.o
 out/osMemory.o
-out/dol/text_801a75d0_801a8238.o
+out/dol/text_801a7eac_801a8238.o
 out/osReset.o
 out/dol/text_801a8a80_801a95ac.o
 out/osThread.o
