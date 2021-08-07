@@ -1,7 +1,7 @@
 #include "osError.h"
 
-#include <string.h>
 #include <rvl/base/ppcArch.h>
+#include <string.h>
 
 #include "os.h"
 #include "osContext.h"

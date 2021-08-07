@@ -1533,6 +1533,15 @@
 0x801a3e00 __OSBootDolSimple
 0x801a4648 __OSBootDol
 0x801a4828 OSLaunchInstaller
+0x801a4aa4 ScreenReport
+0x801a4dc8 ConfigureVideo
+0x801a4ec4 OSFatal
+0x801a50dc Halt
+0x801a56dc GetFontCode
+0x801a5810 Decode
+0x801a59b4 OSSetFontEncode
+0x801a5a34 ReadFont
+0x801a5d34 OSLoadFont
 0x801a6114 OSGetFontTexel
 0x801a63a4 OSGetFontTexture
 0x801a64f4 OSGetFontWidth
