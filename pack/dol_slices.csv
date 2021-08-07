@@ -97,6 +97,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/os/osContext.c,,,,,,,0x801a1c1c ,0x801a25d0 ,,,,,,,0x8028f320,0x8028f4d8,,,,,,,,,,
 1,,source/rvl/os/osError.c,,,,,,,0x801a25d0 ,0x801a2e84 ,,,,,,,,,,,,,,,,,,
 1,,source/rvl/os/osFatal.c,,,,,,,0x801a4aa4 ,0x801a56dc ,,,,,,,,,,,,,,,,,,
+1,,source/rvl/os/osFont.c,,,,,,,0x801a56dc ,0x801a65ac ,,,,,,,,,,,,,,,,,,
 1,,source/rvl/os/osInterrupt.c,,,,,,,0x801a65ac ,0x801a6d30 ,,,,,,,0x80290600,0x80290630,,,,,0x803868e8,0x803868fc,,,,
 1,,source/rvl/os/osReset.c,,,,,,,0x801a8238 ,0x801a8a80 ,,,,,,,,,,,,,,,,,,
 1,,source/rvl/os/osThread.c,,,,,,,0x801a95ac ,0x801aad5c ,,,,,,,,,,,,,,,,,,

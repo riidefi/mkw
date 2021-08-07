@@ -1542,6 +1542,8 @@
 0x801a59b4 OSSetFontEncode
 0x801a5a34 ReadFont
 0x801a5d34 OSLoadFont
+0x801a5e5c ParseStringS
+0x801a5f58 ParseStringW
 0x801a6114 OSGetFontTexel
 0x801a63a4 OSGetFontTexture
 0x801a64f4 OSGetFontWidth

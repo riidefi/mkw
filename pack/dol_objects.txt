@@ -234,7 +234,7 @@ out/osContext.o
 out/osError.o
 out/dol/text_801a2e84_801a4aa4.o
 out/osFatal.o
-out/dol/text_801a56dc_801a65ac.o
+out/osFont.o
 out/dol/data_8028f4d8_80290600.o
 out/dol/sdata_80385aa8_80385b08.o
 out/dol/sbss_803868c0_803868e8.o
