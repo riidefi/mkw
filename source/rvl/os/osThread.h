@@ -21,12 +21,6 @@ typedef struct OSThread {
   char _310[0x318 - 0x310];
 } OSThread;
 
-typedef void* OSMessage;
-
-typedef struct OSMessageQueue {
-  char _[0x20];
-} OSMessageQueue;
-
 typedef struct OSThreadQueue OSThreadQueue;
 struct OSThreadQueue {
   OSThread* head;
