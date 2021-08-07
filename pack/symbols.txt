@@ -1565,6 +1565,9 @@
 0x801a6ffc Link
 0x801a72dc OSLink
 0x801a72fc OSInitMessageQueue
+0x801a735c OSSendMessage
+0x801a7424 OSReceiveMessage
+0x801a7500 OSJamMessage
 0x801a7eac OSInitMutex
 0x801a7ee4 OSLockMutex
 0x801a7fc0 OSUnlockMutex

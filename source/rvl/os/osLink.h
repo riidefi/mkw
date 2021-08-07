@@ -15,6 +15,11 @@ typedef struct OSModuleLink {
   OSModuleInfo* pred;
 } OSModuleLink;
 
+typedef struct OSModuleQueue {
+  OSModuleInfo* head;
+  OSModuleInfo* tail;
+} OSModuleQueue;
+
 struct OSModuleInfo {
   u32 id;
   OSModuleLink head;
@@ -53,8 +58,10 @@ void OSNotifyPostLink(OSModuleHeader*, OSModuleHeader*);
 int Relocate(OSModuleHeader*, OSModuleHeader*);
 // PAL: 0x801a6ffc..0x801a72dc
 int Link(OSModuleInfo* info, void* bss, int fixed);
-// PAL: 0x801a72dc..0x801a72fc
+// PAL: 0x801a72dc..0x801a72e4
 int OSLink(OSModuleInfo* info, void* bss);
+// PAL: 0x801a72e4..0x801a72fc
+void __OSModuleInit(void);
 
 #ifdef __cplusplus
 }

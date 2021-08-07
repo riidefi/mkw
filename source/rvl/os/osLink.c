@@ -448,5 +448,15 @@ lbl_801a72bc:
 }
 
 // Symbol: OSLink
-// PAL: 0x801a72dc..0x801a72fc
+// PAL: 0x801a72dc..0x801a72e4
 int OSLink(OSModuleInfo* info, void* bss) { return Link(info, bss, 0); }
+
+OSModuleQueue __OSModuleInfoList : 0x800030c8;
+const void* __OSStringTable : 0x800030d0;
+
+// Symbol: __OSModuleInit
+// PAL: 0x801a72e4..0x801a72fc
+void __OSModuleInit(void) {
+  __OSModuleInfoList.head = __OSModuleInfoList.tail = 0;
+  __OSStringTable = 0;
+}
