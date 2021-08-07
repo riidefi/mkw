@@ -67,7 +67,7 @@ extern UNKNOWN_FUNCTION(unk_801bcd4c);
 // Function signature is unknown.
 // PAL: 0x801a8238..0x801a82c0
 MARK_BINARY_BLOB(OSRegisterShutdownFunction, 0x801a8238, 0x801a82c0);
-asm UNKNOWN_FUNCTION(OSRegisterShutdownFunction) {
+asm void OSRegisterShutdownFunction(OSShutdownFunctionInfo* info) {
   // clang-format off
   nofralloc;
   lwz r5, -0x62f0(r13);

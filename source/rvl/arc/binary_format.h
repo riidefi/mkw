@@ -5,8 +5,6 @@
 
 #include <rvl/os/osError.h>
 
-void OSPanic(...);
-
 struct rvlArchiveNode {
   union {
     struct {

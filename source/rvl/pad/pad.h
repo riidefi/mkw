@@ -3,13 +3,11 @@
 #include <rk_types.h>
 #include <stdbool.h>
 
+#include <rvl/os/osContext.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef struct OSContext {
-  u32 unk[178];
-} OSContext;
 
 // https://github.com/devkitPro/libogc/blob/bc4b778d558915aa40676e33514c4c9ba2af66b8/gc/ogc/pad.h#L46
 // Size: 0x0B (arrays padded to 0x0C)

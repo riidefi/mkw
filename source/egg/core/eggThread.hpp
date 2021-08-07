@@ -7,6 +7,7 @@
 
 #include <nw4r/ut/utList.hpp>
 #include <rk_types.h>
+#include <rvl/os/osMessage.h>
 #include <rvl/os/osThread.h>
 
 namespace EGG {
