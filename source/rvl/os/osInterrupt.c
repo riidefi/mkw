@@ -6,8 +6,6 @@
 #include "osException.h"
 
 // Extern function references.
-// PAL: 0x801a1f58
-extern void OSLoadContext(OSContext* context);
 // PAL: 0x801a98e8
 extern UNKNOWN_FUNCTION(OSDisableScheduler);
 // PAL: 0x801a9924

@@ -1,35 +1,11 @@
 #include "osThread.h"
 
 #include "os.h"
+#include "osAlarm.h"
+#include "osContext.h"
 #include "osInterrupt.h"
 
 // Extern function references.
-// PAL: 0x801a0610
-extern UNKNOWN_FUNCTION(OSCreateAlarm);
-// PAL: 0x801a0870
-extern UNKNOWN_FUNCTION(OSSetAlarm);
-// PAL: 0x801a0964
-extern UNKNOWN_FUNCTION(OSCancelAlarm);
-// PAL: 0x801a0cf8
-extern UNKNOWN_FUNCTION(unk_801a0cf8);
-// PAL: 0x801a0d8c
-extern UNKNOWN_FUNCTION(OSSetAlarmUserData);
-// PAL: 0x801a0d94
-extern UNKNOWN_FUNCTION(OSGetAlarmUserData);
-// PAL: 0x801a1e70
-extern UNKNOWN_FUNCTION(OSSetCurrentContext);
-// PAL: 0x801a1ecc
-extern UNKNOWN_FUNCTION(OSGetCurrentContext);
-// PAL: 0x801a1ed8
-extern UNKNOWN_FUNCTION(OSSaveContext);
-// PAL: 0x801a1f58
-extern void        OSLoadContext       ( OSContext* context );
-// PAL: 0x801a2030
-extern UNKNOWN_FUNCTION(OSGetStackPointer);
-// PAL: 0x801a2098
-extern UNKNOWN_FUNCTION(OSClearContext);
-// PAL: 0x801a20bc
-extern UNKNOWN_FUNCTION(OSInitContext);
 // PAL: 0x801a8088
 extern UNKNOWN_FUNCTION(__OSUnlockAllMutex);
 
@@ -1948,7 +1924,7 @@ lbl_801aacec:
   bl OSCreateAlarm;
   mr r4, r31;
   addi r3, r1, 8;
-  bl unk_801a0cf8;
+  bl OSSetAlarmTag;
   mr r4, r31;
   addi r3, r1, 8;
   bl OSSetAlarmUserData;

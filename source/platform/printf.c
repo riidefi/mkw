@@ -2,11 +2,10 @@
 
 #include <string.h>
 
+#include "ansi_fp.h"
 #include "va_arg.h"
 
 // Extern function references.
-// PAL: 0x8000dafc
-extern UNKNOWN_FUNCTION(__num2dec);
 // PAL: 0x8000e954
 extern UNKNOWN_FUNCTION(unk_8000e954);
 // PAL: 0x8000f138
@@ -1750,7 +1749,7 @@ lbl_80011798:
 // Function signature is unknown.
 // PAL: 0x800117b0..0x8001182c
 MARK_BINARY_BLOB(vprintf, 0x800117b0, 0x8001182c);
-asm UNKNOWN_FUNCTION(vprintf) {
+asm int vprintf(const char* format, va_list arg) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);

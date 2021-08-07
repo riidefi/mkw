@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include <rvl/os/os.h>
+#include <rvl/os/osCache.h>
+#include <rvl/os/osContext.h>
 #include <rvl/os/osInterrupt.h>
 #include <rvl/os/osThread.h>
 
@@ -23,14 +25,6 @@ extern UNKNOWN_FUNCTION(IPCiProfQueueReq);
 extern UNKNOWN_FUNCTION(IPCiProfAck);
 // PAL: 0x80195024
 extern UNKNOWN_FUNCTION(IPCiProfReply);
-// PAL: 0x801a1600
-extern UNKNOWN_FUNCTION(unk_801a1600);
-// PAL: 0x801a162c
-extern UNKNOWN_FUNCTION(unk_801a162c);
-// PAL: 0x801a1e70
-extern UNKNOWN_FUNCTION(OSSetCurrentContext);
-// PAL: 0x801a2098
-extern UNKNOWN_FUNCTION(OSClearContext);
 
 // Symbol: strnlen
 // Function signature is unknown.
@@ -87,7 +81,7 @@ asm UNKNOWN_FUNCTION(IpcReplyHandler) {
   stw r0, 0x30(r3);
   mr r3, r31;
   li r4, 0x20;
-  bl unk_801a1600;
+  bl DCInvalidateRange;
   lwz r0, 8(r31);
   cmpwi r0, 6;
   beq lbl_80193134;
@@ -113,7 +107,7 @@ lbl_80193118:
   cmpwi r4, 0;
   ble lbl_80193230;
   lwz r3, 0xc(r31);
-  bl unk_801a1600;
+  bl DCInvalidateRange;
   b lbl_80193230;
 lbl_80193134:
   lwz r3, 0x18(r31);
@@ -127,10 +121,10 @@ lbl_8019314c:
   stw r0, 0x18(r31);
   lwz r3, 0x10(r31);
   lwz r4, 0x14(r31);
-  bl unk_801a1600;
+  bl DCInvalidateRange;
   lwz r3, 0x18(r31);
   lwz r4, 0x1c(r31);
-  bl unk_801a1600;
+  bl DCInvalidateRange;
   b lbl_80193230;
 lbl_8019316c:
   lwz r3, 0x18(r31);
@@ -146,7 +140,7 @@ lbl_80193184:
   lwz r0, 0x14(r31);
   add r0, r4, r0;
   slwi r4, r0, 3;
-  bl unk_801a1600;
+  bl DCInvalidateRange;
   li r28, 0;
   li r29, 0;
   b lbl_801931e8;
@@ -166,7 +160,7 @@ lbl_801931c4:
   add r4, r3, r29;
   lwzx r3, r3, r29;
   lwz r4, 4(r4);
-  bl unk_801a1600;
+  bl DCInvalidateRange;
   addi r28, r28, 1;
   addi r29, r29, 8;
 lbl_801931e8:
@@ -484,7 +478,7 @@ lbl_801935d4:
 lbl_801935e4:
   mr r3, r28;
   li r4, 0x20;
-  bl unk_801a162c;
+  bl DCFlushRange;
   bl OSDisableInterrupts;
   lis r4, 0x8034;
   mr r30, r3;
@@ -691,7 +685,7 @@ lbl_801938a8:
   subf r4, r27, r3;
   mr r3, r27;
   addi r4, r4, 1;
-  bl unk_801a162c;
+  bl DCFlushRange;
   addis r0, r27, 0x8000;
   stw r0, 0xc(r31);
   stw r28, 0x10(r31);
@@ -780,7 +774,7 @@ lbl_801939c0:
   subf r4, r28, r3;
   mr r3, r28;
   addi r4, r4, 1;
-  bl unk_801a162c;
+  bl DCFlushRange;
   addis r0, r28, 0x8000;
   stw r0, 0xc(r31);
   stw r29, 0x10(r31);
@@ -976,7 +970,7 @@ lbl_80193c04:
 lbl_80193c24:
   mr r3, r27;
   mr r4, r28;
-  bl unk_801a1600;
+  bl DCInvalidateRange;
   cmpwi r27, 0;
   beq lbl_80193c40;
   addis r0, r27, 0x8000;
@@ -1058,7 +1052,7 @@ lbl_80193d04:
 lbl_80193d24:
   mr r3, r28;
   mr r4, r29;
-  bl unk_801a1600;
+  bl DCInvalidateRange;
   cmpwi r28, 0;
   beq lbl_80193d40;
   addis r0, r28, 0x8000;
@@ -1151,7 +1145,7 @@ lbl_80193e40:
   mr r3, r27;
   mr r4, r28;
   stw r28, 0x10(r5);
-  bl unk_801a162c;
+  bl DCFlushRange;
 lbl_80193e54:
   cmpwi r31, 0;
   bne lbl_80193e6c;
@@ -1233,7 +1227,7 @@ lbl_80193f40:
   mr r3, r29;
   mr r4, r30;
   stw r30, 0x10(r5);
-  bl unk_801a162c;
+  bl DCFlushRange;
 lbl_80193f54:
   cmpwi r31, 0;
   bne lbl_80193f6c;
@@ -1476,10 +1470,10 @@ lbl_8019423c:
   mr r3, r25;
   mr r4, r26;
   stw r26, 0x14(r5);
-  bl unk_801a162c;
+  bl DCFlushRange;
   mr r3, r27;
   mr r4, r28;
-  bl unk_801a162c;
+  bl DCFlushRange;
 lbl_8019425c:
   cmpwi r31, 0;
   bne lbl_80194274;
@@ -1572,10 +1566,10 @@ lbl_8019436c:
   mr r3, r27;
   mr r4, r28;
   stw r28, 0x14(r5);
-  bl unk_801a162c;
+  bl DCFlushRange;
   mr r3, r29;
   mr r4, r30;
-  bl unk_801a162c;
+  bl DCFlushRange;
 lbl_8019438c:
   cmpwi r31, 0;
   bne lbl_801943a4;
@@ -1628,7 +1622,7 @@ lbl_80194410:
   add r4, r3, r0;
   lwzx r3, r3, r0;
   lwz r4, 4(r4);
-  bl unk_801a162c;
+  bl DCFlushRange;
   lwz r4, 0x18(r29);
   add r3, r28, r27;
   lwzx r5, r4, r3;
@@ -1654,7 +1648,7 @@ lbl_8019446c:
   add r4, r0, r28;
   lwzx r3, r28, r0;
   lwz r4, 4(r4);
-  bl unk_801a162c;
+  bl DCFlushRange;
   lwz r3, 0x18(r29);
   lwzx r4, r3, r28;
   cmpwi r4, 0;
@@ -1675,7 +1669,7 @@ lbl_801944a8:
   lwz r3, 0x18(r29);
   add r0, r4, r0;
   slwi r4, r0, 3;
-  bl unk_801a162c;
+  bl DCFlushRange;
   cmpwi r30, 0;
   beq lbl_801944d8;
   addis r0, r30, 0x8000;
@@ -1916,7 +1910,7 @@ lbl_80194768:
   bl OSInitThreadQueue;
   mr r3, r29;
   li r4, 0x20;
-  bl unk_801a162c;
+  bl DCFlushRange;
   bl OSDisableInterrupts;
   lis r4, 0x8034;
   mr r30, r3;

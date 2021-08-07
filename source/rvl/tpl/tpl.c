@@ -1,7 +1,7 @@
 #include "tpl.h"
 
 #include <rvl/gx/gxTexture.h>
-#include <rvl/os/os.h>
+#include <rvl/os/osError.h>
 
 void TPLBind(TPLPalette* pal) {
   if (pal->version != 2142000)

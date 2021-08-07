@@ -54,6 +54,9 @@ SOURCES_MSL_LIBC = [
 SOURCES_RVL_ARC = [
     Source(src="source/rvl/arc/rvlArchive.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_BASE = [
+    Source(src="source/rvl/base/ppcArch.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_FS = [
     Source(src="source/rvl/fs/fs.c", cc='4199_60831', opts=RVL_OPTS),
 ]
@@ -79,8 +82,24 @@ SOURCES_RVL_NAND = [
     Source(src="source/rvl/nand/nand.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_OS = [
+    Source(src="source/rvl/os/osAlarm.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osAlloc.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osArena.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osAudio.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osCache.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osContext.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osError.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osFatal.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osFont.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osInterrupt.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osLink.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osMemory.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osMessage.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osMutex.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osReboot.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osReset.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osRtc.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osSync.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osThread.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_PAD = [
@@ -189,6 +208,7 @@ SOURCES_DOL = list(chain(
     SOURCES_TRK,
     SOURCES_MSL_LIBC,
     SOURCES_RVL_ARC,
+    SOURCES_RVL_BASE,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
     SOURCES_RVL_MEM,
