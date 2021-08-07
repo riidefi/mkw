@@ -1,23 +1,12 @@
 #include "osError.h"
 
 #include <string.h>
+#include <rvl/base/ppcArch.h>
 
 #include "os.h"
 #include "osContext.h"
 #include "osInterrupt.h"
 #include "osThread.h"
-
-// Extern function references.
-// PAL: 0x8012e564
-extern UNKNOWN_FUNCTION(PPCMfmsr);
-// PAL: 0x8012e56c
-extern UNKNOWN_FUNCTION(PPCMtmsr);
-// PAL: 0x8012e5a4
-extern UNKNOWN_FUNCTION(PPCHalt);
-// PAL: 0x8012e5e8
-extern UNKNOWN_FUNCTION(PPCMffpscr);
-// PAL: 0x8012e608
-extern UNKNOWN_FUNCTION(PPCMtfpscr);
 
 // Symbol: OSReport
 // PAL: 0x801a25d0..0x801a265c

@@ -2,11 +2,10 @@
 
 #include <string.h>
 
+#include "ansi_fp.h"
 #include "va_arg.h"
 
 // Extern function references.
-// PAL: 0x8000dafc
-extern UNKNOWN_FUNCTION(__num2dec);
 // PAL: 0x8000e954
 extern UNKNOWN_FUNCTION(unk_8000e954);
 // PAL: 0x8000f138

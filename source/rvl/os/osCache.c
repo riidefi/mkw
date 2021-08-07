@@ -1,26 +1,12 @@
 #include "osCache.h"
 
+#include <rvl/base/ppcArch.h>
+
 #include "osContext.h"
 #include "osError.h"
 #include "osInterrupt.h"
 
 // Extern function references.
-// PAL: 0x8012e564
-extern UNKNOWN_FUNCTION(PPCMfmsr);
-// PAL: 0x8012e56c
-extern UNKNOWN_FUNCTION(PPCMtmsr);
-// PAL: 0x8012e574
-extern UNKNOWN_FUNCTION(PPCMfhid0);
-// PAL: 0x8012e584
-extern UNKNOWN_FUNCTION(PPCMfl2cr);
-// PAL: 0x8012e58c
-extern UNKNOWN_FUNCTION(PPCMtl2cr);
-// PAL: 0x8012e5a4
-extern UNKNOWN_FUNCTION(PPCHalt);
-// PAL: 0x8012e630
-extern UNKNOWN_FUNCTION(PPCMfhid2);
-// PAL: 0x8012e638
-extern UNKNOWN_FUNCTION(PPCMthid2);
 // PAL: 0x8015d3ac
 extern UNKNOWN_FUNCTION(DBPrintf);
 
