@@ -96,7 +96,9 @@ SOURCES_RVL_OS = [
     Source(src="source/rvl/os/osMemory.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osMessage.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osMutex.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osReboot.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osReset.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/os/osRtc.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osSync.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/os/osThread.c", cc='4199_60831', opts=RVL_OPTS),
 ]

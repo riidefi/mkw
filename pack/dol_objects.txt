@@ -243,9 +243,10 @@ out/osLink.o
 out/osMessage.o
 out/osMemory.o
 out/osMutex.o
-out/dol/text_801a81b8_801a8238.o
+out/osReboot.o
 out/osReset.o
-out/dol/text_801a8a80_801a9528.o
+out/dol/text_801a8a80_801a8a9c.o
+out/osRtc.o
 out/osSync.o
 out/dol/text_801a95a8_801a95ac.o
 out/osThread.o
