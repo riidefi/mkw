@@ -1561,6 +1561,9 @@
 0x801a6d30 OSNotifyLink
 0x801a6d34 OSNotifyPreLink
 0x801a6d38 OSNotifyPostLink
+0x801a6d3c Relocate
+0x801a6ffc Link
+0x801a72dc OSLink
 0x801a72fc OSInitMessageQueue
 0x801a7eac OSInitMutex
 0x801a7ee4 OSLockMutex
