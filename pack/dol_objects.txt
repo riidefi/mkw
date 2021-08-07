@@ -245,7 +245,9 @@ out/osMemory.o
 out/osMutex.o
 out/dol/text_801a81b8_801a8238.o
 out/osReset.o
-out/dol/text_801a8a80_801a95ac.o
+out/dol/text_801a8a80_801a9528.o
+out/osSync.o
+out/dol/text_801a95a8_801a95ac.o
 out/osThread.o
 out/dol/text_801aad5c_801ae5d8.o
 out/dol/data_80290630_8029cc80.o

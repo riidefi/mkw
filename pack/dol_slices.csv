@@ -104,6 +104,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/os/osMemory.c,,,,,,,0x801a75d0 ,0x801a7eac,,,,,,,,,,,,,,,,,,
 1,,source/rvl/os/osMutex.c,,,,,,,0x801a7eac,0x801a81b8,,,,,,,,,,,,,,,,,,
 1,,source/rvl/os/osReset.c,,,,,,,0x801a8238 ,0x801a8a80 ,,,,,,,,,,,,,,,,,,
+1,,source/rvl/os/osSync.c,,,,,,,0x801a9528,0x801a95a8,,,,,,,,,,,,,,,,,,
 1,,source/rvl/os/osThread.c,,,,,,,0x801a95ac ,0x801aad5c ,,,,,,,,,,,,,,,,,,
 1,,source/rvl/pad/rvlPadClamp.c,,,,,,,0x801ae5d8,0x801ae880,,,,,0x80252dd0,0x80252de6,,,,,,,,,0x80388930,0x80388938,,
 1,,source/rvl/pad/rvlPad.c,,,,,,,0x801ae880,0x801b0180,,,,,,,0x8029cc80,0x8029ccd8,0x803481b0,0x80348230,0x80385b08,0x80385b28,0x80386998,0x803869C4,,,,
