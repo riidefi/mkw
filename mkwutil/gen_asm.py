@@ -482,8 +482,7 @@ def gen_asm(regen_asm=False):
     rel_bin_dir = binary_dir / "rel"
     dump_staticr(rel, rel_bin_dir)
     # Map out slices in REL.
-    rel_slices = load_rel_slices(sections=REL_SECTIONS)
-    rel_slices.filter(SliceTable.ONLY_ENABLED)
+    rel_slices = load_rel_slices(sections=REL_SECTIONS).filter(SliceTable.ONLY_ENABLED)
     # Disassemble REL sections.
     rel_asm_dir = asm_dir / "rel"
     rel_asm_dir.mkdir(exist_ok=True)
