@@ -1,6 +1,7 @@
 #include <egg/core/eggProcessMeter.hpp>
 
 #include <rvl/gx/gxFifo.h>
+#include <rvl/os/osInterrupt.h>
 #include <rvl/os/osThread.h>
 
 namespace EGG {
