@@ -883,8 +883,11 @@
 0x8015ddec __DSP_insert_task
 0x8015de88 __DSP_remove_task
 0x8015df1c __DVDFSInit
+0x8015df4c DVDConvertPathToEntrynum
+0x8015e254 DVDFastOpen
 0x8015e2bc DVDOpen
 0x8015e568 DVDClose
+0x8015e74c DVDReadAsyncPrio
 0x8015e834 DVDReadPrio
 0x801628cc DVDReadAbsAsyncPrio
 0x801629b0 DVDInquiryAsync

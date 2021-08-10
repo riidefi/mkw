@@ -109,7 +109,7 @@ void Archive::getFile(const char* path, FileInfo* pInfo) {
 // Reads header from u8 file on disc. Then reads header and allocates file based
 // on that filesize.
 void* Archive::loadFromDisc(const char* path, Heap* pHeap, int align) {
-  rvlDvdFile dvdFileInfo;
+  DVDFileInfo dvdFileInfo;
   int alignRounded = align > 0 ? -32 : 32; // r31
   if (!DVDOpen(path, &dvdFileInfo))
     return nullptr;
@@ -119,7 +119,7 @@ void* Archive::loadFromDisc(const char* path, Heap* pHeap, int align) {
       sizeof(rvlArchiveHeader), alignRounded); // r30
 
   if (readHeader != nullptr) {
-    if (DVDReadPrio(&dvdFileInfo, readHeader, 32, 0, 2) >= 32) {
+    if ((u32)DVDReadPrio(&dvdFileInfo, readHeader, 32, 0, 2) >= 32) {
       u32 arcSize =
           ROUND_UP(readHeader->nodes.size + sizeof(rvlArchiveHeader), 32);
       ARC = pHeap->alloc(arcSize, align); // r31

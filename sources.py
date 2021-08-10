@@ -186,6 +186,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggAllocator.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggArchive.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggDisposer.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/core/eggDvdFile.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggExpHeap.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/core/eggGraphicsFifo.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggHeap.cpp", cc='4201_127', opts=EGG_OPTS + " -ipa file -use_lmw_stmw=on  "),
