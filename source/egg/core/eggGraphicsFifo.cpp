@@ -1,7 +1,7 @@
 #include <egg/core/eggGraphicsFifo.hpp>
 #include <egg/core/eggHeap.hpp>
 #include <egg/eggInternal.hpp>
-#include <rvl/gxFifo.h>
+#include <rvl/gx/gxFifo.h>
 
 namespace EGG {
 
