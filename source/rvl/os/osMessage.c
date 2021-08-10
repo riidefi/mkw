@@ -6,8 +6,8 @@
 // Symbol: OSInitMessageQueue
 // PAL: 0x801a72fc..0x801a735c
 MARK_BINARY_BLOB(OSInitMessageQueue, 0x801a72fc, 0x801a735c);
-asm void OSInitMessageQueue(OSMessageQueue* queue, OSMessage* buffer,
-                            s32 capacity) {
+asm void OSInitMessageQueue(OSMessageQueue* mq, OSMessage* msgArray,
+                            s32 msgCount) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -38,10 +38,9 @@ asm void OSInitMessageQueue(OSMessageQueue* queue, OSMessage* buffer,
 }
 
 // Symbol: OSSendMessage
-// Function signature is unknown.
 // PAL: 0x801a735c..0x801a7424
 MARK_BINARY_BLOB(OSSendMessage, 0x801a735c, 0x801a7424);
-asm UNKNOWN_FUNCTION(OSSendMessage) {
+asm int OSSendMessage(OSMessageQueue* mq, OSMessage msg, s32 flags) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -102,10 +101,9 @@ lbl_801a7404:
 }
 
 // Symbol: OSReceiveMessage
-// Function signature is unknown.
 // PAL: 0x801a7424..0x801a7500
 MARK_BINARY_BLOB(OSReceiveMessage, 0x801a7424, 0x801a7500);
-asm UNKNOWN_FUNCTION(OSReceiveMessage) {
+asm int OSReceiveMessage(OSMessageQueue* mq, OSMessage* msg, s32 flags) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
