@@ -1,5 +1,6 @@
-#include <EGG/core/eggDvdFile.hpp>
-#include <revolution/os.h>
+#include <egg/core/eggDvdFile.hpp>
+
+#include <cstddef>
 
 namespace EGG {
 
@@ -13,82 +14,93 @@ void DvdFile::initialize() {
   }
 }
 
-DvdFile::DvdFile() : mIsOpen(false) { create(); }
+DvdFile::DvdFile() { initiate(); }
 
 DvdFile::~DvdFile() { close(); }
 
 void DvdFile::initiate() {
-  this->_78 = this;
-  OSInitMutex(&this->Mutex_08);
-  OSInitMutex(&this->Mutex_20);
-  OSInitMessageQueue(&this->MessageQueue_A0, &this->_C0, 1);
-  OSInitMessageQueue(&this->MessageQueue_7C, &this->_9C, 1);
-
-  this->_C4 = 0;
-  this->_38 = 0;
+  mFileInfo.dvdFile = this;
+  OSInitMutex(&mMutex);
+  OSInitMutex(&_20);
+  OSInitMessageQueue(&mMsgQueue, &mMsg, 1);
+  OSInitMessageQueue(&_7C, &_9C, 1);
+  mThread = nullptr;
+  _38 = 0;
 }
 
 bool DvdFile::open(s32 entryNum) {
-  if (!this->mIsOpen && entryNum != -1) {
-    if (mFileInfo.open(entryNum)) {
+  if (!mIsOpen && entryNum != -1) {
+    mIsOpen = DVDFastOpen(entryNum, &mFileInfo);
+    if (mIsOpen) {
       nw4r::ut::List_Append(&sDvdList, this);
-      DVDGetCommandBlockStatus(&mFileInfo.cb);
+      DVDGetFileInfoStatus(&mFileInfo);
     }
   }
 
   return mIsOpen;
 }
 
-bool DvdFile::open(const char* filename) {
-  return this->open(DVDConvertPathToEntrynum(filename));
+bool DvdFile::open(const char* path) {
+  s32 entrynum = DVDConvertPathToEntrynum(path);
+  return open(entrynum);
 }
 
-bool DvdFile::open(char* path) { return open((const char*)path); }
+bool DvdFile::open(const char* path, void*) { return open(path); }
 
 void DvdFile::close() {
-  if (this->mIsOpen && DVDClose(&this->mFileInfo)) {
-    this->mIsOpen = false;
+  if (mIsOpen && DVDClose(&mFileInfo)) {
+    mIsOpen = false;
     nw4r::ut::List_Remove(&sDvdList, this);
   }
 }
 
-int DvdFile::readData(void* addr, int len, int offset) {
-  OSLockMutex(&this->Mutex_08);
-  if (this->_C4 != 0) {
-    OSUnlockMutex(&this->Mutex_08);
+s32 DvdFile::readData(void* buffer, s32 length, s32 offset) {
+  OSLockMutex(&mMutex);
+
+  if (mThread != nullptr) {
+    OSUnlockMutex(&mMutex);
     return -1;
   }
-  this->_C4 = OSGetCurrentThread();
-  int r31 = (void*)-1;
-  if (DVDReadAsyncPrio(&this->mFileInfo, addr, len, offset,
-                       (DVDCallback)&doneProcess, 2))
-    r31 = this->sync();
-  this->_C4 = 0;
-  OSUnlockMutex(&this->Mutex_08);
-  return r31;
+
+  mThread = OSGetCurrentThread();
+  int result = -1;
+  if (DVDReadAsyncPrio(&mFileInfo, buffer, length, offset, &doneProcess, 2)) {
+    result = sync();
+  }
+  mThread = nullptr;
+
+  OSUnlockMutex(&mMutex);
+  return result;
 }
 
-int DvdFile::writeData(const void*, int, int) {
+s32 DvdFile::writeData(const void* buffer, s32 length, s32 offset) {
+  UNUSED_PARAM(buffer)
+  UNUSED_PARAM(length)
+  UNUSED_PARAM(offset)
+
   return -1; // You can't write to the Dvd!
 }
 
-void DvdFile::sync() {
-  OSLockMutex(&this->Mutex_08);
+s32 DvdFile::sync() {
+  OSLockMutex(&mMutex);
 
   OSMessage message;
-  OSReceiveMessage(&this->MessageQueue_A0, &message, 1);
+  OSReceiveMessage(&mMsgQueue, &message, OS_MESSAGE_BLOCK);
 
-  _C4 = 0;
+  mThread = nullptr;
 
-  OSUnlockMutex(&this->Mutex_08);
+  OSUnlockMutex(&mMutex);
 
-  return message;
+  s32 result = reinterpret_cast<s32>(message);
+  return result;
 }
 
-void DvdFile::doneProcess(int result, DVDFileInfo* fileInfo) {
-  OSSendMessage(&fileInfo->_3C->_A0, this, 0);
+void DvdFile::doneProcess(s32 result, DVDFileInfo* fileInfo) {
+  DvdFile* dvdFile = static_cast<FileInfo*>(fileInfo)->dvdFile;
+  OSMessage message = reinterpret_cast<void*>(result);
+  OSSendMessage(&dvdFile->mMsgQueue, message, OS_MESSAGE_NOBLOCK);
 }
 
-int DvdFile::getFileSize() const { return mFileInfo.length; }
+u32 DvdFile::getFileSize() const { return mFileInfo.length; }
 
 } // namespace EGG
