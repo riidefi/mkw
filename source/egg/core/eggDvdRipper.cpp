@@ -26,8 +26,7 @@ u8* DvdRipper::loadToMainRAM(const char* path, u8* dst, Heap* heap,
                        fileSize);
 }
 
-#ifdef NON_MATCHING
-DvdRipper::Arg::Arg() {
+inline DvdRipper::Arg::Arg() {
   _04 = 0;
   _08 = 0;
   _0c = 1;
@@ -38,6 +37,7 @@ DvdRipper::Arg::Arg() {
 u8* DvdRipper::loadToMainRAM(DvdFile* dvdFile, u8* dst, Heap* heap,
                              EAllocDirection allocDirection, u32 offset,
                              u32* amountRead, u32* fileSize) {
+  u32 roundedFileSize, roundedFileSize2;
   bool allocatedFromHeap = false;
 
   if (sCallback != nullptr) {
@@ -49,7 +49,7 @@ u8* DvdRipper::loadToMainRAM(DvdFile* dvdFile, u8* dst, Heap* heap,
   if (fileSize != nullptr) {
     *fileSize = exactFileSize;
   }
-  u32 roundedFileSize = ROUND_UP(exactFileSize, 32);
+  roundedFileSize = ROUND_UP(exactFileSize, 32);
 
   if (dst == nullptr) {
     s32 align = allocDirection == ALLOC_DIR_TOP ? 32 : -32;
@@ -83,9 +83,9 @@ u8* DvdRipper::loadToMainRAM(DvdFile* dvdFile, u8* dst, Heap* heap,
     DCInvalidateRange(buf_ptr, 32);
   }
 
-  roundedFileSize -= offset;
+  roundedFileSize2 = roundedFileSize - offset;
   while (true) {
-    s32 result = DVDRead(dvdFile->getFileInfo(), dst, roundedFileSize, offset);
+    s32 result = DVDRead(dvdFile->getFileInfo(), dst, roundedFileSize2, offset);
     if (result >= 0) {
       break;
     }
@@ -101,155 +101,11 @@ u8* DvdRipper::loadToMainRAM(DvdFile* dvdFile, u8* dst, Heap* heap,
   }
 
   if (amountRead) {
-    *amountRead = roundedFileSize;
+    *amountRead = roundedFileSize2;
   }
 
   return dst;
 }
-#else
-MARK_BINARY_BLOB(
-    loadToMainRAM__Q23EGG9DvdRipperFPQ23EGG7DvdFilePUcPQ23EGG4HeapQ33EGG9DvdRipper15EAllocDirectionUlPUlPUl,
-    0x8022277c, 0x8022293c);
-extern "C" void alloc__Q23EGG4HeapFUliPQ23EGG4Heap();
-extern "C" void free__Q23EGG4HeapFPvPQ23EGG4Heap();
-asm u8* DvdRipper::loadToMainRAM(DvdFile* dvdFile, u8* dst, Heap* heap,
-                                 EAllocDirection allocDirection, u32 offset,
-                                 u32* amountRead, u32* fileSize) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x90(r1);
-  mflr r0;
-  stw r0, 0x94(r1);
-  stmw r23, 0x6c(r1);
-  mr r30, r3;
-  mr r31, r4;
-  mr r23, r5;
-  mr r24, r6;
-  mr r25, r7;
-  mr r26, r8;
-  mr r27, r9;
-  li r28, 0;
-  lwz r12, -0x5de0(r13);
-  cmpwi r12, 0;
-  beq lbl_802227e4;
-  li r5, 0;
-  addi r0, r1, 0x20;
-  li r4, 1;
-  stw r5, 0xc(r1);
-  addi r3, r1, 8;
-  stw r5, 0x10(r1);
-  stw r4, 0x14(r1);
-  stw r5, 0x18(r1);
-  stw r0, 0x1c(r1);
-  mtctr r12;
-  bctrl;
-lbl_802227e4:
-  lwz r12, 0(r30);
-  mr r3, r30;
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  cmpwi r27, 0;
-  beq lbl_80222804;
-  stw r3, 0(r27);
-lbl_80222804:
-  cmpwi r31, 0;
-  addi r0, r3, 0x1f;
-  rlwinm r29, r0, 0, 0, 0x1a;
-  bne lbl_80222838;
-  cmpwi r24, 1;
-  subf r3, r25, r29;
-  li r4, -32;
-  bne lbl_80222828;
-  li r4, 0x20;
-lbl_80222828:
-  mr r5, r23;
-  bl alloc__Q23EGG4HeapFUliPQ23EGG4Heap;
-  mr r31, r3;
-  li r28, 1;
-lbl_80222838:
-  cmpwi r31, 0;
-  bne lbl_80222848;
-  li r3, 0;
-  b lbl_80222928;
-lbl_80222848:
-  cmpwi r25, 0;
-  beq lbl_802228bc;
-  addi r0, r1, 0x47;
-  rlwinm r27, r0, 0, 0, 0x1a;
-lbl_80222858:
-  mr r4, r27;
-  mr r6, r25;
-  addi r3, r30, 0x3c;
-  li r5, 0x20;
-  li r7, 2;
-  bl DVDReadPrio;
-  cmpwi r3, 0;
-  bge lbl_802228b0;
-  cmpwi r3, -3;
-  beq lbl_8022288c;
-  lbz r0, -0x6c78(r13);
-  cmpwi r0, 0;
-  bne lbl_802228a8;
-lbl_8022288c:
-  cmpwi r28, 0;
-  beq lbl_802228a0;
-  mr r3, r31;
-  li r4, 0;
-  bl free__Q23EGG4HeapFPvPQ23EGG4Heap;
-lbl_802228a0:
-  li r3, 0;
-  b lbl_80222928;
-lbl_802228a8:
-  bl VIWaitForRetrace;
-  b lbl_80222858;
-lbl_802228b0:
-  mr r3, r27;
-  li r4, 0x20;
-  bl DCInvalidateRange;
-lbl_802228bc:
-  subf r29, r25, r29;
-lbl_802228c0:
-  mr r4, r31;
-  mr r5, r29;
-  mr r6, r25;
-  addi r3, r30, 0x3c;
-  li r7, 2;
-  bl DVDReadPrio;
-  cmpwi r3, 0;
-  bge lbl_80222918;
-  cmpwi r3, -3;
-  beq lbl_802228f4;
-  lbz r0, -0x6c78(r13);
-  cmpwi r0, 0;
-  bne lbl_80222910;
-lbl_802228f4:
-  cmpwi r28, 0;
-  beq lbl_80222908;
-  mr r3, r31;
-  li r4, 0;
-  bl free__Q23EGG4HeapFPvPQ23EGG4Heap;
-lbl_80222908:
-  li r3, 0;
-  b lbl_80222928;
-lbl_80222910:
-  bl VIWaitForRetrace;
-  b lbl_802228c0;
-lbl_80222918:
-  cmpwi r26, 0;
-  beq lbl_80222924;
-  stw r29, 0(r26);
-lbl_80222924:
-  mr r3, r31;
-lbl_80222928:
-  lmw r23, 0x6c(r1);
-  lwz r0, 0x94(r1);
-  mtlr r0;
-  addi r1, r1, 0x90;
-  blr;
-  // clang-format on
-}
-#endif
 
 u8* DvdRipper::loadToMainRAMDecomp(const char* path, StreamDecomp* streamDecomp,
                                    u8* dst, Heap* heap,
