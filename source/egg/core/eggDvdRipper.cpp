@@ -125,11 +125,12 @@ u8* DvdRipper::loadToMainRAMDecomp(DvdFile* dvdFile, StreamDecomp* streamDecomp,
                                    u8* dst, Heap* heap,
                                    EAllocDirection allocDirection, u32 offset,
                                    u32 size, u32 maxChunkSize) {
+  s32 uncompressedAlign, compressedAlign;
   bool allocatedFromHeap = false;
 
   // Setup aligns
-  s32 uncompressedAlign = allocDirection == ALLOC_DIR_TOP ? 32 : -32;
-  s32 compressedAlign = allocDirection == ALLOC_DIR_TOP ? -32 : 32;
+  uncompressedAlign = allocDirection == ALLOC_DIR_TOP ? 32 : -32;
+  compressedAlign = allocDirection == ALLOC_DIR_TOP ? -32 : 32;
 
   // Compute the compressed size to read from the file
   dvdFile->getFileSize(); // From debug print?
@@ -148,7 +149,7 @@ u8* DvdRipper::loadToMainRAMDecomp(DvdFile* dvdFile, StreamDecomp* streamDecomp,
   // Read the header
   s32 result = DVDRead(dvdFile->getFileInfo(), header,
                        streamDecomp->getHeaderSize(), offset);
-  if (result != streamDecomp->getHeaderSize()) {
+  if (result != static_cast<s32>(streamDecomp->getHeaderSize())) {
     // Memory leak in this case!
     return nullptr;
   }
