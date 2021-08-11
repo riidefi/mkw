@@ -118,6 +118,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/egg/core/eggArchive.cpp,,,,,,,0x8020F6EC,0x8020FCC4,,,,,,,0x802A2680,0x802A268C,0x803832D8,0x803832E4,,,0x80386D80,0x80386D84,,,,
 1,,source/egg/core/eggDisposer.cpp,,,,,,,0x8021A0F0,0x8021A1B8,,,,,,,0x802A2B48,0x802A2B54,,,,,,,,,,
 1,1,source/egg/core/eggDvdFile.cpp,,,,,,,0x8022231c,0x802226d8,,,,,,,0x802a2da0,0x802a2dc8,0x80384190,0x803841a0,,,0x80386e18,0x80386e20,,,,
+1,,source/egg/core/eggDvdRipper.cpp,,,,,,,0x802226d8,0x80222ccc,,,,,,,,,,,0x80385f88,0x80385f89,0x80386e20,0x80386e28,,,,
 1,,source/egg/core/eggExpHeap.cpp,,,,,,,0x802269A8,0x80226F04,,,,,0x80257700,0x8025771A,0x802A2FF8,0x802A3024,,,,,,,,,,
 1,,source/egg/core/eggGraphicsFifo.cpp,,,,,,,0x80229540,0x802296A8,,,,,,,0x802A30B0,0x802A30BC,,,,,0x80386E90,0x80386E99,,,,
 1,,source/egg/core/eggHeap.cpp,,,,,,,0x802296A8,0x80229FAC,,,,,0x80257740,0x80257824,0x802A30C0,0x802a30ec,0x80384320,0x80384348,,,0x80386EA0,0x80386EC0,0x80388D68,0x80388D80,,

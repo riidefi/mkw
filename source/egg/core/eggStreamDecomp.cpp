@@ -7,20 +7,20 @@
 
 namespace EGG {
 
-bool LZStreamDecomp::initialize(void* dst, unk arg3) {
+bool LZStreamDecomp::init(void* dst, u32 maxCompressedSize) {
   mpDst = dst;
-  _08 = arg3;
+  mMaxCompressedSize = maxCompressedSize;
   CXInitUncompContextLZ(&mContext, dst);
   return true;
 }
 
-bool LZStreamDecomp::process(const void* src, u32 len) {
+bool LZStreamDecomp::decomp(const void* src, u32 len) {
   return CXReadUncompLZ(&mContext, src, len) == CXResultSuccess;
 }
 
-u32 LZStreamDecomp::getDataOffset() { return 32; }
+u32 LZStreamDecomp::getHeaderSize() { return 32; }
 
-u32 LZStreamDecomp::getExpandSize(const void* src) {
+u32 LZStreamDecomp::getUncompressedSize(const void* src) {
   return CXGetUncompressedSize(src);
 }
 
