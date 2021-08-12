@@ -1,5 +1,6 @@
 #pragma once
 
+#include <egg/core/eggFile.hpp>
 #include <nw4r/ut/utList.hpp>
 #include <rk_types.h>
 #include <rvl/cnt.h>
@@ -9,7 +10,7 @@
 
 namespace EGG {
 
-class CntFile {
+class CntFile : public File {
 public:
   CntFile();
 
@@ -24,15 +25,13 @@ private:
 public:
   virtual ~CntFile();
 
-  virtual int open(const char*);
-  virtual void close();
-  virtual int readData(void* fileBuffer, u32 length, s32 offset);
-  virtual int writeData(const void*, int, int);
-  virtual u32 getFileSize() const;
+  bool open(const char* path) override;
+  void close() override;
+  s32 readData(void* buffer, s32 length, s32 offset) override;
+  s32 writeData(const void* buffer, s32 length, s32 offset) override;
+  u32 getFileSize() const override;
 
 private:
-  bool mOpen;
-  char _p[3];
   OSMutex _08;
   OSMutex _20;
   u32 _38;

@@ -5,30 +5,7 @@ namespace EGG {
 static nw4r::ut::List gCntFileList;
 static int gCurrentCntFile;
 
-#ifdef NON_MATCHING
-CntFile::CntFile() : mOpen(false) { initThreading(); }
-#else
-extern "C" void initThreading__Q23EGG7CntFileFv(void*);
-extern "C" asm void* __ct__Q23EGG7CntFileFv(void*) {
-  stwu r1, -16(r1);
-  mflr r0;
-  lis r4, -32726;
-  stw r0, 20(r1);
-  li r0, 0;
-  addi r4, r4, 10760;
-  stw r31, 12(r1);
-  mr r31, r3;
-  stb r0, 4(r3);
-  stw r4, 0(r3);
-  bl initThreading__Q23EGG7CntFileFv;
-  mr r3, r31;
-  lwz r31, 12(r1);
-  lwz r0, 20(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-}
-#endif
+CntFile::CntFile() { initThreading(); }
 CntFile::~CntFile() { close(); }
 
 void CntFile::initThreading() {
@@ -44,23 +21,23 @@ void CntFile::initThreading() {
 
 bool CntFile::spawnFileHandle(const char* path, void* cnt_handle) {
   int entry_num = CNTConvertPathToEntrynum(cnt_handle, path);
-  if (!this->mOpen && entry_num != -1) {
+  if (!this->mIsOpen && entry_num != -1) {
     int cnt_file = contentFastOpenNAND(cnt_handle, entry_num, &this->mFileHnd);
     if (!cnt_file) {
-      this->mOpen = 1;
+      this->mIsOpen = 1;
       nw4r::ut::List_Append(&gCntFileList, this);
       this->_4C = cnt_handle;
     } else {
-      this->mOpen = 0;
+      this->mIsOpen = 0;
       this->_4C = 0;
     }
     gCurrentCntFile = cnt_file;
   }
-  return this->mOpen;
+  return this->mIsOpen;
 }
 
 void CntFile::close() {
-  if (!mOpen) {
+  if (!mIsOpen) {
     return;
   }
 
@@ -68,14 +45,14 @@ void CntFile::close() {
   _4C = false;
 
   if (!result) {
-    mOpen = false;
+    mIsOpen = false;
     nw4r::ut::List_Remove(&gCntFileList, this);
   }
 
   gCurrentCntFile = result;
 }
 
-int CntFile::readData(void* fileBuffer, u32 length, s32 offset) {
+s32 CntFile::readData(void* buffer, s32 length, s32 offset) {
   OSLockMutex(&_08);
   if (_9C) {
     OSUnlockMutex(&_08);
@@ -83,7 +60,7 @@ int CntFile::readData(void* fileBuffer, u32 length, s32 offset) {
   }
   _9C = OSGetCurrentThread();
 
-  const s32 result = contentReadNAND(&mFileHnd, fileBuffer, length, offset);
+  const s32 result = contentReadNAND(&mFileHnd, buffer, length, offset);
   // TODO: Pattern?
   gCurrentCntFile = (result >> 31) & result;
 
@@ -92,8 +69,8 @@ int CntFile::readData(void* fileBuffer, u32 length, s32 offset) {
   return result;
 }
 
-int CntFile::writeData(const void*, int, int) { return -1; }
-int CntFile::open(const char*) { return 0; }
+s32 CntFile::writeData(const void*, s32, s32) { return -1; }
+bool CntFile::open(const char*) { return false; }
 u32 CntFile::getFileSize() const { return CNTGetLength(&mFileHnd); }
 
 } // namespace EGG
