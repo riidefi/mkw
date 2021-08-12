@@ -1,5 +1,7 @@
 #pragma once
 
+#include <egg/math/eggVector.hpp>
+
 namespace EGG {
 
 struct BoundBox2f {

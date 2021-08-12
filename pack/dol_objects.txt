@@ -326,7 +326,10 @@ out/dol/bss_80384bf4_80384c00.o
 out/dol/sbss_80386f90_80386fa0.o
 out/dol/sdata2_80389104_80389108.o
 out/eggVideo.o
-out/dol/text_80244074_80244de0.o
+out/eggViewport.o
+out/eggXfb.o
+out/eggXfbManager.o
+out/dol/text_802443ac_80244de0.o
 out/dol/rodata_80258560_80258580.o
 out/dol/sdata2_80389118_80389140.o
 out/dol/sbss2_80389140_8038917c.o
