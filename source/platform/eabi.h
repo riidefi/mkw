@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // PAL: 0x8002156C
 extern void _savegpr_14(void);
 // PAL: 0x80021570
@@ -71,3 +75,7 @@ extern void __shr2i(void);
 void __cvt_dbl_ull(void);
 
 unsigned long __cvt_fp2unsigned(double d);
+
+#ifdef __cplusplus
+}
+#endif

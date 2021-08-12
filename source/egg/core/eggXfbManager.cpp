@@ -25,9 +25,10 @@ extern "C" UNKNOWN_FUNCTION(VIGetNextFrameBuffer);
 // Symbol: attach__Q23EGG10XfbManagerFPQ23EGG3Xfb
 // Function signature is unknown.
 // PAL: 0x80244200..0x80244268
-MARK_BINARY_BLOB(attach__Q23EGG10XfbManagerFPQ23EGG3Xfb, 0x80244200, 0x80244268);
+MARK_BINARY_BLOB(attach__Q23EGG10XfbManagerFPQ23EGG3Xfb, 0x80244200,
+                 0x80244268);
 asm UNKNOWN_FUNCTION(attach__Q23EGG10XfbManagerFPQ23EGG3Xfb) {
-// clang-format off
+  // clang-format off
   nofralloc;
   cmpwi r4, 0;
   li r0, 0;
@@ -58,7 +59,7 @@ lbl_8024425c:
 lbl_80244260:
   mr r3, r0;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: copyEFB__Q23EGG10XfbManagerFb
@@ -66,7 +67,7 @@ lbl_80244260:
 // PAL: 0x80244268..0x802442e8
 MARK_BINARY_BLOB(copyEFB__Q23EGG10XfbManagerFb, 0x80244268, 0x802442e8);
 asm UNKNOWN_FUNCTION(copyEFB__Q23EGG10XfbManagerFb) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -101,15 +102,16 @@ lbl_802442ac:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: setNextFrameBuffer__Q23EGG10XfbManagerFv
 // Function signature is unknown.
 // PAL: 0x802442e8..0x80244350
-MARK_BINARY_BLOB(setNextFrameBuffer__Q23EGG10XfbManagerFv, 0x802442e8, 0x80244350);
+MARK_BINARY_BLOB(setNextFrameBuffer__Q23EGG10XfbManagerFv, 0x802442e8,
+                 0x80244350);
 asm UNKNOWN_FUNCTION(setNextFrameBuffer__Q23EGG10XfbManagerFv) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -138,7 +140,7 @@ lbl_80244330:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: postVRetrace__Q23EGG10XfbManagerFv
@@ -146,7 +148,7 @@ lbl_80244330:
 // PAL: 0x80244350..0x802443ac
 MARK_BINARY_BLOB(postVRetrace__Q23EGG10XfbManagerFv, 0x80244350, 0x802443ac);
 asm UNKNOWN_FUNCTION(postVRetrace__Q23EGG10XfbManagerFv) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -172,6 +174,5 @@ lbl_80244394:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
-
