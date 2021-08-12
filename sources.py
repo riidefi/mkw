@@ -197,8 +197,9 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggThread.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggUnitHeap.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/core/eggVideo.cpp", cc='4201_127', opts=EGG_OPTS+ " -use_lmw_stmw=on  "),
-    # Source(src="source/egg/core/eggXfb.cpp", cc='4201_127', opts=EGG_OPTS),
-    # Source(src="source/egg/core/eggXfbManager.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/core/eggViewport.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/core/eggXfb.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/core/eggXfbManager.cpp", cc='4201_127', opts=EGG_OPTS),
 ]
 SOURCES_EGG_MATH = [
     Source(src="source/egg/math/eggQuat.cpp", cc='4201_127', opts=EGG_OPTS),

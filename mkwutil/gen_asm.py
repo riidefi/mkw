@@ -107,7 +107,7 @@ def addr_in_sym(addr, sym):
 class CAsmGenerator:
     """Generates C files with assembly functions."""
 
-    def __init__(self, data, _slice, symbols, out_h, out_c):
+    def __init__(self, data, _slice, symbols, out_h, out_c, cpp_mode):
         self.data = data
         self.slice = _slice
         self.symbols = symbols
@@ -115,6 +115,7 @@ class CAsmGenerator:
         self.own_symbols.derive_sizes(self.slice.stop)
         self.out_h = out_h
         self.out_c = out_c
+        self.cpp_mode = cpp_mode
         # The list of seen extern functions.
         self.extern_functions_seen = set()
         self.extern_functions = list()
@@ -149,6 +150,8 @@ class CAsmGenerator:
                     "inline_asm": func_body,
                 }
             )
+
+        # TODO: extern "C" rather than just extern when self.cpp_mode
 
         # Sort extern functions.
         self.extern_functions.sort(key=lambda sym: sym.addr)
@@ -350,7 +353,7 @@ class DOLSrcGenerator:
         c_path = Path(_slice.name)
         if c_path.exists():
             return
-        h_path = c_path.with_suffix(".h")
+        h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
         if h_path.exists():
             return
 
@@ -358,7 +361,7 @@ class DOLSrcGenerator:
         print(f"    => {_slice.name}")
         data = self.dol.virtual_read(_slice.start, len(_slice))
         with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
-            gen = CAsmGenerator(data, _slice, self.symbols, h_file, c_file)
+            gen = CAsmGenerator(data, _slice, self.symbols, h_file, c_file, not str(c_path).endswith(".c"))
             gen.dump_section()
 
     def __gen_asm(self, section: Section, _slice: Slice):

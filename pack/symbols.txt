@@ -1,3 +1,14 @@
+0x80244074 __ct__Q23EGG8ViewportFv
+0x802440B4 set__Q23EGG8ViewportFiiii
+0x80244134 eggViewport_Calc_TODO
+0x80244160 __ct__Q23EGG3XfbFPQ23EGG4Heap
+0x802441EC EGG__Xfb__CalcXfbSize
+0x80244200 attach__Q23EGG10XfbManagerFPQ23EGG3Xfb
+0x80244268 copyEFB__Q23EGG10XfbManagerFb
+0x802442E8 setNextFrameBuffer__Q23EGG10XfbManagerFv
+0x80244350 postVRetrace__Q23EGG10XfbManagerFv
+0x802145C0 __ct__Q23EGG10BoundBox2fFv
+0x80229E04 __nwa__FUlPQ23EGG4Heapi
 0x80005f34 memcpy
 0x80005f84 __fill_mem
 0x80006038 memset
