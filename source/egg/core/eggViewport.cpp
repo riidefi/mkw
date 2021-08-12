@@ -9,7 +9,7 @@ extern "C" UNKNOWN_FUNCTION(__ct__Q23EGG10BoundBox2fFv);
 // PAL: 0x80244074..0x802440b4
 MARK_BINARY_BLOB(__ct__Q23EGG8ViewportFv, 0x80244074, 0x802440b4);
 asm UNKNOWN_FUNCTION(__ct__Q23EGG8ViewportFv) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -27,7 +27,7 @@ asm UNKNOWN_FUNCTION(__ct__Q23EGG8ViewportFv) {
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 extern "C" void eggViewport_Calc_TODO();
@@ -37,7 +37,7 @@ extern "C" void eggViewport_Calc_TODO();
 // PAL: 0x802440b4..0x80244134
 MARK_BINARY_BLOB(set__Q23EGG8ViewportFiiii, 0x802440b4, 0x80244134);
 asm UNKNOWN_FUNCTION(set__Q23EGG8ViewportFiiii) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -71,7 +71,7 @@ asm UNKNOWN_FUNCTION(set__Q23EGG8ViewportFiiii) {
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: eggViewport_Calc_TODO
@@ -79,7 +79,7 @@ asm UNKNOWN_FUNCTION(set__Q23EGG8ViewportFiiii) {
 // PAL: 0x80244134..0x80244160
 MARK_BINARY_BLOB(eggViewport_Calc_TODO, 0x80244134, 0x80244160);
 asm UNKNOWN_FUNCTION(eggViewport_Calc_TODO) {
-// clang-format off
+  // clang-format off
   nofralloc;
   lfs f3, 8(r3);
   lfs f2, 0(r3);
@@ -92,6 +92,5 @@ asm UNKNOWN_FUNCTION(eggViewport_Calc_TODO) {
   fdivs f0, f2, f0;
   stfs f0, 0x18(r3);
   blr;
-// clang-format on
+  // clang-format on
 }
-

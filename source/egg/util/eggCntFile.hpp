@@ -1,14 +1,13 @@
 #pragma once
 
-#include <Common/rk_types.h>
-#include <nw4r/ut/list.h>
-#include <revolution/cnt.h>
-#include <revolution/os/OSMutex.h>
+#include <nw4r/ut/utList.hpp>
+#include <rk_types.h>
+#include <rvl/cnt.h>
+#include <rvl/os/osMessage.h>
+#include <rvl/os/osMutex.h>
+#include <rvl/os/osThread.h>
 
 namespace EGG {
-
-static nw4r::ut::List gCntFileList;
-static BOOL gCurrentCntFile;
 
 class CntFile {
 public:
@@ -17,21 +16,34 @@ public:
 private:
   inline CntFile(const CntFile&) {}
 
+  // Name not final
+  void initThreading();
+  // Name not final
+  bool spawnFileHandle(const char* path, void* cnt_handle);
+
 public:
   virtual ~CntFile();
 
-  virtual bool open();                                             // 0
-  virtual void close();                                            // 4
-  virtual void readData(void* fileBuffer, u32 length, s32 offset); // 8
+  virtual int open(const char*);
+  virtual void close();
+  virtual int readData(void* fileBuffer, u32 length, s32 offset);
+  virtual int writeData(const void*, int, int);
+  virtual u32 getFileSize() const;
 
 private:
-  bool _04;            // 4
-  OSMutex _08;         // 8
-  unk32 _38;           // 38
-  CNTFileInfoNAND _3C; // 3C
-  char _40[0x10];      // 40
-  unk32 _4C;           // 4C
-  char _50[0x50];      // 50
-  OSThread* _9C;       // 9C
+  bool mOpen;
+  char _p[3];
+  OSMutex _08;
+  OSMutex _20;
+  u32 _38;
+  CNTFileInfoNAND mFileHnd;
+  void* _4C;
+  void* _50;
+
+  OSMessageQueue _54;
+  OSMessage _74;
+  OSMessageQueue _78;
+  OSMessage _98;
+  OSThread* _9C;
 };
 } // namespace EGG

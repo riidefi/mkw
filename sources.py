@@ -185,6 +185,8 @@ SOURCES_NW4R_UT = [
 SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggAllocator.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggArchive.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
+    Source(src="source/egg/core/eggAsyncDisplay.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/util/eggCntFile.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggDisposer.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggDvdFile.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggExpHeap.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),

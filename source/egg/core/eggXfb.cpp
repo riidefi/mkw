@@ -9,7 +9,7 @@ extern "C" UNKNOWN_FUNCTION(__nwa__FUlPQ23EGG4Heapi);
 // PAL: 0x80244160..0x802441ec
 MARK_BINARY_BLOB(__ct__Q23EGG3XfbFPQ23EGG4Heap, 0x80244160, 0x802441ec);
 asm UNKNOWN_FUNCTION(__ct__Q23EGG3XfbFPQ23EGG4Heap) {
-// clang-format off
+  // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
@@ -47,7 +47,7 @@ lbl_802441b4:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
-// clang-format on
+  // clang-format on
 }
 
 // Symbol: EGG__Xfb__CalcXfbSize
@@ -55,13 +55,12 @@ lbl_802441b4:
 // PAL: 0x802441ec..0x80244200
 MARK_BINARY_BLOB(EGG__Xfb__CalcXfbSize, 0x802441ec, 0x80244200);
 asm UNKNOWN_FUNCTION(EGG__Xfb__CalcXfbSize) {
-// clang-format off
+  // clang-format off
   nofralloc;
   addi r0, r3, 0xf;
   rlwinm r0, r0, 0, 0x10, 0x1b;
   mullw r0, r0, r4;
   slwi r3, r0, 1;
   blr;
-// clang-format on
+  // clang-format on
 }
-
