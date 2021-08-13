@@ -48,20 +48,22 @@ public:
 
   //! @brief Load a file on the disc to main RAM given the path.
   //!
-  //! @param[in]        path        Path to the file on the disc.
-  //! @param[in,out]    dst         Destination buffer to write file. If
+  //! @param[in]        path            Path to the file on the disc.
+  //! @param[in,out]    dst             Destination buffer to write file. If
   //! nullptr, an appropriately sized block of memory will be allocated.
   //! Otherwise the pre-allocated block MUST be big enough to store the file.
-  //! @param[in]        heap        Heap to use if allocating a block. Cannot
-  //! be nullptr if dst is also nullptr.
-  //! @param[in]        offset      Offset of the file on the disc to start
+  //! @param[in]        heap            Heap to use if allocating a block.
+  //! Cannot be nullptr if dst is also nullptr.
+  //! @param[in]        allocDirection  Allocation direction of dst if it's
+  //! nullptr.
+  //! @param[in]        offset          Offset of the file on the disc to start
   //! reading from.
-  //! @param[out]       amountRead  If not nullptr, will be set to the amount of
-  //! bytes read from the disc.
-  //! @param[out]       pFileSize   If not nullptr, will be set to the file size
-  //! of the file on disc (unrounded/offset).
+  //! @param[out]       amountRead      If not nullptr, will be set to the
+  //! amount of bytes read from the disc.
+  //! @param[out]       fileSize        If not nullptr, will be set to the file
+  //! size of the file on disc (unrounded/offset).
   //!
-  //! @returns Pointer to the ripped file.
+  //! @returns Pointer to the ripped file, or nullptr in case of failure.
   //!
   static u8* loadToMainRAM(const char* path, u8* dst, Heap* heap,
                            EAllocDirection allocDirection, u32 offset,
@@ -69,33 +71,81 @@ public:
 
   //! @brief Load a file on the disc to main RAM given the DvdFile wrapper.
   //!
-  //! @details TODO: Describe process
-  //!
-  //! @param[in]        dvdFile     Pointer to the DvdFile wrapper for the file
-  //! on the disc.
-  //! @param[in,out]    dst         Destination buffer to write file. If
+  //! @param[in]        dvdFile         Pointer to the DvdFile wrapper for the
+  //! file on the disc.
+  //! @param[in,out]    dst             Destination buffer to write file. If
   //! nullptr, an appropriately sized block of memory will be allocated.
   //! Otherwise the pre-allocated block MUST be big enough to store the file.
-  //! @param[in]        heap        Heap to use if allocating a block. Cannot
-  //! be nullptr if dst is also nullptr.
-  //! @param[in]        offset      Offset of the file on the disc to start
+  //! @param[in]        heap            Heap to use if allocating a block.
+  //! Cannot be nullptr if dst is also nullptr.
+  //! @param[in]        allocDirection  Allocation direction of dst if it's
+  //! nullptr.
+  //! @param[in]        offset          Offset of the file on the disc to start
   //! reading from.
-  //! @param[out]       amountRead If not nullptr, will be set to the amount of
-  //! bytes read from the disc.
-  //! @param[out]       fileSize   If not nullptr, will be set to the file size
-  //! of the file on disc (unrounded/offset).
+  //! @param[out]       amountRead      If not nullptr, will be set to the
+  //! amount of bytes read from the disc.
+  //! @param[out]       fileSize        If not nullptr, will be set to the file
+  //! size of the file on disc (unrounded/offset).
   //!
-  //! @returns Pointer to the ripped file.
+  //! @returns Pointer to the ripped file, or nullptr in case of failure.
   //!
   static u8* loadToMainRAM(DvdFile* dvdFile, u8* dst, Heap* heap,
                            EAllocDirection allocDirection, u32 offset,
                            u32* amountRead, u32* fileSize);
 
+  //! @brief Load and decompress a file on the disc to main RAM given the path.
+  //!
+  //! @param[in]        path            Path to the file on the disc.
+  //! @param[in]        streamDecomp    Uninitialized decompressor.
+  //! @param[in,out]    dst             Destination buffer to write file. If
+  //! nullptr, an appropriately sized block of memory will be allocated.
+  //! Otherwise the pre-allocated block MUST be big enough to store the
+  //! DECOMPRESSED file.
+  //! @param[in]        heap            Heap to use if allocating a block.
+  //! Cannot be nullptr if dst is also nullptr.
+  //! @param[in]        allocDirection  Allocation direction of dst if it's
+  //! nullptr.
+  //! @param[in]        offset          Offset of the file on the disc to start
+  //! reading from.
+  //! @param[in]        size            If non zero, size of the file to read.
+  //! The sum of offset and size MUST NOT be larger than the compressed file
+  //! size.
+  //! @param[in]        maxChunkSize    The maximum size of the temporary buffer
+  //! that will be allocated to read the compressed file.
+  //!
+  //! @returns Pointer to the ripped and decompressed file, or nullptr in case
+  //! of failure.
+  //!
   static u8* loadToMainRAMDecomp(const char* path, StreamDecomp* streamDecomp,
                                  u8* dst, Heap* heap,
                                  EAllocDirection allocDirection, u32 offset,
                                  u32 size, u32 maxChunkSize);
 
+  //! @brief Load and decompress a file on the disc to main RAM given the
+  //! DvdFile wrapper.
+  //!
+  //! @param[in]        dvdFile         Pointer to the DvdFile wrapper for the
+  //! file on the disc.
+  //! @param[in]        streamDecomp    Uninitialized decompressor.
+  //! @param[in,out]    dst             Destination buffer to write file. If
+  //! nullptr, an appropriately sized block of memory will be allocated.
+  //! Otherwise the pre-allocated block MUST be big enough to store the
+  //! DECOMPRESSED file.
+  //! @param[in]        heap            Heap to use if allocating a block.
+  //! Cannot be nullptr if dst is also nullptr.
+  //! @param[in]        allocDirection  Allocation direction of dst if it's
+  //! nullptr.
+  //! @param[in]        offset          Offset of the file on the disc to start
+  //! reading from.
+  //! @param[in]        size            If non zero, size of the file to read.
+  //! The sum of offset and size MUST NOT be larger than the compressed file
+  //! size.
+  //! @param[in]        maxChunkSize    The maximum size of the temporary buffer
+  //! that will be allocated to read the compressed file.
+  //!
+  //! @returns Pointer to the ripped and decompressed file, or nullptr in case
+  //! of failure.
+  //!
   static u8* loadToMainRAMDecomp(DvdFile* dvdFile, StreamDecomp* streamDecomp,
                                  u8* dst, Heap* heap,
                                  EAllocDirection allocDirection, u32 offset,
