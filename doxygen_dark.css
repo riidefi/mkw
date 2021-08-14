@@ -1,0 +1,583 @@
+/* doxygen_dark theme, creator unknown */
+
+@namespace url(http://www.w3.org/1999/xhtml);
+
+/* @-moz-document url-prefix("file:///") { */
+  
+body
+{
+  background-color: #333333;
+ /** for docs **/
+  color: #a1a1a1;
+}
+
+#page-content
+{
+  background-color: #333333;
+  color: #bcbcbc;
+}
+
+pre, pre.fragment
+{
+  background-color: #282828;
+}
+
+.icon
+{
+  color: #333;
+  background-color: #2f436b;
+ /* from orig #728DC1; */;
+}
+
+.arrow
+{
+  color: #324872;
+ /* from orig #9CAFD4; */;
+}
+
+/* to make keyword visible for above 'pre' */
+.highlight .nf
+{
+  color: #00adee;
+}
+
+img
+{
+  background-color: #333333;
+}
+
+/** Note/Message boxes **/
+div.admonition, div.warning
+{
+  background-color: #474747;
+}
+
+div.admonition p.admonition-title, div.warning p.admonition-title
+{
+  background-color: #707070;
+}
+
+/**** News ***/
+
+#content-outer
+{
+  background-color: #333333;
+}
+
+.postmeta
+{
+  background-color: #474747;
+  border-color: #595959;
+}
+
+/**** Blog ****/
+
+div.blogpost
+{
+  background-color: #333;
+}
+
+div.blogpost-header
+{
+  background-color: #333;
+}
+
+div.blogbody
+{
+  background-color: #474747;
+}
+
+/**** Jobs ****/
+
+.dataTable tbody .even
+{
+  background-color: #474747;
+}
+
+.dataTable thead th
+{
+  background-color: #6b6b6b;
+}
+
+/* Job Post Overlay */
+
+#fancybox-outer
+{
+  color: #bcbcbc;
+  background-color: #282828;
+}
+
+/***** Search box *****/
+
+#MSearchBox
+{
+  background-color: #333333;
+}
+
+#MSearchBox .left
+{
+  filter: invert(80%);
+}
+
+#MSearchSelect
+{
+  background-color: transparent;
+}
+
+.MSearchBoxActive #MSearchField
+{
+  color: #333333;
+ /* this is inverted */;
+}
+
+#MSearchBox .right
+{
+  filter: invert(80%);
+}
+
+#MSearchCloseImg
+{
+  background-color: transparent;
+}
+
+/** Magnifying glass dropdown list **/
+#MSearchSelectWindow
+{
+  background-color: #333333;
+  border-color: #404040;
+}
+
+a.SelectItem, a.SelectItem:focus, a.SelectItem:active
+{
+  color: #999;
+}
+
+a.SelectItem:hover
+{
+  color: #bcbcbc;
+}
+
+/** Query Results dropdown list **/
+#MSearchResultsWindow
+{
+/*   left: !important; / * from orig 992px; * / dynamically generated value */
+  border-color: #404040;
+}
+
+/* iframe#MSearchResults {
+  width: !important; / * from orig 60ex; * /
+  height: !important; / * from orig 15em; * /
+} */
+
+/* #MSearchCloseImg {
+} */
+
+.SRPage .SREntry
+{
+  font-size: 80%;
+}
+
+.SRResult:hover
+{
+  background-color: #404040;
+}
+
+.SRSymbol:hover
+{
+  color: #4a69a9;
+ /* from orig #425E97; */;
+}
+
+/***** For Docs *****/
+div.header
+{
+  background-color: #333333;
+  border-bottom-color: #001;
+  background-image: none;
+}
+
+div.directory
+{
+  border-top-color: #404040;
+  border-bottom-color: #404040;
+}
+
+td.memItemLeft, td.memItemRight, .mdescLeft, .mdescRight, .memdoc, .memTemplParams, .memTemplItemLeft, .memTemplItemRight
+{
+  background-color: #282828;
+}
+
+.memSeparator
+{
+  border-bottom-color: #333333;
+}
+
+.memtitle
+{
+  background-color: #333333;
+  background-image: none;
+  border-top-color: #404040;
+  border-left-color: #404040;
+  border-right-color: #404040;
+}
+
+.memproto, dl.reflist dt
+{
+ /* 2nd for ToDo List */
+  color: #949b8c;
+ /* #878f7e; */
+  background-color: #333333;
+  text-shadow: unset;
+  background-image: none;
+  border-top-color: #404040;
+  border-left-color: #404040;
+  border-right-color: #404040;
+}
+
+.memname
+{
+  background-color: #333333;
+}
+
+a
+{
+  color: #adb8a1;
+}
+
+a.el, a.el:visited
+{
+  color: #6f8b4c;
+ /* #6d7c5d; */;
+}
+
+.memdoc
+{
+  background-image: none;
+}
+
+.memdoc, dl.reflist dd
+{
+ /* 2nd for ToDo List */
+  background-color: #282828;
+  border-bottom-color: #404040;
+  border-left-color: #404040;
+  border-right-color: #404040;
+}
+
+.paramname
+{
+  color: #8f6262;
+}
+
+img.formulaInl
+{
+  filter: invert(84%);
+  background-color: #fff;
+}
+
+/* Template box headers */
+.memtemplate
+{
+  color: #607fbb;
+ /* from orignial #4665A2; */;
+}
+
+/* Labels - protected, static, virtual */
+span.mlabel
+{
+  background-color: #282828;
+  border-color: #333;
+  color: #aaa;
+  /* font-size: 80%; */;
+}
+
+/* Header */
+h2.groupheader
+{
+  color: #4c6db0;
+ /* from orig. #354C7B; */
+  border-bottom-color: #333333;
+}
+
+.inherit_header img
+{
+  background-color: #333333;
+}
+
+/* To make comments visible */
+span.comment
+{
+  color: #7b7b7b;
+}
+
+/* Even rows of lists */
+.directory tr.even
+{
+  background-color: #303030;
+}
+
+/* Tables */
+table.fieldtable
+{
+  border-color: #404040;
+}
+
+.fieldtable th
+{
+  color: #aaa;
+  background-color: #333333;
+  border-bottom-color: #404040;
+  background-image: none;
+}
+
+.fieldtable td.fieldtype, .fieldtable td.fieldname
+{
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+}
+
+.fieldtable td.fielddoc
+{
+  border-bottom-color: #404040;
+}
+
+div.center > img
+{
+  background-color: #cccccc;
+  filter: invert(100%);
+}
+
+/**** Source Code View ****/
+div.fragment
+{
+  background-color: #282828;
+  border-color: #333333;
+}
+
+.navpath li.navelem a
+{
+  color: #d1d1d1;
+  text-shadow: none;
+}
+
+.navpath li.navelem a:hover
+{
+  color: #f1f1f1;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+span.lineno
+{
+  background-color: #333333;
+  border-right-color: #333333;
+  color: #666;
+}
+
+span.line
+{
+  background-color: #3f3f3f;
+}
+
+span.lineno a
+{
+  background-color: #333333;
+}
+
+span.lineno a:hover
+{
+  background-color: #444444;
+}
+
+a.code, a.code:visited, a.line, a.line:visited
+{
+  color: #4fa2b3;
+}
+
+span.keyword
+{
+  color: #00b300;
+}
+
+span.keywordtype
+{
+  color: #ac7339;
+}
+
+span.stringliteral
+{
+  color: #0140ff;
+}
+
+#powerTip
+{
+  background-color: #282828;
+}
+
+#powerTip div
+{
+  background-color: #282828;
+}
+
+/**** Navigation ****/
+#nav-tree
+{
+  background-color: #282828;
+  background-image: none;
+}
+
+#nav-tree img
+{
+  background-color: #282828;
+}
+
+#nav-tree .selected a
+{
+  color: #bcbcbc;
+}
+
+/** Split bar **/
+
+.ui-resizable-e
+{
+  filter: invert(70%);
+  opacity: 0.2;
+}
+
+/**** Top Tab ****/
+
+/*** Type 1 e.g. https://dartsim.github.io/api/ ***/
+
+.tabs, .tabs2, .tabs3
+{
+  background-image: none;
+}
+
+.tablist li
+{
+  background-image: none;
+}
+
+.tablist li.current a
+{
+  color: #aaa;
+  background-image: none;
+  background-color: #444;
+}
+
+.tablist a
+{
+  color: #bcbcbc;
+  text-shadow: none;
+  background-image: none;
+}
+
+.tablist a:hover
+{
+  color: #bcbcbc;
+  background-color: #444444;
+  background-image: none;
+}
+
+/*** Type 2 e.g. https://clang.llvm.org/doxygen/ ***/
+
+.sm-dox
+{
+  background-image: none;
+}
+
+.sm-dox a, .sm-dox a.highlighted
+{
+  color: #bcbcbc;
+  text-shadow: none;
+  background-image: none;
+}
+
+.sm-dox a:focus, .sm-dox a:active, .sm-dox a:hover
+{
+  color: #bcbcbc;
+  background-color: #444444;
+  background-image: none;
+}
+
+/** Pop-Pane **/
+
+.sm-dox ul
+{
+  background-color: #333333;
+  border-color: #666;
+}
+
+.sm-dox ul a, .sm-dox ul a:focus, .sm-dox ul a:hover, .sm-dox ul a:active
+{
+  background-color: #333333;
+}
+
+.sm-dox span.scroll-up, .sm-dox span.scroll-down
+{
+  background-color: #333333;
+}
+
+.sm-dox span.scroll-up:hover, .sm-dox span.scroll-down:hover
+{
+  background-color: #444444;
+}
+
+.sm-dox a span.sub-arrow
+{
+  border-top-color: #bcbcbc;
+}
+
+.sm-dox a:hover span.sub-arrow
+{
+  border-top-color: #cccccc;
+}
+
+.sm-dox ul a, .sm-dox ul a:hover, .sm-dox ul a:focus, .sm-dox ul a:active, .sm-dox ul a.highlighted
+{
+  color: #bcbcbc;
+}
+
+.sm-dox > li > ul::before, .sm-dox > li > ul::after
+{
+  border-bottom-color: #333333;
+}
+
+/* Top menu-item highlighted only, for contrast with arrow */
+.sm-dox a.highlighted
+{
+  background-color: #444444;
+}
+
+.sm-dox ul a.highlighted
+{
+  background-color: #333333;
+}
+
+/**** Bottom Tab ****/
+.navpath ul
+{
+  background-image: none;
+  border-color: #666;
+}
+
+img.footer
+{
+  background-color: #333333;
+  opacity: 0.1;
+}
+
+/**** Navigation Tab ****/ /* e.g. nlohmann.github.io/json */
+div.navtab
+{
+  background-color: #333333;
+}
+
+/**** Classes ****/
+
+/*** Class List, Member List ***/
+td.indexkey, td.indexvalue, tr.memlist
+{
+  background-color: #333333;
+}
+
+/* } */
