@@ -149,8 +149,13 @@ jobs:
           name: badge_rel_progress
           path: badge_rel_progress.txt
 
+      - name: Make docs folder
+        run: mkdir out && mkdir website && mkdir docs
+
       - name: Run graphic.py
         run: python -m mkwutil.progress.graphic
+
+      - uses: mattnotmitt/doxygen-action@v1
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
