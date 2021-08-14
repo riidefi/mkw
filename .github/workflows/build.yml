@@ -150,7 +150,7 @@ jobs:
           path: badge_rel_progress.txt
 
       - name: Make docs folder
-        run: mkdir out && mkdir website && mkdir docs
+        run: mkdir -p out && mkdir -p website && mkdir -p docs
 
       - name: Run graphic.py
         run: python -m mkwutil.progress.graphic
