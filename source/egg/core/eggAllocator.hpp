@@ -1,6 +1,7 @@
 /*!
  * @file
- * @brief TODO
+ * @brief Abstract allocator interface, an object that can reserve and release
+ * blocks of memory.
  */
 
 #pragma once

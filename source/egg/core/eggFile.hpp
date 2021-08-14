@@ -1,3 +1,8 @@
+/*!
+ * @file
+ * @brief Base file class.
+ */
+
 #pragma once
 
 #include <rk_types.h>

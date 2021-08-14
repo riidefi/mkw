@@ -1,3 +1,8 @@
+/*!
+ * @file
+ * @brief Implementation of File for NAND-Content files (read-only).
+ */
+
 #pragma once
 
 #include <egg/core/eggFile.hpp>

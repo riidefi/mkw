@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief TODO
+ * @brief A read-only view of a "dolphin archive" .arc file.
  */
 
 #pragma once

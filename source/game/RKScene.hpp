@@ -5,6 +5,7 @@
 
 // TODO: These likely align with the resource archives in Scene\UI
 
+//! Unique game scene IDs
 enum RKSceneID {
   // --- <SceneCreatorREL>
   RK_SCENE_ID_GAME_START = 0, //!< Called when REL first loaded; "Title" might
@@ -17,12 +18,13 @@ enum RKSceneID {
   // --- <SceneCreatorStatic>
   RK_SCENE_ID_BOOTSTRAP =
       5, //!< Root scene loaded immediately after initializing the system.
-         // --- </SceneCreatorStatic>
+  // --- </SceneCreatorStatic>
 
   RK_SCENE_ID_FLAG_OPEN = 12 //!< "フラグオープンシーン" -> "Flag Open Scene"
   // --- </SceneCreatorREL>
 };
 
+//! Certain heap allocations are tracked to a given memory budgeting category.
 enum RKHeapTag {
   RK_HEAP_TAG_DEFAULT = 0x0,
   RK_HEAP_TAG_RACE_DATA = 0x1,
