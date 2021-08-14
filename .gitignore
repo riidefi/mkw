@@ -67,3 +67,5 @@ out.html
 .vscode/
 *.bndb
 .~lock.*
+
+doxygen
