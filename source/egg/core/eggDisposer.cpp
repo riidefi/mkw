@@ -11,12 +11,12 @@ namespace EGG {
 Disposer::Disposer() {
   mContainHeap = Heap::findContainHeap(this);
 
-  if (mContainHeap)
+  if (mContainHeap != nullptr)
     mContainHeap->appendDisposer(this);
 }
 
 Disposer::~Disposer() {
-  if (mContainHeap)
+  if (mContainHeap != nullptr)
     mContainHeap->removeDisposer(this);
 }
 
