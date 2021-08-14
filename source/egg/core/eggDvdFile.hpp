@@ -61,6 +61,8 @@ public:
   //! @returns If the file successfully opened (mIsOpen).
   virtual bool open(const char* path, void*);
 
+  inline DVDFileInfo* getFileInfo() { return &mFileInfo; }
+
 private:
   void initiate();
 

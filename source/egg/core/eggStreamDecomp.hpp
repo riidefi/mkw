@@ -14,24 +14,24 @@ namespace EGG {
 
 //! @brief Interface for streamed decompression
 //!
-class IStreamDecomp {
+class StreamDecomp {
 public:
-  virtual bool initialize(void* dst, unk arg3) = 0;
-  virtual bool process(const void* src, u32 len) = 0;
-  virtual u32 getDataOffset() = 0;
-  virtual u32 getExpandSize(const void* src) = 0;
+  virtual bool init(void* dst, u32 maxCompressedSize) = 0;
+  virtual bool decomp(const void* src, u32 len) = 0;
+  virtual u32 getHeaderSize() = 0;
+  virtual u32 getUncompressedSize(const void* src) = 0;
 };
 
-class LZStreamDecomp : public IStreamDecomp {
+class LZStreamDecomp : public StreamDecomp {
 public:
-  bool initialize(void* dst, unk arg3) override;
-  bool process(const void* src, u32 len) override;
-  u32 getDataOffset() override;
-  u32 getExpandSize(const void* src) override;
+  bool init(void* dst, u32 maxCompressedSize) override;
+  bool decomp(const void* src, u32 len) override;
+  u32 getHeaderSize() override;
+  u32 getUncompressedSize(const void* src) override;
 
 private:
   void* mpDst; //!< [+0x04] Pointer to the decompressed destination buffer.
-  unk _08;     //!< [+0x08] Second argument of constructor -- unused.
+  u32 mMaxCompressedSize; //!< [+0x08] Not used by the LZ decompressor.
   CXUncompContextLZ
       mContext; //!< [+0x0C] CX streaming LZ decompression context.
 };
