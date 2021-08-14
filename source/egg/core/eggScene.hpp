@@ -1,3 +1,8 @@
+/*!
+ * @file
+ * @brief TODO
+ */
+
 #pragma once
 
 #include <egg/core/eggDisposer.hpp>

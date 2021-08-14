@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Disposer.
+ * @brief Base class for garbage-collected objects.
  */
 
 #pragma once

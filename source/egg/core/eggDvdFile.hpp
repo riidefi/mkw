@@ -1,3 +1,8 @@
+/*!
+ * @file
+ * @brief Implementation of File for files on the DVD (read-only).
+ */
+
 #pragma once
 
 #include <egg/core/eggFile.hpp>
