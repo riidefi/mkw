@@ -45,9 +45,12 @@ struct DVDFileInfo {
     DVDCallback callback;
 };
 
+#define DVD_RESULT_CANCELED -3
+
 int DVDOpen(const char* fileName, DVDFileInfo* fileInfo);
 int DVDFastOpen(s32 entrynum, DVDFileInfo* fileInfo);
 s32 DVDReadPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset, s32 prio);
+#define DVDRead(fileInfo, addr, length, offset) DVDReadPrio((fileInfo), (addr), (length), (offset), 2)
 int DVDReadAsyncPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset, DVDCallback callback, s32 prio);
 int DVDClose(DVDFileInfo* fileInfo);
 s32 DVDGetCommandBlockStatus(const DVDCommandBlock* block);

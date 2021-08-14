@@ -1,5 +1,7 @@
 #pragma once
 
+#include <rvl/gx.h>
+
 #include <rk_types.h>
 
 #ifdef __cplusplus

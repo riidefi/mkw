@@ -276,7 +276,7 @@ out/dol/text_801ecff4_8020f62c.o
 out/dol/data_802a2543_802a2668.o
 out/eggAllocator.o
 out/dol/bss_80357238_803832d8.o
-out/dol/sdata_80385eec_80385fc0.o
+out/dol/sdata_80385eec_80385f88.o
 out/dol/sbss_80386d38_80386d80.o
 out/eggArchive.o
 out/dol/text_8020fcc4_8020fcd4.o
@@ -294,14 +294,16 @@ out/dol/data_802a2b54_802a2da0.o
 out/dol/bss_80383510_80384190.o
 out/dol/sbss_80386dcc_80386e18.o
 out/eggDvdFile.o
-out/dol/text_802226d8_802269a8.o
+out/eggDvdRipper.o
+out/dol/text_80222ccc_802269a8.o
 out/dol/data_802a2dc8_802a2ff8.o
 out/eggExpHeap.o
 out/dol/text_80226f04_80229540.o
 out/dol/rodata_8025771a_80257740.o
 out/dol/data_802a3024_802a30b0.o
 out/dol/bss_803841a0_80384320.o
-out/dol/sbss_80386e20_80386e90.o
+out/dol/sdata_80385f89_80385fc0.o
+out/dol/sbss_80386e28_80386e90.o
 out/eggGraphicsFifo.o
 out/dol/data_802a30bc_802a30c0.o
 out/dol/sbss_80386e99_80386ea0.o
