@@ -5,121 +5,134 @@
 
 #include <egg/core/eggHeap.hpp>
 #include <egg/core/eggTaskThread.hpp>
-#include <revolution/dvd.h>
-#include <revolution/os/OSFastCast.h>
+
+#include <rvl/rvlDvd.h>
 
 namespace EGG {
 
-TaskThread* TaskThread::create(int msgCount, int prio, u32 stackSize,
+TaskThread* TaskThread::create(int jobCount, int prio, u32 stackSize,
                                Heap* heap) {
-  if (heap == nullptr)
-    heap = Heap::sCurrentHeap;
+  if (heap == nullptr) {
+    heap = Heap::getCurrentHeap();
+  }
 
-  TaskThread* thread = new TaskThread(msgCount, prio, stackSize); // r31
-  if (thread == nullptr)
+  TaskThread* thread =
+      new (heap, 4) TaskThread(jobCount, prio, stackSize); // r31
+  if (thread == nullptr) {
     return nullptr;
+  }
 
-  thread->mJobArray = new (heap, 4) TJob[msgCount];
-  thread->mJobCount = msgCount;
+  thread->mCurrentJob = nullptr;
+  thread->mJobs = new (heap, 4) TJob[jobCount];
+  thread->mJobCount = jobCount;
 
-  if (thread->mJobArray == nullptr) {
+  if (thread->mJobs == nullptr) {
     delete thread;
 
     return nullptr;
   }
 
-  for (int i = 0; i < msgCount; ++i) {
-    thread->mJobArray[i]._00 = 0;
-    thread->mJobArray[i]._0C = 0;
-    thread->mJobArray[i]._10 = 0;
-    thread->mJobArray[i]._14 = 0;
+  for (int i = 0; i < jobCount; ++i) {
+    thread->mJobs[i].mMainFunction = nullptr;
+    thread->mJobs[i].clearFunctions();
   }
 
   return thread;
 }
 
-TaskThread::TJob::TJob() { clearFunctions(); }
+TaskThread::TJob::TJob()
+    : mEnterFunction(nullptr), mExitFunction(nullptr),
+      mCallbackFunction(nullptr) {}
 
-unk TaskThread::destroy() {
-  if (OSIsThreadTerminated(mOSThread) != TRUE) {
+void TaskThread::destroy() {
+  if (OSIsThreadTerminated(getOSThread()) != 1) {
     DVDCancelAll();
-    delete[] mJobArray;
+    delete[] mJobs;
     delete this;
   }
 }
-// ...
-bool TaskThread::request(TaskThread::JobRequestProbably req, void* a, void* b) {
-  TaskThread::TJob* slot = findBlank();
-  if (!slot)
-    return false;
 
-  slot->_00 = req;
-  slot->_04 = a;
-  slot->_08 = b;
-  bool res = OSSendMessage(&mMesgQueue, slot, 0);
-  if (!res)
-    slot->_00 = 0;
+bool TaskThread::request(TaskThread::TFunction mainFunction, void* arg,
+                         void* taskEndMessage) {
+  TaskThread::TJob* slot = findBlank();
+  if (!slot) {
+    return false;
+  }
+
+  slot->mMainFunction = mainFunction;
+  slot->mArg = arg;
+  slot->mTaskEndMessage = taskEndMessage;
+
+  bool res = sendMessage(slot);
+  if (!res) {
+    slot->mMainFunction = nullptr;
+  }
   return res;
 }
+
 bool TaskThread::isTaskExist() const {
-  if (mJobCount > 0) {
-    for (int i = 0; i < mJobCount; i++) {
-      if (mJobArray[i]._00) // lwzx?
-        return true;
+  for (int i = 0; i < mJobCount; i++) {
+    if (mJobs[i].mMainFunction) {
+      return true;
     }
   }
+
   return false;
 }
+
 TaskThread::~TaskThread() {}
+
 void TaskThread::onEnter() {
-  if (mReceivedJob && mReceivedJob->_0C)
-    mReceivedJob->_0C(mReceivedJob->_04);
+  if (mCurrentJob && mCurrentJob->mEnterFunction) {
+    mCurrentJob->mEnterFunction(mCurrentJob->mArg);
+  }
 }
+
 void TaskThread::onExit() {
-  if (mReceivedJob && mReceivedJob->_10)
-    mReceivedJob->_10(mReceivedJob->_04);
+  if (mCurrentJob && mCurrentJob->mExitFunction) {
+    mCurrentJob->mExitFunction(mCurrentJob->mArg);
+  }
 }
-int TaskThread::run() {
-#ifndef _WIN32
+
+void* TaskThread::run() {
   OSInitFastCast();
-#endif
+
   while (true) {
-    OSMessage tmpMsg;
-    OSReceiveMessage(&mMesgQueue, &tmpMsg, OS_MESSAGE_BLOCK);
-    TJob* taskmsg = (TJob*)tmpMsg;
-    mReceivedJob = taskmsg;
-    if (mReceivedJob->_00) {
-      mReceivedJob->_00(mReceivedJob->_04);
-      if (mReceivedJob && mReceivedJob->_14) {
-        mReceivedJob->_14(mReceivedJob->_04);
+    TJob* currentJob = (TJob*)waitMessageBlock();
+    mCurrentJob = currentJob;
+    if (mCurrentJob->mMainFunction) {
+      mCurrentJob->mMainFunction(mCurrentJob->mArg);
+
+      if (mCurrentJob && mCurrentJob->mCallbackFunction) {
+        mCurrentJob->mCallbackFunction(mCurrentJob->mArg);
       }
-      if (_54)
-        OSSendMessage(_54, taskmsg, 0);
+
+      if (mTaskEndMessageQueue)
+        OSSendMessage(mTaskEndMessageQueue, currentJob->mTaskEndMessage,
+                      OS_MESSAGE_NOBLOCK);
     }
-    taskmsg->_00 = 0;
-    mReceivedJob = 0;
-    taskmsg->clearFunctions();
+
+    currentJob->mMainFunction = nullptr;
+    mCurrentJob = nullptr;
+    currentJob->clearFunctions();
   }
 }
 
 TaskThread::TaskThread(int msgCount, int prio, u32 stackSize)
-    : Thread(stackSize, msgCount, prio, NULL) {
+    : Thread(stackSize, msgCount, prio, nullptr),
+      mTaskEndMessageQueue(nullptr) {
   // TODO: Why is this needed?
-  OSResumeThread(this->mOSThread);
+  resume();
 }
 
 TaskThread::TJob* TaskThread::findBlank() {
-  if (mJobCount > 0) {
-    for (int i = 0; i < mJobCount; i++) {
-      if (mJobArray[i]._00) // lwzx?
-      {
-        TJob* prevJob = &mJobArray[i];
-        mJobArray[i]._00 = NULL;
-        prevJob->clearFunctions();
-        return &mJobArray[i];
-      }
+  for (int i = 0; i < mJobCount; i++) {
+    if (!mJobs[i].mMainFunction) {
+      mJobs[i].clearFunctions();
+      return &mJobs[i];
     }
   }
+
   return nullptr;
 }
 

@@ -321,8 +321,10 @@ out/dol/sbss_80386ec0_80386f00.o
 out/eggSceneManager.o
 out/dol/text_8023ae4c_80242498.o
 out/eggStreamDecomp.o
-out/dol/text_80242504_802432e0.o
-out/dol/data_802a3f90_802a3fc0.o
+out/dol/text_80242504_802428e8.o
+out/eggTaskThread.o
+out/dol/text_80242f1c_802432e0.o
+out/dol/data_802a3fa8_802a3fc0.o
 out/eggThread.o
 out/eggUnitHeap.o
 out/dol/data_802a4004_802a4040.o
