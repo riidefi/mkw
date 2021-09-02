@@ -79,7 +79,7 @@ lbl_8000f2a8:
 
 // Symbol: memchr
 // PAL: 0x8000f2bc..0x8000f2e8
-void* memchr(void* ptr, int value, size_t num) {
+void* memchr(const void* ptr, int value, size_t num) {
   const u8* str;
   u32 v = value & 0xff;
   for (str = (u8*)ptr - 1, num++; --num;)

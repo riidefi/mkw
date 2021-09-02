@@ -27,7 +27,7 @@ inline f32 acosf(f32 x) { return (f32)acos(x); }
 double frexp(double x, int* eptr);
 double ldexp(double x, int exp);
 
-double pow(double);
+double pow(double x, double y);
 
 double copysign(double x, double y);
 
