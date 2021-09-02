@@ -100,6 +100,8 @@ typedef volatile f64 vf64;
 #define ROUND_DOWN(x, n) (((u32)(x)) & ~(n - 1))
 
 #ifdef __cplusplus
+#define restrict
+
 class NonCopyable {
 public:
   inline NonCopyable() {}
