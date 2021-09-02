@@ -43,7 +43,6 @@ typedef unk32 unk;
 #define NEVER_INLINE __attribute__((never_inline))
 
 #else
-#pragma Not CW
 #define asm
 #define MWREG
 #define CONST_MWREG const
