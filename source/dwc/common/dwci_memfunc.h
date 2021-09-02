@@ -1,7 +1,6 @@
 #pragma once
 
 #include <DWC/common/dwc_memfunc.h>
-#include <types.h>
 
 #ifdef __cplusplus
 extern "C" {
