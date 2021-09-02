@@ -13,6 +13,8 @@ COMMONFLAGS = [
     "-I", "source/platform",
     "-nostdinc",
     "-target", "ppc-none-eabi",
+    "-Wall",
+    "-Wno-unused-private-field",
 ]
 
 CFLAGS = COMMONFLAGS + [
