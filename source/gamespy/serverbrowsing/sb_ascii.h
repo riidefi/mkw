@@ -20,6 +20,8 @@ devsupport@gamespy.com
 
 #include "../common/gsCommon.h"
 
+#include "sb_serverbrowsing.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
