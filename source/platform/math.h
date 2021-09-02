@@ -6,8 +6,7 @@
 extern "C" {
 #endif
 
-#pragma push
-#pragma warning off(10216)
+MW_PRAG_NO_WARN_10216
 
 f64 sin(f64);
 inline f32 sinf(f32 x) { return (float)sin(x); };
@@ -35,7 +34,7 @@ int __fpclassifyf(float);
 int __fpclassifyd(double);
 int __signbitd(double);
 
-#pragma pop
+MW_PRAG_END
 
 #ifdef __cplusplus
 } // extern "C"
