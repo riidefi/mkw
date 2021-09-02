@@ -124,8 +124,28 @@ public:
   //!
   static void* start(void* eggThread);
 
+  inline OSThread* getOSThread() { return mOSThread; }
+
   //! When not NULL will override the heap used for allocations.
   inline Heap* getAllocatableHeap() { return mAlloctableHeap; }
+
+  inline void resume() { OSResumeThread(mOSThread); }
+
+  inline int sendMessage(OSMessage message) {
+    return OSSendMessage(&mMesgQueue, message, OS_MESSAGE_NOBLOCK);
+  }
+
+  inline OSMessage waitMessage(int* success) {
+    OSMessage message;
+    *success = OSReceiveMessage(&mMesgQueue, &message, OS_MESSAGE_NOBLOCK);
+    return message;
+  }
+
+  inline OSMessage waitMessageBlock() {
+    OSMessage message;
+    OSReceiveMessage(&mMesgQueue, &message, OS_MESSAGE_BLOCK);
+    return message;
+  }
 
 private:
   // List of all registered threads.

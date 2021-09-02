@@ -197,6 +197,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggSceneManager.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggStreamDecomp.cpp", cc='4201_127', opts=EGG_OPTS),
     # Source(src="source/egg/core/eggSystem.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/core/eggTaskThread.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggThread.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggUnitHeap.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/core/eggVideo.cpp", cc='4201_127', opts=EGG_OPTS+ " -use_lmw_stmw=on  "),
