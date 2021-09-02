@@ -3,6 +3,7 @@
 
 from pathlib import Path
 import subprocess
+import sys
 
 
 COMMONFLAGS = [
@@ -24,15 +25,20 @@ CXXFLAGS = COMMONFLAGS + [
     "-x", "c++",
 ]
 
+if sys.platform == "win32" or sys.platform == "msys":
+    DEV_NULL = "NUL"
+else:
+    DEV_NULL = "/dev/null"
+
 def check_headers(extension, flags):
     source = ""
     for path in Path("source").rglob("*." + extension):
-        source += "#include <"
+        source += "#include \""
         source += str(path).removeprefix("source/")
-        source += ">\n"
+        source += "\"\n"
 
     subprocess.run(
-        ["clang"] + flags + ["-", "-o", "/dev/null"],
+        ["clang"] + flags + ["-", "-o", DEV_NULL],
         text=True,
         input=source,
     )
