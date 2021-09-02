@@ -57,6 +57,8 @@ s32 DVDGetCommandBlockStatus(const DVDCommandBlock* block);
 #define DVDGetFileInfoStatus(fileinfo) DVDGetCommandBlockStatus(&(fileinfo)->cb)
 s32 DVDConvertPathToEntrynum(const char* pathPtr);
 
+s32 DVDCancelAll(void);
+
 #ifdef __cplusplus
 }
 #endif

@@ -127,6 +127,7 @@
 0x8001bc9c strcasecmp
 0x80020d20 __sys_alloc
 0x80020dd8 __register_fragment
+0x80020e34 __construct_new_array
 0x80020e0c __unregister_fragment
 0x80020ff4 __construct_array
 0x800210ec __destroy_arr
