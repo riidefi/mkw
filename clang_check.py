@@ -15,6 +15,7 @@ COMMONFLAGS = [
     "-target", "ppc-none-eabi",
     "-Wall",
     "-Wno-unused-private-field",
+    "-Wextra",
 ]
 
 CFLAGS = COMMONFLAGS + [
