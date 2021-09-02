@@ -39,6 +39,7 @@ typedef unk32 unk;
 #define DECOMP // TODO: Move to build
 
 #define FORCE_INLINE __inline
+#define NEVER_INLINE __attribute__((never_inline))
 
 #else
 #pragma Not CW
@@ -50,6 +51,7 @@ typedef unk32 unk;
 #define MW_PRAG_OPT_S
 
 #define FORCE_INLINE __forceinline
+#define NEVER_INLINE
 #endif
 
 // A function that does nothing
