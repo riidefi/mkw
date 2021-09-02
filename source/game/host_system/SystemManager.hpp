@@ -4,11 +4,12 @@
  */
 #pragma once
 
-#include <Common/rk_types.h>
-#include <revolution/os.h>
+#include <rk_types.h>
+#include <rvl/os/os.h>
+#include <rvl/os/osLink.h>
 
-#include <EGG/core/eggHeap.hpp>
-#include <EGG/core/eggTaskThread.hpp>
+#include <egg/core/eggHeap.hpp>
+#include <egg/core/eggTaskThread.hpp>
 
 namespace System {
 

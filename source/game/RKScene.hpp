@@ -1,7 +1,7 @@
 #pragma once
 
-#include <EGG/core/eggExpHeap.hpp>
-#include <EGG/core/eggScene.hpp>
+#include <egg/core/eggExpHeap.hpp>
+#include <egg/core/eggScene.hpp>
 
 // TODO: These likely align with the resource archives in Scene\UI
 

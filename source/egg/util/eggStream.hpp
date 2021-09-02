@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include <Common/rk_types.h>
+#include <rk_types.h>
 
 namespace EGG {
 //! @brief The Stream class allows for reading binary / text streams from RAM.
