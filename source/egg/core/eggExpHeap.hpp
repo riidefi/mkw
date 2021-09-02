@@ -113,7 +113,7 @@ public:
   //!
   //! @returns HEAP_KIND_EXPANDED
   //!
-  eHeapKind getHeapKind() const;
+  eHeapKind getHeapKind() const override;
 };
 
 } // namespace EGG
