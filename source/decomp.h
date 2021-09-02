@@ -2,6 +2,7 @@
 
 #define UNKNOWN_FUNCTION(name) void name(void)
 
+#ifdef __CWCC__
 #pragma section "binary_blobs"
 #define SECTION_BINARY_BLOBS __declspec(section "binary_blobs")
 #define MARK_BINARY_BLOB(name, start, stop)                                    \
@@ -10,6 +11,7 @@
       __attribute__((force_export))
 
 // Compiler intrinsics.
-#ifdef __CWCC__
 #include <eabi.h>
+#else
+#define MARK_BINARY_BLOB
 #endif
