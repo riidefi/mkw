@@ -1,6 +1,10 @@
 #pragma once
 
+#ifndef RII_CLIENT
 #define UNKNOWN_FUNCTION(name) void name(void)
+#else
+#define UNKNOWN_FUNCTION(...)
+#endif
 
 #ifdef __CWCC__
 #pragma section "binary_blobs"
