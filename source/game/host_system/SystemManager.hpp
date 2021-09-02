@@ -145,7 +145,7 @@ public:
   u8 _F3;         // 0 in ct
   u8 _F4;         // 0 in ct
   struct {
-    u32 ID; // F8
+    s32 ID; // F8
     u8 unk[0x10fc - 4];
     u16 mLatitude;  // 10FC
     u16 mLongitude; // 10FE
@@ -153,7 +153,7 @@ public:
     //! @brief	The check for region has to be in this function, as codwarrior
     //! doesn't optimize this as much as it would had
     //!			the comparison been outside.
-    inline bool isRegion(u32 region) const {
+    inline bool isRegion(s32 region) const {
 #ifdef NTSCJ
       if (ID != -1)
         return ID >> 24 == region;
