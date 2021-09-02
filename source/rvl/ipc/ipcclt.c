@@ -619,10 +619,9 @@ lbl_801937bc:
 }
 
 // Symbol: IOS_OpenAsync
-// Function signature is unknown.
 // PAL: 0x801937e0..0x801938f8
 MARK_BINARY_BLOB(IOS_OpenAsync, 0x801937e0, 0x801938f8);
-asm UNKNOWN_FUNCTION(IOS_OpenAsync) {
+asm s32 IOS_OpenAsync(const char*, u32, IOSCallback) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
@@ -708,10 +707,9 @@ lbl_801938dc:
 }
 
 // Symbol: IOS_Open
-// Function signature is unknown.
 // PAL: 0x801938f8..0x80193a18
 MARK_BINARY_BLOB(IOS_Open, 0x801938f8, 0x80193a18);
-asm UNKNOWN_FUNCTION(IOS_Open) {
+asm s32 IOS_Open(const char*, u32) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -861,10 +859,9 @@ lbl_80193ab4:
 }
 
 // Symbol: IOS_Close
-// Function signature is unknown.
 // PAL: 0x80193ad8..0x80193b80
 MARK_BINARY_BLOB(IOS_Close, 0x80193ad8, 0x80193b80);
-asm UNKNOWN_FUNCTION(IOS_Close) {
+asm s32 IOS_Close(u32) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1493,10 +1490,9 @@ lbl_80194274:
 }
 
 // Symbol: IOS_Ioctl
-// Function signature is unknown.
 // PAL: 0x80194290..0x801943c0
 MARK_BINARY_BLOB(IOS_Ioctl, 0x80194290, 0x801943c0);
-asm UNKNOWN_FUNCTION(IOS_Ioctl) {
+asm s32 IOS_Ioctl(s32, s32, void*, u32, void*, u32) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
