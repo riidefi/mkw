@@ -10,4 +10,6 @@
       __attribute__((force_export))
 
 // Compiler intrinsics.
+#ifdef __CWCC__
 #include <eabi.h>
+#endif
