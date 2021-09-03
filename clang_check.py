@@ -35,6 +35,7 @@ if sys.platform == "win32" or sys.platform == "msys":
 else:
     DEV_NULL = "/dev/null"
 
+
 def check_headers(extension, flags):
     source = ""
     for path in Path("source").rglob("*." + extension):
@@ -42,11 +43,16 @@ def check_headers(extension, flags):
         source += str(path).removeprefix("source/")
         source += "\"\n"
 
-    subprocess.run(
+    process = subprocess.run(
         ["clang"] + flags + ["-", "-o", DEV_NULL],
         text=True,
         input=source,
     )
 
-check_headers("h", CFLAGS)
-check_headers("hpp", CXXFLAGS)
+    return process.returncode
+
+c_ret = check_headers("h", CFLAGS)
+cpp_ret = check_headers("hpp", CXXFLAGS)
+
+if c_ret != 0 or cpp_ret != 0:
+    sys.exit(1)
