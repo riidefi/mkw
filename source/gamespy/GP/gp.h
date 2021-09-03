@@ -130,7 +130,7 @@ typedef enum _GPEnum {
   GP_MASK_BIRTHDAY = 0x00000008,
   GP_MASK_SEX = 0x00000010,
   GP_MASK_EMAIL = 0x00000020,
-  GP_MASK_ALL = 0xFFFFFFFF,
+  GP_MASK_ALL = 0x0000003F,
 
   // Status
   /////////
@@ -208,7 +208,7 @@ typedef enum _GPEnum {
   GP_SILENCE_MESSAGES = 0x00000001,
   GP_SILENCE_UTMS = 0x00000002,
   GP_SILENCE_LIST = 0x00000004, // includes requests, auths, and revokes
-  GP_SILENCE_ALL = 0xFFFFFFFF,
+  GP_SILENCE_ALL = 0x00000007,
 
   // Flags for checking if newer version of status info is supported
   GP_NEW_STATUS_INFO_SUPPORTED = 0xC00,

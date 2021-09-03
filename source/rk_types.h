@@ -34,22 +34,24 @@ typedef unk32 unk;
 #define WPOPT volatile
 #define MW_PRAG_NOINLINE _Pragma("push") _Pragma("dont_inline on")
 #define MW_PRAG_OPT_S _Pragma("push") _Pragma("optimize_for_size on")
+#define MW_PRAG_NO_WARN_10216 _Pragma("push") _Pragma("warning off(10216)")
 
 #define MW_PRAG_END _Pragma("pop")
 #define DECOMP // TODO: Move to build
 
 #define FORCE_INLINE __inline
+#define NEVER_INLINE __attribute__((never_inline))
 
 #else
-#pragma Not CW
-#define asm
 #define MWREG
 #define CONST_MWREG const
 #define MW_PRAG_NOINLINE
 #define MW_PRAG_END
 #define MW_PRAG_OPT_S
+#define MW_PRAG_NO_WARN_10216
 
 #define FORCE_INLINE __forceinline
+#define NEVER_INLINE
 #endif
 
 // A function that does nothing
@@ -80,7 +82,7 @@ typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
 typedef uint64_t u64;
-typedef uint32_t size_t;
+typedef unsigned long size_t;
 
 typedef volatile u8 vu8;
 typedef volatile u16 vu16;
@@ -100,6 +102,8 @@ typedef volatile f64 vf64;
 #define ROUND_DOWN(x, n) (((u32)(x)) & ~(n - 1))
 
 #ifdef __cplusplus
+#define restrict
+
 class NonCopyable {
 public:
   inline NonCopyable() {}

@@ -91,29 +91,29 @@ public:
   //!						Acceptable states are OPAQUE and
   //! HIDDEN.
   //!
-  override void setStatus(Fader::EStatus status);
+  void setStatus(Fader::EStatus status) override;
 
   //! @brief Fade in from pure blacked-out.
   //!
   //! @returns Whether or not this action was carried out. (If the screen was
   //! OPAQUE when called)
   //!
-  override bool fadeIn();
+  bool fadeIn() override;
 
   //! @brief Fade out from no-obstruction.
   //!
   //! @returns Whether or not this action was carried out. (If the screen was
   //! HIDDEN when called)
   //!
-  override bool fadeOut();
+  bool fadeOut() override;
 
   //! @brief Calculate the fader at the current frame.
   //!
   //! @returns Whether or not the operation was successful?
   //!
-  override int calc();
+  int calc() override;
 
   //! @brief Draw the fader (translucent quad).
-  override void draw();
+  void draw() override;
 };
 } // namespace EGG

@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-struct GXFifoObj;
+typedef struct GXFifoObj GXFifoObj;
 
 void GXGetGPStatus(u8* overhi, u8* underlow, u8* readIdle, u8* cmdIdle,
                    u8* brkpt);

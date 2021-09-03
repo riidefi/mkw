@@ -1,4 +1,4 @@
-#include "mathTypes.h"
+#include "mathTypes.hpp"
 
 #include "mathConstants.hpp"
 

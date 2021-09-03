@@ -23,7 +23,7 @@ f32 SinFIdx(f32 fidx);
 f32 CosFIdx(f32 fidx);
 
 // PAL 0x800851e0
-void SinCosFIdx(register f32*, register f32*, register f32);
+void SinCosFIdx(MWREG f32*, MWREG f32*, MWREG f32);
 
 // PAL 0x80085250
 f32 AtanFIdx(f32);

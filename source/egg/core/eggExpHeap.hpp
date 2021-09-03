@@ -32,8 +32,7 @@ public:
   //!
   //! @returns The created ExpHeap
   //!
-  static ExpHeap* create(void* block, u32 size, u16 attr)
-      __attribute__((never_inline));
+  static ExpHeap* create(void* block, u32 size, u16 attr) NEVER_INLINE;
 
   //! @brief Create a new ExpHeap as a child of an existing heap.
   //!
@@ -113,7 +112,7 @@ public:
   //!
   //! @returns HEAP_KIND_EXPANDED
   //!
-  eHeapKind getHeapKind() const;
+  eHeapKind getHeapKind() const override;
 };
 
 } // namespace EGG

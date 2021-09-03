@@ -16,8 +16,8 @@ Camera::Camera(CameraData* pCamData) : mCamData(pCamData) {}
 
 void Camera::Init() {
   GXRenderModeObj& rRenderMode = G3DState::GetRenderModeObj();
-  Init(rRenderMode.mFbWidth, rRenderMode.mEfbHeight, rRenderMode.mFbWidth,
-       rRenderMode.SHORT_0x8, rRenderMode.SHORT_0xE, rRenderMode.SHORT_0x10);
+  Init(rRenderMode.fb_width, rRenderMode.efb_height, rRenderMode.fb_width,
+       rRenderMode.xfb_height, rRenderMode.vi_width, rRenderMode.vi_height);
 }
 
 void Camera::Init(u16 r4, u16 r5, u16 r6, u16 r7, u16 r8, u16 r9) {

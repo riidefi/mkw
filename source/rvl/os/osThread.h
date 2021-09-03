@@ -10,7 +10,12 @@ extern "C" {
 #endif
 #ifndef RII_CLIENT
 
+#ifdef __CWCC__
 u32 __OSBusClock : (0x800000F8);
+#else
+u32* const __OSBusClock = (u32*)0x800000F8;
+#endif
+
 #define OS_TIMER_CLOCK (__OSBusClock >> 2)
 
 typedef struct OSThread {

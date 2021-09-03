@@ -274,8 +274,6 @@ public:
 
 } // namespace EGG
 
-typedef unsigned long size_t;
-
 void* operator new(size_t size);
 // __nwa(ulong, ulong)
 void* operator new[](size_t size, u32 align);

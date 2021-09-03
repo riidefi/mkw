@@ -13,25 +13,29 @@ struct _VEC3 {
   f32 z;
 };
 
+struct __MTX33 {
+  f32 _00, _01, _02;
+  f32 _10, _11, _12;
+  f32 _20, _21, _22;
+};
+
 struct _MTX33 {
   union {
-    struct {
-      f32 _00, _01, _02;
-      f32 _10, _11, _12;
-      f32 _20, _21, _22;
-    };
+    struct __MTX33 e;
     f32 arr[9];
     f32 mtx[3][3];
   };
 };
 
+struct __MTX34 {
+  f32 _00, _01, _02, _03;
+  f32 _10, _11, _12, _13;
+  f32 _20, _21, _22, _23;
+};
+
 struct _MTX34 {
   union {
-    struct {
-      f32 _00, _01, _02, _03;
-      f32 _10, _11, _12, _13;
-      f32 _20, _21, _22, _23;
-    };
+    struct __MTX34 e;
     f32 arr[12];
     f32 mtx[3][4];
   };
@@ -68,19 +72,19 @@ public:
   MTX33(const MTX34& rhs);
   MTX33(f32 x00, f32 x01, f32 x02, f32 x10, f32 x11, f32 x12, f32 x20, f32 x21,
         f32 x22) {
-    _00 = x00;
-    _01 = x01;
-    _02 = x02;
-    _10 = x10;
-    _11 = x11;
-    _12 = x12;
-    _20 = x20;
-    _21 = x21;
-    _22 = x22;
+    e._00 = x00;
+    e._01 = x01;
+    e._02 = x02;
+    e._10 = x10;
+    e._11 = x11;
+    e._12 = x12;
+    e._20 = x20;
+    e._21 = x21;
+    e._22 = x22;
   }
 
-  operator f32*() { return &_00; }
-  operator const f32*() const { return &_00; }
+  operator f32*() { return &e._00; }
+  operator const f32*() const { return &e._00; }
 };
 
 struct MTX34 : public _MTX34
@@ -91,11 +95,11 @@ public:
 public:
   MTX34() {}
 
-  operator f32*() { return &_00; }
-  operator const f32*() const { return &_00; }
+  operator f32*() { return &e._00; }
+  operator const f32*() const { return &e._00; }
 
-  operator MtxPtr() { return (MtxPtr)&_00; }
-  operator ConstMtxPtr() const { return (ConstMtxPtr)&_00; }
+  operator MtxPtr() { return (MtxPtr)&e._00; }
+  operator ConstMtxPtr() const { return (ConstMtxPtr)&e._00; }
 };
 
 struct MTX44 : public _MTX44

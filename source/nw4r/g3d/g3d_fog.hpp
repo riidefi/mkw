@@ -6,10 +6,10 @@
 
 #include <rk_types.h>
 
-#include <nw4r/math/mathTypes.h>
+#include <nw4r/math/mathTypes.hpp>
 #include <nw4r/ut/utColor.hpp>
 
-#include "g3d_rescommon.h"
+#include "g3d_rescommon.hpp"
 
 namespace nw4r {
 namespace g3d {

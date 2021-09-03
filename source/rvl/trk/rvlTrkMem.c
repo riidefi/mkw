@@ -90,7 +90,7 @@ __declspec(section ".init") static void __fill_mem(void* dest, int val,
 }
 
 // PAL: 0x80006038
-__declspec(section ".init") void* memset(void* dest, s32 val, u32 count) {
+__declspec(section ".init") void* memset(void* dest, int val, u32 count) {
   __fill_mem(dest, val, count);
   return dest;
 }
