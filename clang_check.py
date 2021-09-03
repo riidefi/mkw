@@ -16,6 +16,7 @@ COMMONFLAGS = [
     "-Wall",
     "-Wno-unused-private-field",
     "-Wextra",
+    "-Wpedantic",
 ]
 
 CFLAGS = COMMONFLAGS + [
