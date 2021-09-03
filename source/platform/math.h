@@ -9,13 +9,13 @@ extern "C" {
 MW_PRAG_NO_WARN_10216
 
 f64 sin(f64);
-inline f32 sinf(f32 x) { return (float)sin(x); };
+inline f32 sinf(f32 x) { return (float)sin(x); }
 
 f64 cos(f64);
-inline f32 cosf(f32 x) { return (float)cos(x); };
+inline f32 cosf(f32 x) { return (float)cos(x); }
 
 f64 tan(f64);
-inline f32 tanf(f32 x) { return (float)tan(x); };
+inline f32 tanf(f32 x) { return (float)tan(x); }
 
 f64 sqrt(f64);
 inline f32 sqrtf(f32 x) { return (f32)sqrt(x); }
