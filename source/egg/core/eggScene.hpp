@@ -64,7 +64,7 @@ public:
   inline const Scene* getParentScene() const { return pParentScene; }
   inline Scene* getParentScene() { return pParentScene; }
 
-  inline const int getSceneID() const { return mID; }
+  inline int getSceneID() const { return mID; }
 
   inline const Heap* getHeap() const { return _10; }
   inline Heap* getHeap() { return _10; }

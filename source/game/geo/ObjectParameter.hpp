@@ -46,7 +46,7 @@ public:
   //!
   struct Header {
     short nEntry;        //!< [+0x00] Number of entries in this file.
-    Parameter entries[]; //!< [+0x
+    //Parameter entries[]; //!< [+0x
   };
 
   ObjectParameter(const char* path);

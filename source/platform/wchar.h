@@ -4,7 +4,7 @@
 
 typedef unsigned short wchar_t;
 
-u32 wcslen(const wchar_t*);
+size_t wcslen(const wchar_t*);
 
 wchar_t* wcscpy(wchar_t*, const wchar_t*);
 

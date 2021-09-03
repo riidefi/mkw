@@ -5,15 +5,18 @@
 
 #pragma once
 
-#include <common/rk_types.h>
+#include <game/geo/ObjectParameter.hpp>
 
-#include <Relocatable/Object/ObjectParameter.hpp>
+#include <rk_types.h>
+
+#include <egg/math/eggVector.hpp>
 
 namespace Field {
 
 class BaseGeoHitTableManager {};
 class GeoHitTableItemManager : public BaseGeoHitTableManager { // sizeof=
 };
+class GeoHitTableItemObjManager {};
 struct ObjectBase;
 class ObjectDirector {
 public:

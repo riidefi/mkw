@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <rvl/gx/gxFrameBuf.h>
+#include <rvl/gx.h>
 
 namespace nw4r {
 namespace g3d {

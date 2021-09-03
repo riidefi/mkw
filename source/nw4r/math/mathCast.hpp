@@ -3,6 +3,7 @@
 namespace nw4r {
 namespace math {
 
+#ifdef __CWCC__
 static inline u16 ps_f32_to_u16(register f32 in) {
   f32 a;
   register f32* ptr = &a;
@@ -49,6 +50,7 @@ inline f32 FAbs(register f32 x) {
   asm { fabs ret, x }
   return ret;
 }
+#endif
 
 } // namespace math
 } // namespace nw4r

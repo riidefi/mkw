@@ -9,6 +9,7 @@ extern "C" {
 #define OSRoundUp32B(x) (((u32)(x) + 32 - 1) & ~(32 - 1))
 #define OSRoundDown32B(x) (((u32)(x)) & ~(32 - 1))
 
+#ifdef __CWCC__
 static inline void OSInitFastCast(void) {
   asm {
     li r3, 4
@@ -25,6 +26,7 @@ static inline void OSInitFastCast(void) {
     mtspr 0x395, r3
   }
 }
+#endif
 
 typedef s64 OSTime;
 typedef u32 OSTick;

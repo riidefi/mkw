@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include <Common/rk_types.h>
+#include <rk_types.h>
 #include <egg/core/eggHeap.hpp>
-#include <nw4r/ut/List.h>
+#include <nw4r/ut/utList.hpp>
 
 namespace System {
 
