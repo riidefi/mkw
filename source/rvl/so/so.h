@@ -293,7 +293,7 @@ int SOSetInterfaceOpt(IPInterface* interface, int level, int optname,
 
 enum SOError {
   SO_SUCCESS = 0,
-  SO_EFATAL = 0x80000000,
+  SO_EFATAL = (int)0x80000000,
   SO_E2BIG = -1,
   SO_EACCES = -2,
   SO_EADDRINUSE = -3,
