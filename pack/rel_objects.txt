@@ -13,7 +13,9 @@ out/rel/rodata_80891380_808b2bd0.o
 out/rel/data_808b42ec_808dd3d4.o
 out/rel/bss_809bd6ec_809c1900.o
 out/KartComponent.o
-out/rel/text_805901d0_805f8b34.o
+out/rel/text_805901d0_805c23e4.o
+out/ControlGroup.o
+out/rel/text_805c2c18_805f8b34.o
 out/MessageGroup.o
 out/rel/text_805f8b90_8088f400.o
 out/rel/bss_809c1910_809c4f90.o

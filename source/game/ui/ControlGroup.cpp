@@ -4,7 +4,7 @@
 namespace UI {
 
 ControlGroup::ControlGroup()
-    : mData(nullptr), mDataSorted(nullptr), mParent(nullptr), mRoot(nullptr),
+    : mData(nullptr), mDataSorted(nullptr), mParent(nullptr), mPage(nullptr),
       mSize(0) {}
 
 ControlGroup::~ControlGroup() {
@@ -14,18 +14,38 @@ ControlGroup::~ControlGroup() {
 
 void ControlGroup::create(UIControl* parent, int capacity) {
   mParent = parent;
-  mRoot = parent->getRoot();
+  mPage = parent->getPage();
   mSize = capacity;
 
-  create();
+  if (capacity <= 0) {
+    return;
+  }
+
+  mData = new UIControl*[capacity];
+  mDataSorted = new UIControl*[capacity];
+
+  for (int i = 0; i < capacity; ++i) {
+    mData[i] = nullptr;
+    mDataSorted[i] = nullptr;
+  }
 }
 
-void ControlGroup::create(UIControl* parent, UIControl* root, int capacity) {
-  mParent = parent;
-  mRoot = root;
+void ControlGroup::create(Page* page, int capacity) {
+  mParent = nullptr;
+  mPage = page;
   mSize = capacity;
 
-  create();
+  if (capacity <= 0) {
+    return;
+  }
+
+  mData = new UIControl*[capacity];
+  mDataSorted = new UIControl*[capacity];
+
+  for (int i = 0; i < capacity; ++i) {
+    mData[i] = nullptr;
+    mDataSorted[i] = nullptr;
+  }
 }
 
 void ControlGroup::insert(int index, UIControl* control, int pass) {
@@ -52,14 +72,25 @@ void ControlGroup::calc() {
 }
 
 void ControlGroup::draw(int draw_pass) {
+  UIControl* c0;
   for (int i = 0; i < mSize - 1; ++i) {
-    UIControl* key = mDataSorted[i];
+    c0 = mDataSorted[i];
+    int minIdx = i;
+    f32 minZIndex = c0->getZIndex();
 
-    int j = i;
-    for (; j > 0 && mDataSorted[j - 1]->getZIndex() > key->getZIndex(); --j) {
-      mDataSorted[j] = mDataSorted[j - 1];
+    int j;
+    for (j = i + 1; j < mSize; ++j) {
+        UIControl* c1 = mDataSorted[j];
+        if (c1->getZIndex() < minZIndex) {
+            minIdx = j;
+            minZIndex = c1->getZIndex();
+        }
     }
-    mDataSorted[j] = key;
+
+    if (minIdx != i) {
+        mDataSorted[i] = mDataSorted[j];
+        mDataSorted[j] = c0;
+    }
   }
 
   for (int i = 0; i < mSize; ++i) {
