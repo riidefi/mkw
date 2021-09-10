@@ -149,7 +149,7 @@ private:
 public:
   inline ControlGroup* getGroup() { return mGroup; }
   inline UIControl* getParent() { return mGroup->getParent(); }
-  inline UIControl* getRoot() { return mGroup->getRoot(); }
+  inline Page* getPage() { return mGroup->getPage(); }
   inline ControlGroup* getChildren() { return &mChildren; }
 
   inline f32 getZIndex() const { return mZIndex; }
