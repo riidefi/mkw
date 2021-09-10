@@ -67,7 +67,7 @@ jobs:
 
       - name: Build mkw
         shell: bash
-        run: python ./build.py
+        run: # python ./build.py
 
   build_linux:
     runs-on: ubuntu-latest
