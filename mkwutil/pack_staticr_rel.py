@@ -10,6 +10,13 @@ from elftools.elf.elffile import ELFFile
 
 from .lib.rel import Rel, RelSection
 
+SYMS = {
+    "debug__Q22UI9UIControlFv": 0x8063CFFC,
+    "solve_propagate__Q22UI9UIControlFv": 0x8063D3CC,
+    "onGroupAttached__Q22UI9UIControlFPQ22UI12ControlGroupUl": 0x8063D398,
+    "ResourceManager_getFile": 0x805411FC,
+}
+
 
 R_PPC_NONE = 0
 R_PPC_ADDR32 = 1
@@ -83,14 +90,8 @@ def pack_staticr_rel(elf_path, rel_path, orig_dir):
 
                     st_value = symbol['st_value']
 
-                    HACKS = {
-                        "debug__Q22UI9UIControlFv": 0x8063CFFC,
-                        "solve_propagate__Q22UI9UIControlFv": 0x8063D3CC,
-                        "onGroupAttached__Q22UI9UIControlFPQ22UI12ControlGroupUl": 0x8063D398,
-                    }
-
-                    if symbol.name in HACKS:
-                        st_value = HACKS[symbol.name] - text_start
+                    if symbol.name in SYMS:
+                        st_value = SYMS[symbol.name] - text_start
 
                     target = _unresolved
 
