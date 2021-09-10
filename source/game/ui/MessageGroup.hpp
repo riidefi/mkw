@@ -18,7 +18,7 @@ public:
 
   const wchar_t* getMessage(s32 slot);
 
-  u8 getAttributes(s32 slot);
+  const u8* getAttributes(s32 slot);
 
 private:
   struct Header {
