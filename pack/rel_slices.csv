@@ -3,4 +3,4 @@ enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataSta
 1,source/game/util/Random.cpp,0x80555464,0x8055572c,,,,,0x80891370,0x80891380,0x808b42e0,0x808b42ec,,
 1,source/game/kart/KartComponent.cpp,0x80590128,0x805901d0,,,,,,,,,0x809c1900,0x809c1910
 1,source/game/ui/ControlGroup.cpp,0x805c23e4,0x805c2c18,,,,,,,,,,
-1,source/game/ui/MessageGroup.cpp,0x805F8B34,0x805F8B90,,,,,,,,,,
+1,source/game/ui/MessageGroup.cpp,0x805f8b34,0x805f8d5c,,,,,0x80896148,0x80896158,,,,
