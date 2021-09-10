@@ -49,9 +49,9 @@ extern void SpawnSfx(s32 id, s32, void*); // 807146A8
 
 void UIControl::onPageEvent(PageEventTrigger event, u32 page_id) {
   if (event == EVENT_PAGE_OPEN && mOnShowSfxId != SFX_ID_NULL) {
-    SpawnSfx(mOnShowSfxId, -1, getGroup()->getRoot());
+    SpawnSfx(mOnShowSfxId, -1, getGroup()->getPage());
   } else if (event == EVENT_PAGE_CLOSE && mOnHideSfxId != SFX_ID_NULL) {
-    SpawnSfx(mOnHideSfxId, -1, getGroup()->getRoot());
+    SpawnSfx(mOnHideSfxId, -1, getGroup()->getPage());
   }
 
   onPageEventSelf(event, page_id);

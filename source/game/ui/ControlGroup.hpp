@@ -2,6 +2,8 @@
 
 #include <rk_types.h>
 
+#include <game/ui/Page.hpp>
+
 namespace UI {
 
 class UIControl;
@@ -14,7 +16,7 @@ public:
   // After construction, create() must be called once to put the group
   // in a valid state. Calling create() twice is a memory leak.
   void create(UIControl* parent, int size);
-  void create(UIControl* parent, UIControl* root, int size);
+  void create(Page* page, int size);
 
   void insert(int index, UIControl* control, int pass);
   UIControl* at(int index);
@@ -35,27 +37,14 @@ public:
   void transform(Functor& functor); // a la std::transform
 
   UIControl* getParent() { return mParent; }
-  UIControl* getRoot() { return mRoot; }
+  Page* getPage() { return mPage; }
 
 private:
   UIControl** mData;
   UIControl** mDataSorted; // By z_index
   UIControl* mParent;
-  UIControl* mRoot;
+  Page* mPage;
   s32 mSize;
-
-  inline void create() {
-    if (mSize <= 0)
-      return;
-
-    mData = new UIControl*[mSize];
-    mDataSorted = new UIControl*[mSize];
-
-    for (int i = 0; i < mSize; ++i) {
-      mData[i] = nullptr;
-      mDataSorted[i] = nullptr;
-    }
-  }
 };
 
 } // namespace UI
