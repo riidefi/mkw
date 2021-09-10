@@ -63,7 +63,10 @@ def pack_staticr_rel(elf_path, rel_path, orig_dir):
         # Jump to _Unresolved
         _unresolved = 0x805553B0
         text = rel.section_info[1]
+
+        # SHT_RELA
         relocs = elf.get_section_by_name(".rela.text")
+        
         if relocs:
             for reloc_acc in relocs.iter_relocations():
                 reloc = reloc_acc.entry
@@ -71,9 +74,32 @@ def pack_staticr_rel(elf_path, rel_path, orig_dir):
                     instruction = struct.unpack(
                         ">I", text.data[reloc.r_offset : reloc.r_offset + 4]
                     )[0]
-                    instruction_addr = 0x805103B4 + reloc.r_offset
+                    text_start = 0x805103B4
+                    instruction_addr = text_start + reloc.r_offset
 
-                    delta = _unresolved - instruction_addr
+                    sym_tab = elf.get_section(relocs.header.sh_link)
+                    r_symbol = reloc.r_info_sym # reloc.r_info >> 8
+                    symbol = sym_tab.get_symbol(r_symbol)
+
+                    st_value = symbol['st_value']
+
+                    HACKS = {
+                        "debug__Q22UI9UIControlFv": 0x8063CFFC,
+                        "solve_propagate__Q22UI9UIControlFv": 0x8063D3CC,
+                        "onGroupAttached__Q22UI9UIControlFPQ22UI12ControlGroupUl": 0x8063D398,
+                    }
+
+                    if symbol.name in HACKS:
+                        st_value = HACKS[symbol.name] - text_start
+
+                    target = _unresolved
+
+                    if st_value != 0:
+                        print(f"[cross-link] to {symbol.name}")
+
+                        target = text_start + st_value
+
+                    delta = target - instruction_addr
                     new_ins = (instruction & ~0x03FFFFFC) | (delta & 0x03FFFFFC)
 
                     # print(hex(instruction))
