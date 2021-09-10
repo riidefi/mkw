@@ -17,6 +17,7 @@ COMMONFLAGS = [
     "-Wno-unused-private-field",
     "-Wextra",
     "-Wpedantic",
+    "-Wno-c99-extensions",
     "-Werror",
 ]
 
