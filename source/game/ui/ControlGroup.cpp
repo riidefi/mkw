@@ -75,21 +75,20 @@ void ControlGroup::draw(int draw_pass) {
   UIControl* c0;
   for (int i = 0; i < mSize - 1; ++i) {
     c0 = mDataSorted[i];
-    int minIdx = i;
-    f32 minZIndex = c0->getZIndex();
+    s32 minIdx = i;
+    f32 minZIndex = mDataSorted[i]->getZIndex();
 
     int j;
     for (j = i + 1; j < mSize; ++j) {
-        UIControl* c1 = mDataSorted[j];
-        if (c1->getZIndex() < minZIndex) {
+        if (mDataSorted[j]->getZIndex() < minZIndex) {
             minIdx = j;
-            minZIndex = c1->getZIndex();
+            minZIndex = mDataSorted[j]->getZIndex();
         }
     }
 
     if (minIdx != i) {
-        mDataSorted[i] = mDataSorted[j];
-        mDataSorted[j] = c0;
+        mDataSorted[i] = mDataSorted[minIdx];
+        mDataSorted[minIdx] = c0;
     }
   }
 
