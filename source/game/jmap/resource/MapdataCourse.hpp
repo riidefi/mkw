@@ -11,7 +11,7 @@ struct MapdataCourse {
   u16 headerSize;  // 0A
   u32 revision;    // 0C
   // Section offsets start here. 10
-  //s32 offsets[];
+  s32 offsets[];
 };
 
 } // namespace Field
