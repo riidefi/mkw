@@ -15,7 +15,7 @@ extern void* sResourceManager;
 
 void MessageGroup::load(const char* filename) {
   char path[0x60];
-  snprintf(path, sizeof(path) - 1, "message/%s.bmg", filename);
+  snprintf(path, sizeof(path) - 1, "message/%s.bmg\0", filename);
   path[sizeof(path) - 1] = '\0'; // Redundant
 
   const void* file = ResourceManager_getFile(sResourceManager, 2, path, nullptr);
@@ -50,13 +50,14 @@ void MessageGroup::load(const void* file) {
 }
 
 s32 MessageGroup::getSlot(u32 messageId) {
+  s32 result = -1;
   s32 min = 0;
-  s32 max = mMid->numEntries - 1;
-
+  s32 max = ((u16**)this)[0x10/4][0] - 1;
   while (min <= max) {
-    s32 middle = (min + max) >> 1;
+    const s32 middle = (min + max) >> 1;
     if (mMid->messageIds[middle] == messageId) {
-      return middle;
+      result = middle;
+      break;
     }
 
     if (mMid->messageIds[middle] < messageId) {
@@ -66,7 +67,7 @@ s32 MessageGroup::getSlot(u32 messageId) {
     }
   }
 
-  return -1;
+  return result;
 }
 
 const wchar_t* MessageGroup::getMessage(s32 slot) {
@@ -77,12 +78,12 @@ const wchar_t* MessageGroup::getMessage(s32 slot) {
   return mDat + (mInf->entries[slot].offset >> 1);
 }
 
-u8 MessageGroup::getAttributes(s32 slot) {
+const u8* MessageGroup::getAttributes(s32 slot) {
   if (slot < 0 || slot >= mInf->numEntries) {
     return nullptr;
   }
 
-  return mInf->entries[slot].attributes;
+  return &mInf->entries[slot].attributes;
 }
 
 } // namespace UI
