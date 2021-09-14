@@ -32,8 +32,6 @@ extern UNKNOWN_FUNCTION(ISFS_Write);
 extern UNKNOWN_FUNCTION(ISFS_WriteAsync);
 // PAL: 0x8016b384
 extern UNKNOWN_FUNCTION(ISFS_Close);
-// PAL: 0x801a0504
-extern UNKNOWN_FUNCTION(OSRegisterVersion);
 // PAL: 0x801a8238
 extern UNKNOWN_FUNCTION(OSRegisterShutdownFunction);
 

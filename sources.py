@@ -12,7 +12,7 @@ RVL_OPTS = '-ipa file'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 EGG_OPTS = '-ipa function -rostr'
 REL_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
-NW4R_OPTS = '-ipa file -inline auto -rostr -O4,p'
+NW4R_OPTS = '-ipa file -inline auto -O4,p'
 
 
 @dataclass
@@ -179,6 +179,9 @@ SOURCES_NW4R_G3D = [
     Source(src="source/nw4r/g3d/g3d_camera.cpp", cc='4201_127', opts=NW4R_OPTS),
     Source(src="source/nw4r/g3d/g3d_fog.cpp", cc='4201_127', opts=NW4R_OPTS),
 ]
+SOURCES_NW4R_LYT = [
+    Source(src="source/nw4r/lyt/lyt_init.cpp", cc='4201_127', opts=NW4R_OPTS),
+]
 SOURCES_NW4R_UT = [
     Source(src="source/nw4r/ut/utList.cpp", cc='4201_127', opts=NW4R_OPTS),
 ]
@@ -229,6 +232,7 @@ SOURCES_DOL = list(chain(
     SOURCES_SPY,
     SOURCES_NW4R_MATH,
     SOURCES_NW4R_G3D,
+    SOURCES_NW4R_LYT,
     SOURCES_NW4R_UT,
     SOURCES_EGG_CORE,
     SOURCES_EGG_MATH,
