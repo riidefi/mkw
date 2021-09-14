@@ -80,15 +80,15 @@ void ControlGroup::draw(int draw_pass) {
 
     int j;
     for (j = i + 1; j < mSize; ++j) {
-        if (mDataSorted[j]->getZIndex() < minZIndex) {
-            minIdx = j;
-            minZIndex = mDataSorted[j]->getZIndex();
-        }
+      if (mDataSorted[j]->getZIndex() < minZIndex) {
+        minIdx = j;
+        minZIndex = mDataSorted[j]->getZIndex();
+      }
     }
 
     if (minIdx != i) {
-        mDataSorted[i] = mDataSorted[minIdx];
-        mDataSorted[minIdx] = c0;
+      mDataSorted[i] = mDataSorted[minIdx];
+      mDataSorted[minIdx] = c0;
     }
   }
 

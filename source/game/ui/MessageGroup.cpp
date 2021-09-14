@@ -6,7 +6,9 @@
 
 namespace UI {
 
-MessageGroup::MessageGroup() : mHeader(nullptr), mInf(nullptr), mDat(nullptr), mStr(nullptr), mMid(nullptr) {}
+MessageGroup::MessageGroup()
+    : mHeader(nullptr), mInf(nullptr), mDat(nullptr), mStr(nullptr),
+      mMid(nullptr) {}
 
 MessageGroup::~MessageGroup() {}
 
@@ -18,41 +20,49 @@ void MessageGroup::load(const char* filename) {
   snprintf(path, sizeof(path) - 1, "message/%s.bmg\0", filename);
   path[sizeof(path) - 1] = '\0'; // Redundant
 
-  const void* file = ResourceManager_getFile(sResourceManager, 2, path, nullptr);
+  const void* file =
+      ResourceManager_getFile(sResourceManager, 2, path, nullptr);
 
   load(file);
 }
 
 void MessageGroup::load(const void* file) {
-  mHeader = (const Header*)file;
+  mHeader = reinterpret_cast<const Header*>(file);
 
-  const Block* block = (const Block*)((const u8*)file + 0x20);
+  const Block* block = reinterpret_cast<const Block*>(mHeader + 1);
+
   for (u32 i = 0; i < mHeader->numBlocks; i++) {
     const u8* blockData = block->data;
 
     switch (block->kind) {
     case BLOCK_KIND_INF:
-      mInf = (const Inf*)blockData;
+      mInf = reinterpret_cast<const Inf*>(blockData);
       break;
     case BLOCK_KIND_DAT:
-      mDat = (const wchar_t*)blockData;
+      mDat = reinterpret_cast<const wchar_t*>(blockData);
       break;
     case BLOCK_KIND_STR:
       mStr = blockData;
       break;
     case BLOCK_KIND_MID:
-      mMid = (const Mid*)blockData;
+      mMid = reinterpret_cast<const Mid*>(blockData);
       break;
     }
 
-    block = (const Block*)((const u8*)block + block->size);
+    block = reinterpret_cast<const Block*>(reinterpret_cast<const u8*>(block) +
+                                           block->size);
   }
 }
 
 s32 MessageGroup::getSlot(u32 messageId) {
   s32 result = -1;
   s32 min = 0;
-  s32 max = ((u16**)this)[0x10/4][0] - 1;
+#ifdef NON_MATCHING
+  s32 max = mMid->numEntries - 1;
+#else
+  s32 max = ((u16**)this)[0x10 / 4][0] - 1;
+#endif
+
   while (min <= max) {
     const s32 middle = (min + max) >> 1;
     if (mMid->messageIds[middle] == messageId) {
