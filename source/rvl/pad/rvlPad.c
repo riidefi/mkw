@@ -12,7 +12,6 @@ typedef struct OSResetFunctionInfo {
   u32 unk_0A;
 } OSResetFunctionInfo;
 
-void OSRegisterVersion(const char*);
 void OSRegisterShutdownFunction(OSResetFunctionInfo* info);
 
 // Broadway / IOS global locations: https://wiibrew.org/wiki/Memory_Map
