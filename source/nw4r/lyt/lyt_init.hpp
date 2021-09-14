@@ -3,7 +3,7 @@
 namespace nw4r {
 namespace lyt {
 
-void Lyt_Init();
+void LytInit();
 
 } // namespace lyt
 } // namespace nw4r
