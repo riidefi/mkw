@@ -4,8 +4,8 @@ namespace UI {
 
 class Page {
 public:
-    Page();
-    virtual ~Page();
+  Page();
+  virtual ~Page();
 };
 
 } // namespace UI
