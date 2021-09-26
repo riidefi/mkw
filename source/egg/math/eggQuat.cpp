@@ -375,10 +375,10 @@ lbl_8023a1fc:
   // clang-format on
 }
 
-// Symbol: inverse__Q23EGG5QuatfFRQ23EGG5Quatf
+// Symbol: inverse__Q23EGG5QuatfFv
 // PAL: 0x8023a210..0x8023a2d0
-MARK_BINARY_BLOB(inverse__Q23EGG5QuatfFRQ23EGG5Quatf, 0x8023a210, 0x8023a2d0);
-asm void Quatf::inverse(Quatf& other) {
+MARK_BINARY_BLOB(inverse__Q23EGG5QuatfFv, 0x8023a210, 0x8023a2d0);
+asm Quatf Quatf::inverse() {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);

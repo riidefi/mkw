@@ -19,7 +19,7 @@ public:
   void setAxisRotation(const Vector3f& axis, float angle);
   float norm();
   void normalise();
-  void inverse(Quatf& other); // Guess
+  Quatf inverse();
   void rotateVector(const Vector3f& v);
   void rotateVectorInv(const Vector3f& v);
   void slerpTo(const Quatf& r4, float, Quatf& r5) const;
