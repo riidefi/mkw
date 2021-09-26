@@ -65,6 +65,10 @@ jobs:
           path: asm/rel
           key: asm-rel
 
+      - name: Build mkw
+        shell: bash
+        run: # python ./build.py
+
   build_linux:
     runs-on: ubuntu-latest
     steps:
