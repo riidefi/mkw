@@ -8,8 +8,7 @@
 
 extern "C" {
 extern UNKNOWN_FUNCTION(unk_80214968);
-extern UNKNOWN_FUNCTION(
-    __ml__3EGGFRCQ23EGG5QuatfRCQ23EGG8Vector3f);
+extern UNKNOWN_FUNCTION(__ml__3EGGFRCQ23EGG5QuatfRCQ23EGG8Vector3f);
 extern UNKNOWN_FUNCTION(unk_8022f8c0);
 }
 
@@ -436,8 +435,8 @@ lbl_8023a2c8:
 
 // Symbol: rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3f
 // PAL: 0x8023a2d0..0x8023a404
-MARK_BINARY_BLOB(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3f,
-                 0x8023a2d0, 0x8023a404);
+MARK_BINARY_BLOB(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3f, 0x8023a2d0,
+                 0x8023a404);
 asm void Quatf::rotateVector(const Vector3f& v) {
   // clang-format off
   nofralloc;
@@ -523,9 +522,8 @@ asm void Quatf::rotateVector(const Vector3f& v) {
 
 // Symbol: rotateVectorInv__Q23EGG5QuatfFRCQ23EGG8Vector3f
 // PAL: 0x8023a404..0x8023a540
-MARK_BINARY_BLOB(
-    rotateVectorInv__Q23EGG5QuatfFRCQ23EGG8Vector3f, 0x8023a404,
-    0x8023a540);
+MARK_BINARY_BLOB(rotateVectorInv__Q23EGG5QuatfFRCQ23EGG8Vector3f, 0x8023a404,
+                 0x8023a540);
 asm void Quatf::rotateVectorInv(const Vector3f& v) {
   // clang-format off
   nofralloc;
@@ -613,8 +611,8 @@ asm void Quatf::rotateVectorInv(const Vector3f& v) {
 
 // Symbol: __ml__3EGGFRCQ23EGG5QuatfRCQ23EGG8Vector3f
 // PAL: 0x8023a540..0x8023a5c4
-MARK_BINARY_BLOB(__ml__3EGGFRCQ23EGG5QuatfRCQ23EGG8Vector3f,
-                 0x8023a540, 0x8023a5c4);
+MARK_BINARY_BLOB(__ml__3EGGFRCQ23EGG5QuatfRCQ23EGG8Vector3f, 0x8023a540,
+                 0x8023a5c4);
 asm Quatf operator*(const Quatf&, const Vector3f&) {
   // clang-format off
   nofralloc;
@@ -656,8 +654,8 @@ asm Quatf operator*(const Quatf&, const Vector3f&) {
 
 // Symbol: slerpTo__Q23EGG5QuatfCFRCQ23EGG5QuatffRQ23EGG5Quatf
 // PAL: 0x8023a5c4..0x8023a788
-MARK_BINARY_BLOB(slerpTo__Q23EGG5QuatfCFRCQ23EGG5QuatffRQ23EGG5Quatf, 0x8023a5c4,
-                 0x8023a788);
+MARK_BINARY_BLOB(slerpTo__Q23EGG5QuatfCFRCQ23EGG5QuatffRQ23EGG5Quatf,
+                 0x8023a5c4, 0x8023a788);
 asm void Quatf::slerpTo(const Quatf& r4, float, Quatf& r5) const {
   // clang-format off
   nofralloc;
