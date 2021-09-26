@@ -290,7 +290,8 @@ out/dol/data_802a268c_802a2a08.o
 out/dol/bss_803832e4_80383500.o
 out/dol/sbss_80386d84_80386dc8.o
 out/eggCntFile.o
-out/dol/text_80215168_8021a0f0.o
+out/dol/text_80215168_80219e68.o
+out/eggDisplay.o
 out/dol/data_802a2a28_802a2b48.o
 out/eggDisposer.o
 out/dol/text_8021a1b8_8022231c.o
