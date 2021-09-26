@@ -8,6 +8,8 @@
 extern "C" {
 #endif
 
+struct OSContext;
+
 typedef void (*__OSExceptionHandler)(u8 exception, OSContext* context);
 
 __OSExceptionHandler __OSGetExceptionHandler(u8 exception);
