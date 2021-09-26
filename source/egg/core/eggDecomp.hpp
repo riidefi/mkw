@@ -27,6 +27,6 @@ void readTree9(unsigned char*, unsigned short*, unsigned short*,
 // PAL: 0x80219d34..0x80219e68
 void readTree12(unsigned char*, unsigned short*, unsigned short*,
                 unsigned short*);
-}
+} // namespace Decomp
 
-}
+} // namespace EGG
