@@ -17,7 +17,7 @@ public:
   void setRPY(const Vector3f& euler);
   void setRPY(float r, float p, float y);
   void setAxisRotation(const Vector3f& axis, float angle);
-  double sqNorm(); // Guess
+  float norm();
   void normalise();
   void inverse(Quatf& other); // Guess
   void rotateVector(const Vector3f& v);

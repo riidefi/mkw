@@ -303,10 +303,10 @@ asm void Quatf::setAxisRotation(const Vector3f& axis, float angle) {
   // clang-format on
 }
 
-// Symbol: sqNorm__Q23EGG5QuatfFv
+// Symbol: norm__Q23EGG5QuatfFv
 // PAL: 0x8023a138..0x8023a168
-MARK_BINARY_BLOB(sqNorm__Q23EGG5QuatfFv, 0x8023a138, 0x8023a168);
-asm double Quatf::sqNorm() {
+MARK_BINARY_BLOB(norm__Q23EGG5QuatfFv, 0x8023a138, 0x8023a168);
+asm float Quatf::norm() {
   // clang-format off
   lfs f1, 0(r3);
   lfs f0, 4(r3);
