@@ -13,8 +13,8 @@
 #include <nw4r/ut/utList.hpp>
 #include <rk_types.h>
 #ifndef RII_CLIENT
-#include <rvl/mem/memAllocator.h>
 #include <rvl/os/osThread.h>
+#include <rvl/mem/memAllocator.h>
 #endif
 #include <egg/core/eggThread.hpp>
 

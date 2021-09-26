@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <egg/math/eggBoundBox.hpp>
 #include <rk_types.h>
+#include <egg/math/eggBoundBox.hpp>
 
 #include "decomp.h"
 
