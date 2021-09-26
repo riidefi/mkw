@@ -2,6 +2,7 @@
 
 #include <rk_types.h>
 
+#include "osContext.h"
 #include "osThread.h"
 
 #ifdef __cplusplus
