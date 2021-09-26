@@ -1,6 +1,8 @@
 #include "eggAsyncDisplay.hpp"
 
+#include <rvl/os/osInterrupt.h>
 #include <rvl/os/osThread.h>
+#include <rvl/vi.h>
 
 // extern function references.
 extern "C" UNKNOWN_FUNCTION(GXSetVtxDesc);
@@ -70,16 +72,10 @@ extern "C" UNKNOWN_FUNCTION(GXSetScissor);
 extern "C" UNKNOWN_FUNCTION(C_MTXOrtho);
 // PAL: 0x801a08e0
 extern "C" UNKNOWN_FUNCTION(OSSetPeriodicAlarm);
-// PAL: 0x801a65ac
-extern "C" UNKNOWN_FUNCTION(OSDisableInterrupts);
-// PAL: 0x801a65d4
-extern "C" UNKNOWN_FUNCTION(OSRestoreInterrupts);
 // PAL: 0x801a98a0
 extern "C" UNKNOWN_FUNCTION(OSInitThreadQueue);
 // PAL: 0x801b9138
 extern "C" UNKNOWN_FUNCTION(VISetPostRetraceCallback);
-// PAL: 0x801bab2c
-extern "C" UNKNOWN_FUNCTION(VISetBlack);
 // PAL: 0x80219e68
 extern "C" UNKNOWN_FUNCTION(__ct__Q23EGG7DisplayFUc);
 // PAL: 0x80219fb4
