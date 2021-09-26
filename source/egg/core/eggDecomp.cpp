@@ -1180,9 +1180,9 @@ lbl_80219b6c:
   // clang-format on
 }
 
-// Symbol: getBit1c
+// Symbol: getBit1c__Q23EGG6DecompFPUci
 // PAL: 0x80219b84..0x80219c10
-MARK_BINARY_BLOB(getBit1c, 0x80219b84, 0x80219c10);
+MARK_BINARY_BLOB(getBit1c__Q23EGG6DecompFPUci, 0x80219b84, 0x80219c10);
 asm int getBit1c(unsigned char*, int) {
   // clang-format off
   nofralloc;
