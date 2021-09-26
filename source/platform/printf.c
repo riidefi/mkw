@@ -7,19 +7,19 @@
 
 // Extern function references.
 // PAL: 0x8000e954
-extern UNKNOWN_FUNCTION(unk_8000e954);
+extern UNKNOWN_FUNCTION(__fwrite);
 // PAL: 0x8000f138
-extern UNKNOWN_FUNCTION(unk_8000f138);
+extern UNKNOWN_FUNCTION(wcstombs);
 // PAL: 0x8000f640
-extern UNKNOWN_FUNCTION(unk_8000f640);
+extern UNKNOWN_FUNCTION(parse_format2);
 // PAL: 0x8000fbfc
-extern UNKNOWN_FUNCTION(unk_8000fbfc);
+extern UNKNOWN_FUNCTION(long2str);
 // PAL: 0x8000fe34
-extern UNKNOWN_FUNCTION(unk_8000fe34);
+extern UNKNOWN_FUNCTION(longlong2str);
 // PAL: 0x80013108
-extern UNKNOWN_FUNCTION(unk_80013108);
+extern UNKNOWN_FUNCTION(raise);
 // PAL: 0x800155d8
-extern UNKNOWN_FUNCTION(unk_800155d8);
+extern UNKNOWN_FUNCTION(fwide);
 
 // Symbol: double2hex
 // Function signature is unknown.
@@ -179,7 +179,7 @@ lbl_80010298:
   stw r0, 0x1c(r1);
   stw r8, 0x20(r1);
   stw r9, 0x24(r1);
-  bl unk_8000fbfc;
+  bl long2str;
   lbz r0, 5(r30);
   cmplwi r0, 0x61;
   bne lbl_80010328;
@@ -1041,7 +1041,7 @@ lbl_80010e40:
   mr r3, r16;
   mr r4, r27;
   addi r5, r1, 0x70;
-  bl unk_8000f640;
+  bl parse_format2;
   lbz r4, 0x75(r1);
   mr r15, r3;
   addi r0, r4, -37;
@@ -1126,7 +1126,7 @@ lbl_80010f4c:
   stw r8, 0x64(r1);
   stw r7, 0x68(r1);
   stw r0, 0x6c(r1);
-  bl unk_8000fe34;
+  bl longlong2str;
   cmpwi r3, 0;
   mr r18, r3;
   beq lbl_8001141c;
@@ -1143,7 +1143,7 @@ lbl_80010f90:
   stw r7, 0x54(r1);
   stw r6, 0x58(r1);
   stw r0, 0x5c(r1);
-  bl unk_8000fbfc;
+  bl long2str;
   cmpwi r3, 0;
   mr r18, r3;
   beq lbl_8001141c;
@@ -1224,7 +1224,7 @@ lbl_800110a8:
   stw r8, 0x44(r1);
   stw r7, 0x48(r1);
   stw r0, 0x4c(r1);
-  bl unk_8000fe34;
+  bl longlong2str;
   cmpwi r3, 0;
   mr r18, r3;
   beq lbl_8001141c;
@@ -1241,7 +1241,7 @@ lbl_800110ec:
   stw r7, 0x34(r1);
   stw r6, 0x38(r1);
   stw r0, 0x3c(r1);
-  bl unk_8000fbfc;
+  bl long2str;
   cmpwi r3, 0;
   mr r18, r3;
   beq lbl_8001141c;
@@ -1322,7 +1322,7 @@ lbl_800111d0:
   li r3, 0;
   li r4, 0;
   li r5, -1;
-  bl unk_80013108;
+  bl raise;
   li r3, -1;
   b lbl_8001160c;
 lbl_80011254:
@@ -1332,7 +1332,7 @@ lbl_80011254:
 lbl_80011260:
   addi r3, r1, 0x80;
   li r5, 0x200;
-  bl unk_8000f138;
+  bl wcstombs;
   cmpwi r3, 0;
   blt lbl_8001141c;
   addi r18, r1, 0x80;
@@ -1350,7 +1350,7 @@ lbl_8001128c:
   li r3, 0;
   li r4, 0;
   li r5, -1;
-  bl unk_80013108;
+  bl raise;
   li r3, -1;
   b lbl_8001160c;
 lbl_800112b4:
@@ -1394,7 +1394,7 @@ lbl_80011324:
   li r3, 0;
   li r4, 0;
   li r5, -1;
-  bl unk_80013108;
+  bl raise;
   li r3, -1;
   b lbl_8001160c;
 lbl_80011354:
@@ -1626,7 +1626,7 @@ asm UNKNOWN_FUNCTION(__FileWrite) {
   mr r3, r4;
   li r4, 1;
   mr r6, r30;
-  bl unk_8000e954;
+  bl __fwrite;
   cmplw r31, r3;
   bne lbl_80011658;
   b lbl_8001165c;
@@ -1716,7 +1716,7 @@ lbl_80011720:
   stw r8, 0x1c(r1);
   stw r9, 0x20(r1);
   stw r10, 0x24(r1);
-  bl unk_800155d8;
+  bl fwide;
   cmpwi r3, 0;
   blt lbl_80011764;
   li r3, -1;
@@ -1764,7 +1764,7 @@ asm int vprintf(const char* format, va_list arg) {
   stw r29, 0x14(r1);
   mr r29, r3;
   addi r3, r31, 0x50;
-  bl unk_800155d8;
+  bl fwide;
   cmpwi r3, 0;
   blt lbl_800117f4;
   li r3, -1;

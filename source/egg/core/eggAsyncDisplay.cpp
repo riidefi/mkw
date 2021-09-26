@@ -1,5 +1,7 @@
 #include "eggAsyncDisplay.hpp"
 
+#include <rvl/os/osThread.h>
+
 // extern function references.
 extern "C" UNKNOWN_FUNCTION(GXSetVtxDesc);
 // PAL: 0x8016dc34
@@ -74,24 +76,18 @@ extern "C" UNKNOWN_FUNCTION(OSDisableInterrupts);
 extern "C" UNKNOWN_FUNCTION(OSRestoreInterrupts);
 // PAL: 0x801a98a0
 extern "C" UNKNOWN_FUNCTION(OSInitThreadQueue);
-// PAL: 0x801aa9b8
-extern "C" UNKNOWN_FUNCTION(OSSleepThread);
-// PAL: 0x801aaaa4
-extern "C" UNKNOWN_FUNCTION(OSWakeupThread);
-// PAL: 0x801aad74
-extern "C" UNKNOWN_FUNCTION(OSGetTick);
 // PAL: 0x801b9138
 extern "C" UNKNOWN_FUNCTION(VISetPostRetraceCallback);
 // PAL: 0x801bab2c
 extern "C" UNKNOWN_FUNCTION(VISetBlack);
 // PAL: 0x80219e68
-extern "C" UNKNOWN_FUNCTION(unk_80219e68);
+extern "C" UNKNOWN_FUNCTION(__ct__Q23EGG7DisplayFUc);
 // PAL: 0x80219fb4
-extern "C" UNKNOWN_FUNCTION(unk_80219fb4);
+extern "C" UNKNOWN_FUNCTION(endRender__Q23EGG7DisplayFv);
 // PAL: 0x8021a06c
-extern "C" UNKNOWN_FUNCTION(unk_8021a06c);
+extern "C" UNKNOWN_FUNCTION(calcFrequency__Q23EGG7DisplayFv);
 // PAL: 0x8023040c
-extern "C" UNKNOWN_FUNCTION(unk_8023040c);
+extern "C" UNKNOWN_FUNCTION(loadPosMtx__Q23EGG9Matrix34fFUl);
 // PAL: 0x80243e70
 extern "C" UNKNOWN_FUNCTION(getTickPerVRetrace__Q23EGG5VideoFUl);
 // PAL: 0x80243ed0
@@ -160,7 +156,7 @@ asm UNKNOWN_FUNCTION(__ct__Q23EGG12AsyncDisplayFUc) {
   stw r0, 0x14(r1);
   stw r31, 0xc(r1);
   mr r31, r3;
-  bl unk_80219e68;
+  bl __ct__Q23EGG7DisplayFUc;
   lfs f0, -0x6580(r2);
   lis r3, 0x802a;
   li r4, 0;
@@ -263,7 +259,7 @@ lbl_8020fe48:
   lwz r0, 0x6c(r31);
   mr r3, r31;
   stw r0, 0x68(r31);
-  bl unk_8021a06c;
+  bl calcFrequency__Q23EGG7DisplayFv;
   lwz r0, 0x60(r31);
   cmpwi r0, 1;
   bne lbl_8020ff08;
@@ -389,7 +385,7 @@ lbl_8020ffe8:
   cmpwi r4, 0;
   beq lbl_80210008;
   mr r3, r31;
-  bl unk_80219fb4;
+  bl endRender__Q23EGG7DisplayFv;
   lis r3, 0x8021;
   addi r3, r3, -804;
   bl GXSetDrawDoneCallback;
@@ -600,7 +596,7 @@ asm UNKNOWN_FUNCTION(
   lis r3, 0x8038;
   li r4, 0;
   addi r3, r3, 0x4370;
-  bl unk_8023040c;
+  bl loadPosMtx__Q23EGG9Matrix34fFUl;
   li r3, 0;
   bl GXSetCurrentMtx;
   bl GXClearVtxDesc;
