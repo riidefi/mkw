@@ -130,9 +130,10 @@ class CAsmGenerator:
             yield sym
             addr += sym.size
 
-        assert (
-            addr == self.slice.stop
-        ), f"Disassembled up to {hex(addr)} but slice goes to {hex(self.slice.stop)}"
+        assert addr == self.slice.stop, (
+            f"Disassembled up to {hex(addr)} but slice goes to {hex(self.slice.stop)}.\n"
+            + "You're probably missing entries in symbols.txt"
+        )
 
     # TODO not a good name
     def dump_section(self):
@@ -361,7 +362,14 @@ class DOLSrcGenerator:
         print(f"    => {_slice.name}")
         data = self.dol.virtual_read(_slice.start, len(_slice))
         with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
-            gen = CAsmGenerator(data, _slice, self.symbols, h_file, c_file, not str(c_path).endswith(".c"))
+            gen = CAsmGenerator(
+                data,
+                _slice,
+                self.symbols,
+                h_file,
+                c_file,
+                not str(c_path).endswith(".c"),
+            )
             gen.dump_section()
 
     def __gen_asm(self, section: Section, _slice: Slice):

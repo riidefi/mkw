@@ -29,6 +29,9 @@ typedef Math<float> Mathf;
 namespace Mathf {
 float sqrt(float);
 float frsqrt(float);
+
+float sin(float);
+float cos(float);
 } // namespace Mathf
 
 } // namespace EGG

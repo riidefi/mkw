@@ -10,7 +10,7 @@ from itertools import chain
 MSL_LIBC_OPTS = '-ipa file'
 RVL_OPTS = '-ipa file'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
-EGG_OPTS = '-ipa function -rostr'
+EGG_OPTS = '-ipa function -rostr -fp hard'
 REL_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
 NW4R_OPTS = '-ipa file -inline auto -O4,p'
 
@@ -209,7 +209,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggXfbManager.cpp", cc='4201_127', opts=EGG_OPTS),
 ]
 SOURCES_EGG_MATH = [
-    Source(src="source/egg/math/eggQuat.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/math/eggQuat.cpp", cc='4201_127', opts=EGG_OPTS + " -fp fmadd "),
     Source(src="source/egg/math/eggVector.cpp", cc='4201_127', opts=EGG_OPTS),
 ]
 SOURCES_DOL = list(chain(
