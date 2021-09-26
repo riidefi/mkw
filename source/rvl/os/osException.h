@@ -2,13 +2,12 @@
 
 #include <rk_types.h>
 
+#include "osContext.h"
 #include "osThread.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-struct OSContext;
 
 typedef void (*__OSExceptionHandler)(u8 exception, OSContext* context);
 
