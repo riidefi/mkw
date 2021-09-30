@@ -7,7 +7,7 @@ from pytablewriter.style import Style
 from termcolor import colored
 
 from mkwutil.lib.slices import SliceTable
-from mkwutil.sections import Section, REL_SECTIONS, DOL_SECTIONS, DOL_LIBS
+from mkwutil.sections import Section, DOL_SECTIONS, DOL_LIBS, REL_SECTIONS, REL_DIRS
 
 from mkwutil.project import *
 
@@ -163,6 +163,24 @@ def build_stats(dir: Path) -> Stats:
             rel_total_data,
         )
     )
+    # REL directories.
+    for dir in REL_DIRS:
+        assert dir.section == "text", "For now only text section per directory supported"
+        dir_split_slices = rel_split_slices.slice(dir.start, dir.stop)
+        dir_decomp_slices = rel_decomp_slices.slice(dir.start, dir.stop)
+        dir_split_code, _ = simple_count(dir_split_slices)
+        dir_decomp_code, _ = simple_count(dir_decomp_slices)
+        dir_total_code = len(dir)
+        matrix.append(
+            analyze(
+                "> " + dir.name,
+                dir_split_code,
+                dir_decomp_code,
+                None,
+                dir_total_code,
+                None,
+            )
+        )
     matrix.append(
         analyze(
             "TOTAL",

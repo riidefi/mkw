@@ -60,3 +60,23 @@ REL_SECTIONS = [
 
 # Maps virtual REL section indexes to REL sections in file.
 REL_SECTION_IDX = [1, 2, 3, 4, 5, 6]
+
+REL_DIRS = [
+    Slice(name="REL/JMAP", start=0x80510B84, stop=0x80518CC0, section="text"),
+    Slice(name="REL/SYSTEM", start=0x80518CC0, stop=0x80553788, section="text"),
+    Slice(name="REL/SCENE", start=0x80553788, stop=0x8055531C, section="text"),
+    Slice(name="REL/KART", start=0x805672CC, stop=0x805B9010, section="text"),
+    Slice(name="REL/UI", start=0x805B9300, stop=0x80653208, section="text"),
+    Slice(name="REL/NET", start=0x80653208, stop=0x8067B318, section="text"),
+    Slice(name="REL/GEO/0", start=0x8067E280, stop=0x8068CEDC, section="text"),
+    Slice(name="REL/GEO/1", start=0x806B70D0, stop=0x806F62FC, section="text"),
+    Slice(name="REL/SND", start=0x806F62FC, stop=0x8071B808, section="text"),
+    Slice(name="REL/AI", start=0x80725FDC, stop=0x8074BB34, section="text"),
+    Slice(name="REL/GEO/2", start=0x807519C8, stop=0x8077EE80, section="text"),
+    Slice(name="REL/ITEM", start=0x8079754C, stop=0x807BD1D0, section="text"),
+    Slice(name="REL/UI/CTRL", start=0x807E093C, stop=0x807F9278, section="text"),
+    Slice(name="REL/GEO/3", start=0x807F9278, stop=0x8081A690, section="text"),
+    Slice(name="REL/GEO", start=0x8081A690, stop=0x8082F3C8, section="text"),
+    Slice(name="REL/UI/PAGE", start=0x80836B9C, stop=0x8085FFD4, section="text"),
+    Slice(name="REL/GEO/4", start=0x8086AC20, stop=0x8088BE00, section="text"),
+]
