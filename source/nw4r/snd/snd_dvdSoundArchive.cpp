@@ -355,10 +355,7 @@ lbl_8009135c:
 
 // Symbol: detail_GetRequiredStreamBufferSize__Q34nw4r3snd15DvdSoundArchiveFv
 // PAL: 0x80091380..0x80091390
-int DvdSoundArchive::
-    detail_GetRequiredStreamBufferSize__Q34nw4r3snd15DvdSoundArchiveFv() {
-  return 0x78;
-}
+int DvdSoundArchive::detail_GetRequiredStreamBufferSize() { return 0x78; }
 
 // Symbol: LoadHeader__Q34nw4r3snd15DvdSoundArchiveFPvUl
 // PAL: 0x80091390..0x80091420

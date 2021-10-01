@@ -20,7 +20,7 @@ public:
   void Close();
 
   // PAL: 0x80091380..0x80091390
-  int detail_GetRequiredStreamBufferSize__Q34nw4r3snd15DvdSoundArchiveFv();
+  int detail_GetRequiredStreamBufferSize();
   // PAL: 0x80091390..0x80091420
   bool LoadHeader(void* buf, u32 size);
 
