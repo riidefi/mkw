@@ -164,8 +164,8 @@ lbl_8021067c:
 
 // Symbol: setSteamBlocks__Q23EGG9ArcPlayerFUl
 // Function signature is unknown.
-// PAL: 0x80210698..0x80210fd4
-MARK_BINARY_BLOB(setSteamBlocks__Q23EGG9ArcPlayerFUl, 0x80210698, 0x80210fd4);
+// PAL: 0x80210698..0x802106b8
+MARK_BINARY_BLOB(setSteamBlocks__Q23EGG9ArcPlayerFUl, 0x80210698, 0x802106b8);
 asm UNKNOWN_FUNCTION(setSteamBlocks__Q23EGG9ArcPlayerFUl) {
   // clang-format off
   nofralloc;
@@ -178,6 +178,15 @@ asm UNKNOWN_FUNCTION(setSteamBlocks__Q23EGG9ArcPlayerFUl) {
 lbl_802106b0:
   li r3, 0;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x802106b8..0x80210748
+MARK_BINARY_BLOB(unk_802106b8, 0x802106b8, 0x80210748);
+asm UNKNOWN_FUNCTION(unk_802106b8) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
   cmpwi r6, 1;
@@ -218,6 +227,15 @@ lbl_80210734:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x80210748..0x802108bc
+MARK_BINARY_BLOB(unk_80210748, 0x80210748, 0x802108bc);
+asm UNKNOWN_FUNCTION(unk_80210748) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
   cmpwi r5, 0;
@@ -317,6 +335,15 @@ lbl_802108a8:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x802108bc..0x80210a30
+MARK_BINARY_BLOB(unk_802108bc, 0x802108bc, 0x80210a30);
+asm UNKNOWN_FUNCTION(unk_802108bc) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
   cmpwi r5, 0;
@@ -416,6 +443,15 @@ lbl_80210a1c:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x80210a30..0x80210bd8
+MARK_BINARY_BLOB(unk_80210a30, 0x80210a30, 0x80210bd8);
+asm UNKNOWN_FUNCTION(unk_80210a30) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0xd0(r1);
   mflr r0;
   cmpwi r6, 0;
@@ -527,6 +563,15 @@ lbl_80210bc4:
   mtlr r0;
   addi r1, r1, 0xd0;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x80210bd8..0x80210ce4
+MARK_BINARY_BLOB(unk_80210bd8, 0x80210bd8, 0x80210ce4);
+asm UNKNOWN_FUNCTION(unk_80210bd8) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
   cmpwi r5, 0;
@@ -599,6 +644,15 @@ lbl_80210cd0:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x80210ce4..0x80210a30
+MARK_BINARY_BLOB(unk_80210ce4, 0x80210ce4, 0x80210d70);
+asm UNKNOWN_FUNCTION(unk_80210ce4) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
   stw r0, 0x14(r1);
@@ -639,6 +693,15 @@ lbl_80210d5c:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x80210d70..0x80210e3c
+MARK_BINARY_BLOB(unk_80210d70, 0x80210d70, 0x80210e3c);
+asm UNKNOWN_FUNCTION(unk_80210d70) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
   stw r0, 0x24(r1);
@@ -695,6 +758,15 @@ lbl_80210e1c:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x80210e3c..0x80210f08
+MARK_BINARY_BLOB(unk_80210e3c, 0x80210e3c, 0x80210f08);
+asm UNKNOWN_FUNCTION(unk_80210e3c) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
   stw r0, 0x24(r1);
@@ -751,6 +823,15 @@ lbl_80210ee8:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x80210f08..0x80210fd4
+MARK_BINARY_BLOB(unk_80210f08, 0x80210f08, 0x80210fd4);
+asm UNKNOWN_FUNCTION(unk_80210f08) {
+  // clang-format off
+  nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
   stw r0, 0x24(r1);
@@ -828,8 +909,8 @@ asm UNKNOWN_FUNCTION(calc__Q23EGG9ArcPlayerFv) {
 
 // Symbol: stopAllSound__Q23EGG9ArcPlayerFv
 // Function signature is unknown.
-// PAL: 0x80210fec..0x80211058
-MARK_BINARY_BLOB(stopAllSound__Q23EGG9ArcPlayerFv, 0x80210fec, 0x80211058);
+// PAL: 0x80210fec..0x80211048
+MARK_BINARY_BLOB(stopAllSound__Q23EGG9ArcPlayerFv, 0x80210fec, 0x80211048);
 asm UNKNOWN_FUNCTION(stopAllSound__Q23EGG9ArcPlayerFv) {
   // clang-format off
   nofralloc;
@@ -858,6 +939,15 @@ lbl_80211020:
   mtlr r0;
   addi r1, r1, 0x10;
   blr;
+  // clang-format on
+}
+
+// Function signature is unknown.
+// PAL: 0x80211048..0x80211058
+MARK_BINARY_BLOB(unk_80211048, 0x80211048, 0x80211058);
+asm UNKNOWN_FUNCTION(unk_80211048) {
+  // clang-format off
+  nofralloc;
   lwz r12, 0(r3);
   lwz r12, 0x1c(r12);
   mtctr r12;
