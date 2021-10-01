@@ -48,7 +48,7 @@ def process_symbol(
     return Symbol(addr, sym_name, size)
 
 
-def process_elf(elf: ELFFile, out):
+def symbols_from_elf(elf: ELFFile) -> SymbolsList:
     strtab = elf.get_section_by_name(".strtab")  # String table
     symtab = elf.get_section_by_name(".symtab")  # Symbol table
     code_sections = list(get_code_sections(elf))
@@ -61,6 +61,11 @@ def process_elf(elf: ELFFile, out):
             continue
         symbols.put(sym)
 
+    return symbols
+
+
+def process_elf(elf: ELFFile, out):
+    symbols = symbols_from_elf(elf)
     symbols.write_to(out)
 
 
