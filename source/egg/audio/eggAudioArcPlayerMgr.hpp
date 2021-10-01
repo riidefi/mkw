@@ -1,24 +1,24 @@
 #pragma once
 
+#include <decomp.h>
 #include <rk_types.h>
 
-#include "decomp.h"
+#include <nw4r/snd/snd_soundHeap.hpp>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace EGG {
+class ArcPlayer {
+public:
+  // PAL: 0x80210590..0x80210624
+  ArcPlayer(nw4r::snd::SoundHeap* heap);
+  // PAL: 0x80210624..0x80210698
+  ~ArcPlayer();
 
-// PAL: 0x80210590..0x80210624
-UNKNOWN_FUNCTION(__ct__Q23EGG9ArcPlayerFPQ34nw4r3snd9SoundHeap);
-// PAL: 0x80210624..0x80210698
-UNKNOWN_FUNCTION(__dt__Q23EGG9ArcPlayerFv);
-// PAL: 0x80210698..0x80210fd4
-UNKNOWN_FUNCTION(setSteamBlocks__Q23EGG9ArcPlayerFUl);
-// PAL: 0x80210fd4..0x80210fec
-UNKNOWN_FUNCTION(calc__Q23EGG9ArcPlayerFv);
-// PAL: 0x80210fec..0x80211058
-UNKNOWN_FUNCTION(stopAllSound__Q23EGG9ArcPlayerFv);
+  // PAL: 0x80210698..0x80210fd4
+  void setSteamBlocks(u32 blocks);
+  // PAL: 0x80210fd4..0x80210fec
+  void calc();
+  // PAL: 0x80210fec..0x80211058
+  void stopAllSound();
+};
 
-#ifdef __cplusplus
-}
-#endif
+} // namespace EGG

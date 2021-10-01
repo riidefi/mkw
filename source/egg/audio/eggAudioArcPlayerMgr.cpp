@@ -2,8 +2,9 @@
 
 #include <rvl/os/osCache.h>
 
-extern "C" {
+namespace EGG {
 
+extern "C" {
 // Extern function references.
 // PAL: 0x80090fc0
 extern UNKNOWN_FUNCTION(__ct__Q34nw4r3snd15DvdSoundArchiveFv);
@@ -73,13 +74,13 @@ extern UNKNOWN_FUNCTION(spawnFileHandle__Q23EGG7CntFileFPCcPv);
 extern UNKNOWN_FUNCTION(close__Q23EGG7CntFileFv);
 // PAL: 0x802150a0
 extern UNKNOWN_FUNCTION(readData__Q23EGG7CntFileFPvll);
+}
 
 // Symbol: __ct__Q23EGG9ArcPlayerFPQ34nw4r3snd9SoundHeap
-// Function signature is unknown.
 // PAL: 0x80210590..0x80210624
 MARK_BINARY_BLOB(__ct__Q23EGG9ArcPlayerFPQ34nw4r3snd9SoundHeap, 0x80210590,
                  0x80210624);
-asm UNKNOWN_FUNCTION(__ct__Q23EGG9ArcPlayerFPQ34nw4r3snd9SoundHeap) {
+asm ArcPlayer::ArcPlayer(nw4r::snd::SoundHeap* heap) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -123,10 +124,9 @@ asm UNKNOWN_FUNCTION(__ct__Q23EGG9ArcPlayerFPQ34nw4r3snd9SoundHeap) {
 }
 
 // Symbol: __dt__Q23EGG9ArcPlayerFv
-// Function signature is unknown.
 // PAL: 0x80210624..0x80210698
 MARK_BINARY_BLOB(__dt__Q23EGG9ArcPlayerFv, 0x80210624, 0x80210698);
-asm UNKNOWN_FUNCTION(__dt__Q23EGG9ArcPlayerFv) {
+asm ArcPlayer::~ArcPlayer() {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -163,10 +163,9 @@ lbl_8021067c:
 }
 
 // Symbol: setSteamBlocks__Q23EGG9ArcPlayerFUl
-// Function signature is unknown.
 // PAL: 0x80210698..0x802106b8
 MARK_BINARY_BLOB(setSteamBlocks__Q23EGG9ArcPlayerFUl, 0x80210698, 0x802106b8);
-asm UNKNOWN_FUNCTION(setSteamBlocks__Q23EGG9ArcPlayerFUl) {
+asm void ArcPlayer::setSteamBlocks(u32 blocks) {
   // clang-format off
   nofralloc;
   lwz r0, 8(r3);
@@ -180,6 +179,8 @@ lbl_802106b0:
   blr;
   // clang-format on
 }
+
+extern "C" {
 
 // Function signature is unknown.
 // PAL: 0x802106b8..0x80210748
@@ -890,12 +891,12 @@ lbl_80210fb4:
   blr;
   // clang-format on
 }
+}
 
 // Symbol: calc__Q23EGG9ArcPlayerFv
-// Function signature is unknown.
 // PAL: 0x80210fd4..0x80210fec
 MARK_BINARY_BLOB(calc__Q23EGG9ArcPlayerFv, 0x80210fd4, 0x80210fec);
-asm UNKNOWN_FUNCTION(calc__Q23EGG9ArcPlayerFv) {
+asm void ArcPlayer::calc() {
   // clang-format off
   nofralloc;
   lbz r0, 4(r3);
@@ -908,10 +909,9 @@ asm UNKNOWN_FUNCTION(calc__Q23EGG9ArcPlayerFv) {
 }
 
 // Symbol: stopAllSound__Q23EGG9ArcPlayerFv
-// Function signature is unknown.
 // PAL: 0x80210fec..0x80211048
 MARK_BINARY_BLOB(stopAllSound__Q23EGG9ArcPlayerFv, 0x80210fec, 0x80211048);
-asm UNKNOWN_FUNCTION(stopAllSound__Q23EGG9ArcPlayerFv) {
+asm void ArcPlayer::stopAllSound() {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -942,6 +942,8 @@ lbl_80211020:
   // clang-format on
 }
 
+extern "C" {
+
 // Function signature is unknown.
 // PAL: 0x80211048..0x80211058
 MARK_BINARY_BLOB(unk_80211048, 0x80211048, 0x80211058);
@@ -955,3 +957,5 @@ asm UNKNOWN_FUNCTION(unk_80211048) {
   // clang-format on
 }
 }
+
+} // namespace EGG
