@@ -183,6 +183,9 @@ SOURCES_NW4R_G3D = [
 SOURCES_NW4R_LYT = [
     Source(src="source/nw4r/lyt/lyt_init.cpp", cc='4201_127', opts=NW4R_OPTS),
 ]
+SOURCES_NW4R_SND = [
+    Source(src="source/nw4r/snd/snd_dvdSoundArchive.cpp", cc='4201_127', opts=NW4R_OPTS + " -func_align 16 "),    
+]
 SOURCES_NW4R_UT = [
     Source(src="source/nw4r/ut/utList.cpp", cc='4201_127', opts=NW4R_OPTS),
 ]
@@ -211,6 +214,9 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggXfb.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggXfbManager.cpp", cc='4201_127', opts=EGG_OPTS),
 ]
+SOURCES_EGG_AUDIO = [
+    Source(src="source/egg/audio/eggAudioArcPlayerMgr.cpp", cc='4201_127', opts=EGG_OPTS),
+]
 SOURCES_EGG_MATH = [
     Source(src="source/egg/math/eggQuat.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/math/eggVector.cpp", cc='4201_127', opts=EGG_OPTS),
@@ -236,8 +242,10 @@ SOURCES_DOL = list(chain(
     SOURCES_NW4R_MATH,
     SOURCES_NW4R_G3D,
     SOURCES_NW4R_LYT,
+    SOURCES_NW4R_SND,
     SOURCES_NW4R_UT,
     SOURCES_EGG_CORE,
+    SOURCES_EGG_AUDIO,
     SOURCES_EGG_MATH,
 ))
 

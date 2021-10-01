@@ -63,7 +63,9 @@ out/dol/rodata_80249020_8024c6b8.o
 out/dol/data_80274250_80275700.o
 out/dol/sdata2_80387ea4_80387ea8.o
 out/mathTypes.o
-out/dol/text_80085938_800aef60.o
+out/dol/text_80085938_80090fc0.o
+out/snd_dvdSoundArchive.o
+out/dol/text_80091418_800aef60.o
 out/utList.o
 out/dol/text_800af1a0_800ccb4c.o
 out/dwc_error.o
@@ -285,7 +287,9 @@ out/dol/sbss_80386d38_80386d80.o
 out/eggArchive.o
 out/dol/text_8020fcc4_8020fcd4.o
 out/eggAsyncDisplay.o
-out/dol/text_802104ec_80214e68.o
+out/dol/text_802104ec_80210590.o
+out/eggAudioArcPlayerMgr.o
+out/dol/text_80211058_80214e68.o
 out/dol/data_802a268c_802a2a08.o
 out/dol/bss_803832e4_80383500.o
 out/dol/sbss_80386d84_80386dc8.o
