@@ -17,6 +17,7 @@ from mkwutil.progress.percent_decompiled import build_stats
 
 
 random.seed("OwO")
+current_hue = 360.0 * random.random()
 
 
 DOL_BEGIN = DOL_SECTIONS[0].start
@@ -30,13 +31,16 @@ jinja_env = jinja2.Environment(
 )
 
 
-def make_code_color(hue):
-    return colorsys.hsv_to_rgb(hue, 100 / 100, 91.8 / 100)
+def make_code_color_hex():
+    global current_hue
 
-
-def make_code_color_hex(hue):
-    vals = list(round(i * 255) for i in make_code_color(hue))
+    hue = current_hue
+    color = colorsys.hsv_to_rgb(hue / 360, 100 / 100, 91.8 / 100)
+    vals = list(round(i * 255) for i in color)
     r = f"#%02x%02x%02x" % (vals[0], vals[1], vals[2])
+
+    current_hue = (current_hue + 90.0 + 180.0 * random.random()) % 360.0
+
     return r
 
 
@@ -49,8 +53,6 @@ class Box:
     tooltip: str
 
     PX_FACTOR = 1 / 2000
-    # CODE_COLOR = "#d5feff"
-    CODE_COLOR = "hsl(%s, 100, 91.8)"
     UNK_COLOR = "#000000"
 
     @staticmethod
@@ -60,7 +62,7 @@ class Box:
         else:
             return Box(
                 len(_slice) * Box.PX_FACTOR,
-                make_code_color_hex(random.randint(0, 360) / 360),
+                make_code_color_hex(),
                 _slice.name,
             )
 
