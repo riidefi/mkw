@@ -18,6 +18,8 @@ COMMONFLAGS = [
     "-Wextra",
     "-Wpedantic",
     "-Wno-c99-extensions",
+    "-Wno-gnu-anonymous-struct",
+    "-Wno-nested-anon-types",
     "-Werror",
 ]
 

@@ -7,12 +7,13 @@ from dataclasses import dataclass
 from itertools import chain
 
 
-MSL_LIBC_OPTS = '-ipa file'
+HOSTSYS_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
 RVL_OPTS = '-ipa file'
+MSL_LIBC_OPTS = '-ipa file'
+NW4R_OPTS = '-ipa file -inline auto -O4,p'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 EGG_OPTS = '-ipa function -rostr'
-REL_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
-NW4R_OPTS = '-ipa file -inline auto -O4,p'
+REL_OPTS = HOSTSYS_OPTS + " -pragma \"legacy_struct_alignment on\""
 
 
 @dataclass
@@ -27,7 +28,7 @@ class Source:
 #
 
 SOURCES_HOSTSYS = [
-    Source(src="source/game/host_system/SystemResource.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/host_system/SystemResource.cpp", cc='4201_127', opts=HOSTSYS_OPTS),
 ]
 
 SOURCES_TRK = [
@@ -249,6 +250,7 @@ SOURCES_REL = [
     Source(src="source/game/ui/ControlGroup.cpp", cc='4201_127', opts=REL_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/game/ui/UIControl.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/jmap/JmpResourceCourse.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/system/GhostFile.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/util/Random.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartComponent.cpp", cc='4201_127', opts=REL_OPTS),
 ]
