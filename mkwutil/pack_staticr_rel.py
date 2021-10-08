@@ -15,6 +15,10 @@ SYMS = {
     "solve_propagate__Q22UI9UIControlFv": 0x8063D3CC,
     "onGroupAttached__Q22UI9UIControlFPQ22UI12ControlGroupUl": 0x8063D398,
     "ResourceManager_getFile": 0x805411FC,
+    "unk_8052758c": 0x8052758C,
+    "unk_805336a4": 0x805336A4,
+    "unk_8053572c": 0x8053572C,
+    "unk_8054a9b8": 0x8054A9B8,
 }
 
 

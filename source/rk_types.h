@@ -35,6 +35,7 @@ typedef unk32 unk;
 #define MW_PRAG_NOINLINE _Pragma("push") _Pragma("dont_inline on")
 #define MW_PRAG_OPT_S _Pragma("push") _Pragma("optimize_for_size on")
 #define MW_PRAG_NO_WARN_10216 _Pragma("push") _Pragma("warning off(10216)")
+#define MW_PRAG_PACKED _Pragma("push") _Pragma("options align=packed")
 
 #define MW_PRAG_END _Pragma("pop")
 #define DECOMP // TODO: Move to build
@@ -48,6 +49,7 @@ typedef unk32 unk;
 #define MW_PRAG_NOINLINE
 #define MW_PRAG_END
 #define MW_PRAG_OPT_S
+#define MW_PRAG_PACKED
 #define MW_PRAG_NO_WARN_10216
 
 #define FORCE_INLINE __forceinline
