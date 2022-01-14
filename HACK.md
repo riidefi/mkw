@@ -86,3 +86,7 @@ Tools to calculate and visualize the progress of the project.
 #### `./mkwutil/tools`: Miscellaneous tools
 
 Dumping ground for tools outside of the build process.
+
+#### `./codes`: Miscellaneous patches to the game code
+
+Dumping ground for source code patches/diffs.
