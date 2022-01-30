@@ -70,7 +70,7 @@ jobs:
         run: python ./build.py
 
   build_linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: Install deps
         run: |
@@ -82,7 +82,7 @@ jobs:
           wget -nc https://dl.winehq.org/wine-builds/winehq.key
           sudo apt-key add winehq.key
           rm winehq.key
-          sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
+          sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends winehq-stable unzip
 
