@@ -70,15 +70,17 @@ jobs:
         run: python ./build.py
 
   build_linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Install deps
         run: |
           sudo dpkg --add-architecture i386
           # --- Debian Wine
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends wine wine32 unzip
-          # --- WineHQ is broken
+          # https://github.com/actions/virtual-environments/issues/4589
+          sudo apt install -y --allow-downgrades libpcre2-8-0=10.34-7
+          sudo apt-get install -y --install-recommends wine wine32 unzip
+          # --- WineHQ (broken)
           # wget -nc https://dl.winehq.org/wine-builds/winehq.key
           # sudo apt-key add winehq.key
           # rm winehq.key
