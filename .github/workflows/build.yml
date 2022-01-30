@@ -77,8 +77,10 @@ jobs:
           sudo dpkg --add-architecture i386
           # --- Debian Wine
           sudo apt-get update
-          sudo apt-get install -y --install-recommends wine32 unzip
-          # --- WineHQ
+          # https://github.com/actions/virtual-environments/issues/4589
+          sudo apt install -y --allow-downgrades libpcre2-8-0=10.34-7
+          sudo apt-get install -y --install-recommends wine wine32 unzip
+          # --- WineHQ (broken)
           # wget -nc https://dl.winehq.org/wine-builds/winehq.key
           # sudo apt-key add winehq.key
           # rm winehq.key
