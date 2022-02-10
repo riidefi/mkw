@@ -45,6 +45,6 @@ struct BoxColUnit {
   void* userData;
   u16 rightPointID;
   u16 leftPointID;
-  f32 zMax;
-  f32 zMin;
+  f32 xMax;
+  f32 xMin;
 };
