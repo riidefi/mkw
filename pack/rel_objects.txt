@@ -20,7 +20,8 @@ out/rel/text_805901d0_805c23e4.o
 out/ControlGroup.o
 out/rel/text_805c2c18_805f8b34.o
 out/MessageGroup.o
-out/rel/text_805f8d5c_80786ed0.o
+out/rel/text_805f8d5c_80786e60.o
+out/BoxColManager.o
 out/rel/rodata_80896158_808a4800.o
 out/BoxColUnit.o
 out/rel/text_80786f98_8088f400.o

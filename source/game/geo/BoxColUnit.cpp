@@ -14,8 +14,8 @@ void BoxColUnit::set(const EGG::Vector3f* pos, u32 flags, void* userData,
   this->range = bouding_radius;
   this->flags = flags | BOXCOL_FLAG_STATIC;
   this->userData = userData;
-  this->zMax = pos->x + bouding_radius;
-  this->zMin = pos->x - bouding_radius;
+  this->xMax = pos->x + bouding_radius;
+  this->xMin = pos->x - bouding_radius;
 }
 
 void BoxColUnit::makeDynamic() { this->flags &= ~BOXCOL_FLAG_STATIC; }

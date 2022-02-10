@@ -5,4 +5,5 @@ enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataSta
 1,source/game/kart/KartComponent.cpp,0x80590128,0x805901d0,,,,,,,,,0x809c1900,0x809c1910
 1,source/game/ui/ControlGroup.cpp,0x805c23e4,0x805c2c18,,,,,,,,,,
 1,source/game/ui/MessageGroup.cpp,0x805f8b34,0x805f8d5c,,,,,0x80896148,0x80896158,,,,
+1,source/game/geo/BoxColManager.cpp,0x80786E60,0x80786ED0,,,,,,,,,,
 1,source/game/geo/BoxColUnit.cpp,0x80786ED0,0x80786F98,,,,,0x808A4800,0x808A4804,,,,
