@@ -44,8 +44,8 @@ out/global_destructor_chain.o
 out/dol/text_800213e4_8002156c.o
 out/eabi.o
 out/dol/text_80021ba8_8006a0c0.o
-out/dol/bss_802a6c78_802f2338.o
-out/dol/sbss_803860b0_803862a8.o
+out/dol/bss_802a6c78_802f1320.o
+out/dol/sbss_803860b0_80386278.o
 out/dol/sdata2_80386fa0_80387cac.o
 out/g3d_camera.o
 out/dol/text_8006a518_800774d0.o
@@ -67,8 +67,13 @@ out/dol/text_80085938_80090fc0.o
 out/snd_dvdSoundArchive.o
 out/dol/text_80091418_800aef60.o
 out/utList.o
-out/dol/text_800af1a0_800ccb4c.o
+out/dol/text_800af210_800b2b30.o
 out/dol/data_80274338_80275700.o
+out/dol/sdata2_80387eb4_803882e0.o
+out/ut_charWriter.o
+out/dol/text_800b4374_800ccb4c.o
+out/dol/bss_802f1330_802f2338.o
+out/dol/sbss_80386280_803862a8.o
 out/dwc_error.o
 out/dol/text_800ccc80_800ef378.o
 out/darray.o
@@ -106,7 +111,7 @@ out/gpiConnect.o
 out/dol/data_8027b876_8027b878.o
 out/dol/sdata_8038529b_803852a0.o
 out/dol/sbss_8038635c_80386360.o
-out/dol/sdata2_80387eb4_80388470.o
+out/dol/sdata2_80388300_80388470.o
 out/gpiInfo.o
 out/dol/data_8027bbce_8027bbd0.o
 out/dol/sdata_80385355_80385358.o
