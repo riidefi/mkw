@@ -60,7 +60,7 @@ out/dol/sdata2_80387d5c_80387e80.o
 out/mathTriangular.o
 out/dol/text_80085578_80085600.o
 out/dol/rodata_80249020_8024c6b8.o
-out/dol/data_80274250_80275700.o
+out/dol/data_80274250_80274318.o
 out/dol/sdata2_80387ea4_80387ea8.o
 out/mathTypes.o
 out/dol/text_80085938_80090fc0.o
@@ -68,6 +68,7 @@ out/snd_dvdSoundArchive.o
 out/dol/text_80091418_800aef60.o
 out/utList.o
 out/dol/text_800af1a0_800ccb4c.o
+out/dol/data_80274338_80275700.o
 out/dwc_error.o
 out/dol/text_800ccc80_800ef378.o
 out/darray.o
