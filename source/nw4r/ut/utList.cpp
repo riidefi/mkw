@@ -103,5 +103,23 @@ void* List_GetNext(const nw4r::ut::List* pList, const void* pObj) {
   return LIST_GET_ELEM(pList, pObj)->succ;
 }
 
+void* List_GetPrev(const nw4r::ut::List* pList, const void* pObj) {
+  if (pObj == nullptr)
+    return pList->tail;
+  return LIST_GET_ELEM(pList, pObj)->pred;
+}
+
+void* List_GetNth(const nw4r::ut::List* pList, unsigned short n) {
+  void* node;
+  int i;
+
+  for (i = 0, node = NULL; node = List_GetNext(pList, node); i++) {
+    if (n == i)
+      return node;
+  }
+
+  return NULL;
+}
+
 } // namespace ut
 } // namespace nw4r
