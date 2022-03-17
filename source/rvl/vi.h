@@ -46,7 +46,6 @@ typedef enum VITVMode {
 #undef MAKE_TV_MODE
 } VITVMode;
 
-
 void VIInit();
 void VISetBlack(int black);
 void VIConfigure(const GXRenderModeObj* obj);
