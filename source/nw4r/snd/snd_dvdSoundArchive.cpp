@@ -1,18 +1,13 @@
 #include "snd_dvdSoundArchive.hpp"
 
+// Credit: kiwi515
+
 #include <string.h>
-#include <rvl/rvlDvd.h>
 
 // Extern function references.
 extern "C" {
-// PAL: 0x8009de00
-extern UNKNOWN_FUNCTION(unk_8009de00);
-// PAL: 0x8009de30
-extern UNKNOWN_FUNCTION(unk_8009de30);
 // PAL: 0x8009de90
 extern UNKNOWN_FUNCTION(unk_8009de90);
-// PAL: 0x8009dea0
-extern UNKNOWN_FUNCTION(unk_8009dea0);
 // PAL: 0x8009e610
 extern UNKNOWN_FUNCTION(unk_8009e610);
 // PAL: 0x8009e690
@@ -42,73 +37,11 @@ namespace snd {
 
 // Symbol: __ct__Q34nw4r3snd15DvdSoundArchiveFv
 // PAL: 0x80090fc0..0x80091010
-MARK_BINARY_BLOB(__ct__Q34nw4r3snd15DvdSoundArchiveFv, 0x80090fc0, 0x80091010);
-asm DvdSoundArchive::DvdSoundArchive() {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  bl unk_8009de00;
-  lis r4, 0x8027;
-  addi r3, r31, 0x108;
-  addi r4, r4, 0x4318;
-  stw r4, 0(r31);
-  bl unk_8009e690;
-  li r0, 0;
-  stb r0, 0x188(r31);
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
+DvdSoundArchive::DvdSoundArchive() : mOpenFlag(false) {}
 
 // Symbol: __dt__Q34nw4r3snd15DvdSoundArchiveFv
 // PAL: 0x80091010..0x80091090
-MARK_BINARY_BLOB(__dt__Q34nw4r3snd15DvdSoundArchiveFv, 0x80091010, 0x80091090);
-asm DvdSoundArchive::~DvdSoundArchive() {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  beq lbl_80091074;
-  lis r4, 0x8027;
-  addi r4, r4, 0x4318;
-  stw r4, 0(r3);
-  addi r3, r3, 0x14c;
-  bl DVDClose;
-  li r0, 0;
-  stb r0, 0x188(r30);
-  mr r3, r30;
-  bl unk_8009dea0;
-  mr r3, r30;
-  li r4, 0;
-  bl unk_8009de30;
-  cmpwi r31, 0;
-  ble lbl_80091074;
-  mr r3, r30;
-  bl __dl__FPv;
-lbl_80091074:
-  mr r3, r30;
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
+DvdSoundArchive::~DvdSoundArchive() { Close(); }
 
 // Symbol: Open__Q34nw4r3snd15DvdSoundArchiveFPCc
 // PAL: 0x80091090..0x800911d0
@@ -211,27 +144,10 @@ lbl_800911b0:
 
 // Symbol: Close__Q34nw4r3snd15DvdSoundArchiveFv
 // PAL: 0x800911d0..0x80091210
-MARK_BINARY_BLOB(Close__Q34nw4r3snd15DvdSoundArchiveFv, 0x800911d0, 0x80091210);
-asm void DvdSoundArchive::Close() {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  addi r3, r3, 0x14c;
-  bl DVDClose;
-  li r0, 0;
-  stb r0, 0x188(r31);
-  mr r3, r31;
-  bl unk_8009dea0;
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void DvdSoundArchive::Close() {
+  DVDClose(&mFileInfo);
+  mOpenFlag = false;
+  SoundArchive::Shutdown();
 }
 
 // Symbol: OpenStream__Q34nw4r3snd15DvdSoundArchiveFPviUlUl
@@ -239,7 +155,7 @@ asm void DvdSoundArchive::Close() {
 MARK_BINARY_BLOB(OpenStream__Q34nw4r3snd15DvdSoundArchiveFPviUlUl, 0x80091210,
                  0x800912c0);
 asm void* DvdSoundArchive::OpenStream(void* buf, int size, u32 offset,
-                                      u32 limit) {
+                                      u32 limit) const {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -296,7 +212,7 @@ lbl_8009129c:
 MARK_BINARY_BLOB(OpenExtStream__Q34nw4r3snd15DvdSoundArchiveFPviPCcUlUl,
                  0x800912c0, 0x80091380);
 asm void* DvdSoundArchive::OpenExtStream(void* buf, int size, const char* path,
-                                         u32 offset, u32 limit) {
+                                         u32 offset, u32 limit) const {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -355,7 +271,7 @@ lbl_8009135c:
 
 // Symbol: detail_GetRequiredStreamBufferSize__Q34nw4r3snd15DvdSoundArchiveFv
 // PAL: 0x80091380..0x80091390
-int DvdSoundArchive::detail_GetRequiredStreamBufferSize() { return 0x78; }
+int DvdSoundArchive::detail_GetRequiredStreamBufferSize() const { return 0x78; }
 
 // Symbol: LoadHeader__Q34nw4r3snd15DvdSoundArchiveFPvUl
 // PAL: 0x80091390..0x80091420
