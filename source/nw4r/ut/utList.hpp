@@ -24,7 +24,12 @@ void List_Init(List* pList, u16 intrusion_offset);
 void List_Append(List* pList, void* pObj);
 void List_Insert(List* pList, void* pTgt, void* pObj);
 void List_Remove(List* pList, void* pObj);
+// PAL: 0x800af180
 void* List_GetNext(const List*, const void*);
+// PAL: 0x800af1a0
+void* List_GetPrev(const List*, const void*);
+// PAL: 0x800af1c0
+void* List_GetNth(const List* pList, unsigned short);
 inline void* List_GetFirst(const List* pList) {
   return List_GetNext(pList, nullptr);
 }
