@@ -10,6 +10,14 @@
 extern "C" {
 #endif
 
+extern volatile union {
+  char c;
+  short s;
+  int i;
+  void* p;
+  float f;
+} WGPIPE : 0xcc008000;
+
 typedef struct _GXColor {
   u8 r;
   u8 g;

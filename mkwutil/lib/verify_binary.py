@@ -3,6 +3,7 @@ import hashlib
 def check_hash(content, expected):
     ctx = hashlib.sha1(content)
     digest = ctx.hexdigest()
+    print(f"Hash: {digest}")
     return digest.lower() == expected
 
 
