@@ -542,7 +542,7 @@ def search_map_file(
         #                                         ram   elf rom                                                       object name
         find = re.findall(
             re.compile(
-                r"  \S+ \S+ (\S+) (\S+)  . "
+                r"  \S+ \S+ (\S+) (\S+) +\S+ "
                 + fn_name
                 + r"(?: \(entry of \.(?:init|text)\))? \t(\S+)"
             ),
