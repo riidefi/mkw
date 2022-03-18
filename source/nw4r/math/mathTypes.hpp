@@ -7,6 +7,11 @@
 namespace nw4r {
 namespace math {
 
+struct _VEC2 {
+  f32 x;
+  f32 y;
+};
+
 struct _VEC3 {
   f32 x;
   f32 y;
@@ -46,6 +51,7 @@ struct _MTX44 {
 };
 
 // forward decls
+struct VEC2;
 struct VEC3;
 struct MTX34;
 struct MTX44;
@@ -63,6 +69,11 @@ public:
     bool operator==(const VEC3& o) const { return x == o.x && y == o.y && z == o.z; }
     bool operator!=(const VEC3& o) const { return x != o.x || y != o.y || z != o.z; }
 
+};
+
+struct VEC2 : public _VEC2 {
+  bool operator==(const VEC3& o) const { return x == o.x && y == o.y; }
+  bool operator!=(const VEC3& o) const { return x != o.x || y != o.y; }
 };
 
 class MTX33 : public _MTX33 {

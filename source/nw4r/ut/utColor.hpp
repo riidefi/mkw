@@ -10,7 +10,6 @@
 
 namespace nw4r {
 namespace ut {
-
 struct Color {
   GXColor mChannels;
 
@@ -35,10 +34,8 @@ struct Color {
   }
 
   inline Color& operator=(const Color& other) {
-    mChannels.r = other.mChannels.r;
-    mChannels.g = other.mChannels.g;
-    mChannels.b = other.mChannels.b;
-    mChannels.a = other.mChannels.a;
+    mChannels = other.mChannels;
+
     return *this;
   }
 
@@ -56,7 +53,7 @@ struct Color {
   inline operator GXColor() const { return mChannels; }
 
   inline ~Color() {}
-};
+} __attribute__((aligned(4)));
 
 } // namespace ut
 } // namespace nw4r
