@@ -25,7 +25,7 @@ Every fully understood piece of reverse engineered data has been documented in a
 - DevKitPro (for the ppc-eabi assembler)
 - CodeWarrior compilers (in `tools`)
 - Python 3
-- Place a copy of Mario Kart Wii's PAL binaries: 
+- Place a copy of Mario Kart Wii's PAL binaries:
   - `artifacts/orig/pal/main.dol`
   - `artifacts/orig/pal/StaticR.rel`
 
@@ -93,5 +93,16 @@ The dead-stripping feature can be re-enabled by:
 - Add your new build target to `mkwutil/sources.py`.
 - Run `build.py`.
 
+### pre-commit
+
+This project uses [pre-commit](https://pre-commit.com/) ensure code adheres to formatting rules.
+
+To enable, run:
+
+```
+pre-commit install
+pre-commit run --all-files
+```
+
 ## .rel support
-Most of Mario Kart Wii's game code is located inside a relocatable module (StaticR.rel for release builds). The decompilation builds this. 
+Most of Mario Kart Wii's game code is located inside a relocatable module (StaticR.rel for release builds). The decompilation builds this.
