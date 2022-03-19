@@ -28,7 +28,7 @@ static inline void OSInitFastCast(void) {
 }
 #endif
 
-void OSRegisterVersion(const char *version);
+void OSRegisterVersion(const char* version);
 
 typedef s64 OSTime;
 typedef u32 OSTick;

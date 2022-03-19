@@ -132,7 +132,7 @@ int ARCOpen(const rvlArchive* self, const char* path, rvlArchiveFile* pOut);
 //! @return If the operation succeeded.
 //!
 int ARCFastOpen(const rvlArchive* self, rvlArchiveEntryHandle path,
-                 rvlArchiveFile* pOut);
+                rvlArchiveFile* pOut);
 
 //! @brief Get the file data from a file handle.
 //!

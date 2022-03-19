@@ -208,14 +208,14 @@ void msleep(gsi_time msec) {
 #define MKTIME_ERROR (time_t)(-1)
 
 // define common conversions for mktime
-#define DAY_SEC (24L * 60L * 60L) /* secs in a day */
-#define YEAR_SEC (365L * DAY_SEC) /* secs in a year */
+#define DAY_SEC (24L * 60L * 60L)       /* secs in a day */
+#define YEAR_SEC (365L * DAY_SEC)       /* secs in a year */
 #define FOUR_YEAR_SEC (1461L * DAY_SEC) /* secs in a 4 year interval */
-#define DEC_SEC 315532800L /* secs in 1970-1979 */
-#define BASE_DOW 4 /* 01-01-70 was a Thursday */
-#define BASE_YEAR 70L /* 1970 is the base year */
-#define LEAP_YEAR_ADJUST 17L /* Leap years 1900 - 1970 */
-#define MAX_YEAR 138L /* 2038 is the max year */
+#define DEC_SEC 315532800L              /* secs in 1970-1979 */
+#define BASE_DOW 4                      /* 01-01-70 was a Thursday */
+#define BASE_YEAR 70L                   /* 1970 is the base year */
+#define LEAP_YEAR_ADJUST 17L            /* Leap years 1900 - 1970 */
+#define MAX_YEAR 138L                   /* 2038 is the max year */
 
 // ChkAdd evaluates to TRUE if dest = src1 + src2 has overflowed
 #define ChkAdd(dest, src1, src2)                                               \
@@ -467,7 +467,7 @@ time_t gsiDateToSeconds(struct tm* tb) {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Cross platform random number generator
-#define RANa 16807 // multiplier
+#define RANa 16807               // multiplier
 #define LONGRAND_MAX 2147483647L // 2**31 - 1
 
 static long randomnum = 1;

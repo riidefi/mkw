@@ -75,9 +75,9 @@ DEFINES
 /* Error codes */
 #define GE_NOERROR 0
 #define GE_NOSOCKET 1 /* Unable to create a socket */
-#define GE_NODNS 2 /* Unable to resolve a DNS name */
+#define GE_NODNS 2    /* Unable to resolve a DNS name */
 #define GE_NOCONNECT                                                           \
-  3 /* Unable to connect to stats server, or connection lost */
+  3               /* Unable to connect to stats server, or connection lost */
 #define GE_BUSY 4 /* Not used */
 #define GE_DATAERROR 5 /* Bad data from the stats server */
 #define GE_CONNECTING                                                          \
