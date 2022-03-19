@@ -5,11 +5,7 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: mixed-line-ending
-
-  - repo: https://github.com/psf/black
-    rev: 22.1.0
-    hooks:
-      - id: black
+        exclude: 'requirements\.txt'
 
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: v13.0.1
