@@ -21,20 +21,20 @@ extern "C" {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 #define UTF8_FOLLOW_BYTE_TAG                                                   \
-  0x80 //:1000 0000    // Identifies 2nd or 3rd byte of UTF8String
+  0x80 //: 1000 0000    // Identifies 2nd or 3rd byte of UTF8String
 #define UTF8_TWO_BYTE_TAG                                                      \
-  0xC0 //:1100 0000    // Identifies start of Two-byte UTF8String
+  0xC0 //: 1100 0000    // Identifies start of Two-byte UTF8String
 #define UTF8_THREE_BYTE_TAG                                                    \
-  0xE0 //:1110 0000    // Identifies start of Three-byte UTF8String
+  0xE0 //: 1110 0000    // Identifies start of Three-byte UTF8String
 #define UTF8_FOUR_BYTE_TAG                                                     \
-  0xF0 //:1111 0000    // Unsupported tag, need USC4 to store this
+  0xF0 //: 1111 0000    // Unsupported tag, need USC4 to store this
 
 #define UTF8_FOLLOW_BYTE_MASK                                                  \
-  0x3F //:0011 1111    // The value bits in a follow byte
+  0x3F //: 0011 1111    // The value bits in a follow byte
 #define UTF8_TWO_BYTE_MASK                                                     \
-  0x1F //:0001 1111    // The value bits in a two byte tag
+  0x1F //: 0001 1111    // The value bits in a two byte tag
 #define UTF8_THREE_BYTE_MASK                                                   \
-  0x0F //:0000 1111    // The value bits in a three byte tag
+  0x0F //: 0000 1111    // The value bits in a three byte tag
 
 #define UTF8_IS_THREE_BYTE(a)                                                  \
   (((UTF8ByteType)a & UTF8_FOUR_BYTE_TAG) == UTF8_THREE_BYTE_TAG)

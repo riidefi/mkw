@@ -66,9 +66,12 @@ public:
   operator Vec*() { return (Vec*)&x; }
   operator const Vec*() const { return (const Vec*)&x; }
 
-    bool operator==(const VEC3& o) const { return x == o.x && y == o.y && z == o.z; }
-    bool operator!=(const VEC3& o) const { return x != o.x || y != o.y || z != o.z; }
-
+  bool operator==(const VEC3& o) const {
+    return x == o.x && y == o.y && z == o.z;
+  }
+  bool operator!=(const VEC3& o) const {
+    return x != o.x || y != o.y || z != o.z;
+  }
 };
 
 struct VEC2 : public _VEC2 {
@@ -98,11 +101,11 @@ public:
   operator const f32*() const { return &e._00; }
 };
 
-struct MTX34 : public _MTX34
-{
+struct MTX34 : public _MTX34 {
 public:
   typedef f32 (*MtxPtr)[4];
   typedef const f32 (*ConstMtxPtr)[4];
+
 public:
   MTX34() {}
 
@@ -113,11 +116,11 @@ public:
   operator ConstMtxPtr() const { return (ConstMtxPtr)&e._00; }
 };
 
-struct MTX44 : public _MTX44
-{
+struct MTX44 : public _MTX44 {
 public:
   typedef f32 (*Mtx44Ptr)[4];
   typedef const f32 (*ConstMtx44Ptr)[4];
+
 public:
   MTX44() {}
 

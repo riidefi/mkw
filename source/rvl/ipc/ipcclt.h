@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-typedef s32 (*IOSCallback) (s32 errCode, void * data);
+typedef s32 (*IOSCallback)(s32 errCode, void* data);
 
 // PAL: 0x80193048..0x80193074
 UNKNOWN_FUNCTION(strnlen);

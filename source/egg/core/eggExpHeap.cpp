@@ -109,7 +109,7 @@ loc_80226AB4:
 /* 80226AB8  80 01 00 24 */	lwz r0, 0x24(r1)
 /* 80226ABC  7C 08 03 A6 */	mtlr r0
 /* 80226AC0  38 21 00 20 */	addi r1, r1, 0x20
-/* 80226AC4  4E 80 00 20 */	blr 
+/* 80226AC4  4E 80 00 20 */	blr
 }
 // clang-format on
 #endif

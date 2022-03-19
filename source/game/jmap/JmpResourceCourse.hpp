@@ -8,10 +8,8 @@ class JmpResourceCourse {
 public:
   static JmpResourceCourse* initStaticInstance();
   static void destroyStaticInstance();
-  
-  static inline JmpResourceCourse* instance() {
-    return spInstance;
-  }
+
+  static inline JmpResourceCourse* instance() { return spInstance; }
 
 private:
   JmpResourceCourse();
@@ -20,7 +18,7 @@ private:
   static JmpResourceCourse* spInstance;
 
   void* mpCourse;
-  
+
   void* mpKartPoint;
   void* mpEnemyPath;
   void* mpEnemyPoint;

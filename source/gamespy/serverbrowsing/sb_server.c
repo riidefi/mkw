@@ -437,7 +437,7 @@ void SBServerParseQR2FullKeysSingle(SBServer server, char* data, int len) {
 //            if keytype is server, read KV's until a NULL
 //            otherwise read a keyname, then a number of values until NULL
 #define QR2_SPLITPACKET_NUMSTRING "splitnum"
-#define QR2_SPLITPACKET_MAX 7 // -xxxxxxx
+#define QR2_SPLITPACKET_MAX 7          // -xxxxxxx
 #define QR2_SPLITPACKET_FINAL (1 << 7) // x-------
 void SBServerParseQR2FullKeysSplit(SBServer server, char* data, int len) {
   int dlen;

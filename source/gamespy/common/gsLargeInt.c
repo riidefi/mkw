@@ -1380,11 +1380,12 @@ gsi_bool gsLargeIntPowerMod(const gsLargeInt_t* b, const gsLargeInt_t* p,
   for (i = (int)(expHighBit - 1); i >= 0; i--) {
     // mont square the current total
     gsiLargeIntMultM(dest, dest, &mod, modPrime, dest);
-    digitNum = (gsi_i32)(
-        i / GS_LARGEINT_DIGIT_SIZE_BITS); // which digit to extract a bit from?
-    digitBit = (gsi_i32)(
-        i %
-        GS_LARGEINT_DIGIT_SIZE_BITS); // which bit to extract from that digit?
+    digitNum =
+        (gsi_i32)(i / GS_LARGEINT_DIGIT_SIZE_BITS); // which digit to extract a
+                                                    // bit from?
+    digitBit =
+        (gsi_i32)(i % GS_LARGEINT_DIGIT_SIZE_BITS); // which bit to extract from
+                                                    // that digit?
     // if ((power.mData[k] & (1<<i))==((l_word)1<<i))
 
     // HACKED DUE TO COMPILER CRASH
@@ -1467,9 +1468,9 @@ gsi_bool gsiLargeIntMultM(gsLargeInt_t* x, gsLargeInt_t* y,
     for (; ((carry >> GS_LARGEINT_DIGIT_SIZE_BITS) > 0) &&
            tiptr <= &temp[tempLen - 1];
          tiptr++) {
-      *tiptr = (l_word)(
-          carry = (l_dword)*tiptr +
-                  (l_dword)(l_word)(carry >> GS_LARGEINT_DIGIT_SIZE_BITS));
+      *tiptr = (l_word)(carry = (l_dword)*tiptr +
+                                (l_dword)(l_word)(carry >>
+                                                  GS_LARGEINT_DIGIT_SIZE_BITS));
     }
 
     // If we still have a carry, increase the length of temp

@@ -15,15 +15,15 @@ enum eMapdataAreaType {
   AREA_TYPE_CAM, //!< [0] course.0 - "Camera"
 
   // ObjClip, // Moved below since course.0 version
-  
+
   AREA_TYPE_EF_CONTROL,   //!< [1] course.0 - "EfControl"
   AREA_TYPE_FOG_CONTROL,  //!< [2] course.0 - "FogControl"
   AREA_TYPE_PULL_CONTROL, //!< [3] course.0 - "PullControl"
-  
-  AREA_TYPE_ENEMY_FALL,   //!< [4] course.0 - "EnemyFall"
-  
-  AREA_TYPE_2D_MAP_AREA,  //!< [5] course.0 - "2DmapArea"
-  
+
+  AREA_TYPE_ENEMY_FALL, //!< [4] course.0 - "EnemyFall"
+
+  AREA_TYPE_2D_MAP_AREA, //!< [5] course.0 - "2DmapArea"
+
   // Below not in couse.0
   AREA_TYPE_SOUND_CONTROL,
   AREA_TYPE_B_TERESA_CONTROL,

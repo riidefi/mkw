@@ -21,7 +21,7 @@ jobs:
 
       - name: Install clang-format
         run: sudo apt-get install -y clang-format
-      
+
       - name: Verify formatting
         run: |
           find source -type f \

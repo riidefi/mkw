@@ -36,6 +36,7 @@ private:
     inline u32 size() const { return mSize; }
 
     nw4r::ut::Node mNode;
+
   private:
     char* mData;
     u32 mSize;

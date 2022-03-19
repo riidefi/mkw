@@ -78,7 +78,7 @@ unsigned long __cvt_fp2unsigned(double d);
 
 // PAL: 0x80229e14
 // C++ "delete" operator.
-void __dl__FPv(void *);
+void __dl__FPv(void*);
 
 #ifdef __cplusplus
 }
