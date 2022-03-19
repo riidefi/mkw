@@ -11,8 +11,6 @@
 #include <rvl/gx/gxTexture.h>
 #include <rvl/gx/gxVert.h>
 
-#pragma legacy_struct_alignment on
-
 namespace {
 inline void SetupGXCommon() {
   static const nw4r::ut::Color fog = 0;
