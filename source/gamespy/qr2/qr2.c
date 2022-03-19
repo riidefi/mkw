@@ -60,11 +60,11 @@ DEFINES
 #define MASTER_PORT 27900
 #define MASTER_ADDR "master." GSI_DOMAIN_NAME
 //#define MASTER_ADDR "207.199.80.230"
-#define FIRST_HB_TIME 10000 /* 10 sec */
-#define HB_TIME 60000 /* 1 minute */
-#define KA_TIME 20000 /* 20 sec */
+#define FIRST_HB_TIME 10000            /* 10 sec */
+#define HB_TIME 60000                  /* 1 minute */
+#define KA_TIME 20000                  /* 20 sec */
 #define MIN_STATECHANGED_HB_TIME 10000 /* 10 sec */
-#define MAX_FIRST_COUNT 4 /* 4 tries */
+#define MAX_FIRST_COUNT 4              /* 4 tries */
 #define MAX_DATA_SIZE 1400
 #define INBUF_LEN 256
 #define PUBLIC_ADDR_LEN 12

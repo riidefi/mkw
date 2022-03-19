@@ -30,8 +30,8 @@ struct BoxColLeftPoint {
 
 class BoxColManager : public EGG::Disposer {
 public:
-
-  bool isSomeSphereExist(const EGG::Vector3f& pos, u32 flag, float radius) const;
+  bool isSomeSphereExist(const EGG::Vector3f& pos, u32 flag,
+                         float radius) const;
 
 private:
   BoxColRightPoint* mRightPoints;

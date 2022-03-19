@@ -77,7 +77,7 @@ def pack_staticr_rel(elf_path, rel_path, orig_dir):
 
         # SHT_RELA
         relocs = elf.get_section_by_name(".rela.text")
-        
+
         if relocs:
             for reloc_acc in relocs.iter_relocations():
                 reloc = reloc_acc.entry

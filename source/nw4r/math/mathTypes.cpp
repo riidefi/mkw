@@ -120,11 +120,11 @@ MTX34* MTX34Mult(register MTX34* out, const register MTX34* in,
     psq_l a, 0(in), 0, 0;
     ps_muls0 b, a, f;
     psq_st b, 0(out), 0, 0;
-    
+
     psq_l a, 8(in), 0, 0;
     ps_muls0 b, a, f;
     psq_st b, 8(out), 0, 0;
-    
+
     psq_l a, 16(in), 0, 0;
     ps_muls0 b, a, f;
     psq_st b, 16(out), 0, 0;
@@ -161,7 +161,7 @@ MTX34* MTX34Scale(register MTX34* out, const register MTX34* in,
     psq_l r1b, 24(in), 0, 0
     psq_l r2a, 32(in), 0, 0
     psq_l r2b, 40(in), 0, 0
-    
+
     ps_mul r0a, r0a, xy
     ps_mul r1a, r1a, xy
     ps_mul r2a, r2a, xy
@@ -226,13 +226,13 @@ MTX34* MTX34MAdd(register MTX34* out, register f32 t, const register MTX34* m1,
     ps_muls0 a, a, t;
     ps_add c, a, b;
     psq_st c, 0(out), 0, 0;
-    
+
     psq_l a, 8(m1), 0, 0;
     psq_l b, 8(m2), 0, 0;
     ps_muls0 a, a, t;
     ps_add c, a, b;
     psq_st c, 8(out), 0, 0;
-    
+
     psq_l a, 16(m1), 0, 0;
     psq_l b, 16(m2), 0, 0;
     ps_muls0 a, a, t;

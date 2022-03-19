@@ -25,7 +25,7 @@ extern "C" {
 // SSL content types
 #define GS_SSL_CONTENT_CHANGECIPHERSPEC (0x14) // 20
 #define GS_SSL_CONTENT_ALERT (0x15) // 21  Not sure if this is the correct value
-#define GS_SSL_CONTENT_HANDSHAKE (0x16) // 22
+#define GS_SSL_CONTENT_HANDSHAKE (0x16)       // 22
 #define GS_SSL_CONTENT_APPLICATIONDATA (0x17) // 23
 
 // SSL handshake message types

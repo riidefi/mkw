@@ -12,7 +12,7 @@ from pytablewriter.style import Style
 
 from mkwutil.sections import DOL_LIBS, DOL_SECTIONS, REL_SECTIONS, REL_DIRS
 from mkwutil.lib.slices import Slice, SliceTable
-import mkwutil.project as project 
+import mkwutil.project as project
 from mkwutil.progress.percent_decompiled import build_stats
 
 

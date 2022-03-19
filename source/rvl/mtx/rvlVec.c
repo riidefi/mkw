@@ -149,7 +149,7 @@ f32 PSVECSquareDistance(const register Vec* vec1, const register Vec* vec2) {
     psq_l vv4, 0(vec2), 0, 0;
     ps_mul vv5, vv5, vv5;
     ps_sub vv6, vv3, vv4;
-    ps_madd out, vv6, vv6, vv5;   
+    ps_madd out, vv6, vv6, vv5;
     ps_sum0 out, out, vv5, vv5;
   }
   return out;
