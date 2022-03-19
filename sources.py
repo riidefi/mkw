@@ -10,7 +10,7 @@ from itertools import chain
 HOSTSYS_OPTS = '-ipa file -rostr -sdata 0 -sdata2 0'
 RVL_OPTS = '-ipa file'
 MSL_LIBC_OPTS = '-ipa file'
-NW4R_OPTS = '-ipa file -inline auto -O4,p'
+NW4R_OPTS = '-ipa file -inline auto -O4,p -pragma \"legacy_struct_alignment on\"'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 EGG_OPTS = '-ipa function -rostr'
 REL_OPTS = HOSTSYS_OPTS + " -pragma \"legacy_struct_alignment on\""
