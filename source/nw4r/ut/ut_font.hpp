@@ -2,7 +2,9 @@
 
 #include <rk_types.h>
 
+// Stolen from ogws.
 // Credit: kiwi515
+// Credit: GibHaltmannKill
 
 #include "ut_charStrmReader.hpp"
 #include "ut_glyph.hpp"

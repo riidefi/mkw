@@ -6,7 +6,9 @@
 #include "utColor.hpp"
 #include "ut_font.hpp"
 
+// Stolen from ogws.
 // Credit: kiwi515
+// Credit: GibHaltmannKill
 
 namespace nw4r {
 namespace ut {

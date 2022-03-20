@@ -2,7 +2,9 @@
 
 #include <rk_types.h>
 
+// Stolen from ogws.
 // Credit: kiwi515
+// Credit: GibHaltmannKill
 
 namespace nw4r {
 namespace ut {

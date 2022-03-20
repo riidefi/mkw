@@ -3,9 +3,13 @@
 #include <platform/eabi.h>
 #include <rvl/nand/nand.h>
 
-#ifdef __cplusplus
+#include "decomp.h"
+
+// Stolen from ogws.
+// Credit: kiwi515
+// Credit: GibHaltmannKill
+
 extern "C" {
-#endif
 
 // PAL: 0x800aff10..0x800aff80
 UNKNOWN_FUNCTION(Skip__Q44nw4r2ut10FileStream12FilePositionFl);
@@ -14,15 +18,37 @@ UNKNOWN_FUNCTION(Append__Q44nw4r2ut10FileStream12FilePositionFl);
 // PAL: 0x800affd0..0x800b0058
 UNKNOWN_FUNCTION(Seek__Q44nw4r2ut10FileStream12FilePositionFlUl);
 
-#ifdef __cplusplus
-}
-#endif
-
-// Symbol: NANDFileStream_ct1
-// Function signature is unknown.
 // PAL: 0x800b0ad0..0x800b0b40
-MARK_BINARY_BLOB(NANDFileStream_ct1, 0x800b0ad0, 0x800b0b40);
-asm UNKNOWN_FUNCTION(NANDFileStream_ct1) {
+UNKNOWN_FUNCTION(__ct__Q34nw4r2ut14NandFileStreamFPCcUl);
+// PAL: 0x800b0b40..0x800b0bb0
+UNKNOWN_FUNCTION(__ct__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb);
+// PAL: 0x800b0bb0..0x800b0c30
+UNKNOWN_FUNCTION(__dt__Q34nw4r2ut14NandFileStreamFv);
+// PAL: 0x800b0c30..0x800b0d20
+UNKNOWN_FUNCTION(Open__Q34nw4r2ut14NandFileStreamFPCcUl);
+// PAL: 0x800b0d20..0x800b14a0
+UNKNOWN_FUNCTION(Open__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb);
+// PAL: 0x800b14a0..0x800b14f0
+UNKNOWN_FUNCTION(Close__Q34nw4r2ut14NandFileStreamFv);
+// PAL: 0x800b14f0..0x800b1570
+UNKNOWN_FUNCTION(Read__Q34nw4r2ut14NandFileStreamFPvUl);
+// PAL: 0x800b1570..0x800b1620
+UNKNOWN_FUNCTION(ReadAsync__Q34nw4r2ut14NandFileStreamFPvUlUlPv);
+// PAL: 0x800b1620..0x800b16a0
+UNKNOWN_FUNCTION(Write__Q34nw4r2ut14NandFileStreamFPCvUl);
+// PAL: 0x800b16a0..0x800b1750
+UNKNOWN_FUNCTION(WriteAsync__Q34nw4r2ut14NandFileStreamFPCvUlUlPv);
+// PAL: 0x800b1750..0x800b1758
+UNKNOWN_FUNCTION(Seek__Q34nw4r2ut14NandFileStreamFlUl);
+}
+
+namespace nw4r {
+namespace ut {
+
+// PAL: 0x800b0ad0..0x800b0b40
+MARK_BINARY_BLOB(__ct__Q34nw4r2ut14NandFileStreamFPCcUl, 0x800b0ad0,
+                 0x800b0b40);
+asm NandFileStream::NandFileStream(const char*, u32) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -46,7 +72,7 @@ asm UNKNOWN_FUNCTION(NANDFileStream_ct1) {
   stw r0, 0x10(r3);
   stw r0, 8(r3);
   stw r3, 0x164(r3);
-  bl NANDFileStream_Open1;
+  bl Open__Q34nw4r2ut14NandFileStreamFPCcUl;
   mr r3, r31;
   lwz r31, 0xc(r1);
   lwz r0, 0x14(r1);
@@ -56,11 +82,10 @@ asm UNKNOWN_FUNCTION(NANDFileStream_ct1) {
   // clang-format on
 }
 
-// Symbol: NANDFileStream_ct2
-// Function signature is unknown.
 // PAL: 0x800b0b40..0x800b0bb0
-MARK_BINARY_BLOB(NANDFileStream_ct2, 0x800b0b40, 0x800b0bb0);
-asm UNKNOWN_FUNCTION(NANDFileStream_ct2) {
+MARK_BINARY_BLOB(__ct__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb,
+                 0x800b0b40, 0x800b0bb0);
+asm NandFileStream::NandFileStream(const NANDFileInfo*, u32, bool) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -84,7 +109,7 @@ asm UNKNOWN_FUNCTION(NANDFileStream_ct2) {
   stw r0, 0x10(r3);
   stw r0, 8(r3);
   stw r3, 0x164(r3);
-  bl NANDFileStream_Open2;
+  bl Open__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb;
   mr r3, r31;
   lwz r31, 0xc(r1);
   lwz r0, 0x14(r1);
@@ -94,11 +119,9 @@ asm UNKNOWN_FUNCTION(NANDFileStream_ct2) {
   // clang-format on
 }
 
-// Symbol: NANDFileStream_dt
-// Function signature is unknown.
 // PAL: 0x800b0bb0..0x800b0c30
-MARK_BINARY_BLOB(NANDFileStream_dt, 0x800b0bb0, 0x800b0c30);
-asm UNKNOWN_FUNCTION(NANDFileStream_dt) {
+MARK_BINARY_BLOB(__dt__Q34nw4r2ut14NandFileStreamFv, 0x800b0bb0, 0x800b0c30);
+asm NandFileStream::~NandFileStream() {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -136,11 +159,10 @@ lbl_800b0c0c:
   // clang-format on
 }
 
-// Symbol: NANDFileStream_Open1
-// Function signature is unknown.
 // PAL: 0x800b0c30..0x800b0d20
-MARK_BINARY_BLOB(NANDFileStream_Open1, 0x800b0c30, 0x800b0d20);
-asm UNKNOWN_FUNCTION(NANDFileStream_Open1) {
+MARK_BINARY_BLOB(Open__Q34nw4r2ut14NandFileStreamFPCcUl, 0x800b0c30,
+                 0x800b0d20);
+asm bool NandFileStream::Open(const char*, u32) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -209,11 +231,10 @@ lbl_800b0cfc:
   // clang-format on
 }
 
-// Symbol: NANDFileStream_Open2
-// Function signature is unknown.
 // PAL: 0x800b0d20..0x800b14a0
-MARK_BINARY_BLOB(NANDFileStream_Open2, 0x800b0d20, 0x800b14a0);
-asm UNKNOWN_FUNCTION(NANDFileStream_Open2) {
+MARK_BINARY_BLOB(Open__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb,
+                 0x800b0d20, 0x800b14a0);
+asm bool NandFileStream::Open(const NANDFileInfo*, u32, bool) {
   // clang-format off
   nofralloc;
   stwu r1, -0x1a0(r1);
@@ -700,11 +721,9 @@ lbl_800b147c:
   // clang-format on
 }
 
-// Symbol: NANDFileStream_Close
-// Function signature is unknown.
 // PAL: 0x800b14a0..0x800b14f0
-MARK_BINARY_BLOB(NANDFileStream_Close, 0x800b14a0, 0x800b14f0);
-asm UNKNOWN_FUNCTION(NANDFileStream_Close) {
+MARK_BINARY_BLOB(Close__Q34nw4r2ut14NandFileStreamFv, 0x800b14a0, 0x800b14f0);
+asm void NandFileStream::Close() {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -731,11 +750,9 @@ lbl_800b14dc:
   // clang-format on
 }
 
-// Symbol: NANDFileStream_Read
-// Function signature is unknown.
 // PAL: 0x800b14f0..0x800b1570
-MARK_BINARY_BLOB(NANDFileStream_Read, 0x800b14f0, 0x800b1570);
-asm UNKNOWN_FUNCTION(NANDFileStream_Read) {
+MARK_BINARY_BLOB(Read__Q34nw4r2ut14NandFileStreamFPvUl, 0x800b14f0, 0x800b1570);
+asm int NandFileStream::Read(void*, u32) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -773,11 +790,10 @@ lbl_800b154c:
   // clang-format on
 }
 
-// Symbol: NANDFileStream_ReadAsync
-// Function signature is unknown.
 // PAL: 0x800b1570..0x800b1620
-MARK_BINARY_BLOB(NANDFileStream_ReadAsync, 0x800b1570, 0x800b1620);
-asm UNKNOWN_FUNCTION(NANDFileStream_ReadAsync) {
+MARK_BINARY_BLOB(ReadAsync__Q34nw4r2ut14NandFileStreamFPvUlUlPv, 0x800b1570,
+                 0x800b1620);
+asm bool NandFileStream::ReadAsync(void*, u32, u32, void*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -826,11 +842,10 @@ lbl_800b15f4:
   // clang-format on
 }
 
-// Symbol: NANDFileStream_Write
-// Function signature is unknown.
 // PAL: 0x800b1620..0x800b16a0
-MARK_BINARY_BLOB(NANDFileStream_Write, 0x800b1620, 0x800b16a0);
-asm UNKNOWN_FUNCTION(NANDFileStream_Write) {
+MARK_BINARY_BLOB(Write__Q34nw4r2ut14NandFileStreamFPCvUl, 0x800b1620,
+                 0x800b16a0);
+asm void NandFileStream::Write(const void*, u32) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -868,11 +883,10 @@ lbl_800b167c:
   // clang-format on
 }
 
-// Symbol: NANDFileStream_WriteAsync
-// Function signature is unknown.
 // PAL: 0x800b16a0..0x800b1750
-MARK_BINARY_BLOB(NANDFileStream_WriteAsync, 0x800b16a0, 0x800b1750);
-asm UNKNOWN_FUNCTION(NANDFileStream_WriteAsync) {
+MARK_BINARY_BLOB(WriteAsync__Q34nw4r2ut14NandFileStreamFPCvUlUlPv, 0x800b16a0,
+                 0x800b1750);
+asm bool NandFileStream::WriteAsync(const void*, u32, u32, void*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -922,14 +936,15 @@ lbl_800b1724:
   // clang-format on
 }
 
-// Symbol: NANDFileStream_Seek
-// Function signature is unknown.
 // PAL: 0x800b1750..0x800b1758
-MARK_BINARY_BLOB(NANDFileStream_Seek, 0x800b1750, 0x800b1758);
-asm UNKNOWN_FUNCTION(NANDFileStream_Seek) {
+MARK_BINARY_BLOB(Seek__Q34nw4r2ut14NandFileStreamFlUl, 0x800b1750, 0x800b1758);
+asm void NandFileStream::Seek(s32, u32) {
   // clang-format off
   nofralloc;
   addi r3, r3, 0x14;
   b Seek__Q44nw4r2ut10FileStream12FilePositionFlUl;
   // clang-format on
 }
+
+} // namespace ut
+} // namespace nw4r

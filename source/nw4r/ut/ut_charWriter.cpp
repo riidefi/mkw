@@ -11,6 +11,10 @@
 #include <rvl/gx/gxTexture.h>
 #include <rvl/gx/gxVert.h>
 
+// Stolen from ogws.
+// Credit: kiwi515
+// Credit: GibHaltmannKill
+
 namespace {
 inline void SetupGXCommon() {
   static const nw4r::ut::Color fog = 0;
