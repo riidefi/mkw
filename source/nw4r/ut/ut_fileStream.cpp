@@ -12,7 +12,7 @@ namespace ut {
 // PAL: 0x800afef0..0x800aff00
 void FileStream::Cancel() {}
 
-bool FileStream::CancelAsync() { return true; }
+bool FileStream::CancelAsync(AsyncFunctor, void*) { return true; }
 
 // PAL: 0x800aff10..0x800aff80
 u32 FileStream::FilePosition::Skip(s32 offset) {

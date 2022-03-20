@@ -722,32 +722,11 @@ lbl_800b147c:
 }
 
 // PAL: 0x800b14a0..0x800b14f0
-MARK_BINARY_BLOB(Close__Q34nw4r2ut14NandFileStreamFv, 0x800b14a0, 0x800b14f0);
-asm void NandFileStream::Close() {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  lbz r0, 0x16c(r3);
-  cmpwi r0, 0;
-  beq lbl_800b14dc;
-  lbz r0, 4(r3);
-  cmpwi r0, 0;
-  beq lbl_800b14dc;
-  addi r3, r3, 0xd8;
-  bl NANDClose;
-  li r0, 0;
-  stb r0, 4(r31);
-lbl_800b14dc:
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void NandFileStream::Close() {
+  if (BYTE_0x168 && BOOL_0x4) {
+    NANDClose(&mFileInfo);
+    BOOL_0x4 = false;
+  }
 }
 
 // PAL: 0x800b14f0..0x800b1570
@@ -793,7 +772,7 @@ lbl_800b154c:
 // PAL: 0x800b1570..0x800b1620
 MARK_BINARY_BLOB(ReadAsync__Q34nw4r2ut14NandFileStreamFPvUlUlPv, 0x800b1570,
                  0x800b1620);
-asm bool NandFileStream::ReadAsync(void*, u32, u32, void*) {
+asm bool NandFileStream::ReadAsync(void*, u32, AsyncFunctor, void*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -886,7 +865,7 @@ lbl_800b167c:
 // PAL: 0x800b16a0..0x800b1750
 MARK_BINARY_BLOB(WriteAsync__Q34nw4r2ut14NandFileStreamFPCvUlUlPv, 0x800b16a0,
                  0x800b1750);
-asm bool NandFileStream::WriteAsync(const void*, u32, u32, void*) {
+asm bool NandFileStream::WriteAsync(const void*, u32, AsyncFunctor, void*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -937,13 +916,8 @@ lbl_800b1724:
 }
 
 // PAL: 0x800b1750..0x800b1758
-MARK_BINARY_BLOB(Seek__Q34nw4r2ut14NandFileStreamFlUl, 0x800b1750, 0x800b1758);
-asm void NandFileStream::Seek(s32, u32) {
-  // clang-format off
-  nofralloc;
-  addi r3, r3, 0x14;
-  b Seek__Q44nw4r2ut10FileStream12FilePositionFlUl;
-  // clang-format on
+void NandFileStream::Seek(s32 offset, u32 origin) {
+  mPosition.Seek(offset, origin);
 }
 
 } // namespace ut
