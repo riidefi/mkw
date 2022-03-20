@@ -3,7 +3,20 @@
 #include <platform/eabi.h>
 #include <rvl/nand/nand.h>
 
-#include "ut_fileStream.hpp"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PAL: 0x800aff10..0x800aff80
+UNKNOWN_FUNCTION(Skip__Q44nw4r2ut10FileStream12FilePositionFl);
+// PAL: 0x800aff80..0x800affd0
+UNKNOWN_FUNCTION(Append__Q44nw4r2ut10FileStream12FilePositionFl);
+// PAL: 0x800affd0..0x800b0058
+UNKNOWN_FUNCTION(Seek__Q44nw4r2ut10FileStream12FilePositionFlUl);
+
+#ifdef __cplusplus
+}
+#endif
 
 // Symbol: NANDFileStream_ct1
 // Function signature is unknown.
@@ -179,7 +192,7 @@ lbl_800b0cd8:
   addi r3, r29, 0x14;
   li r4, 0;
   li r5, 0;
-  bl nw4r_ut_FilePosition_Seek;
+  bl Seek__Q44nw4r2ut10FileStream12FilePositionFlUl;
   li r0, 1;
   stb r0, 0x16b(r29);
   li r3, 1;
@@ -669,7 +682,7 @@ lbl_800b1448:
   stw r0, 0x14(r30);
   li r4, 0;
   li r5, 0;
-  bl nw4r_ut_FilePosition_Seek;
+  bl Seek__Q44nw4r2ut10FileStream12FilePositionFlUl;
   li r0, 0;
   stb r0, 0x16b(r30);
   lbz r0, 8(r1);
@@ -747,7 +760,7 @@ asm UNKNOWN_FUNCTION(NANDFileStream_Read) {
   ble lbl_800b154c;
   mr r4, r31;
   addi r3, r29, 0x14;
-  bl nw4r_ut_FilePosition_Skip;
+  bl Skip__Q44nw4r2ut10FileStream12FilePositionFl;
 lbl_800b154c:
   mr r3, r31;
   lwz r31, 0x1c(r1);
@@ -796,7 +809,7 @@ asm UNKNOWN_FUNCTION(NANDFileStream_ReadAsync) {
   beq lbl_800b15ec;
   mr r4, r30;
   addi r3, r29, 0x14;
-  bl nw4r_ut_FilePosition_Skip;
+  bl Skip__Q44nw4r2ut10FileStream12FilePositionFl;
   b lbl_800b15f4;
 lbl_800b15ec:
   li r0, 0;
@@ -842,7 +855,7 @@ asm UNKNOWN_FUNCTION(NANDFileStream_Write) {
   ble lbl_800b167c;
   mr r4, r31;
   addi r3, r29, 0x14;
-  bl nw4r_ut_FilePosition_Append;
+  bl Append__Q44nw4r2ut10FileStream12FilePositionFl;
 lbl_800b167c:
   mr r3, r31;
   lwz r31, 0x1c(r1);
@@ -891,7 +904,7 @@ asm UNKNOWN_FUNCTION(NANDFileStream_WriteAsync) {
   bne lbl_800b171c;
   mr r4, r30;
   addi r3, r29, 0x14;
-  bl nw4r_ut_FilePosition_Append;
+  bl Append__Q44nw4r2ut10FileStream12FilePositionFl;
   b lbl_800b1724;
 lbl_800b171c:
   li r0, 0;
@@ -917,6 +930,6 @@ asm UNKNOWN_FUNCTION(NANDFileStream_Seek) {
   // clang-format off
   nofralloc;
   addi r3, r3, 0x14;
-  b nw4r_ut_FilePosition_Seek;
+  b Seek__Q44nw4r2ut10FileStream12FilePositionFlUl;
   // clang-format on
 }
