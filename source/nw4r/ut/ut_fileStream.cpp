@@ -56,5 +56,7 @@ void FileStream::FilePosition::Seek(s32 offset, u32 origin) {
   Skip(offset);
 }
 
+detail::RuntimeTypeInfo FileStream::typeInfo(&IOStream::typeInfo);
+
 } // namespace ut
 } // namespace nw4r

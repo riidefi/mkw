@@ -36,7 +36,7 @@ out/dol/sdata_80384c3c_80384c48.o
 out/__init_cpp_exceptions.o
 out/dol/text_80021254_80021270.o
 out/va_arg.o
-out/dol/ctors_80244de4_80244e88.o
+out/dol/ctors_80244de4_80244e2c.o
 out/dol/dtors_80244ea8_80244eac.o
 out/dol/sdata_80384c4c_80384d90.o
 out/dol/sbss_80385fc0_803860a8.o
@@ -70,12 +70,15 @@ out/utList.o
 out/dol/text_800af210_800afea0.o
 out/ut_IOStream.o
 out/dol/text_800afeec_800afef0.o
-out/ut_fileStream.o
-out/dol/text_800b0058_800b0aa0.o
 out/dol/data_80274338_80274d10.o
-out/dol/sbss_80386244_80386270.o
+out/dol/sbss_80386244_80386248.o
+out/ut_fileStream.o
+out/dol/text_800b006c_800b0aa0.o
+out/dol/ctors_80244e34_80244e3c.o
+out/dol/sbss_8038624c_80386270.o
 out/ut_nandFileStream.o
 out/dol/text_800b178c_800b2b30.o
+out/dol/ctors_80244e40_80244e88.o
 out/dol/data_80274d6c_80275700.o
 out/dol/sbss_80386274_80386278.o
 out/dol/sdata2_80387eb4_803882e0.o

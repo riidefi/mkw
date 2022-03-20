@@ -44,6 +44,7 @@ protected:
   u32 WORD_0x8;
   void* ASYNC_0xC;
   void* PTR_0x10;
+  static detail::RuntimeTypeInfo typeInfo;
 };
 
 } // namespace ut
