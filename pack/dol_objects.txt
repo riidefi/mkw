@@ -88,13 +88,14 @@ out/ut_lockedCache.o
 out/dol/text_800b1968_800b2b30.o
 out/dol/ctors_80244e44_80244e88.o
 out/dol/data_80274d6c_80274f30.o
-out/rfl_init.o
-out/dol/data_80274f78_80275700.o
 out/dol/bss_802f131c_802f1320.o
 out/dol/sbss_80386274_80386278.o
 out/dol/sdata2_80387eb4_803882e0.o
 out/ut_charWriter.o
-out/dol/text_800b4374_800ccb4c.o
+out/dol/text_800b4374_800bbba0.o
+out/rfl_init.o
+out/dol/text_800bbf08_800ccb4c.o
+out/dol/data_80274f78_80275700.o
 out/dol/bss_802f1330_802f2338.o
 out/dol/sbss_80386280_803862a8.o
 out/dwc_error.o
