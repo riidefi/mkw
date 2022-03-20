@@ -28,6 +28,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,1,source/nw4r/ut/ut_IOStream.cpp,,,,,,,0x800afea0,0x800afeec,0x80244e2c,0x80244e30,,,,,,,,,,,0x80386240,0x80386244,,,,
 1,1,source/nw4r/ut/ut_fileStream.cpp,,,,,,,0x800afef0,0x800b006c,0x80244e30,0x80244e34,,,,,,,,,,,0x80386248,0x8038624c,,,,
 1,1,source/nw4r/ut/ut_dvdFileStream.cpp,,,,,,,0x800b0070,0x800b06ac,0x80244e34,0x80244e38,,,,,0x80274c40,0x80274ca4,,,,,0x80386250,0x80386254,,,,
+1,1,source/nw4r/ut/ut_dvdLockedFileStream.cpp,,,,,,,0x800b06b0,0x800b0a9c,0x80244e38,0x80244e3c,,,,,0x80274ca8,0x80274d0c,0x802f12e8,0x802f1300,,,0x80386258,0x80386270,,,,
 1,1,source/nw4r/ut/ut_nandFileStream.cpp,,,,,,,0x800b0aa0,0x800b178c,0x80244e3c,0x80244e40,,,,,0x80274d10,0x80274d6c,,,,,0x80386270,0x80386274,,,,
 1,1,source/nw4r/ut/ut_charWriter.cpp,,,,,,,0x800b2b30 ,0x800b4374,,,,,,,,,0x802f1320,0x802f1330,,,0x80386278,0x80386280,0x803882e0,0x80388300,,
 1,,source/dwc/common/dwc_error.c,,,,,,,0x800CCB4C,0x800CCC80,,,,,,,0x80275700,0x80275758,,,,,0x803862A8,0x803862B0,,,,

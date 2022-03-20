@@ -233,7 +233,7 @@ lbl_801a9864:
 // Function signature is unknown.
 // PAL: 0x801a98a0..0x801a98b0
 MARK_BINARY_BLOB(OSInitThreadQueue, 0x801a98a0, 0x801a98b0);
-asm UNKNOWN_FUNCTION(OSInitThreadQueue) {
+asm void OSInitThreadQueue(struct OSThreadQueue*) {
   // clang-format off
   nofralloc;
   li r0, 0;
@@ -1654,10 +1654,9 @@ lbl_801aa990:
 }
 
 // Symbol: OSSleepThread
-// Function signature is unknown.
 // PAL: 0x801aa9b8..0x801aaaa4
 MARK_BINARY_BLOB(OSSleepThread, 0x801aa9b8, 0x801aaaa4);
-asm UNKNOWN_FUNCTION(OSSleepThread) {
+asm void OSSleepThread(struct OSThreadQueue*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -1732,10 +1731,9 @@ lbl_801aaa84:
 }
 
 // Symbol: OSWakeupThread
-// Function signature is unknown.
 // PAL: 0x801aaaa4..0x801aab98
 MARK_BINARY_BLOB(OSWakeupThread, 0x801aaaa4, 0x801aab98);
-asm UNKNOWN_FUNCTION(OSWakeupThread) {
+asm void OSWakeupThread(struct OSThreadQueue*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);

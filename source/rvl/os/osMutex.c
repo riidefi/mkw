@@ -203,10 +203,9 @@ lbl_801a80d0:
 }
 
 // Symbol: OSTryLockMutex
-// Function signature is unknown.
 // PAL: 0x801a80f4..0x801a81b0
 MARK_BINARY_BLOB(OSTryLockMutex, 0x801a80f4, 0x801a81b0);
-asm UNKNOWN_FUNCTION(OSTryLockMutex) {
+asm s32 OSTryLockMutex(OSMutex*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);

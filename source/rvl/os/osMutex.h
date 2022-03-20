@@ -20,7 +20,7 @@ void OSUnlockMutex(OSMutex*);
 // PAL: 0x801a8088..0x801a80f4
 UNKNOWN_FUNCTION(__OSUnlockAllMutex);
 // PAL: 0x801a80f4..0x801a81b0
-UNKNOWN_FUNCTION(OSTryLockMutex);
+s32 OSTryLockMutex(OSMutex*);
 // PAL: 0x801a81b0..0x801a81b4
 UNKNOWN_FUNCTION(OSInitCond);
 // PAL: 0x801a81b4..0x801a81b8

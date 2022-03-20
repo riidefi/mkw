@@ -21,9 +21,9 @@ extern UNKNOWN_FUNCTION(unk_8009e820);
 // PAL: 0x800b05e0
 extern UNKNOWN_FUNCTION(Seek__Q34nw4r2ut13DvdFileStreamFlUl);
 // PAL: 0x800b06b0
-extern UNKNOWN_FUNCTION(unk_800b06b0);
+extern UNKNOWN_FUNCTION(__ct__Q34nw4r2ut19DvdLockedFileStreamFl);
 // PAL: 0x800b0740
-extern UNKNOWN_FUNCTION(unk_800b0740);
+extern UNKNOWN_FUNCTION(__ct__Q34nw4r2ut19DvdLockedFileStreamFPC11DVDFileInfob);
 // PAL: 0x800b07d0
 extern UNKNOWN_FUNCTION(unk_800b07d0);
 // PAL: 0x800b0870
@@ -184,7 +184,7 @@ lbl_8009125c:
   mr r3, r29;
   addi r4, r8, 0x14c;
   li r5, 0;
-  bl unk_800b0740;
+  bl __ct__Q34nw4r2ut19DvdLockedFileStreamFPC11DVDFileInfob;
   lis r4, 0x8027;
   stw r30, 0x70(r29);
   addi r4, r4, 0x42b0;
@@ -246,7 +246,7 @@ lbl_80091324:
   cmpwi r29, 0;
   beq lbl_80091358;
   mr r3, r29;
-  bl unk_800b06b0;
+  bl __ct__Q34nw4r2ut19DvdLockedFileStreamFl;
   lis r4, 0x8027;
   stw r30, 0x70(r29);
   addi r4, r4, 0x42b0;
