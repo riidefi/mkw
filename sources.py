@@ -12,7 +12,7 @@ RVL_OPTS = '-ipa file'
 MSL_LIBC_OPTS = '-ipa file'
 NW4R_OPTS = '-ipa file -inline auto -O4,p -pragma \"legacy_struct_alignment on\"'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
-RFL_OPTS = RVL_OPTS
+RFL_OPTS = RVL_OPTS + " -O4,p"
 EGG_OPTS = '-ipa function -rostr'
 REL_OPTS = HOSTSYS_OPTS + " -pragma \"legacy_struct_alignment on\""
 
