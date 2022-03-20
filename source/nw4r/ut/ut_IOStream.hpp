@@ -35,7 +35,7 @@ public:
   virtual bool CanSeek() const = 0;
   virtual bool CanCancel() const = 0;
   virtual u32 Tell() const = 0;
-  // virtual UNKWORD Peek(void *, u32) = 0;
+  // virtual s32 Peek(void *, u32) = 0;
   // virtual bool PeekAsync(void *, u32, AsyncFunctor, void *) = 0;
 
 protected:

@@ -42,7 +42,7 @@ public:
 protected:
   bool BOOL_0x4;
   u32 WORD_0x8;
-  void* ASYNC_0xC;
+  AsyncFunctor ASYNC_0xC;
   void* PTR_0x10;
   static detail::RuntimeTypeInfo typeInfo;
 };

@@ -16,8 +16,6 @@ bool IOStream::WriteAsync(const void*, u32, AsyncFunctor, void*) {
   return false;
 }
 
-bool IOStream::IsBusy() const { return false; }
-
 u32 IOStream::GetBufferAlign() const { return 1; }
 
 u32 IOStream::GetSizeAlign() const { return 1; }
