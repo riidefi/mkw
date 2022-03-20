@@ -16,6 +16,8 @@ namespace ut {
 class NandFileStream : FileStream {
 
 public:
+  // PAL: 0x800b0aa0..0x800b0ad0
+  static void NandAsyncCallback_(s32, NANDCommandBlock*);
   // PAL: 0x800b0ad0..0x800b0b40
   NandFileStream(const char*, u32);
   // PAL: 0x800b0b40..0x800b0bb0
@@ -34,11 +36,15 @@ public:
   // PAL: 0x800b1570..0x800b1620
   bool ReadAsync(void*, u32, AsyncFunctor, void*);
   // PAL: 0x800b1620..0x800b16a0
-  void Write(const void*, u32);
+  s32 Write(const void*, u32);
   // PAL: 0x800b16a0..0x800b1750
   bool WriteAsync(const void*, u32, AsyncFunctor, void*);
   // PAL: 0x800b1750..0x800b1758
   void Seek(s32, u32);
+
+  u32 GetSize() const;
+
+  u32 Tell() const;
 
 private:
   inline void Initialize_() {
@@ -63,13 +69,13 @@ private:
 
   NandFileStream* THIS_0x160;
 
-  char lolll[136];
-
   bool mReadFlag;  // at 0x164
   bool mWriteFlag; // at 0x165
   bool mBusyFlag;  // at 0x166
   bool BYTE_0x167; // at 0x167
   bool BYTE_0x168; // at 0x168
+
+  static detail::RuntimeTypeInfo typeInfo;
 };
 
 } // namespace ut

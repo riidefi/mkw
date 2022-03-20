@@ -45,190 +45,65 @@ UNKNOWN_FUNCTION(Seek__Q34nw4r2ut14NandFileStreamFlUl);
 namespace nw4r {
 namespace ut {
 
+void NandFileStream::NandAsyncCallback_(s32 r3, NANDCommandBlock* r4) {
+  NANDCB_UNK* r4_2 = r4->PTR_0x144;
+
+  r4_2->BYTE_0x16A = false;
+  r4_2->WORD_0x8 = r3;
+  if (!r4_2->CALLBACK_0xC)
+    return;
+  r4_2->CALLBACK_0xC(r3, r4_2, r4_2->WORD_0x10);
+  return;
+}
+
 // PAL: 0x800b0ad0..0x800b0b40
-MARK_BINARY_BLOB(__ct__Q34nw4r2ut14NandFileStreamFPCcUl, 0x800b0ad0,
-                 0x800b0b40);
-asm NandFileStream::NandFileStream(const char*, u32) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  lis r6, 0x8027;
-  stw r0, 0x14(r1);
-  li r0, 0;
-  addi r6, r6, 0x4d10;
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  stw r6, 0(r3);
-  stw r0, 0x14(r3);
-  stw r0, 0x18(r3);
-  stb r0, 0x168(r3);
-  stb r0, 0x169(r3);
-  stb r0, 0x16b(r3);
-  stb r0, 0x16c(r3);
-  stb r0, 4(r3);
-  stb r0, 0x16a(r3);
-  stw r0, 0xc(r3);
-  stw r0, 0x10(r3);
-  stw r0, 8(r3);
-  stw r3, 0x164(r3);
-  bl Open__Q34nw4r2ut14NandFileStreamFPCcUl;
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+NandFileStream::NandFileStream(const char* str, u32 num) : mPosition() {
+  Initialize_();
+  Open(str, num);
 }
 
 // PAL: 0x800b0b40..0x800b0bb0
-MARK_BINARY_BLOB(__ct__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb,
-                 0x800b0b40, 0x800b0bb0);
-asm NandFileStream::NandFileStream(const NANDFileInfo*, u32, bool) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  lis r7, 0x8027;
-  stw r0, 0x14(r1);
-  li r0, 0;
-  addi r7, r7, 0x4d10;
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  stw r7, 0(r3);
-  stw r0, 0x14(r3);
-  stw r0, 0x18(r3);
-  stb r0, 0x168(r3);
-  stb r0, 0x169(r3);
-  stb r0, 0x16b(r3);
-  stb r0, 0x16c(r3);
-  stb r0, 4(r3);
-  stb r0, 0x16a(r3);
-  stw r0, 0xc(r3);
-  stw r0, 0x10(r3);
-  stw r0, 8(r3);
-  stw r3, 0x164(r3);
-  bl Open__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb;
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+NandFileStream::NandFileStream(const NANDFileInfo* fileInfo, u32 num, bool b)
+    : mPosition() {
+  Initialize_();
+  Open(fileInfo, num, b);
 }
 
 // PAL: 0x800b0bb0..0x800b0c30
-MARK_BINARY_BLOB(__dt__Q34nw4r2ut14NandFileStreamFv, 0x800b0bb0, 0x800b0c30);
-asm NandFileStream::~NandFileStream() {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  beq lbl_800b0c0c;
-  lbz r0, 0x16b(r3);
-  lis r4, 0x8027;
-  addi r4, r4, 0x4d10;
-  stw r4, 0(r3);
-  cmpwi r0, 0;
-  beq lbl_800b0bfc;
-  lwz r12, 0(r3);
-  lwz r12, 0x10(r12);
-  mtctr r12;
-  bctrl;
-lbl_800b0bfc:
-  cmpwi r31, 0;
-  ble lbl_800b0c0c;
-  mr r3, r30;
-  bl __dl__FPv;
-lbl_800b0c0c:
-  mr r3, r30;
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+NandFileStream::~NandFileStream() {
+  if (BYTE_0x167)
+    this->Close();
 }
 
 // PAL: 0x800b0c30..0x800b0d20
-MARK_BINARY_BLOB(Open__Q34nw4r2ut14NandFileStreamFPCcUl, 0x800b0c30,
-                 0x800b0d20);
-asm bool NandFileStream::Open(const char*, u32) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r5;
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lbz r0, 0x16b(r3);
-  cmpwi r0, 0;
-  beq lbl_800b0c70;
-  lwz r12, 0(r3);
-  lwz r12, 0x10(r12);
-  mtctr r12;
-  bctrl;
-lbl_800b0c70:
-  clrlwi r3, r31, 0x1f;
-  rlwinm r0, r31, 0x1f, 0x1f, 0x1f;
-  stb r3, 0x168(r29);
-  mr r3, r30;
-  addi r4, r29, 0xd8;
-  clrlwi r5, r31, 0x18;
-  stb r0, 0x169(r29);
-  bl NANDOpen;
-  cmpwi r3, 0;
-  beq lbl_800b0ca0;
-  li r3, 0;
-  b lbl_800b0cfc;
-lbl_800b0ca0:
-  lbz r0, 0x168(r29);
-  cmpwi r0, 0;
-  beq lbl_800b0cd8;
-  addi r3, r29, 0xd8;
-  addi r4, r1, 8;
-  bl NANDGetLength;
-  cmpwi r3, 0;
-  beq lbl_800b0cd0;
-  addi r3, r29, 0xd8;
-  bl NANDClose;
-  li r3, 0;
-  b lbl_800b0cfc;
-lbl_800b0cd0:
-  lwz r0, 8(r1);
-  stw r0, 0x14(r29);
-lbl_800b0cd8:
-  addi r3, r29, 0x14;
-  li r4, 0;
-  li r5, 0;
-  bl Seek__Q44nw4r2ut10FileStream12FilePositionFlUl;
-  li r0, 1;
-  stb r0, 0x16b(r29);
-  li r3, 1;
-  stb r0, 0x16c(r29);
-  stb r0, 4(r29);
-lbl_800b0cfc:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool NandFileStream::Open(const char* str, u32 num) {
+  u32 fileSize; // at 0x8
+
+  if (BYTE_0x167)
+    this->Close();
+
+  mReadFlag = num & 0x00000001;
+  mWriteFlag = num & 0x00000002;
+
+  if (NANDOpen(str, &mFileInfo, num))
+    return false;
+
+  if (mReadFlag) {
+    if (NANDGetLength(&mFileInfo, &fileSize) != 0) {
+      NANDClose(&mFileInfo);
+      return false;
+    }
+
+    mPosition.SetFileSize(fileSize);
+  }
+
+  mPosition.Seek(0, 0);
+
+  BYTE_0x167 = 1;
+  BYTE_0x168 = 1;
+  BOOL_0x4 = true;
+
+  return true;
 }
 
 // PAL: 0x800b0d20..0x800b14a0
@@ -730,195 +605,74 @@ void NandFileStream::Close() {
 }
 
 // PAL: 0x800b14f0..0x800b1570
-MARK_BINARY_BLOB(Read__Q34nw4r2ut14NandFileStreamFPvUl, 0x800b14f0, 0x800b1570);
-asm int NandFileStream::Read(void*, u32) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r5;
-  li r5, 0;
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lwz r4, 0x18(r3);
-  addi r3, r3, 0xd8;
-  bl NANDSeek;
-  mr r4, r30;
-  mr r5, r31;
-  addi r3, r29, 0xd8;
-  bl NANDRead;
-  cmpwi r3, 0;
-  mr r31, r3;
-  ble lbl_800b154c;
-  mr r4, r31;
-  addi r3, r29, 0x14;
-  bl Skip__Q44nw4r2ut10FileStream12FilePositionFl;
-lbl_800b154c:
-  mr r3, r31;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+int NandFileStream::Read(void* buf, u32 size) {
+  int ret;
+
+  NANDSeek(&mFileInfo, mPosition.mFileOffset, 0);
+  ret = NANDRead(&mFileInfo, buf, size);
+  if (ret > 0)
+    mPosition.Skip(ret);
+
+  return ret;
 }
 
 // PAL: 0x800b1570..0x800b1620
-MARK_BINARY_BLOB(ReadAsync__Q34nw4r2ut14NandFileStreamFPvUlUlPv, 0x800b1570,
-                 0x800b1620);
-asm bool NandFileStream::ReadAsync(void*, u32, AsyncFunctor, void*) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  li r0, 1;
-  stw r31, 0x1c(r1);
-  mr r31, r4;
-  stw r30, 0x18(r1);
-  mr r30, r5;
-  li r5, 0;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  stw r6, 0xc(r3);
-  lwz r4, 0x18(r3);
-  stw r7, 0x10(r3);
-  stb r0, 0x16a(r3);
-  addi r3, r3, 0xd8;
-  bl NANDSeek;
-  lis r6, 0x800b;
-  mr r4, r31;
-  mr r5, r30;
-  addi r3, r29, 0xd8;
-  addi r6, r6, 0xaa0;
-  addi r7, r29, 0x1c;
-  bl NANDReadAsync;
-  cntlzw r0, r3;
-  rlwinm. r31, r0, 0x1b, 5, 0x1f;
-  beq lbl_800b15ec;
-  mr r4, r30;
-  addi r3, r29, 0x14;
-  bl Skip__Q44nw4r2ut10FileStream12FilePositionFl;
-  b lbl_800b15f4;
-lbl_800b15ec:
-  li r0, 0;
-  stb r0, 0x16a(r29);
-lbl_800b15f4:
-  mr r3, r31;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool NandFileStream::ReadAsync(void* buf, u32 size, AsyncFunctor async,
+                               void* ptr) {
+  bool ret;
+  ASYNC_0xC = async;
+  PTR_0x10 = ptr;
+  mBusyFlag = true;
+  NANDSeek(&mFileInfo, mPosition.mFileOffset, 0);
+  ret = NANDReadAsync(&mFileInfo, buf, size, NandAsyncCallback_, UNK_0x1C) == 0;
+
+  if (ret) {
+    mPosition.Skip(size);
+  } else {
+    mBusyFlag = false;
+  }
+
+  return ret;
 }
 
 // PAL: 0x800b1620..0x800b16a0
-MARK_BINARY_BLOB(Write__Q34nw4r2ut14NandFileStreamFPCvUl, 0x800b1620,
-                 0x800b16a0);
-asm void NandFileStream::Write(const void*, u32) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r5;
-  li r5, 0;
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lwz r4, 0x18(r3);
-  addi r3, r3, 0xd8;
-  bl NANDSeek;
-  mr r4, r30;
-  mr r5, r31;
-  addi r3, r29, 0xd8;
-  bl NANDWrite;
-  cmpwi r3, 0;
-  mr r31, r3;
-  ble lbl_800b167c;
-  mr r4, r31;
-  addi r3, r29, 0x14;
-  bl Append__Q44nw4r2ut10FileStream12FilePositionFl;
-lbl_800b167c:
-  mr r3, r31;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+s32 NandFileStream::Write(const void* buf, u32 size) {
+  NANDSeek(&mFileInfo, mPosition.mFileOffset, 0);
+  s32 num = NANDWrite(&mFileInfo, buf, size);
+  if (num > 0) {
+    mPosition.Append(num);
+  }
+  return num;
 }
 
 // PAL: 0x800b16a0..0x800b1750
-MARK_BINARY_BLOB(WriteAsync__Q34nw4r2ut14NandFileStreamFPCvUlUlPv, 0x800b16a0,
-                 0x800b1750);
-asm bool NandFileStream::WriteAsync(const void*, u32, AsyncFunctor, void*) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  li r0, 1;
-  stw r31, 0x1c(r1);
-  mr r31, r4;
-  stw r30, 0x18(r1);
-  mr r30, r5;
-  li r5, 0;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  stw r6, 0xc(r3);
-  lwz r4, 0x18(r3);
-  stw r7, 0x10(r3);
-  stb r0, 0x16a(r3);
-  addi r3, r3, 0xd8;
-  bl NANDSeek;
-  lis r6, 0x800b;
-  mr r4, r31;
-  mr r5, r30;
-  addi r3, r29, 0xd8;
-  addi r6, r6, 0xaa0;
-  addi r7, r29, 0x1c;
-  bl NANDWriteAsync;
-  cmpwi r3, 0;
-  mr r31, r3;
-  bne lbl_800b171c;
-  mr r4, r30;
-  addi r3, r29, 0x14;
-  bl Append__Q44nw4r2ut10FileStream12FilePositionFl;
-  b lbl_800b1724;
-lbl_800b171c:
-  li r0, 0;
-  stb r0, 0x16a(r29);
-lbl_800b1724:
-  cntlzw r0, r31;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  srwi r3, r0, 5;
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool NandFileStream::WriteAsync(const void* buf, u32 size, AsyncFunctor async,
+                                void* ptr) {
+  ASYNC_0xC = async;
+  PTR_0x10 = ptr;
+  mBusyFlag = true;
+  NANDSeek(&mFileInfo, mPosition.mFileOffset, 0);
+
+  s32 ret = NANDWriteAsync(&mFileInfo, buf, size, NandAsyncCallback_, UNK_0x1C);
+
+  if (ret == 0) {
+    mPosition.Append(size);
+  } else {
+    mBusyFlag = false;
+  }
+
+  return ret == 0;
 }
 
 // PAL: 0x800b1750..0x800b1758
 void NandFileStream::Seek(s32 offset, u32 origin) {
   mPosition.Seek(offset, origin);
 }
+
+u32 NandFileStream::GetSize() const { return mPosition.mFileSize; }
+u32 NandFileStream::Tell() const { return mPosition.mFileOffset; }
+
+detail::RuntimeTypeInfo NandFileStream::typeInfo(&FileStream::typeInfo);
 
 } // namespace ut
 } // namespace nw4r

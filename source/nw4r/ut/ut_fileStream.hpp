@@ -13,14 +13,23 @@ namespace ut {
 
 class FileStream : public IOStream {
 public:
-  // inline FileStream() : BOOL_0x4(false), ASYNC_0xC(NULL), PTR_0x10(NULL) {}
-  // inline virtual ~FileStream() {}
+  inline FileStream() : BOOL_0x4(false), ASYNC_0xC(NULL), PTR_0x10(NULL) {}
+  inline virtual ~FileStream() {}
 
   void Cancel();
 
   bool CancelAsync(AsyncFunctor, void*);
 
   class FilePosition {
+  public:
+    inline FilePosition() : mFileSize(), mFileOffset() {}
+
+    inline u32 Tell() const { return mFileOffset; }
+
+    inline u32 GetFileSize() const { return mFileSize; }
+
+    inline void SetFileSize(u32 fileSize) { mFileSize = fileSize; }
+
   public:
     u32 mFileSize;
     u32 mFileOffset;

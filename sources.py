@@ -191,6 +191,7 @@ SOURCES_NW4R_UT = [
     Source(src="source/nw4r/ut/ut_charWriter.cpp", cc='4201_127', opts=NW4R_OPTS),
     Source(src="source/nw4r/ut/ut_fileStream.cpp", cc='4201_127', opts=NW4R_OPTS),
     Source(src="source/nw4r/ut/ut_nandFileStream.cpp", cc='4201_127', opts=NW4R_OPTS),
+    Source(src="source/nw4r/ut/ut_IOStream.cpp", cc='4201_127', opts=NW4R_OPTS),
 ]
 SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggAllocator.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),

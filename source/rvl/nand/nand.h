@@ -7,10 +7,30 @@ extern "C" {
 #endif
 
 typedef void (*NANDCallback)(s32);
+typedef void (*NANDAsyncCallback)(s32, struct NANDCommandBlock*);
+typedef void (*NANDCBAsyncCallback)(s32, struct NANDCB_UNK*, u32);
 
 typedef struct NANDFileInfo {
   s32 fd;
+  u32 WORD_0x4;
+
+  volatile char BUF_0x8[0x40];
+
+  volatile char BUF_0x48[0x40];
+
+  char BYTE_0x88;
+  char BYTE_0x89;
+  char BYTE_0x8a;
 } NANDFileInfo;
+
+struct NANDCB_UNK {
+  char UNK_0x0[0x8];
+  u32 WORD_0x8;
+  NANDCBAsyncCallback CALLBACK_0xC;
+  u32 WORD_0x10;
+  char UNK_0x14[0x156];
+  char BYTE_0x16A;
+};
 
 typedef struct NANDStatus {
   u32 uid;
@@ -21,6 +41,8 @@ typedef struct NANDStatus {
 
 typedef struct NANDCommandBlock {
   void* userData;
+  char _unk04[0x144];
+  struct NANDCB_UNK* PTR_0x144;
 } NANDCommandBlock;
 
 typedef struct {
@@ -52,12 +74,12 @@ s32 NANDClose(NANDFileInfo*);
 s32 NANDCloseAsync(NANDFileInfo*, NANDCallback, NANDCommandBlock*);
 
 s32 NANDRead(NANDFileInfo*, void*, u32);
-s32 NANDReadAsync(NANDFileInfo*, void*, u32, NANDCallback);
+s32 NANDReadAsync(NANDFileInfo*, void*, u32, NANDAsyncCallback, void*);
 
 s32 NANDWrite(NANDFileInfo*, const void*, u32);
-s32 NANDWriteAsync(NANDFileInfo*, const void*, u32, NANDCallback);
+s32 NANDWriteAsync(NANDFileInfo*, const void*, u32, NANDAsyncCallback, void*);
 
-s32 NANDSeek(NANDFileInfo*, s32, s32);
+s32 NANDSeek(NANDFileInfo*, u32, s32);
 s32 NANDSeekAsync(NANDFileInfo*, s32, s32, NANDCallback);
 
 s32 NANDMove(const char*, const char*);

@@ -17,17 +17,17 @@ public:
   inline virtual ~IOStream() {}
 
   virtual void Close() = 0;
-  virtual int Read(void*, u32) = 0;
+  virtual int Read(void*, u32);
   virtual bool ReadAsync(void*, u32, AsyncFunctor, void*);
-  virtual void Write(const void*, u32);
+  virtual s32 Write(const void*, u32);
   virtual bool WriteAsync(const void*, u32, AsyncFunctor, void*);
-  virtual bool IsBusy() const;
+  virtual bool IsBusy() const = 0;
   virtual bool CanAsync() const = 0;
   virtual bool CanRead() const = 0;
   virtual bool CanWrite() const = 0;
-  virtual u32 GetOffsetAlign() const;
-  virtual u32 GetSizeAlign() const;
-  virtual u32 GetBufferAlign() const;
+  virtual u32 GetOffsetAlign() const = 0;
+  virtual u32 GetSizeAlign() const = 0;
+  virtual u32 GetBufferAlign() const = 0;
   virtual u32 GetSize() const = 0;
   virtual void Seek(s32, u32) = 0;
   virtual void Cancel() = 0;
@@ -38,6 +38,7 @@ public:
   // virtual UNKWORD Peek(void *, u32) = 0;
   // virtual bool PeekAsync(void *, u32, AsyncFunctor, void *) = 0;
 
+protected:
   static detail::RuntimeTypeInfo typeInfo;
 };
 } // namespace ut
