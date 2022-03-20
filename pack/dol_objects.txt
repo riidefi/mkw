@@ -67,7 +67,7 @@ out/dol/text_80085938_80090fc0.o
 out/snd_dvdSoundArchive.o
 out/dol/text_80091418_800aef60.o
 out/utList.o
-out/dol/text_800af210_800afea0.o
+out/dol/text_800af210_800afee0.o
 out/ut_IOStream.o
 out/dol/text_800afeec_800afef0.o
 out/dol/data_80274338_80274c40.o
@@ -87,7 +87,9 @@ out/dol/text_800b178c_800b1790.o
 out/ut_lockedCache.o
 out/dol/text_800b1968_800b2b30.o
 out/dol/ctors_80244e44_80244e88.o
-out/dol/data_80274d6c_80275700.o
+out/dol/data_80274d6c_80274f30.o
+out/rfl_init.o
+out/dol/data_80274f78_80275700.o
 out/dol/bss_802f131c_802f1320.o
 out/dol/sbss_80386274_80386278.o
 out/dol/sdata2_80387eb4_803882e0.o

@@ -12,6 +12,7 @@ RVL_OPTS = '-ipa file'
 MSL_LIBC_OPTS = '-ipa file'
 NW4R_OPTS = '-ipa file -inline auto -O4,p -pragma \"legacy_struct_alignment on\"'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
+RFL_OPTS = RVL_OPTS
 EGG_OPTS = '-ipa function -rostr'
 REL_OPTS = HOSTSYS_OPTS + " -pragma \"legacy_struct_alignment on\""
 
@@ -196,6 +197,9 @@ SOURCES_NW4R_UT = [
     Source(src="source/nw4r/ut/ut_nandFileStream.cpp", cc='4201_127', opts=NW4R_OPTS),
     Source(src="source/nw4r/ut/ut_lockedCache.cpp", cc='4201_127', opts=NW4R_OPTS),
 ]
+SOURCES_RFL = [
+    Source(src="source/rfl/rfl_init.c", cc='4201_127', opts=RFL_OPTS),
+]
 SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggAllocator.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggArchive.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
@@ -251,6 +255,7 @@ SOURCES_DOL = list(chain(
     SOURCES_NW4R_LYT,
     SOURCES_NW4R_SND,
     SOURCES_NW4R_UT,
+    SOURCES_RFL,
     SOURCES_EGG_CORE,
     SOURCES_EGG_AUDIO,
     SOURCES_EGG_MATH,
