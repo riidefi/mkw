@@ -30,11 +30,11 @@ extern UNKNOWN_FUNCTION(unk_800c6700);
 // PAL: 0x800c7ee0
 extern UNKNOWN_FUNCTION(unk_800c7ee0);
 
-// Symbol: RFL_Init
+// Symbol: RFLInitResAsync
 // Function signature is unknown.
 // PAL: 0x800bbba0..0x800bbf08
-MARK_BINARY_BLOB(RFL_Init, 0x800bbba0, 0x800bbf08);
-asm UNKNOWN_FUNCTION(RFL_Init) {
+MARK_BINARY_BLOB(RFLInitResAsync, 0x800bbba0, 0x800bbf08);
+asm UNKNOWN_FUNCTION(RFLInitResAsync) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);

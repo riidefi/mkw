@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 // PAL: 0x800bbba0..0x800bbf08
-UNKNOWN_FUNCTION(RFL_Init);
+UNKNOWN_FUNCTION(RFLInitResAsync);
 
 #ifdef __cplusplus
 }
