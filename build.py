@@ -46,6 +46,7 @@ parser.add_argument(
     type=str,
     default=None,
     help="For quick iteration on a single file before we get full incremental builds")
+parser.add_argument("--link_only", action="store_true", help="Link only, don't build")
 args = parser.parse_args()
 # Start by running gen_asm.
 gen_asm(args.regen_asm)
@@ -327,6 +328,8 @@ def compile_sources():
         print(colored('[NOTE] Only compiling sources matching "%s".' % args.single_file, "red"))
         global gSourceQueue
         gSourceQueue = list(filter(lambda x: args.single_file in str(x[0]), gSourceQueue))
+    if args.link_only:
+        gSourceQueue = []
 
     compile_queued_sources()
 
@@ -341,7 +344,7 @@ def compile_sources():
     for asm in asm_files:
         out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
         # Optimization: Do not assemble ASM files if the target object already exists.
-        if out_o.exists():
+        if not args.regen_asm and out_o.exists():
             continue
         assemble(out_o, asm)
 
@@ -352,8 +355,7 @@ def link_dol(o_files: list[Path]):
     src_lcf_path = Path("pack", "dol.lcf.j2")
     dst_lcf_path = Path("pack", "dol.lcf")
     slices_path = Path("pack", "dol_slices.csv")
-    symbols_path = Path("pack", "symbols.txt")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path, symbols_path)
+    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -373,8 +375,7 @@ def link_rel(o_files: list[Path]):
     src_lcf_path = Path("pack", "rel.lcf.j2")
     dst_lcf_path = Path("pack", "rel.lcf")
     slices_path = Path("pack", "rel_slices.csv")
-    symbols_path = Path("pack", "symbols.txt")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path, symbols_path)
+    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)

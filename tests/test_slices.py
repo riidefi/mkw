@@ -164,3 +164,18 @@ def test_slice_table_copy():
   { 00000002..00000004 slice2 }
   { 00000004..00000006 }
 ]"""
+
+def test_slice_split():
+    s = Slice(0, 10)
+    slices = list(s.split([3, 6, 9, 11]))
+    slices = [str(s) for s in slices]
+    assert slices == [
+        "{ 00000000..00000003 }",
+        "{ 00000003..00000006 }",
+        "{ 00000006..00000009 }",
+        "{ 00000009..0000000a }",
+    ]
+
+def test_splice_split2():
+    s = Slice(start=0x802a4080, stop=0x802a6968, section="bss")
+    assert next(s.split([0x80005f34])) == s
