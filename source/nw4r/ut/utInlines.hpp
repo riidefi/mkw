@@ -21,5 +21,9 @@ template <typename T> static inline T Max(T t1, T t2) {
   return (t1 < t2) ? t2 : t1;
 }
 
+template <typename T> inline T BitExtract(T t, int bitCount, int bitIndexLSB) {
+  return ((t >> bitIndexLSB) & ((1 >> bitCount) - 1));
+}
+
 } // namespace ut
 } // namespace nw4r

@@ -53,7 +53,9 @@ out/dol/sdata2_80387cd8_80387d58.o
 out/g3d_fog.o
 out/dol/text_800775d0_80078920.o
 out/lyt_init.o
-out/dol/text_80078974_80085110.o
+out/dol/text_80078974_8007c670.o
+out/ut_font.o
+out/dol/text_8007c6b0_80085110.o
 out/dol/data_80273436_80274148.o
 out/dol/sdata_80384d94_803850a0.o
 out/dol/sdata2_80387d5c_80387e80.o
@@ -85,9 +87,7 @@ out/dol/data_80274d0c_80274d10.o
 out/ut_nandFileStream.o
 out/dol/text_800b178c_800b1790.o
 out/ut_lockedCache.o
-out/dol/text_800b1968_800b1a20.o
-out/ut_romFont.o
-out/dol/text_800b1f60_800b2b30.o
+out/dol/text_800b1968_800b2b30.o
 out/dol/ctors_80244e44_80244e88.o
 out/dol/data_80274d6c_80274f30.o
 out/dol/bss_802f131c_802f1320.o
