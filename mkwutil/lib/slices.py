@@ -2,9 +2,9 @@ from bisect import bisect, bisect_left
 from copy import copy
 import csv
 from dataclasses import dataclass, field
-import math
+from itertools import chain
 from pathlib import Path
-from typing import Callable, Generator, Optional
+from typing import Callable, Generator, Iterable, Iterator, Optional
 
 
 @dataclass
@@ -30,7 +30,7 @@ class Slice:
         return False
 
     def __len__(self) -> int:
-        assert self.start <= self.stop, "Slice has negative length"
+        assert self.start <= self.stop, f"Slice has negative length: {self}"
         return self.stop - self.start
 
     def __eq__(self, other: "Slice") -> bool:
@@ -61,6 +61,19 @@ class Slice:
     def __copy__(self) -> "Slice":
         """Returns a copy of the slice."""
         return type(self)(self.start, self.stop, self.name, self.section, self.tags)
+
+    def split(self, split_addrs: Iterable[int]) -> Iterator["Slice"]:
+        """Returns an iterator of this slice split into multiple."""
+        start = self.start
+        for addr in chain(sorted(split_addrs), [self.stop]):
+            if addr < self.start or addr > self.stop:
+                continue
+            sub_slice = copy(self)
+            sub_slice.start = start
+            sub_slice.stop = addr
+            if sub_slice in self and len(sub_slice) > 0:
+                yield sub_slice
+            start = addr
 
 
 @dataclass
@@ -421,7 +434,9 @@ class SliceTable:
                 assert (
                     not _slice.has_name()
                 ), "Refusing to split named slice across sections"
-                assert i + 1 < len(sections), "Slice ends outside section table"
+                if i + 1 >= len(sections):
+                    print(f"WARN: Slice ends outside section table: {_slice}")
+                    return
                 # Shrink left slice.
                 old_stop = _slice.stop
                 _slice.stop = sections[i].stop
