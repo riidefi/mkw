@@ -1,6 +1,6 @@
 import argparse
 import jinja2
-from pathlib import Path,  PurePosixPath, PureWindowsPath
+from pathlib import Path, PurePosixPath, PureWindowsPath
 import re
 import sys
 
@@ -8,6 +8,7 @@ from elftools.elf.elffile import ELFFile
 
 from mkwutil.lib.slices import SliceTable
 from mkwutil.lib.symbols import Symbol, SymbolsList
+from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS
 
 
 MATCH_UNK = re.compile(r"^unk_([0-9a-f]{8})$")
@@ -18,24 +19,31 @@ def format_path(p):
         return str(PureWindowsPath(p))
     return f'"{PurePosixPath(p)}"'
 
+
 def gen_lcf(
     src: Path,
     dst: Path,
     object_paths: list[Path],
     slices_path: Path,
-    symbols_path: Path,
 ):
     """Generates the LCF."""
-    # Read slices and search for stripped objects.
+    # Read slices.
     slices = SliceTable.load_path(slices_path)
     slices = slices.filter(SliceTable.ONLY_ENABLED)
+    # For dol and rel, we can also fill in section names.
+    if slices_path.name == "dol_slices.csv":
+        slices.set_sections(DOL_SECTIONS)
+    elif slices_path.name == "rel_slices.csv":
+        slices.set_sections(REL_SECTIONS)
+    else:
+        print(f"WARN: Using linker-defined symbols instead of inline assembly")
+    # Search for stripped objects.
     stripped = set()
     for _slice in slices:
         if _slice.has_name() and "strip" in _slice.tags:
             stripped.add(Path(_slice.name).stem)
     # Read symbols list.
     symbols = SymbolsList()
-    symbols.read_from(open(symbols_path, "r"))
     # Scan objects for references to unknown symbols (unk_XXX).
     # We'll add those implicitly to LCF.
     for obj_path in object_paths:

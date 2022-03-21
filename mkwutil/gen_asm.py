@@ -32,28 +32,77 @@ class AsmGenerator:
         self.data = data
         self.slice = _slice
         self.symbols = symbols
+        self.symbol_locs = [sym.addr for sym in symbols]
         self.output = output
 
     # TODO Define symbols in ASM
 
+    def emit_symbol(self, address):
+        """Maybe emits a symbol, if there is one."""
+        if address in self.symbols:  # probably slow
+            name = self.symbols[address].name
+            print(f".global {name}\n{name}:", file=self.output)
+
     def dump_bss(self):
         """Writes a bss segment."""
-        print(".skip 0x%x" % len(self.slice), file=self.output)
+        for part in self.slice.split(self.symbol_locs):
+            self.emit_symbol(part.start)
+            print(".skip 0x%x" % len(part), file=self.output)
 
     def dump_data(self):
         """Writes a data segment."""
-        data = self.data
-        while len(data) >= 4:
-            int_val = struct.unpack(">I", data[:4])[0]
-            print(".4byte 0x%08X" % (int_val), file=self.output)
-            data = data[4:]
-        for byte_val in data:
+        for part in self.slice.split(self.symbol_locs):
+            self.emit_symbol(part.start)
+            self.emit_data_words(part)
+
+    def emit_data_words(self, part: Slice):
+        """Emits a bunch of data segment words."""
+        for address, chunk in self.iter_data_chunks(part, 4):
+            self.emit_symbol(address)
+            if len(chunk) == 4:
+                print(".4byte 0x%08X" % struct.unpack(">I", chunk), file=self.output)
+            else:
+                self.emit_data_bytes(chunk)
+
+    def emit_data_bytes(self, data):
+        """Emits a few data segment bytes."""
+        while len(data) > 0:
+            byte_val = data[0]
             print(".byte 0x%02x" % (byte_val), file=self.output)
+            data = data[1:]
+
+    def get_data_chunk(self, part: Slice) -> bytes:
+        view = memoryview(self.data)
+        view = view[part.start - self.slice.start :]
+        view = view[: len(part)]
+        return bytes(view)
+
+    def iter_data_chunks(
+        self, part: Slice, chunk_size: int
+    ) -> Iterator[tuple[int, bytes]]:
+        offset = part.start - self.slice.start
+        # Align first word.
+        while offset % 4 != 0:
+            yield self.slice.start + offset, [self.data[offset]]
+            offset += 1
+        # Use memoryview to scan over data efficiently.
+        view = memoryview(self.data)
+        view = view[offset:]
+        view = view[: len(part)]
+        while len(view) > 0:
+            left, view = view[:chunk_size], view[chunk_size:]
+            yield self.slice.start + offset, bytes(left)
+            offset += len(left)
 
     def dump_text(self):
         """Writes a disassembled text segment."""
-        for ins in disasm_iter(self.data, self.slice.start):
-            print(ins.disassemble(), file=self.output)
+        for part in self.slice.split(self.symbol_locs):
+            assert (
+                part.start % 4 == 0
+            ), f"rip bozo destroyed by misaligned text thingy between two symbols it is at {part}"
+            self.emit_symbol(part.start)
+            for ins in disasm_iter(self.get_data_chunk(part), part.start):
+                print(ins.disassemble(), file=self.output)
 
     def dump_section_body(self):
         name = self.slice.section

@@ -293,7 +293,10 @@ def insn_to_text(insn, raw):
         elif idx in {56, 57, 60, 61}:
             asm = disasm_ps_mem(raw, idx)
     if asm is None:
-        asm = ".4byte 0x%08X  /* unknown instruction */" % raw
+        if raw == 0:
+            asm = ".4byte 0"
+        else:
+            asm = ".4byte 0x%08X  /* unknown instruction */" % raw
     return asm
 
 
