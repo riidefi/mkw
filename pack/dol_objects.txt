@@ -85,7 +85,9 @@ out/dol/data_80274d0c_80274d10.o
 out/ut_nandFileStream.o
 out/dol/text_800b178c_800b1790.o
 out/ut_lockedCache.o
-out/dol/text_800b1968_800b2b30.o
+out/dol/text_800b1968_800b1a20.o
+out/ut_romFont.o
+out/dol/text_800b1f60_800b2b30.o
 out/dol/ctors_80244e44_80244e88.o
 out/dol/data_80274d6c_80274f30.o
 out/dol/bss_802f131c_802f1320.o
