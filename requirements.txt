@@ -10,7 +10,7 @@ dominate==2.6.0
 flameprof==0.4
 iniconfig==1.1.1
 Jinja2==3.0.3
-MarkupSafe==2.0.1
+MarkupSafe==2.1.1
 mbstrdecoder==1.0.1
 packaging==21.3
 pathvalidate==2.4.1
