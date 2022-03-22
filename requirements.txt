@@ -16,7 +16,7 @@ packaging==21.0
 pathvalidate==2.4.1
 pluggy==0.13.1
 py==1.10.0
-pyelftools==0.27
+pyelftools==0.28
 pyparsing==2.4.7
 pytablewriter==0.62.0
 pytest==6.2.4
