@@ -11,7 +11,7 @@ flameprof==0.4
 iniconfig==1.1.1
 Jinja2==3.0.3
 MarkupSafe==2.0.1
-mbstrdecoder==1.0.1
+mbstrdecoder==1.1.0
 packaging==21.3
 pathvalidate==2.4.1
 pluggy==0.13.1
