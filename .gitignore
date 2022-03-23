@@ -54,6 +54,7 @@ __pycache__/
 /env/
 .pytest_cache
 *.egg-info
+.venv
 
 tmp
 *.rel
@@ -62,6 +63,7 @@ tmp
 !/artifacts/orig/pal/rel/rel_abs.bin
 *.map
 out.html
+tools.zip
 
 # Editors
 .vscode/
