@@ -99,17 +99,22 @@ struct DvdFileStream : FileStream {
   void Seek(s32, u32);
   void Cancel();
   bool CancelAsync(AsyncFunctor, void*);
-  u32 GetBufferAlign() const = 0;
-  u32 GetSizeAlign() const = 0;
-  u32 GetOffsetAlign() const = 0;
-  bool CanCancel() const = 0;
-  bool CanWrite() const = 0;
-  bool CanRead() const = 0;
-  bool CanSeek() const = 0;
-  bool CanAsync() const = 0;
+
+  bool CanAsync() const override;
+
+  bool CanRead() const override INLINE_ELSEWHERE({ return true; });
+  bool CanWrite() const override INLINE_ELSEWHERE({ return false; });
+
+  u32 GetOffsetAlign() const override INLINE_ELSEWHERE({ return 4; });
+  u32 GetSizeAlign() const override INLINE_ELSEWHERE({ return 32; });
+  u32 GetBufferAlign() const override INLINE_ELSEWHERE({ return 32; });
+
+  bool CanSeek() const override INLINE_ELSEWHERE({ return true; });
+  bool CanCancel() const override INLINE_ELSEWHERE({ return true; });
+  bool IsBusy() const override INLINE_ELSEWHERE({ return mIsBusy; });
+
   u32 GetSize() const;
   u32 Tell() const;
-  bool IsBusy() const;
   const detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const;
 
   FilePosition mPosition;  // at 0x14

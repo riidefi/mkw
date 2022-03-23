@@ -115,7 +115,7 @@ bool DvdFileStream::CancelAsync(AsyncFunctor func, void* p) {
   return (result != 0);
 }
 
-bool DvdFileStream::IsBusy() const { return 1; }
+bool DvdFileStream::CanAsync() const { return true; }
 
 u32 DvdFileStream::GetSize() const { return mPosition.GetFileSize(); }
 

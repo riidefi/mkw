@@ -13,8 +13,8 @@
 
 namespace nw4r {
 namespace ut {
-class NandFileStream : FileStream {
 
+class NandFileStream : FileStream {
 public:
   // PAL: 0x800b0aa0..0x800b0ad0
   static void NandAsyncCallback_(s32, NANDCommandBlock*);
@@ -45,6 +45,20 @@ public:
   u32 GetSize() const;
 
   u32 Tell() const;
+
+  // All defined elsewhere
+  virtual const detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const;
+
+  bool IsBusy() const override;
+  bool CanAsync() const override;
+  bool CanRead() const override;
+  bool CanWrite() const override;
+  u32 GetOffsetAlign() const override;
+  u32 GetSizeAlign() const override;
+  u32 GetBufferAlign() const override;
+
+  bool CanSeek() const override;
+  bool CanCancel() const override;
 
 private:
   inline void Initialize_() {
