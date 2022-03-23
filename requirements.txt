@@ -14,7 +14,7 @@ MarkupSafe==2.1.1
 mbstrdecoder==1.1.0
 packaging==21.3
 pathvalidate==2.4.1
-pluggy==0.13.1
+pluggy==1.0.0
 py==1.10.0
 pyelftools==0.28
 pyparsing==3.0.7
