@@ -58,12 +58,12 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: asm/dol
-          key: asm-dol-v2
+          key: asm-dol-v3
 
       - uses: actions/cache@v2
         with:
           path: asm/rel
-          key: asm-rel-v2
+          key: asm-rel-v3
 
       - name: Build mkw
         shell: bash
@@ -120,12 +120,12 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: asm/dol
-          key: asm-dol-v2
+          key: asm-dol-v3
 
       - uses: actions/cache@v2
         with:
           path: asm/rel
-          key: asm-rel-v2
+          key: asm-rel-v3
 
       - name: Build mkw
         shell: bash
