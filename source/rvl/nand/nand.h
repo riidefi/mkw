@@ -6,6 +6,9 @@
 extern "C" {
 #endif
 
+struct NANDCommandBlock;
+struct NANDCB_UNK;
+
 typedef void (*NANDCallback)(s32);
 typedef void (*NANDAsyncCallback)(s32, struct NANDCommandBlock*);
 typedef void (*NANDCBAsyncCallback)(s32, struct NANDCB_UNK*, u32);
