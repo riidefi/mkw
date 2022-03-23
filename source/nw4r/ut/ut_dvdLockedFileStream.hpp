@@ -25,14 +25,13 @@ public:
   s32 Peek(void*, u32);
   void Cancel();
 
-  bool CanAsync() const override INLINE_ELSEWHERE({return false});
-  bool PeekAsync(void*, u32, AsyncFunctor, void*) override
-      INLINE_ELSEWHERE({return false});
-  bool ReadAsync(void*, u32, AsyncFunctor, void*) override
-      INLINE_ELSEWHERE({return false});
+  bool CanAsync() const override { return false; }
+  bool PeekAsync(void*, u32, AsyncFunctor, void*) override { return false; }
+  bool ReadAsync(void*, u32, AsyncFunctor, void*) override { return false; }
 
-  const detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override
-      INLINE_ELSEWHERE({ return &typeInfo; });
+  const detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override {
+    return &typeInfo;
+  }
 
 public:
   static bool sInitialized;

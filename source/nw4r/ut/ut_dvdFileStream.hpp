@@ -102,16 +102,16 @@ struct DvdFileStream : FileStream {
 
   bool CanAsync() const override;
 
-  bool CanRead() const override INLINE_ELSEWHERE({ return true; });
-  bool CanWrite() const override INLINE_ELSEWHERE({ return false; });
+  bool CanRead() const override { return true; }
+  bool CanWrite() const override { return false; }
 
-  u32 GetOffsetAlign() const override INLINE_ELSEWHERE({ return 4; });
-  u32 GetSizeAlign() const override INLINE_ELSEWHERE({ return 32; });
-  u32 GetBufferAlign() const override INLINE_ELSEWHERE({ return 32; });
+  u32 GetOffsetAlign() const override { return 4; }
+  u32 GetSizeAlign() const override { return 32; }
+  u32 GetBufferAlign() const override { return 32; }
 
-  bool CanSeek() const override INLINE_ELSEWHERE({ return true; });
-  bool CanCancel() const override INLINE_ELSEWHERE({ return true; });
-  bool IsBusy() const override INLINE_ELSEWHERE({ return mIsBusy; });
+  bool CanSeek() const override { return true; }
+  bool CanCancel() const override { return true; }
+  bool IsBusy() const override { return mIsBusy; }
 
   u32 GetSize() const;
   u32 Tell() const;
