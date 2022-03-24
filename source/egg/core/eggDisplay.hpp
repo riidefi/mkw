@@ -2,7 +2,7 @@
 
 #include <rk_types.h>
 
-#include "decomp.h"
+#include <decomp.h>
 
 namespace EGG {
 

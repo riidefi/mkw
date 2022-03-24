@@ -6,7 +6,9 @@
 #include "utColor.hpp"
 #include "ut_font.hpp"
 
-// Credit: kiwi515
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_CharWriter.h
+// Credit: GibHaltmannKill
 
 namespace nw4r {
 namespace ut {

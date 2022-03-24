@@ -994,10 +994,9 @@ lbl_801a638c:
 }
 
 // Symbol: OSGetFontTexture
-// Function signature is unknown.
 // PAL: 0x801a63a4..0x801a64f4
 MARK_BINARY_BLOB(OSGetFontTexture, 0x801a63a4, 0x801a64f4);
-asm UNKNOWN_FUNCTION(OSGetFontTexture) {
+asm void OSGetFontTexture(void*, u8**, int*, int*, int*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1094,10 +1093,9 @@ lbl_801a64d4:
 }
 
 // Symbol: OSGetFontWidth
-// Function signature is unknown.
 // PAL: 0x801a64f4..0x801a65ac
 MARK_BINARY_BLOB(OSGetFontWidth, 0x801a64f4, 0x801a65ac);
-asm UNKNOWN_FUNCTION(OSGetFontWidth) {
+asm int OSGetFontWidth(void*, u32*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);

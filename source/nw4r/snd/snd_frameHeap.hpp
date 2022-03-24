@@ -1,6 +1,9 @@
 #pragma once
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/snd/snd_FrameHeap.h
 // Credit: kiwi515
+// Credit: GibHaltmannKill
 
 #include <nw4r/ut/utList.hpp>
 

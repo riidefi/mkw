@@ -114,3 +114,5 @@ private:
   inline NonCopyable(const NonCopyable&) {}
 };
 #endif // __cplusplus
+
+#define INLINE_ELSEWHERE(x)

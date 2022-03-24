@@ -1,10 +1,15 @@
 #pragma once
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/snd/snd_DvdSoundArchive.h
 // Credit: kiwi515
+// Credit: GibHaltmannKill
 
 #include <rk_types.h>
 #include <decomp.h>
-#include <rvl/rvlDvd.h>
+
+#include <rvl/dvd/dvd.h>
+
 #include "snd_sndArchive.hpp"
 #include "snd_soundArchiveFile.hpp"
 namespace nw4r {
