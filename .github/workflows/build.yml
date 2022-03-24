@@ -72,7 +72,7 @@ jobs:
       - name: Get DOL progress
         run: python -m mkwutil.progress.percent_decompiled --short --part DOL > badge_dol_progress.txt
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: badge_dol_progress
           path: badge_dol_progress.txt
@@ -80,7 +80,7 @@ jobs:
       - name: Get REL progress
         run: python -m mkwutil.progress.percent_decompiled --short --part REL > badge_rel_progress.txt
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: badge_rel_progress
           path: badge_rel_progress.txt
@@ -92,7 +92,7 @@ jobs:
         run: python -m mkwutil.progress.graphic --silent
 
       - name: Upload Website Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: website
           path: out/website
@@ -104,9 +104,10 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Download Website Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: website
+          path: out/website
 
       - name: Create doxygen dir
         run: mkdir -p out/website/docs
