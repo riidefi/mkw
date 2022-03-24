@@ -19,7 +19,6 @@ class SdataAccess:
     at: int
     target: int
     size: int = 4
-    ps_ext: bool = False
 
     def __str__(self) -> str:
         return "%08x %08x" % (self.target, self.at)
@@ -31,7 +30,6 @@ class SdataSite:
     refs: set[int] = field(default_factory=lambda: set())
     value: Optional[int] = None
     size: Optional[int] = None
-    ps_ext: bool = False
 
     def add(self, access: SdataAccess):
         if self.size is not None and self.size != access.size:
@@ -40,7 +38,6 @@ class SdataSite:
         else:
             self.size = access.size
         self.refs.add(access.at)
-        self.ps_ext = self.ps_ext or access.ps_ext
 
     def read_from(self, bin: DolBinary):
         if self.size == 8:
@@ -65,8 +62,6 @@ class SdataSite:
             )
         else:
             ret = "%08x %s" % (self.at, value_str)
-        if self.ps_ext:
-            ret += " (psq)"
         return ret
 
     def __lt__(self, other) -> bool:
@@ -94,17 +89,12 @@ class SdataAccessScanner:
         blob = self.segment.virtual_read(at, 4)
         word = struct.unpack(">I", blob)[0]
 
-        ps_ext = False
         if word >> 26 in (32, 34, 36, 38, 40, 44, 48, 52):
             # lwz, lbz, stw, stb, lhz, sth, lfs, stfs opcodes
             access_size = 4
         elif word >> 26 in (50, 54):
             # lfd, stfd opcodes
             access_size = 8
-        elif word >> 26 in (56, 60):
-            # psq_l, psq_st
-            access_size = 4
-            ps_ext = True
         else:
             return
         # r2 or r13
@@ -116,15 +106,11 @@ class SdataAccessScanner:
         else:
             return
         # offset
-        if not ps_ext:
-            offset_uimm = word & 0xFFFF
-            offset = struct.unpack(">h", struct.pack(">H", (offset_uimm)))[0]
-            offset = offset & ~3
-        else:
-            offset_uimm = word & 0x1FFF
-            offset = offset & ~3
+        offset_uimm = word & 0xFFFF
+        offset = struct.unpack(">h", struct.pack(">H", (offset_uimm)))[0]
+        offset = offset & ~3
 
-        return SdataAccess(at, base + offset, size=access_size, ps_ext=ps_ext)
+        return SdataAccess(at, base + offset, size=access_size)
 
 
 class SdataAccessIndexer:
@@ -159,11 +145,11 @@ class Sdata2TUDetector:
         self.tu = []
         self.vals = set()
         self.found_padding = False
-    
+
     def run(self):
         self._reset_tu()
         for site in self.sites:
-            if site.at < 0x80386fa0:
+            if site.at < 0x80386FA0:
                 continue
             if self.found_padding:
                 self._next_tu()
@@ -184,7 +170,10 @@ class Sdata2TUDetector:
         min_text, max_text = Sdata2TUDetector.tu_spread(self.tu)
         if max_text == 0:
             return
-        print("%08x..%08x %08x..%08x" % (self.tu[0].at, self.tu[-1].at, min_text, max_text))
+        print(
+            "%08x..%08x %08x..%08x"
+            % (self.tu[0].at, self.tu[-1].at, min_text, max_text)
+        )
 
     def _next_tu(self):
         self._dump_tu()
