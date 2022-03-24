@@ -165,4 +165,4 @@ if __name__ == "__main__":
             }
         ).dump(file)
     if not args.silent:
-        webbrowser.open(index_path)
+        webbrowser.open(str(index_path))
