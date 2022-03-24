@@ -56,7 +56,7 @@ void OSSleepTicks(OSTime ticks);
 // PAL: 0x801a961c..0x801a98a0
 UNKNOWN_FUNCTION(__OSThreadInit);
 // PAL: 0x801a98a0..0x801a98b0
-UNKNOWN_FUNCTION(OSInitThreadQueue);
+void OSInitThreadQueue(struct OSThreadQueue*);
 // PAL: 0x801a98b4..0x801a98bc
 UNKNOWN_FUNCTION(GetFont__Q34nw4r3lyt7TextBoxCFv);
 // PAL: 0x801a98e8..0x801a9924
@@ -84,9 +84,9 @@ UNKNOWN_FUNCTION(OSJoinThread);
 // PAL: 0x801aa824..0x801aa9b8
 UNKNOWN_FUNCTION(OSSuspendThread);
 // PAL: 0x801aa9b8..0x801aaaa4
-UNKNOWN_FUNCTION(OSSleepThread);
+void OSSleepThread(struct OSThreadQueue*);
 // PAL: 0x801aaaa4..0x801aab98
-UNKNOWN_FUNCTION(OSWakeupThread);
+void OSWakeupThread(struct OSThreadQueue*);
 // PAL: 0x801aab98..0x801aaca8
 UNKNOWN_FUNCTION(OSSetThreadPriority);
 

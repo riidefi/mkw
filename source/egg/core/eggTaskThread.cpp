@@ -6,7 +6,7 @@
 #include <egg/core/eggHeap.hpp>
 #include <egg/core/eggTaskThread.hpp>
 
-#include <rvl/rvlDvd.h>
+#include <rvl/dvd/dvd.h>
 
 namespace EGG {
 

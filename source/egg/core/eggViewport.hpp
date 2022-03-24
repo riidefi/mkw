@@ -8,7 +8,7 @@
 #include <rk_types.h>
 #include <egg/math/eggBoundBox.hpp>
 
-#include "decomp.h"
+#include <decomp.h>
 
 namespace EGG {
 

@@ -11,6 +11,11 @@
 #include <rvl/gx/gxTexture.h>
 #include <rvl/gx/gxVert.h>
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/src/nw4r/ut/ut_CharWriter.cpp
+// Credit: kiwi515
+// Credit: GibHaltmannKill
+
 namespace {
 inline void SetupGXCommon() {
   static const nw4r::ut::Color fog = 0;

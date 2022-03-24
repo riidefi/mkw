@@ -2,7 +2,8 @@
 
 #include <rk_types.h>
 
-// Credit: kiwi515
+// Source: https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_Font.h
+// Credit: GibHaltmannKill
 
 #include "ut_charStrmReader.hpp"
 #include "ut_glyph.hpp"
@@ -18,7 +19,7 @@ struct CharWidths {
 enum FontEncoding { FontEnc_UTF8, FontEnc_UTF16, FontEnc_SJIS, FontEnc_CP1252 };
 
 struct Font {
-  inline virtual ~Font() {} // 0x8
+  __declspec(weak) virtual ~Font() {} // 0x8
 
   virtual int GetWidth() const = 0;   // 0xc
   virtual int GetHeight() const = 0;  // 0x10
@@ -28,7 +29,7 @@ struct Font {
   virtual int GetCellHeight() const = 0;
   virtual int GetCellWidth() const = 0;
   virtual int GetMaxCharWidth() const = 0;
-  virtual void GetType() const = 0;
+  virtual int GetType() const = 0;
   virtual int GetTextureFormat() const = 0;
   virtual int GetLineFeed() const = 0;
   virtual CharWidths GetDefaultCharWidths() const = 0;

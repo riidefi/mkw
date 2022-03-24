@@ -1,6 +1,9 @@
 #pragma once
 
-// Credit: kiwi51
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/snd/snd_SoundMemoryAllocatable.h
+// Credit: kiwi515
+// Credit: GibHaltmannKill
 
 #include <rk_types.h>
 

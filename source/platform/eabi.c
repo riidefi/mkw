@@ -1,4 +1,4 @@
-#include "decomp.h"
+#include <decomp.h>
 
 static asm void __save_gpr(void) {
   // clang-format off

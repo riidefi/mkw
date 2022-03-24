@@ -1,12 +1,13 @@
-// Source:
-// https://github.com/doldecomp/ogws/blob/82dbeac2267170fc5cef7e67a6d8c31c5ff45d69/include/nw4r/ut/ut_Color.h
-// Decompiled by kiwi515, GibHaltmannKill.
-
 #pragma once
 
 #include <rk_types.h>
 
 #include <rvl/gx/gx.h>
+
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_Color.h
+// Credit: kiwi515
+// Credit: GibHaltmannKill
 
 namespace nw4r {
 namespace ut {

@@ -1,5 +1,9 @@
 #pragma once
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/snd/snd_SoundArchiveFile.h
+// Credit: GibHaltmannKill
+
 #include <rk_types.h>
 #include <decomp.h>
 

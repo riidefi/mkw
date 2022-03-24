@@ -72,8 +72,6 @@ extern "C" UNKNOWN_FUNCTION(GXSetScissor);
 extern "C" UNKNOWN_FUNCTION(C_MTXOrtho);
 // PAL: 0x801a08e0
 extern "C" UNKNOWN_FUNCTION(OSSetPeriodicAlarm);
-// PAL: 0x801a98a0
-extern "C" UNKNOWN_FUNCTION(OSInitThreadQueue);
 // PAL: 0x801b9138
 extern "C" UNKNOWN_FUNCTION(VISetPostRetraceCallback);
 // PAL: 0x80219e68

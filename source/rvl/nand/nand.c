@@ -1,5 +1,5 @@
 #include "nand.h"
-#include "decomp.h"
+#include <decomp.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -498,7 +498,7 @@ lbl_8019b7f0:
 // Symbol: NANDReadAsync
 // PAL: 0x8019b80c..0x8019b884
 MARK_BINARY_BLOB(NANDReadAsync, 0x8019b80c, 0x8019b884);
-asm s32 NANDReadAsync(NANDFileInfo*, void*, u32, NANDCallback) {
+asm s32 NANDReadAsync(NANDFileInfo*, void*, u32, NANDAsyncCallback, void*) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -572,7 +572,8 @@ lbl_8019b8d0:
 // Symbol: NANDWriteAsync
 // PAL: 0x8019b8ec..0x8019b964
 MARK_BINARY_BLOB(NANDWriteAsync, 0x8019b8ec, 0x8019b964);
-asm s32 NANDWriteAsync(NANDFileInfo*, const void*, u32, NANDCallback) {
+asm s32 NANDWriteAsync(NANDFileInfo*, const void*, u32, NANDAsyncCallback,
+                       void*) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -611,7 +612,7 @@ lbl_8019b94c:
 // Symbol: NANDSeek
 // PAL: 0x8019b964..0x8019ba04
 MARK_BINARY_BLOB(NANDSeek, 0x8019b964, 0x8019ba04);
-asm s32 NANDSeek(NANDFileInfo*, s32, s32) {
+asm s32 NANDSeek(NANDFileInfo*, u32, s32) {
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
