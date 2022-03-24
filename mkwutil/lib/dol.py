@@ -68,6 +68,11 @@ class DolSegment:
         assert len(result) == size
         return result
 
+    def virtual_read_word(self, vaddr):
+        assert vaddr % 4 == 0
+        blob = self.virtual_read(vaddr, 4)
+        return struct.unpack(">I", blob)[0]
+
     def name(self):
         if self.index == -1:
             return "bss"
@@ -131,6 +136,20 @@ class DolBinary:
         if segment is None:
             return None
         return segment.virtual_read(vaddr, size)
+
+    def virtual_read_word(self, vaddr):
+        assert vaddr % 4 == 0
+        blob = self.virtual_read(vaddr, 4)
+        if blob is None:
+            return
+        return struct.unpack(">I", blob)[0]
+
+    def virtual_read_dword(self, vaddr):
+        assert vaddr % 8 == 0
+        blob = self.virtual_read(vaddr, 8)
+        if blob is None:
+            return
+        return struct.unpack(">Q", blob)[0]
 
     def virtual_to_rom(self, vaddr: int) -> Optional[int]:
         """Returns the DOL offset given a virtual address."""
