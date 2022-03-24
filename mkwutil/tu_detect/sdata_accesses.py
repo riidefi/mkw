@@ -16,9 +16,11 @@ from mkwutil.project import read_dol
 
 @dataclass
 class SdataAccess:
-    at: int
-    target: int
-    size: int = 4
+    """An instruction in the text section referencing sdata."""
+
+    at: int  # text address
+    target: int  # sdata address
+    size: int = 4  # size of access
 
     def __str__(self) -> str:
         return "%08x %08x" % (self.target, self.at)
@@ -26,12 +28,17 @@ class SdataAccess:
 
 @dataclass
 class SdataSite:
-    at: int
-    refs: set[int] = field(default_factory=lambda: set())
-    value: Optional[int] = None
-    size: Optional[int] = None
+    """An word/dword in sdata."""
+
+    at: int  # sdata address
+    refs: set[int] = field(
+        default_factory=lambda: set()
+    )  # text addresses creating incoming refs
+    value: Optional[int] = None  # default value (None for sbss)
+    size: Optional[int] = None  # size of value stored
 
     def add(self, access: SdataAccess):
+        """Adds an incoming reference."""
         if self.size is not None and self.size != access.size:
             print("WARN: access size mismatch", file=sys.stderr)
             self.size = 4
@@ -40,12 +47,14 @@ class SdataSite:
         self.refs.add(access.at)
 
     def read_from(self, bin: DolBinary):
+        """Reads the value from the DOL."""
         if self.size == 8:
             self.value = bin.virtual_read_dword(self.at)
         else:
             self.value = bin.virtual_read_word(self.at)
 
     def __str__(self) -> str:
+        """Human-readable representation."""
         if self.value is None:
             value_str = "????????"
         elif self.size == 8:
@@ -69,6 +78,8 @@ class SdataSite:
 
 
 class SdataAccessScanner:
+    """Scans the text section for sdata accesses."""
+
     R2 = 0x8038EFA0
     R13 = 0x8038CC00
 
@@ -77,12 +88,14 @@ class SdataAccessScanner:
         self.pointer = self.segment.start
 
     def scan(self) -> Iterator[SdataAccess]:
+        """Iterates through the text section, yielding any SdataAccesses."""
         while self.pointer < self.segment.stop:
             access = self._next()
             if access is not None:
                 yield access
 
     def _next(self) -> Optional[SdataAccess]:
+        """Reads the next instruction."""
         assert self.pointer % 4 == 0
         at = self.pointer
         self.pointer += 4
@@ -114,6 +127,8 @@ class SdataAccessScanner:
 
 
 class SdataAccessIndexer:
+    """Indexes SdataAccesses by sdata address."""
+
     def __init__(self):
         self.sites = dict()
 
@@ -127,6 +142,7 @@ class SdataAccessIndexer:
             if site.at >= 0x80389140:
                 break
             site.read_from(dol)
+            # Fill gaps.
             if last is None:
                 last = site.at
             while last < site.at:
@@ -137,7 +153,28 @@ class SdataAccessIndexer:
             yield site
 
 
+@dataclass
+class Sdata2TU:
+    """An estimated translation unit."""
+
+    sdata_min: int
+    sdata_max: int
+    text_min: int
+    text_max: int
+
+    def __str__(self) -> str:
+        return "%08x..%08x %08x..%08x" % (
+            self.sdata_min,
+            self.sdata_max,
+            self.text_min,
+            self.text_max,
+        )
+
+
 class Sdata2TUDetector:
+    """Scans indexed sdata2 for likely TU boundaries.
+    Implemented internally with a state machine that accumulates TUs and flushes them when conditions are met."""
+
     def __init__(self, sites: Iterable[SdataSite]):
         self.sites = sites
 
@@ -146,47 +183,57 @@ class Sdata2TUDetector:
         self.vals = set()
         self.found_padding = False
 
-    def run(self):
+    def run(self) -> Iterator[Sdata2TU]:
         self._reset_tu()
+        # Scan over sdata.
         for site in self.sites:
             if site.at < 0x80386FA0:
                 continue
+            # If the last element was padding, finish TU.
             if self.found_padding:
                 self._next_tu()
-            self._next_site(site)
+            # Next sdata field.
+            tu = self._next_site(site)
+            if tu is not None:
+                yield tu
+        # Last sdata field.
+        tu = self._next_site(site)
+        if tu is not None:
+            yield tu
 
     def tu_spread(sites) -> tuple[int, int]:
+        """Returns the min and max text instruction addresses referring to the sdata TU."""
         min_ref = 0xFFFF_FFFF_FFFF_FFFF
         max_ref = 0
         for site in sites:
             for ref in site.refs:
                 min_ref = min(min_ref, ref)
                 max_ref = max(max_ref, ref)
-        return min_ref, max_ref
+        return min_ref, max_ref + 4
 
-    def _dump_tu(self):
+    def _dump_tu(self) -> Optional[Sdata2TU]:
         if len(self.tu) == 0:
             return
-        min_text, max_text = Sdata2TUDetector.tu_spread(self.tu)
-        if max_text == 0:
+        text_min, text_max = Sdata2TUDetector.tu_spread(self.tu)
+        if text_max == 0:
             return
-        print(
-            "%08x..%08x %08x..%08x"
-            % (self.tu[0].at, self.tu[-1].at, min_text, max_text)
-        )
+        return Sdata2TU(self.tu[0].at, self.tu[-1].at, text_min, text_max)
 
-    def _next_tu(self):
-        self._dump_tu()
+    def _next_tu(self) -> Optional[Sdata2TU]:
+        tu = self._dump_tu()
         self._reset_tu()
+        return tu
 
-    def _next_site(self, site: SdataSite):
+    def _next_site(self, site: SdataSite) -> Optional[Sdata2TU]:
+        tu = None
         if site.value in self.vals:
             if site.value == 0 and len(site.refs) == 0 and site.at % 8 == 4:
                 self.found_padding = True
                 return
-            self._next_tu()
+            tu = self._next_tu()
         self.vals.add(site.value)
         self.tu.append(site)
+        return tu
 
 
 def main():
@@ -211,7 +258,8 @@ def main():
 
     # sdata2 section detect
     detector = Sdata2TUDetector(sites)
-    detector.run()
+    for tu in detector.run():
+        print(tu)
 
 
 if __name__ == "__main__":
