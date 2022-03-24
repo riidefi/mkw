@@ -2,8 +2,8 @@
 
 #include <rk_types.h>
 
-// Stolen from ogws.
-// Credit: kiwi515
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_Glyph.h
 // Credit: GibHaltmannKill
 
 namespace nw4r {

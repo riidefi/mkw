@@ -1,6 +1,7 @@
 #pragma once
 
-// Stolen from ogws.
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_LockedCache.h
 // Credit: GibHaltmannKill
 
 #include <rk_types.h>

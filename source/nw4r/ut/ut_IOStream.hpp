@@ -1,7 +1,7 @@
 #pragma once
 
-// Stolen from ogws.
-// Credit: kiwi515
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_IOStream.h
 // Credit: GibHaltmannKill
 
 #include <rk_types.h>

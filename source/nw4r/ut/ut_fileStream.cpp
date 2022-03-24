@@ -1,7 +1,7 @@
 #include "ut_fileStream.hpp"
 
-// Stolen from ogws.
-// Credit: kiwi515
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/src/nw4r/ut/ut_FileStream.cpp
 // Credit: GibHaltmannKill
 
 #include "utInlines.hpp"

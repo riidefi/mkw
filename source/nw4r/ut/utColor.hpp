@@ -4,7 +4,8 @@
 
 #include <rvl/gx/gx.h>
 
-// Stolen from ogws.
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_Color.h
 // Credit: kiwi515
 // Credit: GibHaltmannKill
 

@@ -6,7 +6,8 @@
 #include "ut_fileStream.hpp"
 #include "utInlines.hpp"
 
-// Stolen from ogws.
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_DvdFileStream.h
 // Credit: kiwi515
 // Credit: GibHaltmannKill
 

@@ -1,5 +1,9 @@
 #include "ut_lockedCache.hpp"
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/src/nw4r/ut/ut_LockedCache.cpp
+// Credit: GibHaltmannKill
+
 namespace nw4r {
 namespace ut {
 namespace {

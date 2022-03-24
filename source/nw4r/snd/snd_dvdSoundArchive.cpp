@@ -1,6 +1,9 @@
 #include "snd_dvdSoundArchive.hpp"
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/src/nw4r/snd/snd_DvdSoundArchive.cpp
 // Credit: kiwi515
+// Credit: GibHaltmannKill
 
 #include <string.h>
 

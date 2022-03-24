@@ -7,8 +7,8 @@
 #include "ut_IOStream.hpp"
 #include "ut_fileStream.hpp"
 
-// Stolen from ogws.
-// Credit: kiwi515
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_NandFileStream.h
 // Credit: GibHaltmannKill
 
 namespace nw4r {

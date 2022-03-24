@@ -11,7 +11,8 @@
 #include <rvl/gx/gxTexture.h>
 #include <rvl/gx/gxVert.h>
 
-// Stolen from ogws.
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/src/nw4r/ut/ut_CharWriter.cpp
 // Credit: kiwi515
 // Credit: GibHaltmannKill
 

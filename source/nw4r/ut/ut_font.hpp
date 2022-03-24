@@ -2,8 +2,7 @@
 
 #include <rk_types.h>
 
-// Stolen from ogws.
-// Credit: kiwi515
+// Source: https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_Font.h
 // Credit: GibHaltmannKill
 
 #include "ut_charStrmReader.hpp"

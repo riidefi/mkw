@@ -1,8 +1,8 @@
 #include "ut_dvdLockedFileStream.hpp"
 
-// Stolen from ogws.
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/src/nw4r/ut/ut_DvdLockedFileStream.cpp
 // Credit: kiwi515
-// Credit: GibHaltmannKill
 
 namespace nw4r {
 namespace ut {

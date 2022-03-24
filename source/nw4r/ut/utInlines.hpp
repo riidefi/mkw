@@ -1,5 +1,11 @@
 #pragma once
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_algorithm.h
+// Credit: riidefi
+// Credit: kiwi515
+// Credit: GibHaltmannKill
+
 namespace nw4r {
 namespace ut {
 

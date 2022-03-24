@@ -1,6 +1,9 @@
 #pragma once
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/snd/snd_SoundHeap.h
 // Credit: kiwi515
+// Credit: GibHaltmannKill
 
 #include <rk_types.h>
 

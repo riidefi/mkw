@@ -4,9 +4,9 @@
 
 #include "ut_IOStream.hpp"
 
-// Stolen from ogws.
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/src/nw4r/ut/ut_DvdFileStream.cpp
 // Credit: kiwi515
-// Credit: GibHaltmannKill
 
 namespace nw4r {
 namespace ut {

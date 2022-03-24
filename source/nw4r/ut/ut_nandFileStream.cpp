@@ -5,8 +5,8 @@
 
 #include <decomp.h>
 
-// Stolen from ogws.
-// Credit: kiwi515
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/src/nw4r/ut/ut_NandFileStream.cpp
 // Credit: GibHaltmannKill
 
 extern "C" {
