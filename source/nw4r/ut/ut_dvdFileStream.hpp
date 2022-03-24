@@ -44,7 +44,7 @@ struct DvdFileStream : FileStream {
     }
 
     if (DVDFastOpen(r4, &mFileInfo)) {
-      mPosition.SetFileSize(mFileInfo.mFileSize);
+      mPosition.SetFileSize(mFileInfo.length);
       mPosition.Seek(0, 0);
       BOOL_0x6D = true;
       BOOL_0x6E = true;
@@ -60,7 +60,7 @@ struct DvdFileStream : FileStream {
     }
 
     mFileInfo = *pInfo;
-    mPosition.SetFileSize(mFileInfo.mFileSize);
+    mPosition.SetFileSize(mFileInfo.length);
     mPosition.Seek(0, 0);
     BOOL_0x6D = false;
     BOOL_0x6E = b;

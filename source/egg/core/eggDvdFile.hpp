@@ -12,7 +12,7 @@
 #include <rvl/os/osMessage.h>
 #include <rvl/os/osMutex.h>
 #include <rvl/os/osThread.h>
-#include <rvl/rvlDvd.h>
+#include <rvl/dvd/dvd.h>
 
 namespace EGG {
 

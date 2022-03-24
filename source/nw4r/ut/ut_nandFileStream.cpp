@@ -3,7 +3,7 @@
 #include <platform/eabi.h>
 #include <rvl/nand/nand.h>
 
-#include "decomp.h"
+#include <decomp.h>
 
 // Stolen from ogws.
 // Credit: kiwi515

@@ -1,5 +1,5 @@
 #include "nand.h"
-#include "decomp.h"
+#include <decomp.h>
 
 #include <stdio.h>
 #include <stdlib.h>

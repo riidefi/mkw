@@ -5,7 +5,7 @@
 
 #include <egg/core/eggArchive.hpp>
 #include <rvl/arc/binary_format.h>
-#include <rvl/rvlDvd.h>
+#include <rvl/dvd/dvd.h>
 
 namespace EGG {
 
