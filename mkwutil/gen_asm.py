@@ -39,9 +39,10 @@ class AsmGenerator:
 
     def emit_symbol(self, address):
         """Maybe emits a symbol, if there is one."""
-        if address in self.symbols:  # probably slow
-            name = self.symbols[address].name
-            print(f".global {name}\n{name}:", file=self.output)
+        if address not in self.symbols:  # probably slow
+            return
+        name = self.symbols[address].name
+        print(f".global \"{name}\"\n\"{name}\":", file=self.output)
 
     def dump_bss(self):
         """Writes a bss segment."""
