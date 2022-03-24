@@ -71,7 +71,9 @@ out/dol/text_80091418_800aef60.o
 out/utList.o
 out/ut_LinkList.o
 out/ut_binaryFileFormat.o
-out/dol/text_800af414_800afee0.o
+out/dol/text_800af414_800af420.o
+out/ut_CharStrmReader.o
+out/dol/text_800af540_800afee0.o
 out/ut_IOStream.o
 out/dol/text_800afeec_800afef0.o
 out/dol/data_80274338_80274c40.o
