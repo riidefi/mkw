@@ -40,7 +40,6 @@ DOL_SECTIONS = [
 ]
 
 DOL_LIBS = [
-    Slice(name="DOL/NW4R", start=0x80021BB0, stop=0x800BBB80, section="text"),
     Slice(name="DOL/NW4R/DB", start=0x80021BB0, stop=0x80026220, section="text"),
     Slice(name="DOL/NW4R/EF", start=0x80026220, stop=0x8004BD30, section="text"),
     Slice(name="DOL/NW4R/G3D", start=0x8004BD30, stop=0x80078920, section="text"),

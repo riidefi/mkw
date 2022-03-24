@@ -11,9 +11,9 @@ on:
 name: Build
 jobs:
   build_windows:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v2
         with:
@@ -67,4 +67,56 @@ jobs:
 
       - name: Build mkw
         shell: bash
-        run: python ./build.py
+        run: python build.py
+
+      - name: Get DOL progress
+        run: python -m mkwutil.progress.percent_decompiled --short --part DOL > badge_dol_progress.txt
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: badge_dol_progress
+          path: badge_dol_progress.txt
+
+      - name: Get REL progress
+        run: python -m mkwutil.progress.percent_decompiled --short --part REL > badge_rel_progress.txt
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: badge_rel_progress
+          path: badge_rel_progress.txt
+
+      - name: Make docs folder
+        run: md out/website -ea 0
+
+      - name: Run graphic.py
+        run: python -m mkwutil.progress.graphic --silent
+
+      - name: Upload Website Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: website
+          path: out/website
+
+  publish:
+    runs-on: ubuntu-20.04
+    needs: [build_windows]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download Website Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: website
+
+      - name: Create doxygen dir
+        run: mkdir -p out/website/docs
+
+      - uses: mattnotmitt/doxygen-action@v1
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: out/website
+          clean: true
+          dry-run: ${{ github.ref != 'refs/heads/master' }}
