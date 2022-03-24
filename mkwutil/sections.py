@@ -41,6 +41,13 @@ DOL_SECTIONS = [
 
 DOL_LIBS = [
     Slice(name="DOL/NW4R", start=0x80021BB0, stop=0x800BBB80, section="text"),
+	Slice(name="DOL/NW4R/DB", start=0x80021BB0, stop=0x80026220, section="text"),
+	Slice(name="DOL/NW4R/EF", start=0x80026220, stop=0x8004BD30, section="text"),
+	Slice(name="DOL/NW4R/G3D", start=0x8004BD30, stop=0x80078920, section="text"),
+	Slice(name="DOL/NW4R/LYT", start=0x80078920, stop=0x80084F00, section="text"),
+	Slice(name="DOL/NW4R/MATH", start=0x80084F00, stop=0x80086920, section="text"),
+	Slice(name="DOL/NW4R/SND", start=0x80086920, stop=0x800AEF60, section="text"),
+	Slice(name="DOL/NW4R/UT", start=0x800AEF60, stop=0x800BBB80, section="text"),
     Slice(name="DOL/RFL", start=0x800BBB80, stop=0x800CC7E4, section="text"),
     Slice(name="DOL/DWC", start=0x800CC7E4, stop=0x800EF378, section="text"),
     Slice(name="DOL/SPY", start=0x800EF378, stop=0x80123F88, section="text"),
