@@ -73,6 +73,8 @@ class SymbolsList:
     def put(self, entry):
         """Inserts a symbol into the list."""
         assert isinstance(entry, Symbol)
+        if entry.name in self._by_name:
+            print("[WARNING] Duplicate symbol %x %s" % (entry.addr, entry.name))
         self._by_addr[entry.addr] = entry
         self._by_name[entry.name] = entry
 

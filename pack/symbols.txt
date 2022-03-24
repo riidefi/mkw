@@ -44,7 +44,7 @@
 0x80008e84 RKSystem_getStaticInstance
 0x80008e90 unk_80008e90
 0x80008eb0 unk_80008eb0
-0x80008ef0 main
+0x80008ef0 RKSystem_main
 0x80008fac RKSystem_getSysHeap
 0x80008fb4 TSystem_initialize
 0x80009190 unk_80009190
@@ -103,10 +103,10 @@
 0x8000b2d8 SystemManager_getRegionCode
 0x8000b2e0 unk_8000b2e0
 0x8000b308 SystemManager_ripFromDiscAsync
-0x8000b370 SystemManager_ripFromDisc
+0x8000b370 SystemManager_ripFromDisc1
 0x8000b53c unk_8000b53c
-0x8000b5c8 SystemManager_ripFromDisc
-0x8000b5f0 SystemManager_ripFromDisc
+0x8000b5c8 SystemManager_ripFromDisc2
+0x8000b5f0 SystemManager_ripFromDisc3
 0x8000b610 SystemManager_isPal50
 0x8000b654 SystemManager_stopAllControllerMotors
 0x8000b6b0 main
@@ -219,12 +219,6 @@
 0x800155d8 fwide
 0x80015650 wmemcpy
 0x80015658 wmemchr
-0x80015680 parse_format
-0x80015c10 long2str
-0x80015e54 longlong2str
-0x80016110 double2hex
-0x80016568 round_decimal
-0x80016690 float2str
 0x80016e1c __wpformatter
 0x800177a8 __wStringWrite
 0x80017814 swprintf
@@ -490,7 +484,7 @@
 0x800240a0 Exception_SetUserCallback
 0x800240c0 DbgPrint_getInstance
 0x800240d0 DbgPrint_Initialize
-0x80024190 DbgPrint_Initialize
+0x80024190 DbgPrint_Initialize2
 0x80024250 unk_80024250
 0x80024260 unk_80024260
 0x80024270 unk_80024270
@@ -1690,11 +1684,11 @@
 0x800797d0 unk_800797d0
 0x800798a0 unk_800798a0
 0x800798c0 Pane_GetMaterial
-0x800798d0 Pane_GetMaterial
+0x800798d0 Pane_GetMaterial2
 0x800798f0 Pane_GetRuntimeTypeInfo
 0x80079900 __sinit_lyt_pane_cpp
 0x80079910 Group_construct
-0x80079980 Group_construct
+0x80079980 Group_construct2
 0x80079aa0 Group_destroy
 0x80079b50 Group_AppendPane
 0x80079be0 GroupContainer_destroy
@@ -1706,8 +1700,8 @@
 0x8007a040 Layout_destroy
 0x8007a170 Layout_Build
 0x8007a4c0 Layout_CreateAnimTransform
-0x8007a540 Layout_CreateAnimTransform
-0x8007a5a0 Layout_CreateAnimTransform
+0x8007a540 Layout_CreateAnimTransform2
+0x8007a5a0 Layout_CreateAnimTransform3
 0x8007a630 Layout_BindAnimation
 0x8007a660 Layout_UnbindAnimation
 0x8007a690 Layout_UnbindAllAnimation
@@ -1742,7 +1736,7 @@
 0x8007c3a0 unk_8007c3a0
 0x8007c470 TextBox_FreeStringBuffer
 0x8007c4c0 TextBox_SetString
-0x8007c5a0 TextBox_SetString
+0x8007c5a0 TextBox_SetString2
 0x8007c670 __dt__Q34nw4r2ut4FontFv
 0x8007c6b0 unk_8007c6b0
 0x8007c740 unk_8007c740
@@ -1823,7 +1817,7 @@
 0x800801b0 unk_800801b0
 0x80080260 unk_80080260
 0x80080990 Material_GetTexMapAry
-0x800809a0 Material_GetTexMapAry
+0x800809a0 Material_GetTexMapAry2
 0x800809b0 unk_800809b0
 0x800809d0 unk_800809d0
 0x800809f0 unk_800809f0
@@ -6180,7 +6174,6 @@
 0x801a04a0 __OSPSInit
 0x801a04f4 __OSGetDIConfig
 0x801a0504 OSRegisterVersion
-0x801a0514 OSGetAppGamename
 0x801a0598 OSGetAppType
 0x801a05b8 __OSInitAlarm
 0x801a0610 OSCreateAlarm
@@ -6429,7 +6422,6 @@
 0x801aceb4 __OSGetPlayTime
 0x801ad07c __OSInitPlayTime
 0x801ad1d4 OSCheckInstall
-0x801ad2a8 PackArgs
 0x801ad428 __OSCheckCompanyCode
 0x801ad53c __OSCheckTmdSysVersion
 0x801ad610 __OSGetValidTicketIndex
@@ -6571,7 +6563,6 @@
 0x801b80ac unk_801b80ac
 0x801b8120 unk_801b8120
 0x801b86c4 unk_801b86c4
-0x801b8750 OnShutdown
 0x801b88e4 __VIRetraceHandler
 0x801b90f4 VISetPreRetraceCallback
 0x801b9138 VISetPostRetraceCallback
@@ -6629,11 +6620,10 @@
 0x801bf134 unk_801bf134
 0x801bf3b4 unk_801bf3b4
 0x801bf5c4 WPADInit
-0x801bf634 WUDStartSyncSimple
-0x801bf638 thunk_unk_801cde1c
-0x801bf63c WUDStopSyncSimple
-0x801bf640 WUDSetSyncSimpleCallback
-0x801bf644 WUDRegisterAllocator
+0x801bf638 WPADStartSimpleSync
+0x801bf63c WPADStopSimpleSync
+0x801bf640 WPADSetSyncDeviceCallback
+0x801bf644 WPADRegisterAllocator
 0x801bf648 thunk_unk_8013099c
 0x801bf64c thunk_unk_801cdb84
 0x801bf650 unk_801bf650
@@ -6710,7 +6700,6 @@
 0x801cb8bc unk_801cb8bc
 0x801cb988 DEBUGPrint
 0x801cb9d8 App_MEMalloc
-0x801cba28 App_MEMfree
 0x801cba78 unk_801cba78
 0x801cbaf0 unk_801cbaf0
 0x801cbb48 unk_801cbb48
@@ -6730,7 +6719,6 @@
 0x801cd490 unk_801cd490
 0x801cd81c WUDInit
 0x801cd914 WUDRegisterAllocator
-0x801cd960 thunk_unk_8013099c
 0x801cd964 unk_801cd964
 0x801cdb84 unk_801cdb84
 0x801cdbc0 unk_801cdbc0
@@ -6788,7 +6776,6 @@
 0x801d15f4 NETGetStartupErrorCode
 0x801d1674 GetStartupErrorCode
 0x801d17ec get_REX_PPC_REVOEX_string
-0x801d17f4 NCDiGetWirelessMacAddress
 0x801d17f8 NETMemCpy
 0x801d1ba0 NETMemSet
 0x801d1ca0 NETCalcCRC32
@@ -7274,9 +7261,6 @@
 0x801ef0dc SSLSetRootCA
 0x801ef224 SSLSetBuiltinRootCA
 0x801ef2ec SSLSetBuiltinClientCert
-0x801ef3b4 OSInitMutex
-0x801ef3b8 OSLockMutex
-0x801ef3bc OSUnlockMutex
 0x801ef3c0 unk_801ef3c0
 0x801ef3d8 VFipf_memcpy
 0x801ef500 VFipf_memset
@@ -7594,7 +7578,6 @@
 0x802085cc unk_802085cc
 0x80208694 VFOpenFile
 0x80208770 unk_80208770
-0x802087dc VFSeekFile
 0x80208868 VFReadFile
 0x80208904 unk_80208904
 0x80208990 unk_80208990
@@ -7808,7 +7791,6 @@
 0x8021364c unk_8021364c
 0x80213654 unk_80213654
 0x8021365c unk_8021365c
-0x80213688 SoundArchive_detail_SetupSound
 0x8021368c unk_8021368c
 0x80213690 unk_80213690
 0x80213694 unk_80213694
@@ -7858,7 +7840,6 @@
 0x80214a8c unk_80214a8c
 0x80214b14 OrthoCamera_doUpdateMatrix
 0x80214ba4 BaseCamera_getViewMatrix
-0x80214bac BaseCamera_getViewMatrix
 0x80214bb4 LookAtCamera_getPosition
 0x80214bd0 unk_80214bd0
 0x80214c74 copyFromScreen__Q23EGG10CapTextureFiib8GXTexFmt
@@ -8331,8 +8312,6 @@
 0x8022f86c cos__Q23EGG5MathfFf
 0x8022f878 unk_8022f878
 0x8022f89c unk_8022f89c
-0x8022f8c0 acos
-0x8022f8e4 atan2
 0x8022f90c rotateBaseX__Q23EGG9Matrix34fFRQ23EGG8Vector3fRQ23EGG9Matrix34f
 0x8022fabc inverseTo__Q23EGG9Matrix34fCFRQ23EGG9Matrix34f
 0x8022fac0 inverseTransposeTo__Q23EGG9Matrix34fCFRQ23EGG9Matrix34f
@@ -8494,9 +8473,7 @@
 0x80238f14 ProcessMeter_setVisible
 0x80238f3c ProcessMeter_isVisible
 0x80238f48 ProcessMeter_append
-0x80238f54 ProcessMeter_append
 0x80238fa4 ProcessMeter_draw
-0x80239338 ProcessMeter_draw
 0x802393e0 ProcessMeter_drawSetting
 0x80239628 ProcessMeter_destroy
 0x80239680 ProcessMeter_isVisible_
@@ -8556,7 +8533,7 @@
 0x8023af84 unk_8023af84
 0x8023afe0 SceneManager_changeSiblingScene
 0x8023afe8 SceneManager_changeSiblingSceneAfterFadeOut
-0x8023b064 SceneManager_changeSiblingScene
+0x8023b064 SceneManager_changeSiblingScene2
 0x8023b0e4 SceneManager_createScene
 0x8023b248 SceneManager_createChildScene
 0x8023b2ac unk_8023b2ac
@@ -8911,7 +8888,7 @@
 0x80518dcc DvdArchive_mount
 0x80518e10 DvdArchive_load
 0x80518fa4 SArchive_load
-0x80518fbc SArchive_load
+0x80518fbc SArchive_load2
 0x80519040 unk_80519040
 0x805190e8 unk_805190e8
 0x805190f0 SArchive_ripFile
@@ -9000,10 +8977,8 @@
 0x8051c270 GhostFile_construct
 0x8051c334 Timer_destroy
 0x8051c374 Timer_construct
-0x8051c398 GhostFile_construct
 0x8051c4a0 GhostFile_reset
 0x8051c52c GhostFile_readHeader
-0x8051c530 GhostFile_readHeader
 0x8051c790 GhostFile_read
 0x8051c7f4 writeHeader__Q26System9GhostFileCFRQ26System12RawGhostFile
 0x8051ca0c writeHeaderUncompressed__Q26System9GhostFileCFRQ26System12RawGhostFile
@@ -9757,7 +9732,6 @@
 0x8054450c unk_8054450c
 0x8054454c unk_8054454c
 0x80544558 License_destroy
-0x8054460c SaveManager_destroy
 0x805446e8 unk_805446e8
 0x80544824 unk_80544824
 0x80544840 SaveManager_initTask
@@ -10016,7 +9990,6 @@
 0x80548afc unk_80548afc
 0x80548b8c unk_80548b8c
 0x80548c58 unk_80548c58
-0x80548e30 License_getLeaderboardEntry
 0x80548e90 unk_80548e90
 0x80548f84 unk_80548f84
 0x805490f4 License_getLeaderboardSlot
@@ -10137,7 +10110,6 @@
 0x80550548 unk_80550548
 0x805506ec unk_805506ec
 0x8055070c unk_8055070c
-0x80550730 OSGetTick
 0x80550734 unk_80550734
 0x805507b0 unk_805507b0
 0x80550880 unk_80550880
@@ -10241,7 +10213,7 @@
 0x805553b0 unk_805553b0
 0x80555464 Random_construct
 0x805554d0 Random_reseed
-0x80555514 Random_construct
+0x80555514 Random_construct2
 0x80555538 Random_destroy
 0x80555578 Random_nextInt
 0x805555cc Random_nextIntLimited
@@ -11014,8 +10986,6 @@
 0x80584334 PlayerSub10_doRespawn
 0x80584648 unk_80584648
 0x8058473c unk_8058473c
-0x80584928 thunk_unk_8058473c
-0x8058492c thunk_unk_8058473c
 0x80584930 unk_80584930
 0x8058498c PlayerSub10_enterCannon
 0x80584d58 PlayerSub10_updateCannon
@@ -11048,12 +11018,10 @@
 0x80588324 PlayerSub10Bike_getWheelieSoftSpeedLimitBonus
 0x80588350 PlayerSub10Bike_startWheelie
 0x805883c4 PlayerSub10Bike_cancelWheelie
-0x805883f4 PlayerSub10Bike_updateWheelie
 0x80588798 PlayerSub10Bike_tryStartWheelie
 0x80588860 unk_80588860
 0x80588888 PlayerSub10Bike_updateMtCharge
 0x80588950 unk_80588950
-0x80588b30 PlayerSub10Bike_cancelWheelie
 0x80588b58 unk_80588b58
 0x80588cac unk_80588cac
 0x80588d28 PlayerBoost_construct
@@ -11297,7 +11265,6 @@
 0x80590888 PlayerPointers_getBsp
 0x8059089c unk_8059089c
 0x805908b4 PlayerPointers_getBspWheel
-0x805908d8 PlayerPointers_getPlayerSub
 0x805908e4 PlayerPointers_getKartDriverDispParams
 0x805908f4 unk_805908f4
 0x8059090c various_stuff_get_kart_parts_disp_params
@@ -11666,7 +11633,6 @@
 0x805a03c4 unk_805a03c4
 0x805a0410 PlayerPhysicsHolder_resetQuaternions
 0x805a0480 unk_805a0480
-0x805a04a0 PlayerPhysicsHolder_construct
 0x805a0550 unk_805a0550
 0x805a05a0 unk_805a05a0
 0x805a05e0 unk_805a05e0
@@ -11740,7 +11706,6 @@
 0x805a3e2c unk_805a3e2c
 0x805a3e78 Vector3f_normalise
 0x805a3e7c unk_805a3e7c
-0x805a3e9c PSMTXMultVec
 0x805a3ea0 unk_805a3ea0
 0x805a3ec8 unk_805a3ec8
 0x805a3ed0 unk_805a3ed0
@@ -11753,7 +11718,6 @@
 0x805a4044 unk_805a4044
 0x805a404c unk_805a404c
 0x805a408c unk_805a408c
-0x805a4094 PSVECMag
 0x805a4098 unk_805a4098
 0x805a40d0 unk_805a40d0
 0x805a463c unk_805a463c
@@ -11966,9 +11930,9 @@
 0x805b4a30 unk_805b4a30
 0x805b4a98 unk_805b4a98
 0x805b4af8 PlayerPhysics_construct
-0x805b4b54 PlayerPhysics_construct
+0x805b4b54 PlayerPhysics_construct2
 0x805b4d24 PlayerPhysics_reset
-0x805b4dc0 PlayerPhysics_construct
+0x805b4dc0 PlayerPhysics_construct3
 0x805b4dc4 PlayerPhysics_initInertia0
 0x805b4e84 PlayerPhysics_initInertia1
 0x805b4f34 unk_805b4f34
@@ -12227,7 +12191,7 @@
 0x805c23e4 ControlGroup_construct
 0x805c2400 ControlGroup_destroy
 0x805c2460 ControlGroup_create
-0x805c2620 ControlGroup_create
+0x805c2620 ControlGroup_create2
 0x805c27dc ControlGroup_insert
 0x805c2804 ControlGroup_debug
 0x805c2868 ControlGroup_init
@@ -12693,7 +12657,7 @@
 0x805e1104 GhostManagerPage_process
 0x805e1108 unk_805e1108
 0x805e11b0 unk_805e11b0
-0x805e1214 GhostManagerPage_process
+0x805e1214 GhostManagerPage_process2
 0x805e15c4 GhostManagerPage_waitForStaffGhostLoad
 0x805e15d4 unk_805e15d4
 0x805e163c GhostManagerPage_find
@@ -13097,7 +13061,7 @@
 0x805f8b34 MessageGroup_construct
 0x805f8b50 MessageGroup_destroy
 0x805f8b90 MessageGroup_load
-0x805f8c00 MessageGroup_load
+0x805f8c00 MessageGroup_load2
 0x805f8c88 MessageGroup_getSlot
 0x805f8cf0 MessageGroup_getMessage
 0x805f8d2c MessageGroup_getAttributes
@@ -13170,7 +13134,6 @@
 0x805faa84 MiiGroup_reset
 0x805faba8 unk_805faba8
 0x805fabf4 MiiGroup_copy
-0x805faf34 MiiGroup_copy
 0x805fb38c unk_805fb38c
 0x805fb4cc unk_805fb4cc
 0x805fb504 unk_805fb504
@@ -13777,9 +13740,7 @@
 0x806209e8 SaveGhostManager_construct
 0x80620a1c unk_80620a1c
 0x80620a8c SaveGhostManager_destroy
-0x80620b04 SaveGhostManager_init
 0x80620b40 SaveGhostManager_calc
-0x80620c5c SaveGhostManager_init
 0x80620da4 unk_80620da4
 0x80620dd8 SaveGhostManager_processRequest
 0x806211dc SaveGhostManager_processAllRequests
@@ -13791,13 +13752,7 @@
 0x80621410 SaveGhostManager_markLicensesDirty
 0x80621434 SaveGhostManager_saveLicensesIfDirty
 0x80621484 SaveGhostManager_requestSaveGhost
-0x8062182c SaveGhostManager_requestSaveGhost
 0x80621bd0 SaveGhostManager_requestEraseGhost
-0x80621c08 SaveGhostManager_requestEraseGhost
-0x80621c3c SaveGhostManager_requestLoadGhost
-0x80621c78 SaveGhostManager_requestLoadGhost
-0x80621cb0 SaveGhostManager_requestLoadAllGhosts
-0x80621ce0 SaveGhostManager_requestLoadAllGhosts
 0x80621d0c Section_construct
 0x80621d84 Section_destroy
 0x80621e00 Section_init
@@ -14161,7 +14116,6 @@
 0x806361f8 SheetSelectControl_setPlayerFlags
 0x80636264 SheetSelectControl_configure
 0x806362e8 SheetSelectControl_init
-0x8063634c UIControl_calc
 0x80636350 unk_80636350
 0x806363d8 unk_806363d8
 0x80636460 SheetSelectButton_getTypeName
@@ -15311,7 +15265,6 @@
 0x80679080 unk_80679080
 0x80679088 unk_80679088
 0x8067927c unk_8067927c
-0x8067937c NWC24SetMsgExecScript
 0x80679380 unk_80679380
 0x80679390 unk_80679390
 0x80679568 unk_80679568
@@ -17308,10 +17261,8 @@
 0x807261b8 PlayerSub20_update
 0x80726200 unk_80726200
 0x80726204 unk_80726204
-0x8072624c PlayerSub20_isCpu
 0x80726290 PlayerSub20_isRealLocal
 0x807262d0 unk_807262d0
-0x80726338 PlayerSub20_isCpu
 0x8072633c unk_8072633c
 0x80726380 unk_80726380
 0x807263a8 unk_807263a8
@@ -17686,7 +17637,6 @@
 0x80739740 isOfflineBattle
 0x80739760 unk_80739760
 0x80739778 unk_80739778
-0x80739794 isTt
 0x807397bc unk_807397bc
 0x8073986c isTeamsEnabled
 0x80739880 unk_80739880
@@ -19438,8 +19388,6 @@
 0x807aeaec ItemObjGreen_makeArray
 0x807aeb68 get_1
 0x807aeb74 get_2
-0x807aeb80 get_2
-0x807aeb8c get_2
 0x807aeb98 unk_807aeb98
 0x807aec64 unk_807aec64
 0x807aed2c unk_807aed2c
@@ -20201,9 +20149,7 @@
 0x807f1d44 BalloonManager_init
 0x807f1db4 unk_807f1db4
 0x807f1f24 unk_807f1f24
-0x807f1f40 getTypeName
 0x807f1f50 CtrlRaceItemBalloon_load
-0x807f2118 initSelf
 0x807f22bc calcSelf
 0x807f2b74 unk_807f2b74
 0x807f2c84 unk_807f2c84
@@ -20653,7 +20599,6 @@
 0x8081ceb0 unk_8081ceb0
 0x8081cef4 unk_8081cef4
 0x8081cfb4 unk_8081cfb4
-0x8081d020 characterIsUnlocked
 0x8081d028 unk_8081d028
 0x8081d05c unk_8081d05c
 0x8081d090 unk_8081d090
@@ -21452,7 +21397,6 @@
 0x808604c0 unk_808604c0
 0x808604e0 unk_808604e0
 0x80860500 unk_80860500
-0x808605fc getLocalPlayerCount
 0x808606a4 unk_808606a4
 0x808606d0 unk_808606d0
 0x8086070c unk_8086070c
