@@ -16,7 +16,7 @@ extern UNKNOWN_FUNCTION(unk_8009e610);
 // PAL: 0x8009e690
 extern UNKNOWN_FUNCTION(unk_8009e690);
 // PAL: 0x8009e6c0
-extern UNKNOWN_FUNCTION(unk_8009e6c0);
+extern UNKNOWN_FUNCTION(SoundArchiveFileReader_Init);
 // PAL: 0x8009e770
 extern UNKNOWN_FUNCTION(unk_8009e770);
 // PAL: 0x8009e820
@@ -92,7 +92,7 @@ lbl_800910e0:
 lbl_80091118:
   mr r4, r31;
   addi r3, r29, 0x108;
-  bl unk_8009e6c0;
+  bl SoundArchiveFileReader_Init;
   mr r3, r29;
   addi r4, r29, 0x108;
   bl unk_8009de90;

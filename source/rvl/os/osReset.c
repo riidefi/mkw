@@ -61,7 +61,7 @@ extern UNKNOWN_FUNCTION(SCCheckStatus);
 // PAL: 0x801b1d00
 extern UNKNOWN_FUNCTION(SCGetIdleMode);
 // PAL: 0x801bcd4c
-extern UNKNOWN_FUNCTION(unk_801bcd4c);
+extern UNKNOWN_FUNCTION(__VISetRGBModeImm);
 
 // Symbol: OSRegisterShutdownFunction
 // Function signature is unknown.
@@ -548,7 +548,7 @@ lbl_801a87cc:
   bl OSEnableScheduler;
   bl __OSLaunchMenu;
   bl OSDisableScheduler;
-  bl unk_801bcd4c;
+  bl __VISetRGBModeImm;
   lwz r0, -0x63a4(r13);
   cmpwi r0, 0;
   bne lbl_801a881c;
@@ -684,7 +684,7 @@ asm UNKNOWN_FUNCTION(__OSReturnToMenuForError) {
   bl __OSWriteStateFlags;
   bl __OSLaunchMenu;
   bl OSDisableScheduler;
-  bl unk_801bcd4c;
+  bl __VISetRGBModeImm;
   lwz r0, -0x63a4(r13);
   cmpwi r0, 0;
   bne lbl_801a89b4;

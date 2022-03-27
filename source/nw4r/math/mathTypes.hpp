@@ -150,5 +150,8 @@ MTX34* MTX34MAdd(MTX34*, f32, const MTX34*, const MTX34*);
 // PAL: 0x80085900
 MTX34* MTX34RotAxisFIdx(MTX34*, const VEC3*, f32);
 
+// PAL: 0x80085b80
+MTX44* MTX44Copy(MTX44*, MTX44*);
+
 } // namespace math
 } // namespace nw4r

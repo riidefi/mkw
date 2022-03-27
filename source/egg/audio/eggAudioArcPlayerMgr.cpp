@@ -27,7 +27,7 @@ extern UNKNOWN_FUNCTION(unk_80095e30);
 // PAL: 0x80095eb0
 extern UNKNOWN_FUNCTION(unk_80095eb0);
 // PAL: 0x80097570
-extern UNKNOWN_FUNCTION(unk_80097570);
+extern UNKNOWN_FUNCTION(NandSoundArchive_ct);
 // PAL: 0x800975c0
 extern UNKNOWN_FUNCTION(unk_800975c0);
 // PAL: 0x80097650
@@ -51,7 +51,7 @@ extern UNKNOWN_FUNCTION(unk_800a0c90);
 // PAL: 0x800a1180
 extern UNKNOWN_FUNCTION(unk_800a1180);
 // PAL: 0x800a1550
-extern UNKNOWN_FUNCTION(unk_800a1550);
+extern UNKNOWN_FUNCTION(SoundArchivePlayer_GetSoundPlayer);
 // PAL: 0x800a28b0
 extern UNKNOWN_FUNCTION(unk_800a28b0);
 // PAL: 0x800a2a20
@@ -103,7 +103,7 @@ asm void ArcPlayer::ct(nw4r::snd::SoundHeap* heap) {
   addi r3, r3, 0xc;
   bl __ct__Q34nw4r3snd15DvdSoundArchiveFv;
   addi r3, r28, 0x198;
-  bl unk_80097570;
+  bl NandSoundArchive_ct;
   addi r3, r28, 0x374;
   bl unk_80095d80;
   li r0, 1;
@@ -924,7 +924,7 @@ asm void ArcPlayer::stopAllSound() {
   b lbl_80211020;
 lbl_8021100c:
   mr r4, r31;
-  bl unk_800a1550;
+  bl SoundArchivePlayer_GetSoundPlayer;
   li r4, 0;
   bl unk_800a34d0;
   addi r31, r31, 1;
