@@ -7,7 +7,7 @@
 #include <egg/math/eggQuat.hpp>
 
 extern "C" {
-extern UNKNOWN_FUNCTION(unk_80214968);
+extern UNKNOWN_FUNCTION(Vector3f_cross);
 extern UNKNOWN_FUNCTION(__ml__3EGGFRCQ23EGG5QuatfRCQ23EGG8Vector3f);
 extern UNKNOWN_FUNCTION(unk_8022f8c0);
 }
@@ -803,7 +803,7 @@ asm void Quatf::makeVectorRotation(Vector3f& v0, Vector3f& v1) {
   stw r29, 0x24(r1);
   mr r29, r3;
   addi r3, r1, 8;
-  bl unk_80214968;
+  bl Vector3f_cross;
   lfs f3, 0(r30);
   lfs f2, 0(r31);
   lfs f1, 4(r30);

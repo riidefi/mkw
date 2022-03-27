@@ -13,13 +13,13 @@
 
 // Extern function references.
 // PAL: 0x801671d0
-extern UNKNOWN_FUNCTION(unk_801671d0);
+extern UNKNOWN_FUNCTION(ESP_InitLib);
 // PAL: 0x80167224
-extern UNKNOWN_FUNCTION(unk_80167224);
+extern UNKNOWN_FUNCTION(ESP_CloseLib);
 // PAL: 0x80167904
-extern UNKNOWN_FUNCTION(unk_80167904);
+extern UNKNOWN_FUNCTION(ESP_GetDataDir);
 // PAL: 0x8016799c
-extern UNKNOWN_FUNCTION(unk_8016799c);
+extern UNKNOWN_FUNCTION(ESP_GetTitleId);
 // PAL: 0x8016b16c
 extern UNKNOWN_FUNCTION(ISFS_Seek);
 // PAL: 0x8016b1fc
@@ -3922,12 +3922,12 @@ lbl_8019e1d8:
   cmpwi r3, 0;
   mr r30, r3;
   bne lbl_8019e288;
-  bl unk_801671d0;
+  bl ESP_InitLib;
   cmpwi r3, 0;
   mr r30, r3;
   bne lbl_8019e210;
   addi r3, r1, 8;
-  bl unk_8016799c;
+  bl ESP_GetTitleId;
   mr r30, r3;
 lbl_8019e210:
   cmpwi r30, 0;
@@ -3936,7 +3936,7 @@ lbl_8019e210:
   lwz r3, 8(r1);
   lwz r4, 0xc(r1);
   addi r5, r5, 0x6d20;
-  bl unk_80167904;
+  bl ESP_GetDataDir;
   mr r30, r3;
 lbl_8019e230:
   cmpwi r30, 0;
@@ -3946,7 +3946,7 @@ lbl_8019e230:
   addi r4, r4, 0x6d20;
   bl strcpy;
 lbl_8019e248:
-  bl unk_80167224;
+  bl ESP_CloseLib;
   cmpwi r30, 0;
   beq lbl_8019e260;
   addi r3, r31, 0x130;

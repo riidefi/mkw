@@ -48,7 +48,7 @@ out/dol/bss_802a6c78_802f12e8.o
 out/dol/sbss_803860b0_80386240.o
 out/dol/sdata2_80386fa0_80387cac.o
 out/g3d_camera.o
-out/dol/text_8006a518_800774d0.o
+out/dol/text_8006afbc_800774d0.o
 out/dol/sdata2_80387cd8_80387d58.o
 out/g3d_fog.o
 out/dol/text_800775d0_80078920.o

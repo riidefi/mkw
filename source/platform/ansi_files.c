@@ -4,9 +4,9 @@
 
 // Extern function references.
 // PAL: 0x8000c818
-extern UNKNOWN_FUNCTION(unk_8000c818);
+extern UNKNOWN_FUNCTION(free);
 // PAL: 0x8000ed18
-extern UNKNOWN_FUNCTION(unk_8000ed18);
+extern UNKNOWN_FUNCTION(fflush);
 
 // Symbol: __close_all
 // PAL: 0x8000c948..0x8000c9ec
@@ -37,7 +37,7 @@ lbl_8000c988:
   lbz r0, 0xc(r3);
   cmpwi r0, 0;
   beq lbl_8000c9a4;
-  bl unk_8000c818;
+  bl free;
   b lbl_8000c9c8;
 lbl_8000c9a4:
   lwz r0, 4(r3);
@@ -89,7 +89,7 @@ lbl_8000ca10:
   cmplwi r0, 1;
   bne lbl_8000ca48;
   mr r3, r30;
-  bl unk_8000ed18;
+  bl fflush;
   cmpwi r3, 0;
   beq lbl_8000ca48;
   li r31, -1;
@@ -129,7 +129,7 @@ lbl_8000ca94:
   rlwinm. r0, r0, 0xa, 0x1d, 0x1f;
   beq lbl_8000cab4;
   mr r3, r30;
-  bl unk_8000ed18;
+  bl fflush;
   cmpwi r3, 0;
   beq lbl_8000cab4;
   li r31, -1;

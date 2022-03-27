@@ -10,17 +10,17 @@ char __RFL_VERSION[] = "<< RVL_SDK - RFL \trelease build: Jan 28 2008 15:34:44 "
 
 // Extern function references.
 // PAL: 0x800bc6f0
-extern UNKNOWN_FUNCTION(unk_800bc6f0);
+extern UNKNOWN_FUNCTION(RFLiInitLoader);
 // PAL: 0x800bd6d0
-extern UNKNOWN_FUNCTION(unk_800bd6d0);
+extern UNKNOWN_FUNCTION(RFLFreeCachedResource);
 // PAL: 0x800bd740
-extern UNKNOWN_FUNCTION(unk_800bd740);
+extern UNKNOWN_FUNCTION(RFLIsResourceCached);
 // PAL: 0x800bd790
-extern UNKNOWN_FUNCTION(unk_800bd790);
+extern UNKNOWN_FUNCTION(RFLiInitAccessInfo);
 // PAL: 0x800bd810
-extern UNKNOWN_FUNCTION(unk_800bd810);
+extern UNKNOWN_FUNCTION(RFLiExitAccessInfo);
 // PAL: 0x800bd860
-extern UNKNOWN_FUNCTION(unk_800bd860);
+extern UNKNOWN_FUNCTION(RFLiIsWorking);
 // PAL: 0x800c53a0
 extern UNKNOWN_FUNCTION(unk_800c53a0);
 // PAL: 0x800c63e0
@@ -147,14 +147,14 @@ lbl_800bbc44:
   lwz r3, -0x6968(r13);
   lwz r3, 8(r3);
   bl unk_800c63e0;
-  bl unk_800bc6f0;
+  bl RFLiInitLoader;
   lwz r3, -0x6968(r13);
   lwz r3, 8(r3);
   bl unk_800c7ee0;
   bl unk_800c53a0;
   lwz r3, -0x6968(r13);
   lwz r3, 8(r3);
-  bl unk_800bd790;
+  bl RFLiInitAccessInfo;
   cmpwi r29, 0;
   beq lbl_800bbd58;
   lwz r3, -0x6968(r13);
@@ -188,7 +188,7 @@ lbl_800bbd84:
   lwz r0, -0x7e24(r13);
   b lbl_800bbdf0;
 lbl_800bbd98:
-  bl unk_800bd860;
+  bl RFLiIsWorking;
   cmpwi r3, 0;
   beq lbl_800bbdac;
   li r0, 6;
@@ -226,7 +226,7 @@ lbl_800bbdf0:
   lwz r0, -0x7e24(r13);
   b lbl_800bbe70;
 lbl_800bbe18:
-  bl unk_800bd860;
+  bl RFLiIsWorking;
   cmpwi r3, 0;
   beq lbl_800bbe2c;
   li r0, 6;
@@ -269,12 +269,12 @@ lbl_800bbe98:
   stw r0, -0x6964(r13);
   lbz r0, 0x1b3c(r3);
   stb r0, -0x6960(r13);
-  bl unk_800bd740;
+  bl RFLIsResourceCached;
   cmpwi r3, 0;
   beq lbl_800bbeb4;
-  bl unk_800bd6d0;
+  bl RFLFreeCachedResource;
 lbl_800bbeb4:
-  bl unk_800bd810;
+  bl RFLiExitAccessInfo;
   lwz r3, -0x6968(r13);
   lwz r3, 0xc(r3);
   bl MEMDestroyExpHeap;

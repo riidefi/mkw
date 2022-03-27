@@ -5,11 +5,11 @@
 
 // Extern function references.
 // PAL: 0x8000eff8
-extern UNKNOWN_FUNCTION(unk_8000eff8);
+extern UNKNOWN_FUNCTION(mbtowc);
 // PAL: 0x8001365c
-extern UNKNOWN_FUNCTION(unk_8001365c);
+extern UNKNOWN_FUNCTION(__strtold);
 // PAL: 0x80014e00
-extern UNKNOWN_FUNCTION(unk_80014e00);
+extern UNKNOWN_FUNCTION(__strtoull);
 
 // Local functions.
 // PAL: 0x80011c98..0x80012320
@@ -700,7 +700,7 @@ lbl_800125e8:
   addi r7, r1, 0x18;
   addi r8, r1, 0x14;
   addi r9, r1, 0x10;
-  bl unk_80014e00;
+  bl __strtoull;
   stw r4, 0x54(r1);
   stw r3, 0x50(r1);
   b lbl_80012630;
@@ -823,7 +823,7 @@ lbl_800127a4:
   addi r7, r1, 0x18;
   addi r8, r1, 0x14;
   addi r9, r1, 0x10;
-  bl unk_80014e00;
+  bl __strtoull;
   stw r4, 0x54(r1);
   stw r3, 0x50(r1);
   b lbl_800127ec;
@@ -919,7 +919,7 @@ lbl_80012908:
   mr r5, r27;
   addi r6, r1, 0x18;
   addi r7, r1, 0x10;
-  bl unk_8001365c;
+  bl __strtold;
   lwz r0, 0x18(r1);
   cmpwi r0, 0;
   bne lbl_80012944;
@@ -993,7 +993,7 @@ lbl_800129fc:
   mr r3, r22;
   addi r4, r1, 0xc;
   li r5, 1;
-  bl unk_8000eff8;
+  bl mbtowc;
   addi r22, r22, 2;
   b lbl_80012a2c;
 lbl_80012a24:
@@ -1215,7 +1215,7 @@ lbl_80012ce8:
   mr r3, r22;
   addi r4, r1, 0xc;
   li r5, 1;
-  bl unk_8000eff8;
+  bl mbtowc;
   addi r22, r22, 2;
   b lbl_80012d38;
 lbl_80012d30:
