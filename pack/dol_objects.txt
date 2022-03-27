@@ -97,8 +97,10 @@ out/dol/data_80274d6c_80274d70.o
 out/ut_font.o
 out/dol/text_800b1a14_800b1a20.o
 out/ut_romFont.o
-out/dol/text_800b1f90_800b2b30.o
-out/dol/data_80274e08_80274f30.o
+out/dol/data_80274e08_80274e68.o
+out/ut_resFontBase.o
+out/dol/text_800b2828_800b2b30.o
+out/dol/data_80274ed0_80274f30.o
 out/dol/bss_802f131c_802f1320.o
 out/dol/sdata_80384dca_803850a0.o
 out/dol/sbss_80386274_80386278.o
