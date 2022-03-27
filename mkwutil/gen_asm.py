@@ -353,7 +353,18 @@ class DOLSrcGenerator:
 
     # Write list of objects for linker.
     def __write_objlist(self):
-        object_names = self.slices.object_slices().objects.keys()
+        # Drop slices smaller than 4 bytes.
+        objects = self.slices.object_slices().objects
+        for object in list(objects.keys()):
+            # Drop slice.
+            slices = objects[object]
+            for i, slice in reversed(list(enumerate(slices))):
+                if len(slice) < 4:
+                    slices.pop(i)
+            # Drop entire object if all slices have been removed.
+            if len(slices) == 0:
+                del objects[object]
+        object_names = objects.keys()
         with open(self.pack_dir / "dol_objects.txt", "w") as file:
             for name in object_names:
                 print(PurePosixPath(Path(name)), file=file)
