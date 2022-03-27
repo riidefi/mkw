@@ -54,7 +54,7 @@ out/g3d_fog.o
 out/dol/text_800775d0_80078920.o
 out/lyt_init.o
 out/dol/text_80078974_8007c670.o
-out/ut_font.o
+out/lyt_textBox.o
 out/dol/text_8007c6b0_80085110.o
 out/dol/data_80273436_80274148.o
 out/dol/sdata_80384d94_803850a0.o

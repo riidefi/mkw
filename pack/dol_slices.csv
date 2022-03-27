@@ -21,7 +21,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/nw4r/g3d/g3d_camera.cpp,,,,,,,0x8006a0c0,0x8006afbc,,,,,,,,,,,,,,,0x80387cac,0x80387cd8,,
 1,,source/nw4r/g3d/g3d_fog.cpp,,,,,,,0x800774d0,0x800775d0,,,,,,,,,,,,,,,0x80387d58,0x80387d5C,,
 1,,source/nw4r/lyt/lyt_init.cpp,,,,,,,0x80078920,0x80078974,,,,,,,0x802733f0,0x80273436,,,0x80384d90,0x80384d94,,,,,,
-1,1,source/nw4r/ut/ut_font.cpp,,,,,,,0x8007c670,0x8007c6b0,,,,,,,,,,,,,,,,,,
+1,1,source/nw4r/lyt/lyt_textBox.cpp,,,,,,,0x8007c670,0x8007c6b0,,,,,,,,,,,,,,,,,,
 1,,source/nw4r/math/mathTriangular.cpp,,,,,,,0x80085110,0x80085578,,,,,0x80248010,0x80249020,0x80274148,0x80274250,,,,,,,0x80387e80,0x80387ea4,,
 1,,source/nw4r/math/mathTypes.cpp,,,,,,,0x80085600,0x80085938,,,,,,,,,,,,,,,0x80387ea8,0x80387eb4,,
 1,,source/nw4r/snd/snd_dvdSoundArchive.cpp,,,,,,,0x80090fc0,0x80091418,,,,,,,0x80274318,0x80274338,,,,,,,,,,
