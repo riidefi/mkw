@@ -2,6 +2,10 @@
 
 #include "ut_Font.h"
 
+// Source:
+// https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_RomFont.h
+// Credit: GibHaltmannKill
+
 namespace nw4r {
 namespace ut {
 struct RomFont : Font {
