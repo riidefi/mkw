@@ -183,6 +183,7 @@ SOURCES_NW4R_G3D = [
 ]
 SOURCES_NW4R_LYT = [
     Source(src="source/nw4r/lyt/lyt_init.cpp", cc='4201_127', opts=NW4R_OPTS),
+    Source(src="source/nw4r/lyt/lyt_textBox.cpp", cc='4201_127', opts=NW4R_OPTS), # placeholder
 ]
 SOURCES_NW4R_SND = [
     Source(src="source/nw4r/snd/snd_dvdSoundArchive.cpp", cc='4201_127', opts=NW4R_OPTS + " -func_align 16 "),
@@ -199,7 +200,6 @@ SOURCES_NW4R_UT = [
     Source(src="source/nw4r/ut/ut_dvdLockedFileStream.cpp", cc='4201_127', opts=NW4R_OPTS),
     Source(src="source/nw4r/ut/ut_nandFileStream.cpp", cc='4201_127', opts=NW4R_OPTS),
     Source(src="source/nw4r/ut/ut_lockedCache.cpp", cc='4201_127', opts=NW4R_OPTS),
-    Source(src="source/nw4r/ut/ut_font.cpp", cc='4201_127', opts=NW4R_OPTS), # placeholder
 ]
 SOURCES_RFL = [
     Source(src="source/rfl/rfl_init.c", cc='4201_127', opts=RFL_OPTS),
