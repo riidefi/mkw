@@ -203,6 +203,7 @@ SOURCES_NW4R_UT = [
     Source(src="source/nw4r/ut/ut_font.cpp", cc='4201_127', opts=NW4R_OPTS),
     Source(src="source/nw4r/ut/ut_romFont.cpp", cc='4201_127', opts=NW4R_OPTS),
     Source(src="source/nw4r/ut/ut_resFontBase.cpp", cc='4201_127', opts=NW4R_OPTS),
+    Source(src="source/nw4r/ut/ut_resFont.cpp", cc='4201_127', opts=NW4R_OPTS),
 ]
 SOURCES_RFL = [
     Source(src="source/rfl/rfl_init.c", cc='4201_127', opts=RFL_OPTS),
