@@ -90,6 +90,7 @@ jobs:
   publish:
     runs-on: ubuntu-20.04
     needs: [build_windows]
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
 
