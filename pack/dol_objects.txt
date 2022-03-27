@@ -57,7 +57,7 @@ out/dol/text_80078974_8007c670.o
 out/lyt_textBox.o
 out/dol/text_8007c6b0_80085110.o
 out/dol/data_80273436_80274148.o
-out/dol/sdata_80384d94_803850a0.o
+out/dol/sdata_80384d94_80384dc8.o
 out/dol/sdata2_80387d5c_80387e80.o
 out/mathTriangular.o
 out/dol/text_80085578_80085600.o
@@ -95,9 +95,12 @@ out/dol/text_800b1968_800b1970.o
 out/dol/ctors_80244e44_80244e88.o
 out/dol/data_80274d6c_80274d70.o
 out/ut_font.o
-out/dol/text_800b1a14_800b2b30.o
-out/dol/data_80274da0_80274f30.o
+out/dol/text_800b1a14_800b1a20.o
+out/ut_romFont.o
+out/dol/text_800b1f90_800b2b30.o
+out/dol/data_80274e08_80274f30.o
 out/dol/bss_802f131c_802f1320.o
+out/dol/sdata_80384dca_803850a0.o
 out/dol/sbss_80386274_80386278.o
 out/dol/sdata2_80387eb4_803882e0.o
 out/ut_charWriter.o

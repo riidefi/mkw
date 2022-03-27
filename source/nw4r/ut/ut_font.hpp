@@ -39,6 +39,7 @@ struct Font {
   virtual int GetCharWidth(u16) const = 0;
   virtual CharWidths GetCharWidths(u16) const = 0;
   virtual void GetGlyph(Glyph*, u16) const = 0;
+  virtual bool HasGlyph(u16) const = 0;
   virtual FontEncoding GetEncoding() const = 0;
 
   u16 (CharStrmReader::*mReaderFunc)();

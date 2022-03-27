@@ -1,6 +1,8 @@
 #pragma once
 
-#include "ut_Font.h"
+#include <decomp.h>
+
+#include "ut_font.hpp"
 
 // Source:
 // https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_RomFont.h
@@ -20,6 +22,7 @@ struct RomFont : Font {
   RomFont();
   ~RomFont();
 
+  bool Unload(void*);
   bool Load(void*);
   u32 GetRequireBufferSize();
 
@@ -51,8 +54,10 @@ struct RomFont : Font {
   CharWidths GetCharWidths(u16) const;
 
   void GetGlyph(Glyph*, u16) const;
+  bool HasGlyph(u16) const;
 
   FontEncoding GetEncoding() const;
 };
+
 } // namespace ut
 } // namespace nw4r
