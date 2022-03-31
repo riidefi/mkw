@@ -75,10 +75,39 @@ class BaseRegexRule(BaseLineRule):
         pass
 
 
-SdataAbsoluteRule = BaseRegexRule(
-    "sdata/sbss reference",
-    r"^\s+((?:lwz|stw|lhz|lha|sth|lbz|stb) r\d{1,2}, -?0x[0-9a-f]+\(r13\));.*$",
-)
+class SdataAbsoluteRule(BaseRegexRule):
+    def __init__(self, dol: Optional[DolBinary]):
+        self.dol = dol
+        self.r13 = 0x8038CC00
+        super().__init__(
+            "sdata/sbss reference",
+            r"^\s+((lwz|stw|lhz|lha|sth|lbz|stb) r\d{1,2}, (-?0x[0-9a-f]+)\(r13\));.*$",
+        )
+
+    def on_match(self, match: re.Match, violation: LintViolation):
+        try:
+            self._on_match(match, violation)
+        except Exception as e:
+            violation.comment = str(e)
+
+    def _on_match(self, match: re.Match, violation: LintViolation):
+        opcode = match.group(2)
+        source = int(match.group(3), 16)
+        address = self.r13 + source
+
+        values = ""
+        if self.dol:
+            if opcode == "lwz":
+                data = self.dol.virtual_read(address, 4) or b"\x00\x00\x00\x00"
+                values = "~> 0x%08x " % (struct.unpack(">I", data)[0])
+            elif opcode in ("lhz", "lha"):
+                data = self.dol.virtual_read(address, 2) or b"\x00\x00"
+                values = "~> 0x%04x " % (struct.unpack(">H", data)[0])
+            elif opcode == "lbz":
+                data = self.dol.virtual_read(address, 1) or b"\x00"
+                values = "~> 0x%02x " % data[0]
+
+        violation.comment = f"{values}@ {hex(address)}"
 
 
 class Sdata2AbsoluteRule(BaseRegexRule):
@@ -180,7 +209,7 @@ def main():
         )
 
     linters = [
-        SdataAbsoluteRule,
+        SdataAbsoluteRule(dol),
         Sdata2AbsoluteRule(dol),
     ]
     formatter = get_lint_formatter(args.pretty, args.short)
