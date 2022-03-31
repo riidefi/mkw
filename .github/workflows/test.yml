@@ -1,11 +1,17 @@
 ---
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - 'mkwutil/**'
+  pull_request:
+    paths:
+      - 'mkwutil/**'
 name: Test
 jobs:
   test:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v2
         with:
