@@ -149,9 +149,9 @@ class LintPrettyFormatter:
             cprint(line_str)
 
 
-def get_lint_formatter():
-    if os.isatty(sys.stdout.fileno()):
-        colorama.init()
+def get_lint_formatter(pretty, ugly):
+    if (pretty or os.isatty(sys.stdout.fileno())) and not ugly:
+        colorama.init(strip=False)
         return LintPrettyFormatter()
     else:
         return LintBasicFormatter()
@@ -160,6 +160,8 @@ def get_lint_formatter():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("file", type=str, nargs="+", help="File paths to lint")
+    parser.add_argument("--short", action="store_true", help="Short output")
+    parser.add_argument("--pretty", action="store_true", help="Force enable color")
     args = parser.parse_args()
 
     dol = read_dol()
@@ -181,7 +183,7 @@ def main():
         SdataAbsoluteRule,
         Sdata2AbsoluteRule(dol),
     ]
-    formatter = get_lint_formatter()
+    formatter = get_lint_formatter(args.pretty, args.short)
     for source_path in source_paths:
         source = Source(source_path)
         for linter in linters:
