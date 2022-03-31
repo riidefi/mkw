@@ -11,10 +11,14 @@ import os
 from pathlib import Path
 import re
 from typing import Iterator, Optional
+import struct
 import sys
 
 import colorama
 from termcolor import cprint
+from mkwutil.lib.dol import DolBinary
+
+from mkwutil.project import read_dol
 
 
 @dataclass
@@ -26,6 +30,7 @@ class LintViolation:
     msg: str
     line: int = -1
     file: str = ""
+    comment: str = ""
 
 
 class Source:
@@ -62,17 +67,54 @@ class BaseRegexRule(BaseLineRule):
         match = self.pattern.match(line)
         if match:
             start, stop = match.span()
-            return LintViolation(start, stop-1, self.rule_name)
+            violation = LintViolation(start, stop - 1, self.rule_name)
+            self.on_match(match, violation)
+            return violation
+
+    def on_match(self, match: re.Match, violation: LintViolation):
+        pass
 
 
 SdataAbsoluteRule = BaseRegexRule(
     "sdata/sbss reference",
     r"^\s+((?:lwz|stw|lhz|lha|sth|lbz|stb) r\d{1,2}, -?0x[0-9a-f]+\(r13\));.*$",
 )
-Sdata2AbsoluteRule = BaseRegexRule(
-    "sdata2 reference",
-    r"^\s+((?:lfs|lfd|lhz) [rf]\d{1,2}, -?0x[0-9a-f]+\(r2\));.*$",
-)
+
+
+class Sdata2AbsoluteRule(BaseRegexRule):
+    def __init__(self, dol: Optional[DolBinary]):
+        self.dol = dol
+        self.r2 = 0x8038EFA0
+        super().__init__(
+            "sdata2 reference",
+            r"^\s+((lfs|lfd|lhz) [rf]\d{1,2}, (-?0x[0-9a-f]+)\(r2\));.*$",
+        )
+
+    def on_match(self, match: re.Match, violation: LintViolation):
+        try:
+            self._on_match(match, violation)
+        except Exception as e:
+            violation.comment = str(e)
+
+    def _on_match(self, match: re.Match, violation: LintViolation):
+        opcode = match.group(2)
+        source = int(match.group(3), 16)
+        address = self.r2 + source
+
+        values = ""
+        if self.dol:
+            if opcode == "lfs":
+                data = self.dol.virtual_read(address, 4)
+                item_float = struct.unpack(">f", data)[0]
+                item_int = struct.unpack(">I", data)[0]
+                values = "~> %ff (0x%08x) " % (item_float, item_int)
+            elif opcode == "lfd":
+                data = self.dol.virtual_read(address, 8)
+                item_float = struct.unpack(">d", data)[0]
+                item_int = struct.unpack(">Q", data)[0]
+                values = "~> %f (0x%016x) " % (item_float, item_int)
+
+        violation.comment = f"{values}@ {hex(address)}"
 
 
 class LintBasicFormatter:
@@ -99,7 +141,10 @@ class LintPrettyFormatter:
             cprint(
                 line_str[lint.col_start : lint.col_stop], "red", attrs=["bold"], end=""
             )
-            cprint(line_str[lint.col_stop :])
+            cprint(line_str[lint.col_stop :], end="")
+            if len(lint.comment) > 0:
+                cprint(" " + lint.comment, "blue", end="")
+            print()
         else:
             cprint(line_str)
 
@@ -117,6 +162,13 @@ def main():
     parser.add_argument("file", type=str, nargs="+", help="File paths to lint")
     args = parser.parse_args()
 
+    dol = read_dol()
+    try:
+        dol = read_dol()
+    except:
+        dol = None
+        print("WARN: running without DOL")
+
     # Collect list of source paths, respecting wildcards.
     source_paths = []
     root_dir = Path(".")
@@ -127,7 +179,7 @@ def main():
 
     linters = [
         SdataAbsoluteRule,
-        Sdata2AbsoluteRule,
+        Sdata2AbsoluteRule(dol),
     ]
     formatter = get_lint_formatter()
     for source_path in source_paths:
