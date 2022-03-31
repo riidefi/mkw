@@ -16,10 +16,10 @@ def main():
     print("entrypoint=%08x" % (dol.entry_point))
     for i, segment in enumerate(dol.segments):
         if segment.size() == 0:
-            print("section=0x%02x" % (i))
+            print("section=%#02x" % (i))
             continue
         print(
-            "section=0x%02x offset=0x%08x start=0x%08x stop=0x%08x length=%08x"
+            "section=%#02x offset=%#08x start=%#08x stop=%#08x length=%08x"
             % (
                 i,
                 segment.offset,

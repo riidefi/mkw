@@ -13,7 +13,7 @@ class Symbol:
         self.size = size
 
     def __repr__(self):
-        return "%s=0x%08x" % (self.name, self.addr)
+        return "%s=%#08x" % (self.name, self.addr)
 
     def slice(self):
         """Returns a slice object for address range occupied by the symbol."""
@@ -115,7 +115,7 @@ class SymbolsList:
         """Writes a symbol list to a file."""
         writer = csv.writer(file, delimiter=" ")
         for sym in self:
-            writer.writerow(["0x%08x" % (sym.addr), sym.name])
+            writer.writerow(["%#08x" % (sym.addr), sym.name])
 
     def derive_sizes(self, stop):
         """Fills in sizes of each symbol."""

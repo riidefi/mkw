@@ -22,7 +22,7 @@ jinja_env = jinja2.Environment(
     loader=jinja2.PackageLoader("mkwutil", "gen_asm"),
     autoescape=jinja2.select_autoescape(),
 )
-jinja_env.filters["addr"] = lambda x: "0x%08x" % (x)
+jinja_env.filters["addr"] = lambda x: "%#08x" % (x)
 
 
 class AsmGenerator:
@@ -48,7 +48,7 @@ class AsmGenerator:
         """Writes a bss segment."""
         for part in self.slice.split(self.symbol_locs):
             self.emit_symbol(part.start)
-            print(".skip 0x%x" % len(part), file=self.output)
+            print(".skip %#x" % len(part), file=self.output)
 
     def dump_data(self):
         """Writes a data segment."""
@@ -61,7 +61,7 @@ class AsmGenerator:
         for address, chunk in self.iter_data_chunks(part, 4):
             self.emit_symbol(address)
             if len(chunk) == 4:
-                print(".4byte 0x%08X" % struct.unpack(">I", chunk), file=self.output)
+                print(".4byte %#08X" % struct.unpack(">I", chunk), file=self.output)
             else:
                 self.emit_data_bytes(chunk)
 
@@ -69,7 +69,7 @@ class AsmGenerator:
         """Emits a few data segment bytes."""
         while len(data) > 0:
             byte_val = data[0]
-            print(".byte 0x%02x" % (byte_val), file=self.output)
+            print(".byte %#02x" % (byte_val), file=self.output)
             data = data[1:]
 
     def get_data_chunk(self, part: Slice) -> bytes:

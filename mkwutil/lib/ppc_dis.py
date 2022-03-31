@@ -129,7 +129,7 @@ def insn_to_text_capstone(insn, raw):
         return "mtictc %s" % insn.op_str
     # Dunno why GNU assembler doesn't accept this
     elif insn.id == PPC_INS_LMW and insn.operands[0].reg == PPC_REG_R0:
-        return ".4byte 0x%08X  /* illegal %s %s */" % (raw, insn.mnemonic, insn.op_str)
+        return ".4byte %#08X  /* illegal %s %s */" % (raw, insn.mnemonic, insn.op_str)
     return "%s %s" % (insn.mnemonic, insn.op_str)
 
 
@@ -254,9 +254,9 @@ def disasm_mspr(inst, mode):
     b = (inst & 0x0000F800) >> 11
     spr = (b << 5) + a
     if mode:
-        return "mtspr 0x%X, r%i" % (spr, d)
+        return "mtspr %#X, r%i" % (spr, d)
     else:
-        return "mfspr r%i, 0x%X" % (d, spr)
+        return "mfspr r%i, %#X" % (d, spr)
 
 
 def disasm_mcrxr(inst):
@@ -296,7 +296,7 @@ def insn_to_text(insn, raw):
         if raw == 0:
             asm = ".4byte 0"
         else:
-            asm = ".4byte 0x%08X  /* unknown instruction */" % raw
+            asm = ".4byte %#08X  /* unknown instruction */" % raw
     return asm
 
 
