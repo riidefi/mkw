@@ -87,6 +87,9 @@ jobs:
           name: website
           path: out/website
 
+      - name: Lint inline ASM
+        run: python -m mkwutil.tools.lint_inline_asm --pretty ./source/**/*.c*
+
   publish:
     runs-on: ubuntu-20.04
     needs: [build_windows]
