@@ -99,13 +99,16 @@ class SdataAbsoluteRule(BaseRegexRule):
         if self.dol:
             if opcode == "lwz":
                 data = self.dol.virtual_read(address, 4) or b"\x00\x00\x00\x00"
-                values = "~> 0x%08x " % (struct.unpack(">I", data)[0])
-            elif opcode in ("lhz", "lha"):
+                values = "~> %#08x " % (struct.unpack(">I", data)[0])
+            elif opcode == "lhz":
                 data = self.dol.virtual_read(address, 2) or b"\x00\x00"
-                values = "~> 0x%04x " % (struct.unpack(">H", data)[0])
+                values = "~> %#04x " % (struct.unpack(">H", data)[0])
+            elif opcode == "lha":
+                data = self.dol.virtual_read(address, 2) or b"\x00\x00"
+                values = "~> %#04x " % (struct.unpack(">h", data)[0])
             elif opcode == "lbz":
                 data = self.dol.virtual_read(address, 1) or b"\x00"
-                values = "~> 0x%02x " % data[0]
+                values = "~> %#02x " % data[0]
 
         violation.comment = f"{values}@ {hex(address)}"
 
@@ -136,12 +139,12 @@ class Sdata2AbsoluteRule(BaseRegexRule):
                 data = self.dol.virtual_read(address, 4)
                 item_float = struct.unpack(">f", data)[0]
                 item_int = struct.unpack(">I", data)[0]
-                values = "~> %ff (0x%08x) " % (item_float, item_int)
+                values = "~> %ff (%#08x) " % (item_float, item_int)
             elif opcode == "lfd":
                 data = self.dol.virtual_read(address, 8)
                 item_float = struct.unpack(">d", data)[0]
                 item_int = struct.unpack(">Q", data)[0]
-                values = "~> %f (0x%016x) " % (item_float, item_int)
+                values = "~> %f (%#016x) " % (item_float, item_int)
 
         violation.comment = f"{values}@ {hex(address)}"
 
