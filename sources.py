@@ -56,6 +56,9 @@ SOURCES_MSL_LIBC = [
 SOURCES_RVL_ARC = [
     Source(src="source/rvl/arc/rvlArchive.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_AX = [
+    Source(src="source/rvl/ax/rvlAx.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_BASE = [
     Source(src="source/rvl/base/ppcArch.c", cc='4199_60831', opts=RVL_OPTS),
 ]
@@ -250,6 +253,7 @@ SOURCES_DOL = list(chain(
     SOURCES_TRK,
     SOURCES_MSL_LIBC,
     SOURCES_RVL_ARC,
+    SOURCES_RVL_AX,
     SOURCES_RVL_BASE,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
