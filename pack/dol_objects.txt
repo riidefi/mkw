@@ -231,7 +231,9 @@ out/rvlArchive.o
 out/dol/data_8027e772_8027e778.o
 out/dol/sbss_80386448_80386488.o
 out/rvlAx.o
-out/dol/data_8027e7bf_802826a0.o
+out/dol/data_8027e7bf_8027e860.o
+out/rvlAxComp.o
+out/dol/data_8027f820_802826a0.o
 out/dol/sdata_803857fc_80385920.o
 out/dol/sbss_8038648c_80386490.o
 out/rvlAxAlloc.o
