@@ -1,4 +1,4 @@
-#include "rvlKpad.h"
+#include "kpad.h"
 
 #include <math.h>
 #include <string.h>
@@ -6,34 +6,7 @@
 #include <rvl/mtx/mtx.h>
 #include <rvl/os/os.h>
 #include <rvl/os/osInterrupt.h>
-
-// Extern function references.
-// PAL: 0x801bf5c4
-extern UNKNOWN_FUNCTION(WPADInit);
-// PAL: 0x801bf64c
-extern UNKNOWN_FUNCTION(thunk_unk_801cdb84);
-// PAL: 0x801bf714
-extern UNKNOWN_FUNCTION(unk_801bf714);
-// PAL: 0x801c07d0
-extern UNKNOWN_FUNCTION(unk_801c07d0);
-// PAL: 0x801c0990
-extern UNKNOWN_FUNCTION(WPADProbe);
-// PAL: 0x801c0a1c
-extern UNKNOWN_FUNCTION(unk_801c0a1c);
-// PAL: 0x801c0b54
-extern UNKNOWN_FUNCTION(unk_801c0b54);
-// PAL: 0x801c0b9c
-extern UNKNOWN_FUNCTION(unk_801c0b9c);
-// PAL: 0x801c0ec4
-extern UNKNOWN_FUNCTION(WPADControlMotor);
-// PAL: 0x801c128c
-extern UNKNOWN_FUNCTION(unk_801c128c);
-// PAL: 0x801c329c
-extern UNKNOWN_FUNCTION(unk_801c329c);
-// PAL: 0x801c32a4
-extern UNKNOWN_FUNCTION(WPADIsDpdEnabled);
-// PAL: 0x801c3318
-extern UNKNOWN_FUNCTION(unk_801c3318);
+#include <rvl/wpad/wpad.h>
 
 typedef struct KPADInsideStatus {
   u32 content[334];
@@ -175,11 +148,11 @@ asm UNKNOWN_FUNCTION(KPADSetHoriParam) {
   // clang-format on
 }
 
-// Symbol: unk_80195124
+// Symbol: reset_kpad
 // Function signature is unknown.
 // PAL: 0x80195124..0x801952f8
-MARK_BINARY_BLOB(unk_80195124, 0x80195124, 0x801952f8);
-asm UNKNOWN_FUNCTION(unk_80195124) {
+MARK_BINARY_BLOB(reset_kpad, 0x80195124, 0x801952f8);
+asm UNKNOWN_FUNCTION(reset_kpad) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -304,11 +277,11 @@ lbl_801952c4:
   // clang-format on
 }
 
-// Symbol: unk_801952f8
+// Symbol: calc_button_repeat
 // Function signature is unknown.
 // PAL: 0x801952f8..0x8019548c
-MARK_BINARY_BLOB(unk_801952f8, 0x801952f8, 0x8019548c);
-asm UNKNOWN_FUNCTION(unk_801952f8) {
+MARK_BINARY_BLOB(calc_button_repeat, 0x801952f8, 0x8019548c);
+asm UNKNOWN_FUNCTION(calc_button_repeat) {
   // clang-format off
   nofralloc;
   lwz r0, 4(r3);
@@ -422,11 +395,11 @@ lbl_80195444:
   // clang-format on
 }
 
-// Symbol: unk_8019548c
+// Symbol: calc_acc
 // Function signature is unknown.
 // PAL: 0x8019548c..0x80195540
-MARK_BINARY_BLOB(unk_8019548c, 0x8019548c, 0x80195540);
-asm UNKNOWN_FUNCTION(unk_8019548c) {
+MARK_BINARY_BLOB(calc_acc, 0x8019548c, 0x80195540);
+asm UNKNOWN_FUNCTION(calc_acc) {
   // clang-format off
   nofralloc;
   lfs f2, 0(r4);
@@ -483,11 +456,11 @@ lbl_80195520:
   // clang-format on
 }
 
-// Symbol: unk_80195540
+// Symbol: calc_acc_horizon
 // Function signature is unknown.
 // PAL: 0x80195540..0x801956d4
-MARK_BINARY_BLOB(unk_80195540, 0x80195540, 0x801956d4);
-asm UNKNOWN_FUNCTION(unk_80195540) {
+MARK_BINARY_BLOB(calc_acc_horizon, 0x80195540, 0x801956d4);
+asm UNKNOWN_FUNCTION(calc_acc_horizon) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
@@ -598,11 +571,11 @@ lbl_801956b0:
   // clang-format on
 }
 
-// Symbol: unk_801956d4
+// Symbol: calc_acc_vertical
 // Function signature is unknown.
 // PAL: 0x801956d4..0x801957f8
-MARK_BINARY_BLOB(unk_801956d4, 0x801956d4, 0x801957f8);
-asm UNKNOWN_FUNCTION(unk_801956d4) {
+MARK_BINARY_BLOB(calc_acc_vertical, 0x801956d4, 0x801957f8);
+asm UNKNOWN_FUNCTION(calc_acc_vertical) {
   // clang-format off
   nofralloc;
   stwu r1, -0x40(r1);
@@ -684,11 +657,11 @@ lbl_801957cc:
   // clang-format on
 }
 
-// Symbol: unk_801957f8
+// Symbol: read_kpad_acc
 // Function signature is unknown.
 // PAL: 0x801957f8..0x80195c60
-MARK_BINARY_BLOB(unk_801957f8, 0x801957f8, 0x80195c60);
-asm UNKNOWN_FUNCTION(unk_801957f8) {
+MARK_BINARY_BLOB(read_kpad_acc, 0x801957f8, 0x80195c60);
+asm UNKNOWN_FUNCTION(read_kpad_acc) {
   // clang-format off
   nofralloc;
   stwu r1, -0x50(r1);
@@ -800,15 +773,15 @@ lbl_80195958:
   stw r6, 0x14(r1);
   stw r5, 0x18(r1);
   stw r0, 0x1c(r1);
-  bl unk_8019548c;
+  bl calc_acc;
   lfs f1, 0x4a8(r30);
   mr r3, r30;
   addi r4, r30, 0x10;
-  bl unk_8019548c;
+  bl calc_acc;
   lfs f1, 0x4ac(r30);
   mr r3, r30;
   addi r4, r30, 0x14;
-  bl unk_8019548c;
+  bl calc_acc;
   lfs f1, 0xc(r30);
   lfs f0, 0x10(r30);
   fmuls f1, f1, f1;
@@ -841,9 +814,9 @@ lbl_80195958:
   frsp f0, f1;
   mr r3, r30;
   stfs f0, 0x1c(r30);
-  bl unk_80195540;
+  bl calc_acc_horizon;
   mr r3, r30;
-  bl unk_801956d4;
+  bl calc_acc_vertical;
   lbz r0, 0x29(r31);
   extsb. r0, r0;
   bne lbl_80195c48;
@@ -949,15 +922,15 @@ lbl_80195b84:
   lfs f1, 0x20(r1);
   stw r5, 0xc(r1);
   stw r0, 0x10(r1);
-  bl unk_8019548c;
+  bl calc_acc;
   lfs f1, 0x24(r1);
   mr r3, r30;
   addi r4, r30, 0x6c;
-  bl unk_8019548c;
+  bl calc_acc;
   lfs f1, 0x28(r1);
   mr r3, r30;
   addi r4, r30, 0x70;
-  bl unk_8019548c;
+  bl calc_acc;
   lfs f1, 0x68(r30);
   lfs f0, 0x6c(r30);
   fmuls f1, f1, f1;
@@ -999,11 +972,11 @@ lbl_80195c48:
   // clang-format on
 }
 
-// Symbol: unk_80195c60
+// Symbol: select_2obj_first
 // Function signature is unknown.
 // PAL: 0x80195c60..0x80195e48
-MARK_BINARY_BLOB(unk_80195c60, 0x80195c60, 0x80195e48);
-asm UNKNOWN_FUNCTION(unk_80195c60) {
+MARK_BINARY_BLOB(select_2obj_first, 0x80195c60, 0x80195e48);
+asm UNKNOWN_FUNCTION(select_2obj_first) {
   // clang-format off
   nofralloc;
   stwu r1, -0x80(r1);
@@ -1138,11 +1111,11 @@ lbl_80195e08:
   // clang-format on
 }
 
-// Symbol: unk_80195e48
+// Symbol: select_2obj_continue
 // Function signature is unknown.
 // PAL: 0x80195e48..0x80196070
-MARK_BINARY_BLOB(unk_80195e48, 0x80195e48, 0x80196070);
-asm UNKNOWN_FUNCTION(unk_80195e48) {
+MARK_BINARY_BLOB(select_2obj_continue, 0x80195e48, 0x80196070);
+asm UNKNOWN_FUNCTION(select_2obj_continue) {
   // clang-format off
   nofralloc;
   stwu r1, -0x80(r1);
@@ -1297,11 +1270,11 @@ lbl_80196030:
   // clang-format on
 }
 
-// Symbol: unk_80196070
+// Symbol: select_1obj_first
 // Function signature is unknown.
 // PAL: 0x80196070..0x80196224
-MARK_BINARY_BLOB(unk_80196070, 0x80196070, 0x80196224);
-asm UNKNOWN_FUNCTION(unk_80196070) {
+MARK_BINARY_BLOB(select_1obj_first, 0x80196070, 0x80196224);
+asm UNKNOWN_FUNCTION(select_1obj_first) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1422,11 +1395,11 @@ lbl_8019621c:
   // clang-format on
 }
 
-// Symbol: unk_80196224
+// Symbol: select_1obj_continue
 // Function signature is unknown.
 // PAL: 0x80196224..0x80196398
-MARK_BINARY_BLOB(unk_80196224, 0x80196224, 0x80196398);
-asm UNKNOWN_FUNCTION(unk_80196224) {
+MARK_BINARY_BLOB(select_1obj_continue, 0x80196224, 0x80196398);
+asm UNKNOWN_FUNCTION(select_1obj_continue) {
   // clang-format off
   nofralloc;
   lfs f0, _unk_803859e0;
@@ -1533,11 +1506,11 @@ lbl_80196390:
   // clang-format on
 }
 
-// Symbol: unk_80196398
+// Symbol: calc_dpd_variable
 // Function signature is unknown.
 // PAL: 0x80196398..0x80196964
-MARK_BINARY_BLOB(unk_80196398, 0x80196398, 0x80196964);
-asm UNKNOWN_FUNCTION(unk_80196398) {
+MARK_BINARY_BLOB(calc_dpd_variable, 0x80196398, 0x80196964);
+asm UNKNOWN_FUNCTION(calc_dpd_variable) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1940,11 +1913,11 @@ lbl_8019694c:
   // clang-format on
 }
 
-// Symbol: unk_80196964
+// Symbol: read_kpad_dpd
 // Function signature is unknown.
 // PAL: 0x80196964..0x80196dbc
-MARK_BINARY_BLOB(unk_80196964, 0x80196964, 0x80196dbc);
-asm UNKNOWN_FUNCTION(unk_80196964) {
+MARK_BINARY_BLOB(read_kpad_dpd, 0x80196964, 0x80196dbc);
+asm UNKNOWN_FUNCTION(read_kpad_dpd) {
   // clang-format off
   nofralloc;
   stwu r1, -0x40(r1);
@@ -2109,7 +2082,7 @@ lbl_80196b98:
   cmpwi r0, 2;
   blt lbl_80196bb8;
   mr r3, r31;
-  bl unk_80195e48;
+  bl select_2obj_continue;
   extsb. r0, r3;
   mr r30, r3;
   bne lbl_80196c74;
@@ -2118,7 +2091,7 @@ lbl_80196bb8:
   cmpwi r0, 1;
   blt lbl_80196c70;
   mr r3, r31;
-  bl unk_80196224;
+  bl select_1obj_continue;
   extsb. r0, r3;
   mr r30, r3;
   bne lbl_80196c74;
@@ -2133,7 +2106,7 @@ lbl_80196bec:
   cmpwi r0, 2;
   blt lbl_80196c0c;
   mr r3, r31;
-  bl unk_80195c60;
+  bl select_2obj_first;
   extsb. r0, r3;
   mr r30, r3;
   bne lbl_80196c74;
@@ -2142,7 +2115,7 @@ lbl_80196c0c:
   cmpwi r0, 1;
   blt lbl_80196c70;
   mr r3, r31;
-  bl unk_80196224;
+  bl select_1obj_continue;
   extsb. r0, r3;
   mr r30, r3;
   bne lbl_80196c74;
@@ -2152,7 +2125,7 @@ lbl_80196c30:
   cmpwi r0, 2;
   blt lbl_80196c50;
   mr r3, r31;
-  bl unk_80195c60;
+  bl select_2obj_first;
   extsb. r0, r3;
   mr r30, r3;
   bne lbl_80196c74;
@@ -2161,7 +2134,7 @@ lbl_80196c50:
   cmpwi r0, 1;
   bne lbl_80196c70;
   mr r3, r31;
-  bl unk_80196070;
+  bl select_1obj_first;
   extsb. r0, r3;
   mr r30, r3;
   bne lbl_80196c74;
@@ -2244,7 +2217,7 @@ lbl_80196d80:
 lbl_80196d88:
   mr r3, r31;
   extsb r4, r30;
-  bl unk_80196398;
+  bl calc_dpd_variable;
   psq_l f31, 56(r1), 0, 0;
   lfd f31, 0x30(r1);
   psq_l f30, 40(r1), 0, 0;
@@ -2258,11 +2231,11 @@ lbl_80196d88:
   // clang-format on
 }
 
-// Symbol: unk_80196dbc
+// Symbol: clamp_stick_circle
 // Function signature is unknown.
 // PAL: 0x80196dbc..0x80196ee4
-MARK_BINARY_BLOB(unk_80196dbc, 0x80196dbc, 0x80196ee4);
-asm UNKNOWN_FUNCTION(unk_80196dbc) {
+MARK_BINARY_BLOB(clamp_stick_circle, 0x80196dbc, 0x80196ee4);
+asm UNKNOWN_FUNCTION(clamp_stick_circle) {
   // clang-format off
   nofralloc;
   stwu r1, -0x60(r1);
@@ -2345,11 +2318,11 @@ lbl_80196eb0:
   // clang-format on
 }
 
-// Symbol: unk_80196ee4
+// Symbol: clamp_stick_cross
 // Function signature is unknown.
 // PAL: 0x80196ee4..0x80197108
-MARK_BINARY_BLOB(unk_80196ee4, 0x80196ee4, 0x80197108);
-asm UNKNOWN_FUNCTION(unk_80196ee4) {
+MARK_BINARY_BLOB(clamp_stick_cross, 0x80196ee4, 0x80197108);
+asm UNKNOWN_FUNCTION(clamp_stick_cross) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -2507,11 +2480,11 @@ lbl_801970f4:
   // clang-format on
 }
 
-// Symbol: unk_80197108
+// Symbol: read_kpad_stick
 // Function signature is unknown.
 // PAL: 0x80197108..0x80197380
-MARK_BINARY_BLOB(unk_80197108, 0x80197108, 0x80197380);
-asm UNKNOWN_FUNCTION(unk_80197108) {
+MARK_BINARY_BLOB(read_kpad_stick, 0x80197108, 0x80197380);
+asm UNKNOWN_FUNCTION(read_kpad_stick) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
@@ -2708,7 +2681,7 @@ asm UNKNOWN_FUNCTION(KPADRead) {
   mr r14, r5;
   add r31, r6, r0;
   li r30, 0;
-  bl thunk_unk_801cdb84;
+  bl WPADGetStatus;
   cmpwi r3, 3;
   beq lbl_801973d4;
   li r3, 0;
@@ -2761,12 +2734,12 @@ lbl_80197468:
   beq lbl_80197488;
   stb r15, 0x5d(r31);
   mr r3, r31;
-  bl unk_80195124;
+  bl reset_kpad;
 lbl_80197488:
   lis r4, 0x8019;
   mr r3, r27;
   addi r4, r4, 0x7dd8;
-  bl unk_801c0a1c;
+  bl WPADSetSamplingCallback;
   lbz r0, 0x10f(r31);
   cmpwi r0, 0;
   beq lbl_80197a88;
@@ -2946,7 +2919,7 @@ lbl_801975f4:
   sth r7, 8(r1);
   sth r6, 0xa(r1);
   sth r0, 0xc(r1);
-  bl unk_801c07d0;
+  bl WPADGetAccGravityUnit;
   lha r5, 0x10(r1);
   lha r4, 0x14(r1);
   lha r3, 0x12(r1);
@@ -2983,7 +2956,7 @@ lbl_801977d4:
   mr r3, r27;
   addi r5, r1, 8;
   li r4, 1;
-  bl unk_801c07d0;
+  bl WPADGetAccGravityUnit;
   lha r5, 8(r1);
   lha r4, 0xc(r1);
   lha r3, 0xa(r1);
@@ -3112,7 +3085,7 @@ lbl_80197948:
 lbl_8019799c:
   mr r3, r31;
   mr r5, r29;
-  bl unk_801952f8;
+  bl calc_button_repeat;
   mr r15, r30;
   addi r14, r14, -132;
   li r18, 1;
@@ -3153,14 +3126,14 @@ lbl_80197a08:
 lbl_80197a2c:
   mr r3, r31;
   mr r4, r19;
-  bl unk_80197108;
+  bl read_kpad_stick;
 lbl_80197a38:
   mr r3, r31;
   mr r4, r19;
-  bl unk_801957f8;
+  bl read_kpad_acc;
   mr r3, r31;
   mr r4, r19;
-  bl unk_80196964;
+  bl read_kpad_dpd;
   b lbl_80197a58;
 lbl_80197a54:
   stb r17, 0x5e(r31);
@@ -3220,7 +3193,7 @@ asm UNKNOWN_FUNCTION(KPADInit) {
   addi r3, r25, 0x57e0;
   li r5, 0x14e0;
   bl memset;
-  bl unk_801c329c;
+  bl WPADGetDpdSensitivity;
   clrlwi r3, r3, 0x18;
   lis r0, 0x4330;
   stw r3, 0xc(r1);
@@ -3369,7 +3342,7 @@ lbl_80197cd8:
   li r31, 1;
   addi r26, r3, 0xfa8;
 lbl_80197d30:
-  bl thunk_unk_801cdb84;
+  bl WPADGetStatus;
   cmpwi r3, 3;
   bne lbl_80197d48;
   mr r3, r25;
@@ -3435,11 +3408,11 @@ asm UNKNOWN_FUNCTION(KPADEnableDPD) {
   // clang-format on
 }
 
-// Symbol: unk_80197dd8
+// Symbol: KPADiSamplingCallback
 // Function signature is unknown.
 // PAL: 0x80197dd8..0x801980b0
-MARK_BINARY_BLOB(unk_80197dd8, 0x80197dd8, 0x801980b0);
-asm UNKNOWN_FUNCTION(unk_80197dd8) {
+MARK_BINARY_BLOB(KPADiSamplingCallback, 0x80197dd8, 0x801980b0);
+asm UNKNOWN_FUNCTION(KPADiSamplingCallback) {
   // clang-format off
   nofralloc;
   stwu r1, -0x40(r1);
@@ -3472,9 +3445,9 @@ lbl_80197e38:
   add r4, r31, r0;
   addi r30, r4, 0x110;
   mr r4, r30;
-  bl unk_801c128c;
+  bl WPADRead;
   mr r3, r29;
-  bl unk_801c0b54;
+  bl WPADGetDataFormat;
   stb r3, 0x36(r30);
   addi r0, r28, 1;
   stb r0, 0x10e(r31);
@@ -3490,7 +3463,7 @@ lbl_80197e78:
   lbz r0, 0x525(r31);
   cmpwi r0, 0;
   beq lbl_80197eb0;
-  bl unk_801bf714;
+  bl WPADGetSensorBarPosition;
   clrlwi r0, r3, 0x18;
   cmplwi r0, 1;
   bne lbl_80197ea8;
@@ -3616,7 +3589,7 @@ lbl_80198014:
   mr r3, r29;
   lbz r4, 0(r28);
   addi r5, r5, -32592;
-  bl unk_801c3318;
+  bl WPADControlDpd;
   cmpwi r3, 0;
   bne lbl_80198068;
   lbz r0, 0(r28);
@@ -3628,7 +3601,7 @@ lbl_80198050:
   cmplw r0, r4;
   beq lbl_80198068;
   mr r3, r29;
-  bl unk_801c0b9c;
+  bl WPADSetDataFormat;
 lbl_80198068:
   lwz r12, 0x518(r31);
   cmpwi r12, 0;
@@ -3652,11 +3625,11 @@ lbl_80198080:
   // clang-format on
 }
 
-// Symbol: unk_801980b0
+// Symbol: KPADiControlDpdCallback
 // Function signature is unknown.
 // PAL: 0x801980b0..0x8019812c
-MARK_BINARY_BLOB(unk_801980b0, 0x801980b0, 0x8019812c);
-asm UNKNOWN_FUNCTION(unk_801980b0) {
+MARK_BINARY_BLOB(KPADiControlDpdCallback, 0x801980b0, 0x8019812c);
+asm UNKNOWN_FUNCTION(KPADiControlDpdCallback) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -3728,7 +3701,7 @@ lbl_80198178:
   addi r30, r27, -1;
 lbl_80198188:
   mr r27, r30;
-  bl thunk_unk_801cdb84;
+  bl WPADGetStatus;
   cmpwi r3, 3;
   beq lbl_801981a4;
   mulli r0, r30, 0x38;
