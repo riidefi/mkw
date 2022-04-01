@@ -93,6 +93,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,1,source/gamespy/sake/sakeMain.c,,,,,,,0x80121eec,0x8012249c,,,,,,,0x8027de48,0x8027df3e,0x802f3f40,0x802f4040,0x80385740,0x80385744,,,,,,
 1,,source/rvl/arc/rvlArchive.c,,,,,,,0x80124500,0x80124E80,,,,,,,0x8027E708,0x8027E772,,,0x803857F0,0x803857F6,,,,,,
 1,,source/rvl/ax/rvlAx.c,,,,,,,0x80124E80,0x80124edc,,,,,,,0x8027e778,0x8027e7bf,,,0x803857f8,0x803857fc,0x80386488,0x8038648c,,,,
+1,,source/rvl/ax/rvlAxAlloc.c,,,,,,,0x80124edc,0x80125394,,,,,,,,,0x802f40c0,0x802f41c0,,,0x80386490,0x80386494,,,,
 1,,source/rvl/base/ppcArch.c,,,,,,,0x8012e564,0x8012e6d4,,,,,,,0x802826a0,0x802826d7,,,,,,,,,,
 1,,source/rvl/fs/fs.c,,,,,,,0x80169bcc,0x8016b49c,,,,,,,,,,,0x80385920,0x80385930,0x80386770,0x80386788,,,,
 1,,source/rvl/ipc/ipcMain.c,,,,,,,0x80192f7c,0x80193048,,,,,,,,,,,,,0x803867e8,0x803867fc,,,,
