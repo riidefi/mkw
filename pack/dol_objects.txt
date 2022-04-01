@@ -273,11 +273,12 @@ out/osCache.o
 out/osContext.o
 out/osError.o
 out/dol/text_801a2e84_801a4aa4.o
-out/osFatal.o
-out/osFont.o
 out/dol/data_8028f4d8_80290600.o
 out/dol/sdata_80385aa8_80385b08.o
 out/dol/sbss_803868c0_803868e8.o
+out/dol/sdata2_803888d0_803888d8.o
+out/osFatal.o
+out/osFont.o
 out/osInterrupt.o
 out/osLink.o
 out/osMessage.o
@@ -293,7 +294,7 @@ out/osThread.o
 out/dol/text_801aad5c_801ae5d8.o
 out/dol/data_80290630_8029cc80.o
 out/dol/sbss_803868fc_80386998.o
-out/dol/sdata2_803888d0_80388930.o
+out/dol/sdata2_8038890c_80388930.o
 out/rvlPadClamp.o
 out/rvlPad.o
 out/dol/text_801b0180_801b7410.o

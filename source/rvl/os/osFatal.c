@@ -51,6 +51,22 @@ extern UNKNOWN_FUNCTION(VIGetRetraceCount);
 // PAL: 0x801bacd8
 extern UNKNOWN_FUNCTION(VIGetTvFormat);
 
+asm void float_ordering() {
+  lfs f1, 0.5f;
+  lfs f1, 16.0f;
+  lfs f1, 0.098f;
+  lfs f1, 0.257f;
+  lfs f1, 0.504f;
+  lfs f1, 128.0f;
+  lfs f1, 0.439f;
+  lfs f1, -0.148f;
+  lfs f1, 0.291f;
+  lfs f1, 0.368f;
+  lfs f1, 0.071f;
+  lfs f1, 235.0f;
+  lfs f1, 240.0f;
+}
+
 // Symbol: ScreenReport
 // Function signature is unknown.
 // PAL: 0x801a4aa4..0x801a4dc8
@@ -559,7 +575,7 @@ asm UNKNOWN_FUNCTION(Halt) {
   lfd f0, -0x6690(r2);
   stw r3, 0x24(r1);
   fsubs f3, f2, f0;
-  lfs f2, -0x66bc(r2);
+  lfs f2, 0.257f;
   lfd f1, 0x20(r1);
   fsubs f7, f4, f0;
   stw r4, 0x2c(r1);
@@ -567,22 +583,22 @@ asm UNKNOWN_FUNCTION(Halt) {
   lfd f1, 0x28(r1);
   fmuls f6, f2, f3;
   stw r5, 0x24(r1);
-  lfs f4, -0x66b8(r2);
+  lfs f4, 0.504f;
   fsubs f3, f1, f0;
   lfd f2, 0x20(r1);
   fmuls f4, f4, f5;
   stw r3, 0x2c(r1);
-  lfs f5, -0x66c0(r2);
+  lfs f5, 0.098f;
   fsubs f9, f2, f0;
   lfd f1, 0x28(r1);
   fmuls f13, f5, f7;
-  lfs f11, -0x66b0(r2);
+  lfs f11, 0.439f;
   fadds f12, f6, f4;
-  lfs f8, -0x66ac(r2);
+  lfs f8, -0.148f;
   fsubs f7, f1, f0;
   stw r5, 0x24(r1);
   fmuls f10, f11, f3;
-  lfs f6, -0x66a8(r2);
+  lfs f6, 0.291f;
   lfd f1, 0x20(r1);
   fmuls f8, f8, f9;
   fmuls f6, f6, f7;
@@ -591,25 +607,25 @@ asm UNKNOWN_FUNCTION(Halt) {
   lfd f1, 0x28(r1);
   stw r4, 0x24(r1);
   fsubs f4, f1, f0;
-  lfs f3, -0x66a4(r2);
+  lfs f3, 0.368f;
   lfd f2, 0x20(r1);
   fmuls f5, f11, f5;
-  lfs f1, -0x66a0(r2);
+  lfs f1, 0.071f;
   fsubs f0, f2, f0;
   fmuls f2, f3, f4;
   lbz r0, 7(r29);
   fadds f3, f13, f12;
   fsubs f4, f8, f6;
-  lfs f9, -0x66c4(r2);
+  lfs f9, 16.0f;
   fsubs f2, f5, f2;
   fmuls f0, f1, f0;
-  lfs f5, -0x66c8(r2);
+  lfs f5, 0.5f;
   fadds f6, f9, f3;
   fadds f1, f10, f4;
-  lfs f3, -0x66b4(r2);
+  lfs f3, 128.0f;
   fsubs f0, f2, f0;
   fadds f4, f5, f6;
-  lfs f7, -0x669c(r2);
+  lfs f7, 235.0f;
   fadds f1, f3, f1;
   fadds f0, f3, f0;
   stb r5, 0x18(r1);
@@ -631,7 +647,7 @@ lbl_801a52a4:
   fmr f7, f9;
 lbl_801a52a8:
   fctiwz f0, f7;
-  lfs f3, -0x6698(r2);
+  lfs f3, 240.0f;
   fcmpo cr0, f2, f3;
   stfd f0, 0x30(r1);
   lwz r0, 0x34(r1);
@@ -639,7 +655,7 @@ lbl_801a52a8:
   ble lbl_801a52c8;
   b lbl_801a52dc;
 lbl_801a52c8:
-  lfs f3, -0x66c4(r2);
+  lfs f3, 16.0f;
   fcmpo cr0, f2, f3;
   bge lbl_801a52d8;
   b lbl_801a52dc;
@@ -647,7 +663,7 @@ lbl_801a52d8:
   fmr f3, f2;
 lbl_801a52dc:
   fctiwz f0, f3;
-  lfs f2, -0x6698(r2);
+  lfs f2, 240.0f;
   fcmpo cr0, f1, f2;
   stfd f0, 0x30(r1);
   lwz r0, 0x34(r1);
@@ -655,7 +671,7 @@ lbl_801a52dc:
   ble lbl_801a52fc;
   b lbl_801a5310;
 lbl_801a52fc:
-  lfs f2, -0x66c4(r2);
+  lfs f2, 16.0f;
   fcmpo cr0, f1, f2;
   bge lbl_801a530c;
   b lbl_801a5310;
@@ -771,7 +787,7 @@ lbl_801a5480:
   lfd f0, -0x6690(r2);
   stw r4, 0x2c(r1);
   fsubs f3, f2, f0;
-  lfs f2, -0x66bc(r2);
+  lfs f2, 0.257f;
   lfd f1, 0x28(r1);
   fsubs f7, f4, f0;
   stw r3, 0x24(r1);
@@ -779,22 +795,22 @@ lbl_801a5480:
   lfd f1, 0x20(r1);
   fmuls f6, f2, f3;
   stw r5, 0x2c(r1);
-  lfs f4, -0x66b8(r2);
+  lfs f4, 0.504f;
   fsubs f3, f1, f0;
   lfd f2, 0x28(r1);
   fmuls f4, f4, f5;
   stw r4, 0x24(r1);
-  lfs f5, -0x66c0(r2);
+  lfs f5, 0.098f;
   fsubs f9, f2, f0;
   lfd f1, 0x20(r1);
   fmuls f13, f5, f7;
-  lfs f11, -0x66b0(r2);
+  lfs f11, 0.439f;
   fadds f12, f6, f4;
-  lfs f8, -0x66ac(r2);
+  lfs f8, -0.148f;
   fsubs f7, f1, f0;
   stw r5, 0x2c(r1);
   fmuls f10, f11, f3;
-  lfs f6, -0x66a8(r2);
+  lfs f6, 0.291f;
   lfd f1, 0x28(r1);
   fmuls f8, f8, f9;
   fmuls f6, f6, f7;
@@ -803,25 +819,25 @@ lbl_801a5480:
   lfd f1, 0x20(r1);
   stw r3, 0x2c(r1);
   fsubs f4, f1, f0;
-  lfs f3, -0x66a4(r2);
+  lfs f3, 0.368f;
   lfd f2, 0x28(r1);
   fmuls f5, f11, f5;
-  lfs f1, -0x66a0(r2);
+  lfs f1, 0.071f;
   fsubs f0, f2, f0;
   fmuls f2, f3, f4;
   lbz r0, 3(r29);
   fadds f3, f13, f12;
   fsubs f4, f8, f6;
-  lfs f9, -0x66c4(r2);
+  lfs f9, 16.0f;
   fsubs f2, f5, f2;
   fmuls f0, f1, f0;
-  lfs f5, -0x66c8(r2);
+  lfs f5, 0.5f;
   fadds f6, f9, f3;
   fadds f1, f10, f4;
-  lfs f3, -0x66b4(r2);
+  lfs f3, 128.0f;
   fsubs f0, f2, f0;
   fadds f4, f5, f6;
-  lfs f7, -0x669c(r2);
+  lfs f7, 235.0f;
   fadds f1, f3, f1;
   fadds f0, f3, f0;
   stb r5, 0x10(r1);
@@ -843,7 +859,7 @@ lbl_801a55c0:
   fmr f7, f9;
 lbl_801a55c4:
   fctiwz f0, f7;
-  lfs f3, -0x6698(r2);
+  lfs f3, 240.0f;
   fcmpo cr0, f2, f3;
   stfd f0, 0x30(r1);
   lwz r0, 0x34(r1);
@@ -851,7 +867,7 @@ lbl_801a55c4:
   ble lbl_801a55e4;
   b lbl_801a55f8;
 lbl_801a55e4:
-  lfs f3, -0x66c4(r2);
+  lfs f3, 16.0f;
   fcmpo cr0, f2, f3;
   bge lbl_801a55f4;
   b lbl_801a55f8;
@@ -859,7 +875,7 @@ lbl_801a55f4:
   fmr f3, f2;
 lbl_801a55f8:
   fctiwz f0, f3;
-  lfs f2, -0x6698(r2);
+  lfs f2, 240.0f;
   fcmpo cr0, f1, f2;
   stfd f0, 0x30(r1);
   lwz r0, 0x34(r1);
@@ -867,7 +883,7 @@ lbl_801a55f8:
   ble lbl_801a5618;
   b lbl_801a562c;
 lbl_801a5618:
-  lfs f2, -0x66c4(r2);
+  lfs f2, 16.0f;
   fcmpo cr0, f1, f2;
   bge lbl_801a5628;
   b lbl_801a562c;
