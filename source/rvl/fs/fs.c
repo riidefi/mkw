@@ -41,6 +41,15 @@ extern UNKNOWN_FUNCTION(iosAllocAligned);
 // PAL: 0x80194cf0
 extern UNKNOWN_FUNCTION(iosFree);
 
+u32 _unk_80385920 = 0xFFFFFFFF;
+char _unk_80385928[] = "/dev/fs";
+u32 _unk_80386784;
+u32 _unk_80386780;
+u32 _unk_8038677c;
+u32 _unk_80386778;
+u32 _unk_80386774;
+u32 _unk_80386770;
+
 // Symbol: ISFS_OpenLib
 // Function signature is unknown.
 // PAL: 0x80169bcc..0x80169cf4
@@ -54,22 +63,22 @@ asm UNKNOWN_FUNCTION(ISFS_OpenLib) {
   stw r31, 0xc(r1);
   li r31, 0;
   stw r30, 8(r1);
-  lwz r0, -0x6490(r13);
+  lwz r0, _unk_80386770;
   cmpwi r0, 0;
   bne lbl_80169c00;
   bl IPCGetBufferLo;
-  stw r3, -0x6484(r13);
+  stw r3, _unk_8038677c;
   bl IPCGetBufferHi;
-  stw r3, -0x6480(r13);
+  stw r3, _unk_80386780;
 lbl_80169c00:
-  lwz r3, -0x6484(r13);
-  lwz r0, -0x6490(r13);
+  lwz r3, _unk_8038677c;
+  lwz r0, _unk_80386770;
   addi r3, r3, 0x1f;
   rlwinm r3, r3, 0, 0, 0x1a;
   cmpwi r0, 0;
-  stw r3, -0x648c(r13);
+  stw r3, _unk_80386774;
   bne lbl_80169c44;
-  lwz r0, -0x6480(r13);
+  lwz r0, _unk_80386780;
   addi r4, r3, 0x40;
   cmplw r4, r0;
   ble lbl_80169c44;
@@ -80,22 +89,22 @@ lbl_80169c00:
   li r31, -22;
   b lbl_80169cd8;
 lbl_80169c44:
-  addi r4, r13, -29400;
+  la r4, _unk_80385928;
   bl strcpy;
-  lwz r3, -0x648c(r13);
+  lwz r3, _unk_80386774;
   li r4, 0;
   bl IOS_Open;
   cmpwi r3, 0;
-  stw r3, -0x72e0(r13);
+  stw r3, _unk_80385920;
   bge lbl_80169c6c;
   mr r31, r3;
   b lbl_80169cd8;
 lbl_80169c6c:
-  lwz r4, -0x6490(r13);
-  lwz r30, -0x648c(r13);
+  lwz r4, _unk_80386770;
+  lwz r30, _unk_80386774;
   cmpwi r4, 0;
   bne lbl_80169ca4;
-  lwz r0, -0x6480(r13);
+  lwz r0, _unk_80386780;
   addi r3, r30, 0x1540;
   cmplw r3, r0;
   ble lbl_80169ca4;
@@ -111,13 +120,13 @@ lbl_80169ca4:
   addi r3, r30, 0x1540;
   bl IPCSetBufferLo;
   li r0, 1;
-  stw r0, -0x6490(r13);
+  stw r0, _unk_80386770;
 lbl_80169cbc:
   mr r3, r30;
   li r4, 0x1540;
   bl iosCreateHeap;
   cmpwi r3, 0;
-  stw r3, -0x647c(r13);
+  stw r3, _unk_80386784;
   bge lbl_80169cd8;
   li r31, -22;
 lbl_80169cd8:
@@ -221,7 +230,7 @@ lbl_80169e10:
   bl memcpy;
 lbl_80169e20:
   li r0, 0;
-  stw r0, -0x6488(r13);
+  stw r0, _unk_80386778;
   lwz r12, 0x100(r31);
   cmpwi r12, 0;
   beq lbl_80169e44;
@@ -232,7 +241,7 @@ lbl_80169e20:
 lbl_80169e44:
   cmpwi r31, 0;
   beq lbl_80169e58;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r31;
   bl iosFree;
 lbl_80169e58:
@@ -266,7 +275,7 @@ asm UNKNOWN_FUNCTION(ISFS_CreateDir) {
   mr r29, r7;
   li r30, 0;
   beq lbl_80169ec8;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_80169ec8;
   li r4, 0x40;
@@ -278,7 +287,7 @@ lbl_80169ec8:
   li r31, -101;
   b lbl_80169f34;
 lbl_80169ed0:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -301,14 +310,14 @@ lbl_80169ef4:
   li r8, 0;
   stb r28, 0x47(r30);
   stb r29, 0x48(r30);
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_Ioctl;
   mr r31, r3;
 lbl_80169f34:
   cmpwi r30, 0;
   beq lbl_80169f4c;
   beq lbl_80169f4c;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r30;
   bl iosFree;
 lbl_80169f4c:
@@ -343,7 +352,7 @@ asm UNKNOWN_FUNCTION(ISFS_CreateDirAsync) {
   mr r28, r8;
   mr r29, r9;
   beq lbl_80169fc0;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_80169fc0;
   li r4, 0x40;
@@ -355,7 +364,7 @@ lbl_80169fc0:
   li r3, -101;
   b lbl_8016a044;
 lbl_80169fc8:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -385,7 +394,7 @@ lbl_80169fec:
   li r7, 0;
   li r8, 0;
   stb r27, 0x48(r30);
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_IoctlAsync;
 lbl_8016a044:
   addi r11, r1, 0x30;
@@ -417,7 +426,7 @@ asm UNKNOWN_FUNCTION(ISFS_ReadDir) {
   beq lbl_8016a0b8;
   cmpwi r5, 0;
   beq lbl_8016a0b8;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a0b8;
   clrlwi. r0, r4, 0x1b;
@@ -431,7 +440,7 @@ lbl_8016a0b8:
   li r31, -101;
   b lbl_8016a17c;
 lbl_8016a0c0:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -472,7 +481,7 @@ lbl_8016a150:
   li r5, 1;
   li r6, 1;
 lbl_8016a158:
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   mr r7, r29;
   li r4, 4;
   bl IOS_Ioctlv;
@@ -485,7 +494,7 @@ lbl_8016a17c:
   cmpwi r29, 0;
   beq lbl_8016a194;
   beq lbl_8016a194;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r29;
   bl iosFree;
 lbl_8016a194:
@@ -520,7 +529,7 @@ asm UNKNOWN_FUNCTION(ISFS_ReadDirAsync) {
   beq lbl_8016a210;
   cmpwi r5, 0;
   beq lbl_8016a210;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a210;
   clrlwi. r0, r4, 0x1b;
@@ -534,7 +543,7 @@ lbl_8016a210:
   li r3, -101;
   b lbl_8016a2e0;
 lbl_8016a218:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -581,7 +590,7 @@ lbl_8016a2bc:
   li r6, 1;
 lbl_8016a2c4:
   lis r8, 0x8017;
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   mr r7, r30;
   mr r9, r30;
   addi r8, r8, -25356;
@@ -619,7 +628,7 @@ asm UNKNOWN_FUNCTION(ISFS_SetAttr) {
   mr r29, r9;
   li r30, 0;
   beq lbl_8016a354;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a354;
   li r4, 0x40;
@@ -631,7 +640,7 @@ lbl_8016a354:
   li r31, -101;
   b lbl_8016a3c8;
 lbl_8016a35c:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -656,14 +665,14 @@ lbl_8016a380:
   stb r27, 0x46(r30);
   stb r28, 0x47(r30);
   stb r29, 0x48(r30);
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_Ioctl;
   mr r31, r3;
 lbl_8016a3c8:
   cmpwi r30, 0;
   beq lbl_8016a3e0;
   beq lbl_8016a3e0;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r30;
   bl iosFree;
 lbl_8016a3e0:
@@ -700,7 +709,7 @@ asm UNKNOWN_FUNCTION(ISFS_SetAttrAsync) {
   mr r27, r9;
   mr r28, r10;
   beq lbl_8016a45c;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a45c;
   li r4, 0x40;
@@ -712,7 +721,7 @@ lbl_8016a45c:
   li r3, -101;
   b lbl_8016a4e8;
 lbl_8016a464:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -744,7 +753,7 @@ lbl_8016a488:
   stb r25, 0x46(r30);
   stb r26, 0x47(r30);
   stb r27, 0x48(r30);
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_IoctlAsync;
 lbl_8016a4e8:
   addi r11, r1, 0x40;
@@ -778,7 +787,7 @@ asm UNKNOWN_FUNCTION(ISFS_GetAttr) {
   mr r28, r9;
   li r29, 0;
   beq lbl_8016a58c;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a58c;
   li r4, 0x40;
@@ -802,7 +811,7 @@ lbl_8016a58c:
   li r31, -101;
   b lbl_8016a624;
 lbl_8016a594:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -816,7 +825,7 @@ lbl_8016a5b8:
   addi r5, r31, 1;
   bl memcpy;
   addi r0, r29, 0x5f;
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   rlwinm r30, r0, 0, 0, 0x1a;
   mr r5, r29;
   mr r7, r30;
@@ -843,7 +852,7 @@ lbl_8016a624:
   cmpwi r29, 0;
   beq lbl_8016a63c;
   beq lbl_8016a63c;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r29;
   bl iosFree;
 lbl_8016a63c:
@@ -880,7 +889,7 @@ asm UNKNOWN_FUNCTION(ISFS_GetAttrAsync) {
   mr r27, r9;
   mr r28, r10;
   beq lbl_8016a6e8;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a6e8;
   li r4, 0x40;
@@ -904,7 +913,7 @@ lbl_8016a6e8:
   li r3, -101;
   b lbl_8016a774;
 lbl_8016a6f0:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -929,7 +938,7 @@ lbl_8016a714:
   bl memcpy;
   addi r0, r30, 0x5f;
   lis r9, 0x8017;
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   mr r5, r30;
   mr r10, r30;
   rlwinm r7, r0, 0, 0, 0x1a;
@@ -965,7 +974,7 @@ asm UNKNOWN_FUNCTION(ISFS_Delete) {
   stw r29, 0x14(r1);
   mr r29, r3;
   beq lbl_8016a7d4;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a7d4;
   li r4, 0x40;
@@ -977,7 +986,7 @@ lbl_8016a7d4:
   li r31, -101;
   b lbl_8016a82c;
 lbl_8016a7dc:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -990,7 +999,7 @@ lbl_8016a800:
   mr r4, r29;
   addi r5, r31, 1;
   bl memcpy;
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   mr r5, r30;
   li r4, 7;
   li r6, 0x40;
@@ -1002,7 +1011,7 @@ lbl_8016a82c:
   cmpwi r30, 0;
   beq lbl_8016a844;
   beq lbl_8016a844;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r30;
   bl iosFree;
 lbl_8016a844:
@@ -1034,7 +1043,7 @@ asm UNKNOWN_FUNCTION(ISFS_DeleteAsync) {
   mr r28, r4;
   mr r29, r5;
   beq lbl_8016a8ac;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a8ac;
   li r4, 0x40;
@@ -1046,7 +1055,7 @@ lbl_8016a8ac:
   li r3, -101;
   b lbl_8016a91c;
 lbl_8016a8b4:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1071,7 +1080,7 @@ lbl_8016a8d8:
   li r6, 0x40;
   li r7, 0;
   li r8, 0;
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_IoctlAsync;
 lbl_8016a91c:
   addi r11, r1, 0x20;
@@ -1102,7 +1111,7 @@ asm UNKNOWN_FUNCTION(ISFS_Rename) {
   beq lbl_8016a99c;
   cmpwi r4, 0;
   beq lbl_8016a99c;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016a99c;
   li r4, 0x40;
@@ -1120,7 +1129,7 @@ lbl_8016a99c:
   li r30, -101;
   b lbl_8016aa04;
 lbl_8016a9a4:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1137,7 +1146,7 @@ lbl_8016a9c8:
   addi r3, r29, 0x40;
   addi r5, r31, 1;
   bl memcpy;
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   mr r5, r29;
   li r4, 8;
   li r6, 0x80;
@@ -1149,7 +1158,7 @@ lbl_8016aa04:
   cmpwi r29, 0;
   beq lbl_8016aa1c;
   beq lbl_8016aa1c;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r29;
   bl iosFree;
 lbl_8016aa1c:
@@ -1183,7 +1192,7 @@ asm UNKNOWN_FUNCTION(ISFS_RenameAsync) {
   beq lbl_8016aaa4;
   cmpwi r4, 0;
   beq lbl_8016aaa4;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016aaa4;
   li r4, 0x40;
@@ -1201,7 +1210,7 @@ lbl_8016aaa4:
   li r3, -101;
   b lbl_8016ab24;
 lbl_8016aaac:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1223,7 +1232,7 @@ lbl_8016aad0:
   addi r5, r31, 1;
   bl memcpy;
   lis r9, 0x8017;
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   mr r5, r29;
   mr r10, r29;
   addi r9, r9, -25356;
@@ -1260,7 +1269,7 @@ asm UNKNOWN_FUNCTION(ISFS_GetUsage) {
   mr r27, r5;
   li r28, 0;
   beq lbl_8016ab98;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016ab98;
   cmpwi r4, 0;
@@ -1276,7 +1285,7 @@ lbl_8016ab98:
   li r31, -101;
   b lbl_8016ac40;
 lbl_8016aba0:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1308,7 +1317,7 @@ lbl_8016abc4:
   li r6, 2;
   stw r29, 0x10(r28);
   stw r0, 0x14(r28);
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_Ioctlv;
   cmpwi r3, 0;
   mr r31, r3;
@@ -1321,7 +1330,7 @@ lbl_8016ac40:
   cmpwi r28, 0;
   beq lbl_8016ac58;
   beq lbl_8016ac58;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r28;
   bl iosFree;
 lbl_8016ac58:
@@ -1355,7 +1364,7 @@ asm UNKNOWN_FUNCTION(ISFS_CreateFile) {
   mr r29, r7;
   li r30, 0;
   beq lbl_8016acc8;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016acc8;
   li r4, 0x40;
@@ -1367,7 +1376,7 @@ lbl_8016acc8:
   li r31, -101;
   b lbl_8016ad34;
 lbl_8016acd0:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1390,14 +1399,14 @@ lbl_8016acf4:
   li r8, 0;
   stb r28, 0x47(r30);
   stb r29, 0x48(r30);
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_Ioctl;
   mr r31, r3;
 lbl_8016ad34:
   cmpwi r30, 0;
   beq lbl_8016ad4c;
   beq lbl_8016ad4c;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r30;
   bl iosFree;
 lbl_8016ad4c:
@@ -1432,7 +1441,7 @@ asm UNKNOWN_FUNCTION(ISFS_CreateFileAsync) {
   mr r28, r8;
   mr r29, r9;
   beq lbl_8016adc0;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   blt lbl_8016adc0;
   li r4, 0x40;
@@ -1444,7 +1453,7 @@ lbl_8016adc0:
   li r3, -101;
   b lbl_8016ae44;
 lbl_8016adc8:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1474,7 +1483,7 @@ lbl_8016adec:
   li r7, 0;
   li r8, 0;
   stb r27, 0x48(r30);
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_IoctlAsync;
 lbl_8016ae44:
   addi r11, r1, 0x30;
@@ -1514,7 +1523,7 @@ lbl_8016aea0:
   li r31, -101;
   b lbl_8016aee8;
 lbl_8016aea8:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1535,7 +1544,7 @@ lbl_8016aee8:
   cmpwi r30, 0;
   beq lbl_8016af00;
   beq lbl_8016af00;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r30;
   bl iosFree;
 lbl_8016af00:
@@ -1578,7 +1587,7 @@ lbl_8016af64:
   li r3, -101;
   b lbl_8016afc4;
 lbl_8016af6c:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1635,7 +1644,7 @@ lbl_8016b010:
   li r31, -101;
   b lbl_8016b074;
 lbl_8016b018:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1663,7 +1672,7 @@ lbl_8016b074:
   cmpwi r30, 0;
   beq lbl_8016b08c;
   beq lbl_8016b08c;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r4, r30;
   bl iosFree;
 lbl_8016b08c:
@@ -1704,7 +1713,7 @@ lbl_8016b0e8:
   li r3, -101;
   b lbl_8016b14c;
 lbl_8016b0f0:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1762,7 +1771,7 @@ asm UNKNOWN_FUNCTION(ISFS_SeekAsync) {
   addi r11, r1, 0x20;
   bl _savegpr_27;
   mr r27, r3;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   mr r28, r4;
   mr r29, r5;
   mr r30, r6;
@@ -1841,7 +1850,7 @@ lbl_8016b254:
   li r3, -101;
   b lbl_8016b2a8;
 lbl_8016b25c:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1916,7 +1925,7 @@ lbl_8016b318:
   li r3, -101;
   b lbl_8016b36c;
 lbl_8016b320:
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   li r4, 0x140;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1975,7 +1984,7 @@ asm UNKNOWN_FUNCTION(ISFS_CloseAsync) {
   li r4, 0x140;
   stw r29, 0x14(r1);
   mr r29, r3;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   bl iosAllocAligned;
   cmpwi r3, 0;
   bne lbl_8016b3cc;
@@ -2018,9 +2027,9 @@ asm UNKNOWN_FUNCTION(ISFS_ShutdownAsync) {
   li r4, 0x140;
   stw r30, 8(r1);
   mr r30, r3;
-  lwz r3, -0x647c(r13);
+  lwz r3, _unk_80386784;
   bl iosAllocAligned;
-  lwz r0, -0x72e0(r13);
+  lwz r0, _unk_80385920;
   cmpwi r0, 0;
   bge lbl_8016b44c;
   li r3, -101;
@@ -2038,7 +2047,7 @@ lbl_8016b44c:
   li r6, 0;
   li r7, 0;
   li r8, 0;
-  lwz r3, -0x72e0(r13);
+  lwz r3, _unk_80385920;
   bl IOS_IoctlAsync;
 lbl_8016b484:
   lwz r0, 0x14(r1);

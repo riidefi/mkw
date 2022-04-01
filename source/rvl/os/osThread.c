@@ -2,12 +2,19 @@
 
 #include "os.h"
 #include "osAlarm.h"
+#include "osError.h"
 #include "osContext.h"
 #include "osInterrupt.h"
 
 // Extern function references.
 // PAL: 0x801a8088
 extern UNKNOWN_FUNCTION(__OSUnlockAllMutex);
+
+u32 _unk_80385ae0 = 0x801a95a8;
+
+u32 _unk_80386920;
+u32 _unk_8038691c;
+u32 _unk_80386918;
 
 // Symbol: OSSetSwitchThreadCallback
 // PAL: 0x801a95ac..0x801a961c
@@ -23,14 +30,14 @@ asm OSSwitchFunction OSSetSwitchThreadCallback(OSSwitchFunction callable) {
   mr r30, r3;
   bl OSDisableInterrupts;
   cmpwi r30, 0;
-  lwz r31, -0x7120(r13);
+  lwz r31, _unk_80385ae0;
   beq lbl_801a95d8;
   b lbl_801a95e0;
 lbl_801a95d8:
   lis r30, 0x801b;
   addi r30, r30, -27224;
 lbl_801a95e0:
-  stw r30, -0x7120(r13);
+  stw r30, _unk_80385ae0;
   bl OSRestoreInterrupts;
   lis r3, 0x801b;
   addi r3, r3, -27224;
@@ -98,7 +105,7 @@ asm UNKNOWN_FUNCTION(__OSThreadInit) {
   mr r4, r30;
   stw r5, 0x308(r30);
   stw r0, 0(r5);
-  lwz r12, -0x7120(r13);
+  lwz r12, _unk_80385ae0;
   lwz r3, 0xe4(r29);
   mtctr r12;
   bctrl;
@@ -164,9 +171,9 @@ lbl_801a979c:
 lbl_801a97a8:
   li r3, 0;
   li r0, 2;
-  stw r3, -0x62e0(r13);
+  stw r3, _unk_80386920;
   addi r4, r31, 0x318;
-  stw r3, -0x62e4(r13);
+  stw r3, _unk_8038691c;
   mtctr r0;
 lbl_801a97c0:
   stw r3, 4(r4);
@@ -218,7 +225,7 @@ lbl_801a9864:
   stw r29, 0x2fc(r30);
   stw r30, 0xe0(r4);
   bl OSClearContext;
-  stw r29, -0x62e8(r13);
+  stw r29, _unk_80386918;
   lwz r0, 0x24(r1);
   lwz r31, 0x1c(r1);
   lwz r30, 0x18(r1);
@@ -288,9 +295,9 @@ asm UNKNOWN_FUNCTION(OSDisableScheduler) {
   stw r0, 0x14(r1);
   stw r31, 0xc(r1);
   bl OSDisableInterrupts;
-  lwz r31, -0x62e8(r13);
+  lwz r31, _unk_80386918;
   addi r0, r31, 1;
-  stw r0, -0x62e8(r13);
+  stw r0, _unk_80386918;
   bl OSRestoreInterrupts;
   mr r3, r31;
   lwz r31, 0xc(r1);
@@ -313,9 +320,9 @@ asm UNKNOWN_FUNCTION(OSEnableScheduler) {
   stw r0, 0x14(r1);
   stw r31, 0xc(r1);
   bl OSDisableInterrupts;
-  lwz r31, -0x62e8(r13);
+  lwz r31, _unk_80386918;
   addi r0, r31, -1;
-  stw r0, -0x62e8(r13);
+  stw r0, _unk_80386918;
   bl OSRestoreInterrupts;
   mr r3, r31;
   lwz r31, 0xc(r1);
@@ -355,11 +362,11 @@ lbl_801a9994:
   bne lbl_801a99bc;
   lwz r0, 0x2d0(r3);
   li r4, 1;
-  lwz r5, -0x62e0(r13);
+  lwz r5, _unk_80386920;
   subfic r0, r0, 0x1f;
   slw r0, r4, r0;
   andc r0, r5, r0;
-  stw r0, -0x62e0(r13);
+  stw r0, _unk_80386920;
 lbl_801a99bc:
   li r0, 0;
   stw r0, 0x2dc(r3);
@@ -444,12 +451,12 @@ lbl_801a9a80:
   stw r0, 0x2e0(r30);
   stw r30, 4(r4);
   lwz r0, 0x2d0(r30);
-  lwz r4, -0x62e0(r13);
+  lwz r4, _unk_80386920;
   subfic r0, r0, 0x1f;
   slw r0, r3, r0;
   or r0, r4, r0;
-  stw r0, -0x62e0(r13);
-  stw r3, -0x62e4(r13);
+  stw r0, _unk_80386920;
+  stw r3, _unk_8038691c;
   b lbl_801a9b9c;
 lbl_801a9ab8:
   lwz r6, 0x2e0(r3);
@@ -520,7 +527,7 @@ lbl_801a9b7c:
   b lbl_801a9ba0;
 lbl_801a9b90:
   li r0, 1;
-  stw r0, -0x62e4(r13);
+  stw r0, _unk_8038691c;
   stw r4, 0x2d0(r3);
 lbl_801a9b9c:
   li r3, 0;
@@ -579,7 +586,7 @@ asm UNKNOWN_FUNCTION(SelectThread) {
   stw r31, 0xc(r1);
   stw r30, 8(r1);
   mr r30, r3;
-  lwz r0, -0x62e8(r13);
+  lwz r0, _unk_80386918;
   cmpwi r0, 0;
   ble lbl_801a9c34;
   li r3, 0;
@@ -600,7 +607,7 @@ lbl_801a9c50:
   bne lbl_801a9cf4;
   cmpwi r30, 0;
   bne lbl_801a9c88;
-  lwz r3, -0x62e0(r13);
+  lwz r3, _unk_80386920;
   lwz r0, 0x2d0(r5);
   cntlzw r3, r3;
   cmpw r0, r3;
@@ -631,12 +638,12 @@ lbl_801a9cc0:
   lwz r4, 0x2dc(r5);
   stw r5, 4(r4);
   lwz r0, 0x2d0(r5);
-  lwz r4, -0x62e0(r13);
+  lwz r4, _unk_80386920;
   subfic r0, r0, 0x1f;
   slw r0, r3, r0;
   or r0, r4, r0;
-  stw r0, -0x62e0(r13);
-  stw r3, -0x62e4(r13);
+  stw r0, _unk_80386920;
+  stw r3, _unk_8038691c;
 lbl_801a9cf4:
   lhz r0, 0x1a2(r5);
   rlwinm. r0, r0, 0, 0x1e, 0x1e;
@@ -648,10 +655,10 @@ lbl_801a9cf4:
   li r3, 0;
   b lbl_801a9e18;
 lbl_801a9d18:
-  lwz r0, -0x62e0(r13);
+  lwz r0, _unk_80386920;
   cmpwi r0, 0;
   bne lbl_801a9d7c;
-  lwz r12, -0x7120(r13);
+  lwz r12, _unk_80385ae0;
   lis r31, 0x8000;
   lwz r3, 0xe4(r31);
   li r4, 0;
@@ -665,11 +672,11 @@ lbl_801a9d18:
 lbl_801a9d50:
   bl OSEnableInterrupts;
 lbl_801a9d54:
-  lwz r0, -0x62e0(r13);
+  lwz r0, _unk_80386920;
   cmpwi r0, 0;
   beq lbl_801a9d54;
   bl OSDisableInterrupts;
-  lwz r0, -0x62e0(r13);
+  lwz r0, _unk_80386920;
   cmpwi r0, 0;
   beq lbl_801a9d50;
   lis r3, 0x8034;
@@ -678,9 +685,9 @@ lbl_801a9d54:
 lbl_801a9d7c:
   li r4, 0;
   lis r3, 0x8034;
-  stw r4, -0x62e4(r13);
+  stw r4, _unk_8038691c;
   addi r3, r3, 0x77b0;
-  lwz r0, -0x62e0(r13);
+  lwz r0, _unk_80386920;
   cntlzw r5, r0;
   slwi r0, r5, 3;
   lwzux r30, r3, r0;
@@ -697,10 +704,10 @@ lbl_801a9db4:
   bne lbl_801a9dd8;
   subfic r0, r5, 0x1f;
   li r3, 1;
-  lwz r4, -0x62e0(r13);
+  lwz r4, _unk_80386920;
   slw r0, r3, r0;
   andc r0, r4, r0;
-  stw r0, -0x62e0(r13);
+  stw r0, _unk_80386920;
 lbl_801a9dd8:
   li r3, 0;
   li r0, 2;
@@ -708,7 +715,7 @@ lbl_801a9dd8:
   lis r31, 0x8000;
   mr r4, r30;
   sth r0, 0x2c8(r30);
-  lwz r12, -0x7120(r13);
+  lwz r12, _unk_80385ae0;
   lwz r3, 0xe4(r31);
   mtctr r12;
   bctrl;
@@ -735,7 +742,7 @@ MARK_BINARY_BLOB(__OSReschedule, 0x801a9e30, 0x801a9e48);
 asm UNKNOWN_FUNCTION(__OSReschedule) {
   // clang-format off
   nofralloc;
-  lwz r0, -0x62e4(r13);
+  lwz r0, _unk_8038691c;
   cmpwi r0, 0;
   beqlr;
   li r3, 0;
@@ -842,7 +849,7 @@ lbl_801a9ec0:
   ori r4, r4, 1;
   stw r5, 0x19c(r31);
   sth r4, 0x1a2(r31);
-  lwz r4, -0x7158(r13);
+  lwz r4, _unk_80385aa8;
   rlwinm r4, r4, 0, 0x18, 0x1c;
   ori r4, r4, 4;
   stw r4, 0x194(r31);
@@ -996,8 +1003,8 @@ lbl_801aa180:
   addi r3, r30, 0x2e8;
   bl OSWakeupThread;
   li r0, 1;
-  stw r0, -0x62e4(r13);
-  lwz r0, -0x62e4(r13);
+  stw r0, _unk_8038691c;
+  lwz r0, _unk_8038691c;
   cmpwi r0, 0;
   beq lbl_801aa1ac;
   li r3, 0;
@@ -1051,7 +1058,7 @@ lbl_801aa220:
   b lbl_801aa308;
 lbl_801aa238:
   li r0, 1;
-  stw r0, -0x62e4(r13);
+  stw r0, _unk_8038691c;
   b lbl_801aa308;
 lbl_801aa244:
   lwz r4, 0x2e0(r30);
@@ -1147,7 +1154,7 @@ lbl_801aa368:
   bl __OSUnlockAllMutex;
   addi r3, r30, 0x2e8;
   bl OSWakeupThread;
-  lwz r0, -0x62e4(r13);
+  lwz r0, _unk_8038691c;
   cmpwi r0, 0;
   beq lbl_801aa38c;
   li r3, 0;
@@ -1391,12 +1398,12 @@ lbl_801aa650:
   stw r0, 0x2e0(r29);
   stw r29, 4(r4);
   lwz r0, 0x2d0(r29);
-  lwz r4, -0x62e0(r13);
+  lwz r4, _unk_80386920;
   subfic r0, r0, 0x1f;
   slw r0, r3, r0;
   or r0, r4, r0;
-  stw r0, -0x62e0(r13);
-  stw r3, -0x62e4(r13);
+  stw r0, _unk_80386920;
+  stw r3, _unk_8038691c;
   b lbl_801aa7e8;
 lbl_801aa688:
   lwz r4, 0x2e0(r29);
@@ -1507,7 +1514,7 @@ lbl_801aa7c8:
   cmpwi r3, 0;
   bne lbl_801aa790;
 lbl_801aa7e8:
-  lwz r0, -0x62e4(r13);
+  lwz r0, _unk_8038691c;
   cmpwi r0, 0;
   beq lbl_801aa7fc;
   li r3, 0;
@@ -1561,7 +1568,7 @@ lbl_801aa87c:
   b lbl_801aa8a4;
 lbl_801aa888:
   li r0, 1;
-  stw r0, -0x62e4(r13);
+  stw r0, _unk_8038691c;
   sth r0, 0x2c8(r29);
   b lbl_801aa97c;
 lbl_801aa898:
@@ -1634,7 +1641,7 @@ lbl_801aa95c:
   cmpwi r3, 0;
   bne lbl_801aa924;
 lbl_801aa97c:
-  lwz r0, -0x62e4(r13);
+  lwz r0, _unk_8038691c;
   cmpwi r0, 0;
   beq lbl_801aa990;
   li r3, 0;
@@ -1712,8 +1719,8 @@ lbl_801aaa64:
   stw r4, 0x2e0(r3);
 lbl_801aaa68:
   li r0, 1;
-  stw r0, -0x62e4(r13);
-  lwz r0, -0x62e4(r13);
+  stw r0, _unk_8038691c;
+  lwz r0, _unk_8038691c;
   cmpwi r0, 0;
   beq lbl_801aaa84;
   li r3, 0;
@@ -1780,17 +1787,17 @@ lbl_801aab2c:
   lwz r4, 0x2dc(r8);
   stw r8, 4(r4);
   lwz r0, 0x2d0(r8);
-  lwz r4, -0x62e0(r13);
+  lwz r4, _unk_80386920;
   subfic r0, r0, 0x1f;
   slw r0, r3, r0;
   or r0, r4, r0;
-  stw r0, -0x62e0(r13);
-  stw r3, -0x62e4(r13);
+  stw r0, _unk_80386920;
+  stw r3, _unk_8038691c;
 lbl_801aab58:
   lwz r8, 0(r30);
   cmpwi r8, 0;
   bne lbl_801aaad8;
-  lwz r0, -0x62e4(r13);
+  lwz r0, _unk_8038691c;
   cmpwi r0, 0;
   beq lbl_801aab78;
   li r3, 0;
@@ -1865,7 +1872,7 @@ lbl_801aac20:
   mr r29, r3;
   bne lbl_801aabe8;
 lbl_801aac48:
-  lwz r0, -0x62e4(r13);
+  lwz r0, _unk_8038691c;
   cmpwi r0, 0;
   beq lbl_801aac5c;
   li r3, 0;

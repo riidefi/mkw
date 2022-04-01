@@ -31,6 +31,10 @@ u32 __OSUnmaskInterrupts(u32);
 // PAL: 0x801a6a3c..0x801a6ce0
 void __OSDispatchInterrupt(u8 exception, OSContext* context);
 
+extern volatile OSTime __OSLastInterruptTime;
+extern volatile s16 __OSLastInterrupt;
+extern volatile u32 __OSLastInterruptSrr0;
+
 #ifdef __cplusplus
 }
 #endif

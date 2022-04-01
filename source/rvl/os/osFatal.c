@@ -51,6 +51,8 @@ extern UNKNOWN_FUNCTION(VIGetRetraceCount);
 // PAL: 0x801bacd8
 extern UNKNOWN_FUNCTION(VIGetTvFormat);
 
+char _unk_80385ac8[] = "%s\n";
+
 asm void float_ordering() {
   lfs f1, 0.5f;
   lfs f1, 16.0f;
@@ -572,7 +574,7 @@ asm UNKNOWN_FUNCTION(Halt) {
   stw r5, 0x2c(r1);
   lfd f4, 0x20(r1);
   lfd f2, 0x28(r1);
-  lfd f0, -0x6690(r2);
+  lfd f0, 4503599627370496.0;
   stw r3, 0x24(r1);
   fsubs f3, f2, f0;
   lfs f2, 0.257f;
@@ -784,7 +786,7 @@ lbl_801a5480:
   stw r5, 0x24(r1);
   lfd f4, 0x28(r1);
   lfd f2, 0x20(r1);
-  lfd f0, -0x6690(r2);
+  lfd f0, 4503599627370496.0;
   stw r4, 0x2c(r1);
   fsubs f3, f2, f0;
   lfs f2, 0.257f;
@@ -923,7 +925,7 @@ lbl_801a5694:
   blt lbl_801a5694;
   bl OSDisableInterrupts;
   lwz r4, 8(r29);
-  addi r3, r13, -28984;
+  la r3, _unk_80385ac8;
   crclr 6;
   bl OSReport;
   bl PPCHalt;

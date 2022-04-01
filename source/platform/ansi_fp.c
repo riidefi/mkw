@@ -1126,7 +1126,7 @@ asm UNKNOWN_FUNCTION(__num2dec_internal) {
   mr r30, r3;
   stw r29, 0x7c(r1);
   bl __signbitd;
-  lfd f0, -0x7f70(r2);
+  lfd f0, 0.0;
   neg r0, r3;
   or r0, r0, r3;
   fcmpu cr0, f0, f31;
@@ -1368,12 +1368,12 @@ asm UNKNOWN_FUNCTION(__dec2num) {
   lbz r0, 0(r3);
   extsb. r0, r0;
   bne lbl_8000dce8;
-  lfd f2, -0x7f68(r2);
+  lfd f2, 1.0;
   b lbl_8000dcec;
 lbl_8000dce8:
-  lfd f2, -0x7f60(r2);
+  lfd f2, -1.0;
 lbl_8000dcec:
-  lfd f1, -0x7f70(r2);
+  lfd f1, 0.0;
   bl copysign;
   b lbl_8000e414;
 lbl_8000dcf8:
@@ -1389,22 +1389,22 @@ lbl_8000dd18:
   lbz r0, 0(r3);
   extsb. r0, r0;
   bne lbl_8000dd2c;
-  lfd f2, -0x7f68(r2);
+  lfd f2, 1.0;
   b lbl_8000dd30;
 lbl_8000dd2c:
-  lfd f2, -0x7f60(r2);
+  lfd f2, -1.0;
 lbl_8000dd30:
-  lfd f1, -0x7f70(r2);
+  lfd f1, 0.0;
   bl copysign;
   b lbl_8000e414;
 lbl_8000dd3c:
   lbz r0, 0(r3);
   extsb. r0, r0;
   bne lbl_8000dd50;
-  lfd f2, -0x7f68(r2);
+  lfd f2, 1.0;
   b lbl_8000dd54;
 lbl_8000dd50:
-  lfd f2, -0x7f60(r2);
+  lfd f2, -1.0;
 lbl_8000dd54:
   lis r3, 0x8038;
   lfs f1, 0x4c24(r3);
@@ -1546,10 +1546,10 @@ lbl_8000df18:
   lbz r0, 0(r27);
   extsb. r0, r0;
   bne lbl_8000df70;
-  lfd f2, -0x7f68(r2);
+  lfd f2, 1.0;
   b lbl_8000df74;
 lbl_8000df70:
-  lfd f2, -0x7f60(r2);
+  lfd f2, -1.0;
 lbl_8000df74:
   lis r3, 0x8038;
   lfs f1, 0x4c24(r3);
@@ -1663,7 +1663,7 @@ lbl_8000e0f0:
   lfd f2, -0x7f40(r2);
   xoris r0, r0, 0x8000;
   stw r0, 0x12c(r1);
-  lfd f1, -0x7f58(r2);
+  lfd f1, 5.0;
   lfd f0, 0x128(r1);
   fsub f2, f0, f2;
   bl pow;
@@ -1674,7 +1674,7 @@ lbl_8000e120:
   stw r0, 0x134(r1);
   lfd f2, -0x7f40(r2);
   lfd f0, 0x130(r1);
-  lfd f1, -0x7f58(r2);
+  lfd f1, 5.0;
   fsub f2, f0, f2;
   bl pow;
   fmul f31, f31, f1;

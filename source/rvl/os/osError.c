@@ -8,6 +8,8 @@
 #include "osInterrupt.h"
 #include "osThread.h"
 
+u32 _unk_80385aa8 = 0xf8;
+
 // Symbol: OSReport
 // PAL: 0x801a25d0..0x801a265c
 MARK_BINARY_BLOB(OSReport, 0x801a25d0, 0x801a265c);
@@ -266,7 +268,7 @@ lbl_801a283c:
   bdnz lbl_801a283c;
   stw r7, 0x194(r9);
 lbl_801a294c:
-  lwz r4, -0x7158(r13);
+  lwz r4, _unk_80385aa8;
   lwz r6, 0x194(r9);
   rlwinm r4, r4, 0, 0x18, 0x1c;
   or r4, r6, r4;
@@ -276,7 +278,7 @@ lbl_801a294c:
 lbl_801a2968:
   cmpwi r9, 0;
   bne lbl_801a2810;
-  lwz r0, -0x7158(r13);
+  lwz r0, _unk_80385aa8;
   ori r31, r31, 0x900;
   rlwinm r0, r0, 0, 0x18, 0x1c;
   or r4, r3, r0;
@@ -517,7 +519,7 @@ lbl_801a2ccc:
   lha r4, -0x6314(r13);
   addi r3, r31, 0x2a4;
   lwz r5, -0x6318(r13);
-  lwz r7, -0x6310(r13);
+  lwz r7, __OSLastInterruptTime@hiword;
   lwz r8, -0x630c(r13);
   crclr 6;
   bl OSReport;
