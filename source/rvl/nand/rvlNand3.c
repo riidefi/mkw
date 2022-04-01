@@ -33,8 +33,9 @@ extern UNKNOWN_FUNCTION(ISFS_WriteAsync);
 // PAL: 0x8016b384
 extern UNKNOWN_FUNCTION(ISFS_Close);
 
-char* _unk_80385a28 = "<< RVL_SDK - NAND \trelease build: Dec 11 2007 01:35:48 "
-                      "(0x4199_60831) >>"; // TODO
+char _unk_8028ea20[] =
+    "<< RVL_SDK - NAND \trelease build: Dec 11 2007 01:35:48 "
+    "(0x4199_60831) >>";
 char _unk_8028ea80[64] = "/" __attribute__((aligned(32)));
 struct {
   void* func;
@@ -49,6 +50,20 @@ struct {
 };
 char _unk_8028ead0[] = "/shared2";
 char _unk_8028eadc[] = "/shared2/";
+char _unk_8028eae8[] = "ISFS error code: %d";
+char _unk_8028eafc[] = "CAUTION!  Unexpected error code [%d] was found.\n";
+char _unk_8028eb30[] = "ISFS unexpected error code: %d";
+char _unk_8028eb50[] = "Failed to set home directory.\n";
+char _unk_8028eb70[] = "/title/00010000";
+char _unk_8028eb80[] = "/title/00010001";
+char _unk_8028eb90[] = "/title/00010003";
+char _unk_8028eba0[] = "/title/00010004";
+char _unk_8028ebb0[] = "/title/00010005";
+char _unk_8028ebc0[] = "/title/00010006";
+char _unk_8028ebd0[] = "/title/00010007";
+char _unk_8028ebe0[] = "/shared2/title";
+
+char* _unk_80385a28 = _unk_8028ea20;
 char _unk_80385a2c[] = "/";
 u32 _unk_80385a30 = 0xFF;
 MKW_PATCH_WORD(_unk_80385a30, 0); // can't place a zero in .sdata natively
@@ -62,6 +77,13 @@ u32 _unk_80385a4c = 0x00200000;
 char _unk_80385a50[] = "/meta";
 char _unk_80385a58[] = "/ticket";
 u32 _unk_80385a60 = 0xffffff01;
+
+char* _unk_8028ebf0[] = {
+    _unk_80385a50, _unk_80385a58, _unk_8028eb70, _unk_8028eb80,
+    _unk_8028eb90, _unk_8028eba0, _unk_8028ebb0, _unk_8028ebc0,
+    _unk_8028ebd0, _unk_8028ebe0, NULL,          NULL,
+};
+char _unk_8028ec20[] = "/shared2/test2/nanderr.log";
 
 // .sbss
 u32 _unk_80386854;
@@ -455,8 +477,8 @@ asm UNKNOWN_FUNCTION(nandConvertErrorCode) {
   li r0, 0x29;
   addi r6, r1, 0x13c;
   stw r31, -4(r12);
-  lis r31, 0x8029;
-  addi r31, r31, -5600;
+  lis r31, _unk_8028ea20@ha;
+  la r31, _unk_8028ea20@l(r31);
   addi r5, r4, -4;
   stw r30, -8(r12);
   stw r29, -0xc(r12);
@@ -575,10 +597,10 @@ lbl_8019e070:
 lbl_8019e074:
   cmpwi r0, 0;
   beq lbl_8019e094;
-  lis r4, 0x8029;
+  lis r4, _unk_8028ea80@ha;
   mr r3, r30;
   mr r5, r31;
-  addi r4, r4, -5504;
+  la r4, _unk_8028ea80@l(r4);
   bl nandConvertPath;
   b lbl_8019e0d0;
 lbl_8019e094:
@@ -671,8 +693,8 @@ asm s32 NANDInit(void) {
   mflr r0;
   stw r0, 0x24(r1);
   stw r31, 0x1c(r1);
-  lis r31, 0x8029;
-  addi r31, r31, -5600;
+  lis r31, _unk_8028ea20 @ha;
+  la r31, _unk_8028ea20 @l(r31);
   stw r30, 0x18(r1);
   bl OSDisableInterrupts;
   lwz r0, _unk_80386848;
@@ -846,10 +868,10 @@ lbl_8019e3c0:
   b lbl_8019e3f4;
 lbl_8019e3d0:
   bl OSDisableInterrupts;
-  lis r4, 0x8029;
+  lis r4, _unk_8028ea80 @ha;
   mr r31, r3;
   mr r3, r30;
-  addi r4, r4, -5504;
+  la r4, _unk_8028ea80 @l(r4);
   bl strcpy;
   mr r3, r31;
   bl OSRestoreInterrupts;
@@ -965,10 +987,10 @@ lbl_8019e514:
 lbl_8019e518:
   cmpwi r0, 0;
   beq lbl_8019e538;
-  lis r4, 0x8029;
+  lis r4, _unk_8028ea80@ha;
   mr r5, r27;
   addi r3, r28, 0x34;
-  addi r4, r4, -5504;
+  la r4, _unk_8028ea80@l(r4);
   bl nandConvertPath;
   b lbl_8019e574;
 lbl_8019e538:
@@ -1056,10 +1078,10 @@ lbl_8019e65c:
 lbl_8019e660:
   cmpwi r0, 0;
   beq lbl_8019e680;
-  lis r4, 0x8029;
+  lis r4, _unk_8028ea80@ha;
   mr r5, r27;
   addi r3, r1, 0x10;
-  addi r4, r4, -5504;
+  la r4, _unk_8028ea80@l(r4);
   bl nandConvertPath;
   b lbl_8019e6c0;
 lbl_8019e680:
@@ -1233,17 +1255,8 @@ lbl_8019e84c:
 }
 
 // Symbol: nandGetHomeDir
-// Function signature is unknown.
 // PAL: 0x8019e874..0x8019e880
-MARK_BINARY_BLOB(nandGetHomeDir, 0x8019e874, 0x8019e880);
-asm UNKNOWN_FUNCTION(nandGetHomeDir) {
-  // clang-format off
-  nofralloc;
-  lis r3, 0x8034;
-  addi r3, r3, 0x6d20;
-  blr;
-  // clang-format on
-}
+u32 nandGetHomeDir() { return 0x80346d20; }
 
 // Symbol: NANDInitBanner
 // PAL: 0x8019e880..0x8019e95c
@@ -1465,10 +1478,10 @@ lbl_8019eb1c:
   bl nandConvertErrorCode;
   b lbl_8019ebbc;
 lbl_8019eb3c:
-  lis r5, 0x8029;
+  lis r5, _unk_8028ebf0 @ha;
   addi r3, r1, 0xc;
   addi r4, r1, 8;
-  addi r5, r5, -5136;
+  la r5, _unk_8028ebf0 @l(r5);
   bl nandCalcUsage;
   cmpwi r3, 0;
   beq lbl_8019eb60;
@@ -1596,10 +1609,10 @@ lbl_8019eca0:
   stw r0, 0x70(r1);
   bl vsnprintf;
   li r0, 1;
-  lis r3, 0x8029;
+  lis r3, _unk_8028ec20@ha;
   lis r5, 0x801a;
   stw r30, _unk_80386850;
-  addi r3, r3, -5088;
+  la r3, _unk_8028ec20@l(r3);
   li r4, 3;
   stw r0, _unk_80386854;
   addi r5, r5, -4828;

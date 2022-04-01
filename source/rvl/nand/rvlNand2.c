@@ -11,6 +11,11 @@
 #include <rvl/os/osError.h>
 #include <rvl/os/osInterrupt.h>
 
+// .data
+char _unk_8028e9f0[] = "/tmp/sys";
+char _unk_8028e9fc[] = "%s/%08x/%s";
+char _unk_8028ea08[] = "Illegal NANDFileInfo.\n";
+
 // .sdata
 char _unk_80385a18[] = "%s/%08x";
 char _unk_80385a20[] = "%s/%s";
@@ -83,11 +88,11 @@ lbl_8019c7b4:
 lbl_8019c7b8:
   cmpwi r29, 0;
   beq lbl_8019c7dc;
-  lis r5, 0x801a;
+  lis r5, nandOpenCallback@ha;
   mr r4, r31;
   mr r6, r28;
   addi r3, r1, 8;
-  addi r5, r5, -13816;
+  la r5, nandOpenCallback@l(r5);
   bl ISFS_OpenAsync;
   b lbl_8019c7e8;
 lbl_8019c7dc:
@@ -386,10 +391,10 @@ lbl_8019cb24:
   b lbl_8019cb58;
 lbl_8019cb38:
   stw r30, 4(r31);
-  lis r4, 0x801a;
+  lis r4, nandCloseCallback @ha;
   mr r5, r31;
   stw r29, 8(r31);
-  addi r4, r4, -9660;
+  la r4, nandCloseCallback @l(r4);
   lwz r3, 0(r29);
   bl ISFS_CloseAsync;
   bl nandConvertErrorCode;
@@ -490,9 +495,9 @@ lbl_8019cc68:
   cmplwi r0, 1;
   bgt lbl_8019cf0c;
   li r0, 0;
-  lis r3, 0x8029;
+  lis r3, _unk_8028e9f0@ha;
   stw r0, 0x20(r1);
-  addi r3, r3, -5648;
+  la r3, _unk_8028e9f0@l(r3);
   li r26, -1;
   li r4, 0;
   stw r0, 0x24(r1);
@@ -542,11 +547,11 @@ lbl_8019cd1c:
   addi r0, r26, 1;
   stw r0, _unk_80386840;
   bl OSRestoreInterrupts;
-  lis r5, 0x8029;
+  lis r5, _unk_8028e9f0@ha;
   mr r6, r26;
   addi r3, r1, 0x30;
   la r4, _unk_80385a18;
-  addi r5, r5, -5648;
+  la r5, _unk_8028e9f0@l(r5);
   crclr 6;
   bl sprintf;
   addi r3, r1, 0x30;
@@ -568,20 +573,20 @@ lbl_8019cd8c:
   bl nandGetRelativeName;
   cmpwi r31, 0;
   bne lbl_8019cdc8;
-  lis r4, 0x8029;
-  lis r5, 0x8029;
+  lis r4, _unk_8028e9fc@ha;
+  lis r5, _unk_8028e9f0@ha;
   mr r6, r26;
   addi r3, r28, 0x48;
-  addi r4, r4, -5636;
-  addi r5, r5, -5648;
+  la r4, _unk_8028e9fc@l(r4);
+  la r5, _unk_8028e9f0@l(r5);
   addi r7, r1, 0x20;
   crclr 6;
   bl sprintf;
   b lbl_8019cde4;
 lbl_8019cdc8:
-  lis r5, 0x8029;
+  lis r5, _unk_8028e9f0@ha;
   addi r3, r28, 0x48;
-  addi r5, r5, -5648;
+  la r5, _unk_8028e9f0@l(r5);
   addi r6, r1, 0x20;
   la r4, _unk_80385a20;
   crclr 6;
@@ -811,8 +816,8 @@ lbl_8019d0cc:
   bl nandConvertErrorCode;
   b lbl_8019d0e8;
 lbl_8019d0d4:
-  lis r3, 0x8029;
-  addi r3, r3, -5624;
+  lis r3, _unk_8028ea08 @ha;
+  la r3, _unk_8028ea08 @l(r3);
   crclr 6;
   bl OSReport;
   li r3, -8;
@@ -899,12 +904,12 @@ lbl_8019d194:
 lbl_8019d1d0:
   cmplwi r25, 1;
   bne lbl_8019d210;
-  lis r5, 0x801a;
+  lis r5, nandReadOpenCallback@ha;
   stw r24, 8(r29);
   mr r6, r29;
   addi r3, r24, 8;
   stw r28, 4(r29);
-  addi r5, r5, -10616;
+  la r5, nandReadOpenCallback@l(r5);
   li r4, 1;
   bl ISFS_OpenAsync;
   cmpwi r3, 0;
@@ -920,13 +925,13 @@ lbl_8019d210:
   cmplwi r0, 1;
   bgt lbl_8019d27c;
   li r31, 0;
-  lis r3, 0x8029;
-  lis r8, 0x801a;
+  lis r3, _unk_8028e9f0@ha;
+  lis r8, nandSafeOpenCallback@ha;
   stw r24, 8(r29);
   mr r9, r29;
-  addi r3, r3, -5648;
+  la r3, _unk_8028e9f0@l(r3);
   stw r28, 4(r29);
-  addi r8, r8, -11624;
+  la r8, nandSafeOpenCallback@l(r8);
   li r4, 0;
   li r5, 3;
   stw r31, 0x7c(r29);
@@ -1009,7 +1014,7 @@ lbl_8019d330:
   lwz r0, 0x7c(r4);
   cmpwi r0, 1;
   bne lbl_8019d370;
-  lis r10, 0x801a;
+  lis r10, nandSafeOpenCallback@ha;
   stw r4, 8(r1);
   addi r3, r31, 8;
   addi r5, r4, 0x1c;
@@ -1017,7 +1022,7 @@ lbl_8019d330:
   addi r7, r4, 0x24;
   addi r8, r4, 0x28;
   addi r9, r4, 0x2c;
-  addi r10, r10, -11624;
+  la r10, nandSafeOpenCallback@l(r10);
   addi r4, r4, 0x18;
   bl ISFS_GetAttrAsync;
   mr r6, r3;
@@ -1025,11 +1030,11 @@ lbl_8019d330:
 lbl_8019d370:
   cmpwi r0, 2;
   bne lbl_8019d398;
-  lis r5, 0x801a;
+  lis r5, nandSafeOpenCallback@ha;
   mr r6, r30;
   addi r3, r31, 8;
   li r4, 1;
-  addi r5, r5, -11624;
+  la r5, nandSafeOpenCallback@l(r5);
   bl ISFS_OpenAsync;
   mr r6, r3;
   b lbl_8019d638;
@@ -1041,19 +1046,19 @@ lbl_8019d398:
   addi r0, r31, 1;
   stw r0, _unk_80386840;
   bl OSRestoreInterrupts;
-  lis r5, 0x8029;
+  lis r5, _unk_8028e9f0@ha;
   stw r31, 0x8c(r30);
   mr r6, r31;
   addi r3, r1, 0x20;
-  addi r5, r5, -5648;
+  la r5, _unk_8028e9f0@l(r5);
   la r4, _unk_80385a18;
   crclr 6;
   bl sprintf;
-  lis r8, 0x801a;
+  lis r8, nandSafeOpenCallback@ha;
   mr r9, r30;
   addi r3, r1, 0x20;
   li r4, 0;
-  addi r8, r8, -11624;
+  la r8, nandSafeOpenCallback@l(r8);
   li r5, 3;
   li r6, 0;
   li r7, 0;
@@ -1070,34 +1075,34 @@ lbl_8019d400:
   cmpwi r0, 0;
   bne lbl_8019d450;
   li r0, 3;
-  lis r4, 0x8029;
+  lis r4, _unk_8028e9fc@ha;
   stb r0, 0x89(r31);
-  lis r5, 0x8029;
+  lis r5, _unk_8028e9f0@ha;
   addi r3, r31, 0x48;
-  addi r4, r4, -5636;
+  la r4, _unk_8028e9fc@l(r4);
   lwz r6, 0x8c(r30);
-  addi r5, r5, -5648;
+  la r5, _unk_8028e9f0@l(r5);
   addi r7, r1, 0x10;
   crclr 6;
   bl sprintf;
   b lbl_8019d46c;
 lbl_8019d450:
-  lis r5, 0x8029;
+  lis r5, _unk_8028e9f0@ha;
   addi r3, r31, 0x48;
-  addi r5, r5, -5648;
+  la r5, _unk_8028e9f0@l(r5);
   addi r6, r1, 0x10;
   la r4, _unk_80385a20;
   crclr 6;
   bl sprintf;
 lbl_8019d46c:
-  lis r8, 0x801a;
+  lis r8, nandSafeOpenCallback@ha;
   lwz r4, 0x20(r30);
   lwz r5, 0x24(r30);
   mr r9, r30;
   lwz r6, 0x28(r30);
   addi r3, r31, 0x48;
   lwz r7, 0x2c(r30);
-  addi r8, r8, -11624;
+  la r8, nandSafeOpenCallback@l(r8);
   bl ISFS_CreateFileAsync;
   mr r6, r3;
   b lbl_8019d638;
@@ -1109,22 +1114,22 @@ lbl_8019d498:
   lbz r0, 0x88(r31);
   cmplwi r0, 2;
   bne lbl_8019d4d4;
-  lis r5, 0x801a;
+  lis r5, nandSafeOpenCallback@ha;
   mr r6, r30;
   addi r3, r31, 0x48;
   li r4, 2;
-  addi r5, r5, -11624;
+  la r5, nandSafeOpenCallback@l(r5);
   bl ISFS_OpenAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d4d4:
   cmplwi r0, 3;
   bne lbl_8019d4fc;
-  lis r5, 0x801a;
+  lis r5, nandSafeOpenCallback@ha;
   mr r6, r30;
   addi r3, r31, 0x48;
   li r4, 3;
-  addi r5, r5, -11624;
+  la r5, nandSafeOpenCallback@l(r5);
   bl ISFS_OpenAsync;
   mr r6, r3;
   b lbl_8019d638;
@@ -1136,11 +1141,11 @@ lbl_8019d504:
   bne lbl_8019d544;
   stw r3, 0(r31);
   li r3, 5;
-  lis r6, 0x801a;
+  lis r6, nandSafeOpenCallback@ha;
   li r0, 7;
   stb r3, 0x89(r31);
   mr r7, r30;
-  addi r6, r6, -11624;
+  la r6, nandSafeOpenCallback@l(r6);
   stw r0, 0x7c(r4);
   lwz r4, 0x80(r4);
   lwz r3, 4(r31);
@@ -1151,12 +1156,12 @@ lbl_8019d504:
 lbl_8019d544:
   cmpwi r0, 7;
   bne lbl_8019d570;
-  lis r6, 0x801a;
+  lis r6, nandSafeOpenCallback@ha;
   lwz r3, 4(r31);
   lwz r4, 0x80(r4);
   mr r7, r30;
   lwz r5, 0x84(r30);
-  addi r6, r6, -11624;
+  la r6, nandSafeOpenCallback@l(r6);
   bl ISFS_ReadAsync;
   mr r6, r3;
   b lbl_8019d638;
@@ -1166,23 +1171,23 @@ lbl_8019d570:
   cmpwi r3, 0;
   ble lbl_8019d5ac;
   li r0, 6;
-  lis r6, 0x801a;
+  lis r6, nandSafeOpenCallback@ha;
   stw r0, 0x7c(r4);
   mr r5, r3;
   lwz r4, 0x80(r4);
   mr r7, r30;
   lwz r3, 0(r31);
-  addi r6, r6, -11624;
+  la r6, nandSafeOpenCallback@l(r6);
   bl ISFS_WriteAsync;
   mr r6, r3;
   b lbl_8019d638;
 lbl_8019d5ac:
   bne lbl_8019d638;
-  lis r6, 0x801a;
+  lis r6, nandSafeOpenCallback@ha;
   lwz r3, 0(r31);
   mr r7, r30;
   li r4, 0;
-  addi r6, r6, -11624;
+  la r6, nandSafeOpenCallback@l(r6);
   li r5, 0;
   bl ISFS_SeekAsync;
   mr r6, r3;
@@ -1338,10 +1343,10 @@ lbl_8019d794:
   cmplwi r3, 1;
   bne lbl_8019d7c4;
   stw r28, 8(r30);
-  lis r4, 0x801a;
+  lis r4, nandReadCloseCallback @ha;
   mr r5, r30;
   stw r29, 4(r30);
-  addi r4, r4, -9752;
+  la r4, nandReadCloseCallback @l(r4);
   lwz r3, 0(r28);
   bl ISFS_CloseAsync;
   b lbl_8019d800;
@@ -1351,10 +1356,10 @@ lbl_8019d7c4:
   cmplwi r0, 1;
   bgt lbl_8019d7fc;
   li r0, 0xa;
-  lis r4, 0x801a;
+  lis r4, nandSafeCloseCallback @ha;
   stw r28, 8(r30);
   mr r5, r30;
-  addi r4, r4, -10204;
+  la r4, nandSafeCloseCallback @l(r4);
   stw r29, 4(r30);
   stw r0, 0x7c(r30);
   lwz r3, 0(r28);
@@ -1415,10 +1420,10 @@ lbl_8019d88c:
   cmpwi r0, 0xb;
   bne lbl_8019d8bc;
   li r0, 6;
-  lis r4, 0x801a;
+  lis r4, nandSafeCloseCallback@ha;
   stb r0, 0x89(r7);
   mr r5, r31;
-  addi r4, r4, -10204;
+  la r4, nandSafeCloseCallback@l(r4);
   lwz r3, 4(r7);
   bl ISFS_CloseAsync;
   mr r6, r3;
@@ -1427,12 +1432,12 @@ lbl_8019d8bc:
   cmpwi r0, 0xc;
   bne lbl_8019d8ec;
   li r0, 7;
-  lis r5, 0x801a;
+  lis r5, nandSafeCloseCallback@ha;
   stb r0, 0x89(r7);
   mr r6, r31;
   addi r3, r7, 0x48;
   addi r4, r7, 8;
-  addi r5, r5, -10204;
+  la r5, nandSafeCloseCallback@l(r5);
   bl ISFS_RenameAsync;
   mr r6, r3;
   b lbl_8019d99c;
@@ -1459,10 +1464,10 @@ lbl_8019d8ec:
   stw r0, 0x40(r1);
   stw r0, 0x44(r1);
   bl nandGetParentDirectory;
-  lis r4, 0x801a;
+  lis r4, nandSafeCloseCallback@ha;
   mr r5, r31;
   addi r3, r1, 8;
-  addi r4, r4, -10204;
+  la r4, nandSafeCloseCallback@l(r4);
   bl ISFS_DeleteAsync;
   mr r6, r3;
   b lbl_8019d99c;

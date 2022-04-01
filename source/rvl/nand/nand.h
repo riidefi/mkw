@@ -153,7 +153,7 @@ UNKNOWN_FUNCTION(nandCallback);
 UNKNOWN_FUNCTION(nandGetType);
 UNKNOWN_FUNCTION(NANDPrivateGetTypeAsync);
 UNKNOWN_FUNCTION(nandGetTypeCallback);
-UNKNOWN_FUNCTION(nandGetHomeDir);
+u32 nandGetHomeDir();
 UNKNOWN_FUNCTION(NANDSecretGetUsage);
 UNKNOWN_FUNCTION(nandCalcUsage);
 UNKNOWN_FUNCTION(reserveFileDescriptor);

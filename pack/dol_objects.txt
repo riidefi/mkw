@@ -233,7 +233,7 @@ out/ppcArch.o
 out/dol/text_8012e6d4_80169bcc.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o
-out/dol/data_802826d7_8028ea20.o
+out/dol/data_802826d7_8028e9f0.o
 out/dol/sdata_803857f6_80385a08.o
 out/dol/sbss_80386448_803867e8.o
 out/ipcMain.o
@@ -260,7 +260,7 @@ out/dol/rodata_80252c84_80252dd0.o
 out/dol/sbss_80386844_80386848.o
 out/rvlNand3.o
 out/dol/text_8019f1a8_801a05b8.o
-out/dol/data_8028eae6_8028f058.o
+out/dol/data_8028ec3b_8028f058.o
 out/dol/sdata_80385a64_80385a98.o
 out/dol/sbss_80386858_803868a0.o
 out/osAlarm.o
