@@ -106,7 +106,7 @@ class SdataAbsoluteAccessRule(BaseRegexRule):
         self.r13 = 0x8038CC00
         super().__init__(
             "sdata/sbss absolute access",
-            r"^\s+((lwz|stw|lhz|lha|sth|lbz|stb) r\d{1,2}, (-?0x[0-9a-f]+)\(r13\));.*$",
+            r"^\s+((lwz|stw|lhz|lha|sth|lbz|stb|lfs|stfs) (?:r|f)\d{1,2}, (-?0x[0-9a-f]+)\(r13\));.*$",
         )
 
     def on_match(self, match: re.Match, violation: LintViolation):
@@ -134,6 +134,16 @@ class SdataAbsoluteAccessRule(BaseRegexRule):
             elif opcode == "lbz":
                 data = self.dol.virtual_read(address, 1) or b"\x00"
                 values = "~> %#04x " % data[0]
+            elif opcode == "lfs":
+                data = self.dol.virtual_read(address, 4)
+                item_float = struct.unpack(">f", data)[0]
+                item_int = struct.unpack(">I", data)[0]
+                values = "~> %ff (%#08x) " % (item_float, item_int)
+            elif opcode == "lfd":
+                data = self.dol.virtual_read(address, 8)
+                item_float = struct.unpack(">d", data)[0]
+                item_int = struct.unpack(">Q", data)[0]
+                values = "~> %f (%#016x) " % (item_float, item_int)
 
         violation.comment = f"{values}@ {hex(address)}"
 

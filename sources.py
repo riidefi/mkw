@@ -66,6 +66,9 @@ SOURCES_RVL_IPC = [
     Source(src="source/rvl/ipc/ipcclt.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/ipc/ipcMain.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_KPAD = [
+    Source(src="source/rvl/kpad/rvlKpad.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_MEM = [
     Source(src="source/rvl/mem/rvlMemHeap.cpp", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/mem/rvlMemExpHeap.c", cc='4199_60831', opts=RVL_OPTS),
@@ -250,6 +253,7 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_BASE,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
+    SOURCES_RVL_KPAD,
     SOURCES_RVL_MEM,
     SOURCES_RVL_MTX,
     SOURCES_RVL_NAND,

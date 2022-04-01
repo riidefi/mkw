@@ -96,7 +96,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/fs/fs.c,,,,,,,0x80169bcc,0x8016b49c,,,,,,,,,,,0x80385920,0x80385930,0x80386770,0x80386788,,,,
 1,,source/rvl/ipc/ipcMain.c,,,,,,,0x80192f7c,0x80193048,,,,,,,,,,,,,0x803867e8,0x803867fc,,,,
 1,,source/rvl/ipc/ipcclt.c,,,,,,,0x80193048,0x801949b8,,,,,,,,,,,0x80385990,0x80385998,0x80386800,0x80386810,,,,
-,,source/rvl/kpad/rvlKpad.c,,,,,,,0x801950a0,0x801981ec,,,,,,,0x8028e998,0x8028e9f0,0x803457e0,0x80346cf0,0x80385998,080385a08,0x80386818,0x80386838,0x80388800,0x80388860,,
+1,,source/rvl/kpad/rvlKpad.c,,,,,,,0x801950a0,0x801981ec,,,,,,,0x8028e998,0x8028e9f0,0x803457e0,0x80346cf0,0x80385998,080385a08,0x80386818,0x80386838,0x80388800,0x80388860,,
 1,,source/rvl/mem/rvlMemHeap.cpp,,,,,,,0x801981ec,0x80198798,,,,,,,,,0x80346cf0,0x80346d18,,,0x80386838,0x8038683C,,,,
 1,,source/rvl/mem/rvlMemExpHeap.c,,,,,,,0x80198798,0x80199430,,,,,,,,,,,,,,,,,,
 1,,source/rvl/mem/rvlMemFrmHeap.cpp,,,,,,,0x80199430,0x801998A4,,,,,,,,,,,,,,,,,,
