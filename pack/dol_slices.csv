@@ -109,7 +109,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/mtx/rvlQuat.c,,,,,,,0x8019ae08,0x8019b314,,,,,0x80252c78,0x80252c84,,,,,,,,,0x803888b8,0x803888d0,,
 1,,source/rvl/nand/rvlNand1.c,,,,,,,0x8019b314,0x8019c6ec,,,,,,,,,,,0x80385a10,0x80385a18,,,,,,
 1,,source/rvl/nand/rvlNand2.c,,,,,,,0x8019c6ec,0x8019daa0,,,,,,,,,,,0x80385a18,0x80385a28,0x80386840,0x80386844,,,,
-1,,source/rvl/nand/rvlNand3.c,,,,,,,0x8019daa0,0x8019f1a8,,,,,,,,,,,0x80385a28,0x80385a64,0x80386848,0x80386858,,,,
+1,,source/rvl/nand/rvlNand3.c,,,,,,,0x8019daa0,0x8019f1a8,,,,,,,0x8028ea20,0x8028eae6,,,0x80385a28,0x80385a64,0x80386848,0x80386858,,,,
 1,,source/rvl/os/osAlarm.c,,,,,,,0x801a05b8,0x801a0d9c,,,,,,,0x8028f058,0x8028f068,,,,,0x803868a0,0x803868a8,,,,
 1,,source/rvl/os/osAlloc.c,,,,,,,0x801a0d9c ,0x801a10a4 ,,,,,,,,,,,0x80385a98,0x80385a9c,0x803868a8,0x803868b8,,,,
 1,,source/rvl/os/osArena.c,,,,,,,0x801a10a4 ,0x801a1138,,,,,,,,,,,0x80385aa0,0x80385aa8,0x803868b8,0x803868c0,,,,

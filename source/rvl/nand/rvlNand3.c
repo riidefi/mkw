@@ -33,8 +33,22 @@ extern UNKNOWN_FUNCTION(ISFS_WriteAsync);
 // PAL: 0x8016b384
 extern UNKNOWN_FUNCTION(ISFS_Close);
 
-// .sdata
-u32 _unk_80385a28 = 0x8028ea20; // TODO
+char* _unk_80385a28 = "<< RVL_SDK - NAND \trelease build: Dec 11 2007 01:35:48 "
+                      "(0x4199_60831) >>"; // TODO
+char _unk_8028ea80[64] = "/" __attribute__((aligned(32)));
+struct {
+  void* func;
+  u32 _unk_04;
+  u32 _unk_08;
+  u32 _unk_0c;
+} _unk_8028eac0 = {
+    (void*)(nandOnShutdown),
+    0x000000FF,
+    0,
+    0,
+};
+char _unk_8028ead0[] = "/shared2";
+char _unk_8028eadc[] = "/shared2/";
 char _unk_80385a2c[] = "/";
 u32 _unk_80385a30 = 0xFF;
 MKW_PATCH_WORD(_unk_80385a30, 0); // can't place a zero in .sdata natively
@@ -349,10 +363,10 @@ asm UNKNOWN_FUNCTION(nandIsPrivatePath) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
-  lis r4, 0x8029;
+  lis r4, _unk_8028ead0@ha;
   li r5, 8;
   stw r0, 0x14(r1);
-  addi r4, r4, -5424;
+  la r4, _unk_8028ead0@l(r4);
   bl strncmp;
   cntlzw r0, r3;
   srwi r3, r0, 5;
@@ -372,10 +386,10 @@ asm UNKNOWN_FUNCTION(nandIsUnderPrivatePath) {
   nofralloc;
   stwu r1, -0x10(r1);
   mflr r0;
-  lis r4, 0x8029;
+  lis r4, _unk_8028eadc@ha;
   li r5, 9;
   stw r0, 0x14(r1);
-  addi r4, r4, -5412;
+  la r4, _unk_8028eadc@l(r4);
   stw r31, 0xc(r1);
   mr r31, r3;
   bl strncmp;
@@ -976,9 +990,9 @@ lbl_8019e538:
 lbl_8019e574:
   cmpwi r31, 0;
   bne lbl_8019e5c0;
-  lis r4, 0x8029;
+  lis r4, _unk_8028eadc@ha;
   addi r3, r28, 0x34;
-  addi r4, r4, -5412;
+  la r4, _unk_8028eadc@l(r4);
   li r5, 9;
   bl strncmp;
   cmpwi r3, 0;
@@ -1068,9 +1082,9 @@ lbl_8019e680:
 lbl_8019e6c0:
   cmpwi r31, 0;
   bne lbl_8019e70c;
-  lis r4, 0x8029;
+  lis r4, _unk_8028eadc@ha;
   addi r3, r1, 0x10;
-  addi r4, r4, -5412;
+  la r4, _unk_8028eadc@l(r4);
   li r5, 9;
   bl strncmp;
   cmpwi r3, 0;
