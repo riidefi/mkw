@@ -98,14 +98,14 @@ lbl_8019b3c8:
   bl nandSplitPerm;
   cmpwi r30, 0;
   beq lbl_8019b40c;
-  lis r8, 0x801a;
+  lis r8, nandCallback@ha;
   lwz r5, 0x10(r1);
   lwz r6, 0xc(r1);
   mr r4, r28;
   lwz r7, 8(r1);
   mr r9, r29;
   addi r3, r1, 0x18;
-  addi r8, r8, -7072;
+  la r8, nandCallback@l(r8);
   bl ISFS_CreateFileAsync;
   b lbl_8019b424;
 lbl_8019b40c:
@@ -391,10 +391,10 @@ lbl_8019b71c:
   stw r0, 0x40(r1);
   stw r0, 0x44(r1);
   bl nandGenerateAbsPath;
-  lis r4, 0x801a;
+  lis r4, nandCallback@ha;
   mr r5, r31;
   addi r3, r1, 8;
-  addi r4, r4, -7072;
+  la r4, nandCallback@l(r4);
   bl ISFS_DeleteAsync;
   bl nandConvertErrorCode;
 lbl_8019b788:
@@ -465,12 +465,12 @@ asm s32 NANDReadAsync(NANDFileInfo*, void*, u32, NANDAsyncCallback, void*) {
   b lbl_8019b86c;
 lbl_8019b848:
   stw r30, 4(r31);
-  lis r6, 0x801a;
+  lis r6, nandCallback @ha;
   mr r4, r28;
   mr r5, r29;
   lwz r3, 0(r27);
   mr r7, r31;
-  addi r6, r6, -7072;
+  la r6, nandCallback @l(r6);
   bl ISFS_ReadAsync;
   bl nandConvertErrorCode;
 lbl_8019b86c:
@@ -540,12 +540,12 @@ asm s32 NANDWriteAsync(NANDFileInfo*, const void*, u32, NANDAsyncCallback,
   b lbl_8019b94c;
 lbl_8019b928:
   stw r30, 4(r31);
-  lis r6, 0x801a;
+  lis r6, nandCallback @ha;
   mr r4, r28;
   mr r5, r29;
   lwz r3, 0(r27);
   mr r7, r31;
-  addi r6, r6, -7072;
+  la r6, nandCallback @l(r6);
   bl ISFS_WriteAsync;
   bl nandConvertErrorCode;
 lbl_8019b94c:
@@ -654,10 +654,10 @@ lbl_8019ba78:
 lbl_8019ba80:
   li r5, 2;
 lbl_8019ba84:
-  lis r6, 0x801a;
+  lis r6, nandCallback @ha;
   mr r4, r28;
   mr r7, r31;
-  addi r6, r6, -7072;
+  la r6, nandCallback @l(r6);
   bl ISFS_SeekAsync;
   bl nandConvertErrorCode;
 lbl_8019ba9c:
@@ -731,14 +731,14 @@ lbl_8019bb5c:
   bl nandSplitPerm;
   cmpwi r30, 0;
   beq lbl_8019bbb0;
-  lis r8, 0x801a;
+  lis r8, nandCallback@ha;
   lwz r5, 0x10(r1);
   lwz r6, 0xc(r1);
   mr r4, r28;
   lwz r7, 8(r1);
   mr r9, r29;
   addi r3, r1, 0x18;
-  addi r8, r8, -7072;
+  la r8, nandCallback@l(r8);
   bl ISFS_CreateDirAsync;
   b lbl_8019bbc8;
 lbl_8019bbb0:
@@ -978,11 +978,11 @@ lbl_8019be90:
 lbl_8019be98:
   cmpwi r30, 0;
   beq lbl_8019bebc;
-  lis r5, 0x801a;
+  lis r5, nandCallback@ha;
   mr r6, r29;
   addi r3, r1, 0x58;
   addi r4, r1, 0x18;
-  addi r5, r5, -7072;
+  la r5, nandCallback@l(r5);
   bl ISFS_RenameAsync;
   b lbl_8019bec8;
 lbl_8019bebc:
@@ -1146,11 +1146,11 @@ lbl_8019c088:
   li r3, 0;
   addi r0, r31, 0x53;
   stw r30, 4(r31);
-  lis r5, 0x801a;
+  lis r5, nandGetFileStatusAsyncCallback @ha;
   mr r6, r31;
   rlwinm r4, r0, 0, 0, 0x1a;
   stw r29, 0x74(r31);
-  addi r5, r5, -16428;
+  la r5, nandGetFileStatusAsyncCallback @l(r5);
   stw r3, 0x78(r31);
   lwz r3, 0(r28);
   bl ISFS_GetFileStatsAsync;
@@ -1302,7 +1302,7 @@ asm UNKNOWN_FUNCTION(nandGetStatus) {
 lbl_8019c254:
   cmpwi r30, 0;
   beq lbl_8019c28c;
-  lis r10, 0x801a;
+  lis r10, nandGetStatusCallback@ha;
   stw r29, 8(r1);
   mr r4, r28;
   addi r3, r1, 0x20;
@@ -1311,7 +1311,7 @@ lbl_8019c254:
   addi r7, r29, 0x24;
   addi r8, r29, 0x28;
   addi r9, r29, 0x2c;
-  addi r10, r10, -15604;
+  la r10, nandGetStatusCallback@l(r10);
   bl ISFS_GetAttrAsync;
   b lbl_8019c2ec;
 lbl_8019c28c:
@@ -1572,11 +1572,11 @@ lbl_8019c57c:
   cmpwi r30, 0;
   beq lbl_8019c5d4;
   stw r29, 8(r1);
-  lis r10, 0x801a;
+  lis r10, nandCallback@ha;
   lwz r4, 0(r28);
   addi r3, r1, 0x20;
   lhz r5, 4(r28);
-  addi r10, r10, -7072;
+  la r10, nandCallback@l(r10);
   lbz r6, 6(r28);
   lwz r7, 0x18(r1);
   lwz r8, 0x14(r1);
