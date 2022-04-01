@@ -10,7 +10,7 @@ from elftools.elf.elffile import ELFFile
 
 def segment_is_dummy(seg):
     """Returns whether segment contains dummy info."""
-    return seg["p_vaddr"] == 0xA000_0000  # Binary blobs section
+    return seg["p_vaddr"] in (0xA000_0000, 0xB000_0000)  # Binary blobs section
 
 
 def segment_is_text(seg):
