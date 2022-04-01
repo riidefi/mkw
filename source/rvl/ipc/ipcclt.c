@@ -26,6 +26,14 @@ extern UNKNOWN_FUNCTION(IPCiProfAck);
 // PAL: 0x80195024
 extern UNKNOWN_FUNCTION(IPCiProfReply);
 
+u32 _unk_80385990 = 1;
+u32 _unk_80385994 = 0xffffffff;
+
+u32 _unk_8038680c;
+u32 _unk_80386808;
+u32 _unk_80386804;
+u32 _unk_80386800;
+
 // Symbol: strnlen
 // Function signature is unknown.
 // PAL: 0x80193048..0x80193074
@@ -169,19 +177,19 @@ lbl_801931e8:
   add r0, r3, r0;
   cmplw r28, r0;
   blt lbl_801931a8;
-  lwz r0, -0x6400(r13);
+  lwz r0, _unk_80386800;
   cmpwi r0, 0;
   beq lbl_80193230;
-  lwz r0, -0x63f8(r13);
+  lwz r0, _unk_80386808;
   cmplw r0, r31;
   bne lbl_80193230;
-  lwz r3, -0x7270(r13);
+  lwz r3, _unk_80385990;
   li r0, 0;
-  stw r0, -0x6400(r13);
+  stw r0, _unk_80386800;
   cmpwi r3, 1;
   bge lbl_80193230;
   addi r0, r3, 1;
-  stw r0, -0x7270(r13);
+  stw r0, _unk_80385990;
 lbl_80193230:
   lwz r0, 0x20(r31);
   cmpwi r0, 0;
@@ -199,7 +207,7 @@ lbl_80193230:
   bl OSClearContext;
   mr r3, r30;
   bl OSSetCurrentContext;
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   mr r4, r31;
   bl iosFree;
   b lbl_80193288;
@@ -265,23 +273,23 @@ lbl_80193308:
   lis r0, 0x4000;
   lis r3, 0xcd00;
   stw r0, 0x30(r3);
-  lwz r31, -0x7270(r13);
+  lwz r31, _unk_80385990;
   cmpwi r31, 1;
   bge lbl_80193358;
   addi r31, r31, 1;
-  stw r31, -0x7270(r13);
+  stw r31, _unk_80385990;
   bl IPCiProfAck;
 lbl_80193358:
   cmpwi r31, 0;
   ble lbl_80193460;
-  lwz r0, -0x6400(r13);
+  lwz r0, _unk_80386800;
   cmpwi r0, 0;
   beq lbl_801933a0;
-  lwz r3, -0x63fc(r13);
+  lwz r3, _unk_80386804;
   li r0, 0;
   stw r0, 4(r3);
-  lwz r3, -0x63fc(r13);
-  stw r0, -0x6400(r13);
+  lwz r3, _unk_80386804;
+  stw r0, _unk_80386800;
   addi r3, r3, 0x2c;
   bl OSWakeupThread;
   li r3, 1;
@@ -317,20 +325,20 @@ lbl_801933cc:
   lwz r0, 0x28(r4);
   cmpwi r0, 0;
   beq lbl_8019340c;
-  lwz r3, -0x7270(r13);
+  lwz r3, _unk_80385990;
   addi r0, r3, -1;
-  stw r0, -0x7270(r13);
+  stw r0, _unk_80385990;
 lbl_8019340c:
   addis r4, r4, 0x8000;
   li r3, 0;
   bl IPCWriteReg;
   lis r7, 0x8034;
-  lwz r3, -0x7270(r13);
+  lwz r3, _unk_80385990;
   addi r6, r7, 0x55c0;
   lwz r4, 0x55c0(r7);
   lwz r5, 8(r6);
   addi r0, r3, -1;
-  stw r0, -0x7270(r13);
+  stw r0, _unk_80385990;
   addi r4, r4, 1;
   addi r0, r5, 1;
   li r3, 1;
@@ -362,7 +370,7 @@ asm UNKNOWN_FUNCTION(IPCCltInit) {
   stwu r1, -0x20(r1);
   mflr r0;
   stw r0, 0x24(r1);
-  lwz r0, -0x63f4(r13);
+  lwz r0, _unk_8038680c;
   stw r31, 0x1c(r1);
   cmpwi r0, 0;
   stw r30, 0x18(r1);
@@ -370,7 +378,7 @@ asm UNKNOWN_FUNCTION(IPCCltInit) {
   stw r29, 0x14(r1);
   bne lbl_8019350c;
   li r0, 1;
-  stw r0, -0x63f4(r13);
+  stw r0, _unk_8038680c;
   bl IPCInit;
   bl IPCGetBufferLo;
   mr r29, r3;
@@ -384,7 +392,7 @@ lbl_801934cc:
   mr r3, r29;
   li r4, 0x1000;
   bl iosCreateHeap;
-  stw r3, -0x726c(r13);
+  stw r3, _unk_80385994;
   mr r3, r31;
   bl IPCSetBufferLo;
   lis r4, 0x8019;
@@ -435,7 +443,7 @@ lbl_80193568:
   mr r3, r29;
   li r4, 0x800;
   bl iosCreateHeap;
-  stw r3, -0x726c(r13);
+  stw r3, _unk_80385994;
   mr r3, r31;
   bl IPCSetBufferLo;
 lbl_80193580:
@@ -527,12 +535,12 @@ lbl_80193688:
   bl OSRestoreInterrupts;
   cmpwi r29, 0;
   beq lbl_801937a0;
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   mr r4, r28;
   bl iosFree;
   b lbl_801937a0;
 lbl_801936b0:
-  lwz r0, -0x7270(r13);
+  lwz r0, _unk_80385990;
   cmpwi r0, 0;
   ble lbl_8019377c;
   lis r4, 0x8034;
@@ -561,20 +569,20 @@ lbl_801936e8:
   lwz r0, 0x28(r4);
   cmpwi r0, 0;
   beq lbl_80193728;
-  lwz r3, -0x7270(r13);
+  lwz r3, _unk_80385990;
   addi r0, r3, -1;
-  stw r0, -0x7270(r13);
+  stw r0, _unk_80385990;
 lbl_80193728:
   addis r4, r4, 0x8000;
   li r3, 0;
   bl IPCWriteReg;
   lis r7, 0x8034;
-  lwz r3, -0x7270(r13);
+  lwz r3, _unk_80385990;
   addi r6, r7, 0x55c0;
   lwz r4, 0x55c0(r7);
   lwz r5, 8(r6);
   addi r0, r3, -1;
-  stw r0, -0x7270(r13);
+  stw r0, _unk_80385990;
   addi r4, r4, 1;
   addi r0, r5, 1;
   li r3, 1;
@@ -602,7 +610,7 @@ lbl_801937a0:
   beq lbl_801937bc;
   cmpwi r29, 0;
   bne lbl_801937bc;
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   mr r4, r28;
   bl iosFree;
 lbl_801937bc:
@@ -639,7 +647,7 @@ asm s32 IOS_OpenAsync(const char*, u32, IOSCallback) {
   li r30, -4;
   b lbl_80193860;
 lbl_80193818:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -727,7 +735,7 @@ asm s32 IOS_Open(const char*, u32) {
   li r30, -4;
   b lbl_80193978;
 lbl_80193930:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -819,7 +827,7 @@ asm UNKNOWN_FUNCTION(IOS_CloseAsync) {
   li r31, -4;
   b lbl_80193a9c;
 lbl_80193a54:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -876,7 +884,7 @@ asm s32 IOS_Close(u32) {
   li r31, -4;
   b lbl_80193b4c;
 lbl_80193b04:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -936,7 +944,7 @@ asm UNKNOWN_FUNCTION(IOS_ReadAsync) {
   li r30, -4;
   b lbl_80193c04;
 lbl_80193bbc:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1018,7 +1026,7 @@ asm UNKNOWN_FUNCTION(IOS_Read) {
   li r30, -4;
   b lbl_80193d04;
 lbl_80193cbc:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1102,7 +1110,7 @@ asm UNKNOWN_FUNCTION(IOS_WriteAsync) {
   li r31, -4;
   b lbl_80193e0c;
 lbl_80193dc4:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1184,7 +1192,7 @@ asm UNKNOWN_FUNCTION(IOS_Write) {
   li r31, -4;
   b lbl_80193f0c;
 lbl_80193ec4:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1268,7 +1276,7 @@ asm UNKNOWN_FUNCTION(IOS_SeekAsync) {
   li r31, -4;
   b lbl_80194014;
 lbl_80193fcc:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1340,7 +1348,7 @@ asm UNKNOWN_FUNCTION(IOS_Seek) {
   li r31, -4;
   b lbl_801940f4;
 lbl_801940ac:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1417,7 +1425,7 @@ asm UNKNOWN_FUNCTION(IOS_IoctlAsync) {
   li r31, -4;
   b lbl_801941e8;
 lbl_801941a0:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1512,7 +1520,7 @@ asm s32 IOS_Ioctl(s32, s32, void*, u32, void*, u32) {
   li r31, -4;
   b lbl_80194318;
 lbl_801942d0:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1710,7 +1718,7 @@ asm UNKNOWN_FUNCTION(IOS_IoctlvAsync) {
   li r31, -4;
   b lbl_80194588;
 lbl_80194540:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1779,7 +1787,7 @@ asm UNKNOWN_FUNCTION(IOS_Ioctlv) {
   li r31, -4;
   b lbl_80194664;
 lbl_8019461c:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1843,7 +1851,7 @@ asm UNKNOWN_FUNCTION(IOS_IoctlvReboot) {
   mr r30, r6;
   mr r29, r7;
   bl OSDisableInterrupts;
-  lwz r0, -0x6400(r13);
+  lwz r0, _unk_80386800;
   cmpwi r0, 0;
   beq lbl_80194700;
   bl OSRestoreInterrupts;
@@ -1851,7 +1859,7 @@ asm UNKNOWN_FUNCTION(IOS_IoctlvReboot) {
   b lbl_8019499c;
 lbl_80194700:
   li r0, 1;
-  stw r0, -0x6400(r13);
+  stw r0, _unk_80386800;
   bl OSRestoreInterrupts;
   addic. r0, r1, 8;
   li r31, 0;
@@ -1859,7 +1867,7 @@ lbl_80194700:
   li r31, -4;
   b lbl_80194768;
 lbl_80194720:
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   li r4, 0x40;
   li r5, 0x20;
   bl iosAllocAligned;
@@ -1885,7 +1893,7 @@ lbl_80194768:
   li r0, 1;
   mr r4, r27;
   mr r5, r28;
-  stw r3, -0x63f8(r13);
+  stw r3, _unk_80386808;
   mr r6, r30;
   mr r7, r29;
   stw r0, 0x28(r3);
@@ -1901,7 +1909,7 @@ lbl_80194768:
   bl memcpy;
   addi r3, r29, 0x5620;
   lwz r29, 8(r1);
-  stw r3, -0x63fc(r13);
+  stw r3, _unk_80386804;
   addi r3, r3, 0x2c;
   bl OSInitThreadQueue;
   mr r3, r29;
@@ -1956,7 +1964,7 @@ lbl_80194874:
   bl OSRestoreInterrupts;
   b lbl_80194974;
 lbl_80194888:
-  lwz r0, -0x7270(r13);
+  lwz r0, _unk_80385990;
   cmpwi r0, 0;
   ble lbl_80194958;
   lis r4, 0x8034;
@@ -1986,20 +1994,20 @@ lbl_801948c4:
   lwz r0, 0x28(r4);
   cmpwi r0, 0;
   beq lbl_80194904;
-  lwz r3, -0x7270(r13);
+  lwz r3, _unk_80385990;
   addi r0, r3, -1;
-  stw r0, -0x7270(r13);
+  stw r0, _unk_80385990;
 lbl_80194904:
   addis r4, r4, 0x8000;
   li r3, 0;
   bl IPCWriteReg;
   lis r7, 0x8034;
-  lwz r3, -0x7270(r13);
+  lwz r3, _unk_80385990;
   addi r6, r7, 0x55c0;
   lwz r4, 0x55c0(r7);
   lwz r5, 8(r6);
   addi r0, r3, -1;
-  stw r0, -0x7270(r13);
+  stw r0, _unk_80385990;
   addi r4, r4, 1;
   addi r0, r5, 1;
   li r3, 1;
@@ -2012,23 +2020,23 @@ lbl_80194904:
   ori r4, r0, 1;
   bl IPCWriteReg;
 lbl_80194958:
-  lwz r3, -0x63fc(r13);
+  lwz r3, _unk_80386804;
   addi r3, r3, 0x2c;
   bl OSSleepThread;
   mr r3, r30;
   bl OSRestoreInterrupts;
-  lwz r3, -0x63fc(r13);
+  lwz r3, _unk_80386804;
   lwz r31, 4(r3);
 lbl_80194974:
   lwz r4, 8(r1);
   li r0, 0;
-  stw r0, -0x6400(r13);
+  stw r0, _unk_80386800;
   cmpwi r4, 0;
-  stw r0, -0x63f8(r13);
+  stw r0, _unk_80386808;
   beq lbl_8019499c;
   cmpwi r31, 0;
   beq lbl_8019499c;
-  lwz r3, -0x726c(r13);
+  lwz r3, _unk_80385994;
   bl iosFree;
 lbl_8019499c:
   addi r11, r1, 0x30;

@@ -7,6 +7,9 @@
 // PAL: 0x801a4648
 extern UNKNOWN_FUNCTION(__OSBootDol);
 
+u32 _unk_80386904;
+u32 _unk_80386900;
+
 // Symbol: __OSReboot
 // Function signature is unknown.
 // PAL: 0x801a81b8..0x801a8224
@@ -51,9 +54,9 @@ MARK_BINARY_BLOB(OSGetSaveRegion, 0x801a8224, 0x801a8238);
 asm UNKNOWN_FUNCTION(OSGetSaveRegion) {
   // clang-format off
   nofralloc;
-  lwz r0, -0x6300(r13);
+  lwz r0, _unk_80386900;
   stw r0, 0(r3);
-  lwz r0, -0x62fc(r13);
+  lwz r0, _unk_80386904;
   stw r0, 0(r4);
   blr;
   // clang-format on
