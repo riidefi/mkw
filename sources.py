@@ -81,7 +81,9 @@ SOURCES_RVL_MTX = [
     Source(src="source/rvl/mtx/rvlQuat.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_NAND = [
-    Source(src="source/rvl/nand/nand.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/nand/rvlNand1.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/nand/rvlNand2.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/nand/rvlNand3.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_OS = [
     Source(src="source/rvl/os/osAlarm.c", cc='4199_60831', opts=RVL_OPTS),

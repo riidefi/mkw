@@ -3,6 +3,7 @@ MEMORY {
 text : origin = 0x80004000
 // Dummy address
 binary_blobs : origin = 0xA0000000
+mkw_patches : origin = 0xB0000000
 }
 SECTIONS {
 GROUP:{
@@ -24,6 +25,9 @@ extabindex_ ALIGN(0x20):{}
 GROUP:{
 binary_blobs ALIGN(0x20):{}
 } > binary_blobs
+GROUP: {
+mkw_patches ALIGN(0x20):{}
+} > mkw_patches
 
 _stack_addr = (_f_sbss2 + SIZEOF(.sbss2) + 65536 + 0x7) & ~0x7;
 _stack_end = _f_sbss2 + SIZEOF(.sbss2);

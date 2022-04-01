@@ -12,6 +12,7 @@ from random import randbytes
 import subprocess
 import sys
 
+from elftools.elf.elffile import ELFFile
 from multiprocessing.dummy import Pool as ThreadPool, Lock
 import multiprocessing
 
@@ -23,6 +24,7 @@ from mkwutil.lib.slices import SliceTable
 from mkwutil.sections import DOL_SECTIONS
 from mkwutil.verify_object_file import verify_object_file
 from mkwutil.gen_lcf import gen_lcf
+from mkwutil.mkw_binary_patch import patch_elf
 from mkwutil.pack_main_dol import pack_main_dol
 from mkwutil.pack_staticr_rel import pack_staticr_rel
 from mkwutil.verify_main_dol import verify_dol
@@ -363,6 +365,9 @@ def link_dol(o_files: list[Path]):
     elf_path = dest_dir / "main.elf"
     map_path = dest_dir / "main.map"
     link(elf_path, o_files, dst_lcf_path, map_path)
+    # Execute patches.
+    with open(elf_path, "rb+") as elf_file:
+        patch_elf(elf_file)
     # Convert ELF to DOL.
     dol_path = dest_dir / "main.dol"
     pack_main_dol(elf_path, dol_path)
