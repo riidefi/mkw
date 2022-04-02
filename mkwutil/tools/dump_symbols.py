@@ -1,6 +1,7 @@
 import argparse
 from dataclasses import dataclass
 from pathlib import Path
+import re
 import sys
 from typing import Generator, Optional
 
@@ -30,6 +31,9 @@ def get_code_sections(elf: ELFFile) -> Generator[SectionInfo, None, None]:
         yield sec_info
 
 
+MATCH_DOLLAR_THING = re.compile(r"^\w+\$\d+$")
+
+
 def process_symbol(
     sym: ELFSymbol, strtab: StringTableSection, code_secs: list[SectionInfo]
 ) -> Optional[Symbol]:
@@ -37,13 +41,16 @@ def process_symbol(
     sym_name = strtab.get_string(sym["st_name"])
     if len(sym_name) == 0:
         return
-    if sym_type != "STT_FUNC":
+    if not sym_type in ("STT_FUNC", "STT_OBJECT"):
         return
-    sec = next(sec for sec in code_secs if sec.index == sym["st_shndx"])
-    if not sec:
+    if sym_name.startswith("@"):
+        return
+    if MATCH_DOLLAR_THING.match(sym_name):
         return
     # Output
     addr = sym["st_value"]
+    if not (0x8000_0000 <= addr < 0x8100_0000):
+        return
     size = sym["st_size"]
     return Symbol(addr, sym_name, size)
 
