@@ -42,7 +42,7 @@ class AsmGenerator:
         if address not in self.symbols:  # probably slow
             return
         name = self.symbols[address].name
-        print(f".global \"{name}\"\n\"{name}\":", file=self.output)
+        print(f'.global "{name}"\n"{name}":', file=self.output)
 
     def dump_bss(self):
         """Writes a bss segment."""
@@ -88,11 +88,11 @@ class AsmGenerator:
             cut = 4 - offset
             if len(part) > cut:
                 cut = len(part)
-            yield part.start, self.data[offset : offset+cut]
+            yield part.start, self.data[offset : offset + cut]
             offset += cut
         # Use memoryview to scan over data efficiently.
         view = memoryview(self.data)
-        view = view[offset:part.stop - self.slice.start]
+        view = view[offset : part.stop - self.slice.start]
         while len(view) > 0:
             left, view = view[:chunk_size], view[chunk_size:]
             yield self.slice.start + offset, bytes(left)
@@ -101,9 +101,7 @@ class AsmGenerator:
     def dump_text(self):
         """Writes a disassembled text segment."""
         for part in self.slice.split(self.symbol_locs):
-            assert (
-                part.start % 4 == 0
-            ), f"misaligned text"
+            assert part.start % 4 == 0, f"misaligned text"
             self.emit_symbol(part.start)
             for ins in disasm_iter(self.get_data_chunk(part), part.start):
                 print(ins.disassemble(), file=self.output)

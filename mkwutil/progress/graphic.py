@@ -87,16 +87,20 @@ def percent_decomp_stats(slices: SliceTable) -> None:
 
     print("Code&Data Percent: %s" % (100 * n_code / total))
 
+
 def dol_boxes():
     slices = project.load_dol_slices(sections=DOL_SECTIONS)
     return map(Box.from_slice, slices)
+
 
 def rel_boxes():
     slices = project.load_rel_slices(sections=REL_SECTIONS)
     return map(Box.from_slice, slices)
 
+
 def section_to_slice(s):
     return Slice(name=s.name, start=s.start, stop=s.stop, section=s.type)
+
 
 def dol_section_boxes():
     slices = SliceTable(sections=DOL_SECTIONS)
@@ -104,17 +108,20 @@ def dol_section_boxes():
         slices.add(section_to_slice(s))
     return map(Box.from_slice, slices)
 
+
 def rel_section_boxes():
     slices = SliceTable(sections=REL_SECTIONS)
     for s in REL_SECTIONS:
         slices.add(section_to_slice(s))
     return map(Box.from_slice, slices)
 
+
 def dol_lib_boxes():
     slices = SliceTable(sections=DOL_SECTIONS)
     for _slice in DOL_LIBS:
         slices.add(_slice)
     return map(Box.from_slice, slices)
+
 
 def rel_dir_boxes():
     slices = SliceTable(sections=REL_DIRS)

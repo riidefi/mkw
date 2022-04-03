@@ -20,7 +20,7 @@ def diff_symbols(elf_sym: Symbol, orig_sym: Optional[Symbol]) -> bool:
             print("[-] 0x%08x %s" % (elf_sym.addr, elf_sym.name))
         return False
     if elf_sym.name in ("__save_gpr", "__rest_gpr"):
-        return True # ignore
+        return True  # ignore
     if elf_sym.name != orig_sym.name:
         print("[!] 0x%08x %s != %s" % (elf_sym.addr, elf_sym.name, orig_sym.name))
         return False

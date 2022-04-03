@@ -165,7 +165,9 @@ def build_stats(dir: Path) -> Stats:
     )
     # REL directories.
     for dir in REL_DIRS:
-        assert dir.section == "text", "For now only text section per directory supported"
+        assert (
+            dir.section == "text"
+        ), "For now only text section per directory supported"
         dir_split_slices = rel_split_slices.slice(dir.start, dir.stop)
         dir_decomp_slices = rel_decomp_slices.slice(dir.start, dir.stop)
         dir_split_code, _ = simple_count(dir_split_slices)
