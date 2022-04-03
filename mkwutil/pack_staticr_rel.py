@@ -89,10 +89,10 @@ def pack_staticr_rel(elf_path, rel_path, orig_dir):
                     instruction_addr = text_start + reloc.r_offset
 
                     sym_tab = elf.get_section(relocs.header.sh_link)
-                    r_symbol = reloc.r_info_sym # reloc.r_info >> 8
+                    r_symbol = reloc.r_info_sym  # reloc.r_info >> 8
                     symbol = sym_tab.get_symbol(r_symbol)
 
-                    st_value = symbol['st_value']
+                    st_value = symbol["st_value"]
 
                     if symbol.name in SYMS:
                         st_value = SYMS[symbol.name] - text_start
