@@ -53,24 +53,25 @@ class AsmGenerator:
     def dump_data(self):
         """Writes a data segment."""
         for part in self.slice.split(self.symbol_locs):
-            self.emit_symbol(part.start)
             self.emit_data_words(part)
 
     def emit_data_words(self, part: Slice):
         """Emits a bunch of data segment words."""
         for address, chunk in self.iter_data_chunks(part, 4):
-            self.emit_symbol(address)
             if len(chunk) == 4:
+                self.emit_symbol(address)
                 print(".4byte 0x%08X" % struct.unpack(">I", chunk), file=self.output)
             else:
-                self.emit_data_bytes(chunk)
+                self.emit_data_bytes(address, chunk)
 
-    def emit_data_bytes(self, data):
+    def emit_data_bytes(self, address, data):
         """Emits a few data segment bytes."""
         while len(data) > 0:
+            self.emit_symbol(address)
             byte_val = data[0]
             print(".byte 0x%02x" % (byte_val), file=self.output)
             data = data[1:]
+            address += 1
 
     def get_data_chunk(self, part: Slice) -> bytes:
         view = memoryview(self.data)
@@ -83,13 +84,15 @@ class AsmGenerator:
     ) -> Iterator[tuple[int, bytes]]:
         offset = part.start - self.slice.start
         # Align first word.
-        while offset % 4 != 0:
-            yield self.slice.start + offset, [self.data[offset]]
-            offset += 1
+        if offset % 4 != 0:
+            cut = 4 - offset
+            if len(part) > cut:
+                cut = len(part)
+            yield part.start, self.data[offset : offset+cut]
+            offset += cut
         # Use memoryview to scan over data efficiently.
         view = memoryview(self.data)
-        view = view[offset:]
-        view = view[: len(part)]
+        view = view[offset:part.stop - self.slice.start]
         while len(view) > 0:
             left, view = view[:chunk_size], view[chunk_size:]
             yield self.slice.start + offset, bytes(left)
@@ -100,7 +103,7 @@ class AsmGenerator:
         for part in self.slice.split(self.symbol_locs):
             assert (
                 part.start % 4 == 0
-            ), f"rip bozo destroyed by misaligned text thingy between two symbols it is at {part}"
+            ), f"misaligned text"
             self.emit_symbol(part.start)
             for ins in disasm_iter(self.get_data_chunk(part), part.start):
                 print(ins.disassemble(), file=self.output)
