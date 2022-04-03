@@ -1,5 +1,6 @@
 import hashlib
 
+
 def check_hash(content, expected):
     ctx = hashlib.sha1(content)
     digest = ctx.hexdigest()

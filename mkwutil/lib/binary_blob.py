@@ -9,6 +9,7 @@ MATCH_BINARY_BLOB = re.compile(
     rb"BINARY_BLOB: (.+)\t(0x[0-9a-f]{8})\t(0x[0-9a-f]{8})\n"
 )
 
+
 def __load_binary_blob_slices(elf_file) -> Generator[Slice, None, None]:
     elf = ELFFile(elf_file)
     blobs: ELFSection = elf.get_section_by_name("binary_blobs")

@@ -20,7 +20,11 @@ def segment_is_text(seg):
 
 def segment_is_data(seg):
     """Returns whether segment is data."""
-    return not segment_is_dummy(seg) and not segment_is_text(seg) and not segment_is_bss(seg)
+    return (
+        not segment_is_dummy(seg)
+        and not segment_is_text(seg)
+        and not segment_is_bss(seg)
+    )
 
 
 def segment_is_bss(seg):
