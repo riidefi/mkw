@@ -1,0 +1,38 @@
+#pragma once
+
+#include <rk_types.h>
+
+#include <decomp.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PAL: 0x80126638..0x80126898
+UNKNOWN_FUNCTION(__AXOutNewFrame);
+// PAL: 0x80126898..0x80126948
+UNKNOWN_FUNCTION(__AXOutAiCallback);
+// PAL: 0x80126948..0x80126954
+UNKNOWN_FUNCTION(__AXDSPInitCallback);
+// PAL: 0x80126954..0x801269a8
+UNKNOWN_FUNCTION(__AXDSPResumeCallback);
+// PAL: 0x801269a8..0x801269b8
+UNKNOWN_FUNCTION(__AXDSPDoneCallback);
+// PAL: 0x801269b8..0x801269bc
+UNKNOWN_FUNCTION(__AXDSPRequestCallback);
+// PAL: 0x801269bc..0x80126aac
+UNKNOWN_FUNCTION(__AXOutInitDSP);
+// PAL: 0x80126aac..0x80126ca4
+UNKNOWN_FUNCTION(__AXOutInit);
+// PAL: 0x80126ca4..0x80126ce8
+UNKNOWN_FUNCTION(AXRegisterCallback);
+// PAL: 0x80126ce8..0x80126d14
+UNKNOWN_FUNCTION(AXRmtGetSamplesLeft);
+// PAL: 0x80126d14..0x80126dd8
+UNKNOWN_FUNCTION(AXRmtGetSamples);
+// PAL: 0x80126dd8..0x80126e30
+UNKNOWN_FUNCTION(AXRmtAdvancePtr);
+
+#ifdef __cplusplus
+}
+#endif
