@@ -56,7 +56,7 @@ static void Decode PROTO_LIST((UINT4*, unsigned char*, unsigned int));
 static void MD5_memcpy PROTO_LIST((POINTER, POINTER, unsigned int));
 static void MD5_memset PROTO_LIST((POINTER, int, unsigned int));
 
-static unsigned char PADDING[64] = {
+static unsigned char MD5_PADDING[64] = {
     0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -166,7 +166,7 @@ inline void MD5Final(unsigned char digest[16], /* message digest */
    */
   index = (unsigned int)((context->count[0] >> 3) & 0x3f);
   padLen = (index < 56) ? (56 - index) : (120 - index);
-  MD5Update(context, PADDING, padLen);
+  MD5Update(context, MD5_PADDING, padLen);
 
   /* Append length (before padding) */
   MD5Update(context, bits, 8);
