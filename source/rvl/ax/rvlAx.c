@@ -22,7 +22,6 @@ char* _unk_803857f8 = _unk_8027e778;
 u32 _unk_80386488;
 
 // Symbol: AXInit
-// Function signature is unknown.
 // PAL: 0x80124e80..0x80124ed4
 MARK_BINARY_BLOB(AXInit, 0x80124e80, 0x80124ed4);
 asm UNKNOWN_FUNCTION(AXInit) {

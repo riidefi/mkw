@@ -23,7 +23,6 @@ extern "C" UNKNOWN_FUNCTION(VISetNextFrameBuffer);
 extern "C" UNKNOWN_FUNCTION(VIGetNextFrameBuffer);
 
 // Symbol: attach__Q23EGG10XfbManagerFPQ23EGG3Xfb
-// Function signature is unknown.
 // PAL: 0x80244200..0x80244268
 MARK_BINARY_BLOB(attach__Q23EGG10XfbManagerFPQ23EGG3Xfb, 0x80244200,
                  0x80244268);
@@ -63,7 +62,6 @@ lbl_80244260:
 }
 
 // Symbol: copyEFB__Q23EGG10XfbManagerFb
-// Function signature is unknown.
 // PAL: 0x80244268..0x802442e8
 MARK_BINARY_BLOB(copyEFB__Q23EGG10XfbManagerFb, 0x80244268, 0x802442e8);
 asm UNKNOWN_FUNCTION(copyEFB__Q23EGG10XfbManagerFb) {
@@ -106,7 +104,6 @@ lbl_802442ac:
 }
 
 // Symbol: setNextFrameBuffer__Q23EGG10XfbManagerFv
-// Function signature is unknown.
 // PAL: 0x802442e8..0x80244350
 MARK_BINARY_BLOB(setNextFrameBuffer__Q23EGG10XfbManagerFv, 0x802442e8,
                  0x80244350);
@@ -144,7 +141,6 @@ lbl_80244330:
 }
 
 // Symbol: postVRetrace__Q23EGG10XfbManagerFv
-// Function signature is unknown.
 // PAL: 0x80244350..0x802443ac
 MARK_BINARY_BLOB(postVRetrace__Q23EGG10XfbManagerFv, 0x80244350, 0x802443ac);
 asm UNKNOWN_FUNCTION(postVRetrace__Q23EGG10XfbManagerFv) {

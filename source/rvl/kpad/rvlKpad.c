@@ -86,7 +86,6 @@ u32 _unk_8038681c;
 u32 _unk_80386818;
 
 // Symbol: KPADSetFSStickClamp
-// Function signature is unknown.
 // PAL: 0x801950a0..0x801950b4
 MARK_BINARY_BLOB(KPADSetFSStickClamp, 0x801950a0, 0x801950b4);
 asm UNKNOWN_FUNCTION(KPADSetFSStickClamp) {
@@ -101,7 +100,6 @@ asm UNKNOWN_FUNCTION(KPADSetFSStickClamp) {
 }
 
 // Symbol: KPADSetPosParam
-// Function signature is unknown.
 // PAL: 0x801950b4..0x801950d0
 MARK_BINARY_BLOB(KPADSetPosParam, 0x801950b4, 0x801950d0);
 asm UNKNOWN_FUNCTION(KPADSetPosParam) {
@@ -118,7 +116,6 @@ asm UNKNOWN_FUNCTION(KPADSetPosParam) {
 }
 
 // Symbol: KPADSetHoriParam
-// Function signature is unknown.
 // PAL: 0x801950d0..0x80195124
 MARK_BINARY_BLOB(KPADSetHoriParam, 0x801950d0, 0x80195124);
 asm UNKNOWN_FUNCTION(KPADSetHoriParam) {
@@ -149,7 +146,6 @@ asm UNKNOWN_FUNCTION(KPADSetHoriParam) {
 }
 
 // Symbol: reset_kpad
-// Function signature is unknown.
 // PAL: 0x80195124..0x801952f8
 MARK_BINARY_BLOB(reset_kpad, 0x80195124, 0x801952f8);
 asm UNKNOWN_FUNCTION(reset_kpad) {
@@ -278,7 +274,6 @@ lbl_801952c4:
 }
 
 // Symbol: calc_button_repeat
-// Function signature is unknown.
 // PAL: 0x801952f8..0x8019548c
 MARK_BINARY_BLOB(calc_button_repeat, 0x801952f8, 0x8019548c);
 asm UNKNOWN_FUNCTION(calc_button_repeat) {
@@ -396,7 +391,6 @@ lbl_80195444:
 }
 
 // Symbol: calc_acc
-// Function signature is unknown.
 // PAL: 0x8019548c..0x80195540
 MARK_BINARY_BLOB(calc_acc, 0x8019548c, 0x80195540);
 asm UNKNOWN_FUNCTION(calc_acc) {
@@ -457,7 +451,6 @@ lbl_80195520:
 }
 
 // Symbol: calc_acc_horizon
-// Function signature is unknown.
 // PAL: 0x80195540..0x801956d4
 MARK_BINARY_BLOB(calc_acc_horizon, 0x80195540, 0x801956d4);
 asm UNKNOWN_FUNCTION(calc_acc_horizon) {
@@ -572,7 +565,6 @@ lbl_801956b0:
 }
 
 // Symbol: calc_acc_vertical
-// Function signature is unknown.
 // PAL: 0x801956d4..0x801957f8
 MARK_BINARY_BLOB(calc_acc_vertical, 0x801956d4, 0x801957f8);
 asm UNKNOWN_FUNCTION(calc_acc_vertical) {
@@ -658,7 +650,6 @@ lbl_801957cc:
 }
 
 // Symbol: read_kpad_acc
-// Function signature is unknown.
 // PAL: 0x801957f8..0x80195c60
 MARK_BINARY_BLOB(read_kpad_acc, 0x801957f8, 0x80195c60);
 asm UNKNOWN_FUNCTION(read_kpad_acc) {
@@ -973,7 +964,6 @@ lbl_80195c48:
 }
 
 // Symbol: select_2obj_first
-// Function signature is unknown.
 // PAL: 0x80195c60..0x80195e48
 MARK_BINARY_BLOB(select_2obj_first, 0x80195c60, 0x80195e48);
 asm UNKNOWN_FUNCTION(select_2obj_first) {
@@ -1112,7 +1102,6 @@ lbl_80195e08:
 }
 
 // Symbol: select_2obj_continue
-// Function signature is unknown.
 // PAL: 0x80195e48..0x80196070
 MARK_BINARY_BLOB(select_2obj_continue, 0x80195e48, 0x80196070);
 asm UNKNOWN_FUNCTION(select_2obj_continue) {
@@ -1271,7 +1260,6 @@ lbl_80196030:
 }
 
 // Symbol: select_1obj_first
-// Function signature is unknown.
 // PAL: 0x80196070..0x80196224
 MARK_BINARY_BLOB(select_1obj_first, 0x80196070, 0x80196224);
 asm UNKNOWN_FUNCTION(select_1obj_first) {
@@ -1396,7 +1384,6 @@ lbl_8019621c:
 }
 
 // Symbol: select_1obj_continue
-// Function signature is unknown.
 // PAL: 0x80196224..0x80196398
 MARK_BINARY_BLOB(select_1obj_continue, 0x80196224, 0x80196398);
 asm UNKNOWN_FUNCTION(select_1obj_continue) {
@@ -1507,7 +1494,6 @@ lbl_80196390:
 }
 
 // Symbol: calc_dpd_variable
-// Function signature is unknown.
 // PAL: 0x80196398..0x80196964
 MARK_BINARY_BLOB(calc_dpd_variable, 0x80196398, 0x80196964);
 asm UNKNOWN_FUNCTION(calc_dpd_variable) {
@@ -1914,7 +1900,6 @@ lbl_8019694c:
 }
 
 // Symbol: read_kpad_dpd
-// Function signature is unknown.
 // PAL: 0x80196964..0x80196dbc
 MARK_BINARY_BLOB(read_kpad_dpd, 0x80196964, 0x80196dbc);
 asm UNKNOWN_FUNCTION(read_kpad_dpd) {
@@ -2232,7 +2217,6 @@ lbl_80196d88:
 }
 
 // Symbol: clamp_stick_circle
-// Function signature is unknown.
 // PAL: 0x80196dbc..0x80196ee4
 MARK_BINARY_BLOB(clamp_stick_circle, 0x80196dbc, 0x80196ee4);
 asm UNKNOWN_FUNCTION(clamp_stick_circle) {
@@ -2319,7 +2303,6 @@ lbl_80196eb0:
 }
 
 // Symbol: clamp_stick_cross
-// Function signature is unknown.
 // PAL: 0x80196ee4..0x80197108
 MARK_BINARY_BLOB(clamp_stick_cross, 0x80196ee4, 0x80197108);
 asm UNKNOWN_FUNCTION(clamp_stick_cross) {
@@ -2481,7 +2464,6 @@ lbl_801970f4:
 }
 
 // Symbol: read_kpad_stick
-// Function signature is unknown.
 // PAL: 0x80197108..0x80197380
 MARK_BINARY_BLOB(read_kpad_stick, 0x80197108, 0x80197380);
 asm UNKNOWN_FUNCTION(read_kpad_stick) {
@@ -2659,7 +2641,6 @@ lbl_80197364:
 }
 
 // Symbol: KPADRead
-// Function signature is unknown.
 // PAL: 0x80197380..0x80197aac
 MARK_BINARY_BLOB(KPADRead, 0x80197380, 0x80197aac);
 asm UNKNOWN_FUNCTION(KPADRead) {
@@ -3166,7 +3147,6 @@ lbl_80197a94:
 }
 
 // Symbol: KPADInit
-// Function signature is unknown.
 // PAL: 0x80197aac..0x80197da0
 MARK_BINARY_BLOB(KPADInit, 0x80197aac, 0x80197da0);
 asm UNKNOWN_FUNCTION(KPADInit) {
@@ -3375,7 +3355,6 @@ lbl_80197d48:
 }
 
 // Symbol: KPADDisableDPD
-// Function signature is unknown.
 // PAL: 0x80197da0..0x80197dbc
 MARK_BINARY_BLOB(KPADDisableDPD, 0x80197da0, 0x80197dbc);
 asm UNKNOWN_FUNCTION(KPADDisableDPD) {
@@ -3392,7 +3371,6 @@ asm UNKNOWN_FUNCTION(KPADDisableDPD) {
 }
 
 // Symbol: KPADEnableDPD
-// Function signature is unknown.
 // PAL: 0x80197dbc..0x80197dd8
 MARK_BINARY_BLOB(KPADEnableDPD, 0x80197dbc, 0x80197dd8);
 asm UNKNOWN_FUNCTION(KPADEnableDPD) {
@@ -3409,7 +3387,6 @@ asm UNKNOWN_FUNCTION(KPADEnableDPD) {
 }
 
 // Symbol: KPADiSamplingCallback
-// Function signature is unknown.
 // PAL: 0x80197dd8..0x801980b0
 MARK_BINARY_BLOB(KPADiSamplingCallback, 0x80197dd8, 0x801980b0);
 asm UNKNOWN_FUNCTION(KPADiSamplingCallback) {
@@ -3626,7 +3603,6 @@ lbl_80198080:
 }
 
 // Symbol: KPADiControlDpdCallback
-// Function signature is unknown.
 // PAL: 0x801980b0..0x8019812c
 MARK_BINARY_BLOB(KPADiControlDpdCallback, 0x801980b0, 0x8019812c);
 asm UNKNOWN_FUNCTION(KPADiControlDpdCallback) {
@@ -3668,7 +3644,6 @@ lbl_80198110:
 }
 
 // Symbol: KPADGetUnifiedWpadStatus
-// Function signature is unknown.
 // PAL: 0x8019812c..0x801981ec
 MARK_BINARY_BLOB(KPADGetUnifiedWpadStatus, 0x8019812c, 0x801981ec);
 asm UNKNOWN_FUNCTION(KPADGetUnifiedWpadStatus) {

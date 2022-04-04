@@ -63,7 +63,6 @@ lbl_8000c9c8:
 }
 
 // Symbol: __flush_line_buffered_output_files
-// Function signature is unknown.
 // PAL: 0x8000c9ec..0x8000ca70
 MARK_BINARY_BLOB(__flush_line_buffered_output_files, 0x8000c9ec, 0x8000ca70);
 asm int __flush_line_buffered_output_files(void) {
@@ -109,7 +108,6 @@ lbl_8000ca4c:
 }
 
 // Symbol: __flush_all
-// Function signature is unknown.
 // PAL: 0x8000ca70..0x8000cadc
 MARK_BINARY_BLOB(__flush_all, 0x8000ca70, 0x8000cadc);
 asm int __flush_all(void) {

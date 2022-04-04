@@ -5,7 +5,6 @@
 extern "C" UNKNOWN_FUNCTION(__nwa__FUlPQ23EGG4Heapi);
 
 // Symbol: __ct__Q23EGG3XfbFPQ23EGG4Heap
-// Function signature is unknown.
 // PAL: 0x80244160..0x802441ec
 MARK_BINARY_BLOB(__ct__Q23EGG3XfbFPQ23EGG4Heap, 0x80244160, 0x802441ec);
 asm UNKNOWN_FUNCTION(__ct__Q23EGG3XfbFPQ23EGG4Heap) {
@@ -51,7 +50,6 @@ lbl_802441b4:
 }
 
 // Symbol: EGG__Xfb__CalcXfbSize
-// Function signature is unknown.
 // PAL: 0x802441ec..0x80244200
 MARK_BINARY_BLOB(EGG__Xfb__CalcXfbSize, 0x802441ec, 0x80244200);
 asm UNKNOWN_FUNCTION(EGG__Xfb__CalcXfbSize) {

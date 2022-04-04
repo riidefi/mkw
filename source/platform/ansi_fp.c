@@ -3,7 +3,6 @@
 #include <math.h>
 
 // Symbol: __ull2dec
-// Function signature is unknown.
 // PAL: 0x8000cadc..0x8000cbb8
 MARK_BINARY_BLOB(__ull2dec, 0x8000cadc, 0x8000cbb8);
 asm UNKNOWN_FUNCTION(__ull2dec) {
@@ -72,7 +71,6 @@ lbl_8000cb84:
 }
 
 // Symbol: __timesdec
-// Function signature is unknown.
 // PAL: 0x8000cbb8..0x8000ce40
 MARK_BINARY_BLOB(__timesdec, 0x8000cbb8, 0x8000ce40);
 asm UNKNOWN_FUNCTION(__timesdec) {
@@ -263,7 +261,6 @@ lbl_8000ce2c:
 }
 
 // Symbol: __str2dec
-// Function signature is unknown.
 // PAL: 0x8000ce40..0x8000cf2c
 MARK_BINARY_BLOB(__str2dec, 0x8000ce40, 0x8000cf2c);
 asm UNKNOWN_FUNCTION(__str2dec) {
@@ -341,7 +338,6 @@ lbl_8000cf1c:
 }
 
 // Symbol: __two_exp
-// Function signature is unknown.
 // PAL: 0x8000cf2c..0x8000d298
 MARK_BINARY_BLOB(__two_exp, 0x8000cf2c, 0x8000d298);
 asm UNKNOWN_FUNCTION(__two_exp) {
@@ -575,7 +571,6 @@ lbl_8000d280:
 }
 
 // Symbol: __equals_dec
-// Function signature is unknown.
 // PAL: 0x8000d298..0x8000d37c
 MARK_BINARY_BLOB(__equals_dec, 0x8000d298, 0x8000d37c);
 asm UNKNOWN_FUNCTION(__equals_dec) {
@@ -653,7 +648,6 @@ lbl_8000d374:
 }
 
 // Symbol: __less_dec
-// Function signature is unknown.
 // PAL: 0x8000d37c..0x8000d47c
 MARK_BINARY_BLOB(__less_dec, 0x8000d37c, 0x8000d47c);
 asm UNKNOWN_FUNCTION(__less_dec) {
@@ -738,7 +732,6 @@ lbl_8000d464:
 }
 
 // Symbol: __minus_dec
-// Function signature is unknown.
 // PAL: 0x8000d47c..0x8000d998
 MARK_BINARY_BLOB(__minus_dec, 0x8000d47c, 0x8000d998);
 asm UNKNOWN_FUNCTION(__minus_dec) {
@@ -1110,7 +1103,6 @@ lbl_8000d98c:
 }
 
 // Symbol: __num2dec_internal
-// Function signature is unknown.
 // PAL: 0x8000d998..0x8000dafc
 MARK_BINARY_BLOB(__num2dec_internal, 0x8000d998, 0x8000dafc);
 asm UNKNOWN_FUNCTION(__num2dec_internal) {
@@ -1215,7 +1207,6 @@ lbl_8000dadc:
 }
 
 // Symbol: __num2dec
-// Function signature is unknown.
 // PAL: 0x8000dafc..0x8000dc9c
 MARK_BINARY_BLOB(__num2dec, 0x8000dafc, 0x8000dc9c);
 asm UNKNOWN_FUNCTION(__num2dec) {
@@ -1345,7 +1336,6 @@ lbl_8000dc84:
 }
 
 // Symbol: __dec2num
-// Function signature is unknown.
 // PAL: 0x8000dc9c..0x8000e418
 MARK_BINARY_BLOB(__dec2num, 0x8000dc9c, 0x8000e418);
 asm UNKNOWN_FUNCTION(__dec2num) {

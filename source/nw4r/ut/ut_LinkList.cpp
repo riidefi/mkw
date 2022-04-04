@@ -5,7 +5,6 @@
 extern UNKNOWN_FUNCTION(__dl__FPv);
 
 // Symbol: __dt__Q44nw4r2ut6detail12LinkListImplFv
-// Function signature is unknown.
 // PAL: 0x800af210..0x800af2a0
 MARK_BINARY_BLOB(__dt__Q44nw4r2ut6detail12LinkListImplFv, 0x800af210,
                  0x800af2a0);
@@ -53,7 +52,6 @@ lbl_800af27c:
 
 // Symbol:
 // Erase__Q44nw4r2ut6detail12LinkListImplFQ54nw4r2ut6detail12LinkListImpl8Iterator
-// Function signature is unknown.
 // PAL: 0x800af2a0..0x800af2f0
 MARK_BINARY_BLOB(
     Erase__Q44nw4r2ut6detail12LinkListImplFQ54nw4r2ut6detail12LinkListImpl8Iterator,
@@ -86,7 +84,6 @@ lbl_800af2d8:
 }
 
 // Symbol: Clear__Q44nw4r2ut6detail12LinkListImplFv
-// Function signature is unknown.
 // PAL: 0x800af2f0..0x800af340
 MARK_BINARY_BLOB(Clear__Q44nw4r2ut6detail12LinkListImplFv, 0x800af2f0,
                  0x800af340);
@@ -117,7 +114,6 @@ lbl_800af328:
 
 // Symbol:
 // Insert__Q44nw4r2ut6detail12LinkListImplFQ54nw4r2ut6detail12LinkListImpl8IteratorPQ34nw4r2ut12LinkListNode
-// Function signature is unknown.
 // PAL: 0x800af340..0x800af370
 MARK_BINARY_BLOB(
     Insert__Q44nw4r2ut6detail12LinkListImplFQ54nw4r2ut6detail12LinkListImpl8IteratorPQ34nw4r2ut12LinkListNode,
@@ -141,7 +137,6 @@ asm UNKNOWN_FUNCTION(
 }
 
 // Symbol: Erase__Q44nw4r2ut6detail12LinkListImplFPQ34nw4r2ut12LinkListNode
-// Function signature is unknown.
 // PAL: 0x800af370..0x800af3a0
 MARK_BINARY_BLOB(
     Erase__Q44nw4r2ut6detail12LinkListImplFPQ34nw4r2ut12LinkListNode,

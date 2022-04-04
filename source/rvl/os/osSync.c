@@ -5,7 +5,6 @@
 #include "osCache.h"
 
 // Symbol: SystemCallVector
-// Function signature is unknown.
 // PAL: 0x801a9528..0x801a9548
 MARK_BINARY_BLOB(SystemCallVector, 0x801a9528, 0x801a9548);
 asm UNKNOWN_FUNCTION(SystemCallVector) {
@@ -23,7 +22,6 @@ asm UNKNOWN_FUNCTION(SystemCallVector) {
 }
 
 // Symbol: __OSInitSystemCall
-// Function signature is unknown.
 // PAL: 0x801a9548..0x801a95a8
 MARK_BINARY_BLOB(__OSInitSystemCall, 0x801a9548, 0x801a95a8);
 asm UNKNOWN_FUNCTION(__OSInitSystemCall) {

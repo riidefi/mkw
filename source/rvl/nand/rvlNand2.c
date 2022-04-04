@@ -24,7 +24,6 @@ char _unk_80385a20[] = "%s/%s";
 u32 _unk_80386840;
 
 // Symbol: nandOpen
-// Function signature is unknown.
 // PAL: 0x8019c6ec..0x8019c800
 MARK_BINARY_BLOB(nandOpen, 0x8019c6ec, 0x8019c800);
 asm UNKNOWN_FUNCTION(nandOpen) {
@@ -155,7 +154,6 @@ lbl_8019c870:
 }
 
 // Symbol: NANDPrivateOpen
-// Function signature is unknown.
 // PAL: 0x8019c88c..0x8019c918
 MARK_BINARY_BLOB(NANDPrivateOpen, 0x8019c88c, 0x8019c918);
 asm UNKNOWN_FUNCTION(NANDPrivateOpen) {
@@ -243,7 +241,6 @@ lbl_8019c978:
 }
 
 // Symbol: NANDPrivateOpenAsync
-// Function signature is unknown.
 // PAL: 0x8019c990..0x8019ca08
 MARK_BINARY_BLOB(NANDPrivateOpenAsync, 0x8019c990, 0x8019ca08);
 asm UNKNOWN_FUNCTION(NANDPrivateOpenAsync) {
@@ -285,7 +282,6 @@ lbl_8019c9f0:
 }
 
 // Symbol: nandOpenCallback
-// Function signature is unknown.
 // PAL: 0x8019ca08..0x8019ca80
 MARK_BINARY_BLOB(nandOpenCallback, 0x8019ca08, 0x8019ca80);
 asm UNKNOWN_FUNCTION(nandOpenCallback) {
@@ -419,7 +415,6 @@ asm s32 NANDSafeOpen(const char*, NANDFileInfo*, u8, void*, u32) {
 }
 
 // Symbol: nandSafeOpen
-// Function signature is unknown.
 // PAL: 0x8019cb80..0x8019cf28
 MARK_BINARY_BLOB(nandSafeOpen, 0x8019cb80, 0x8019cf28);
 asm UNKNOWN_FUNCTION(nandSafeOpen) {
@@ -832,7 +827,6 @@ lbl_8019d0e8:
 }
 
 // Symbol: NANDPrivateSafeOpenAsync
-// Function signature is unknown.
 // PAL: 0x8019d104..0x8019d130
 MARK_BINARY_BLOB(NANDPrivateSafeOpenAsync, 0x8019d104, 0x8019d130);
 asm UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync) {
@@ -853,7 +847,6 @@ asm UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync) {
 }
 
 // Symbol: nandSafeOpenAsync
-// Function signature is unknown.
 // PAL: 0x8019d130..0x8019d298
 MARK_BINARY_BLOB(nandSafeOpenAsync, 0x8019d130, 0x8019d298);
 asm UNKNOWN_FUNCTION(nandSafeOpenAsync) {
@@ -962,7 +955,6 @@ lbl_8019d280:
 }
 
 // Symbol: nandSafeOpenCallback
-// Function signature is unknown.
 // PAL: 0x8019d298..0x8019d688
 MARK_BINARY_BLOB(nandSafeOpenCallback, 0x8019d298, 0x8019d688);
 asm UNKNOWN_FUNCTION(nandSafeOpenCallback) {
@@ -1248,7 +1240,6 @@ lbl_8019d670:
 }
 
 // Symbol: nandReadOpenCallback
-// Function signature is unknown.
 // PAL: 0x8019d688..0x8019d720
 MARK_BINARY_BLOB(nandReadOpenCallback, 0x8019d688, 0x8019d720);
 asm UNKNOWN_FUNCTION(nandReadOpenCallback) {
@@ -1381,7 +1372,6 @@ lbl_8019d804:
 }
 
 // Symbol: nandSafeCloseCallback
-// Function signature is unknown.
 // PAL: 0x8019d824..0x8019d9e8
 MARK_BINARY_BLOB(nandSafeCloseCallback, 0x8019d824, 0x8019d9e8);
 asm UNKNOWN_FUNCTION(nandSafeCloseCallback) {
@@ -1514,7 +1504,6 @@ lbl_8019d9d4:
 }
 
 // Symbol: nandReadCloseCallback
-// Function signature is unknown.
 // PAL: 0x8019d9e8..0x8019da44
 MARK_BINARY_BLOB(nandReadCloseCallback, 0x8019d9e8, 0x8019da44);
 asm UNKNOWN_FUNCTION(nandReadCloseCallback) {
@@ -1548,7 +1537,6 @@ lbl_8019da1c:
 }
 
 // Symbol: nandCloseCallback
-// Function signature is unknown.
 // PAL: 0x8019da44..0x8019daa0
 MARK_BINARY_BLOB(nandCloseCallback, 0x8019da44, 0x8019daa0);
 asm UNKNOWN_FUNCTION(nandCloseCallback) {

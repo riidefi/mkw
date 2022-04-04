@@ -27,7 +27,6 @@ u32 _unk_80386498;
 extern u32 _unk_803864f0;
 
 // Symbol: __AXAuxInit
-// Function signature is unknown.
 // PAL: 0x80125394..0x801254a8
 MARK_BINARY_BLOB(__AXAuxInit, 0x80125394, 0x801254a8);
 asm UNKNOWN_FUNCTION(__AXAuxInit) {
@@ -107,7 +106,6 @@ lbl_801253ec:
 }
 
 // Symbol: __AXGetAuxAInput
-// Function signature is unknown.
 // PAL: 0x801254a8..0x801254dc
 MARK_BINARY_BLOB(__AXGetAuxAInput, 0x801254a8, 0x801254dc);
 asm UNKNOWN_FUNCTION(__AXGetAuxAInput) {
@@ -131,7 +129,6 @@ lbl_801254d0:
 }
 
 // Symbol: __AXGetAuxAOutput
-// Function signature is unknown.
 // PAL: 0x801254dc..0x801254f8
 MARK_BINARY_BLOB(__AXGetAuxAOutput, 0x801254dc, 0x801254f8);
 asm UNKNOWN_FUNCTION(__AXGetAuxAOutput) {
@@ -148,7 +145,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxAOutput) {
 }
 
 // Symbol: __AXGetAuxAInputDpl2
-// Function signature is unknown.
 // PAL: 0x801254f8..0x80125518
 MARK_BINARY_BLOB(__AXGetAuxAInputDpl2, 0x801254f8, 0x80125518);
 asm UNKNOWN_FUNCTION(__AXGetAuxAInputDpl2) {
@@ -166,7 +162,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxAInputDpl2) {
 }
 
 // Symbol: __AXGetAuxAOutputDpl2R
-// Function signature is unknown.
 // PAL: 0x80125518..0x80125538
 MARK_BINARY_BLOB(__AXGetAuxAOutputDpl2R, 0x80125518, 0x80125538);
 asm UNKNOWN_FUNCTION(__AXGetAuxAOutputDpl2R) {
@@ -184,7 +179,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxAOutputDpl2R) {
 }
 
 // Symbol: __AXGetAuxAOutputDpl2Ls
-// Function signature is unknown.
 // PAL: 0x80125538..0x80125558
 MARK_BINARY_BLOB(__AXGetAuxAOutputDpl2Ls, 0x80125538, 0x80125558);
 asm UNKNOWN_FUNCTION(__AXGetAuxAOutputDpl2Ls) {
@@ -202,7 +196,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxAOutputDpl2Ls) {
 }
 
 // Symbol: __AXGetAuxAOutputDpl2Rs
-// Function signature is unknown.
 // PAL: 0x80125558..0x80125578
 MARK_BINARY_BLOB(__AXGetAuxAOutputDpl2Rs, 0x80125558, 0x80125578);
 asm UNKNOWN_FUNCTION(__AXGetAuxAOutputDpl2Rs) {
@@ -220,7 +213,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxAOutputDpl2Rs) {
 }
 
 // Symbol: __AXGetAuxBInput
-// Function signature is unknown.
 // PAL: 0x80125578..0x801255ac
 MARK_BINARY_BLOB(__AXGetAuxBInput, 0x80125578, 0x801255ac);
 asm UNKNOWN_FUNCTION(__AXGetAuxBInput) {
@@ -244,7 +236,6 @@ lbl_801255a0:
 }
 
 // Symbol: __AXGetAuxBOutput
-// Function signature is unknown.
 // PAL: 0x801255ac..0x801255c8
 MARK_BINARY_BLOB(__AXGetAuxBOutput, 0x801255ac, 0x801255c8);
 asm UNKNOWN_FUNCTION(__AXGetAuxBOutput) {
@@ -261,7 +252,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxBOutput) {
 }
 
 // Symbol: __AXGetAuxBInputDpl2
-// Function signature is unknown.
 // PAL: 0x801255c8..0x801255e8
 MARK_BINARY_BLOB(__AXGetAuxBInputDpl2, 0x801255c8, 0x801255e8);
 asm UNKNOWN_FUNCTION(__AXGetAuxBInputDpl2) {
@@ -279,7 +269,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxBInputDpl2) {
 }
 
 // Symbol: __AXGetAuxBOutputDpl2R
-// Function signature is unknown.
 // PAL: 0x801255e8..0x80125608
 MARK_BINARY_BLOB(__AXGetAuxBOutputDpl2R, 0x801255e8, 0x80125608);
 asm UNKNOWN_FUNCTION(__AXGetAuxBOutputDpl2R) {
@@ -297,7 +286,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxBOutputDpl2R) {
 }
 
 // Symbol: __AXGetAuxBOutputDpl2Ls
-// Function signature is unknown.
 // PAL: 0x80125608..0x80125628
 MARK_BINARY_BLOB(__AXGetAuxBOutputDpl2Ls, 0x80125608, 0x80125628);
 asm UNKNOWN_FUNCTION(__AXGetAuxBOutputDpl2Ls) {
@@ -315,7 +303,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxBOutputDpl2Ls) {
 }
 
 // Symbol: __AXGetAuxBOutputDpl2Rs
-// Function signature is unknown.
 // PAL: 0x80125628..0x80125648
 MARK_BINARY_BLOB(__AXGetAuxBOutputDpl2Rs, 0x80125628, 0x80125648);
 asm UNKNOWN_FUNCTION(__AXGetAuxBOutputDpl2Rs) {
@@ -333,7 +320,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxBOutputDpl2Rs) {
 }
 
 // Symbol: __AXGetAuxCInput
-// Function signature is unknown.
 // PAL: 0x80125648..0x8012567c
 MARK_BINARY_BLOB(__AXGetAuxCInput, 0x80125648, 0x8012567c);
 asm UNKNOWN_FUNCTION(__AXGetAuxCInput) {
@@ -357,7 +343,6 @@ lbl_80125670:
 }
 
 // Symbol: __AXGetAuxCOutput
-// Function signature is unknown.
 // PAL: 0x8012567c..0x80125698
 MARK_BINARY_BLOB(__AXGetAuxCOutput, 0x8012567c, 0x80125698);
 asm UNKNOWN_FUNCTION(__AXGetAuxCOutput) {
@@ -374,7 +359,6 @@ asm UNKNOWN_FUNCTION(__AXGetAuxCOutput) {
 }
 
 // Symbol: __AXProcessAux
-// Function signature is unknown.
 // PAL: 0x80125698..0x80125a44
 MARK_BINARY_BLOB(__AXProcessAux, 0x80125698, 0x80125a44);
 asm UNKNOWN_FUNCTION(__AXProcessAux) {
@@ -627,7 +611,6 @@ lbl_801259cc:
 }
 
 // Symbol: AXRegisterAuxACallback
-// Function signature is unknown.
 // PAL: 0x80125a44..0x80125aa8
 MARK_BINARY_BLOB(AXRegisterAuxACallback, 0x80125a44, 0x80125aa8);
 asm UNKNOWN_FUNCTION(AXRegisterAuxACallback) {
@@ -663,7 +646,6 @@ lbl_80125a88:
 }
 
 // Symbol: AXRegisterAuxBCallback
-// Function signature is unknown.
 // PAL: 0x80125aa8..0x80125b0c
 MARK_BINARY_BLOB(AXRegisterAuxBCallback, 0x80125aa8, 0x80125b0c);
 asm UNKNOWN_FUNCTION(AXRegisterAuxBCallback) {
@@ -699,7 +681,6 @@ lbl_80125aec:
 }
 
 // Symbol: AXRegisterAuxCCallback
-// Function signature is unknown.
 // PAL: 0x80125b0c..0x80125b70
 MARK_BINARY_BLOB(AXRegisterAuxCCallback, 0x80125b0c, 0x80125b70);
 asm UNKNOWN_FUNCTION(AXRegisterAuxCCallback) {
@@ -735,7 +716,6 @@ lbl_80125b50:
 }
 
 // Symbol: AXGetAuxACallback
-// Function signature is unknown.
 // PAL: 0x80125b70..0x80125b84
 MARK_BINARY_BLOB(AXGetAuxACallback, 0x80125b70, 0x80125b84);
 asm UNKNOWN_FUNCTION(AXGetAuxACallback) {
@@ -750,7 +730,6 @@ asm UNKNOWN_FUNCTION(AXGetAuxACallback) {
 }
 
 // Symbol: AXGetAuxBCallback
-// Function signature is unknown.
 // PAL: 0x80125b84..0x80125b98
 MARK_BINARY_BLOB(AXGetAuxBCallback, 0x80125b84, 0x80125b98);
 asm UNKNOWN_FUNCTION(AXGetAuxBCallback) {
@@ -765,7 +744,6 @@ asm UNKNOWN_FUNCTION(AXGetAuxBCallback) {
 }
 
 // Symbol: AXGetAuxCCallback
-// Function signature is unknown.
 // PAL: 0x80125b98..0x80125bac
 MARK_BINARY_BLOB(AXGetAuxCCallback, 0x80125b98, 0x80125bac);
 asm UNKNOWN_FUNCTION(AXGetAuxCCallback) {

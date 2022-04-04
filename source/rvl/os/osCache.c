@@ -329,7 +329,6 @@ _again:
 }
 
 // Symbol: DMAErrorHandler
-// Function signature is unknown.
 // PAL: 0x801a199c..0x801a1ae4
 MARK_BINARY_BLOB(DMAErrorHandler, 0x801a199c, 0x801a1ae4);
 asm UNKNOWN_FUNCTION(DMAErrorHandler) {
@@ -428,7 +427,6 @@ lbl_801a1ac0:
 }
 
 // Symbol: __OSCacheInit
-// Function signature is unknown.
 // PAL: 0x801a1ae4..0x801a1c1c
 MARK_BINARY_BLOB(__OSCacheInit, 0x801a1ae4, 0x801a1c1c);
 asm UNKNOWN_FUNCTION(__OSCacheInit) {

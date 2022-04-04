@@ -3,7 +3,6 @@
 #include <decomp.h>
 
 // Symbol: __fpclassifyf
-// Function signature is unknown.
 // PAL: 0x8000ef04..0x8000ef64
 MARK_BINARY_BLOB(__fpclassifyf, 0x8000ef04, 0x8000ef64);
 asm UNKNOWN_FUNCTION(__fpclassifyf) {
@@ -41,7 +40,6 @@ lbl_8000ef5c:
 }
 
 // Symbol: __signbitd
-// Function signature is unknown.
 // PAL: 0x8000ef64..0x8000ef7c
 MARK_BINARY_BLOB(__signbitd, 0x8000ef64, 0x8000ef7c);
 asm UNKNOWN_FUNCTION(__signbitd) {
