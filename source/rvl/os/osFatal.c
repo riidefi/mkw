@@ -70,7 +70,6 @@ asm void float_ordering() {
 }
 
 // Symbol: ScreenReport
-// Function signature is unknown.
 // PAL: 0x801a4aa4..0x801a4dc8
 MARK_BINARY_BLOB(ScreenReport, 0x801a4aa4, 0x801a4dc8);
 asm UNKNOWN_FUNCTION(ScreenReport) {
@@ -292,7 +291,6 @@ lbl_801a4db0:
 }
 
 // Symbol: ConfigureVideo
-// Function signature is unknown.
 // PAL: 0x801a4dc8..0x801a4ec4
 MARK_BINARY_BLOB(ConfigureVideo, 0x801a4dc8, 0x801a4ec4);
 asm UNKNOWN_FUNCTION(ConfigureVideo) {
@@ -371,7 +369,6 @@ lbl_801a4e98:
 }
 
 // Symbol: OSFatal
-// Function signature is unknown.
 // PAL: 0x801a4ec4..0x801a50dc
 MARK_BINARY_BLOB(OSFatal, 0x801a4ec4, 0x801a50dc);
 asm UNKNOWN_FUNCTION(OSFatal) {
@@ -523,7 +520,6 @@ lbl_801a5068:
 }
 
 // Symbol: Halt
-// Function signature is unknown.
 // PAL: 0x801a50dc..0x801a56dc
 MARK_BINARY_BLOB(Halt, 0x801a50dc, 0x801a56dc);
 asm UNKNOWN_FUNCTION(Halt) {

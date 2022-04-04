@@ -31,7 +31,6 @@ extern UNKNOWN_FUNCTION(unk_800c6700);
 extern UNKNOWN_FUNCTION(unk_800c7ee0);
 
 // Symbol: RFLGetWorkSize
-// Function signature is unknown.
 // PAL: 0x800bbb80..0x800bbba0
 MARK_BINARY_BLOB(RFLGetWorkSize, 0x800bbb80, 0x800bbba0);
 asm UNKNOWN_FUNCTION(RFLGetWorkSize) {
@@ -48,7 +47,6 @@ asm UNKNOWN_FUNCTION(RFLGetWorkSize) {
 }
 
 // Symbol: RFLInitResAsync
-// Function signature is unknown.
 // PAL: 0x800bbba0..0x800bbf08
 MARK_BINARY_BLOB(RFLInitResAsync, 0x800bbba0, 0x800bbf08);
 asm UNKNOWN_FUNCTION(RFLInitResAsync) {

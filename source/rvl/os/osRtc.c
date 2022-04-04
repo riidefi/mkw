@@ -22,7 +22,6 @@ extern UNKNOWN_FUNCTION(EXILock);
 extern UNKNOWN_FUNCTION(EXIUnlock);
 
 // Symbol: WriteSramCallback
-// Function signature is unknown.
 // PAL: 0x801a8a9c..0x801a8bd4
 MARK_BINARY_BLOB(WriteSramCallback, 0x801a8a9c, 0x801a8bd4);
 asm UNKNOWN_FUNCTION(WriteSramCallback) {
@@ -114,7 +113,6 @@ lbl_801a8bb8:
 }
 
 // Symbol: __OSInitSram
-// Function signature is unknown.
 // PAL: 0x801a8bd4..0x801a8dd4
 MARK_BINARY_BLOB(__OSInitSram, 0x801a8bd4, 0x801a8dd4);
 asm UNKNOWN_FUNCTION(__OSInitSram) {
@@ -263,7 +261,6 @@ lbl_801a8dbc:
 }
 
 // Symbol: UnlockSram
-// Function signature is unknown.
 // PAL: 0x801a8dd4..0x801a90b4
 MARK_BINARY_BLOB(UnlockSram, 0x801a8dd4, 0x801a90b4);
 asm UNKNOWN_FUNCTION(UnlockSram) {
@@ -469,7 +466,6 @@ lbl_801a907c:
 }
 
 // Symbol: __OSSyncSram
-// Function signature is unknown.
 // PAL: 0x801a90b4..0x801a90c4
 MARK_BINARY_BLOB(__OSSyncSram, 0x801a90b4, 0x801a90c4);
 asm UNKNOWN_FUNCTION(__OSSyncSram) {
@@ -483,7 +479,6 @@ asm UNKNOWN_FUNCTION(__OSSyncSram) {
 }
 
 // Symbol: __OSReadROM
-// Function signature is unknown.
 // PAL: 0x801a90c4..0x801a91e8
 MARK_BINARY_BLOB(__OSReadROM, 0x801a90c4, 0x801a91e8);
 asm UNKNOWN_FUNCTION(__OSReadROM) {
@@ -569,7 +564,6 @@ lbl_801a91cc:
 }
 
 // Symbol: OSGetWirelessID
-// Function signature is unknown.
 // PAL: 0x801a91e8..0x801a9260
 MARK_BINARY_BLOB(OSGetWirelessID, 0x801a91e8, 0x801a9260);
 asm UNKNOWN_FUNCTION(OSGetWirelessID) {
@@ -611,7 +605,6 @@ lbl_801a9230:
 }
 
 // Symbol: OSSetWirelessID
-// Function signature is unknown.
 // PAL: 0x801a9260..0x801a92fc
 MARK_BINARY_BLOB(OSSetWirelessID, 0x801a9260, 0x801a92fc);
 asm UNKNOWN_FUNCTION(OSSetWirelessID) {
@@ -664,7 +657,6 @@ lbl_801a92e4:
 }
 
 // Symbol: __OSGetRTCFlags
-// Function signature is unknown.
 // PAL: 0x801a92fc..0x801a9418
 MARK_BINARY_BLOB(__OSGetRTCFlags, 0x801a92fc, 0x801a9418);
 asm UNKNOWN_FUNCTION(__OSGetRTCFlags) {
@@ -748,7 +740,6 @@ lbl_801a9400:
 }
 
 // Symbol: __OSClearRTCFlags
-// Function signature is unknown.
 // PAL: 0x801a9418..0x801a9528
 MARK_BINARY_BLOB(__OSClearRTCFlags, 0x801a9418, 0x801a9528);
 asm UNKNOWN_FUNCTION(__OSClearRTCFlags) {

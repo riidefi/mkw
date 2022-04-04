@@ -25,7 +25,6 @@ extern UNKNOWN_FUNCTION(__OSUnmaskInterrupts);
 extern UNKNOWN_FUNCTION(OSRegisterShutdownFunction);
 
 // Symbol: OSGetPhysicalMem1Size
-// Function signature is unknown.
 // PAL: 0x801a75d0..0x801a75dc
 MARK_BINARY_BLOB(OSGetPhysicalMem1Size, 0x801a75d0, 0x801a75dc);
 asm UNKNOWN_FUNCTION(OSGetPhysicalMem1Size) {
@@ -38,7 +37,6 @@ asm UNKNOWN_FUNCTION(OSGetPhysicalMem1Size) {
 }
 
 // Symbol: OSGetPhysicalMem2Size
-// Function signature is unknown.
 // PAL: 0x801a75dc..0x801a75e8
 MARK_BINARY_BLOB(OSGetPhysicalMem2Size, 0x801a75dc, 0x801a75e8);
 asm UNKNOWN_FUNCTION(OSGetPhysicalMem2Size) {
@@ -51,7 +49,6 @@ asm UNKNOWN_FUNCTION(OSGetPhysicalMem2Size) {
 }
 
 // Symbol: OSGetConsoleSimulatedMem1Size
-// Function signature is unknown.
 // PAL: 0x801a75e8..0x801a75f4
 MARK_BINARY_BLOB(OSGetConsoleSimulatedMem1Size, 0x801a75e8, 0x801a75f4);
 asm UNKNOWN_FUNCTION(OSGetConsoleSimulatedMem1Size) {
@@ -64,7 +61,6 @@ asm UNKNOWN_FUNCTION(OSGetConsoleSimulatedMem1Size) {
 }
 
 // Symbol: OSGetConsoleSimulatedMem2Size
-// Function signature is unknown.
 // PAL: 0x801a75f4..0x801a7600
 MARK_BINARY_BLOB(OSGetConsoleSimulatedMem2Size, 0x801a75f4, 0x801a7600);
 asm UNKNOWN_FUNCTION(OSGetConsoleSimulatedMem2Size) {
@@ -77,7 +73,6 @@ asm UNKNOWN_FUNCTION(OSGetConsoleSimulatedMem2Size) {
 }
 
 // Symbol: OnShutdown
-// Function signature is unknown.
 // PAL: 0x801a7600..0x801a763c
 MARK_BINARY_BLOB(OnShutdown, 0x801a7600, 0x801a763c);
 asm UNKNOWN_FUNCTION(OnShutdown) {
@@ -103,7 +98,6 @@ lbl_801a7628:
 }
 
 // Symbol: MEMIntrruptHandler
-// Function signature is unknown.
 // PAL: 0x801a763c..0x801a7684
 MARK_BINARY_BLOB(MEMIntrruptHandler, 0x801a763c, 0x801a7684);
 asm UNKNOWN_FUNCTION(MEMIntrruptHandler) {
@@ -132,7 +126,6 @@ lbl_801a767c:
 }
 
 // Symbol: OSProtectRange
-// Function signature is unknown.
 // PAL: 0x801a7684..0x801a774c
 MARK_BINARY_BLOB(OSProtectRange, 0x801a7684, 0x801a774c);
 asm UNKNOWN_FUNCTION(OSProtectRange) {
@@ -194,7 +187,6 @@ lbl_801a7734:
 }
 
 // Symbol: ConfigMEM1_24MB
-// Function signature is unknown.
 // PAL: 0x801a774c..0x801a77cc
 MARK_BINARY_BLOB(ConfigMEM1_24MB, 0x801a774c, 0x801a77cc);
 asm UNKNOWN_FUNCTION(ConfigMEM1_24MB) {
@@ -236,7 +228,6 @@ asm UNKNOWN_FUNCTION(ConfigMEM1_24MB) {
 }
 
 // Symbol: ConfigMEM1_48MB
-// Function signature is unknown.
 // PAL: 0x801a77cc..0x801a784c
 MARK_BINARY_BLOB(ConfigMEM1_48MB, 0x801a77cc, 0x801a784c);
 asm UNKNOWN_FUNCTION(ConfigMEM1_48MB) {
@@ -278,7 +269,6 @@ asm UNKNOWN_FUNCTION(ConfigMEM1_48MB) {
 }
 
 // Symbol: ConfigMEM2_52MB
-// Function signature is unknown.
 // PAL: 0x801a784c..0x801a792c
 MARK_BINARY_BLOB(ConfigMEM2_52MB, 0x801a784c, 0x801a792c);
 asm UNKNOWN_FUNCTION(ConfigMEM2_52MB) {
@@ -344,7 +334,6 @@ asm UNKNOWN_FUNCTION(ConfigMEM2_52MB) {
 }
 
 // Symbol: ConfigMEM2_56MB
-// Function signature is unknown.
 // PAL: 0x801a792c..0x801a7a0c
 MARK_BINARY_BLOB(ConfigMEM2_56MB, 0x801a792c, 0x801a7a0c);
 asm UNKNOWN_FUNCTION(ConfigMEM2_56MB) {
@@ -410,7 +399,6 @@ asm UNKNOWN_FUNCTION(ConfigMEM2_56MB) {
 }
 
 // Symbol: ConfigMEM2_64MB
-// Function signature is unknown.
 // PAL: 0x801a7a0c..0x801a7ab8
 MARK_BINARY_BLOB(ConfigMEM2_64MB, 0x801a7a0c, 0x801a7ab8);
 asm UNKNOWN_FUNCTION(ConfigMEM2_64MB) {
@@ -463,7 +451,6 @@ asm UNKNOWN_FUNCTION(ConfigMEM2_64MB) {
 }
 
 // Symbol: ConfigMEM2_112MB
-// Function signature is unknown.
 // PAL: 0x801a7ab8..0x801a7b98
 MARK_BINARY_BLOB(ConfigMEM2_112MB, 0x801a7ab8, 0x801a7b98);
 asm UNKNOWN_FUNCTION(ConfigMEM2_112MB) {
@@ -529,7 +516,6 @@ asm UNKNOWN_FUNCTION(ConfigMEM2_112MB) {
 }
 
 // Symbol: ConfigMEM2_128MB
-// Function signature is unknown.
 // PAL: 0x801a7b98..0x801a7c44
 MARK_BINARY_BLOB(ConfigMEM2_128MB, 0x801a7b98, 0x801a7c44);
 asm UNKNOWN_FUNCTION(ConfigMEM2_128MB) {
@@ -582,7 +568,6 @@ asm UNKNOWN_FUNCTION(ConfigMEM2_128MB) {
 }
 
 // Symbol: ConfigMEM_ES1_0
-// Function signature is unknown.
 // PAL: 0x801a7c44..0x801a7c94
 MARK_BINARY_BLOB(ConfigMEM_ES1_0, 0x801a7c44, 0x801a7c94);
 asm UNKNOWN_FUNCTION(ConfigMEM_ES1_0) {
@@ -612,7 +597,6 @@ asm UNKNOWN_FUNCTION(ConfigMEM_ES1_0) {
 }
 
 // Symbol: RealMode
-// Function signature is unknown.
 // PAL: 0x801a7c94..0x801a7cac
 MARK_BINARY_BLOB(RealMode, 0x801a7c94, 0x801a7cac);
 asm UNKNOWN_FUNCTION(RealMode) {
@@ -628,7 +612,6 @@ asm UNKNOWN_FUNCTION(RealMode) {
 }
 
 // Symbol: BATConfig
-// Function signature is unknown.
 // PAL: 0x801a7cac..0x801a7dfc
 MARK_BINARY_BLOB(BATConfig, 0x801a7cac, 0x801a7dfc);
 asm UNKNOWN_FUNCTION(BATConfig) {
@@ -731,7 +714,6 @@ lbl_801a7de8:
 }
 
 // Symbol: __OSInitMemoryProtection
-// Function signature is unknown.
 // PAL: 0x801a7dfc..0x801a7eac
 MARK_BINARY_BLOB(__OSInitMemoryProtection, 0x801a7dfc, 0x801a7eac);
 asm UNKNOWN_FUNCTION(__OSInitMemoryProtection) {

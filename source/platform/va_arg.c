@@ -1,7 +1,6 @@
 #include "va_arg.h"
 
 // Symbol: __va_arg
-// Function signature is unknown.
 // PAL: 0x80021270..0x80021338
 MARK_BINARY_BLOB(__va_arg, 0x80021270, 0x80021338);
 asm UNKNOWN_FUNCTION(__va_arg) {

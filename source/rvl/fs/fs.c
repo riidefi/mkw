@@ -51,7 +51,6 @@ u32 _unk_80386774;
 u32 _unk_80386770;
 
 // Symbol: ISFS_OpenLib
-// Function signature is unknown.
 // PAL: 0x80169bcc..0x80169cf4
 MARK_BINARY_BLOB(ISFS_OpenLib, 0x80169bcc, 0x80169cf4);
 asm UNKNOWN_FUNCTION(ISFS_OpenLib) {
@@ -141,7 +140,6 @@ lbl_80169cd8:
 }
 
 // Symbol: _isfsFuncCb
-// Function signature is unknown.
 // PAL: 0x80169cf4..0x80169e74
 MARK_BINARY_BLOB(_isfsFuncCb, 0x80169cf4, 0x80169e74);
 asm UNKNOWN_FUNCTION(_isfsFuncCb) {
@@ -256,7 +254,6 @@ lbl_80169e58:
 }
 
 // Symbol: ISFS_CreateDir
-// Function signature is unknown.
 // PAL: 0x80169e74..0x80169f68
 MARK_BINARY_BLOB(ISFS_CreateDir, 0x80169e74, 0x80169f68);
 asm UNKNOWN_FUNCTION(ISFS_CreateDir) {
@@ -332,7 +329,6 @@ lbl_80169f4c:
 }
 
 // Symbol: ISFS_CreateDirAsync
-// Function signature is unknown.
 // PAL: 0x80169f68..0x8016a05c
 MARK_BINARY_BLOB(ISFS_CreateDirAsync, 0x80169f68, 0x8016a05c);
 asm UNKNOWN_FUNCTION(ISFS_CreateDirAsync) {
@@ -407,7 +403,6 @@ lbl_8016a044:
 }
 
 // Symbol: ISFS_ReadDir
-// Function signature is unknown.
 // PAL: 0x8016a05c..0x8016a1b0
 MARK_BINARY_BLOB(ISFS_ReadDir, 0x8016a05c, 0x8016a1b0);
 asm UNKNOWN_FUNCTION(ISFS_ReadDir) {
@@ -509,7 +504,6 @@ lbl_8016a194:
 }
 
 // Symbol: ISFS_ReadDirAsync
-// Function signature is unknown.
 // PAL: 0x8016a1b0..0x8016a2f8
 MARK_BINARY_BLOB(ISFS_ReadDirAsync, 0x8016a1b0, 0x8016a2f8);
 asm UNKNOWN_FUNCTION(ISFS_ReadDirAsync) {
@@ -607,7 +601,6 @@ lbl_8016a2e0:
 }
 
 // Symbol: ISFS_SetAttr
-// Function signature is unknown.
 // PAL: 0x8016a2f8..0x8016a3fc
 MARK_BINARY_BLOB(ISFS_SetAttr, 0x8016a2f8, 0x8016a3fc);
 asm UNKNOWN_FUNCTION(ISFS_SetAttr) {
@@ -687,7 +680,6 @@ lbl_8016a3e0:
 }
 
 // Symbol: ISFS_SetAttrAsync
-// Function signature is unknown.
 // PAL: 0x8016a3fc..0x8016a500
 MARK_BINARY_BLOB(ISFS_SetAttrAsync, 0x8016a3fc, 0x8016a500);
 asm UNKNOWN_FUNCTION(ISFS_SetAttrAsync) {
@@ -766,7 +758,6 @@ lbl_8016a4e8:
 }
 
 // Symbol: ISFS_GetAttr
-// Function signature is unknown.
 // PAL: 0x8016a500..0x8016a658
 MARK_BINARY_BLOB(ISFS_GetAttr, 0x8016a500, 0x8016a658);
 asm UNKNOWN_FUNCTION(ISFS_GetAttr) {
@@ -867,7 +858,6 @@ lbl_8016a63c:
 }
 
 // Symbol: ISFS_GetAttrAsync
-// Function signature is unknown.
 // PAL: 0x8016a658..0x8016a78c
 MARK_BINARY_BLOB(ISFS_GetAttrAsync, 0x8016a658, 0x8016a78c);
 asm UNKNOWN_FUNCTION(ISFS_GetAttrAsync) {
@@ -958,7 +948,6 @@ lbl_8016a774:
 }
 
 // Symbol: ISFS_Delete
-// Function signature is unknown.
 // PAL: 0x8016a78c..0x8016a864
 MARK_BINARY_BLOB(ISFS_Delete, 0x8016a78c, 0x8016a864);
 asm UNKNOWN_FUNCTION(ISFS_Delete) {
@@ -1027,7 +1016,6 @@ lbl_8016a844:
 }
 
 // Symbol: ISFS_DeleteAsync
-// Function signature is unknown.
 // PAL: 0x8016a864..0x8016a934
 MARK_BINARY_BLOB(ISFS_DeleteAsync, 0x8016a864, 0x8016a934);
 asm UNKNOWN_FUNCTION(ISFS_DeleteAsync) {
@@ -1093,7 +1081,6 @@ lbl_8016a91c:
 }
 
 // Symbol: ISFS_Rename
-// Function signature is unknown.
 // PAL: 0x8016a934..0x8016aa38
 MARK_BINARY_BLOB(ISFS_Rename, 0x8016a934, 0x8016aa38);
 asm UNKNOWN_FUNCTION(ISFS_Rename) {
@@ -1173,7 +1160,6 @@ lbl_8016aa1c:
 }
 
 // Symbol: ISFS_RenameAsync
-// Function signature is unknown.
 // PAL: 0x8016aa38..0x8016ab3c
 MARK_BINARY_BLOB(ISFS_RenameAsync, 0x8016aa38, 0x8016ab3c);
 asm UNKNOWN_FUNCTION(ISFS_RenameAsync) {
@@ -1252,7 +1238,6 @@ lbl_8016ab24:
 }
 
 // Symbol: ISFS_GetUsage
-// Function signature is unknown.
 // PAL: 0x8016ab3c..0x8016ac74
 MARK_BINARY_BLOB(ISFS_GetUsage, 0x8016ab3c, 0x8016ac74);
 asm UNKNOWN_FUNCTION(ISFS_GetUsage) {
@@ -1345,7 +1330,6 @@ lbl_8016ac58:
 }
 
 // Symbol: ISFS_CreateFile
-// Function signature is unknown.
 // PAL: 0x8016ac74..0x8016ad68
 MARK_BINARY_BLOB(ISFS_CreateFile, 0x8016ac74, 0x8016ad68);
 asm UNKNOWN_FUNCTION(ISFS_CreateFile) {
@@ -1421,7 +1405,6 @@ lbl_8016ad4c:
 }
 
 // Symbol: ISFS_CreateFileAsync
-// Function signature is unknown.
 // PAL: 0x8016ad68..0x8016ae5c
 MARK_BINARY_BLOB(ISFS_CreateFileAsync, 0x8016ad68, 0x8016ae5c);
 asm UNKNOWN_FUNCTION(ISFS_CreateFileAsync) {
@@ -1496,7 +1479,6 @@ lbl_8016ae44:
 }
 
 // Symbol: ISFS_Open
-// Function signature is unknown.
 // PAL: 0x8016ae5c..0x8016af24
 MARK_BINARY_BLOB(ISFS_Open, 0x8016ae5c, 0x8016af24);
 asm UNKNOWN_FUNCTION(ISFS_Open) {
@@ -1561,7 +1543,6 @@ lbl_8016af00:
 }
 
 // Symbol: ISFS_OpenAsync
-// Function signature is unknown.
 // PAL: 0x8016af24..0x8016afdc
 MARK_BINARY_BLOB(ISFS_OpenAsync, 0x8016af24, 0x8016afdc);
 asm UNKNOWN_FUNCTION(ISFS_OpenAsync) {
@@ -1621,7 +1602,6 @@ lbl_8016afc4:
 }
 
 // Symbol: ISFS_GetFileStats
-// Function signature is unknown.
 // PAL: 0x8016afdc..0x8016b0ac
 MARK_BINARY_BLOB(ISFS_GetFileStats, 0x8016afdc, 0x8016b0ac);
 asm UNKNOWN_FUNCTION(ISFS_GetFileStats) {
@@ -1688,7 +1668,6 @@ lbl_8016b08c:
 }
 
 // Symbol: ISFS_GetFileStatsAsync
-// Function signature is unknown.
 // PAL: 0x8016b0ac..0x8016b16c
 MARK_BINARY_BLOB(ISFS_GetFileStatsAsync, 0x8016b0ac, 0x8016b16c);
 asm UNKNOWN_FUNCTION(ISFS_GetFileStatsAsync) {
@@ -1750,7 +1729,6 @@ lbl_8016b14c:
 }
 
 // Symbol: ISFS_Seek
-// Function signature is unknown.
 // PAL: 0x8016b16c..0x8016b170
 MARK_BINARY_BLOB(ISFS_Seek, 0x8016b16c, 0x8016b170);
 asm UNKNOWN_FUNCTION(ISFS_Seek) {
@@ -1759,7 +1737,6 @@ asm UNKNOWN_FUNCTION(ISFS_Seek) {
 }
 
 // Symbol: ISFS_SeekAsync
-// Function signature is unknown.
 // PAL: 0x8016b170..0x8016b1fc
 MARK_BINARY_BLOB(ISFS_SeekAsync, 0x8016b170, 0x8016b1fc);
 asm UNKNOWN_FUNCTION(ISFS_SeekAsync) {
@@ -1806,7 +1783,6 @@ lbl_8016b1e4:
 }
 
 // Symbol: ISFS_Read
-// Function signature is unknown.
 // PAL: 0x8016b1fc..0x8016b21c
 MARK_BINARY_BLOB(ISFS_Read, 0x8016b1fc, 0x8016b21c);
 asm UNKNOWN_FUNCTION(ISFS_Read) {
@@ -1826,7 +1802,6 @@ lbl_8016b214:
 }
 
 // Symbol: ISFS_ReadAsync
-// Function signature is unknown.
 // PAL: 0x8016b21c..0x8016b2c0
 MARK_BINARY_BLOB(ISFS_ReadAsync, 0x8016b21c, 0x8016b2c0);
 asm UNKNOWN_FUNCTION(ISFS_ReadAsync) {
@@ -1881,7 +1856,6 @@ lbl_8016b2a8:
 }
 
 // Symbol: ISFS_Write
-// Function signature is unknown.
 // PAL: 0x8016b2c0..0x8016b2e0
 MARK_BINARY_BLOB(ISFS_Write, 0x8016b2c0, 0x8016b2e0);
 asm UNKNOWN_FUNCTION(ISFS_Write) {
@@ -1901,7 +1875,6 @@ lbl_8016b2d8:
 }
 
 // Symbol: ISFS_WriteAsync
-// Function signature is unknown.
 // PAL: 0x8016b2e0..0x8016b384
 MARK_BINARY_BLOB(ISFS_WriteAsync, 0x8016b2e0, 0x8016b384);
 asm UNKNOWN_FUNCTION(ISFS_WriteAsync) {
@@ -1956,7 +1929,6 @@ lbl_8016b36c:
 }
 
 // Symbol: ISFS_Close
-// Function signature is unknown.
 // PAL: 0x8016b384..0x8016b388
 MARK_BINARY_BLOB(ISFS_Close, 0x8016b384, 0x8016b388);
 asm UNKNOWN_FUNCTION(ISFS_Close) {
@@ -1967,7 +1939,6 @@ asm UNKNOWN_FUNCTION(ISFS_Close) {
 }
 
 // Symbol: ISFS_CloseAsync
-// Function signature is unknown.
 // PAL: 0x8016b388..0x8016b40c
 MARK_BINARY_BLOB(ISFS_CloseAsync, 0x8016b388, 0x8016b40c);
 asm UNKNOWN_FUNCTION(ISFS_CloseAsync) {
@@ -2012,7 +1983,6 @@ lbl_8016b3f0:
 }
 
 // Symbol: ISFS_ShutdownAsync
-// Function signature is unknown.
 // PAL: 0x8016b40c..0x8016b49c
 MARK_BINARY_BLOB(ISFS_ShutdownAsync, 0x8016b40c, 0x8016b49c);
 asm UNKNOWN_FUNCTION(ISFS_ShutdownAsync) {

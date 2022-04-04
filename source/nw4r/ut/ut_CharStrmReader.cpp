@@ -6,7 +6,6 @@ namespace nw4r {
 namespace ut {
 
 // Symbol: ReadNextCharUTF8__Q34nw4r2ut14CharStrmReaderFv
-// Function signature is unknown.
 // PAL: 0x800af420..0x800af4a0
 MARK_BINARY_BLOB(ReadNextCharUTF8__Q34nw4r2ut14CharStrmReaderFv, 0x800af420,
                  0x800af4a0);
@@ -50,7 +49,6 @@ lbl_800af490:
 }
 
 // Symbol: ReadNextCharUTF16__Q34nw4r2ut14CharStrmReaderFv
-// Function signature is unknown.
 // PAL: 0x800af4a0..0x800af4c0
 MARK_BINARY_BLOB(ReadNextCharUTF16__Q34nw4r2ut14CharStrmReaderFv, 0x800af4a0,
                  0x800af4c0);
@@ -68,7 +66,6 @@ asm u16 CharStrmReader::ReadNextCharUTF16() {
 }
 
 // Symbol: ReadNextCharCP1252__Q34nw4r2ut14CharStrmReaderFv
-// Function signature is unknown.
 // PAL: 0x800af4c0..0x800af4e0
 MARK_BINARY_BLOB(ReadNextCharCP1252__Q34nw4r2ut14CharStrmReaderFv, 0x800af4c0,
                  0x800af4e0);
@@ -86,7 +83,6 @@ asm u16 CharStrmReader::ReadNextCharCP1252() {
 }
 
 // Symbol: ReadNextCharSJIS__Q34nw4r2ut14CharStrmReaderFv
-// Function signature is unknown.
 // PAL: 0x800af4e0..0x800af540
 MARK_BINARY_BLOB(ReadNextCharSJIS__Q34nw4r2ut14CharStrmReaderFv, 0x800af4e0,
                  0x800af540);

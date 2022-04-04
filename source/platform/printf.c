@@ -22,7 +22,6 @@ extern UNKNOWN_FUNCTION(raise);
 extern UNKNOWN_FUNCTION(fwide);
 
 // Symbol: double2hex
-// Function signature is unknown.
 // PAL: 0x800100e4..0x800104b4
 MARK_BINARY_BLOB(double2hex, 0x800100e4, 0x800104b4);
 asm UNKNOWN_FUNCTION(double2hex) {
@@ -307,7 +306,6 @@ lbl_8001048c:
 }
 
 // Symbol: round_decimal
-// Function signature is unknown.
 // PAL: 0x800104b4..0x800105dc
 MARK_BINARY_BLOB(round_decimal, 0x800104b4, 0x800105dc);
 asm UNKNOWN_FUNCTION(round_decimal) {
@@ -404,7 +402,6 @@ lbl_800105cc:
 }
 
 // Symbol: float2str
-// Function signature is unknown.
 // PAL: 0x800105dc..0x80010d74
 MARK_BINARY_BLOB(float2str, 0x800105dc, 0x80010d74);
 asm UNKNOWN_FUNCTION(float2str) {
@@ -978,7 +975,6 @@ lbl_80010d50:
 }
 
 // Symbol: __pformatter
-// Function signature is unknown.
 // PAL: 0x80010d74..0x80011620
 MARK_BINARY_BLOB(__pformatter, 0x80010d74, 0x80011620);
 asm UNKNOWN_FUNCTION(__pformatter) {
@@ -1610,7 +1606,6 @@ lbl_8001160c:
 }
 
 // Symbol: __FileWrite
-// Function signature is unknown.
 // PAL: 0x80011620..0x80011678
 MARK_BINARY_BLOB(__FileWrite, 0x80011620, 0x80011678);
 asm UNKNOWN_FUNCTION(__FileWrite) {
@@ -1644,7 +1639,6 @@ lbl_8001165c:
 }
 
 // Symbol: __StringWrite
-// Function signature is unknown.
 // PAL: 0x80011678..0x800116e4
 MARK_BINARY_BLOB(__StringWrite, 0x80011678, 0x800116e4);
 asm UNKNOWN_FUNCTION(__StringWrite) {
@@ -1682,7 +1676,6 @@ lbl_800116ac:
 }
 
 // Symbol: printf
-// Function signature is unknown.
 // PAL: 0x800116e4..0x800117b0
 MARK_BINARY_BLOB(printf, 0x800116e4, 0x800117b0);
 asm UNKNOWN_FUNCTION(printf) {
@@ -1746,7 +1739,6 @@ lbl_80011798:
 }
 
 // Symbol: vprintf
-// Function signature is unknown.
 // PAL: 0x800117b0..0x8001182c
 MARK_BINARY_BLOB(vprintf, 0x800117b0, 0x8001182c);
 asm int vprintf(const char* format, va_list arg) {

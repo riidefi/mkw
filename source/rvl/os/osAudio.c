@@ -7,7 +7,6 @@
 #include "osCache.h"
 
 // Symbol: __AIClockInit
-// Function signature is unknown.
 // PAL: 0x801a1138..0x801a1358
 MARK_BINARY_BLOB(__AIClockInit, 0x801a1138, 0x801a1358);
 asm UNKNOWN_FUNCTION(__AIClockInit) {
@@ -160,7 +159,6 @@ lbl_801a1310:
 }
 
 // Symbol: __OSInitAudioSystem
-// Function signature is unknown.
 // PAL: 0x801a1358..0x801a1520
 MARK_BINARY_BLOB(__OSInitAudioSystem, 0x801a1358, 0x801a1520);
 asm UNKNOWN_FUNCTION(__OSInitAudioSystem) {
@@ -296,7 +294,6 @@ lbl_801a14e8:
 }
 
 // Symbol: __OSStopAudioSystem
-// Function signature is unknown.
 // PAL: 0x801a1520..0x801a15ec
 MARK_BINARY_BLOB(__OSStopAudioSystem, 0x801a1520, 0x801a15ec);
 asm UNKNOWN_FUNCTION(__OSStopAudioSystem) {

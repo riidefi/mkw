@@ -5,7 +5,6 @@
 extern "C" UNKNOWN_FUNCTION(__ct__Q23EGG10BoundBox2fFv);
 
 // Symbol: __ct__Q23EGG8ViewportFv
-// Function signature is unknown.
 // PAL: 0x80244074..0x802440b4
 MARK_BINARY_BLOB(__ct__Q23EGG8ViewportFv, 0x80244074, 0x802440b4);
 asm UNKNOWN_FUNCTION(__ct__Q23EGG8ViewportFv) {
@@ -33,7 +32,6 @@ asm UNKNOWN_FUNCTION(__ct__Q23EGG8ViewportFv) {
 extern "C" void eggViewport_Calc_TODO();
 
 // Symbol: set__Q23EGG8ViewportFiiii
-// Function signature is unknown.
 // PAL: 0x802440b4..0x80244134
 MARK_BINARY_BLOB(set__Q23EGG8ViewportFiiii, 0x802440b4, 0x80244134);
 asm UNKNOWN_FUNCTION(set__Q23EGG8ViewportFiiii) {
@@ -75,7 +73,6 @@ asm UNKNOWN_FUNCTION(set__Q23EGG8ViewportFiiii) {
 }
 
 // Symbol: eggViewport_Calc_TODO
-// Function signature is unknown.
 // PAL: 0x80244134..0x80244160
 MARK_BINARY_BLOB(eggViewport_Calc_TODO, 0x80244134, 0x80244160);
 asm UNKNOWN_FUNCTION(eggViewport_Calc_TODO) {

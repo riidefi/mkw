@@ -64,7 +64,6 @@ extern UNKNOWN_FUNCTION(SCGetIdleMode);
 extern UNKNOWN_FUNCTION(__VISetRGBModeImm);
 
 // Symbol: OSRegisterShutdownFunction
-// Function signature is unknown.
 // PAL: 0x801a8238..0x801a82c0
 MARK_BINARY_BLOB(OSRegisterShutdownFunction, 0x801a8238, 0x801a82c0);
 asm void OSRegisterShutdownFunction(OSShutdownFunctionInfo* info) {
@@ -115,7 +114,6 @@ lbl_801a82b8:
 }
 
 // Symbol: __OSCallShutdownFunctions
-// Function signature is unknown.
 // PAL: 0x801a82c0..0x801a8370
 MARK_BINARY_BLOB(__OSCallShutdownFunctions, 0x801a82c0, 0x801a8370);
 asm UNKNOWN_FUNCTION(__OSCallShutdownFunctions) {
@@ -173,7 +171,6 @@ lbl_801a8338:
 }
 
 // Symbol: __OSShutdownDevices
-// Function signature is unknown.
 // PAL: 0x801a8370..0x801a8500
 MARK_BINARY_BLOB(__OSShutdownDevices, 0x801a8370, 0x801a8500);
 asm UNKNOWN_FUNCTION(__OSShutdownDevices) {
@@ -302,7 +299,6 @@ lbl_801a84e0:
 }
 
 // Symbol: __OSGetDiscState
-// Function signature is unknown.
 // PAL: 0x801a8500..0x801a856c
 MARK_BINARY_BLOB(__OSGetDiscState, 0x801a8500, 0x801a856c);
 asm UNKNOWN_FUNCTION(__OSGetDiscState) {
@@ -342,7 +338,6 @@ lbl_801a8558:
 }
 
 // Symbol: OSShutdownSystem
-// Function signature is unknown.
 // PAL: 0x801a856c..0x801a8688
 MARK_BINARY_BLOB(OSShutdownSystem, 0x801a856c, 0x801a8688);
 asm UNKNOWN_FUNCTION(OSShutdownSystem) {
@@ -431,7 +426,6 @@ lbl_801a8674:
 }
 
 // Symbol: OSRestart
-// Function signature is unknown.
 // PAL: 0x801a8688..0x801a8758
 MARK_BINARY_BLOB(OSRestart, 0x801a8688, 0x801a8758);
 asm UNKNOWN_FUNCTION(OSRestart) {
@@ -497,7 +491,6 @@ lbl_801a8720:
 }
 
 // Symbol: __OSReturnToMenu
-// Function signature is unknown.
 // PAL: 0x801a8758..0x801a8858
 MARK_BINARY_BLOB(__OSReturnToMenu, 0x801a8758, 0x801a8858);
 asm UNKNOWN_FUNCTION(__OSReturnToMenu) {
@@ -576,7 +569,6 @@ lbl_801a8820:
 }
 
 // Symbol: OSReturnToMenu
-// Function signature is unknown.
 // PAL: 0x801a8858..0x801a8898
 MARK_BINARY_BLOB(OSReturnToMenu, 0x801a8858, 0x801a8898);
 asm UNKNOWN_FUNCTION(OSReturnToMenu) {
@@ -602,7 +594,6 @@ asm UNKNOWN_FUNCTION(OSReturnToMenu) {
 }
 
 // Symbol: OSReturnToSetting
-// Function signature is unknown.
 // PAL: 0x801a8898..0x801a8954
 MARK_BINARY_BLOB(OSReturnToSetting, 0x801a8898, 0x801a8954);
 asm UNKNOWN_FUNCTION(OSReturnToSetting) {
@@ -661,7 +652,6 @@ lbl_801a892c:
 }
 
 // Symbol: __OSReturnToMenuForError
-// Function signature is unknown.
 // PAL: 0x801a8954..0x801a89f8
 MARK_BINARY_BLOB(__OSReturnToMenuForError, 0x801a8954, 0x801a89f8);
 asm UNKNOWN_FUNCTION(__OSReturnToMenuForError) {
@@ -714,7 +704,6 @@ lbl_801a89b8:
 }
 
 // Symbol: __OSHotResetForError
-// Function signature is unknown.
 // PAL: 0x801a89f8..0x801a8a50
 MARK_BINARY_BLOB(__OSHotResetForError, 0x801a89f8, 0x801a8a50);
 asm UNKNOWN_FUNCTION(__OSHotResetForError) {
@@ -748,7 +737,6 @@ lbl_801a8a20:
 }
 
 // Symbol: OSGetResetCode
-// Function signature is unknown.
 // PAL: 0x801a8a50..0x801a8a80
 MARK_BINARY_BLOB(OSGetResetCode, 0x801a8a50, 0x801a8a80);
 asm UNKNOWN_FUNCTION(OSGetResetCode) {

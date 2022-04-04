@@ -58,7 +58,6 @@ lbl_801a9604:
 }
 
 // Symbol: __OSThreadInit
-// Function signature is unknown.
 // PAL: 0x801a961c..0x801a98a0
 MARK_BINARY_BLOB(__OSThreadInit, 0x801a961c, 0x801a98a0);
 asm UNKNOWN_FUNCTION(__OSThreadInit) {
@@ -237,7 +236,6 @@ lbl_801a9864:
 }
 
 // Symbol: OSInitThreadQueue
-// Function signature is unknown.
 // PAL: 0x801a98a0..0x801a98b0
 MARK_BINARY_BLOB(OSInitThreadQueue, 0x801a98a0, 0x801a98b0);
 asm void OSInitThreadQueue(struct OSThreadQueue*) {
@@ -284,7 +282,6 @@ lbl_801a98d8:
 }
 
 // Symbol: OSDisableScheduler
-// Function signature is unknown.
 // PAL: 0x801a98e8..0x801a9924
 MARK_BINARY_BLOB(OSDisableScheduler, 0x801a98e8, 0x801a9924);
 asm UNKNOWN_FUNCTION(OSDisableScheduler) {
@@ -309,7 +306,6 @@ asm UNKNOWN_FUNCTION(OSDisableScheduler) {
 }
 
 // Symbol: OSEnableScheduler
-// Function signature is unknown.
 // PAL: 0x801a9924..0x801a9960
 MARK_BINARY_BLOB(OSEnableScheduler, 0x801a9924, 0x801a9960);
 asm UNKNOWN_FUNCTION(OSEnableScheduler) {
@@ -334,7 +330,6 @@ asm UNKNOWN_FUNCTION(OSEnableScheduler) {
 }
 
 // Symbol: UnsetRun
-// Function signature is unknown.
 // PAL: 0x801a9960..0x801a99c8
 MARK_BINARY_BLOB(UnsetRun, 0x801a9960, 0x801a99c8);
 asm UNKNOWN_FUNCTION(UnsetRun) {
@@ -375,7 +370,6 @@ lbl_801a99bc:
 }
 
 // Symbol: __OSGetEffectivePriority
-// Function signature is unknown.
 // PAL: 0x801a99c8..0x801a9a04
 MARK_BINARY_BLOB(__OSGetEffectivePriority, 0x801a99c8, 0x801a9a04);
 asm UNKNOWN_FUNCTION(__OSGetEffectivePriority) {
@@ -403,7 +397,6 @@ lbl_801a99f4:
 }
 
 // Symbol: SetEffectivePriority
-// Function signature is unknown.
 // PAL: 0x801a9a04..0x801a9bb8
 MARK_BINARY_BLOB(SetEffectivePriority, 0x801a9a04, 0x801a9bb8);
 asm UNKNOWN_FUNCTION(SetEffectivePriority) {
@@ -542,7 +535,6 @@ lbl_801a9ba0:
 }
 
 // Symbol: __OSPromoteThread
-// Function signature is unknown.
 // PAL: 0x801a9bb8..0x801a9c08
 MARK_BINARY_BLOB(__OSPromoteThread, 0x801a9bb8, 0x801a9c08);
 asm UNKNOWN_FUNCTION(__OSPromoteThread) {
@@ -574,7 +566,6 @@ lbl_801a9bf4:
 }
 
 // Symbol: SelectThread
-// Function signature is unknown.
 // PAL: 0x801a9c08..0x801a9e30
 MARK_BINARY_BLOB(SelectThread, 0x801a9c08, 0x801a9e30);
 asm UNKNOWN_FUNCTION(SelectThread) {
@@ -736,7 +727,6 @@ lbl_801a9e18:
 }
 
 // Symbol: __OSReschedule
-// Function signature is unknown.
 // PAL: 0x801a9e30..0x801a9e48
 MARK_BINARY_BLOB(__OSReschedule, 0x801a9e30, 0x801a9e48);
 asm UNKNOWN_FUNCTION(__OSReschedule) {
@@ -752,7 +742,6 @@ asm UNKNOWN_FUNCTION(__OSReschedule) {
 }
 
 // Symbol: OSYieldThread
-// Function signature is unknown.
 // PAL: 0x801a9e48..0x801a9e84
 MARK_BINARY_BLOB(OSYieldThread, 0x801a9e48, 0x801a9e84);
 asm UNKNOWN_FUNCTION(OSYieldThread) {
@@ -950,7 +939,6 @@ lbl_801aa0d8:
 }
 
 // Symbol: OSExitThread
-// Function signature is unknown.
 // PAL: 0x801aa0f0..0x801aa1d4
 MARK_BINARY_BLOB(OSExitThread, 0x801aa0f0, 0x801aa1d4);
 asm UNKNOWN_FUNCTION(OSExitThread) {
@@ -1173,7 +1161,6 @@ lbl_801aa394:
 }
 
 // Symbol: OSJoinThread
-// Function signature is unknown.
 // PAL: 0x801aa3ac..0x801aa4ec
 MARK_BINARY_BLOB(OSJoinThread, 0x801aa3ac, 0x801aa4ec);
 asm UNKNOWN_FUNCTION(OSJoinThread) {
@@ -1534,7 +1521,6 @@ lbl_801aa7fc:
 }
 
 // Symbol: OSSuspendThread
-// Function signature is unknown.
 // PAL: 0x801aa824..0x801aa9b8
 MARK_BINARY_BLOB(OSSuspendThread, 0x801aa824, 0x801aa9b8);
 asm UNKNOWN_FUNCTION(OSSuspendThread) {
@@ -1815,7 +1801,6 @@ lbl_801aab78:
 }
 
 // Symbol: OSSetThreadPriority
-// Function signature is unknown.
 // PAL: 0x801aab98..0x801aaca8
 MARK_BINARY_BLOB(OSSetThreadPriority, 0x801aab98, 0x801aaca8);
 asm UNKNOWN_FUNCTION(OSSetThreadPriority) {

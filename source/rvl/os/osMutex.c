@@ -162,7 +162,6 @@ lbl_801a8064:
 }
 
 // Symbol: __OSUnlockAllMutex
-// Function signature is unknown.
 // PAL: 0x801a8088..0x801a80f4
 MARK_BINARY_BLOB(__OSUnlockAllMutex, 0x801a8088, 0x801a80f4);
 asm UNKNOWN_FUNCTION(__OSUnlockAllMutex) {
@@ -264,7 +263,6 @@ lbl_801a8188:
 }
 
 // Symbol: OSInitCond
-// Function signature is unknown.
 // PAL: 0x801a81b0..0x801a81b4
 MARK_BINARY_BLOB(OSInitCond, 0x801a81b0, 0x801a81b4);
 asm UNKNOWN_FUNCTION(OSInitCond) {
@@ -275,7 +273,6 @@ asm UNKNOWN_FUNCTION(OSInitCond) {
 }
 
 // Symbol: OSSignalCond
-// Function signature is unknown.
 // PAL: 0x801a81b4..0x801a81b8
 MARK_BINARY_BLOB(OSSignalCond, 0x801a81b4, 0x801a81b8);
 asm UNKNOWN_FUNCTION(OSSignalCond) {

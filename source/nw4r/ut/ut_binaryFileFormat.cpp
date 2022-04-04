@@ -1,7 +1,6 @@
 #include "ut_binaryFileFormat.hpp"
 
 // Symbol: IsValidBinaryFile__Q24nw4r2utFPCQ34nw4r2ut16BinaryFileHeaderUlUsUs
-// Function signature is unknown.
 // PAL: 0x800af3a0..0x800af420
 MARK_BINARY_BLOB(
     IsValidBinaryFile__Q24nw4r2utFPCQ34nw4r2ut16BinaryFileHeaderUlUsUs,

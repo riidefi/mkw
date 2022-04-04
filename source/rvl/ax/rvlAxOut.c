@@ -259,7 +259,6 @@ lbl_80126878:
 }
 
 // Symbol: __AXOutAiCallback
-// Function signature is unknown.
 // PAL: 0x80126898..0x80126948
 MARK_BINARY_BLOB(__AXOutAiCallback, 0x80126898, 0x80126948);
 asm UNKNOWN_FUNCTION(__AXOutAiCallback) {
@@ -316,7 +315,6 @@ lbl_80126938:
 }
 
 // Symbol: __AXDSPInitCallback
-// Function signature is unknown.
 // PAL: 0x80126948..0x80126954
 MARK_BINARY_BLOB(__AXDSPInitCallback, 0x80126948, 0x80126954);
 asm UNKNOWN_FUNCTION(__AXDSPInitCallback) {
@@ -329,7 +327,6 @@ asm UNKNOWN_FUNCTION(__AXDSPInitCallback) {
 }
 
 // Symbol: __AXDSPResumeCallback
-// Function signature is unknown.
 // PAL: 0x80126954..0x801269a8
 MARK_BINARY_BLOB(__AXDSPResumeCallback, 0x80126954, 0x801269a8);
 asm UNKNOWN_FUNCTION(__AXDSPResumeCallback) {
@@ -362,7 +359,6 @@ lbl_80126998:
 }
 
 // Symbol: __AXDSPDoneCallback
-// Function signature is unknown.
 // PAL: 0x801269a8..0x801269b8
 MARK_BINARY_BLOB(__AXDSPDoneCallback, 0x801269a8, 0x801269b8);
 asm UNKNOWN_FUNCTION(__AXDSPDoneCallback) {
@@ -376,7 +372,6 @@ asm UNKNOWN_FUNCTION(__AXDSPDoneCallback) {
 }
 
 // Symbol: __AXDSPRequestCallback
-// Function signature is unknown.
 // PAL: 0x801269b8..0x801269bc
 MARK_BINARY_BLOB(__AXDSPRequestCallback, 0x801269b8, 0x801269bc);
 asm UNKNOWN_FUNCTION(__AXDSPRequestCallback) {
@@ -387,7 +382,6 @@ asm UNKNOWN_FUNCTION(__AXDSPRequestCallback) {
 }
 
 // Symbol: __AXOutInitDSP
-// Function signature is unknown.
 // PAL: 0x801269bc..0x80126aac
 MARK_BINARY_BLOB(__AXOutInitDSP, 0x801269bc, 0x80126aac);
 asm UNKNOWN_FUNCTION(__AXOutInitDSP) {
@@ -459,7 +453,6 @@ lbl_80126a84:
 }
 
 // Symbol: __AXOutInit
-// Function signature is unknown.
 // PAL: 0x80126aac..0x80126ca4
 MARK_BINARY_BLOB(__AXOutInit, 0x80126aac, 0x80126ca4);
 asm UNKNOWN_FUNCTION(__AXOutInit) {
@@ -602,7 +595,6 @@ lbl_80126c84:
 }
 
 // Symbol: AXRegisterCallback
-// Function signature is unknown.
 // PAL: 0x80126ca4..0x80126ce8
 MARK_BINARY_BLOB(AXRegisterCallback, 0x80126ca4, 0x80126ce8);
 asm UNKNOWN_FUNCTION(AXRegisterCallback) {
@@ -629,7 +621,6 @@ asm UNKNOWN_FUNCTION(AXRegisterCallback) {
 }
 
 // Symbol: AXRmtGetSamplesLeft
-// Function signature is unknown.
 // PAL: 0x80126ce8..0x80126d14
 MARK_BINARY_BLOB(AXRmtGetSamplesLeft, 0x80126ce8, 0x80126d14);
 asm UNKNOWN_FUNCTION(AXRmtGetSamplesLeft) {
@@ -651,7 +642,6 @@ lbl_80126cfc:
 }
 
 // Symbol: AXRmtGetSamples
-// Function signature is unknown.
 // PAL: 0x80126d14..0x80126dd8
 MARK_BINARY_BLOB(AXRmtGetSamples, 0x80126d14, 0x80126dd8);
 asm UNKNOWN_FUNCTION(AXRmtGetSamples) {
@@ -717,7 +707,6 @@ lbl_80126da4:
 }
 
 // Symbol: AXRmtAdvancePtr
-// Function signature is unknown.
 // PAL: 0x80126dd8..0x80126e30
 MARK_BINARY_BLOB(AXRmtAdvancePtr, 0x80126dd8, 0x80126e30);
 asm UNKNOWN_FUNCTION(AXRmtAdvancePtr) {

@@ -30,7 +30,6 @@ typedef struct AXSPB {
 AXSPB __AXStudio;
 
 // Symbol: __AXGetStudio
-// Function signature is unknown.
 // PAL: 0x80126e30..0x80126e3c
 MARK_BINARY_BLOB(__AXGetStudio, 0x80126e30, 0x80126e3c);
 asm UNKNOWN_FUNCTION(__AXGetStudio) {
@@ -43,7 +42,6 @@ asm UNKNOWN_FUNCTION(__AXGetStudio) {
 }
 
 // Symbol: __AXDepopFadeMain
-// Function signature is unknown.
 // PAL: 0x80126e3c..0x80126ea8
 MARK_BINARY_BLOB(__AXDepopFadeMain, 0x80126e3c, 0x80126ea8);
 asm UNKNOWN_FUNCTION(__AXDepopFadeMain) {
@@ -83,7 +81,6 @@ lbl_80126e94:
 }
 
 // Symbol: __AXDepopFadeRmt
-// Function signature is unknown.
 // PAL: 0x80126ea8..0x80126f14
 MARK_BINARY_BLOB(__AXDepopFadeRmt, 0x80126ea8, 0x80126f14);
 asm UNKNOWN_FUNCTION(__AXDepopFadeRmt) {
@@ -123,7 +120,6 @@ lbl_80126f00:
 }
 
 // Symbol: __AXPrintStudio
-// Function signature is unknown.
 // PAL: 0x80126f14..0x8012708c
 MARK_BINARY_BLOB(__AXPrintStudio, 0x80126f14, 0x8012708c);
 asm UNKNOWN_FUNCTION(__AXPrintStudio) {
@@ -227,7 +223,6 @@ asm UNKNOWN_FUNCTION(__AXPrintStudio) {
 }
 
 // Symbol: __AXSPBInit
-// Function signature is unknown.
 // PAL: 0x8012708c..0x801270e4
 MARK_BINARY_BLOB(__AXSPBInit, 0x8012708c, 0x801270e4);
 asm UNKNOWN_FUNCTION(__AXSPBInit) {
@@ -259,7 +254,6 @@ asm UNKNOWN_FUNCTION(__AXSPBInit) {
 }
 
 // Symbol: __AXDepopVoice
-// Function signature is unknown.
 // PAL: 0x801270e4..0x80127250
 MARK_BINARY_BLOB(__AXDepopVoice, 0x801270e4, 0x80127250);
 asm UNKNOWN_FUNCTION(__AXDepopVoice) {

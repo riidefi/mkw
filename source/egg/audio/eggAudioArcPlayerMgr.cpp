@@ -182,7 +182,6 @@ lbl_802106b0:
 
 extern "C" {
 
-// Function signature is unknown.
 // PAL: 0x802106b8..0x80210748
 MARK_BINARY_BLOB(unk_802106b8, 0x802106b8, 0x80210748);
 asm UNKNOWN_FUNCTION(unk_802106b8) {
@@ -231,7 +230,6 @@ lbl_80210734:
   // clang-format on
 }
 
-// Function signature is unknown.
 // PAL: 0x80210748..0x802108bc
 MARK_BINARY_BLOB(unk_80210748, 0x80210748, 0x802108bc);
 asm UNKNOWN_FUNCTION(unk_80210748) {
@@ -339,7 +337,6 @@ lbl_802108a8:
   // clang-format on
 }
 
-// Function signature is unknown.
 // PAL: 0x802108bc..0x80210a30
 MARK_BINARY_BLOB(unk_802108bc, 0x802108bc, 0x80210a30);
 asm UNKNOWN_FUNCTION(unk_802108bc) {
@@ -447,7 +444,6 @@ lbl_80210a1c:
   // clang-format on
 }
 
-// Function signature is unknown.
 // PAL: 0x80210a30..0x80210bd8
 MARK_BINARY_BLOB(unk_80210a30, 0x80210a30, 0x80210bd8);
 asm UNKNOWN_FUNCTION(unk_80210a30) {
@@ -567,7 +563,6 @@ lbl_80210bc4:
   // clang-format on
 }
 
-// Function signature is unknown.
 // PAL: 0x80210bd8..0x80210ce4
 MARK_BINARY_BLOB(unk_80210bd8, 0x80210bd8, 0x80210ce4);
 asm UNKNOWN_FUNCTION(unk_80210bd8) {
@@ -648,7 +643,6 @@ lbl_80210cd0:
   // clang-format on
 }
 
-// Function signature is unknown.
 // PAL: 0x80210ce4..0x80210a30
 MARK_BINARY_BLOB(unk_80210ce4, 0x80210ce4, 0x80210d70);
 asm UNKNOWN_FUNCTION(unk_80210ce4) {
@@ -697,7 +691,6 @@ lbl_80210d5c:
   // clang-format on
 }
 
-// Function signature is unknown.
 // PAL: 0x80210d70..0x80210e3c
 MARK_BINARY_BLOB(unk_80210d70, 0x80210d70, 0x80210e3c);
 asm UNKNOWN_FUNCTION(unk_80210d70) {
@@ -762,7 +755,6 @@ lbl_80210e1c:
   // clang-format on
 }
 
-// Function signature is unknown.
 // PAL: 0x80210e3c..0x80210f08
 MARK_BINARY_BLOB(unk_80210e3c, 0x80210e3c, 0x80210f08);
 asm UNKNOWN_FUNCTION(unk_80210e3c) {
@@ -827,7 +819,6 @@ lbl_80210ee8:
   // clang-format on
 }
 
-// Function signature is unknown.
 // PAL: 0x80210f08..0x80210fd4
 MARK_BINARY_BLOB(unk_80210f08, 0x80210f08, 0x80210fd4);
 asm UNKNOWN_FUNCTION(unk_80210f08) {
@@ -944,7 +935,6 @@ lbl_80211020:
 
 extern "C" {
 
-// Function signature is unknown.
 // PAL: 0x80211048..0x80211058
 MARK_BINARY_BLOB(unk_80211048, 0x80211048, 0x80211058);
 asm UNKNOWN_FUNCTION(unk_80211048) {

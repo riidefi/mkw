@@ -1,7 +1,6 @@
 #include "mem_cpy.h"
 
 // Symbol: __copy_longs_aligned
-// Function signature is unknown.
 // PAL: 0x8000f360..0x8000f41c
 MARK_BINARY_BLOB(__copy_longs_aligned, 0x8000f360, 0x8000f41c);
 asm UNKNOWN_FUNCTION(__copy_longs_aligned) {
@@ -65,7 +64,6 @@ lbl_8000f408:
 }
 
 // Symbol: __copy_longs_rev_aligned
-// Function signature is unknown.
 // PAL: 0x8000f41c..0x8000f4c4
 MARK_BINARY_BLOB(__copy_longs_rev_aligned, 0x8000f41c, 0x8000f4c4);
 asm UNKNOWN_FUNCTION(__copy_longs_rev_aligned) {
@@ -124,7 +122,6 @@ lbl_8000f4b0:
 }
 
 // Symbol: __copy_longs_unaligned
-// Function signature is unknown.
 // PAL: 0x8000f4c4..0x8000f584
 MARK_BINARY_BLOB(__copy_longs_unaligned, 0x8000f4c4, 0x8000f584);
 asm UNKNOWN_FUNCTION(__copy_longs_unaligned) {
@@ -187,7 +184,6 @@ lbl_8000f570:
 }
 
 // Symbol: __copy_longs_rev_unaligned
-// Function signature is unknown.
 // PAL: 0x8000f584..0x8000f630
 MARK_BINARY_BLOB(__copy_longs_rev_unaligned, 0x8000f584, 0x8000f630);
 asm UNKNOWN_FUNCTION(__copy_longs_rev_unaligned) {
