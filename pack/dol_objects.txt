@@ -243,13 +243,13 @@ out/dol/bss_802f41c0_802f7340.o
 out/dol/sbss_80386494_80386498.o
 out/rvlAxAux.o
 out/rvlAxCl.o
+out/dol/bss_802f7440_803457e0.o
 out/dol/sbss_803864fc_80386500.o
 out/rvlAxOut.o
 out/dol/text_80126e30_8012e564.o
 out/ppcArch.o
 out/dol/text_8012e6d4_80169bcc.o
 out/dol/data_802826d7_8028e998.o
-out/dol/bss_802f8240_803457e0.o
 out/dol/sbss_8038653c_80386770.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o

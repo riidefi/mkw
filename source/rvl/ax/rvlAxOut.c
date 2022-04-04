@@ -52,9 +52,9 @@ typedef struct DSPTaskInfo {
 } DSPTaskInfo;
 
 // PAL: 0x802f7d20..0x802f81a0
-s16 __AXOutBuffer[3][192] __attribute__((aligned(32)));
+extern s16 __AXOutBuffer[3][192] __attribute__((aligned(32)));
 // PAL: 0x802f7a20..0x802f7d20
-s32 __AXOutSBuffer[192] __attribute__((aligned(32)));
+extern s32 __AXOutSBuffer[192] __attribute__((aligned(32)));
 
 volatile u32 __AXOutFrame;
 volatile u32 __AXAiDmaFrame;
@@ -62,7 +62,7 @@ volatile u32 __AXOutDspReady;
 u32 __AXUserFrameCallback;
 
 // PAL: 0x802f7440..0x802f7480
-AXPROFILE __AXLocalProfile;
+extern AXPROFILE __AXLocalProfile;
 
 volatile int __AXDSPInitFlag;
 volatile int __AXDSPDoneFlag;
@@ -71,7 +71,7 @@ OSThreadQueue __AXOutThreadQueue;
 u32 __AXOutputBufferMode;
 
 // PAL: 0x802f7480..0x802f7a20
-s16 __AXRmtOutBuffer[4][180] __attribute__((aligned(32)));
+extern s16 __AXRmtOutBuffer[4][180] __attribute__((aligned(32)));
 s32 __AXRmtBuffLen;
 s32 __AXRmtDspPtr;
 s32 __AXRmtCpuPtr;
@@ -82,8 +82,8 @@ extern u16 axDspResumeVector;
 extern u16 axDspSlave[];
 extern u16 axDspSlaveLength;
 
-u8 __AXDramImage[64] __attribute__((aligned(32)));
-DSPTaskInfo __AXDSPTask;
+extern u8 __AXDramImage[64] __attribute__((aligned(32)));
+extern DSPTaskInfo __AXDSPTask;
 
 // Symbol: __AXOutNewFrame
 // Function signatgure is unknown.
