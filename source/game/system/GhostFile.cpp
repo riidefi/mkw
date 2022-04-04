@@ -629,7 +629,6 @@ lbl_8051ce60:
 }
 
 // Symbol: Controller_vf10
-// Function signature is unknown.
 // PAL: 0x8051ce7c..0x8051ce84
 MARK_BINARY_BLOB(Controller_vf10, 0x8051ce7c, 0x8051ce84);
 asm UNKNOWN_FUNCTION(Controller_vf10) {
@@ -641,7 +640,6 @@ asm UNKNOWN_FUNCTION(Controller_vf10) {
 }
 
 // Symbol: Input_vf18
-// Function signature is unknown.
 // PAL: 0x8051ce84..0x8051ce8c
 MARK_BINARY_BLOB(Input_vf18, 0x8051ce84, 0x8051ce8c);
 asm UNKNOWN_FUNCTION(Input_vf18) {
@@ -653,7 +651,6 @@ asm UNKNOWN_FUNCTION(Input_vf18) {
 }
 
 // Symbol: Input_vf1c
-// Function signature is unknown.
 // PAL: 0x8051ce8c..0x8051ce94
 MARK_BINARY_BLOB(Input_vf1c, 0x8051ce8c, 0x8051ce94);
 asm UNKNOWN_FUNCTION(Input_vf1c) {

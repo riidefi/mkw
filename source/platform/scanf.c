@@ -20,7 +20,6 @@ UNKNOWN_FUNCTION(__sformatter);
 UNKNOWN_FUNCTION(__StringRead);
 
 // Symbol: parse_format
-// Function signature is unknown.
 // PAL: 0x80011c98..0x80012320
 MARK_BINARY_BLOB(parse_format, 0x80011c98, 0x80012320);
 asm UNKNOWN_FUNCTION(parse_format) {
@@ -488,7 +487,6 @@ lbl_80012310:
 }
 
 // Symbol: __sformatter
-// Function signature is unknown.
 // PAL: 0x80012320..0x80012fb8
 MARK_BINARY_BLOB(__sformatter, 0x80012320, 0x80012fb8);
 asm UNKNOWN_FUNCTION(__sformatter) {
@@ -1409,7 +1407,6 @@ lbl_80012fa0:
 }
 
 // Symbol: __StringRead
-// Function signature is unknown.
 // PAL: 0x80012fb8..0x80013040
 MARK_BINARY_BLOB(__StringRead, 0x80012fb8, 0x80013040);
 asm UNKNOWN_FUNCTION(__StringRead) {

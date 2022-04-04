@@ -12,7 +12,6 @@ u32 _unk_80386490;
 extern UNKNOWN_FUNCTION(__AXSetPBDefault);
 
 // Symbol: __AXGetStackHead
-// Function signature is unknown.
 // PAL: 0x80124edc..0x80124ef0
 MARK_BINARY_BLOB(__AXGetStackHead, 0x80124edc, 0x80124ef0);
 asm UNKNOWN_FUNCTION(__AXGetStackHead) {
@@ -27,7 +26,6 @@ asm UNKNOWN_FUNCTION(__AXGetStackHead) {
 }
 
 // Symbol: __AXServiceCallbackStack
-// Function signature is unknown.
 // PAL: 0x80124ef0..0x80124f9c
 MARK_BINARY_BLOB(__AXServiceCallbackStack, 0x80124ef0, 0x80124f9c);
 asm UNKNOWN_FUNCTION(__AXServiceCallbackStack) {
@@ -85,7 +83,6 @@ lbl_80124f78:
 }
 
 // Symbol: __AXAllocInit
-// Function signature is unknown.
 // PAL: 0x80124f9c..0x8012504c
 MARK_BINARY_BLOB(__AXAllocInit, 0x80124f9c, 0x8012504c);
 asm UNKNOWN_FUNCTION(__AXAllocInit) {
@@ -140,7 +137,6 @@ lbl_80124fbc:
 }
 
 // Symbol: __AXPushFreeStack
-// Function signature is unknown.
 // PAL: 0x8012504c..0x80125068
 MARK_BINARY_BLOB(__AXPushFreeStack, 0x8012504c, 0x80125068);
 asm UNKNOWN_FUNCTION(__AXPushFreeStack) {
@@ -157,7 +153,6 @@ asm UNKNOWN_FUNCTION(__AXPushFreeStack) {
 }
 
 // Symbol: __AXPushCallbackStack
-// Function signature is unknown.
 // PAL: 0x80125068..0x80125078
 MARK_BINARY_BLOB(__AXPushCallbackStack, 0x80125068, 0x80125078);
 asm UNKNOWN_FUNCTION(__AXPushCallbackStack) {
@@ -171,7 +166,6 @@ asm UNKNOWN_FUNCTION(__AXPushCallbackStack) {
 }
 
 // Symbol: __AXRemoveFromStack
-// Function signature is unknown.
 // PAL: 0x80125078..0x801250fc
 MARK_BINARY_BLOB(__AXRemoveFromStack, 0x80125078, 0x801250fc);
 asm UNKNOWN_FUNCTION(__AXRemoveFromStack) {
@@ -217,7 +211,6 @@ lbl_801250e8:
 }
 
 // Symbol: AXFreeVoice
-// Function signature is unknown.
 // PAL: 0x801250fc..0x80125178
 MARK_BINARY_BLOB(AXFreeVoice, 0x801250fc, 0x80125178);
 asm UNKNOWN_FUNCTION(AXFreeVoice) {
@@ -259,7 +252,6 @@ lbl_80125138:
 }
 
 // Symbol: AXAcquireVoice
-// Function signature is unknown.
 // PAL: 0x80125178..0x80125394
 MARK_BINARY_BLOB(AXAcquireVoice, 0x80125178, 0x80125394);
 asm UNKNOWN_FUNCTION(AXAcquireVoice) {

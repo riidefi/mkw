@@ -785,7 +785,6 @@ lbl_8023a6f0:
 }
 
 // Symbol: makeVectorRotation__Q23EGG5QuatfFRQ23EGG8Vector3fRQ23EGG8Vector3f
-// Function signature is unknown.
 // PAL: 0x8023a788..0x8023a884
 MARK_BINARY_BLOB(
     makeVectorRotation__Q23EGG5QuatfFRQ23EGG8Vector3fRQ23EGG8Vector3f,

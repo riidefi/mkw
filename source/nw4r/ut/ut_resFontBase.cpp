@@ -94,7 +94,6 @@ asm int ResFontBase::GetWidth() const {
 }
 
 // Symbol: GetHeight__Q44nw4r2ut6detail11ResFontBaseCFv
-// Function signature is unknown.
 // PAL: 0x800b2050..0x800b2060
 MARK_BINARY_BLOB(GetHeight__Q44nw4r2ut6detail11ResFontBaseCFv, 0x800b2050,
                  0x800b2060);

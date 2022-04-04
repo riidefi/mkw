@@ -35,7 +35,6 @@ u32 _unk_80386804;
 u32 _unk_80386800;
 
 // Symbol: strnlen
-// Function signature is unknown.
 // PAL: 0x80193048..0x80193074
 MARK_BINARY_BLOB(strnlen, 0x80193048, 0x80193074);
 asm UNKNOWN_FUNCTION(strnlen) {
@@ -59,7 +58,6 @@ lbl_8019306c:
 }
 
 // Symbol: IpcReplyHandler
-// Function signature is unknown.
 // PAL: 0x80193074..0x801932cc
 MARK_BINARY_BLOB(IpcReplyHandler, 0x80193074, 0x801932cc);
 asm UNKNOWN_FUNCTION(IpcReplyHandler) {
@@ -237,7 +235,6 @@ lbl_801932ac:
 }
 
 // Symbol: IPCInterruptHandler
-// Function signature is unknown.
 // PAL: 0x801932cc..0x80193478
 MARK_BINARY_BLOB(IPCInterruptHandler, 0x801932cc, 0x80193478);
 asm UNKNOWN_FUNCTION(IPCInterruptHandler) {
@@ -361,7 +358,6 @@ lbl_80193460:
 }
 
 // Symbol: IPCCltInit
-// Function signature is unknown.
 // PAL: 0x80193478..0x8019352c
 MARK_BINARY_BLOB(IPCCltInit, 0x80193478, 0x8019352c);
 asm UNKNOWN_FUNCTION(IPCCltInit) {
@@ -418,7 +414,6 @@ lbl_8019350c:
 }
 
 // Symbol: IPCCltReInit
-// Function signature is unknown.
 // PAL: 0x8019352c..0x801935a0
 MARK_BINARY_BLOB(IPCCltReInit, 0x8019352c, 0x801935a0);
 asm UNKNOWN_FUNCTION(IPCCltReInit) {
@@ -459,7 +454,6 @@ lbl_80193580:
 }
 
 // Symbol: __ios_Ipc2
-// Function signature is unknown.
 // PAL: 0x801935a0..0x801937e0
 MARK_BINARY_BLOB(__ios_Ipc2, 0x801935a0, 0x801937e0);
 asm UNKNOWN_FUNCTION(__ios_Ipc2) {
@@ -805,7 +799,6 @@ lbl_801939f4:
 }
 
 // Symbol: IOS_CloseAsync
-// Function signature is unknown.
 // PAL: 0x80193a18..0x80193ad8
 MARK_BINARY_BLOB(IOS_CloseAsync, 0x80193a18, 0x80193ad8);
 asm UNKNOWN_FUNCTION(IOS_CloseAsync) {
@@ -922,7 +915,6 @@ lbl_80193b64:
 }
 
 // Symbol: IOS_ReadAsync
-// Function signature is unknown.
 // PAL: 0x80193b80..0x80193c80
 MARK_BINARY_BLOB(IOS_ReadAsync, 0x80193b80, 0x80193c80);
 asm UNKNOWN_FUNCTION(IOS_ReadAsync) {
@@ -1004,7 +996,6 @@ lbl_80193c64:
 }
 
 // Symbol: IOS_Read
-// Function signature is unknown.
 // PAL: 0x80193c80..0x80193d88
 MARK_BINARY_BLOB(IOS_Read, 0x80193c80, 0x80193d88);
 asm UNKNOWN_FUNCTION(IOS_Read) {
@@ -1088,7 +1079,6 @@ lbl_80193d64:
 }
 
 // Symbol: IOS_WriteAsync
-// Function signature is unknown.
 // PAL: 0x80193d88..0x80193e88
 MARK_BINARY_BLOB(IOS_WriteAsync, 0x80193d88, 0x80193e88);
 asm UNKNOWN_FUNCTION(IOS_WriteAsync) {
@@ -1170,7 +1160,6 @@ lbl_80193e6c:
 }
 
 // Symbol: IOS_Write
-// Function signature is unknown.
 // PAL: 0x80193e88..0x80193f90
 MARK_BINARY_BLOB(IOS_Write, 0x80193e88, 0x80193f90);
 asm UNKNOWN_FUNCTION(IOS_Write) {
@@ -1254,7 +1243,6 @@ lbl_80193f6c:
 }
 
 // Symbol: IOS_SeekAsync
-// Function signature is unknown.
 // PAL: 0x80193f90..0x80194070
 MARK_BINARY_BLOB(IOS_SeekAsync, 0x80193f90, 0x80194070);
 asm UNKNOWN_FUNCTION(IOS_SeekAsync) {
@@ -1326,7 +1314,6 @@ lbl_80194054:
 }
 
 // Symbol: IOS_Seek
-// Function signature is unknown.
 // PAL: 0x80194070..0x80194158
 MARK_BINARY_BLOB(IOS_Seek, 0x80194070, 0x80194158);
 asm UNKNOWN_FUNCTION(IOS_Seek) {
@@ -1400,7 +1387,6 @@ lbl_80194134:
 }
 
 // Symbol: IOS_IoctlAsync
-// Function signature is unknown.
 // PAL: 0x80194158..0x80194290
 MARK_BINARY_BLOB(IOS_IoctlAsync, 0x80194158, 0x80194290);
 asm UNKNOWN_FUNCTION(IOS_IoctlAsync) {
@@ -1593,7 +1579,6 @@ lbl_801943a4:
 }
 
 // Symbol: __ios_Ioctlv
-// Function signature is unknown.
 // PAL: 0x801943c0..0x801944fc
 MARK_BINARY_BLOB(__ios_Ioctlv, 0x801943c0, 0x801944fc);
 asm UNKNOWN_FUNCTION(__ios_Ioctlv) {
@@ -1694,7 +1679,6 @@ lbl_801944e0:
 }
 
 // Symbol: IOS_IoctlvAsync
-// Function signature is unknown.
 // PAL: 0x801944fc..0x801945e0
 MARK_BINARY_BLOB(IOS_IoctlvAsync, 0x801944fc, 0x801945e0);
 asm UNKNOWN_FUNCTION(IOS_IoctlvAsync) {
@@ -1765,7 +1749,6 @@ lbl_801945c4:
 }
 
 // Symbol: IOS_Ioctlv
-// Function signature is unknown.
 // PAL: 0x801945e0..0x801946bc
 MARK_BINARY_BLOB(IOS_Ioctlv, 0x801945e0, 0x801946bc);
 asm UNKNOWN_FUNCTION(IOS_Ioctlv) {
@@ -1834,7 +1817,6 @@ lbl_801946a0:
 }
 
 // Symbol: IOS_IoctlvReboot
-// Function signature is unknown.
 // PAL: 0x801946bc..0x801949b8
 MARK_BINARY_BLOB(IOS_IoctlvReboot, 0x801946bc, 0x801949b8);
 asm UNKNOWN_FUNCTION(IOS_IoctlvReboot) {

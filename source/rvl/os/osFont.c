@@ -13,7 +13,6 @@ extern UNKNOWN_FUNCTION(OSUTF32toANSI);
 extern UNKNOWN_FUNCTION(OSUTF32toSJIS);
 
 // Symbol: GetFontCode
-// Function signature is unknown.
 // PAL: 0x801a56dc..0x801a5810
 MARK_BINARY_BLOB(GetFontCode, 0x801a56dc, 0x801a5810);
 asm UNKNOWN_FUNCTION(GetFontCode) {
@@ -110,7 +109,6 @@ lbl_801a5808:
 }
 
 // Symbol: Decode
-// Function signature is unknown.
 // PAL: 0x801a5810..0x801a59b4
 MARK_BINARY_BLOB(Decode, 0x801a5810, 0x801a59b4);
 asm UNKNOWN_FUNCTION(Decode) {
@@ -235,7 +233,6 @@ lbl_801a598c:
 }
 
 // Symbol: OSSetFontEncode
-// Function signature is unknown.
 // PAL: 0x801a59b4..0x801a5a34
 MARK_BINARY_BLOB(OSSetFontEncode, 0x801a59b4, 0x801a5a34);
 asm UNKNOWN_FUNCTION(OSSetFontEncode) {
@@ -283,7 +280,6 @@ lbl_801a5a2c:
 }
 
 // Symbol: ReadFont
-// Function signature is unknown.
 // PAL: 0x801a5a34..0x801a5d34
 MARK_BINARY_BLOB(ReadFont, 0x801a5a34, 0x801a5d34);
 asm UNKNOWN_FUNCTION(ReadFont) {
@@ -500,7 +496,6 @@ lbl_801a5d1c:
 }
 
 // Symbol: OSLoadFont
-// Function signature is unknown.
 // PAL: 0x801a5d34..0x801a5e5c
 MARK_BINARY_BLOB(OSLoadFont, 0x801a5d34, 0x801a5e5c);
 asm UNKNOWN_FUNCTION(OSLoadFont) {
@@ -595,7 +590,6 @@ lbl_801a5e40:
 }
 
 // Symbol: ParseStringS
-// Function signature is unknown.
 // PAL: 0x801a5e5c..0x801a5f58
 MARK_BINARY_BLOB(ParseStringS, 0x801a5e5c, 0x801a5f58);
 asm UNKNOWN_FUNCTION(ParseStringS) {
@@ -675,7 +669,6 @@ lbl_801a5f2c:
 }
 
 // Symbol: ParseStringW
-// Function signature is unknown.
 // PAL: 0x801a5f58..0x801a6114
 MARK_BINARY_BLOB(ParseStringW, 0x801a5f58, 0x801a6114);
 asm UNKNOWN_FUNCTION(ParseStringW) {
@@ -809,7 +802,6 @@ lbl_801a60e4:
 }
 
 // Symbol: OSGetFontTexel
-// Function signature is unknown.
 // PAL: 0x801a6114..0x801a63a4
 MARK_BINARY_BLOB(OSGetFontTexel, 0x801a6114, 0x801a63a4);
 asm UNKNOWN_FUNCTION(OSGetFontTexel) {

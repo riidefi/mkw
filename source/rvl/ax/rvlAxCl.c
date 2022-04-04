@@ -23,7 +23,6 @@ u16 _unk_803864e2;
 u16 _unk_803864e0;
 
 // Symbol: __AXGetCommandListCycles
-// Function signature is unknown.
 // PAL: 0x80125bac..0x80125bb4
 MARK_BINARY_BLOB(__AXGetCommandListCycles, 0x80125bac, 0x80125bb4);
 asm UNKNOWN_FUNCTION(__AXGetCommandListCycles) {
@@ -35,7 +34,6 @@ asm UNKNOWN_FUNCTION(__AXGetCommandListCycles) {
 }
 
 // Symbol: __AXGetCommandListAddress
-// Function signature is unknown.
 // PAL: 0x80125bb4..0x80125be4
 MARK_BINARY_BLOB(__AXGetCommandListAddress, 0x80125bb4, 0x80125be4);
 asm UNKNOWN_FUNCTION(__AXGetCommandListAddress) {
@@ -57,7 +55,6 @@ asm UNKNOWN_FUNCTION(__AXGetCommandListAddress) {
 }
 
 // Symbol: __AXNextFrame
-// Function signature is unknown.
 // PAL: 0x80125be4..0x801265a4
 MARK_BINARY_BLOB(__AXNextFrame, 0x80125be4, 0x801265a4);
 asm UNKNOWN_FUNCTION(__AXNextFrame) {
@@ -704,7 +701,6 @@ lbl_80126558:
 }
 
 // Symbol: __AXClInit
-// Function signature is unknown.
 // PAL: 0x801265a4..0x801265e0
 MARK_BINARY_BLOB(__AXClInit, 0x801265a4, 0x801265e0);
 asm UNKNOWN_FUNCTION(__AXClInit) {
@@ -729,7 +725,6 @@ asm UNKNOWN_FUNCTION(__AXClInit) {
 }
 
 // Symbol: AXSetMode
-// Function signature is unknown.
 // PAL: 0x801265e0..0x801265e8
 MARK_BINARY_BLOB(AXSetMode, 0x801265e0, 0x801265e8);
 asm UNKNOWN_FUNCTION(AXSetMode) {
@@ -741,7 +736,6 @@ asm UNKNOWN_FUNCTION(AXSetMode) {
 }
 
 // Symbol: AXGetMode
-// Function signature is unknown.
 // PAL: 0x801265e8..0x801265f0
 MARK_BINARY_BLOB(AXGetMode, 0x801265e8, 0x801265f0);
 asm UNKNOWN_FUNCTION(AXGetMode) {
@@ -753,7 +747,6 @@ asm UNKNOWN_FUNCTION(AXGetMode) {
 }
 
 // Symbol: AXGetAuxAReturnVolume
-// Function signature is unknown.
 // PAL: 0x801265f0..0x801265f8
 MARK_BINARY_BLOB(AXGetAuxAReturnVolume, 0x801265f0, 0x801265f8);
 asm UNKNOWN_FUNCTION(AXGetAuxAReturnVolume) {
@@ -765,7 +758,6 @@ asm UNKNOWN_FUNCTION(AXGetAuxAReturnVolume) {
 }
 
 // Symbol: AXGetAuxBReturnVolume
-// Function signature is unknown.
 // PAL: 0x801265f8..0x80126600
 MARK_BINARY_BLOB(AXGetAuxBReturnVolume, 0x801265f8, 0x80126600);
 asm UNKNOWN_FUNCTION(AXGetAuxBReturnVolume) {
@@ -777,7 +769,6 @@ asm UNKNOWN_FUNCTION(AXGetAuxBReturnVolume) {
 }
 
 // Symbol: AXGetAuxCReturnVolume
-// Function signature is unknown.
 // PAL: 0x80126600..0x80126608
 MARK_BINARY_BLOB(AXGetAuxCReturnVolume, 0x80126600, 0x80126608);
 asm UNKNOWN_FUNCTION(AXGetAuxCReturnVolume) {
@@ -789,7 +780,6 @@ asm UNKNOWN_FUNCTION(AXGetAuxCReturnVolume) {
 }
 
 // Symbol: AXSetMasterVolume
-// Function signature is unknown.
 // PAL: 0x80126608..0x80126620
 MARK_BINARY_BLOB(AXSetMasterVolume, 0x80126608, 0x80126620);
 asm UNKNOWN_FUNCTION(AXSetMasterVolume) {
@@ -806,7 +796,6 @@ lbl_80126618:
 }
 
 // Symbol: AXSetAuxAReturnVolume
-// Function signature is unknown.
 // PAL: 0x80126620..0x80126628
 MARK_BINARY_BLOB(AXSetAuxAReturnVolume, 0x80126620, 0x80126628);
 asm UNKNOWN_FUNCTION(AXSetAuxAReturnVolume) {
@@ -818,7 +807,6 @@ asm UNKNOWN_FUNCTION(AXSetAuxAReturnVolume) {
 }
 
 // Symbol: AXSetAuxBReturnVolume
-// Function signature is unknown.
 // PAL: 0x80126628..0x80126630
 MARK_BINARY_BLOB(AXSetAuxBReturnVolume, 0x80126628, 0x80126630);
 asm UNKNOWN_FUNCTION(AXSetAuxBReturnVolume) {
@@ -830,7 +818,6 @@ asm UNKNOWN_FUNCTION(AXSetAuxBReturnVolume) {
 }
 
 // Symbol: AXSetAuxCReturnVolume
-// Function signature is unknown.
 // PAL: 0x80126630..0x80126638
 MARK_BINARY_BLOB(AXSetAuxCReturnVolume, 0x80126630, 0x80126638);
 asm UNKNOWN_FUNCTION(AXSetAuxCReturnVolume) {

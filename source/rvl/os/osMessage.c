@@ -170,7 +170,6 @@ lbl_801a74e0:
 }
 
 // Symbol: OSJamMessage
-// Function signature is unknown.
 // PAL: 0x801a7500..0x801a75d0
 MARK_BINARY_BLOB(OSJamMessage, 0x801a7500, 0x801a75d0);
 asm UNKNOWN_FUNCTION(OSJamMessage) {

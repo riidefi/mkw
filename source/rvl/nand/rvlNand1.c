@@ -38,7 +38,6 @@ char _unk_80385a10[] = "/";
 char _unk_80385a14[] = "/%s";
 
 // Symbol: nandCreate
-// Function signature is unknown.
 // PAL: 0x8019b314..0x8019b43c
 MARK_BINARY_BLOB(nandCreate, 0x8019b314, 0x8019b43c);
 asm UNKNOWN_FUNCTION(nandCreate) {
@@ -670,7 +669,6 @@ lbl_8019ba9c:
 }
 
 // Symbol: nandCreateDir
-// Function signature is unknown.
 // PAL: 0x8019bab4..0x8019bbe0
 MARK_BINARY_BLOB(nandCreateDir, 0x8019bab4, 0x8019bbe0);
 asm UNKNOWN_FUNCTION(nandCreateDir) {
@@ -797,7 +795,6 @@ lbl_8019bc38:
 }
 
 // Symbol: NANDPrivateCreateDir
-// Function signature is unknown.
 // PAL: 0x8019bc54..0x8019bcc8
 MARK_BINARY_BLOB(NANDPrivateCreateDir, 0x8019bc54, 0x8019bcc8);
 asm UNKNOWN_FUNCTION(NANDPrivateCreateDir) {
@@ -838,7 +835,6 @@ lbl_8019bcac:
 }
 
 // Symbol: NANDPrivateCreateDirAsync
-// Function signature is unknown.
 // PAL: 0x8019bcc8..0x8019bd40
 MARK_BINARY_BLOB(NANDPrivateCreateDirAsync, 0x8019bcc8, 0x8019bd40);
 asm UNKNOWN_FUNCTION(NANDPrivateCreateDirAsync) {
@@ -880,7 +876,6 @@ lbl_8019bd28:
 }
 
 // Symbol: nandMove
-// Function signature is unknown.
 // PAL: 0x8019bd40..0x8019bee8
 MARK_BINARY_BLOB(nandMove, 0x8019bd40, 0x8019bee8);
 asm UNKNOWN_FUNCTION(nandMove) {
@@ -1080,7 +1075,6 @@ lbl_8019bfb8:
 }
 
 // Symbol: nandGetFileStatusAsyncCallback
-// Function signature is unknown.
 // PAL: 0x8019bfd4..0x8019c048
 MARK_BINARY_BLOB(nandGetFileStatusAsyncCallback, 0x8019bfd4, 0x8019c048);
 asm UNKNOWN_FUNCTION(nandGetFileStatusAsyncCallback) {
@@ -1167,7 +1161,6 @@ lbl_8019c0b8:
 }
 
 // Symbol: nandComposePerm
-// Function signature is unknown.
 // PAL: 0x8019c0d8..0x8019c12c
 MARK_BINARY_BLOB(nandComposePerm, 0x8019c0d8, 0x8019c12c);
 asm UNKNOWN_FUNCTION(nandComposePerm) {
@@ -1204,7 +1197,6 @@ lbl_8019c124:
 }
 
 // Symbol: nandSplitPerm
-// Function signature is unknown.
 // PAL: 0x8019c12c..0x8019c1b8
 MARK_BINARY_BLOB(nandSplitPerm, 0x8019c12c, 0x8019c1b8);
 asm UNKNOWN_FUNCTION(nandSplitPerm) {
@@ -1254,7 +1246,6 @@ lbl_8019c1a0:
 }
 
 // Symbol: nandGetStatus
-// Function signature is unknown.
 // PAL: 0x8019c1b8..0x8019c30c
 MARK_BINARY_BLOB(nandGetStatus, 0x8019c1b8, 0x8019c30c);
 asm UNKNOWN_FUNCTION(nandGetStatus) {
@@ -1353,7 +1344,6 @@ lbl_8019c2ec:
 }
 
 // Symbol: nandGetStatusCallback
-// Function signature is unknown.
 // PAL: 0x8019c30c..0x8019c380
 MARK_BINARY_BLOB(nandGetStatusCallback, 0x8019c30c, 0x8019c380);
 asm UNKNOWN_FUNCTION(nandGetStatusCallback) {
@@ -1427,7 +1417,6 @@ lbl_8019c3cc:
 }
 
 // Symbol: NANDPrivateGetStatus
-// Function signature is unknown.
 // PAL: 0x8019c3e4..0x8019c448
 MARK_BINARY_BLOB(NANDPrivateGetStatus, 0x8019c3e4, 0x8019c448);
 asm UNKNOWN_FUNCTION(NANDPrivateGetStatus) {
@@ -1464,7 +1453,6 @@ lbl_8019c430:
 }
 
 // Symbol: NANDPrivateGetStatusAsync
-// Function signature is unknown.
 // PAL: 0x8019c448..0x8019c4cc
 MARK_BINARY_BLOB(NANDPrivateGetStatusAsync, 0x8019c448, 0x8019c4cc);
 asm UNKNOWN_FUNCTION(NANDPrivateGetStatusAsync) {
@@ -1509,7 +1497,6 @@ lbl_8019c4ac:
 }
 
 // Symbol: nandSetStatus
-// Function signature is unknown.
 // PAL: 0x8019c4cc..0x8019c614
 MARK_BINARY_BLOB(nandSetStatus, 0x8019c4cc, 0x8019c614);
 asm UNKNOWN_FUNCTION(nandSetStatus) {
@@ -1639,7 +1626,6 @@ lbl_8019c660:
 }
 
 // Symbol: NANDPrivateSetStatus
-// Function signature is unknown.
 // PAL: 0x8019c678..0x8019c6dc
 MARK_BINARY_BLOB(NANDPrivateSetStatus, 0x8019c678, 0x8019c6dc);
 asm UNKNOWN_FUNCTION(NANDPrivateSetStatus) {

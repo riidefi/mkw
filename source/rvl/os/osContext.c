@@ -12,7 +12,6 @@ volatile OSContext* __OSCurrentContext : 0x800000d4;
 volatile OSContext* __OSFPUContext : 0x800000d8;
 
 // Symbol: __OSLoadFPUContext
-// Function signature is unknown.
 // PAL: 0x801a1c1c..0x801a1d40
 MARK_BINARY_BLOB(__OSLoadFPUContext, 0x801a1c1c, 0x801a1d40);
 asm UNKNOWN_FUNCTION(__OSLoadFPUContext) {
@@ -97,7 +96,6 @@ lbl_801a1d3c:
 }
 
 // Symbol: __OSSaveFPUContext
-// Function signature is unknown.
 // PAL: 0x801a1d40..0x801a1e68
 MARK_BINARY_BLOB(__OSSaveFPUContext, 0x801a1d40, 0x801a1e68);
 asm UNKNOWN_FUNCTION(__OSSaveFPUContext) {
@@ -227,7 +225,6 @@ lbl_801a1ea8:
 OSContext* OSGetCurrentContext(void) { return (OSContext*)__OSCurrentContext; }
 
 // Symbol: OSSaveContext
-// Function signature is unknown.
 // PAL: 0x801a1ed8..0x801a1f58
 MARK_BINARY_BLOB(OSSaveContext, 0x801a1ed8, 0x801a1f58);
 asm UNKNOWN_FUNCTION(OSSaveContext) {
@@ -269,7 +266,6 @@ asm UNKNOWN_FUNCTION(OSSaveContext) {
 }
 
 // Symbol: OSLoadContext
-// Function signature is unknown.
 // PAL: 0x801a1f58..0x801a2030
 MARK_BINARY_BLOB(OSLoadContext, 0x801a1f58, 0x801a2030);
 asm void OSLoadContext(OSContext* context) {
@@ -344,7 +340,6 @@ asm u32 OSGetStackPointer(void) {
 }
 
 // Symbol: OSSwitchFiber
-// Function signature is unknown.
 // PAL: 0x801a2038..0x801a2068
 MARK_BINARY_BLOB(OSSwitchFiber, 0x801a2038, 0x801a2068);
 asm UNKNOWN_FUNCTION(OSSwitchFiber) {
@@ -366,7 +361,6 @@ asm UNKNOWN_FUNCTION(OSSwitchFiber) {
 }
 
 // Symbol: OSSwitchFiberEx
-// Function signature is unknown.
 // PAL: 0x801a2068..0x801a2098
 MARK_BINARY_BLOB(OSSwitchFiberEx, 0x801a2068, 0x801a2098);
 asm UNKNOWN_FUNCTION(OSSwitchFiberEx) {
@@ -498,7 +492,6 @@ void OSDumpContext(OSContext* context) {
 }
 
 // Symbol: OSSwitchFPUContext
-// Function signature is unknown.
 // PAL: 0x801a23d8..0x801a245c
 MARK_BINARY_BLOB(OSSwitchFPUContext, 0x801a23d8, 0x801a245c);
 asm UNKNOWN_FUNCTION(OSSwitchFPUContext) {
@@ -543,7 +536,6 @@ lbl_801a2418:
 }
 
 // Symbol: __OSContextInit
-// Function signature is unknown.
 // PAL: 0x801a245c..0x801a24a4
 MARK_BINARY_BLOB(__OSContextInit, 0x801a245c, 0x801a24a4);
 asm UNKNOWN_FUNCTION(__OSContextInit) {
@@ -571,7 +563,6 @@ asm UNKNOWN_FUNCTION(__OSContextInit) {
 }
 
 // Symbol: OSFillFPUContext
-// Function signature is unknown.
 // PAL: 0x801a24a4..0x801a25d0
 MARK_BINARY_BLOB(OSFillFPUContext, 0x801a24a4, 0x801a25d0);
 asm UNKNOWN_FUNCTION(OSFillFPUContext) {

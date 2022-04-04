@@ -92,7 +92,6 @@ extern "C" UNKNOWN_FUNCTION(setNextFrameBuffer__Q23EGG10XfbManagerFv);
 extern "C" UNKNOWN_FUNCTION(postVRetrace__Q23EGG10XfbManagerFv);
 
 // Symbol: PostRetraceCallback
-// Function signature is unknown.
 // PAL: 0x8020fcd4..0x8020fcdc
 MARK_BINARY_BLOB(PostRetraceCallback, 0x8020fcd4, 0x8020fcdc);
 asm UNKNOWN_FUNCTION(PostRetraceCallback) {
@@ -104,7 +103,6 @@ asm UNKNOWN_FUNCTION(PostRetraceCallback) {
 }
 
 // Symbol: DrawDoneCallback
-// Function signature is unknown.
 // PAL: 0x8020fcdc..0x8020fd10
 MARK_BINARY_BLOB(DrawDoneCallback, 0x8020fcdc, 0x8020fd10);
 asm UNKNOWN_FUNCTION(DrawDoneCallback) {
@@ -127,7 +125,6 @@ asm UNKNOWN_FUNCTION(DrawDoneCallback) {
 }
 
 // Symbol: AlarmHandler_0
-// Function signature is unknown.
 // PAL: 0x8020fd10..0x8020fd18
 MARK_BINARY_BLOB(AlarmHandler_0, 0x8020fd10, 0x8020fd18);
 asm UNKNOWN_FUNCTION(AlarmHandler_0) {
@@ -139,7 +136,6 @@ asm UNKNOWN_FUNCTION(AlarmHandler_0) {
 }
 
 // Symbol: __ct__Q23EGG12AsyncDisplayFUc
-// Function signature is unknown.
 // PAL: 0x8020fd18..0x8020fd8c
 MARK_BINARY_BLOB(__ct__Q23EGG12AsyncDisplayFUc, 0x8020fd18, 0x8020fd8c);
 asm UNKNOWN_FUNCTION(__ct__Q23EGG12AsyncDisplayFUc) {
@@ -178,7 +174,6 @@ asm UNKNOWN_FUNCTION(__ct__Q23EGG12AsyncDisplayFUc) {
 }
 
 // Symbol: startSyncNTSC__Q23EGG12AsyncDisplayFUc
-// Function signature is unknown.
 // PAL: 0x8020fd8c..0x8020fe24
 MARK_BINARY_BLOB(startSyncNTSC__Q23EGG12AsyncDisplayFUc, 0x8020fd8c,
                  0x8020fe24);
@@ -228,7 +223,6 @@ lbl_8020fe00:
 }
 
 // Symbol: beginFrame__Q23EGG12AsyncDisplayFv
-// Function signature is unknown.
 // PAL: 0x8020fe24..0x8020ff98
 MARK_BINARY_BLOB(beginFrame__Q23EGG12AsyncDisplayFv, 0x8020fe24, 0x8020ff98);
 asm UNKNOWN_FUNCTION(beginFrame__Q23EGG12AsyncDisplayFv) {
@@ -339,7 +333,6 @@ lbl_8020ff74:
 }
 
 // Symbol: beginRender__Q23EGG12AsyncDisplayFv
-// Function signature is unknown.
 // PAL: 0x8020ff98..0x8020ff9c
 MARK_BINARY_BLOB(beginRender__Q23EGG12AsyncDisplayFv, 0x8020ff98, 0x8020ff9c);
 asm UNKNOWN_FUNCTION(beginRender__Q23EGG12AsyncDisplayFv) {
@@ -350,7 +343,6 @@ asm UNKNOWN_FUNCTION(beginRender__Q23EGG12AsyncDisplayFv) {
 }
 
 // Symbol: endRender__Q23EGG12AsyncDisplayFv
-// Function signature is unknown.
 // PAL: 0x8020ff9c..0x80210024
 MARK_BINARY_BLOB(endRender__Q23EGG12AsyncDisplayFv, 0x8020ff9c, 0x80210024);
 asm UNKNOWN_FUNCTION(endRender__Q23EGG12AsyncDisplayFv) {
@@ -397,7 +389,6 @@ lbl_80210010:
 }
 
 // Symbol: postVRetrace__Q23EGG12AsyncDisplayFv
-// Function signature is unknown.
 // PAL: 0x80210024..0x8021008c
 MARK_BINARY_BLOB(postVRetrace__Q23EGG12AsyncDisplayFv, 0x80210024, 0x8021008c);
 asm UNKNOWN_FUNCTION(postVRetrace__Q23EGG12AsyncDisplayFv) {
@@ -434,7 +425,6 @@ lbl_80210078:
 }
 
 // Symbol: alarmHandler__Q23EGG12AsyncDisplayFv
-// Function signature is unknown.
 // PAL: 0x8021008c..0x802100a0
 MARK_BINARY_BLOB(alarmHandler__Q23EGG12AsyncDisplayFv, 0x8021008c, 0x802100a0);
 asm UNKNOWN_FUNCTION(alarmHandler__Q23EGG12AsyncDisplayFv) {
@@ -449,7 +439,6 @@ asm UNKNOWN_FUNCTION(alarmHandler__Q23EGG12AsyncDisplayFv) {
 }
 
 // Symbol: clearEFB__Q23EGG12AsyncDisplayFv
-// Function signature is unknown.
 // PAL: 0x802100a0..0x80210124
 MARK_BINARY_BLOB(clearEFB__Q23EGG12AsyncDisplayFv, 0x802100a0, 0x80210124);
 asm UNKNOWN_FUNCTION(clearEFB__Q23EGG12AsyncDisplayFv) {
@@ -492,7 +481,6 @@ asm UNKNOWN_FUNCTION(clearEFB__Q23EGG12AsyncDisplayFv) {
 }
 
 // Symbol: getTickPerFrame__Q23EGG12AsyncDisplayFv
-// Function signature is unknown.
 // PAL: 0x80210124..0x8021013c
 MARK_BINARY_BLOB(getTickPerFrame__Q23EGG12AsyncDisplayFv, 0x80210124,
                  0x8021013c);
@@ -510,7 +498,6 @@ lbl_80210138:
 }
 
 // Symbol: clearEFB__Q23EGG12AsyncDisplayFUsUsUsUsUsUsQ34nw4r2ut5Color
-// Function signature is unknown.
 // PAL: 0x8021013c..0x802104ec
 MARK_BINARY_BLOB(clearEFB__Q23EGG12AsyncDisplayFUsUsUsUsUsUsQ34nw4r2ut5Color,
                  0x8021013c, 0x802104ec);
