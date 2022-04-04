@@ -63,6 +63,7 @@ SOURCES_RVL_AX = [
     Source(src="source/rvl/ax/rvlAxCl.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/ax/rvlAxComp.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/ax/rvlAxOut.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/ax/rvlAxSpb.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_BASE = [
     Source(src="source/rvl/base/ppcArch.c", cc='4199_60831', opts=RVL_OPTS),

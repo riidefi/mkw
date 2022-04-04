@@ -24,6 +24,8 @@ u32 _unk_803864a0;
 u32 _unk_8038649c;
 u32 _unk_80386498;
 
+extern u32 _unk_803864f0;
+
 // Symbol: __AXAuxInit
 // Function signature is unknown.
 // PAL: 0x80125394..0x801254a8
@@ -410,7 +412,7 @@ asm UNKNOWN_FUNCTION(__AXProcessAux) {
   stw r4, _unk_803864a8;
   stw r0, _unk_803864a4;
   beq lbl_801257c4;
-  lwz r0, -0x6710(r13);
+  lwz r0, _unk_803864f0;
   cmplwi r0, 2;
   bne lbl_80125778;
   lwz r0, _unk_80386498;
@@ -476,7 +478,7 @@ lbl_80125808:
   lwz r0, _unk_803864cc;
   cmpwi r0, 0;
   beq lbl_801258c8;
-  lwz r0, -0x6710(r13);
+  lwz r0, _unk_803864f0;
   cmplwi r0, 2;
   bne lbl_80125878;
   lwz r3, _unk_80386498;
@@ -545,7 +547,7 @@ lbl_80125910:
   lwz r0, _unk_803864c8;
   cmpwi r0, 0;
   beq lbl_80125978;
-  lwz r0, -0x6710(r13);
+  lwz r0, _unk_803864f0;
   cmplwi r0, 2;
   beq lbl_80125978;
   lwz r3, _unk_80386498;
