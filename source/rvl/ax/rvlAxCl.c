@@ -4,11 +4,8 @@
 
 #include <rvl/os/osCache.h>
 
-// Extern function references.
-// PAL: 0x80126e30
-extern UNKNOWN_FUNCTION(__AXGetStudio);
-// PAL: 0x80127ab8
-extern UNKNOWN_FUNCTION(__AXGetPBs);
+#include "spb.h"
+#include "vpb.h"
 
 u16 _unk_802f7340[2][64] __attribute__((aligned(32)));
 

@@ -31,7 +31,7 @@ typedef struct AXVPB {
 } AXVPB;
 
 // PAL: 0x80127250..0x80127258
-UNKNOWN_FUNCTION(__AXGetNumVoices);
+u32 __AXGetNumVoices(void);
 // PAL: 0x80127258..0x801277a8
 UNKNOWN_FUNCTION(__AXServiceVPB);
 // PAL: 0x801277a8..0x80127ab8

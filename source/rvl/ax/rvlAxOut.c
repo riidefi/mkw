@@ -5,6 +5,12 @@
 #include <rvl/os/osInterrupt.h>
 #include <rvl/os/osThread.h>
 
+#include "alloc.h"
+#include "axAux.h"
+#include "cl.h"
+#include "spb.h"
+#include "vpb.h"
+
 // Extern function references.
 // PAL: 0x80123f88
 extern UNKNOWN_FUNCTION(AIRegisterDMACallback);
@@ -14,20 +20,6 @@ extern UNKNOWN_FUNCTION(AIInitDMA);
 extern UNKNOWN_FUNCTION(AIStartDMA);
 // PAL: 0x8012405c
 extern UNKNOWN_FUNCTION(AIGetDMABytesLeft);
-// PAL: 0x80124ef0
-extern UNKNOWN_FUNCTION(__AXServiceCallbackStack);
-// PAL: 0x80125698
-extern UNKNOWN_FUNCTION(__AXProcessAux);
-// PAL: 0x80125bb4
-extern UNKNOWN_FUNCTION(__AXGetCommandListAddress);
-// PAL: 0x80125be4
-extern UNKNOWN_FUNCTION(__AXNextFrame);
-// PAL: 0x80126f14
-extern UNKNOWN_FUNCTION(__AXPrintStudio);
-// PAL: 0x80127250
-extern UNKNOWN_FUNCTION(__AXGetNumVoices);
-// PAL: 0x801277a8
-extern UNKNOWN_FUNCTION(__AXSyncPBs);
 // PAL: 0x80127fec
 extern UNKNOWN_FUNCTION(__AXGetCurrentProfile);
 // PAL: 0x8015d3fc
