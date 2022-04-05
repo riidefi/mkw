@@ -8932,6 +8932,10 @@
 0x803865a0 __AXNumVoices
 0x803865a4 __AXRecDspCycles
 0x803865a8 __AXMaxDspCycles
+0x803865b0 __AXProfileInitialized
+0x803865b4 __AXCurrentProfile
+0x803865b8 __AXMaxProfiles
+0x803865bc __AXProfile
 0x803867e8 IPC_Initialized
 0x803867ec IPCBufferLo
 0x803867f0 IPCBufferHi
