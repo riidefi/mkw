@@ -1,7 +1,10 @@
 enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataStart,rodataEnd,dataStart,dataEnd,bssStart,bssEnd,sdataStart,sdataEnd,sbssStart,sbssEnd,sdata2Start,sdata2End,sbss2Start,sbss2End
 1,,asm/trkHeader.s,0x80004000,0x80004100,,,,,,,,,,,,,,,,,,,,,,,,
-1,,source/rvl/trk/rvlTrkMem.c,0x80005f34,0x80006068,,,,,,,,,,,,,,,,,,,,,,,,
-1,,source/rvl/trk/start.c,0x80006210,0x800062a0 ,,,,,,,,,,,,,,,,,,,,,,,,
+1,,asm/ppc_eabi_exception_handlers.s,0x80004100,0x80005f34,,,,,,,,,,,,,,,,,,,,,,,,
+1,,source/runtime/__mem.c,0x80005f34,0x80006068,,,,,,,,,,,,,,,,,,,,,,,,
+1,,source/runtime/__start.c,0x80006068,0x80006348,,,,,,,,,,,,,,,,,,,0x80386950,0x80386951,,,,
+1,,source/runtime/__ppc_eabi_init.c,0x80006348,0x800063A0,,,,,,,,,,,,,,,,,,,,,,,,
+1,,asm/dol_sections.s,0x800063A0,0x80006460,,,,,,,,,,,,,,,,,,,,,,,,
 1,,source/game/host_system/SystemResource.cpp,,,,,,,0x80007f50,0x80007f7c,,,,,0x80245010,0x802450b0,,,,,,,,,,,,
 1,,source/platform/ansi_files.c,,,,,,,0x8000c948,0x8000cadc,,,,,,,,,,,,,,,,,,
 1,,source/platform/ansi_fp.c,,,,,,,0x8000cadc,0x8000e418,,,,,,,,,,,,,,,0x80387030,0x80387050,,
