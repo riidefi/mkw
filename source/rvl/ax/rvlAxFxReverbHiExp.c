@@ -5,6 +5,40 @@
 
 #include <rvl/os/osInterrupt.h>
 
+#include "fxHooks.h"
+
+const f32 unk_803884d0 = 32000.0f;
+const f32 unk_803884d4 = 0.0f;
+const f32 unk_803884d8 = 1.0f;
+const f32 unk_803884dc = 0.6f;
+sdata2_ps_f32 unk_803884e0 = {0.5f, 0.0f};
+sdata2_ps_f32 unk_803884e8 = {176.0f, -0.0f};
+sdata2_ps_f32 unk_803884f0 = {-3.0f, 0.0f};
+sdata2_ps_f32 unk_803884f8 = {2.5625f, 0.0f};
+sdata2_ps_f32 unk_80388500 = {0.95f, 0.0f};
+sdata2_ps_f32 unk_80388508 = {176.0f, 0.0f};
+
+u32 unk_80385808 = (u32)__AXFXAllocFunction;
+u32 unk_8038580c = (u32)__AXFXFreeFunction;
+
+u32 AXFX__EarlySizeTable[8][3] = {{157, 479, 829},    {317, 809, 1117},
+                                  {479, 941, 1487},   {641, 1259, 1949},
+                                  {797, 1667, 2579},  {967, 1901, 2903},
+                                  {1123, 2179, 3413}, {1279, 2477, 3889}};
+
+f32 AXFX__EarlyCoefTable[8][3] = {{0.4f, -1.0f, 0.3f}, {0.5f, -0.95f, 0.3f},
+                                  {0.6f, -0.9f, 0.3f}, {0.75f, -0.85f, 0.3f},
+                                  {-0.9f, 0.8f, 0.3f}, {-1.0f, 0.7f, 0.3f},
+                                  {-1.0f, 0.7f, 0.3f}, {-1.0f, 0.7f, 0.3f}};
+
+u32 AXFX__FilterSizeTable[7][8] = {{1789, 1999, 2333, 433, 149, 47, 73, 67},
+                                   {149, 293, 449, 251, 103, 47, 73, 67},
+                                   {947, 1361, 1531, 433, 137, 47, 73, 67},
+                                   {1279, 1531, 1973, 509, 149, 47, 73, 67},
+                                   {1531, 1847, 2297, 563, 179, 47, 73, 67},
+                                   {1823, 2357, 2693, 571, 137, 47, 73, 67},
+                                   {1823, 2357, 2693, 571, 179, 47, 73, 67}};
+
 // Symbol: AXFXReverbHiExpGetMemSize
 // PAL: 0x801280b8..0x80128140
 MARK_BINARY_BLOB(AXFXReverbHiExpGetMemSize, 0x801280b8, 0x80128140);
@@ -12,11 +46,11 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpGetMemSize) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
-  lis r4, 0x8028;
-  addi r4, r4, 0x1820;
-  lis r9, 0x8028;
-  lfs f1, -0x6ad0(r2);
-  addi r9, r9, 0x18e0;
+  lis r4, AXFX__EarlySizeTable@ha;
+  la r4, AXFX__EarlySizeTable@l(r4);
+  lis r9, AXFX__FilterSizeTable@ha;
+  lfs f1, unk_803884d0;
+  la r9, AXFX__FilterSizeTable@l(r9);
   lfs f0, 0x114(r3);
   lwz r10, 0x5c(r4);
   fmuls f0, f1, f0;
@@ -64,7 +98,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpInit) {
   bl OSDisableInterrupts;
   lfs f1, 0x114(r30);
   li r0, 1;
-  lfs f0, -0x6acc(r2);
+  lfs f0, unk_803884d4;
   mr r31, r3;
   stw r0, 0x10c(r30);
   fcmpo cr0, f1, f0;
@@ -83,16 +117,16 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpInit) {
   li r3, 0;
   b lbl_801282c0;
 lbl_801281b0:
-  lis r3, 0x8028;
-  lfs f0, -0x6ad0(r2);
-  addi r3, r3, 0x1820;
+  lis r3, AXFX__EarlySizeTable@ha;
+  lfs f0, unk_803884d0;
+  la r3, AXFX__EarlySizeTable@l(r3);
   lwz r0, 0x5c(r3);
   fmuls f1, f0, f1;
   stw r0, 0x1c(r30);
   bl __cvt_fp2unsigned;
   stw r3, 0x40(r30);
-  lis r4, 0x8028;
-  addi r4, r4, 0x18e0;
+  lis r4, AXFX__FilterSizeTable@ha;
+  la r4, AXFX__FilterSizeTable@l(r4);
   mr r3, r30;
   lwz r0, 0xc0(r4);
   stw r0, 0x80(r30);
@@ -354,21 +388,21 @@ lbl_8012851c:
   lwz r5, 4(r7);
   lwz r6, 8(r7);
 lbl_80128534:
-  lfs f0, -0x6ac8(r2);
+  lfs f0, unk_803884d8;
   li r31, 0;
   lfs f1, 0x108(r4);
   li r29, 0;
-  lfs f5, -0x6ac4(r2);
+  lfs f5, unk_803884dc;
   lis r0, 0x4330;
   lfs f3, 0x134(r4);
   fsubs f4, f0, f1;
-  lfs f2, -0x6ac0(r2);
+  lfs f2, unk_803884e0;
   li r30, 3;
   lfs f0, 0x12c(r4);
   fmuls f5, f5, f3;
   lfs f3, 0xf8(r4);
   fmuls f6, f2, f0;
-  lfd f0, -0x6ab8(r2);
+  lfd f0, unk_803884e8;
 lbl_80128570:
   mr r9, r4;
   mr r10, r4;
@@ -439,7 +473,7 @@ lbl_8012865c:
   slwi r27, r27, 2;
   lfs f7, 0x8c(r4);
   lfsx f8, r25, r27;
-  lfs f10, -0x6acc(r2);
+  lfs f10, unk_803884d4;
   fmuls f7, f8, f7;
   fadds f10, f10, f8;
   fadds f7, f9, f7;
@@ -976,16 +1010,16 @@ asm UNKNOWN_FUNCTION(AXFX__InitParams) {
   addi r11, r1, 0x30;
   bl _savegpr_24;
   lwz r4, 0x110(r3);
-  lis r31, 0x8028;
+  lis r31, AXFX__EarlySizeTable@ha;
   mr r30, r3;
   cmplwi r4, 8;
-  addi r31, r31, 0x1820;
+  la r31, AXFX__EarlySizeTable@l(r31);
   blt lbl_80128dc8;
   li r3, 0;
   b lbl_80129070;
 lbl_80128dc8:
   lfs f4, 0x118(r3);
-  lfs f2, -0x6acc(r2);
+  lfs f2, unk_803884d4;
   fcmpo cr0, f4, f2;
   blt lbl_80128de4;
   lfs f0, 0x114(r3);
@@ -1010,7 +1044,7 @@ lbl_80128e14:
   lfs f0, 0x124(r3);
   fcmpo cr0, f0, f2;
   blt lbl_80128e2c;
-  lfs f1, -0x6ac8(r2);
+  lfs f1, unk_803884d8;
   fcmpo cr0, f0, f1;
   ble lbl_80128e34;
 lbl_80128e2c:
@@ -1073,9 +1107,9 @@ lbl_80128ed4:
 lbl_80128edc:
   mulli r8, r4, 0xc;
   addi r9, r31, 0;
-  lfs f0, -0x6ad0(r2);
+  lfs f0, unk_803884d0;
   addi r5, r31, 0x60;
-  lfs f2, -0x6ac4(r2);
+  lfs f2, unk_803884dc;
   li r27, 0;
   add r7, r9, r8;
   fmuls f1, f0, f4;
@@ -1107,16 +1141,16 @@ lbl_80128edc:
   bl __cvt_fp2unsigned;
   stw r3, 0x3c(r30);
   mr r26, r30;
-  lfd f29, -0x6a98(r2);
+  lfd f29, unk_80388508;
   addi r28, r31, 0xc0;
-  lfs f30, -0x6ab0(r2);
+  lfs f30, unk_803884f0;
   li r24, 0;
-  lfs f31, -0x6ad0(r2);
+  lfs f31, unk_803884d0;
   li r25, 0;
   lis r29, 0x4330;
 lbl_80128f88:
   stw r27, 0x68(r26);
-  lfd f1, -0x6aa8(r2);
+  lfd f1, unk_803884f8;
   lwz r0, 0x11c(r30);
   stw r29, 8(r1);
   slwi r0, r0, 5;
@@ -1143,12 +1177,12 @@ lbl_80128f88:
   stw r4, 0xb0(r30);
   addi r3, r31, 0xc0;
   slwi r0, r0, 5;
-  lfs f1, -0x6ac8(r2);
+  lfs f1, unk_803884d8;
   add r3, r3, r0;
   lfs f0, 0x128(r30);
   lwz r0, 0xc(r3);
   fsubs f1, f1, f0;
-  lfs f0, -0x6aa0(r2);
+  lfs f0, unk_80388500;
   stw r0, 0xb8(r30);
   lfs f2, 0x124(r30);
   stw r4, 0xb4(r30);
@@ -1169,7 +1203,7 @@ lbl_80128f88:
   ble lbl_8012905c;
   stfs f0, 0x108(r30);
 lbl_8012905c:
-  lfs f0, -0x6acc(r2);
+  lfs f0, unk_803884d4;
   li r3, 1;
   stfs f0, 0xfc(r30);
   stfs f0, 0x100(r30);
