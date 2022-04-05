@@ -110,7 +110,7 @@ class AsmGenerator:
         name = self.slice.section
         if "bss" in name:
             self.dump_bss()
-        elif name in ("text", "init"):
+        elif name == "text":
             self.dump_text()
         else:
             self.dump_data()
@@ -137,7 +137,7 @@ class AsmGenerator:
         """Computes the memory permissions."""
         name = self.slice.section
         perm = "wa"
-        if name in ("text", "init"):
+        if name == "text":
             perm = "ax"
         # if "bss" in name:
         #     perm = "ba"
