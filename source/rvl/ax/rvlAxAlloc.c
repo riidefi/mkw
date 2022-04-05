@@ -2,14 +2,12 @@
 
 #include <rvl/os/osInterrupt.h>
 
+#include "vpb.h"
+
 u32 _unk_802f40c0[32];
 u32 _unk_802f4140[32];
 
 u32 _unk_80386490;
-
-// Extern function references.
-// PAL: 0x80127ac0
-extern UNKNOWN_FUNCTION(__AXSetPBDefault);
 
 // Symbol: __AXGetStackHead
 // PAL: 0x80124edc..0x80124ef0
@@ -85,7 +83,7 @@ lbl_80124f78:
 // Symbol: __AXAllocInit
 // PAL: 0x80124f9c..0x8012504c
 MARK_BINARY_BLOB(__AXAllocInit, 0x80124f9c, 0x8012504c);
-asm UNKNOWN_FUNCTION(__AXAllocInit) {
+asm void __AXAllocInit() {
   // clang-format off
   nofralloc;
   li r3, 0;

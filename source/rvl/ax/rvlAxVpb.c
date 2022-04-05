@@ -34,14 +34,7 @@ extern void* __s_AXITD;
 
 // Symbol: __AXGetNumVoices
 // PAL: 0x80127250..0x80127258
-MARK_BINARY_BLOB(__AXGetNumVoices, 0x80127250, 0x80127258);
-asm UNKNOWN_FUNCTION(__AXGetNumVoices) {
-  // clang-format off
-  nofralloc;
-  lwz r3, __AXNumVoices;
-  blr;
-  // clang-format on
-}
+u32 __AXGetNumVoices() { return __AXNumVoices; }
 
 // Symbol: __AXServiceVPB
 // PAL: 0x80127258..0x801277a8

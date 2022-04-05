@@ -2,19 +2,12 @@
 
 #include <rvl/os/os.h>
 
-// Extern function references.
-// PAL: 0x80124f9c
-extern UNKNOWN_FUNCTION(__AXAllocInit);
-// PAL: 0x80125394
-extern UNKNOWN_FUNCTION(__AXAuxInit);
-// PAL: 0x801265a4
-extern UNKNOWN_FUNCTION(__AXClInit);
-// PAL: 0x80126aac
-extern UNKNOWN_FUNCTION(__AXOutInit);
-// PAL: 0x8012708c
-extern UNKNOWN_FUNCTION(__AXSPBInit);
-// PAL: 0x80127b00
-extern UNKNOWN_FUNCTION(__AXVPBInit);
+#include "alloc.h"
+#include "axAux.h"
+#include "cl.h"
+#include "out.h"
+#include "spb.h"
+#include "vpb.h"
 
 char _unk_8027e778[] =
     "<< RVL_SDK - AX \trelease build: Aug  8 2007 01:58:18 (0x4199_60831) >>";
