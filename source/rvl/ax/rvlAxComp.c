@@ -1,4 +1,4 @@
-#include "rvlAxComp.h"
+#include "comp.h"
 
 // PAL: 0x8027e860..0x8027f820
 u16 __AXCompressorTable[2016] __attribute__((aligned(32))) = {

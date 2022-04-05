@@ -1,4 +1,4 @@
-#include "rvlAxDspCode.h"
+#include "dspCode.h"
 
 // PAL: 0x80385800
 u16 axDspInitVector = 0x10;
