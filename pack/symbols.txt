@@ -36,7 +36,7 @@
 0x80006090 __set_debug_bba
 0x8000609c __get_debug_bba
 0x800060a4 __start
-0x80006210 init_registers
+0x80006210 __init_registers
 0x800062a0 __init_data
 0x80006348 __init_hardware
 0x8000636c __flush_cache
@@ -8995,6 +8995,7 @@
 0x803868ec __OSLastInterrupt
 0x803868f0 __OSLastInterruptTime
 0x803868f8 OSInterruptHandlerTable
+0x80386950 __debug_bba
 0x8038699c PAD_SamplingCallback
 0x803869a0 PAD_Spec
 0x803869b8 PADResetBits
