@@ -254,7 +254,8 @@ out/rvlAxVpb.o
 out/dol/sbss_803865ac_803865b0.o
 out/rvlAxProf.o
 out/rvlAxFxReverbHi.o
-out/dol/text_801280b8_8012e564.o
+out/rvlAxFxReverbHiExp.o
+out/dol/text_801290a0_8012e564.o
 out/ppcArch.o
 out/dol/text_8012e6d4_80169bcc.o
 out/dol/data_802826d7_8028e998.o

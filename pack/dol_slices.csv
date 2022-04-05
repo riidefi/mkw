@@ -103,6 +103,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/ax/rvlAxVpb.c,,,,,,,0x80127250,0x80127fec,,,,,,,,,,,,,0x80386590,0x803865ac,0x803884a8,0x803884c8,,
 1,,source/rvl/ax/rvlAxProf.c,,,,,,,0x80127fec,0x8012802c,,,,,,,,,,,,,0x803865b0,0x803865c0,,,,
 1,,source/rvl/ax/rvlAxFxReverbHi.c,,,,,,,0x8012802c,0x801280b8,,,,,,,,,,,,,,,0x803884c8,0x803884d0,,
+1,,source/rvl/ax/rvlAxFxReverbHiExp.c,,,,,,,0x801280b8,0x801290a0,,,,,,,,,,,,,,,,,,
 1,,source/rvl/base/ppcArch.c,,,,,,,0x8012e564,0x8012e6d4,,,,,,,0x802826a0,0x802826d7,,,,,,,,,,
 1,,source/rvl/fs/fs.c,,,,,,,0x80169bcc,0x8016b49c,,,,,,,,,,,0x80385920,0x80385930,0x80386770,0x80386788,,,,
 1,,source/rvl/ipc/ipcMain.c,,,,,,,0x80192f7c,0x80193048,,,,,,,,,,,,,0x803867e8,0x803867fc,,,,

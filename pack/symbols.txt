@@ -4360,10 +4360,10 @@
 0x801283ac AXFXReverbHiExpSettingsUpdate
 0x80128460 AXFXReverbHiExpShutdown
 0x801284b4 AXFXReverbHiExpCallback
-0x801289d0 unk_801289d0
-0x80128b44 unk_80128b44
-0x80128c68 unk_80128c68
-0x80128d7c unk_80128d7c
+0x801289d0 AXFX__AllocDelayLine
+0x80128b44 AXFX__BzeroDelayLines
+0x80128c68 AXFX__FreeDelayLine
+0x80128d7c AXFX__InitParams
 0x801290a0 unk_801290a0
 0x8012912c unk_8012912c
 0x801292ec unk_801292ec
