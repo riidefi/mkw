@@ -5,7 +5,7 @@
 
 #include <rvl/os/osInterrupt.h>
 
-#include "fxHooks.h"
+#include <rvl/ax/fxHooks.h>
 
 const f32 unk_803884d0 = 32000.0f;
 const f32 unk_803884d4 = 0.0f;

@@ -5,8 +5,8 @@
 
 #include <rvl/os/osInterrupt.h>
 
-#include "fxHooks.h"
-#include "cl.h"
+#include <rvl/ax/fxHooks.h>
+#include <rvl/ax/cl.h>
 
 const f32 unk_80388510 = 32000.0f;
 const f32 unk_80388514 = 0.0f;
