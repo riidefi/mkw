@@ -233,10 +233,9 @@ out/dol/sbss_80386448_80386488.o
 out/rvlAx.o
 out/dol/data_8027e7bf_8027e860.o
 out/rvlAxComp.o
-out/dol/data_8027f820_802826a0.o
+out/dol/data_8027f820_80281820.o
 out/dol/sdata_803857fc_80385800.o
 out/rvlAxDspCode.o
-out/dol/sdata_80385806_80385920.o
 out/dol/sbss_8038648c_80386490.o
 out/rvlAxAlloc.o
 out/dol/bss_802f41c0_802f7340.o
@@ -254,10 +253,14 @@ out/rvlAxVpb.o
 out/dol/sbss_803865ac_803865b0.o
 out/rvlAxProf.o
 out/rvlAxFxReverbHi.o
-out/dol/text_801280b8_8012e564.o
+out/rvlAxFxReverbHiExp.o
+out/rvlAxFxReverbHiExpDpl2.o
+out/dol/text_8012a154_8012e564.o
+out/dol/data_80281b7c_802826a0.o
 out/ppcArch.o
 out/dol/text_8012e6d4_80169bcc.o
 out/dol/data_802826d7_8028e998.o
+out/dol/sdata_80385810_80385920.o
 out/dol/sbss_803865c0_80386770.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o
@@ -268,7 +271,7 @@ out/dol/sbss_803867fc_80386800.o
 out/ipcclt.o
 out/dol/text_801949b8_801950a0.o
 out/dol/sbss_80386810_80386818.o
-out/dol/sdata2_803884d0_80388800.o
+out/dol/sdata2_80388550_80388800.o
 out/rvlKpad.o
 out/rvlMemHeap.o
 out/rvlMemExpHeap.o
