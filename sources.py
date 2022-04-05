@@ -69,6 +69,7 @@ SOURCES_RVL_AX = [
     Source(src="source/rvl/ax/rvlAxProf.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/ax/rvlAxFxReverbHi.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/ax/rvlAxFxReverbHiExp.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/ax/rvlAxFxReverbHiExpDpl2.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_RVL_BASE = [
     Source(src="source/rvl/base/ppcArch.c", cc='4199_60831', opts=RVL_OPTS),
