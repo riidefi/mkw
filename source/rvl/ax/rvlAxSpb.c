@@ -1,4 +1,4 @@
-#include "rvlAxSpb.h"
+#include "spb.h"
 
 #include <rvl/os/osCache.h>
 
@@ -23,23 +23,11 @@ u32 __AXSpbAS;
 u32 __AXSpbAR;
 u32 __AXSpbAL;
 
-typedef struct AXSPB {
-  char unknown[120];
-} AXSPB;
-
 AXSPB __AXStudio;
 
 // Symbol: __AXGetStudio
 // PAL: 0x80126e30..0x80126e3c
-MARK_BINARY_BLOB(__AXGetStudio, 0x80126e30, 0x80126e3c);
-asm UNKNOWN_FUNCTION(__AXGetStudio) {
-  // clang-format off
-  nofralloc;
-  lis r3, __AXStudio@ha;
-  la r3, __AXStudio@l(r3);
-  blr;
-  // clang-format on
-}
+AXSPB* __AXGetStudio() { return &__AXStudio; }
 
 // Symbol: __AXDepopFadeMain
 // PAL: 0x80126e3c..0x80126ea8
@@ -224,33 +212,27 @@ asm UNKNOWN_FUNCTION(__AXPrintStudio) {
 
 // Symbol: __AXSPBInit
 // PAL: 0x8012708c..0x801270e4
-MARK_BINARY_BLOB(__AXSPBInit, 0x8012708c, 0x801270e4);
-asm UNKNOWN_FUNCTION(__AXSPBInit) {
-  // clang-format off
-  nofralloc;
-  li r0, 0;
-  stw r0, __AXSpbAL;
-  stw r0, __AXSpbAR;
-  stw r0, __AXSpbAS;
-  stw r0, __AXSpbAAL;
-  stw r0, __AXSpbAAR;
-  stw r0, __AXSpbAAS;
-  stw r0, __AXSpbABL;
-  stw r0, __AXSpbABR;
-  stw r0, __AXSpbABS;
-  stw r0, __AXSpbACL;
-  stw r0, __AXSpbACR;
-  stw r0, __AXSpbACS;
-  stw r0, __AXSpbMain0;
-  stw r0, __AXSpbMain1;
-  stw r0, __AXSpbMain2;
-  stw r0, __AXSpbMain3;
-  stw r0, __AXSpbAux0;
-  stw r0, __AXSpbAux1;
-  stw r0, __AXSpbAux2;
-  stw r0, __AXSpbAux3;
-  blr;
-  // clang-format on
+void __AXSPBInit() {
+  __AXSpbAL = 0;
+  __AXSpbAR = 0;
+  __AXSpbAS = 0;
+  __AXSpbAAL = 0;
+  __AXSpbAAR = 0;
+  __AXSpbAAS = 0;
+  __AXSpbABL = 0;
+  __AXSpbABR = 0;
+  __AXSpbABS = 0;
+  __AXSpbACL = 0;
+  __AXSpbACR = 0;
+  __AXSpbACS = 0;
+  __AXSpbMain0 = 0;
+  __AXSpbMain1 = 0;
+  __AXSpbMain2 = 0;
+  __AXSpbMain3 = 0;
+  __AXSpbAux0 = 0;
+  __AXSpbAux1 = 0;
+  __AXSpbAux2 = 0;
+  __AXSpbAux3 = 0;
 }
 
 // Symbol: __AXDepopVoice

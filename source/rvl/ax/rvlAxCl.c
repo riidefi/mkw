@@ -1,6 +1,6 @@
-#include "rvlAxCl.h"
+#include "cl.h"
 
-#include "rvlAxAux.h"
+#include "axAux.h"
 
 #include <rvl/os/osCache.h>
 
