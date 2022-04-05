@@ -1,9 +1,6 @@
 out/trkHeader.o
 out/dol/init_80004100_80005f34.o
-out/rvlTrkMem.o
-out/dol/init_80006068_80006210.o
-out/start.o
-out/dol/init_800062a0_80006460.o
+out/__mem.o
 out/dol/extab_80006460_80006a20.o
 out/dol/extabindex_80006a20_800072c0.o
 out/dol/text_800072c0_80007f50.o
@@ -334,7 +331,10 @@ out/dol/sbss_80386908_80386918.o
 out/osThread.o
 out/dol/text_801aad5c_801ae5d8.o
 out/dol/sdata_80385ae4_80385b08.o
-out/dol/sbss_80386924_80386998.o
+out/dol/sbss_80386924_80386950.o
+out/__start.o
+out/dol/init_80006348_80006460.o
+out/dol/sbss_80386951_80386998.o
 out/dol/sdata2_80388918_80388930.o
 out/rvlPadClamp.o
 out/rvlPad.o
