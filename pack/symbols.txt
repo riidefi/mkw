@@ -10,6 +10,8 @@
 0x800062a0 __init_data
 0x80006348 __init_hardware
 0x8000636c __flush_cache
+0x800063a0 trk_section_table
+0x80006424 trk_bss_entry
 0x800072c0 StrapScene_construct
 0x800073f0 RKScene_destroy
 0x80007448 StrapScene_destroy

@@ -35,6 +35,7 @@ SOURCES_HOSTSYS = [
 SOURCES_TRK = [
     Source(src="source/runtime/__mem.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/runtime/__start.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/runtime/__ppc_eabi_init.c", cc='4199_60831', opts=RVL_OPTS),
 ]
 SOURCES_MSL_LIBC = [
     Source(src="source/platform/ansi_files.c", cc='4201_127', opts=MSL_LIBC_OPTS),

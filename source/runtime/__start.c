@@ -28,8 +28,8 @@ extern UNKNOWN_FUNCTION(__init_user);
 extern void exit(int);
 
 static u32 __OSPADButton : 0x800030e4;
-static void* section_table : 0x800063a0;
-static void* bss_entry : 0x80006424;
+extern void* trk_section_table;
+extern void* trk_bss_entry;
 
 // Symbol: __check_pad3
 // PAL: 0x80006068..0x80006090
@@ -219,8 +219,8 @@ __declspec(section ".init") asm void __init_data() {
   stw r31, 0x1c(r1);
   stw r30, 0x18(r1);
   stw r29, 0x14(r1);
-  lis r29, section_table@ha;
-  la r29, section_table@l(r29);
+  lis r29, trk_section_table@ha;
+  la r29, trk_section_table@l(r29);
 lbl_800062c0:
   lwz r30, 8(r29);
   cmpwi r30, 0;
@@ -240,8 +240,8 @@ lbl_800062f8:
   addi r29, r29, 0xc;
   b lbl_800062c0;
 lbl_80006300:
-  lis r29, bss_entry@ha;
-  la r29, bss_entry@l(r29);
+  lis r29, trk_bss_entry@ha;
+  la r29, trk_bss_entry@l(r29);
 lbl_80006308:
   lwz r5, 4(r29);
   cmpwi r5, 0;
