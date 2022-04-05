@@ -3,10 +3,10 @@
 #include <string.h>
 #include <math.h>
 
+#include <rvl/ax/cl.h>
 #include <rvl/os/osInterrupt.h>
 
-#include <rvl/ax/fxHooks.h>
-#include <rvl/ax/cl.h>
+#include "axfx.h"
 
 const f32 unk_80388510 = 32000.0f;
 const f32 unk_80388514 = 0.0f;
@@ -18,9 +18,6 @@ sdata2_ps_f32 unk_80388530 = {-3.0f, 0.0f};
 sdata2_ps_f32 unk_80388538 = {2.5625f, 0.0f};
 sdata2_ps_f32 unk_80388540 = {0.95f, 0.0f};
 sdata2_ps_f32 unk_80388548 = {176.0f, 0.0f};
-
-extern u32 unk_80385808;
-extern u32 unk_8038580c;
 
 u32 AXFXReverbHiExpDpl2__EarlySizeTable[8][3] = {
     {157, 479, 829},    {317, 809, 1117},  {479, 941, 1487},
@@ -773,7 +770,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpDpl2__AllocDelayLine) {
   mr r28, r23;
 lbl_80129aa0:
   lwz r0, 0x20(r23);
-  lwz r12, unk_80385808;
+  lwz r12, __AXFXAlloc;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -786,7 +783,7 @@ lbl_80129ac8:
   lwz r0, 0x48(r23);
   cmpwi r0, 0;
   beq lbl_80129af8;
-  lwz r12, unk_80385808;
+  lwz r12, __AXFXAlloc;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -803,7 +800,7 @@ lbl_80129afc:
   li r25, 0;
 lbl_80129b08:
   lwz r0, 0x94(r26);
-  lwz r12, unk_80385808;
+  lwz r12, __AXFXAlloc;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -823,7 +820,7 @@ lbl_80129b30:
   li r25, 0;
 lbl_80129b50:
   lwz r0, 0xdc(r27);
-  lwz r12, unk_80385808;
+  lwz r12, __AXFXAlloc;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -839,7 +836,7 @@ lbl_80129b78:
   addi r27, r27, 4;
   blt lbl_80129b50;
   lwz r0, 0x114(r30);
-  lwz r12, unk_80385808;
+  lwz r12, __AXFXAlloc;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -976,7 +973,7 @@ lbl_80129d34:
   lwz r3, 0(r30);
   cmpwi r3, 0;
   beq lbl_80129d50;
-  lwz r12, unk_8038580c;
+  lwz r12, __AXFXFree;
   mtctr r12;
   bctrl;
   stw r31, 0(r30);
@@ -984,7 +981,7 @@ lbl_80129d50:
   lwz r3, 0x30(r30);
   cmpwi r3, 0;
   beq lbl_80129d6c;
-  lwz r12, unk_8038580c;
+  lwz r12, __AXFXFree;
   mtctr r12;
   bctrl;
   stw r31, 0x30(r30);
@@ -995,7 +992,7 @@ lbl_80129d74:
   lwz r3, 0x4c(r27);
   cmpwi r3, 0;
   beq lbl_80129d90;
-  lwz r12, unk_8038580c;
+  lwz r12, __AXFXFree;
   mtctr r12;
   bctrl;
   stw r31, 0x4c(r27);
@@ -1010,7 +1007,7 @@ lbl_80129da8:
   lwz r3, 0xac(r27);
   cmpwi r3, 0;
   beq lbl_80129dc4;
-  lwz r12, unk_8038580c;
+  lwz r12, __AXFXFree;
   mtctr r12;
   bctrl;
   stw r31, 0xac(r27);
@@ -1022,7 +1019,7 @@ lbl_80129dc4:
   lwz r3, 0xe4(r30);
   cmpwi r3, 0;
   beq lbl_80129df0;
-  lwz r12, unk_8038580c;
+  lwz r12, __AXFXFree;
   mtctr r12;
   bctrl;
   stw r31, 0xe4(r30);

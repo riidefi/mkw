@@ -33,6 +33,8 @@ void* OSInitAlloc(void*, void*, int);
 // PAL: 0x801a1038..0x801a10a4
 int OSCreateHeap(void*, void*);
 
+extern volatile int __OSCurrentHeap;
+
 #ifdef __cplusplus
 }
 #endif
