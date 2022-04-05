@@ -253,7 +253,8 @@ out/dol/sdata2_803884a4_803884a8.o
 out/rvlAxVpb.o
 out/dol/sbss_803865ac_803865b0.o
 out/rvlAxProf.o
-out/dol/text_8012802c_8012e564.o
+out/rvlAxFxReverbHi.o
+out/dol/text_801280b8_8012e564.o
 out/ppcArch.o
 out/dol/text_8012e6d4_80169bcc.o
 out/dol/data_802826d7_8028e998.o
@@ -267,7 +268,7 @@ out/dol/sbss_803867fc_80386800.o
 out/ipcclt.o
 out/dol/text_801949b8_801950a0.o
 out/dol/sbss_80386810_80386818.o
-out/dol/sdata2_803884c8_80388800.o
+out/dol/sdata2_803884d0_80388800.o
 out/rvlKpad.o
 out/rvlMemHeap.o
 out/rvlMemExpHeap.o
