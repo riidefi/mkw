@@ -1,5 +1,5 @@
 out/trkHeader.o
-out/dol/init_80004100_80005f34.o
+out/ppc_eabi_exception_handlers.o
 out/__mem.o
 out/dol/extab_80006460_80006a20.o
 out/dol/extabindex_80006a20_800072c0.o

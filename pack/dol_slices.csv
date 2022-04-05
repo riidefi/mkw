@@ -1,5 +1,6 @@
 enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabindexEnd,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataStart,rodataEnd,dataStart,dataEnd,bssStart,bssEnd,sdataStart,sdataEnd,sbssStart,sbssEnd,sdata2Start,sdata2End,sbss2Start,sbss2End
 1,,asm/trkHeader.s,0x80004000,0x80004100,,,,,,,,,,,,,,,,,,,,,,,,
+1,,asm/ppc_eabi_exception_handlers.s,0x80004100,0x80005f34,,,,,,,,,,,,,,,,,,,,,,,,
 1,,source/runtime/__mem.c,0x80005f34,0x80006068,,,,,,,,,,,,,,,,,,,,,,,,
 1,,source/runtime/__start.c,0x80006068,0x80006348,,,,,,,,,,,,,,,,,,,0x80386950,0x80386951,,,,
 1,,source/runtime/__ppc_eabi_init.c,0x80006348,0x800063A0,,,,,,,,,,,,,,,,,,,,,,,,
