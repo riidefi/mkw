@@ -18,26 +18,28 @@ sdata2_ps_f32 unk_803884f8 = {2.5625f, 0.0f};
 sdata2_ps_f32 unk_80388500 = {0.95f, 0.0f};
 sdata2_ps_f32 unk_80388508 = {176.0f, 0.0f};
 
+// TODO: These come from a different TU.
 u32 unk_80385808 = (u32)__AXFXAllocFunction;
 u32 unk_8038580c = (u32)__AXFXFreeFunction;
 
-u32 AXFX__EarlySizeTable[8][3] = {{157, 479, 829},    {317, 809, 1117},
-                                  {479, 941, 1487},   {641, 1259, 1949},
-                                  {797, 1667, 2579},  {967, 1901, 2903},
-                                  {1123, 2179, 3413}, {1279, 2477, 3889}};
+u32 AXFXReverbHiExp__EarlySizeTable[8][3] = {
+    {157, 479, 829},    {317, 809, 1117},  {479, 941, 1487},
+    {641, 1259, 1949},  {797, 1667, 2579}, {967, 1901, 2903},
+    {1123, 2179, 3413}, {1279, 2477, 3889}};
 
-f32 AXFX__EarlyCoefTable[8][3] = {{0.4f, -1.0f, 0.3f}, {0.5f, -0.95f, 0.3f},
-                                  {0.6f, -0.9f, 0.3f}, {0.75f, -0.85f, 0.3f},
-                                  {-0.9f, 0.8f, 0.3f}, {-1.0f, 0.7f, 0.3f},
-                                  {-1.0f, 0.7f, 0.3f}, {-1.0f, 0.7f, 0.3f}};
+f32 AXFXReverbHiExp__EarlyCoefTable[8][3] = {
+    {0.4f, -1.0f, 0.3f},   {0.5f, -0.95f, 0.3f}, {0.6f, -0.9f, 0.3f},
+    {0.75f, -0.85f, 0.3f}, {-0.9f, 0.8f, 0.3f},  {-1.0f, 0.7f, 0.3f},
+    {-1.0f, 0.7f, 0.3f},   {-1.0f, 0.7f, 0.3f}};
 
-u32 AXFX__FilterSizeTable[7][8] = {{1789, 1999, 2333, 433, 149, 47, 73, 67},
-                                   {149, 293, 449, 251, 103, 47, 73, 67},
-                                   {947, 1361, 1531, 433, 137, 47, 73, 67},
-                                   {1279, 1531, 1973, 509, 149, 47, 73, 67},
-                                   {1531, 1847, 2297, 563, 179, 47, 73, 67},
-                                   {1823, 2357, 2693, 571, 137, 47, 73, 67},
-                                   {1823, 2357, 2693, 571, 179, 47, 73, 67}};
+u32 AXFXReverbHiExp__FilterSizeTable[7][8] = {
+    {1789, 1999, 2333, 433, 149, 47, 73, 67},
+    {149, 293, 449, 251, 103, 47, 73, 67},
+    {947, 1361, 1531, 433, 137, 47, 73, 67},
+    {1279, 1531, 1973, 509, 149, 47, 73, 67},
+    {1531, 1847, 2297, 563, 179, 47, 73, 67},
+    {1823, 2357, 2693, 571, 137, 47, 73, 67},
+    {1823, 2357, 2693, 571, 179, 47, 73, 67}};
 
 // Symbol: AXFXReverbHiExpGetMemSize
 // PAL: 0x801280b8..0x80128140
@@ -46,11 +48,11 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpGetMemSize) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
-  lis r4, AXFX__EarlySizeTable@ha;
-  la r4, AXFX__EarlySizeTable@l(r4);
-  lis r9, AXFX__FilterSizeTable@ha;
+  lis r4, AXFXReverbHiExp__EarlySizeTable@ha;
+  la r4, AXFXReverbHiExp__EarlySizeTable@l(r4);
+  lis r9, AXFXReverbHiExp__FilterSizeTable@ha;
   lfs f1, unk_803884d0;
-  la r9, AXFX__FilterSizeTable@l(r9);
+  la r9, AXFXReverbHiExp__FilterSizeTable@l(r9);
   lfs f0, 0x114(r3);
   lwz r10, 0x5c(r4);
   fmuls f0, f1, f0;
@@ -109,7 +111,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpInit) {
   mr r3, r30;
   ori r0, r0, 1;
   stw r0, 0x10c(r30);
-  bl AXFX__FreeDelayLine;
+  bl AXFXReverbHiExp__FreeDelayLine;
   mr r3, r29;
   bl OSRestoreInterrupts;
   mr r3, r31;
@@ -117,16 +119,16 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpInit) {
   li r3, 0;
   b lbl_801282c0;
 lbl_801281b0:
-  lis r3, AXFX__EarlySizeTable@ha;
+  lis r3, AXFXReverbHiExp__EarlySizeTable@ha;
   lfs f0, unk_803884d0;
-  la r3, AXFX__EarlySizeTable@l(r3);
+  la r3, AXFXReverbHiExp__EarlySizeTable@l(r3);
   lwz r0, 0x5c(r3);
   fmuls f1, f0, f1;
   stw r0, 0x1c(r30);
   bl __cvt_fp2unsigned;
   stw r3, 0x40(r30);
-  lis r4, AXFX__FilterSizeTable@ha;
-  la r4, AXFX__FilterSizeTable@l(r4);
+  lis r4, AXFXReverbHiExp__FilterSizeTable@ha;
+  la r4, AXFXReverbHiExp__FilterSizeTable@l(r4);
   mr r3, r30;
   lwz r0, 0xc0(r4);
   stw r0, 0x80(r30);
@@ -144,7 +146,7 @@ lbl_801281b0:
   stw r0, 0xf0(r30);
   lwz r0, 0xdc(r4);
   stw r0, 0xf4(r30);
-  bl AXFX__AllocDelayLine;
+  bl AXFXReverbHiExp__AllocDelayLine;
   cmpwi r3, 0;
   bne lbl_8012825c;
   bl OSDisableInterrupts;
@@ -153,7 +155,7 @@ lbl_801281b0:
   mr r3, r30;
   ori r0, r0, 1;
   stw r0, 0x10c(r30);
-  bl AXFX__FreeDelayLine;
+  bl AXFXReverbHiExp__FreeDelayLine;
   mr r3, r29;
   bl OSRestoreInterrupts;
   mr r3, r31;
@@ -162,9 +164,9 @@ lbl_801281b0:
   b lbl_801282c0;
 lbl_8012825c:
   mr r3, r30;
-  bl AXFX__BzeroDelayLines;
+  bl AXFXReverbHiExp__BzeroDelayLines;
   mr r3, r30;
-  bl AXFX__InitParams;
+  bl AXFXReverbHiExp__InitParams;
   cmpwi r3, 0;
   bne lbl_801282a8;
   bl OSDisableInterrupts;
@@ -173,7 +175,7 @@ lbl_8012825c:
   mr r3, r30;
   ori r0, r0, 1;
   stw r0, 0x10c(r30);
-  bl AXFX__FreeDelayLine;
+  bl AXFXReverbHiExp__FreeDelayLine;
   mr r3, r29;
   bl OSRestoreInterrupts;
   mr r3, r31;
@@ -222,7 +224,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpSettings) {
   mr r3, r29;
   ori r0, r0, 1;
   stw r0, 0x10c(r29);
-  bl AXFX__FreeDelayLine;
+  bl AXFXReverbHiExp__FreeDelayLine;
   mr r3, r31;
   bl OSRestoreInterrupts;
   mr r3, r29;
@@ -235,7 +237,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpSettings) {
   mr r3, r29;
   ori r0, r0, 1;
   stw r0, 0x10c(r29);
-  bl AXFX__FreeDelayLine;
+  bl AXFXReverbHiExp__FreeDelayLine;
   mr r3, r31;
   bl OSRestoreInterrupts;
   mr r3, r30;
@@ -280,9 +282,9 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpSettingsUpdate) {
   mr r3, r29;
   ori r0, r0, 1;
   stw r0, 0x10c(r29);
-  bl AXFX__BzeroDelayLines;
+  bl AXFXReverbHiExp__BzeroDelayLines;
   mr r3, r29;
-  bl AXFX__InitParams;
+  bl AXFXReverbHiExp__InitParams;
   cmpwi r3, 0;
   bne lbl_80128428;
   bl OSDisableInterrupts;
@@ -291,7 +293,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpSettingsUpdate) {
   mr r3, r29;
   ori r0, r0, 1;
   stw r0, 0x10c(r29);
-  bl AXFX__FreeDelayLine;
+  bl AXFXReverbHiExp__FreeDelayLine;
   mr r3, r31;
   bl OSRestoreInterrupts;
   mr r3, r30;
@@ -335,7 +337,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpShutdown) {
   mr r3, r30;
   ori r0, r0, 1;
   stw r0, 0x10c(r30);
-  bl AXFX__FreeDelayLine;
+  bl AXFXReverbHiExp__FreeDelayLine;
   mr r3, r31;
   bl OSRestoreInterrupts;
   lwz r0, 0x14(r1);
@@ -704,10 +706,10 @@ lbl_801289b8:
   // clang-format on
 }
 
-// Symbol: AXFX__AllocDelayLine
+// Symbol: AXFXReverbHiExp__AllocDelayLine
 // PAL: 0x801289d0..0x80128b44
-MARK_BINARY_BLOB(AXFX__AllocDelayLine, 0x801289d0, 0x80128b44);
-asm UNKNOWN_FUNCTION(AXFX__AllocDelayLine) {
+MARK_BINARY_BLOB(AXFXReverbHiExp__AllocDelayLine, 0x801289d0, 0x80128b44);
+asm UNKNOWN_FUNCTION(AXFXReverbHiExp__AllocDelayLine) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
@@ -723,7 +725,7 @@ asm UNKNOWN_FUNCTION(AXFX__AllocDelayLine) {
   mr r28, r23;
 lbl_801289fc:
   lwz r0, 0x1c(r23);
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -736,7 +738,7 @@ lbl_80128a24:
   lwz r0, 0x40(r23);
   cmpwi r0, 0;
   beq lbl_80128a54;
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -753,7 +755,7 @@ lbl_80128a58:
   li r25, 0;
 lbl_80128a64:
   lwz r0, 0x80(r26);
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -773,7 +775,7 @@ lbl_80128a8c:
   li r25, 0;
 lbl_80128aac:
   lwz r0, 0xc0(r27);
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -789,7 +791,7 @@ lbl_80128ad4:
   addi r27, r27, 4;
   blt lbl_80128aac;
   lwz r0, 0xec(r30);
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -816,10 +818,10 @@ lbl_80128b2c:
   // clang-format on
 }
 
-// Symbol: AXFX__BzeroDelayLines
+// Symbol: AXFXReverbHiExp__BzeroDelayLines
 // PAL: 0x80128b44..0x80128c68
-MARK_BINARY_BLOB(AXFX__BzeroDelayLines, 0x80128b44, 0x80128c68);
-asm UNKNOWN_FUNCTION(AXFX__BzeroDelayLines) {
+MARK_BINARY_BLOB(AXFXReverbHiExp__BzeroDelayLines, 0x80128b44, 0x80128c68);
+asm UNKNOWN_FUNCTION(AXFXReverbHiExp__BzeroDelayLines) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
@@ -906,10 +908,10 @@ lbl_80128c38:
   // clang-format on
 }
 
-// Symbol: AXFX__FreeDelayLine
+// Symbol: AXFXReverbHiExp__FreeDelayLine
 // PAL: 0x80128c68..0x80128d7c
-MARK_BINARY_BLOB(AXFX__FreeDelayLine, 0x80128c68, 0x80128d7c);
-asm UNKNOWN_FUNCTION(AXFX__FreeDelayLine) {
+MARK_BINARY_BLOB(AXFXReverbHiExp__FreeDelayLine, 0x80128c68, 0x80128d7c);
+asm UNKNOWN_FUNCTION(AXFXReverbHiExp__FreeDelayLine) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
@@ -926,7 +928,7 @@ lbl_80128c90:
   lwz r3, 0(r30);
   cmpwi r3, 0;
   beq lbl_80128cac;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0(r30);
@@ -934,7 +936,7 @@ lbl_80128cac:
   lwz r3, 0x2c(r30);
   cmpwi r3, 0;
   beq lbl_80128cc8;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0x2c(r30);
@@ -945,7 +947,7 @@ lbl_80128cd0:
   lwz r3, 0x44(r27);
   cmpwi r3, 0;
   beq lbl_80128cec;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0x44(r27);
@@ -960,7 +962,7 @@ lbl_80128d04:
   lwz r3, 0x98(r27);
   cmpwi r3, 0;
   beq lbl_80128d20;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0x98(r27);
@@ -972,7 +974,7 @@ lbl_80128d20:
   lwz r3, 0xc8(r30);
   cmpwi r3, 0;
   beq lbl_80128d4c;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0xc8(r30);
@@ -992,10 +994,10 @@ lbl_80128d4c:
   // clang-format on
 }
 
-// Symbol: AXFX__InitParams
+// Symbol: AXFXReverbHiExp__InitParams
 // PAL: 0x80128d7c..0x801290a0
-MARK_BINARY_BLOB(AXFX__InitParams, 0x80128d7c, 0x801290a0);
-asm UNKNOWN_FUNCTION(AXFX__InitParams) {
+MARK_BINARY_BLOB(AXFXReverbHiExp__InitParams, 0x80128d7c, 0x801290a0);
+asm UNKNOWN_FUNCTION(AXFXReverbHiExp__InitParams) {
   // clang-format off
   nofralloc;
   stwu r1, -0x60(r1);
@@ -1010,10 +1012,10 @@ asm UNKNOWN_FUNCTION(AXFX__InitParams) {
   addi r11, r1, 0x30;
   bl _savegpr_24;
   lwz r4, 0x110(r3);
-  lis r31, AXFX__EarlySizeTable@ha;
+  lis r31, AXFXReverbHiExp__EarlySizeTable@ha;
   mr r30, r3;
   cmplwi r4, 8;
-  la r31, AXFX__EarlySizeTable@l(r31);
+  la r31, AXFXReverbHiExp__EarlySizeTable@l(r31);
   blt lbl_80128dc8;
   li r3, 0;
   b lbl_80129070;

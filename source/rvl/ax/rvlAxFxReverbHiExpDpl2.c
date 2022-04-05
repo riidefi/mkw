@@ -8,6 +8,39 @@
 #include "fxHooks.h"
 #include "cl.h"
 
+const f32 unk_80388510 = 32000.0f;
+const f32 unk_80388514 = 0.0f;
+const f32 unk_80388518 = 1.0f;
+const f32 unk_8038851c = 0.6f;
+sdata2_ps_f32 unk_80388520 = {0.333333f, 0.0f};
+sdata2_ps_f32 unk_80388528 = {176.0f, -0.0f};
+sdata2_ps_f32 unk_80388530 = {-3.0f, 0.0f};
+sdata2_ps_f32 unk_80388538 = {2.5625f, 0.0f};
+sdata2_ps_f32 unk_80388540 = {0.95f, 0.0f};
+sdata2_ps_f32 unk_80388548 = {176.0f, 0.0f};
+
+extern u32 unk_80385808;
+extern u32 unk_8038580c;
+
+u32 AXFXReverbHiExpDpl2__EarlySizeTable[8][3] = {
+    {157, 479, 829},    {317, 809, 1117},  {479, 941, 1487},
+    {641, 1259, 1949},  {797, 1667, 2579}, {967, 1901, 2903},
+    {1123, 2179, 3413}, {1279, 2477, 3889}};
+
+f32 AXFXReverbHiExpDpl2__EarlyCoefTable[8][3] = {
+    {0.4f, -1.0f, 0.3f},   {0.5f, -0.95f, 0.3f}, {0.6f, -0.9f, 0.3f},
+    {0.75f, -0.85f, 0.3f}, {-0.9f, 0.8f, 0.3f},  {-1.0f, 0.7f, 0.3f},
+    {-1.0f, 0.7f, 0.3f},   {-1.0f, 0.7f, 0.3f}};
+
+u32 AXFXReverbHiExpDpl2__FilterSizeTable[7][9] = {
+    {1789, 1999, 2333, 433, 149, 47, 73, 67, 71},
+    {149, 293, 449, 251, 103, 47, 73, 67, 71},
+    {947, 1361, 1531, 433, 137, 47, 73, 67, 71},
+    {1279, 1531, 1973, 509, 149, 47, 73, 67, 71},
+    {1531, 1847, 2297, 563, 179, 47, 73, 67, 71},
+    {1823, 2357, 2693, 571, 137, 47, 73, 67, 71},
+    {1823, 2357, 2693, 571, 179, 47, 73, 67, 71}};
+
 // Symbol: AXFXReverbHiExpGetMemSizeDpl2
 // PAL: 0x801290a0..0x8012912c
 MARK_BINARY_BLOB(AXFXReverbHiExpGetMemSizeDpl2, 0x801290a0, 0x8012912c);
@@ -15,11 +48,11 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpGetMemSizeDpl2) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
-  lis r4, 0x8028;
-  addi r4, r4, 0x19c0;
-  lis r9, 0x8028;
-  lfs f1, -0x6a90(r2);
-  addi r9, r9, 0x1a80;
+  lis r4, AXFXReverbHiExpDpl2__EarlySizeTable@ha;
+  la r4, AXFXReverbHiExpDpl2__EarlySizeTable@l(r4);
+  lis r9, AXFXReverbHiExpDpl2__FilterSizeTable@ha;
+  lfs f1, unk_80388510;
+  la r9, AXFXReverbHiExpDpl2__FilterSizeTable@l(r9);
   lfs f0, 0x144(r3);
   lwz r10, 0x5c(r4);
   fmuls f0, f1, f0;
@@ -77,7 +110,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpInitDpl2) {
 lbl_8012916c:
   lfs f1, 0x144(r30);
   li r0, 1;
-  lfs f0, -0x6a8c(r2);
+  lfs f0, unk_80388514;
   stw r0, 0x13c(r30);
   fcmpo cr0, f1, f0;
   bge lbl_801291b8;
@@ -95,16 +128,16 @@ lbl_8012916c:
   li r3, 0;
   b lbl_801292d0;
 lbl_801291b8:
-  lis r3, 0x8028;
-  lfs f0, -0x6a90(r2);
-  addi r3, r3, 0x19c0;
+  lis r3, AXFXReverbHiExpDpl2__EarlySizeTable@ha;
+  lfs f0, unk_80388510;
+  la r3, AXFXReverbHiExpDpl2__EarlySizeTable@l(r3);
   lwz r0, 0x5c(r3);
   fmuls f1, f0, f1;
   stw r0, 0x20(r30);
   bl __cvt_fp2unsigned;
   stw r3, 0x48(r30);
-  lis r4, 0x8028;
-  addi r4, r4, 0x1a80;
+  lis r4, AXFXReverbHiExpDpl2__FilterSizeTable@ha;
+  la r4, AXFXReverbHiExpDpl2__FilterSizeTable@l(r4);
   mr r3, r30;
   lwz r0, 0xd8(r4);
   stw r0, 0x94(r30);
@@ -377,21 +410,21 @@ lbl_8012954c:
   lwz r6, 8(r8);
   lwz r7, 0xc(r8);
 lbl_80129568:
-  lfs f0, -0x6a88(r2);
+  lfs f0, unk_80388518;
   li r30, 0;
   lfs f1, 0x138(r4);
   li r28, 0;
-  lfs f5, -0x6a84(r2);
+  lfs f5, unk_8038851c;
   lis r0, 0x4330;
   lfs f3, 0x164(r4);
   fsubs f4, f0, f1;
-  lfs f2, -0x6a80(r2);
+  lfs f2, unk_80388520;
   li r29, 4;
   lfs f0, 0x15c(r4);
   fmuls f5, f5, f3;
   lfs f3, 0x124(r4);
   fmuls f6, f2, f0;
-  lfd f0, -0x6a78(r2);
+  lfd f0, unk_80388528;
 lbl_801295a4:
   mr r10, r4;
   mr r11, r4;
@@ -462,7 +495,7 @@ lbl_80129690:
   slwi r26, r26, 2;
   lfs f7, 0xa0(r4);
   lfsx f8, r24, r26;
-  lfs f10, -0x6a8c(r2);
+  lfs f10, unk_80388514;
   fmuls f7, f8, f7;
   fadds f10, f10, f8;
   fadds f7, f9, f7;
@@ -740,7 +773,7 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpDpl2__AllocDelayLine) {
   mr r28, r23;
 lbl_80129aa0:
   lwz r0, 0x20(r23);
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -753,7 +786,7 @@ lbl_80129ac8:
   lwz r0, 0x48(r23);
   cmpwi r0, 0;
   beq lbl_80129af8;
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -770,7 +803,7 @@ lbl_80129afc:
   li r25, 0;
 lbl_80129b08:
   lwz r0, 0x94(r26);
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -790,7 +823,7 @@ lbl_80129b30:
   li r25, 0;
 lbl_80129b50:
   lwz r0, 0xdc(r27);
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -806,7 +839,7 @@ lbl_80129b78:
   addi r27, r27, 4;
   blt lbl_80129b50;
   lwz r0, 0x114(r30);
-  lwz r12, -0x73f8(r13);
+  lwz r12, unk_80385808;
   slwi r3, r0, 2;
   mtctr r12;
   bctrl;
@@ -943,7 +976,7 @@ lbl_80129d34:
   lwz r3, 0(r30);
   cmpwi r3, 0;
   beq lbl_80129d50;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0(r30);
@@ -951,7 +984,7 @@ lbl_80129d50:
   lwz r3, 0x30(r30);
   cmpwi r3, 0;
   beq lbl_80129d6c;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0x30(r30);
@@ -962,7 +995,7 @@ lbl_80129d74:
   lwz r3, 0x4c(r27);
   cmpwi r3, 0;
   beq lbl_80129d90;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0x4c(r27);
@@ -977,7 +1010,7 @@ lbl_80129da8:
   lwz r3, 0xac(r27);
   cmpwi r3, 0;
   beq lbl_80129dc4;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0xac(r27);
@@ -989,7 +1022,7 @@ lbl_80129dc4:
   lwz r3, 0xe4(r30);
   cmpwi r3, 0;
   beq lbl_80129df0;
-  lwz r12, -0x73f4(r13);
+  lwz r12, unk_8038580c;
   mtctr r12;
   bctrl;
   stw r31, 0xe4(r30);
@@ -1027,16 +1060,16 @@ asm UNKNOWN_FUNCTION(AXFXReverbHiExpDpl2__InitParams) {
   addi r11, r1, 0x30;
   bl _savegpr_24;
   lwz r4, 0x140(r3);
-  lis r31, 0x8028;
+  lis r31, AXFXReverbHiExpDpl2__EarlySizeTable@ha;
   mr r30, r3;
   cmplwi r4, 8;
-  addi r31, r31, 0x19c0;
+  la r31, AXFXReverbHiExpDpl2__EarlySizeTable@l(r31);
   blt lbl_80129e6c;
   li r3, 0;
   b lbl_8012a124;
 lbl_80129e6c:
   lfs f4, 0x148(r3);
-  lfs f2, -0x6a8c(r2);
+  lfs f2, unk_80388514;
   fcmpo cr0, f4, f2;
   blt lbl_80129e88;
   lfs f0, 0x144(r3);
@@ -1061,7 +1094,7 @@ lbl_80129eb8:
   lfs f0, 0x154(r3);
   fcmpo cr0, f0, f2;
   blt lbl_80129ed0;
-  lfs f1, -0x6a88(r2);
+  lfs f1, unk_80388518;
   fcmpo cr0, f0, f1;
   ble lbl_80129ed8;
 lbl_80129ed0:
@@ -1124,9 +1157,9 @@ lbl_80129f78:
 lbl_80129f80:
   mulli r8, r4, 0xc;
   addi r9, r31, 0;
-  lfs f0, -0x6a90(r2);
+  lfs f0, unk_80388510;
   addi r5, r31, 0x60;
-  lfs f2, -0x6a84(r2);
+  lfs f2, unk_8038851c;
   li r27, 0;
   add r7, r9, r8;
   fmuls f1, f0, f4;
@@ -1158,16 +1191,16 @@ lbl_80129f80:
   bl __cvt_fp2unsigned;
   stw r3, 0x44(r30);
   mr r26, r30;
-  lfd f29, -0x6a58(r2);
+  lfd f29, unk_80388548;
   addi r28, r31, 0xc0;
-  lfs f30, -0x6a70(r2);
+  lfs f30, unk_80388530;
   li r24, 0;
-  lfs f31, -0x6a90(r2);
+  lfs f31, unk_80388510;
   li r25, 0;
   lis r29, 0x4330;
 lbl_8012a02c:
   stw r27, 0x7c(r26);
-  lfd f1, -0x6a68(r2);
+  lfd f1, unk_80388538;
   lwz r0, 0x14c(r30);
   stw r29, 8(r1);
   mulli r0, r0, 0x24;
@@ -1194,9 +1227,9 @@ lbl_8012a02c:
   stw r4, 0xcc(r30);
   addi r3, r31, 0xc0;
   mulli r0, r0, 0x24;
-  lfs f2, -0x6a88(r2);
+  lfs f2, unk_80388518;
   lfs f1, 0x158(r30);
-  lfs f0, -0x6a60(r2);
+  lfs f0, unk_80388540;
   add r3, r3, r0;
   fsubs f1, f2, f1;
   lwz r0, 0xc(r3);
@@ -1223,7 +1256,7 @@ lbl_8012a02c:
   ble lbl_8012a10c;
   stfs f0, 0x138(r30);
 lbl_8012a10c:
-  lfs f0, -0x6a8c(r2);
+  lfs f0, unk_80388514;
   li r3, 1;
   stfs f0, 0x128(r30);
   stfs f0, 0x12c(r30);
