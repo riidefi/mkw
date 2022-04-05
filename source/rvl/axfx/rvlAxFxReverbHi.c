@@ -1,12 +1,6 @@
 #include "fxReverbHi.h"
 
-// Extern function references.
-// PAL: 0x80128140
-extern UNKNOWN_FUNCTION(AXFXReverbHiExpInit);
-// PAL: 0x80128460
-extern UNKNOWN_FUNCTION(AXFXReverbHiExpShutdown);
-// PAL: 0x801284b4
-extern UNKNOWN_FUNCTION(AXFXReverbHiExpCallback);
+#include "fxReverbHiExp.h"
 
 // Symbol: AXFXReverbHiInit
 // PAL: 0x8012802c..0x80128090
