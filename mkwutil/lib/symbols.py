@@ -17,7 +17,7 @@ class Symbol:
 
     def slice(self):
         """Returns a slice object for address range occupied by the symbol."""
-        assert size is not None
+        assert self.size is not None
         return slice(self.addr, self.addr + self.size)
 
     def __copy__(self):
@@ -126,3 +126,11 @@ class SymbolsList:
             else:
                 sym_stop = self._by_addr[addrs[i + 1]].addr
             self._by_addr[addr].size = sym_stop - self._by_addr[addr].addr
+
+    def get_or_default(self, addr):
+        sym = self.get(addr)
+        if sym:
+            return sym
+        sym = Symbol(addr, "unk_%08x" % (addr))
+        self.put(sym)
+        return sym

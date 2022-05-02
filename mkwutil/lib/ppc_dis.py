@@ -13,9 +13,12 @@ Changes:
 # pylint: disable=W0401
 # pylint: disable=W0614
 
+import struct
+
 from capstone import *
 from capstone.ppc import *
-import struct
+
+from mkwutil.lib.symbols import SymbolsList
 
 
 def sign_extend_16(value):
@@ -100,10 +103,50 @@ blacklistedInsns = {
 }
 
 
-def insn_to_text_capstone(insn, raw):
-    # Probably data, not a real instruction
-    if insn.id == PPC_INS_BDNZ and (insn.bytes[0] & 1):
-        return None
+loadStoreInsns = {
+    PPC_INS_LWZ,
+    PPC_INS_LMW,
+    PPC_INS_LHA,
+    PPC_INS_LHAU,
+    PPC_INS_LHZ,
+    PPC_INS_LHZU,
+    PPC_INS_LBZ,
+    PPC_INS_LBZU,
+    PPC_INS_LFD,
+    PPC_INS_LFDU,
+    PPC_INS_LFS,
+    PPC_INS_LFSU,
+    PPC_INS_STW,
+    PPC_INS_STWU,
+    PPC_INS_STMW,
+    PPC_INS_STH,
+    PPC_INS_STHU,
+    PPC_INS_STB,
+    PPC_INS_STBU,
+    PPC_INS_STFS,
+    PPC_INS_STFSU,
+    PPC_INS_STFD,
+    PPC_INS_STDU,
+}
+
+
+def is_load_store(insn, reg=None):
+    """Returns true if the instruction is a load or store with the given register as a base."""
+    return insn.id in loadStoreInsns and (
+        reg is None or insn.operands[1].mem.base == reg
+    )
+
+
+R2_VALUE = 0x8038EFA0
+R13_VALUE = 0x8038CC00
+
+
+def insn_to_text_capstone(insn, raw, symbols: SymbolsList):
+    if symbols and is_load_store(insn, PPC_REG_R2):
+        ref = R2_VALUE + sign_extend_16(insn.operands[1].mem.disp)
+        if ref < 0x80389180:
+            label = symbols.get_or_default(ref).name
+            return f"{insn.mnemonic} {insn.reg_name(insn.operands[0].reg)}, {label}@sda21(2)"
     # Sign-extend immediate values because Capstone is an idiot and doesn't do that automatically
     if insn.id in {PPC_INS_ADDI, PPC_INS_ADDIC, PPC_INS_SUBFIC, PPC_INS_MULLI} and (
         insn.operands[2].imm & 0x8000
@@ -130,7 +173,7 @@ def insn_to_text_capstone(insn, raw):
     # Dunno why GNU assembler doesn't accept this
     elif insn.id == PPC_INS_LMW and insn.operands[0].reg == PPC_REG_R0:
         return ".4byte 0x%08X  /* illegal %s %s */" % (raw, insn.mnemonic, insn.op_str)
-    return "%s %s" % (insn.mnemonic, insn.op_str)
+    return f"{insn.mnemonic} {insn.op_str}"
 
 
 def disasm_ps(inst):
@@ -267,11 +310,11 @@ def disasm_mcrxr(inst):
     return "mcrxr cr%i" % crd
 
 
-def insn_to_text(insn, raw):
+def insn_to_text(insn, raw, symbols):
     """Disassembles instruction."""
     asm = None
     if insn is not None:
-        asm = insn_to_text_capstone(insn, raw)
+        asm = insn_to_text_capstone(insn, raw, symbols)
     else:  # Capstone couldn't disassemble it
         idx = (raw & 0xFC000000) >> 26
         idx2 = (raw & 0x000007FE) >> 1
@@ -309,10 +352,15 @@ def insn_to_text(insn, raw):
 class Instruction:
     """A Broadway CPU instruction and its location."""
 
-    def __init__(self, address, insn, bytes):
+    def __init__(
+        self, address, insn, bytes, labels=(), symbols=None, abs_branch=False
+    ):
         self.address = address
         self.insn = insn
         self.bytes = bytes
+        self.labels = labels
+        self.symbols = symbols
+        self.abs_branch = abs_branch
 
     def prefix_text(self):
         # return '/* %08X */' % address
@@ -328,14 +376,15 @@ class Instruction:
         return self.prefix_text() + self.disassemble_inner()
 
     def disassemble_inner(self):
-        """Disassembles code."""
-        raw = struct.unpack(">I", self.bytes)[0]
-        asm = insn_to_text(self.insn, raw)
-        # Relative addresses for branch instructions.
+        """Returns inline disassembly of instruction."""
+        # Nice address reference for branch instructions.
         branch_info = self.disassemble_branch()
         if branch_info is not None:
-            branch_text, target_addr = branch_info
-            return f"{branch_text} {hex(target_addr-self.address)}"
+            branch_text, addr = branch_info
+            return f"{branch_text} {self.reference_addr(addr)}"
+        # Fall back to generic diassembly.
+        raw = struct.unpack(">I", self.bytes)[0]
+        asm = insn_to_text(self.insn, raw, self.symbols)
         return asm.strip()
 
     def disassemble_branch(self):
@@ -356,6 +405,19 @@ class Instruction:
                 )
         return None
 
+    def reference_addr(self, addr):
+        """Get a nice reference to immediate address from operand (label or symbol)."""
+        if addr in self.labels:
+            return label_name(addr)
+        if self.symbols:
+            sym = self.symbols.get(addr)
+            if sym is not None:
+                return sym.name
+        if self.abs_branch:
+            return hex(addr)
+        else:
+            return hex(addr - self.address)
+
 
 def label_name(addr):
     return "lbl_%08x" % (addr)
@@ -365,35 +427,14 @@ class InlineInstruction(Instruction):
     """A Broadway CPU instruction in the context of C/C++ inline assembly."""
 
     def __init__(self, address, insn, bytes, labels, symbols):
-        super().__init__(address, insn, bytes)
-        self.labels = labels
-        self.symbols = symbols
-
-    def reference_addr(self, addr):
-        """Get a nice reference to immediate address from operand (label or symbol)."""
-        if addr in self.labels:
-            return label_name(addr)
-        sym = self.symbols.get(addr)
-        if sym is not None:
-            return sym.name
-        return hex(addr)
-
-    def disassemble_inner(self):
-        """Returns inline disassembly of instruction."""
-        # Nice address reference for branch instructions.
-        branch_info = self.disassemble_branch()
-        if branch_info is not None:
-            branch_text, addr = branch_info
-            return f"{branch_text} {self.reference_addr(addr)}"
-        # Fall back to generic diassembly.
-        return super().disassemble_inner()
+        super().__init__(address, insn, bytes, labels, symbols, True)
 
     def prefix_text(self):
         """Override to have no prefix."""
         return ""
 
 
-def disasm_iter(data, address):
+def disasm_iter(data, address, symbols):
     """Returns an iterator over every instruction in the specified code section."""
     assert address % 4 == 0, "Code is not aligned"
     assert len(data) % 4 == 0, "Odd code length"
@@ -407,6 +448,8 @@ def disasm_iter(data, address):
                 address,
                 insn if insn.id not in blacklistedInsns else None,
                 insn.bytes,
+                (),
+                symbols,
             )
             i += 4
             address += 4
@@ -417,6 +460,8 @@ def disasm_iter(data, address):
                 address,
                 None,
                 data[i : i + 4],
+                (),
+                symbols,
             )
             address += 4
             i += 4
