@@ -530,6 +530,11 @@ lbl_801a2ccc:
   mtlr r0;
   addi r1, r1, 0x30;
   blr;
+  // clang-format on
+}
+
+asm void PackArgs() {
+  // clang-format off
   stwu r1, -0x30(r1);
   mflr r0;
   stw r0, 0x34(r1);

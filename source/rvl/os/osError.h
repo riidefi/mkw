@@ -24,6 +24,8 @@ OSErrorHandler OSSetErrorHandler(u16 error, OSErrorHandler handler);
 // PAL: 0x801a2a14..0x801a2e84
 void __OSUnhandledException(u8, OSContext*, u32, u32);
 
+void PackArgs();
+
 extern u32 _unk_80385aa8;
 
 #ifdef __cplusplus
