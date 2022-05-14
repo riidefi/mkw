@@ -1464,10 +1464,10 @@
 0x8006a7c0 GetProjectionMtx__Q34nw4r3g3d6CameraCFPQ34nw4r4math5MTX44
 0x8006a8a0 GetProjectionTexMtx__Q34nw4r3g3d6CameraCFPQ34nw4r4math5MTX34
 0x8006a970 GetEnvironmentTexMtx__Q34nw4r3g3d6CameraCFPQ34nw4r4math5MTX34
-0x8006a9f0 GXSetViewport__Q34nw4r3g3d6CameraCFv
-0x8006aa80 GXSetProjection__Q34nw4r3g3d6CameraCFv
-0x8006ab50 GXSetScissor__Q34nw4r3g3d6CameraCFv
-0x8006ab80 GXSetScissorBoxOffset__Q34nw4r3g3d6CameraCFv
+0x8006a9f0 GXSetViewport___Q34nw4r3g3d6CameraCFv
+0x8006aa80 GXSetProjection___Q34nw4r3g3d6CameraCFv
+0x8006ab50 GXSetScissor___Q34nw4r3g3d6CameraCFv
+0x8006ab80 GXSetScissorBoxOffset___Q34nw4r3g3d6CameraCFv
 0x8006aba0 UpdateCameraMtx__Q34nw4r3g3d6CameraCFv
 0x8006afc0 unk_8006afc0
 0x8006b120 unk_8006b120
@@ -3017,7 +3017,7 @@
 0x800b3c70 PrintGlyph__Q34nw4r2ut10CharWriterFfffRCQ34nw4r2ut5Glyph
 0x800b3ef0 UpdateVertexColor__Q34nw4r2ut10CharWriterFv
 0x800b4040 SetupGXWithColorMapping__Q34nw4r2ut10CharWriterFQ34nw4r2ut5ColorQ34nw4r2ut5Color
-0x800b4380 TextWriterBase<c>_construct
+0x800b4380 TextWriterBase_c__construct
 0x800b43e0 unk_800b43e0
 0x800b4440 unk2_800b4440
 0x800b44d0 unk_800b44d0
@@ -7771,7 +7771,7 @@
 0x8021013c clearEFB__Q23EGG12AsyncDisplayFUsUsUsUsUsUsQ34nw4r2ut5Color
 0x802104ec unk_802104ec
 0x80210530 unk_80210530
-0x80210590 __ct__Q23EGG9ArcPlayerFPQ34nw4r3snd9SoundHeap
+0x80210590 ct__Q23EGG9ArcPlayerFPQ34nw4r3snd9SoundHeap
 0x80210624 __dt__Q23EGG9ArcPlayerFv
 0x80210698 setSteamBlocks__Q23EGG9ArcPlayerFUl
 0x802106b8 unk_802106b8
@@ -7849,8 +7849,8 @@
 0x802137c8 unk_802137c8
 0x80213920 unk_80213920
 0x802139ec unk_802139ec
-0x80213a3c alf_#8b7ad3f5
-0x80213ad4 alf_#239d82da
+0x80213a3c alf_8b7ad3f5
+0x80213ad4 alf_239d82da
 0x80213b80 unk_80213b80
 0x80213c48 unk_80213c48
 0x80213cc8 AudioSystem_construct
@@ -9025,6 +9025,9 @@
 0x80386f78 zero__Q23EGG8Vector2f
 0x80386f80 ex__Q23EGG8Vector2f
 0x80386f88 ey__Q23EGG8Vector2f
+0x80387ea8 unk_80387ea8
+0x80387eac unk_80387eac
+0x80387eb0 unk_80387eb0
 0x80388800 _unk_80388800
 0x80388804 _unk_80388804
 0x80388808 _unk_80388808

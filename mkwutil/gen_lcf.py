@@ -44,26 +44,6 @@ def gen_lcf(
             stripped.add(Path(_slice.name).stem)
     # Read symbols list.
     symbols = SymbolsList()
-    # Scan objects for references to unknown symbols (unk_XXX).
-    # We'll add those implicitly to LCF.
-    for obj_path in object_paths:
-        with open(obj_path, "rb") as file:
-            elf = ELFFile(file)
-            symtab = elf.get_section_by_name(".symtab")
-            assert symtab is not None, "ELF has no symbol table"
-            for symbol in symtab.iter_symbols():
-                match = MATCH_UNK.match(symbol.name)
-                if not match:
-                    continue
-                addr = int(match.group(1), 16)
-                symbols.put(Symbol(addr, symbol.name))
-    # Remove all symbols that fall into named slices.
-    # They will be included in the object files, not the linker command file.
-    for sym in symbols:
-        _slice, _ = slices.find(sym.addr)
-        assert _slice is not None
-        if _slice.has_name():
-            del symbols[sym]
     # Create list of FORCEFILES.
     force_files = []
     for obj_path in object_paths:
@@ -73,7 +53,7 @@ def gen_lcf(
     # Compile template.
     template = jinja2.Template(src.read_text())
     # Render template to string.
-    lcf = template.render({"symbols": list(symbols), "force_files": force_files})
+    lcf = template.render({"force_files": force_files})
     # Write out to final LCF.
     with open(dst, "w") as f:
         f.write(lcf)

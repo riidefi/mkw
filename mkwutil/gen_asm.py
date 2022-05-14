@@ -5,6 +5,7 @@ Assembly file generators.
 import argparse
 from pathlib import Path, PurePosixPath
 import os
+from re import I
 import struct
 
 import jinja2
@@ -83,27 +84,30 @@ class AsmGenerator:
         self, part: Slice, chunk_size: int
     ) -> Iterator[tuple[int, bytes]]:
         offset = part.start - self.slice.start
-        # Align first word.
-        if offset % 4 != 0:
-            cut = 4 - offset
-            if len(part) > cut:
-                cut = len(part)
-            yield part.start, self.data[offset : offset + cut]
-            offset += cut
         # Use memoryview to scan over data efficiently.
         view = memoryview(self.data)
         view = view[offset : part.stop - self.slice.start]
+        # Align first word.
+        if offset % chunk_size != 0 and len(view) > chunk_size:
+            cut = chunk_size - offset
+            left, view = view[:cut], view[cut:]
+            yield self.slice.start + offset, bytes(left)
+            offset += len(left)
         while len(view) > 0:
-            left, view = view[:chunk_size], view[chunk_size:]
+            if len(view) > chunk_size:
+                bs = len(view)
+            else:
+                bs = chunk_size
+            left, view = view[:bs], view[bs:]
             yield self.slice.start + offset, bytes(left)
             offset += len(left)
 
     def dump_text(self):
         """Writes a disassembled text segment."""
         for part in self.slice.split(self.symbol_locs):
-            assert part.start % 4 == 0, f"misaligned text"
+            assert part.start % 4 == 0, "misaligned text"
             self.emit_symbol(part.start)
-            for ins in disasm_iter(self.get_data_chunk(part), part.start):
+            for ins in disasm_iter(self.get_data_chunk(part), part.start, self.symbols):
                 print(ins.disassemble(), file=self.output)
 
     def dump_section_body(self):
@@ -169,7 +173,7 @@ class CAsmGenerator:
         self.cpp_mode = cpp_mode
         # The list of seen extern functions.
         self.extern_functions_seen = set()
-        self.extern_functions = list()
+        self.extern_functions = []
 
     # Validated iterator of own_symbols
     def __symbols(self, addr):
@@ -285,7 +289,7 @@ class CAsmGenerator:
         data_start = sym.addr - self.slice.start
         data_stop = data_start + sym.size
         data = self.data[data_start:data_stop]
-        insns = list(disasm_iter(data, sym.addr))
+        insns = list(disasm_iter(data, sym.addr, self.symbols))
 
         labels = self.__analyze_jumps(sym, insns)
         sorted_labels = list(sorted(labels))
@@ -300,6 +304,8 @@ def get_asm_path(folder, _slice):
 
 
 class DOLSrcGenerator:
+    """Generates assembly files from DOL."""
+
     def __init__(
         self,
         slices: SliceTable,
@@ -452,6 +458,8 @@ class DOLSrcGenerator:
 
 
 class RELSrcGenerator:
+    """Generates assembly from REL."""
+
     def __init__(
         self,
         slices: SliceTable,
