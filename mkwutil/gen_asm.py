@@ -464,6 +464,7 @@ class RELSrcGenerator:
         self,
         slices: SliceTable,
         rel: Rel,
+        symbols: SymbolsList,
         rel_asm_dir: Path,
         rel_bin_dir: Path,
         pack_dir: Path,
@@ -472,11 +473,13 @@ class RELSrcGenerator:
         self.slices = slices
         self.slices.set_sections(REL_SECTIONS)
         self.rel = rel
+        self.symbols = symbols
         self.rel_asm_dir = rel_asm_dir
         self.rel_bin_dir = rel_bin_dir
         self.pack_dir = pack_dir
         self.regen_asm = regen_asm
         self.rel_asm_sources = set()
+        self.rel_decomp_sources = set()
 
     def run(self):
         """Runs ASM generation for StaticR.rel"""
@@ -512,12 +515,55 @@ class RELSrcGenerator:
         for _slice in subtable:
             self.__process_slice(section, _slice)
 
+    # If the slice should be output as a .s file
+    def __slice_dest_asm(self, _slice):
+        return not _slice.has_name()
+
+    # If the slice should be output as a .c file
+    def __slice_dest_c(self, _slice):
+        return _slice.has_name()
+
     def __process_slice(self, section: Section, _slice: Slice):
         """Process a slice in slices.csv or a gap."""
         print(f"  {_slice}")
-        # Generate ASM file.
-        if not _slice.has_name():
+
+        if self.__slice_dest_asm(_slice):
             self.__gen_asm(section, _slice)
+            return
+
+        # TODO Ideally this would work on the notion of objects instead of slices.
+        if self.__slice_dest_c(_slice):
+            source_path = Path(_slice.name)
+            if source_path.stem not in self.rel_decomp_sources:
+                self.rel_decomp_sources.add(source_path.stem)
+            if section.type == "code":
+                self.__gen_c(_slice)
+
+    def __gen_c(self, _slice: Slice):
+        """Generates a C file with inline assembly if not exists."""
+        # Generate C inline assembly.
+        c_path = Path(_slice.name)
+        if c_path.exists():
+            return
+        h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
+        if h_path.exists():
+            return
+
+        c_path.parent.mkdir(parents=True, exist_ok=True)
+        print(f"    => {_slice.name}")
+        data = self.rel.virtual_read(
+            _slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX
+        )
+        with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
+            gen = CAsmGenerator(
+                data,
+                _slice,
+                self.symbols,
+                h_file,
+                c_file,
+                not str(c_path).endswith(".c"),
+            )
+            gen.dump_section()
 
     def __gen_asm(self, section: Section, _slice: Slice):
         """Generates an ASM file."""
@@ -568,7 +614,7 @@ def gen_asm(regen_asm=False):
     rel_asm_dir = asm_dir / "rel"
     rel_asm_dir.mkdir(exist_ok=True)
     rel_gen = RELSrcGenerator(
-        rel_slices, rel, rel_asm_dir, rel_bin_dir, pack_dir, regen_asm
+        rel_slices, rel, symbols, rel_asm_dir, rel_bin_dir, pack_dir, regen_asm
     )
     rel_gen.run()
 
