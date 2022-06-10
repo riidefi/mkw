@@ -33,7 +33,11 @@ jobs:
         run: pip install -e .
 
       - name: Install deps
-        run: apt-get install -y --no-install-recommends radare2
+        run: |
+          wget https://github.com/radareorg/radare2/releases/download/5.7.0/radare2-5.7.0-w64.zip
+          Expand-Archive -Path radare2-5.7.0-w64.zip -Dest $HOME/radare2
 
       - name: Run tests
         run: pytest -vv
+        env:
+          PATH: "$HOME/radare2/bin"
