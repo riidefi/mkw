@@ -385,7 +385,9 @@ out/eggDvdRipper.o
 out/dol/text_80222ccc_802269a8.o
 out/dol/data_802a2dc8_802a2ff8.o
 out/eggExpHeap.o
-out/dol/text_80226f04_80229540.o
+out/eggFog.o
+out/eggFogManager.o
+out/dol/text_802276c0_80229540.o
 out/dol/rodata_8025771a_80257740.o
 out/dol/data_802a3024_802a30b0.o
 out/dol/bss_803841a0_80384320.o
