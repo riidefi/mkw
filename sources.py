@@ -257,6 +257,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggViewport.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggXfb.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggXfbManager.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/core/g3d_scnrfl.cpp", cc='4201_127', opts=EGG_OPTS),
 ]
 SOURCES_EGG_AUDIO = [
     Source(src="source/egg/audio/eggAudioArcPlayerMgr.cpp", cc='4201_127', opts=EGG_OPTS),

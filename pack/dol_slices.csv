@@ -180,3 +180,4 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/egg/core/eggViewport.cpp,,,,,,,0x80244074,0x80244160,,,,,,,,,,,,,,,,,,
 1,,source/egg/core/eggXfb.cpp,,,,,,,0x80244160,0x80244200,,,,,,,,,,,,,,,,,,
 1,,source/egg/core/eggXfbManager.cpp,,,,,,,0x80244200,0x802443AC,,,,,,,,,,,,,,,,,,
+1,,source/egg/core/g3d_scnrfl.cpp,,,,,,,0x802443AC,0x80244DD4,,,,,,,,,,,,,,,,,,

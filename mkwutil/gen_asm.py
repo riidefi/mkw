@@ -198,6 +198,8 @@ class CAsmGenerator:
 
         for sym in self.__symbols(addr):
             func_body = self.disassemble_function(sym)
+            # Inline asm doesn't need this annotation
+            func_body = func_body.replace("@sda21(2)", "")
             functions.append(
                 {
                     "addr": sym.addr,
