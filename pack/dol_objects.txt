@@ -411,7 +411,7 @@ out/dol/data_802a3e08_802a3f78.o
 out/eggStreamDecomp.o
 out/dol/text_80242504_802428e8.o
 out/eggTaskThread.o
-out/dol/text_80242f1c_802432e0.o
+out/eggTextureBuffer.o
 out/dol/data_802a3fa8_802a3fc0.o
 out/eggThread.o
 out/eggUnitHeap.o

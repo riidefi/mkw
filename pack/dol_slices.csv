@@ -173,6 +173,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/egg/core/eggStreamDecomp.cpp,,,,,,,0x80242498,0x80242504,,,,,,,0x802A3F78,0x802A3F90,,,,,,,,,,
 ,,source/egg/core/eggSystem.cpp,,,,,,,,,,,,,,,,,,,,,0x80386F60,0x80386F64,,,,
 1,,source/egg/core/eggTaskThread.cpp,,,,,,,0x802428e8,0x80242f1c,,,,,,,0x802a3f90,0x802a3fa8,,,,,,,,,,
+1,,source/egg/core/eggTextureBuffer.cpp,,,,,,,0x80242F1C,0x802432E0,,,,,,,,,,,,,,,,,,
 1,,source/egg/core/eggThread.cpp,,,,,,,0x802432E0,0x80243754,,,,,,,0x802A3FC0,0x802A3FD8,0x80384B60,0x80384B6C,,,,,,,,
 1,,source/egg/core/eggUnitHeap.cpp,,,,,,,0x80243754,0x80243A00,,,,,,,0x802A3FD8,0x802A4004,,,,,,,,,,
 1,,source/egg/math/eggVector.cpp,,,,,,,0x80243A00,0x80243D18,0x80244E88,0x80244E8C,,,,,,,0x80384B70,0x80384BF4,,,0x80386F78,0x80386F90,0x803890F8,0x80389104,,
