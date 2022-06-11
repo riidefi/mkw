@@ -5,7 +5,9 @@ out/rel/rodata_8088f720_80891370.o
 out/rel/data_808b2bd0_808b2c30.o
 out/rel/bss_809bd6e0_809bd6e8.o
 out/JmpResourceCourse.o
-out/rel/text_805127ec_8051c088.o
+out/rel/text_805127ec_80518cc0.o
+out/DvdArchive.o
+out/rel/text_80519670_8051c088.o
 out/rel/data_808b2c3c_808b2d38.o
 out/GhostFile.o
 out/rel/text_8051d4d4_80555464.o
