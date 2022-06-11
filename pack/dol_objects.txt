@@ -403,7 +403,7 @@ out/dol/bss_80384348_80384b60.o
 out/dol/sbss_80386ec0_80386f00.o
 out/dol/sdata2_80388d80_80388fe0.o
 out/eggQuat.o
-out/dol/text_8023a884_8023ad10.o
+out/eggSaveBanner.o
 out/eggScene.o
 out/eggSceneManager.o
 out/dol/text_8023ae4c_80242498.o
