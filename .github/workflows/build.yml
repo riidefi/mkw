@@ -57,7 +57,7 @@ jobs:
 
       - name: Build mkw
         shell: bash
-        run: python build.py
+        run: python build.py --regen_asm
 
       - name: Get DOL progress
         run: python -m mkwutil.progress.percent_decompiled --short --part DOL > badge_dol_progress.txt
