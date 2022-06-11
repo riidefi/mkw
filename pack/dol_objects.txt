@@ -89,7 +89,7 @@ out/ut_nandFileStream.o
 out/dol/text_800b178c_800b1790.o
 out/ut_lockedCache.o
 out/dol/text_800b1968_800b1970.o
-out/dol/ctors_80244e44_80244e88.o
+out/dol/ctors_80244e44_80244e70.o
 out/dol/data_80274d6c_80274d70.o
 out/ut_font.o
 out/dol/text_800b1a14_800b1a20.o
@@ -382,7 +382,9 @@ out/dol/bss_80383510_80384190.o
 out/dol/sbss_80386e0c_80386e18.o
 out/eggDvdFile.o
 out/eggDvdRipper.o
-out/dol/text_80222ccc_802269a8.o
+out/eggEffect.o
+out/dol/text_80224348_802269a8.o
+out/dol/ctors_80244e74_80244e88.o
 out/dol/data_802a2dc8_802a2ff8.o
 out/eggExpHeap.o
 out/eggFog.o
