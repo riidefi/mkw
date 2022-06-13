@@ -5,7 +5,7 @@
 // Source: https://github.com/kiwi515/ogws/blob/master/include/nw4r/ut/ut_Font.h
 // Credit: GibHaltmannKill
 
-#include "ut_charStrmReader.hpp"
+#include "ut_CharStrmReader.hpp"
 #include "ut_glyph.hpp"
 
 namespace nw4r {
