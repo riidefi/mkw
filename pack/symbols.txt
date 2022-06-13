@@ -9246,7 +9246,7 @@
 0x80519420 getFile__10DvdArchiveFPcPUl
 0x80519508 decompress__10DvdArchiveFPcPQ23EGG4HeapUl
 0x805195a4 unk_805195a4
-0x805195d8 SArchive_loadOther
+0x805195d8 loadOther__10DvdArchiveFPC10DvdArchivePQ23EGG4Heap
 0x80519670 unk_80519670
 0x805196b0 unk_805196b0
 0x805196f0 unk_805196f0

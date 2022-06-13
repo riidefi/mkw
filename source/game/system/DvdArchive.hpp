@@ -48,6 +48,7 @@ public:
   void* getFile(char* filename, size_t* size);
   void decompress(char* path, EGG::Heap* archiveHeap, u32 _unused);
   void _move();
+  void loadOther(const DvdArchive* other, EGG::Heap* heap);
 
 private:
   EGG::Archive* mArchive;
@@ -154,7 +155,7 @@ UNKNOWN_FUNCTION(decompress__10DvdArchiveFPcPQ23EGG4HeapUl);
 // PAL: 0x805195a4..0x805195d8
 UNKNOWN_FUNCTION(unk_805195a4);
 // PAL: 0x805195d8..0x80519670
-UNKNOWN_FUNCTION(SArchive_loadOther);
+UNKNOWN_FUNCTION(loadOther__10DvdArchiveFPC10DvdArchivePQ23EGG4Heap);
 
 #ifdef __cplusplus
 }
