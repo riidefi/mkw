@@ -5,12 +5,14 @@
 namespace EGG {
 
 namespace Decomp {
+
   enum CompressionType {
     TYPE_UNKNOWN = 0,
     TYPE_SZS = 1,
     TYPE_ASH = 2,
     TYPE_ASR = 3,
   };
+
 // PAL: 0x80218ba4..0x80218c2c
 s32 decode(const u8*, u8*);
 // PAL: 0x80218c2c..0x80218dc0
@@ -21,17 +23,8 @@ s32 decodeASH(const u8*, u8*);
 s32 decodeASR(const u8*, u8*);
 // PAL: 0x802198f8..0x8021997c
 CompressionType checkCompressed(const u8*);
-
-inline u32 getSZSExpandSize(const u8 * src) {
-  return ((src[4] << 24) | (src[5] << 16) | (src[6] << 8) | src[7]);
-}
-
-inline u32 getASExpandSize(const u8 * src) {
-  return ((src[5] << 16) | (src[6] << 8) | src[7]);
-}
 // PAL: 0x8021997c..0x80219a7c
 s32 getExpandSize(const u8*);
-
 // PAL: 0x80219a7c..0x80219b84
 int getBitsCode(const u8*, int, int);
 // PAL: 0x80219b84..0x80219c10

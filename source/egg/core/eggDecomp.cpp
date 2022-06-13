@@ -2,6 +2,12 @@
 
 #include <decomp.h>
 
+#define getSZSExpandSize(src) \
+((src[4] << 24) | (src[5] << 16) | (src[6] << 8) | src[7])
+
+#define getASExpandSize(src) \
+((src[5] << 16) | (src[6] << 8) | src[7])
+
 namespace EGG {
 namespace Decomp {
 
