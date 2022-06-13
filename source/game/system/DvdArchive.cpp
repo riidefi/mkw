@@ -1,8 +1,6 @@
 #include "DvdArchive.hpp"
 
-// Extern function references.
-// PAL: 0x805553b0
-extern UNKNOWN_FUNCTION(unk_805553b0);
+namespace System {
 
 // ??????
 __declspec(section ".rodata") int int_8088FAA0 = 0x4B000;
@@ -10,10 +8,10 @@ __declspec(section ".rodata") int int_8088FAA0 = 0x4B000;
 DvdArchive::DvdArchive() {
   mArchive = nullptr;
   mArchiveStart = nullptr;
-  mArchiveSize = NULL;
+  mArchiveSize = 0;
   mArchiveHeap = nullptr;
   mFileStart = nullptr;
-  mFileSize = NULL;
+  mFileSize = 0;
   mFileHeap = nullptr;
   mStatus = DVD_ARCHIVE_STATE_CLEARED;
 }
@@ -33,10 +31,10 @@ void DvdArchive::_mount(EGG::Heap* archiveHeap) {
 }
 
 // haven't got a clue
-void DvdArchive::_UNKNOWN() { return; }
+void DvdArchive::_UNKNOWN() {}
 
 void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
-                      s32 param_5, EGG::Heap* fileHeap, u32 param_7) {
+                      s32 align_, EGG::Heap* fileHeap, u32 param_7) {
   if ((decompress == 0) || !fileHeap) {
     fileHeap = archiveHeap;
   }
@@ -44,12 +42,12 @@ void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
   if (mStatus == DVD_ARCHIVE_STATE_CLEARED) {
     bool ripped = false;
     s32 allocDirection = 1;
-    s8 cVar1 = -8;
+    s8 align = -8;
 
     if (decompress == 0) {
-      cVar1 = param_5;
+      align = align_;
     }
-    if (cVar1 < 0) {
+    if (align < 0) {
       allocDirection = 2;
     }
 
@@ -70,7 +68,7 @@ void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
     }
   }
 
-  if (!(mStatus - 2) & ~0x2) {
+  if (isRipped()) {
     if (decompress != 0) {
       DvdArchive::decompress(path, archiveHeap, param_7);
       DvdArchive::clearFile();
@@ -79,8 +77,6 @@ void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
     }
     DvdArchive::mount(archiveHeap);
   }
-
-  return;
 }
 
 void DvdArchive::load(char* path, u32 param_2, EGG::Heap* archiveHeap) {
@@ -136,10 +132,9 @@ bool DvdArchive::_tryRipFile(char* path, EGG::Heap* fileHeap, u8 align) {
 void DvdArchive::clear() {
   DvdArchive::clearArchive();
   DvdArchive::clearFile();
-  return;
 }
 
-void DvdArchive::_UNKNOWN3() { return; }
+void DvdArchive::_UNKNOWN3() {}
 
 void DvdArchive::unmount() {
   if (mStatus == DVD_ARCHIVE_STATE_MOUNTED) {
@@ -148,18 +143,11 @@ void DvdArchive::unmount() {
   DvdArchive::clearArchive();
   DvdArchive::clearFile();
   mStatus = DVD_ARCHIVE_STATE_CLEARED;
-  return;
 }
 
-void DvdArchive::_clearArchive() {
-  DvdArchive::clearArchive();
-  return;
-}
+void DvdArchive::_clearArchive() { DvdArchive::clearArchive(); }
 
-void DvdArchive::_clearFile() {
-  DvdArchive::clearFile();
-  return;
-}
+void DvdArchive::_clearFile() { DvdArchive::clearFile(); }
 
 void* DvdArchive::getFile(char* filename, size_t* size) {
   void* result;
@@ -213,10 +201,7 @@ void DvdArchive::decompress(char* path, EGG::Heap* archiveHeap, u32 _unused) {
   _unused;
 }
 
-void DvdArchive::_move() {
-  DvdArchive::move();
-  return;
-}
+void DvdArchive::_move() { DvdArchive::move(); }
 
 void DvdArchive::loadOther(const DvdArchive* other, EGG::Heap* heap) {
   if (other->isRipped()) {
@@ -229,5 +214,6 @@ void DvdArchive::loadOther(const DvdArchive* other, EGG::Heap* heap) {
   } else {
     mStatus = DVD_ARCHIVE_STATE_CLEARED;
   }
-  return;
 }
+
+} // namespace System

@@ -16,6 +16,8 @@ extern void* DvdRipper_loadToMainRAM(char* path, u8* dst, EGG::Heap* heap,
                                      s32 allocDirection, u32 offset,
                                      s32* param_6, u32* fileSize);
 
+namespace System {
+
 enum ArchiveState {
   DVD_ARCHIVE_STATE_CLEARED = 0,
   DVD_ARCHIVE_STATE_RIPPED = 2,
@@ -114,49 +116,4 @@ private:
   volatile bool isRipped() const { return mStatus == 2; }
 };
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// PAL: 0x80518cc0..0x80518cf4
-UNKNOWN_FUNCTION(DvdArchive_ct);
-// PAL: 0x80518cf4..0x80518dcc
-UNKNOWN_FUNCTION(DvdArchive_dt);
-// PAL: 0x80518dcc..0x80518e0c
-UNKNOWN_FUNCTION(DvdArchive_mount);
-// PAL: 0x80518e0c..0x80518e10
-UNKNOWN_FUNCTION(FUN_80518e0c);
-// PAL: 0x80518e10..0x80518fa4
-UNKNOWN_FUNCTION(load__10DvdArchiveFPcPQ23EGG4HeapilPQ23EGG4HeapUl);
-// PAL: 0x80518fa4..0x80518fbc
-UNKNOWN_FUNCTION(SArchive_load);
-// PAL: 0x80518fbc..0x80519040
-UNKNOWN_FUNCTION(loadBuffer__10DvdArchiveFPvUlPQ23EGG4Heapl);
-// PAL: 0x80519040..0x805190e8
-UNKNOWN_FUNCTION(unk_80519040);
-// PAL: 0x805190e8..0x805190f0
-UNKNOWN_FUNCTION(unk_805190e8);
-// PAL: 0x805190f0..0x805191a4
-UNKNOWN_FUNCTION(ripFile__10DvdArchiveFPcPQ23EGG4HeapUc);
-// PAL: 0x805191a4..0x80519240
-UNKNOWN_FUNCTION(unk_805191a4);
-// PAL: 0x80519240..0x805192cc
-UNKNOWN_FUNCTION(clear__10DvdArchiveFv);
-// PAL: 0x805192cc..0x80519370
-UNKNOWN_FUNCTION(unmount__10DvdArchiveFv);
-// PAL: 0x80519370..0x805193c8
-UNKNOWN_FUNCTION(unk_80519370);
-// PAL: 0x805193c8..0x80519420
-UNKNOWN_FUNCTION(unk_805193c8);
-// PAL: 0x80519420..0x80519508
-UNKNOWN_FUNCTION(getFile__10DvdArchiveFPcPUl);
-// PAL: 0x80519508..0x805195a4
-UNKNOWN_FUNCTION(decompress__10DvdArchiveFPcPQ23EGG4HeapUl);
-// PAL: 0x805195a4..0x805195d8
-UNKNOWN_FUNCTION(unk_805195a4);
-// PAL: 0x805195d8..0x80519670
-UNKNOWN_FUNCTION(loadOther__10DvdArchiveFPC10DvdArchivePQ23EGG4Heap);
-
-#ifdef __cplusplus
-}
-#endif
+} // namespace System
