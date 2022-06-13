@@ -4,93 +4,24 @@
 // PAL: 0x805553b0
 extern UNKNOWN_FUNCTION(unk_805553b0);
 
-// Symbol: DvdArchive_ct
-// PAL: 0x80518cc0..0x80518cf4
-MARK_BINARY_BLOB(DvdArchive_ct, 0x80518cc0, 0x80518cf4);
-asm UNKNOWN_FUNCTION(DvdArchive_ct) {
-  // clang-format off
-  nofralloc;
-  lis r4, 0;
-  li r0, 0;
-  addi r4, r4, 0;
-  stw r4, 0(r3);
-  stw r0, 4(r3);
-  stw r0, 8(r3);
-  stw r0, 0xc(r3);
-  stw r0, 0x10(r3);
-  stw r0, 0x14(r3);
-  stw r0, 0x18(r3);
-  stw r0, 0x1c(r3);
-  stw r0, 0x20(r3);
-  blr;
-  // clang-format on
+DvdArchive::DvdArchive() {
+    mArchive = nullptr;
+    mArchiveStart = nullptr;
+    mArchiveSize = NULL;
+    mArchiveHeap = nullptr;
+    mFileStart = nullptr;
+    mFileSize = NULL;
+    mFileHeap = nullptr;
+    mStatus = DVD_ARCHIVE_STATE_CLEARED;
 }
 
-// Symbol: DvdArchive_dt
-// PAL: 0x80518cf4..0x80518dcc
-MARK_BINARY_BLOB(DvdArchive_dt, 0x80518cf4, 0x80518dcc);
-asm UNKNOWN_FUNCTION(DvdArchive_dt) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  beq lbl_80518db0;
-  lwz r0, 0x20(r3);
-  lis r4, 0;
-  addi r4, r4, 0;
-  stw r4, 0(r3);
-  cmpwi r0, 4;
-  bne lbl_80518d38;
-  lwz r3, 4(r3);
-  bl unk_805553b0;
-lbl_80518d38:
-  lwz r4, 8(r30);
-  cmpwi r4, 0;
-  beq lbl_80518d68;
-  lwz r3, 0x10(r30);
-  lwz r12, 0(r3);
-  lwz r12, 0x18(r12);
-  mtctr r12;
-  bctrl;
-  li r0, 0;
-  stw r0, 8(r30);
-  stw r0, 0xc(r30);
-  stw r0, 0x10(r30);
-lbl_80518d68:
-  lwz r4, 0x14(r30);
-  cmpwi r4, 0;
-  beq lbl_80518d98;
-  lwz r3, 0x1c(r30);
-  lwz r12, 0(r3);
-  lwz r12, 0x18(r12);
-  mtctr r12;
-  bctrl;
-  li r0, 0;
-  stw r0, 0x14(r30);
-  stw r0, 0x18(r30);
-  stw r0, 0x1c(r30);
-lbl_80518d98:
-  cmpwi r31, 0;
-  li r0, 0;
-  stw r0, 0x20(r30);
-  ble lbl_80518db0;
-  mr r3, r30;
-  bl unk_805553b0;
-lbl_80518db0:
-  mr r3, r30;
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+DvdArchive::~DvdArchive() {
+    if (mStatus == DVD_ARCHIVE_STATE_MOUNTED) {
+        mArchive->unmount();
+    }
+    DvdArchive::clearArchive();
+    DvdArchive::clearFile();
+    mStatus = DVD_ARCHIVE_STATE_CLEARED;
 }
 
 // Symbol: DvdArchive_mount
