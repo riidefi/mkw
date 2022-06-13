@@ -117,7 +117,7 @@ void* DvdArchive::getFileCopy(char* filename, EGG::Heap* heap, size_t* size,
   return result;
 }
 
-void DvdArchive::_UNKNOWN3(int, void* p) { delete[] p; }
+void DvdArchive::_UNKNOWN2(int, void* p) { delete[] p; }
 
 void DvdArchive::ripFile(char* path, EGG::Heap* fileHeap, u8 align) {
   bool ripped = DvdArchive::tryRipFile(path, fileHeap, align);
@@ -139,7 +139,7 @@ void DvdArchive::clear() {
   return;
 }
 
-void DvdArchive::_UNKNOWN2() { return; }
+void DvdArchive::_UNKNOWN3() { return; }
 
 void DvdArchive::unmount() {
   if (mStatus == DVD_ARCHIVE_STATE_MOUNTED) {
@@ -193,53 +193,24 @@ void* DvdArchive::getFile(char* filename, size_t* size) {
   return result;
 }
 
-// Symbol: decompress__10DvdArchiveFPcPQ23EGG4HeapUl
-// PAL: 0x80519508..0x805195a4
-MARK_BINARY_BLOB(decompress__10DvdArchiveFPcPQ23EGG4HeapUl, 0x80519508,
-                 0x805195a4);
-asm UNKNOWN_FUNCTION(decompress__10DvdArchiveFPcPQ23EGG4HeapUl) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  stw r30, 0x18(r1);
-  stw r29, 0x14(r1);
-  mr r29, r5;
-  stw r28, 0x10(r1);
-  mr r28, r3;
-  lwz r3, 0x14(r3);
-  bl unk_805553b0;
-  lwz r12, 0(r29);
-  mr r31, r3;
-  mr r3, r29;
-  li r5, 0x20;
-  lwz r12, 0x14(r12);
-  mr r4, r31;
-  mtctr r12;
-  bctrl;
-  mr r30, r3;
-  lwz r3, 0x14(r28);
-  mr r4, r30;
-  bl unk_805553b0;
-  stw r31, 0xc(r28);
-  mr r3, r30;
-  mr r4, r31;
-  stw r30, 8(r28);
-  stw r29, 0x10(r28);
-  bl unk_805553b0;
-  li r0, 3;
-  stw r0, 0x20(r28);
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r28, 0x10(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+void DvdArchive::decompress(char* path, EGG::Heap* archiveHeap, u32 _unused) {
+  s32 expandSize = EGG::Decomp::getExpandSize((u8*)mFileStart);
+  void* archive = archiveHeap->alloc(expandSize, 0x20);
+  EGG::Decomp::decodeSZS((u8*)mFileStart, (u8*)archive);
+  mArchiveSize = expandSize;
+  mArchiveStart = archive;
+  mArchiveHeap = archiveHeap;
+  DCStoreRange(archive, expandSize);
+  mStatus = DVD_ARCHIVE_STATE_DECOMPRESSED;
+  // The function will automatically inline unless we do this
+  // How wonderfully convenient that we have an unused parameter!
+  _unused;
+  _unused;
+  _unused;
+  _unused;
+  _unused;
+  _unused;
+  _unused;
 }
 
 void DvdArchive::_move() {

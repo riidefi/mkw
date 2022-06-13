@@ -5,7 +5,9 @@
 #include <decomp.h>
 
 #include <stdio.h>
+#include <rvl/os/osCache.h>
 #include <egg/core/eggArchive.hpp>
+#include <egg/core/eggDecomp.hpp>
 #include <egg/core/eggHeap.hpp>
 
 // TODO: when DvdRipper is decompiled, replace the function call in load() and
@@ -35,11 +37,11 @@ public:
   void loadBuffer(void* fileStart, u32 fileSize, EGG::Heap* archiveHeap,
                   s32 param_4);
   void* getFileCopy(char* filename, EGG::Heap* heap, size_t* size, s8 param_4);
-  void _UNKNOWN3(int, void* p);
+  void _UNKNOWN2(int, void* p);
   void ripFile(char* path, EGG::Heap* fileHeap, u8 align);
   bool _tryRipFile(char* path, EGG::Heap* fileHeap, u8 align);
   void clear();
-  void _UNKNOWN2();
+  void _UNKNOWN3();
   void unmount();
   void _clearArchive();
   void _clearFile();
