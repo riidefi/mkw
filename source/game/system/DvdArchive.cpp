@@ -92,7 +92,7 @@ void DvdArchive::loadBuffer(void* fileStart, u32 fileSize,
   mFileStart = fileStart;
   mFileSize = fileSize;
   if (param_4 != 0) {
-    DvdArchive::decompress("buffer_data\0%s\0/%s", archiveHeap, 0);
+    DvdArchive::decompress("buffer_data", archiveHeap, 0);
     mFileStart = 0;
     mFileSize = 0;
     mFileHeap = 0;
@@ -301,8 +301,6 @@ void DvdArchive::_clearFile() {
   return;
 }
 
-// matches, but requires previous functions to exist first
-#ifdef NON_MATCHING
 void* DvdArchive::getFile(char* filename, int* size) {
   void* result;
   int entryId;
@@ -334,78 +332,6 @@ void* DvdArchive::getFile(char* filename, int* size) {
 
   return result;
 }
-#else
-// Symbol: getFile__10DvdArchiveFPcPi
-// PAL: 0x80519420..0x80519508
-MARK_BINARY_BLOB(getFile__10DvdArchiveFPcPi, 0x80519420, 0x80519508);
-asm UNKNOWN_FUNCTION(getFile__10DvdArchiveFPcPi) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x120(r1);
-  mflr r0;
-  stw r0, 0x124(r1);
-  stw r31, 0x11c(r1);
-  mr r31, r5;
-  stw r30, 0x118(r1);
-  mr r30, r3;
-  lwz r0, 0x20(r3);
-  cmpwi r0, 4;
-  beq lbl_80519450;
-  li r3, 0;
-  b lbl_805194f0;
-lbl_80519450:
-  lbz r0, 0(r4);
-  cmpwi r0, 0x2f;
-  bne lbl_80519480;
-  lis r5, 0;
-  mr r6, r4;
-  addi r5, r5, 0;
-  addi r3, r1, 0x10;
-  addi r5, r5, 0xc;
-  li r4, 0x100;
-  crclr 6;
-  bl unk_805553b0;
-  b lbl_805194a0;
-lbl_80519480:
-  lis r5, 0;
-  mr r6, r4;
-  addi r5, r5, 0;
-  addi r3, r1, 0x10;
-  addi r5, r5, 0xf;
-  li r4, 0x100;
-  crclr 6;
-  bl unk_805553b0;
-lbl_805194a0:
-  li r0, 0;
-  stb r0, 0x10f(r1);
-  addi r4, r1, 0x10;
-  stw r0, 8(r1);
-  stw r0, 0xc(r1);
-  lwz r3, 4(r30);
-  bl unk_805553b0;
-  cmpwi r3, -1;
-  mr r4, r3;
-  li r3, 0;
-  beq lbl_805194f0;
-  lwz r3, 4(r30);
-  addi r5, r1, 8;
-  bl unk_805553b0;
-  cmpwi r3, 0;
-  beq lbl_805194f0;
-  cmpwi r31, 0;
-  beq lbl_805194f0;
-  lwz r0, 0xc(r1);
-  stw r0, 0(r31);
-lbl_805194f0:
-  lwz r0, 0x124(r1);
-  lwz r31, 0x11c(r1);
-  lwz r30, 0x118(r1);
-  mtlr r0;
-  addi r1, r1, 0x120;
-  blr;
-  // clang-format on
-}
-#endif
 
 // Symbol: decompress__10DvdArchiveFPcPQ23EGG4HeapUl
 // PAL: 0x80519508..0x805195a4
