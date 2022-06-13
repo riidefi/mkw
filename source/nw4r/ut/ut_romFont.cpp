@@ -2,7 +2,7 @@
 
 #include <rvl/os/osFont.h>
 
-#include "ut_charStrmReader.hpp"
+#include "ut_CharStrmReader.hpp"
 
 namespace nw4r {
 namespace ut {
