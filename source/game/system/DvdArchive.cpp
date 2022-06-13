@@ -321,57 +321,14 @@ void DvdArchive::_UNKNOWN2() {
     return;
 }
 
-// Symbol: DvdArchive_unmount
-// PAL: 0x805192cc..0x80519370
-MARK_BINARY_BLOB(DvdArchive_unmount, 0x805192cc, 0x80519370);
-asm UNKNOWN_FUNCTION(DvdArchive_unmount) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  lwz r0, 0x20(r3);
-  cmpwi r0, 4;
-  bne lbl_805192f4;
-  lwz r3, 4(r3);
-  bl unk_805553b0;
-lbl_805192f4:
-  lwz r4, 8(r31);
-  cmpwi r4, 0;
-  beq lbl_80519324;
-  lwz r3, 0x10(r31);
-  lwz r12, 0(r3);
-  lwz r12, 0x18(r12);
-  mtctr r12;
-  bctrl;
-  li r0, 0;
-  stw r0, 8(r31);
-  stw r0, 0xc(r31);
-  stw r0, 0x10(r31);
-lbl_80519324:
-  lwz r4, 0x14(r31);
-  cmpwi r4, 0;
-  beq lbl_80519354;
-  lwz r3, 0x1c(r31);
-  lwz r12, 0(r3);
-  lwz r12, 0x18(r12);
-  mtctr r12;
-  bctrl;
-  li r0, 0;
-  stw r0, 0x14(r31);
-  stw r0, 0x18(r31);
-  stw r0, 0x1c(r31);
-lbl_80519354:
-  li r0, 0;
-  stw r0, 0x20(r31);
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void DvdArchive::unmount() {
+    if (mStatus == DVD_ARCHIVE_STATE_MOUNTED) {
+        mArchive->unmount();
+    }
+    DvdArchive::clearArchive();
+    DvdArchive::clearFile();
+    mStatus = DVD_ARCHIVE_STATE_CLEARED;
+    return;
 }
 
 // Symbol: unk_80519370

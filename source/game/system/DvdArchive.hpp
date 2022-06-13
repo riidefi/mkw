@@ -27,6 +27,7 @@ public:
     void load(char *path, EGG::Heap *archiveHeap, int decompress, u8 param_4, EGG::Heap *filePath, u32 param_6);
     void clear();
     void _UNKNOWN2();
+    void unmount();
     void decompress(char *path, EGG::Heap *archiveHeap, u32 _unused);
 private:
     EGG::Archive *mArchive;
@@ -101,7 +102,7 @@ UNKNOWN_FUNCTION(unk_805191a4);
 // PAL: 0x80519240..0x805192cc
 UNKNOWN_FUNCTION(clear__10DvdArchiveFv);
 // PAL: 0x805192cc..0x80519370
-UNKNOWN_FUNCTION(DvdArchive_unmount);
+UNKNOWN_FUNCTION(unmount__10DvdArchiveFv);
 // PAL: 0x80519370..0x805193c8
 UNKNOWN_FUNCTION(unk_80519370);
 // PAL: 0x805193c8..0x80519420
