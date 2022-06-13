@@ -1,28 +1,28 @@
-#include "JmpResourceCourse.hpp"
+#include "CourseMap.hpp"
 
 namespace Field {
 
-JmpResourceCourse* JmpResourceCourse::initStaticInstance() {
+CourseMap* CourseMap::initStaticInstance() {
   if (spInstance == nullptr) {
-    spInstance = new JmpResourceCourse();
+    spInstance = new CourseMap();
   }
 
   return spInstance;
 }
 
-void JmpResourceCourse::destroyStaticInstance() {
+void CourseMap::destroyStaticInstance() {
   if (spInstance != nullptr) {
     delete spInstance;
     spInstance = nullptr;
   }
 }
 
-JmpResourceCourse::JmpResourceCourse()
+CourseMap::CourseMap()
     : mpKartPoint(nullptr), mpEnemyPath(nullptr), mpCheckPath(nullptr),
       mpCheckPoint(nullptr), mpGeoObj(nullptr), mpPointInfo(nullptr),
       mpArea(nullptr), mpCamera(nullptr), mGoalCamera(nullptr),
       mOpeningPanCamera(nullptr), _50(0) {}
 
-JmpResourceCourse::~JmpResourceCourse() {}
+CourseMap::~CourseMap() {}
 
 } // namespace Field
