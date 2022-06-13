@@ -65,13 +65,15 @@ def verify_rel(reference: Path, target: Path):
         )
         if not match:
             paired_data = zip(chunks(good_section.data, 4), chunks(bad_section.data, 4))
+            amount_printed = 0
 
             for i, (good_bytes, bad_bytes) in enumerate(paired_data):
                 vaddr = info.start + i * 4
 
-                if good_bytes == bad_bytes:
+                if good_bytes == bad_bytes or amount_printed > 10:
                     continue
                 print("%x: Good=%x Bad=%x" % (vaddr, struct.unpack(">I", good_bytes)[0], struct.unpack(">I", bad_bytes)[0]))
+                amount_printed += 1
 
     print(
         Fore.RED + Style.BRIGHT + "[REL] Oof: Output doesn't match." + Style.RESET_ALL

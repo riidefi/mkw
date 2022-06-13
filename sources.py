@@ -316,7 +316,7 @@ SOURCES_REL = [
     Source(src="source/game/ui/ControlGroup.cpp", cc='4201_127', opts=REL_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/game/ui/UIControl.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/jmap/JmpResourceCourse.cpp", cc='4201_127', opts=REL_OPTS),
-    Source(src="source/game/system/DvdArchive.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/system/DvdArchive.cpp", cc='4201_127', opts=REL_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/game/system/GhostFile.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/MultiDvdArchive.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/util/Random.cpp", cc='4201_127', opts=REL_OPTS),
