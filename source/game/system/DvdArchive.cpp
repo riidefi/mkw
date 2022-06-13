@@ -33,7 +33,7 @@ void DvdArchive::_mount(EGG::Heap* archiveHeap) {
 void DvdArchive::_UNKNOWN() { return; }
 
 void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
-                      u8 param_5, EGG::Heap* fileHeap, u32 param_7) {
+                      s32 param_5, EGG::Heap* fileHeap, u32 param_7) {
   if ((decompress == 0) || !fileHeap) {
     fileHeap = archiveHeap;
   }
@@ -80,19 +80,9 @@ void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
   return;
 }
 
-// Symbol: SArchive_load
-// PAL: 0x80518fa4..0x80518fbc
-MARK_BINARY_BLOB(SArchive_load, 0x80518fa4, 0x80518fbc);
-asm UNKNOWN_FUNCTION(SArchive_load) {
-  // clang-format off
-  nofralloc;
-  mr r5, r6;
-  li r6, 0;
-  li r7, -8;
-  li r8, 0;
-  li r9, 0;
-  b load__10DvdArchiveFPcPQ23EGG4HeapiUcPQ23EGG4HeapUl;
-  // clang-format on
+// loads uncompressed archives
+void DvdArchive::load(char* path, u32 param_2, EGG::Heap* archiveHeap) {
+  DvdArchive::load(path, archiveHeap, 0, -8, 0, 0);
 }
 
 // Symbol: SArchive_load2

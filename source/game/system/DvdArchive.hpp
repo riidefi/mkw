@@ -28,8 +28,10 @@ public:
   virtual void init() = 0;
   void _mount(EGG::Heap* archiveHeap);
   void _UNKNOWN();
-  void load(char* path, EGG::Heap* archiveHeap, int decompress, u8 param_4,
+  void load(char* path, EGG::Heap* archiveHeap, int decompress, s32 param_4,
             EGG::Heap* filePath, u32 param_6);
+  //! loads uncompressed archives
+  void load(char* path, u32 _unused, EGG::Heap* archiveHeap);
   void clear();
   void _UNKNOWN2();
   void unmount();
@@ -98,7 +100,7 @@ UNKNOWN_FUNCTION(DvdArchive_mount);
 // PAL: 0x80518e0c..0x80518e10
 UNKNOWN_FUNCTION(FUN_80518e0c);
 // PAL: 0x80518e10..0x80518fa4
-UNKNOWN_FUNCTION(load__10DvdArchiveFPcPQ23EGG4HeapiUcPQ23EGG4HeapUl);
+UNKNOWN_FUNCTION(load__10DvdArchiveFPcPQ23EGG4HeapilPQ23EGG4HeapUl);
 // PAL: 0x80518fa4..0x80518fbc
 UNKNOWN_FUNCTION(SArchive_load);
 // PAL: 0x80518fbc..0x80519040
