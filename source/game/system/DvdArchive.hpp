@@ -4,6 +4,51 @@
 
 #include <decomp.h>
 
+#include <egg/core/eggArchive.hpp>
+#include <egg/core/eggHeap.hpp>
+
+enum ArchiveState {
+    DVD_ARCHIVE_STATE_CLEARED = 0,
+    DVD_ARCHIVE_STATE_RIPPED = 2,
+    DVD_ARCHIVE_STATE_DECOMPRESSED = 3,
+    DVD_ARCHIVE_STATE_MOUNTED = 4
+};
+
+class DvdArchive {
+public:
+    DvdArchive();
+    virtual ~DvdArchive();
+    virtual void init() = 0;
+private:
+    EGG::Archive *mArchive;
+    void *mArchiveStart;
+    u32 mArchiveSize;
+    EGG::Heap *mArchiveHeap;
+    void *mFileStart;
+    u32 mFileSize;
+    EGG::Heap *mFileHeap;
+    volatile ArchiveState mStatus;
+
+    inline void clearArchive() {
+        if (!mArchiveStart) return;
+
+        mArchiveHeap->free(mArchiveStart);
+        mArchiveStart = nullptr;
+        mArchiveSize = NULL;
+        mArchiveHeap = nullptr;
+        return;
+    }
+    inline void clearFile() {
+        if (!mFileStart) return;
+
+        mFileHeap->free(mFileStart);
+        mFileStart = nullptr;
+        mFileSize = NULL;
+        mFileHeap = nullptr;
+        return;
+    }
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
