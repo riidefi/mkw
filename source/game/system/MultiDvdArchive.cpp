@@ -8,7 +8,7 @@ extern UNKNOWN_FUNCTION(SArchive_load2);
 // PAL: 0x805190f0
 extern UNKNOWN_FUNCTION(SArchive_ripFile);
 // PAL: 0x80519240
-extern UNKNOWN_FUNCTION(SArchive_destroyBuffers);
+extern UNKNOWN_FUNCTION(clear__10DvdArchiveFv);
 // PAL: 0x805192cc
 extern UNKNOWN_FUNCTION(DvdArchive_unmount);
 // PAL: 0x80519420
@@ -1021,7 +1021,7 @@ lbl_8052ac60:
   lwz r3, 4(r30);
   mulli r0, r0, 0x24;
   add r3, r3, r0;
-  bl SArchive_destroyBuffers;
+  bl clear__10DvdArchiveFv;
   addi r31, r31, 1;
 lbl_8052ac78:
   lhz r0, 8(r30);

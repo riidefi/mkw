@@ -9239,7 +9239,7 @@
 0x805190e8 unk_805190e8
 0x805190f0 SArchive_ripFile
 0x805191a4 unk_805191a4
-0x80519240 SArchive_destroyBuffers
+0x80519240 clear__10DvdArchiveFv
 0x805192cc DvdArchive_unmount
 0x80519370 unk_80519370
 0x805193c8 unk_805193c8
