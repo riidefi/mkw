@@ -36,6 +36,7 @@ public:
                   s32 param_4);
   void* getFileCopy(char* filename, EGG::Heap* heap, size_t* size, s8 param_4);
   void _UNKNOWN3(int, void* p);
+  bool _tryRipFile(char* path, EGG::Heap* fileHeap, u8 param_3);
   void clear();
   void _UNKNOWN2();
   void unmount();
@@ -87,6 +88,24 @@ private:
     mFileSize = 0;
     mFileHeap = 0;
     mStatus = DVD_ARCHIVE_STATE_DECOMPRESSED;
+  }
+  inline bool tryRipFile(char* path, EGG::Heap* fileHeap, char param_4) {
+    s32 allocDirection = 1;
+    bool ripped = false;
+
+    if (param_4 < 0) {
+      allocDirection = 2;
+    }
+
+    mFileStart = DvdRipper_loadToMainRAM(path, 0, fileHeap, allocDirection, 0,
+                                         0, &mFileSize);
+    if (mFileSize && mFileStart) {
+      mFileHeap = fileHeap;
+      ripped = true;
+    } else {
+      mFileSize = 0;
+    }
+    return ripped;
   }
   volatile bool isRipped() const { return mStatus == 2; }
 };

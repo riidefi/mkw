@@ -178,55 +178,8 @@ lbl_80519188:
   // clang-format on
 }
 
-// Symbol: unk_805191a4
-// PAL: 0x805191a4..0x80519240
-MARK_BINARY_BLOB(unk_805191a4, 0x805191a4, 0x80519240);
-asm UNKNOWN_FUNCTION(unk_805191a4) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  extsb. r0, r6;
-  li r6, 1;
-  stw r31, 0x1c(r1);
-  li r31, 0;
-  stw r30, 0x18(r1);
-  mr r30, r5;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  bge lbl_805191d8;
-  li r6, 2;
-lbl_805191d8:
-  mr r3, r4;
-  mr r5, r30;
-  addi r9, r29, 0x18;
-  li r4, 0;
-  li r7, 0;
-  li r8, 0;
-  bl unk_805553b0;
-  lwz r0, 0x18(r29);
-  stw r3, 0x14(r29);
-  cmpwi r0, 0;
-  beq lbl_80519218;
-  cmpwi r3, 0;
-  beq lbl_80519218;
-  stw r30, 0x1c(r29);
-  li r31, 1;
-  b lbl_80519220;
-lbl_80519218:
-  li r0, 0;
-  stw r0, 0x18(r29);
-lbl_80519220:
-  mr r3, r31;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool DvdArchive::_tryRipFile(char* path, EGG::Heap* fileHeap, u8 param_3) {
+  return DvdArchive::tryRipFile(path, fileHeap, param_3);
 }
 
 void DvdArchive::clear() {
