@@ -3,17 +3,17 @@
 extern "C" {
 // PAL: 0x80518e10
 extern UNKNOWN_FUNCTION(
-    load__Q26System10DvdArchiveFPcPQ23EGG4HeapilPQ23EGG4HeapUl);
+    load__Q26System10DvdArchiveFPCcPQ23EGG4HeapilPQ23EGG4HeapUl);
 // PAL: 0x80518fbc
 extern UNKNOWN_FUNCTION(loadBuffer__Q26System10DvdArchiveFPvUlPQ23EGG4Heapl);
 // PAL: 0x805190f0
-extern UNKNOWN_FUNCTION(ripFile__Q26System10DvdArchiveFPcPQ23EGG4HeapUc);
+extern UNKNOWN_FUNCTION(ripFile__Q26System10DvdArchiveFPCcPQ23EGG4HeapUc);
 // PAL: 0x80519240
 extern UNKNOWN_FUNCTION(clear__Q26System10DvdArchiveFv);
 // PAL: 0x805192cc
 extern UNKNOWN_FUNCTION(unmount__Q26System10DvdArchiveFv);
 // PAL: 0x80519420
-extern UNKNOWN_FUNCTION(getFile__Q26System10DvdArchiveFPcPUl);
+extern UNKNOWN_FUNCTION(getFile__Q26System10DvdArchiveFPCcPUl);
 // PAL: 0x805195d8
 extern UNKNOWN_FUNCTION(
     loadOther__Q26System10DvdArchiveFPCQ26System10DvdArchivePQ23EGG4Heap);
@@ -627,7 +627,7 @@ lbl_8052a7b8:
   beq lbl_8052a7d8;
   mr r4, r28;
   mr r5, r29;
-  bl getFile__Q26System10DvdArchiveFPcPUl;
+  bl getFile__Q26System10DvdArchiveFPCcPUl;
   cmpwi r3, 0;
   mr r5, r3;
   bne lbl_8052a7e8;
@@ -828,7 +828,7 @@ lbl_8052a9fc:
   addi r4, r1, 8;
   li r6, 1;
   li r7, 8;
-  bl load__Q26System10DvdArchiveFPcPQ23EGG4HeapilPQ23EGG4HeapUl;
+  bl load__Q26System10DvdArchiveFPCcPQ23EGG4HeapilPQ23EGG4HeapUl;
   b lbl_8052aa60;
 lbl_8052aa34:
   clrlwi r0, r30, 0x10;
@@ -988,7 +988,7 @@ lbl_8052abf8:
   addi r4, r1, 8;
   li r6, 8;
   add r3, r3, r0;
-  bl ripFile__Q26System10DvdArchiveFPcPQ23EGG4HeapUc;
+  bl ripFile__Q26System10DvdArchiveFPCcPQ23EGG4HeapUc;
 lbl_8052ac18:
   addi r30, r30, 1;
 lbl_8052ac1c:
