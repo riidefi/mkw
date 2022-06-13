@@ -9237,7 +9237,7 @@
 0x80518fbc loadBuffer__10DvdArchiveFPvUlPQ23EGG4Heapl
 0x80519040 unk_80519040
 0x805190e8 unk_805190e8
-0x805190f0 SArchive_ripFile
+0x805190f0 ripFile__10DvdArchiveFPcPQ23EGG4HeapUc
 0x805191a4 unk_805191a4
 0x80519240 clear__10DvdArchiveFv
 0x805192cc unmount__10DvdArchiveFv

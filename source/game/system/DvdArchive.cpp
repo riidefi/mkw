@@ -119,67 +119,18 @@ void* DvdArchive::getFileCopy(char* filename, EGG::Heap* heap, size_t* size,
 
 void DvdArchive::_UNKNOWN3(int, void* p) { delete[] p; }
 
-// Symbol: SArchive_ripFile
-// PAL: 0x805190f0..0x805191a4
-MARK_BINARY_BLOB(SArchive_ripFile, 0x805190f0, 0x805191a4);
-asm UNKNOWN_FUNCTION(SArchive_ripFile) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  extsb. r0, r6;
-  li r6, 1;
-  stw r31, 0x1c(r1);
-  li r31, 0;
-  stw r30, 0x18(r1);
-  mr r30, r5;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  bge lbl_80519124;
-  li r6, 2;
-lbl_80519124:
-  mr r3, r4;
-  mr r5, r30;
-  addi r9, r29, 0x18;
-  li r4, 0;
-  li r7, 0;
-  li r8, 0;
-  bl unk_805553b0;
-  lwz r0, 0x18(r29);
-  stw r3, 0x14(r29);
-  cmpwi r0, 0;
-  beq lbl_80519164;
-  cmpwi r3, 0;
-  beq lbl_80519164;
-  stw r30, 0x1c(r29);
-  li r31, 1;
-  b lbl_8051916c;
-lbl_80519164:
-  li r0, 0;
-  stw r0, 0x18(r29);
-lbl_8051916c:
-  cmpwi r31, 0;
-  beq lbl_80519180;
-  li r0, 2;
-  stw r0, 0x20(r29);
-  b lbl_80519188;
-lbl_80519180:
-  li r0, 0;
-  stw r0, 0x20(r29);
-lbl_80519188:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+void DvdArchive::ripFile(char* path, EGG::Heap* fileHeap, u8 align) {
+  bool ripped = DvdArchive::tryRipFile(path, fileHeap, align);
+
+  if (ripped) {
+    mStatus = DVD_ARCHIVE_STATE_RIPPED;
+  } else {
+    mStatus = DVD_ARCHIVE_STATE_CLEARED;
+  }
 }
 
-bool DvdArchive::_tryRipFile(char* path, EGG::Heap* fileHeap, u8 param_3) {
-  return DvdArchive::tryRipFile(path, fileHeap, param_3);
+bool DvdArchive::_tryRipFile(char* path, EGG::Heap* fileHeap, u8 align) {
+  return DvdArchive::tryRipFile(path, fileHeap, align);
 }
 
 void DvdArchive::clear() {

@@ -6,7 +6,7 @@ extern UNKNOWN_FUNCTION(load__10DvdArchiveFPcPQ23EGG4HeapilPQ23EGG4HeapUl);
 // PAL: 0x80518fbc
 extern UNKNOWN_FUNCTION(loadBuffer__10DvdArchiveFPvUlPQ23EGG4Heapl);
 // PAL: 0x805190f0
-extern UNKNOWN_FUNCTION(SArchive_ripFile);
+extern UNKNOWN_FUNCTION(ripFile__10DvdArchiveFPcPQ23EGG4HeapUc);
 // PAL: 0x80519240
 extern UNKNOWN_FUNCTION(clear__10DvdArchiveFv);
 // PAL: 0x805192cc
@@ -986,7 +986,7 @@ lbl_8052abf8:
   addi r4, r1, 8;
   li r6, 8;
   add r3, r3, r0;
-  bl SArchive_ripFile;
+  bl ripFile__10DvdArchiveFPcPQ23EGG4HeapUc;
 lbl_8052ac18:
   addi r30, r30, 1;
 lbl_8052ac1c:

@@ -36,7 +36,8 @@ public:
                   s32 param_4);
   void* getFileCopy(char* filename, EGG::Heap* heap, size_t* size, s8 param_4);
   void _UNKNOWN3(int, void* p);
-  bool _tryRipFile(char* path, EGG::Heap* fileHeap, u8 param_3);
+  void ripFile(char* path, EGG::Heap* fileHeap, u8 align);
+  bool _tryRipFile(char* path, EGG::Heap* fileHeap, u8 align);
   void clear();
   void _UNKNOWN2();
   void unmount();
@@ -89,11 +90,11 @@ private:
     mFileHeap = 0;
     mStatus = DVD_ARCHIVE_STATE_DECOMPRESSED;
   }
-  inline bool tryRipFile(char* path, EGG::Heap* fileHeap, char param_4) {
+  inline bool tryRipFile(char* path, EGG::Heap* fileHeap, char align) {
     s32 allocDirection = 1;
     bool ripped = false;
 
-    if (param_4 < 0) {
+    if (align < 0) {
       allocDirection = 2;
     }
 
@@ -133,7 +134,7 @@ UNKNOWN_FUNCTION(unk_80519040);
 // PAL: 0x805190e8..0x805190f0
 UNKNOWN_FUNCTION(unk_805190e8);
 // PAL: 0x805190f0..0x805191a4
-UNKNOWN_FUNCTION(SArchive_ripFile);
+UNKNOWN_FUNCTION(ripFile__10DvdArchiveFPcPQ23EGG4HeapUc);
 // PAL: 0x805191a4..0x80519240
 UNKNOWN_FUNCTION(unk_805191a4);
 // PAL: 0x80519240..0x805192cc
