@@ -2,7 +2,7 @@
 
 extern "C" {
 // PAL: 0x80518e10
-extern UNKNOWN_FUNCTION(DvdArchive_load);
+extern UNKNOWN_FUNCTION(load__10DvdArchiveFPcPQ23EGG4HeapiUcPQ23EGG4HeapUl);
 // PAL: 0x80518fbc
 extern UNKNOWN_FUNCTION(SArchive_load2);
 // PAL: 0x805190f0
@@ -826,7 +826,7 @@ lbl_8052a9fc:
   addi r4, r1, 8;
   li r6, 1;
   li r7, 8;
-  bl DvdArchive_load;
+  bl load__10DvdArchiveFPcPQ23EGG4HeapiUcPQ23EGG4HeapUl;
   b lbl_8052aa60;
 lbl_8052aa34:
   clrlwi r0, r30, 0x10;

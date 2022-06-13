@@ -65,7 +65,7 @@ private:
         mFileStart = 0;
         mFileSize = 0;
         mFileHeap = 0;
-        mStatus = DVD_ARCHIVE_STATE_MOUNTED;
+        mStatus = DVD_ARCHIVE_STATE_DECOMPRESSED;
     }
     volatile bool isRipped() const { return mStatus == 2; }
 };
@@ -83,7 +83,7 @@ UNKNOWN_FUNCTION(DvdArchive_mount);
 // PAL: 0x80518e0c..0x80518e10
 UNKNOWN_FUNCTION(FUN_80518e0c);
 // PAL: 0x80518e10..0x80518fa4
-UNKNOWN_FUNCTION(DvdArchive_load);
+UNKNOWN_FUNCTION(load__10DvdArchiveFPcPQ23EGG4HeapiUcPQ23EGG4HeapUl);
 // PAL: 0x80518fa4..0x80518fbc
 UNKNOWN_FUNCTION(SArchive_load);
 // PAL: 0x80518fbc..0x80519040

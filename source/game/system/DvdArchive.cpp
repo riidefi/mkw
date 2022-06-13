@@ -91,7 +91,7 @@ asm UNKNOWN_FUNCTION(SArchive_load) {
   li r7, -8;
   li r8, 0;
   li r9, 0;
-  b DvdArchive_load;
+  b load__10DvdArchiveFPcPQ23EGG4HeapiUcPQ23EGG4HeapUl;
   // clang-format on
 }
 

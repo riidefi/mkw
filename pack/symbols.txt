@@ -9232,7 +9232,7 @@
 0x80518cc0 DvdArchive_ct
 0x80518cf4 DvdArchive_dt
 0x80518dcc DvdArchive_mount
-0x80518e10 DvdArchive_load
+0x80518e10 load__10DvdArchiveFPcPQ23EGG4HeapiUcPQ23EGG4HeapUl
 0x80518fa4 SArchive_load
 0x80518fbc SArchive_load2
 0x80519040 unk_80519040
