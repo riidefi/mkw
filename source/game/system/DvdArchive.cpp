@@ -33,7 +33,7 @@ void DvdArchive::_mount(EGG::Heap* archiveHeap) {
 // haven't got a clue
 void DvdArchive::_UNKNOWN() {}
 
-void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
+void DvdArchive::load(const char* path, EGG::Heap* archiveHeap, int decompress,
                       s32 align_, EGG::Heap* fileHeap, u32 param_7) {
   if ((decompress == 0) || !fileHeap) {
     fileHeap = archiveHeap;
@@ -53,7 +53,7 @@ void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
 
     mFileStart = DvdRipper_loadToMainRAM(path, 0, fileHeap, allocDirection, 0,
                                          0, &mFileSize);
-    if ((mFileSize != 0) && mFileStart) {
+    if (mFileSize != 0 && mFileStart != nullptr) {
       mFileHeap = fileHeap;
       ripped = true;
     } else {
@@ -79,7 +79,8 @@ void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
   }
 }
 
-void DvdArchive::load(char* path, u32 param_2, EGG::Heap* archiveHeap) {
+void DvdArchive::load(const char* path, u32 param_2, EGG::Heap* archiveHeap) {
+  (void)param_2;
   DvdArchive::load(path, archiveHeap, 0, -8, 0, 0);
 }
 
@@ -97,25 +98,25 @@ void DvdArchive::loadBuffer(void* fileStart, u32 fileSize,
 }
 
 void* DvdArchive::getFileCopy(char* filename, EGG::Heap* heap, size_t* size,
-                              s8 param_4) {
-  size_t local_18;
-  void* file = DvdArchive::getFile(filename, &local_18);
+                              s8 align) {
+  size_t fileSize;
+  void* file = DvdArchive::getFile(filename, &fileSize);
   void* result = file;
 
   if (file) {
-    void* __dest = heap->alloc(local_18, (int)param_4);
-    memcpy(__dest, file, local_18);
-    result = __dest;
-    if (__dest && size) {
-      *size = local_18;
+    void* buffer = heap->alloc(fileSize, align);
+    memcpy(buffer, file, fileSize);
+    result = buffer;
+    if (buffer && size) {
+      *size = fileSize;
     }
   }
   return result;
 }
 
-void DvdArchive::_UNKNOWN2(int, void* p) { delete[] p; }
+void DvdArchive::_UNKNOWN2(int, u8* p) { delete[] p; }
 
-void DvdArchive::ripFile(char* path, EGG::Heap* fileHeap, u8 align) {
+void DvdArchive::ripFile(const char* path, EGG::Heap* fileHeap, u8 align) {
   bool ripped = DvdArchive::tryRipFile(path, fileHeap, align);
 
   if (ripped) {
@@ -125,7 +126,7 @@ void DvdArchive::ripFile(char* path, EGG::Heap* fileHeap, u8 align) {
   }
 }
 
-bool DvdArchive::_tryRipFile(char* path, EGG::Heap* fileHeap, u8 align) {
+bool DvdArchive::_tryRipFile(const char* path, EGG::Heap* fileHeap, u8 align) {
   return DvdArchive::tryRipFile(path, fileHeap, align);
 }
 
@@ -149,7 +150,7 @@ void DvdArchive::_clearArchive() { DvdArchive::clearArchive(); }
 
 void DvdArchive::_clearFile() { DvdArchive::clearFile(); }
 
-void* DvdArchive::getFile(char* filename, size_t* size) {
+void* DvdArchive::getFile(const char* filename, size_t* size) {
   void* result;
   int entryId;
   EGG::Archive::FileInfo fileInfo;
@@ -181,7 +182,9 @@ void* DvdArchive::getFile(char* filename, size_t* size) {
   return result;
 }
 
-void DvdArchive::decompress(char* path, EGG::Heap* archiveHeap, u32 _unused) {
+void DvdArchive::decompress(const char* path, EGG::Heap* archiveHeap,
+                            u32 _unused) {
+  (void)path;
   s32 expandSize = EGG::Decomp::getExpandSize((u8*)mFileStart);
   void* archive = archiveHeap->alloc(expandSize, 0x20);
   EGG::Decomp::decodeSZS((u8*)mFileStart, (u8*)archive);
@@ -192,13 +195,13 @@ void DvdArchive::decompress(char* path, EGG::Heap* archiveHeap, u32 _unused) {
   mStatus = DVD_ARCHIVE_STATE_DECOMPRESSED;
   // The function will automatically inline unless we do this
   // How wonderfully convenient that we have an unused parameter!
-  _unused;
-  _unused;
-  _unused;
-  _unused;
-  _unused;
-  _unused;
-  _unused;
+  (void)_unused;
+  (void)_unused;
+  (void)_unused;
+  (void)_unused;
+  (void)_unused;
+  (void)_unused;
+  (void)_unused;
 }
 
 void DvdArchive::_move() { DvdArchive::move(); }
