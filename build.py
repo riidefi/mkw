@@ -21,7 +21,7 @@ from termcolor import colored
 
 from sources import SOURCES_DOL, SOURCES_REL
 from mkwutil.lib.slices import SliceTable
-from mkwutil.sections import DOL_SECTIONS
+from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS
 from mkwutil.verify_object_file import verify_object_file
 from mkwutil.gen_lcf import gen_lcf
 from mkwutil.mkw_binary_patch import patch_elf
@@ -31,7 +31,7 @@ from mkwutil.verify_main_dol import verify_dol
 from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.progress.percent_decompiled import build_stats
 from mkwutil.gen_asm import gen_asm
-from mkwutil.project import load_dol_slices
+from mkwutil.project import load_dol_slices, load_rel_slices
 
 
 parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
@@ -65,6 +65,13 @@ dol_object_slices = dol_slices.object_slices()
 # Rename objects to stem, not full path.
 dol_object_slices.objects = {
     Path(k).stem: v for k, v in dol_object_slices.objects.items()
+}
+
+rel_slices = load_rel_slices(sections=REL_SECTIONS)
+rel_object_slices = rel_slices.object_slices()
+# Rename objects to stem, not full path.
+rel_object_slices.objects = {
+    Path(k).stem: v for k, v in rel_object_slices.objects.items()
 }
 
 
@@ -265,7 +272,8 @@ def compile_queued_sources():
         if src.stem in stripped_files:
             continue
         # Verify ELF file section sizes.
-        obj_slices = dol_object_slices.get(src.stem)
+        obj_slices = dol_object_slices.get(src.stem) or rel_object_slices.get(src.stem)
+
         if obj_slices:
             verify_object_file(dst, src, obj_slices)
         else:
