@@ -14,179 +14,67 @@ int unk_80386e00 = 0;
 int unk_80386e04 = 0;
 int unk_80386e08 = 0;
 
-// Symbol: decode__Q23EGG6DecompFPUcPUc
-// PAL: 0x80218ba4..0x80218c2c
-MARK_BINARY_BLOB(decode__Q23EGG6DecompFPUcPUc, 0x80218ba4, 0x80218c2c);
-asm void decode(unsigned char*, unsigned char*) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  bl checkCompressed;
-  cmpwi r3, 1;
-  beq lbl_80218be0;
-  cmpwi r3, 2;
-  beq lbl_80218bf0;
-  cmpwi r3, 3;
-  beq lbl_80218c00;
-  b lbl_80218c10;
-lbl_80218be0:
-  mr r3, r30;
-  mr r4, r31;
-  bl decodeSZS;
-  b lbl_80218c14;
-lbl_80218bf0:
-  mr r3, r30;
-  mr r4, r31;
-  bl decodeASH;
-  b lbl_80218c14;
-lbl_80218c00:
-  mr r3, r30;
-  mr r4, r31;
-  bl decodeASR;
-  b lbl_80218c14;
-lbl_80218c10:
-  li r3, -1;
-lbl_80218c14:
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+s32 decode(const u8* src, u8* dst) {
+  switch (checkCompressed(src)) {
+  case TYPE_SZS:
+    return decodeSZS(src, dst);
+  case TYPE_ASH:
+    return decodeASH(src, dst);
+  case TYPE_ASR:
+    return decodeASR(src, dst);
+  default:
+    return -1;
+  }
 }
 
-// Symbol: decodeSZS__Q23EGG6DecompFPUcPUc
-// PAL: 0x80218c2c..0x80218dc0
-MARK_BINARY_BLOB(decodeSZS__Q23EGG6DecompFPUcPUc, 0x80218c2c, 0x80218dc0);
-asm void decodeSZS(unsigned char*, unsigned char*) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  li r5, 0x10;
-  lbz r0, 5(r3);
-  li r6, 0;
-  stw r31, 0xc(r1);
-  lbz r8, 6(r3);
-  slwi r0, r0, 0x10;
-  lbz r7, 4(r3);
-  lbz r9, 7(r3);
-  rlwimi r9, r8, 8, 0x10, 0x17;
-  rlwimi r0, r7, 0x18, 0, 7;
-  stw r30, 8(r1);
-  li r8, 0;
-  or r0, r9, r0;
-  b lbl_80218da4;
-lbl_80218c68:
-  clrlwi. r9, r6, 0x18;
-  bne lbl_80218c7c;
-  lbzx r7, r3, r5;
-  li r6, 0x80;
-  addi r5, r5, 1;
-lbl_80218c7c:
-  clrlwi r9, r6, 0x18;
-  and. r9, r7, r9;
-  beq lbl_80218c9c;
-  lbzx r9, r3, r5;
-  addi r5, r5, 1;
-  stbx r9, r4, r8;
-  addi r8, r8, 1;
-  b lbl_80218da0;
-lbl_80218c9c:
-  add r10, r3, r5;
-  lbzx r9, r3, r5;
-  lbz r11, 1(r10);
-  addi r5, r5, 2;
-  rlwimi r11, r9, 8, 0x10, 0x17;
-  srawi. r10, r11, 0xc;
-  clrlwi r9, r11, 0x14;
-  subf r31, r9, r8;
-  bne lbl_80218cd0;
-  lbzx r9, r3, r5;
-  addi r5, r5, 1;
-  addi r30, r9, 0x12;
-  b lbl_80218cd4;
-lbl_80218cd0:
-  addi r30, r10, 2;
-lbl_80218cd4:
-  cmpwi r30, 0;
-  ble lbl_80218da0;
-  cmpwi r30, 8;
-  ble lbl_80218d70;
-  cmpwi r30, -1;
-  li r9, 0;
-  ble lbl_80218cf4;
-  li r9, 1;
-lbl_80218cf4:
-  cmpwi r9, 0;
-  beq lbl_80218d70;
-  addi r9, r30, -1;
-  add r10, r4, r8;
-  srwi r9, r9, 3;
-  mtctr r9;
-  cmpwi r30, 8;
-  ble lbl_80218d70;
-lbl_80218d14:
-  add r12, r4, r31;
-  add r11, r8, r4;
-  lbz r9, -1(r12);
-  addi r8, r8, 8;
-  stb r9, 0(r10);
-  addi r10, r10, 8;
-  addi r30, r30, -8;
-  lbzx r9, r4, r31;
-  addi r31, r31, 8;
-  stb r9, 1(r11);
-  lbz r9, 1(r12);
-  stb r9, 2(r11);
-  lbz r9, 2(r12);
-  stb r9, 3(r11);
-  lbz r9, 3(r12);
-  stb r9, 4(r11);
-  lbz r9, 4(r12);
-  stb r9, 5(r11);
-  lbz r9, 5(r12);
-  stb r9, 6(r11);
-  lbz r9, 6(r12);
-  stb r9, 7(r11);
-  bdnz lbl_80218d14;
-lbl_80218d70:
-  add r9, r4, r8;
-  mtctr r30;
-  cmpwi r30, 0;
-  ble lbl_80218da0;
-lbl_80218d80:
-  add r10, r4, r31;
-  addi r31, r31, 1;
-  lbz r10, -1(r10);
-  addi r30, r30, -1;
-  stb r10, 0(r9);
-  addi r9, r9, 1;
-  addi r8, r8, 1;
-  bdnz lbl_80218d80;
-lbl_80218da0:
-  rlwinm r6, r6, 0x1f, 0x19, 0x1f;
-lbl_80218da4:
-  cmpw r8, r0;
-  blt lbl_80218c68;
-  lwz r31, 0xc(r1);
-  mr r3, r0;
-  lwz r30, 8(r1);
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+s32 decodeSZS(const u8 * src, u8 *dst) {
+
+  long expandSize = getSZSExpandSize(src);
+  long srcIdx = 0x10;
+  u8 code = 0;
+
+  u8 byte;
+
+  for (long destIdx = 0; destIdx < expandSize; code >>= 1)
+  {
+    if (!code)
+    {
+      code = 0x80;
+      byte = src[srcIdx++];
+    }
+
+    // Direct copy (code bit = 1)
+    if (byte & code)
+    {
+      dst[destIdx++] = src[srcIdx++];
+    }
+    // RLE compressed data (code bit = 0)
+    else
+    {
+      // Lower nibble of byte1 + byte2
+      long distToDest = (src[srcIdx] << 8) | src[srcIdx + 1];
+      srcIdx += sizeof(u8) * 2;
+      long runSrcIdx = destIdx - (distToDest & 0xfff);
+
+      // Upper nibble of byte 1
+      long runLen = ((distToDest >> 12) == 0) ? src[srcIdx++] + 0x12 : (distToDest >> 12) + 2;
+
+      for (; runLen > 0; runLen--, destIdx++, runSrcIdx++) {
+        dst[destIdx] = dst[runSrcIdx - 1];
+      }
+    }
+
+    // Prepare next code bit
+
+  }
+
+  return expandSize;
 }
 
 // Symbol: decodeASH__Q23EGG6DecompFPUcPUc
 // PAL: 0x80218dc0..0x80218ff0
 MARK_BINARY_BLOB(decodeASH__Q23EGG6DecompFPUcPUc, 0x80218dc0, 0x80218ff0);
-asm void decodeASH(unsigned char*, unsigned char*) {
+asm s32 decodeASH(const u8*, u8*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x40(r1);
@@ -347,7 +235,7 @@ lbl_80218fd0:
 // Symbol: decodeASR__Q23EGG6DecompFPUcPUc
 // PAL: 0x80218ff0..0x802198f8
 MARK_BINARY_BLOB(decodeASR__Q23EGG6DecompFPUcPUc, 0x80218ff0, 0x802198f8);
-asm void decodeASR(unsigned char*, unsigned char*) {
+asm s32 decodeASR(const u8*, u8*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x50(r1);
@@ -976,136 +864,34 @@ lbl_802198e0:
   // clang-format on
 }
 
-// Symbol: checkCompressed__Q23EGG6DecompFPUc
-// PAL: 0x802198f8..0x8021997c
-MARK_BINARY_BLOB(checkCompressed__Q23EGG6DecompFPUc, 0x802198f8, 0x8021997c);
-asm int checkCompressed(unsigned char*) {
-  // clang-format off
-  nofralloc;
-  lbz r4, 0(r3);
-  cmpwi r4, 0x59;
-  bne lbl_80219924;
-  lbz r0, 1(r3);
-  cmpwi r0, 0x61;
-  bne lbl_80219924;
-  lbz r0, 2(r3);
-  cmpwi r0, 0x7a;
-  bne lbl_80219924;
-  li r3, 1;
-  blr;
-lbl_80219924:
-  cmpwi r4, 0x41;
-  bne lbl_8021994c;
-  lbz r0, 1(r3);
-  cmpwi r0, 0x53;
-  bne lbl_8021994c;
-  lbz r0, 2(r3);
-  cmpwi r0, 0x48;
-  bne lbl_8021994c;
-  li r3, 2;
-  blr;
-lbl_8021994c:
-  cmpwi r4, 0x41;
-  bne lbl_80219974;
-  lbz r0, 1(r3);
-  cmpwi r0, 0x53;
-  bne lbl_80219974;
-  lbz r0, 2(r3);
-  cmpwi r0, 0x52;
-  bne lbl_80219974;
-  li r3, 3;
-  blr;
-lbl_80219974:
-  li r3, 0;
-  blr;
-  // clang-format on
+CompressionType checkCompressed(const u8 * src) {
+  if ((src[0] == 'Y') && (src[1] == 'a') && (src[2] == 'z'))
+    return TYPE_SZS;
+  if ((src[0] == 'A') && (src[1] == 'S') && (src[2] == 'H'))
+    return TYPE_ASH;
+  if ((src[0] == 'A') && (src[1] == 'S') && (src[2] == 'R'))
+    return TYPE_ASR;
+
+  return TYPE_UNKNOWN;
 }
 
-// Symbol: getExpandSize__Q23EGG6DecompFPUc
-// PAL: 0x8021997c..0x80219a7c
-MARK_BINARY_BLOB(getExpandSize__Q23EGG6DecompFPUc, 0x8021997c, 0x80219a7c);
-asm int getExpandSize(unsigned char*) {
-  // clang-format off
-  nofralloc;
-  lbz r4, 0(r3);
-  cmpwi r4, 0x59;
-  bne lbl_802199a8;
-  lbz r0, 1(r3);
-  cmpwi r0, 0x61;
-  bne lbl_802199a8;
-  lbz r0, 2(r3);
-  cmpwi r0, 0x7a;
-  bne lbl_802199a8;
-  li r0, 1;
-  b lbl_802199fc;
-lbl_802199a8:
-  cmpwi r4, 0x41;
-  bne lbl_802199d0;
-  lbz r0, 1(r3);
-  cmpwi r0, 0x53;
-  bne lbl_802199d0;
-  lbz r0, 2(r3);
-  cmpwi r0, 0x48;
-  bne lbl_802199d0;
-  li r0, 2;
-  b lbl_802199fc;
-lbl_802199d0:
-  cmpwi r4, 0x41;
-  bne lbl_802199f8;
-  lbz r0, 1(r3);
-  cmpwi r0, 0x53;
-  bne lbl_802199f8;
-  lbz r0, 2(r3);
-  cmpwi r0, 0x52;
-  bne lbl_802199f8;
-  li r0, 3;
-  b lbl_802199fc;
-lbl_802199f8:
-  li r0, 0;
-lbl_802199fc:
-  cmpwi r0, 1;
-  beq lbl_80219a18;
-  cmpwi r0, 2;
-  beq lbl_80219a3c;
-  cmpwi r0, 3;
-  beq lbl_80219a58;
-  b lbl_80219a74;
-lbl_80219a18:
-  lbz r0, 5(r3);
-  lbz r5, 6(r3);
-  lbz r4, 7(r3);
-  slwi r0, r0, 0x10;
-  lbz r3, 4(r3);
-  rlwimi r4, r5, 8, 0x10, 0x17;
-  rlwimi r0, r3, 0x18, 0, 7;
-  or r3, r4, r0;
-  blr;
-lbl_80219a3c:
-  lbz r0, 6(r3);
-  lbz r4, 5(r3);
-  slwi r0, r0, 8;
-  lbz r3, 7(r3);
-  rlwimi r0, r4, 0x10, 8, 0xf;
-  or r3, r3, r0;
-  blr;
-lbl_80219a58:
-  lbz r0, 6(r3);
-  lbz r4, 5(r3);
-  slwi r0, r0, 8;
-  lbz r3, 7(r3);
-  rlwimi r0, r4, 0x10, 8, 0xf;
-  or r3, r3, r0;
-  blr;
-lbl_80219a74:
-  li r3, -1;
-  blr;
-  // clang-format on
+s32 getExpandSize(const u8* src) {
+  switch (checkCompressed(src)) {
+  case TYPE_SZS:
+    return getSZSExpandSize(src);
+  case TYPE_ASH:
+    return getASExpandSize(src);
+  case TYPE_ASR:
+    return getASExpandSize(src);
+  default:
+    return -1;
+  }
 }
 
 // Symbol: getBitsCode__Q23EGG6DecompFPUcii
 // PAL: 0x80219a7c..0x80219b84
 MARK_BINARY_BLOB(getBitsCode__Q23EGG6DecompFPUcii, 0x80219a7c, 0x80219b84);
-asm int getBitsCode(unsigned char*, int, int) {
+asm int getBitsCode(const u8*, int, int) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1183,7 +969,7 @@ lbl_80219b6c:
 // Symbol: getBit1c__Q23EGG6DecompFPUci
 // PAL: 0x80219b84..0x80219c10
 MARK_BINARY_BLOB(getBit1c__Q23EGG6DecompFPUci, 0x80219b84, 0x80219c10);
-asm int getBit1c(unsigned char*, int) {
+asm int getBit1c(const u8*, int) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -1229,7 +1015,7 @@ lbl_80219c00:
 // Symbol: readTree9__Q23EGG6DecompFPUcPUsPUsPUs
 // PAL: 0x80219c10..0x80219d34
 MARK_BINARY_BLOB(readTree9__Q23EGG6DecompFPUcPUsPUsPUs, 0x80219c10, 0x80219d34);
-asm void readTree9(unsigned char*, unsigned short*, unsigned short*,
+asm void readTree9(const u8*, unsigned short*, unsigned short*,
                    unsigned short*) {
   // clang-format off
   nofralloc;
@@ -1320,7 +1106,7 @@ lbl_80219d20:
 // PAL: 0x80219d34..0x80219e68
 MARK_BINARY_BLOB(readTree12__Q23EGG6DecompFPUcPUsPUsPUs, 0x80219d34,
                  0x80219e68);
-asm void readTree12(unsigned char*, unsigned short*, unsigned short*,
+asm void readTree12(const u8*, unsigned short*, unsigned short*,
                     unsigned short*) {
   // clang-format off
   nofralloc;
