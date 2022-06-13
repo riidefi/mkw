@@ -100,32 +100,24 @@ void DvdArchive::loadBuffer(void* fileStart, u32 fileSize,
   DvdArchive::mount(archiveHeap);
 }
 
-void* DvdArchive::getFileCopy(char *filename, EGG::Heap *heap, size_t *size, s8 param_4) {
-    size_t local_18;
-    void *file = DvdArchive::getFile(filename, &local_18);
-    void *result = file;
+void* DvdArchive::getFileCopy(char* filename, EGG::Heap* heap, size_t* size,
+                              s8 param_4) {
+  size_t local_18;
+  void* file = DvdArchive::getFile(filename, &local_18);
+  void* result = file;
 
-    if (file) {
-        void *__dest = heap->alloc(local_18, (int)param_4);
-        memcpy(__dest, file, local_18);
-                result = __dest;
-        if (__dest && size) {
-            *size = local_18;
-        }
+  if (file) {
+    void* __dest = heap->alloc(local_18, (int)param_4);
+    memcpy(__dest, file, local_18);
+    result = __dest;
+    if (__dest && size) {
+      *size = local_18;
     }
-    return result;
+  }
+  return result;
 }
 
-// Symbol: unk_805190e8
-// PAL: 0x805190e8..0x805190f0
-MARK_BINARY_BLOB(unk_805190e8, 0x805190e8, 0x805190f0);
-asm UNKNOWN_FUNCTION(unk_805190e8) {
-  // clang-format off
-  nofralloc;
-  mr r3, r5;
-  b unk_805553b0;
-  // clang-format on
-}
+void DvdArchive::_UNKNOWN3(int, void* p) { delete[] p; }
 
 // Symbol: SArchive_ripFile
 // PAL: 0x805190f0..0x805191a4
@@ -346,26 +338,9 @@ asm UNKNOWN_FUNCTION(decompress__10DvdArchiveFPcPQ23EGG4HeapUl) {
   // clang-format on
 }
 
-// Symbol: unk_805195a4
-// PAL: 0x805195a4..0x805195d8
-MARK_BINARY_BLOB(unk_805195a4, 0x805195a4, 0x805195d8);
-asm UNKNOWN_FUNCTION(unk_805195a4) {
-  // clang-format off
-  nofralloc;
-  lwz r7, 0x14(r3);
-  li r4, 0;
-  lwz r6, 0x18(r3);
-  li r0, 3;
-  lwz r5, 0x1c(r3);
-  stw r7, 8(r3);
-  stw r6, 0xc(r3);
-  stw r5, 0x10(r3);
-  stw r4, 0x14(r3);
-  stw r4, 0x18(r3);
-  stw r4, 0x1c(r3);
-  stw r0, 0x20(r3);
-  blr;
-  // clang-format on
+void DvdArchive::_move() {
+  DvdArchive::move();
+  return;
 }
 
 // Symbol: SArchive_loadOther

@@ -34,15 +34,16 @@ public:
   void load(char* path, u32 _unused, EGG::Heap* archiveHeap);
   void loadBuffer(void* fileStart, u32 fileSize, EGG::Heap* archiveHeap,
                   s32 param_4);
-  void* getFileCopy(char *filename, EGG::Heap *heap, size_t *size, s8 param_4);
+  void* getFileCopy(char* filename, EGG::Heap* heap, size_t* size, s8 param_4);
+  void _UNKNOWN3(int, void* p);
   void clear();
   void _UNKNOWN2();
   void unmount();
   void _clearArchive();
   void _clearFile();
-  void _UNKNOWN3();
   void* getFile(char* filename, size_t* size);
   void decompress(char* path, EGG::Heap* archiveHeap, u32 _unused);
+  void _move();
 
 private:
   EGG::Archive* mArchive;
