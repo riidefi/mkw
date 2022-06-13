@@ -5,12 +5,18 @@ Script to verify the target StaticR.rel for authenticity.
 import argparse
 from colorama import Fore, Style
 from pathlib import Path
+import struct
 import sys
 
 from .lib.rel import Rel
 from .lib.verify_binary import *
 from .sections import REL_SECTIONS, REL_SECTION_IDX
 
+# https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
 
 def verify_rel(reference: Path, target: Path):
     """Verifies the target StaticR.rel for authenticity."""
@@ -42,6 +48,7 @@ def verify_rel(reference: Path, target: Path):
     for i, idx in enumerate(REL_SECTION_IDX):
         good_section = good.section_info[idx]
         bad_section = bad.section_info[idx]
+        info = REL_SECTIONS[idx - 1]
         match = good_section.data == bad_section.data
         tag = "OK" if match else "FAIL"
         if good_section.length != bad_section.length:
@@ -56,6 +63,15 @@ def verify_rel(reference: Path, target: Path):
                 tag,
             )
         )
+        if not match:
+            paired_data = zip(chunks(good_section.data, 4), chunks(bad_section.data, 4))
+
+            for i, (good_bytes, bad_bytes) in enumerate(paired_data):
+                vaddr = info.start + i * 4
+
+                if good_bytes == bad_bytes:
+                    continue
+                print("%x: Good=%x Bad=%x" % (vaddr, struct.unpack(">I", good_bytes)[0], struct.unpack(">I", bad_bytes)[0]))
 
     print(
         Fore.RED + Style.BRIGHT + "[REL] Oof: Output doesn't match." + Style.RESET_ALL
