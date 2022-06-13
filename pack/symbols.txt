@@ -9652,7 +9652,7 @@
 0x8052a488 unk_8052a488
 0x8052a4e0 unk_8052a4e0
 0x8052a538 MultiDvdArchive_ct
-0x8052a648 MultiDvdArchive_init
+0x8052a648 init__Q26System15MultiDvdArchiveFv
 0x8052a6dc MultiDvdArchive_dt
 0x8052a760 MultiDvdArchive_getFile
 0x8052a800 unk_8052a800

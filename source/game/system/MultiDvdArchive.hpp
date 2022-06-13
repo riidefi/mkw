@@ -31,7 +31,7 @@ UNKNOWN_FUNCTION(unk_8052a4e0);
 // PAL: 0x8052a538..0x8052a648
 UNKNOWN_FUNCTION(MultiDvdArchive_ct);
 // PAL: 0x8052a648..0x8052a6dc
-UNKNOWN_FUNCTION(MultiDvdArchive_init);
+UNKNOWN_FUNCTION(init__Q26System15MultiDvdArchiveFv);
 // PAL: 0x8052a6dc..0x8052a760
 UNKNOWN_FUNCTION(MultiDvdArchive_dt);
 // PAL: 0x8052a760..0x8052a800
@@ -62,3 +62,24 @@ UNKNOWN_FUNCTION(unk_8052ae08);
 #ifdef __cplusplus
 }
 #endif
+
+#include "DvdArchive.hpp"
+
+namespace System {
+
+class MultiDvdArchive {
+public:
+    MultiDvdArchive();
+    void init();
+    virtual ~MultiDvdArchive();
+private:
+    DvdArchive *archives;
+    u16 archiveCount;
+    u8 _0a[0x10 - 0x0a];
+    char **suffixes;
+    u8 _14[0x18 - 0x14];
+    u32 *kinds;
+    void init(const char *);
+};
+
+}

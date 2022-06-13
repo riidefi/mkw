@@ -19,6 +19,8 @@ extern UNKNOWN_FUNCTION(SArchive_loadOther);
 extern UNKNOWN_FUNCTION(unk_805553b0);
 }
 
+#include <string.h>
+
 // Symbol: MultiDvdArchive_create
 // PAL: 0x8052a098..0x8052a1c8
 MARK_BINARY_BLOB(MultiDvdArchive_create, 0x8052a098, 0x8052a1c8);
@@ -151,7 +153,7 @@ asm UNKNOWN_FUNCTION(CourseMultiDvdArchive_init) {
   stw r0, 0x14(r1);
   stw r31, 0xc(r1);
   mr r31, r3;
-  bl MultiDvdArchive_init;
+  bl init__Q26System15MultiDvdArchiveFv;
   lhz r0, 8(r31);
   lis r4, 0;
   addi r4, r4, 0;
@@ -228,7 +230,7 @@ asm UNKNOWN_FUNCTION(unk_8052a2fc) {
   stw r0, 0x14(r1);
   stw r31, 0xc(r1);
   mr r31, r3;
-  bl MultiDvdArchive_init;
+  bl init__Q26System15MultiDvdArchiveFv;
   lis r3, 0;
   lhz r0, 8(r31);
   lwz r4, 0(r3);
@@ -296,7 +298,7 @@ asm UNKNOWN_FUNCTION(unk_8052a3c0) {
   stw r0, 0x14(r1);
   stw r31, 0xc(r1);
   mr r31, r3;
-  bl MultiDvdArchive_init;
+  bl init__Q26System15MultiDvdArchiveFv;
   lis r3, 0;
   lhz r0, 8(r31);
   lwz r4, 0(r3);
@@ -500,7 +502,7 @@ lbl_8052a620:
 
 // Symbol: MultiDvdArchive_init
 // PAL: 0x8052a648..0x8052a6dc
-MARK_BINARY_BLOB(MultiDvdArchive_init, 0x8052a648, 0x8052a6dc);
+/*MARK_BINARY_BLOB(MultiDvdArchive_init, 0x8052a648, 0x8052a6dc);
 asm UNKNOWN_FUNCTION(MultiDvdArchive_init) {
   // clang-format off
   nofralloc;
@@ -545,6 +547,23 @@ lbl_8052a6ac:
   addi r1, r1, 0x20;
   blr;
   // clang-format on
+}*/
+
+extern const char*const SZS;
+
+namespace System {
+
+void MultiDvdArchive::init() {
+    const char* suffix = SZS;
+    for (unsigned short i = 0; i < this->archiveCount; i++) {
+        // matches less for some reason if this unneccesary extra comparison is removed
+        if (i < this->archiveCount) {
+            this->kinds[i] = 0;
+            strncpy(this->suffixes[i],suffix,128);
+        }
+    }
+}
+
 }
 
 // Symbol: MultiDvdArchive_dt
