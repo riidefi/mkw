@@ -4,6 +4,9 @@
 // PAL: 0x805553b0
 extern UNKNOWN_FUNCTION(unk_805553b0);
 
+// ??????
+__declspec(section ".rodata") int int_8088FAA0 = 0x4B000;
+
 DvdArchive::DvdArchive() {
   mArchive = nullptr;
   mArchiveStart = nullptr;
@@ -80,52 +83,21 @@ void DvdArchive::load(char* path, EGG::Heap* archiveHeap, int decompress,
   return;
 }
 
-// loads uncompressed archives
 void DvdArchive::load(char* path, u32 param_2, EGG::Heap* archiveHeap) {
   DvdArchive::load(path, archiveHeap, 0, -8, 0, 0);
 }
 
-// Symbol: SArchive_load2
-// PAL: 0x80518fbc..0x80519040
-MARK_BINARY_BLOB(SArchive_load2, 0x80518fbc, 0x80519040);
-asm UNKNOWN_FUNCTION(SArchive_load2) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r7, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r6;
-  stw r30, 8(r1);
-  mr r30, r3;
-  stw r4, 0x14(r3);
-  stw r5, 0x18(r3);
-  beq lbl_8051900c;
-  lis r4, 0;
-  mr r5, r31;
-  addi r4, r4, 0;
-  li r6, 0;
-  bl decompress__10DvdArchiveFPcPQ23EGG4HeapUl;
-  li r0, 0;
-  stw r0, 0x14(r30);
-  stw r0, 0x18(r30);
-  stw r0, 0x1c(r30);
-lbl_8051900c:
-  lwz r3, 8(r30);
-  mr r4, r31;
-  li r5, 4;
-  bl unk_805553b0;
-  li r0, 4;
-  stw r3, 4(r30);
-  stw r0, 0x20(r30);
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void DvdArchive::loadBuffer(void* fileStart, u32 fileSize,
+                            EGG::Heap* archiveHeap, s32 param_4) {
+  mFileStart = fileStart;
+  mFileSize = fileSize;
+  if (param_4 != 0) {
+    DvdArchive::decompress("buffer_data\0%s\0/%s", archiveHeap, 0);
+    mFileStart = 0;
+    mFileSize = 0;
+    mFileHeap = 0;
+  }
+  DvdArchive::mount(archiveHeap);
 }
 
 // Symbol: unk_80519040

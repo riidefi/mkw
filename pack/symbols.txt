@@ -9234,7 +9234,7 @@
 0x80518dcc DvdArchive_mount
 0x80518e10 load__10DvdArchiveFPcPQ23EGG4HeapilPQ23EGG4HeapUl
 0x80518fa4 SArchive_load
-0x80518fbc SArchive_load2
+0x80518fbc loadBuffer__10DvdArchiveFPvUlPQ23EGG4Heapl
 0x80519040 unk_80519040
 0x805190e8 unk_805190e8
 0x805190f0 SArchive_ripFile

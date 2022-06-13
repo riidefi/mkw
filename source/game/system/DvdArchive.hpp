@@ -32,6 +32,8 @@ public:
             EGG::Heap* filePath, u32 param_6);
   //! loads uncompressed archives
   void load(char* path, u32 _unused, EGG::Heap* archiveHeap);
+  void loadBuffer(void* fileStart, u32 fileSize, EGG::Heap* archiveHeap,
+                  s32 param_4);
   void clear();
   void _UNKNOWN2();
   void unmount();
@@ -104,7 +106,7 @@ UNKNOWN_FUNCTION(load__10DvdArchiveFPcPQ23EGG4HeapilPQ23EGG4HeapUl);
 // PAL: 0x80518fa4..0x80518fbc
 UNKNOWN_FUNCTION(SArchive_load);
 // PAL: 0x80518fbc..0x80519040
-UNKNOWN_FUNCTION(SArchive_load2);
+UNKNOWN_FUNCTION(loadBuffer__10DvdArchiveFPvUlPQ23EGG4Heapl);
 // PAL: 0x80519040..0x805190e8
 UNKNOWN_FUNCTION(unk_80519040);
 // PAL: 0x805190e8..0x805190f0
