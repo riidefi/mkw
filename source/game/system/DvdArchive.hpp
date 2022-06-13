@@ -34,13 +34,14 @@ public:
   void load(char* path, u32 _unused, EGG::Heap* archiveHeap);
   void loadBuffer(void* fileStart, u32 fileSize, EGG::Heap* archiveHeap,
                   s32 param_4);
+  void* getFileCopy(char *filename, EGG::Heap *heap, size_t *size, s8 param_4);
   void clear();
   void _UNKNOWN2();
   void unmount();
   void _clearArchive();
   void _clearFile();
   void _UNKNOWN3();
-  void* getFile(char* filename, int* size);
+  void* getFile(char* filename, size_t* size);
   void decompress(char* path, EGG::Heap* archiveHeap, u32 _unused);
 
 private:
@@ -124,7 +125,7 @@ UNKNOWN_FUNCTION(unk_80519370);
 // PAL: 0x805193c8..0x80519420
 UNKNOWN_FUNCTION(unk_805193c8);
 // PAL: 0x80519420..0x80519508
-UNKNOWN_FUNCTION(getFile__10DvdArchiveFPcPi);
+UNKNOWN_FUNCTION(getFile__10DvdArchiveFPcPUl);
 // PAL: 0x80519508..0x805195a4
 UNKNOWN_FUNCTION(decompress__10DvdArchiveFPcPQ23EGG4HeapUl);
 // PAL: 0x805195a4..0x805195d8

@@ -12,7 +12,7 @@ extern UNKNOWN_FUNCTION(clear__10DvdArchiveFv);
 // PAL: 0x805192cc
 extern UNKNOWN_FUNCTION(unmount__10DvdArchiveFv);
 // PAL: 0x80519420
-extern UNKNOWN_FUNCTION(getFile__10DvdArchiveFPcPi);
+extern UNKNOWN_FUNCTION(getFile__10DvdArchiveFPcPUl);
 // PAL: 0x805195d8
 extern UNKNOWN_FUNCTION(SArchive_loadOther);
 // PAL: 0x805553b0
@@ -625,7 +625,7 @@ lbl_8052a7b8:
   beq lbl_8052a7d8;
   mr r4, r28;
   mr r5, r29;
-  bl getFile__10DvdArchiveFPcPi;
+  bl getFile__10DvdArchiveFPcPUl;
   cmpwi r3, 0;
   mr r5, r3;
   bne lbl_8052a7e8;

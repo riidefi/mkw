@@ -9243,7 +9243,7 @@
 0x805192cc unmount__10DvdArchiveFv
 0x80519370 unk_80519370
 0x805193c8 unk_805193c8
-0x80519420 getFile__10DvdArchiveFPcPi
+0x80519420 getFile__10DvdArchiveFPcPUl
 0x80519508 decompress__10DvdArchiveFPcPQ23EGG4HeapUl
 0x805195a4 unk_805195a4
 0x805195d8 SArchive_loadOther

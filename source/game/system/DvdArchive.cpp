@@ -100,56 +100,20 @@ void DvdArchive::loadBuffer(void* fileStart, u32 fileSize,
   DvdArchive::mount(archiveHeap);
 }
 
-// Symbol: unk_80519040
-// PAL: 0x80519040..0x805190e8
-MARK_BINARY_BLOB(unk_80519040, 0x80519040, 0x805190e8);
-asm UNKNOWN_FUNCTION(unk_80519040) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  stw r30, 0x18(r1);
-  mr r30, r7;
-  stw r29, 0x14(r1);
-  mr r29, r6;
-  stw r28, 0x10(r1);
-  mr r28, r5;
-  addi r5, r1, 8;
-  bl getFile__10DvdArchiveFPcPi;
-  cmpwi r3, 0;
-  mr r31, r3;
-  beq lbl_805190c4;
-  lwz r12, 0(r28);
-  mr r3, r28;
-  extsb r5, r30;
-  lwz r4, 8(r1);
-  lwz r12, 0x14(r12);
-  mtctr r12;
-  bctrl;
-  lwz r5, 8(r1);
-  mr r30, r3;
-  mr r4, r31;
-  bl unk_805553b0;
-  cmpwi r30, 0;
-  mr r31, r30;
-  beq lbl_805190c4;
-  cmpwi r29, 0;
-  beq lbl_805190c4;
-  lwz r0, 8(r1);
-  stw r0, 0(r29);
-lbl_805190c4:
-  mr r3, r31;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r28, 0x10(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+void* DvdArchive::getFileCopy(char *filename, EGG::Heap *heap, size_t *size, s8 param_4) {
+    size_t local_18;
+    void *file = DvdArchive::getFile(filename, &local_18);
+    void *result = file;
+
+    if (file) {
+        void *__dest = heap->alloc(local_18, (int)param_4);
+        memcpy(__dest, file, local_18);
+                result = __dest;
+        if (__dest && size) {
+            *size = local_18;
+        }
+    }
+    return result;
 }
 
 // Symbol: unk_805190e8
@@ -301,7 +265,7 @@ void DvdArchive::_clearFile() {
   return;
 }
 
-void* DvdArchive::getFile(char* filename, int* size) {
+void* DvdArchive::getFile(char* filename, size_t* size) {
   void* result;
   int entryId;
   EGG::Archive::FileInfo fileInfo;
