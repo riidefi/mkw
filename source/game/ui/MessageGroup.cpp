@@ -54,14 +54,10 @@ void MessageGroup::load(const void* file) {
   }
 }
 
-s32 MessageGroup::getSlot(u32 messageId) {
+s32 MessageGroup::getSlot(u32 messageId) const {
   s32 result = -1;
   s32 min = 0;
-#ifdef NON_MATCHING
   s32 max = mMid->numEntries - 1;
-#else
-  s32 max = ((u16**)this)[0x10 / 4][0] - 1;
-#endif
 
   while (min <= max) {
     const s32 middle = (min + max) >> 1;

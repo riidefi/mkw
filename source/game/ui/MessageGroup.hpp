@@ -14,7 +14,7 @@ public:
 
   void load(const void* file);
 
-  s32 getSlot(u32 messageId);
+  s32 getSlot(u32 messageId) const;
 
   const wchar_t* getMessage(s32 slot);
 
