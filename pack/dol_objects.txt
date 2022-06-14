@@ -383,9 +383,11 @@ out/dol/sbss_80386e0c_80386e18.o
 out/eggDvdFile.o
 out/eggDvdRipper.o
 out/eggEffect.o
-out/dol/text_80224348_802269a8.o
 out/dol/ctors_80244e74_80244e88.o
-out/dol/data_802a2dc8_802a2ff8.o
+out/dol/data_802a2dc8_802a2e50.o
+out/eggEffectCreator.o
+out/dol/text_802246ec_802269a8.o
+out/dol/data_802a2e70_802a2ff8.o
 out/eggExpHeap.o
 out/eggFog.o
 out/eggFogManager.o

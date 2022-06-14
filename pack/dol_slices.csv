@@ -166,6 +166,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/egg/core/eggDvdRipper.cpp,,,,,,,0x802226d8,0x80222ccc,,,,,,,,,,,0x80385f88,0x80385f89,0x80386e20,0x80386e28,,,,
 1,,source/egg/core/eggExpHeap.cpp,,,,,,,0x802269A8,0x80226F04,,,,,0x80257700,0x8025771A,0x802A2FF8,0x802A3024,,,,,,,,,,
 1,,source/egg/util/eggEffect.cpp,,,,,,,0x80222CCC,0x80224348,0x80244E70,0x80244E74,,,,,,,,,,,,,,,,
+1,,source/egg/util/eggEffectCreator.cpp,,,,,,,0x80224348,0x802246EC,,,,,,,0x802A2E50,0x802A2E70,,,,,,,,,,
 1,,source/egg/gfx/eggFog.cpp,,,,,,,0x80226F04,0x802271BC,,,,,,,,,,,,,,,,,,
 1,,source/egg/gfx/eggFogManager.cpp,,,,,,,0x802271BC,0x802276C0,,,,,,,,,,,,,,,,,,
 1,,source/egg/core/eggGraphicsFifo.cpp,,,,,,,0x80229540,0x802296A8,,,,,,,0x802A30B0,0x802A30BC,,,,,0x80386E90,0x80386E99,,,,

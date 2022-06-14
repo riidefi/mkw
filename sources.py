@@ -245,6 +245,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggDvdRipper.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggExpHeap.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/util/eggEffect.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
+    Source(src="source/egg/util/eggEffectCreator.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/gfx/eggFog.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/gfx/eggFogManager.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/core/eggGraphicsFifo.cpp", cc='4201_127', opts=EGG_OPTS),
