@@ -159,6 +159,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/egg/audio/eggAudioArcPlayerMgr.cpp,,,,,,,0x80210590,0x80211058,,,,,,,,,,,,,,,,,,
 ,,source/egg/audio/eggAudioMgr.cpp,,,,,,,0x80211320,0x80213038,,,,,,,0x802a2790,0x802a2864,,,,,,,0x80388a40,0x80388a4c,,
 1,1,source/egg/util/eggCntFile.cpp,,,,,,,0x80214E68,0x80215168,,,,,,,0x802A2A08,0x802A2A28,,,,,0x80386DC8,0x80386DCC,,,,
+1,,source/egg/core/eggCompress.cpp,,,,,,,0x802156AC,0x80215CBC,,,,,,,,,,,,,,,,,,
 1,,source/egg/core/eggDecomp.cpp,,,,,,,0x80218BA4,0x80219E68,,,,,,,,,,,,,0x80386de8,0x80386e0c,,,,
 1,,source/egg/core/eggDisplay.cpp,,,,,,,0x80219E68,0x8021A0F0,,,,,,,,,,,,,,,,,,
 1,,source/egg/core/eggDisposer.cpp,,,,,,,0x8021A0F0,0x8021A1B8,,,,,,,0x802A2B48,0x802A2B54,0x80383500,0x80383510,,,,,,,,
