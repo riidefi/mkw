@@ -33,31 +33,7 @@ UNKNOWN_FUNCTION(__ct__Q26System15MultiDvdArchiveFUs);
 // PAL: 0x8052a648..0x8052a6dc
 UNKNOWN_FUNCTION(init__Q26System15MultiDvdArchiveFv);
 // PAL: 0x8052a6dc..0x8052a760
-UNKNOWN_FUNCTION(MultiDvdArchive_dt);
-// PAL: 0x8052a760..0x8052a800
-UNKNOWN_FUNCTION(MultiDvdArchive_getFile);
-// PAL: 0x8052a800..0x8052a864
-UNKNOWN_FUNCTION(unk_8052a800);
-// PAL: 0x8052a864..0x8052a954
-UNKNOWN_FUNCTION(MultiDvdArchive_exists);
-// PAL: 0x8052a954..0x8052aa88
-UNKNOWN_FUNCTION(MultiDvdArchive_load);
-// PAL: 0x8052aa88..0x8052aae8
-UNKNOWN_FUNCTION(unk_8052aa88);
-// PAL: 0x8052aae8..0x8052ab6c
-UNKNOWN_FUNCTION(unk_8052aae8);
-// PAL: 0x8052ab6c..0x8052ac40
-UNKNOWN_FUNCTION(unk_8052ab6c);
-// PAL: 0x8052ac40..0x8052aca0
-UNKNOWN_FUNCTION(unk_8052ac40);
-// PAL: 0x8052aca0..0x8052ad08
-UNKNOWN_FUNCTION(unk_8052aca0);
-// PAL: 0x8052ad08..0x8052ad80
-UNKNOWN_FUNCTION(unk_8052ad08);
-// PAL: 0x8052ad80..0x8052ae08
-UNKNOWN_FUNCTION(unk_8052ad80);
-// PAL: 0x8052ae08..0x8052ae5c
-UNKNOWN_FUNCTION(unk_8052ae08);
+UNKNOWN_FUNCTION(__dt__Q26System15MultiDvdArchiveFv);
 
 #ifdef __cplusplus
 }
@@ -65,11 +41,25 @@ UNKNOWN_FUNCTION(unk_8052ae08);
 
 #include "DvdArchive.hpp"
 
+#include "rvl/dvd/dvd.h"
+
 namespace System {
 
 class MultiDvdArchive {
 public:
     MultiDvdArchive(u16 archiveCount);
+    void clear();
+    bool exists(const char* name);
+    void* getFile(const char* filename, size_t* size);
+    void unmount();
+    void rip(const char* name, EGG::Heap* heap);
+    void load(const char *filename, EGG::Heap *param_3, EGG::Heap *heap, unk32 param_5);
+    void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
+    bool isLoaded();
+    void* getEarliestResBufInMem();
+    void* getFarthestResBufInMem();
+    int totalArchiveSize();
+    u16 rippedArchiveCount();
     void init();
     virtual ~MultiDvdArchive();
 private:
@@ -79,7 +69,6 @@ private:
     char **suffixes;
     void** fileStarts;
     u32 *kinds;
-    void init(const char *);
 };
 
 }
