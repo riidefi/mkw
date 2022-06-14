@@ -370,7 +370,9 @@ out/dol/data_802a268c_802a2a08.o
 out/dol/bss_803832e4_80383500.o
 out/dol/sbss_80386d84_80386dc8.o
 out/eggCntFile.o
-out/dol/text_80215168_80218ba4.o
+out/dol/text_80215168_802156ac.o
+out/eggCompress.o
+out/dol/text_80215cbc_80218ba4.o
 out/dol/data_802a2a28_802a2b48.o
 out/dol/sbss_80386dcc_80386de8.o
 out/eggDecomp.o
@@ -383,9 +385,11 @@ out/dol/sbss_80386e0c_80386e18.o
 out/eggDvdFile.o
 out/eggDvdRipper.o
 out/eggEffect.o
-out/dol/text_80224348_802269a8.o
 out/dol/ctors_80244e74_80244e88.o
-out/dol/data_802a2dc8_802a2ff8.o
+out/dol/data_802a2dc8_802a2e50.o
+out/eggEffectCreator.o
+out/dol/text_802246ec_802269a8.o
+out/dol/data_802a2e70_802a2ff8.o
 out/eggExpHeap.o
 out/eggFog.o
 out/eggFogManager.o

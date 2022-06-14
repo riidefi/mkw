@@ -14,7 +14,7 @@ NW4R_OPTS = '-ipa file -inline auto -O4,p -pragma \"legacy_struct_alignment on\"
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 RFL_OPTS = RVL_OPTS + " -O4,p"
 EGG_OPTS = '-ipa function -rostr'
-REL_OPTS = HOSTSYS_OPTS + " -pragma \"legacy_struct_alignment on\""
+REL_OPTS = HOSTSYS_OPTS + " -use_lmw_stmw=on -pragma \"legacy_struct_alignment on\" "
 
 
 @dataclass
@@ -238,6 +238,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggArchive.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggAsyncDisplay.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/util/eggCntFile.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/core/eggCompress.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggDecomp.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggDisplay.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggDisposer.cpp", cc='4201_127', opts=EGG_OPTS),
@@ -245,6 +246,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggDvdRipper.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on "),
     Source(src="source/egg/core/eggExpHeap.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/util/eggEffect.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
+    Source(src="source/egg/util/eggEffectCreator.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/gfx/eggFog.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/gfx/eggFogManager.cpp", cc='4201_127', opts=EGG_OPTS + " -use_lmw_stmw=on  "),
     Source(src="source/egg/core/eggGraphicsFifo.cpp", cc='4201_127', opts=EGG_OPTS),
@@ -313,10 +315,10 @@ SOURCES_DOL = list(chain(
 
 SOURCES_REL = [
     Source(src="source/game/ui/MessageGroup.cpp", cc='4201_127', opts=REL_OPTS),
-    Source(src="source/game/ui/ControlGroup.cpp", cc='4201_127', opts=REL_OPTS + " -use_lmw_stmw=on "),
+    Source(src="source/game/ui/ControlGroup.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/ui/UIControl.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/jmap/CourseMap.cpp", cc='4201_127', opts=REL_OPTS),
-    Source(src="source/game/system/DvdArchive.cpp", cc='4201_127', opts=REL_OPTS + " -use_lmw_stmw=on "),
+    Source(src="source/game/system/DvdArchive.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/GhostFile.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/MultiDvdArchive.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/util/Random.cpp", cc='4201_127', opts=REL_OPTS),
