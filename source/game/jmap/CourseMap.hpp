@@ -4,18 +4,18 @@
 
 namespace Field {
 
-class JmpResourceCourse {
+class CourseMap {
 public:
-  static JmpResourceCourse* initStaticInstance();
+  static CourseMap* initStaticInstance();
   static void destroyStaticInstance();
 
-  static inline JmpResourceCourse* instance() { return spInstance; }
+  static inline CourseMap* instance() { return spInstance; }
 
 private:
-  JmpResourceCourse();
-  virtual ~JmpResourceCourse();
+  CourseMap();
+  virtual ~CourseMap();
 
-  static JmpResourceCourse* spInstance;
+  static CourseMap* spInstance;
 
   void* mpCourse;
 

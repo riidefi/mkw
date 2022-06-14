@@ -2,19 +2,21 @@
 
 extern "C" {
 // PAL: 0x80518e10
-extern UNKNOWN_FUNCTION(DvdArchive_load);
+extern UNKNOWN_FUNCTION(
+    load__Q26System10DvdArchiveFPCcPQ23EGG4HeapilPQ23EGG4HeapUl);
 // PAL: 0x80518fbc
-extern UNKNOWN_FUNCTION(SArchive_load2);
+extern UNKNOWN_FUNCTION(loadBuffer__Q26System10DvdArchiveFPvUlPQ23EGG4Heapl);
 // PAL: 0x805190f0
-extern UNKNOWN_FUNCTION(SArchive_ripFile);
+extern UNKNOWN_FUNCTION(ripFile__Q26System10DvdArchiveFPCcPQ23EGG4HeapUc);
 // PAL: 0x80519240
-extern UNKNOWN_FUNCTION(SArchive_destroyBuffers);
+extern UNKNOWN_FUNCTION(clear__Q26System10DvdArchiveFv);
 // PAL: 0x805192cc
-extern UNKNOWN_FUNCTION(DvdArchive_unmount);
+extern UNKNOWN_FUNCTION(unmount__Q26System10DvdArchiveFv);
 // PAL: 0x80519420
-extern UNKNOWN_FUNCTION(unk_80519420);
+extern UNKNOWN_FUNCTION(getFile__Q26System10DvdArchiveFPCcPUl);
 // PAL: 0x805195d8
-extern UNKNOWN_FUNCTION(SArchive_loadOther);
+extern UNKNOWN_FUNCTION(
+    loadOther__Q26System10DvdArchiveFPCQ26System10DvdArchivePQ23EGG4Heap);
 // PAL: 0x805553b0
 extern UNKNOWN_FUNCTION(unk_805553b0);
 }
@@ -667,7 +669,7 @@ lbl_8052a7b8:
   beq lbl_8052a7d8;
   mr r4, r28;
   mr r5, r29;
-  bl unk_80519420;
+  bl getFile__Q26System10DvdArchiveFPCcPUl;
   cmpwi r3, 0;
   mr r5, r3;
   bne lbl_8052a7e8;
@@ -868,7 +870,7 @@ lbl_8052a9fc:
   addi r4, r1, 8;
   li r6, 1;
   li r7, 8;
-  bl DvdArchive_load;
+  bl load__Q26System10DvdArchiveFPCcPQ23EGG4HeapilPQ23EGG4HeapUl;
   b lbl_8052aa60;
 lbl_8052aa34:
   clrlwi r0, r30, 0x10;
@@ -881,7 +883,7 @@ lbl_8052aa34:
   li r7, 1;
   lwzx r4, r4, r24;
   add r3, r8, r0;
-  bl SArchive_load2;
+  bl loadBuffer__Q26System10DvdArchiveFPvUlPQ23EGG4Heapl;
 lbl_8052aa60:
   addi r30, r30, 1;
 lbl_8052aa64:
@@ -916,7 +918,7 @@ lbl_8052aaa8:
   lwz r3, 4(r30);
   mulli r0, r0, 0x24;
   add r3, r3, r0;
-  bl DvdArchive_unmount;
+  bl unmount__Q26System10DvdArchiveFv;
   addi r31, r31, 1;
 lbl_8052aac0:
   lhz r0, 8(r30);
@@ -958,7 +960,7 @@ lbl_8052ab18:
   mr r5, r30;
   add r3, r3, r4;
   add r4, r0, r4;
-  bl SArchive_loadOther;
+  bl loadOther__Q26System10DvdArchiveFPCQ26System10DvdArchivePQ23EGG4Heap;
   addi r31, r31, 1;
 lbl_8052ab3c:
   lhz r0, 8(r28);
@@ -1028,7 +1030,7 @@ lbl_8052abf8:
   addi r4, r1, 8;
   li r6, 8;
   add r3, r3, r0;
-  bl SArchive_ripFile;
+  bl ripFile__Q26System10DvdArchiveFPCcPQ23EGG4HeapUc;
 lbl_8052ac18:
   addi r30, r30, 1;
 lbl_8052ac1c:
@@ -1063,7 +1065,7 @@ lbl_8052ac60:
   lwz r3, 4(r30);
   mulli r0, r0, 0x24;
   add r3, r3, r0;
-  bl SArchive_destroyBuffers;
+  bl clear__Q26System10DvdArchiveFv;
   addi r31, r31, 1;
 lbl_8052ac78:
   lhz r0, 8(r30);
