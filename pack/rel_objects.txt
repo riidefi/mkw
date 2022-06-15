@@ -9,13 +9,15 @@ out/rel/text_805127ec_80518cc0.o
 out/rel/data_808b2c3c_808b2c78.o
 out/DvdArchive.o
 out/rel/text_80519670_8051c088.o
-out/rel/rodata_8088fab7_80891370.o
+out/rel/rodata_8088fab7_8088fe00.o
 out/rel/data_808b2c88_808b2d38.o
 out/GhostFile.o
 out/rel/text_8051d4d4_8052a098.o
+out/rel/data_808b2d50_808b31d8.o
 out/MultiDvdArchive.o
 out/rel/text_8052ae5c_80555464.o
-out/rel/data_808b2d50_808b42e0.o
+out/rel/rodata_8088fe20_80891370.o
+out/rel/data_808b31e8_808b42e0.o
 out/Random.o
 out/rel/text_8055572c_80590128.o
 out/rel/rodata_80891380_80896148.o

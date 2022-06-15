@@ -17,7 +17,7 @@ extern void* DvdRipper_loadToMainRAM(const char* path, u8* dst, EGG::Heap* heap,
                                      s32* param_6, u32* fileSize);
 
 namespace System {
-  enum ArchiveState {
+enum ArchiveState {
   DVD_ARCHIVE_STATE_CLEARED = 0,
   DVD_ARCHIVE_STATE_RIPPED = 2,
   DVD_ARCHIVE_STATE_DECOMPRESSED = 3,
@@ -26,7 +26,8 @@ namespace System {
 };
 
 class DvdArchive {
-friend class MultiDvdArchive;
+  friend class MultiDvdArchive;
+
 public:
   DvdArchive();
   virtual ~DvdArchive();
@@ -53,9 +54,13 @@ public:
   void _move();
   void loadOther(const DvdArchive* other, EGG::Heap* heap);
 
-  inline bool isLoaded() const { 
-      return (mStatus == DVD_ARCHIVE_STATE_MOUNTED || (mStatus == DVD_ARCHIVE_STATE_UNKN5)); }
-  inline void* getArchiveEnd() const { return (void*) (mArchiveSize + (u32) mArchiveStart); }
+  inline bool isLoaded() const {
+    return (mStatus == DVD_ARCHIVE_STATE_MOUNTED ||
+            (mStatus == DVD_ARCHIVE_STATE_UNKN5));
+  }
+  inline void* getArchiveEnd() const {
+    return (void*)(mArchiveSize + (u32)mArchiveStart);
+  }
   inline bool isRipped() const { return mStatus == 2; }
 
 private:
