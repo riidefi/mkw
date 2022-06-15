@@ -47,28 +47,30 @@ namespace System {
 
 class MultiDvdArchive {
 public:
-    MultiDvdArchive(u16 archiveCount);
-    void clear();
-    bool exists(const char* name);
-    void* getFile(const char* filename, size_t* size);
-    void unmount();
-    void rip(const char* name, EGG::Heap* heap);
-    void load(const char *filename, EGG::Heap *param_3, EGG::Heap *heap, unk32 param_5);
-    void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
-    bool isLoaded();
-    void* getEarliestResBufInMem();
-    void* getFarthestResBufInMem();
-    int totalArchiveSize();
-    u16 rippedArchiveCount();
-    void init();
-    virtual ~MultiDvdArchive();
+  MultiDvdArchive(u16 archiveCount);
+  void clear();
+  bool exists(const char* name);
+  void* getFile(const char* filename, size_t* size);
+  void unmount();
+  void rip(const char* name, EGG::Heap* heap);
+  void load(const char* filename, EGG::Heap* param_3, EGG::Heap* heap,
+            unk32 param_5);
+  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
+  bool isLoaded();
+  void* getEarliestResBufInMem();
+  void* getFarthestResBufInMem();
+  int totalArchiveSize();
+  u16 rippedArchiveCount();
+  virtual void init();
+  virtual ~MultiDvdArchive();
+
 private:
-    DvdArchive *archives;
-    u16 archiveCount;
-    u32* fileSizes;
-    char **suffixes;
-    void** fileStarts;
-    u32 *kinds;
+  DvdArchive* archives;
+  u16 archiveCount;
+  u32* fileSizes;
+  char** suffixes;
+  void** fileStarts;
+  u32* kinds;
 };
 
-}
+} // namespace System
