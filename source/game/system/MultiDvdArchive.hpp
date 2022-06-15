@@ -1,49 +1,25 @@
 #pragma once
 
-#include <rk_types.h>
-
-#include <decomp.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// PAL: 0x8052a098..0x8052a1c8
-UNKNOWN_FUNCTION(MultiDvdArchive_create);
-// PAL: 0x8052a1c8..0x8052a21c
-UNKNOWN_FUNCTION(unk_8052a1c8);
-// PAL: 0x8052a21c..0x8052a2a8
-UNKNOWN_FUNCTION(CourseMultiDvdArchive_init);
-// PAL: 0x8052a2a8..0x8052a2fc
-UNKNOWN_FUNCTION(unk_8052a2a8);
-// PAL: 0x8052a2fc..0x8052a36c
-UNKNOWN_FUNCTION(unk_8052a2fc);
-// PAL: 0x8052a36c..0x8052a3c0
-UNKNOWN_FUNCTION(unk_8052a36c);
-// PAL: 0x8052a3c0..0x8052a430
-UNKNOWN_FUNCTION(unk_8052a3c0);
-// PAL: 0x8052a430..0x8052a488
-UNKNOWN_FUNCTION(unk_8052a430);
-// PAL: 0x8052a488..0x8052a4e0
-UNKNOWN_FUNCTION(unk_8052a488);
-// PAL: 0x8052a4e0..0x8052a538
-UNKNOWN_FUNCTION(unk_8052a4e0);
-// PAL: 0x8052a538..0x8052a648
-UNKNOWN_FUNCTION(__ct__Q26System15MultiDvdArchiveFUs);
-// PAL: 0x8052a648..0x8052a6dc
-UNKNOWN_FUNCTION(init__Q26System15MultiDvdArchiveFv);
-// PAL: 0x8052a6dc..0x8052a760
-UNKNOWN_FUNCTION(__dt__Q26System15MultiDvdArchiveFv);
-
-#ifdef __cplusplus
-}
-#endif
-
 #include "DvdArchive.hpp"
 
-#include "rvl/dvd/dvd.h"
+#include <rk_types.h>
+#include <decomp.h>
+#include <rvl/dvd/dvd.h>
+
+// TODO: Move somewhere more appropriate
+typedef enum {
+    RACE_COMMON = 0,
+    SCENE_UI_FONT = 3,
+    SCENE_MODEL_EARTH = 4,
+    SCENE_MODEL_MII_BODY = 5,
+    SCENE_MODEL_DRIVER = 6,
+    DEMO = 7,
+    SCENE_MODEL_BACKMODEL = 8
+} SLoaderKind;
 
 namespace System {
+
+class MultiDvdArchive;
 
 class MultiDvdArchive {
 public:
@@ -61,10 +37,10 @@ public:
   void* getFarthestResBufInMem();
   int totalArchiveSize();
   u16 rippedArchiveCount();
-  virtual void init();
   virtual ~MultiDvdArchive();
+  virtual void init();
 
-private:
+protected:
   DvdArchive* archives;
   u16 archiveCount;
   u32* fileSizes;
@@ -72,5 +48,27 @@ private:
   void** fileStarts;
   u32* kinds;
 };
+
+class RaceArchive : public MultiDvdArchive {
+public:
+    // not actually inline, just optimized inline here
+    RaceArchive() : MultiDvdArchive(2) { init(); }
+    void init();
+};
+
+class Unk2Archive : public MultiDvdArchive {
+public:
+    // not actually inline, just optimized inline here
+    Unk2Archive() : MultiDvdArchive(2) { init(); }
+    void init();
+};
+
+class CourseArchive : public MultiDvdArchive {
+public:
+    CourseArchive();
+    void init();
+};
+
+MultiDvdArchive* createMultiDvdArchive(SLoaderKind kind);
 
 } // namespace System
