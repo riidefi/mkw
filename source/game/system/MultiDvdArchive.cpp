@@ -1,11 +1,12 @@
 #include "MultiDvdArchive.hpp"
+
+// TODO: Hack to disable string pooling
 #pragma dont_reuse_strings on
 
 #include <string.h>
 
 #include "game/host_system/SystemManager.hpp"
 
-#define SUFFIX_SIZE 128
 const char* const SZS = ".szs\0";
 
 extern const int _tmp;
@@ -19,15 +20,15 @@ MultiDvdArchive::MultiDvdArchive(u16 archiveCount) {
   this->suffixes = nullptr;
 
   this->archives = new DvdArchive[archiveCount];
-  this->suffixes = (char**)new char*[archiveCount];
-  this->fileStarts = (void**)new u32[archiveCount];
-  this->kinds = new u32[archiveCount];
+  this->suffixes = new char*[archiveCount];
+  this->fileStarts = new void*[archiveCount];
+  this->kinds = new EResourceKind[archiveCount];
   this->fileSizes = new u32[archiveCount];
 
   for (u16 i = 0; i < this->archiveCount; i++) {
     this->suffixes[i] = new char[SUFFIX_SIZE];
     strncpy(this->suffixes[i], SZS, SUFFIX_SIZE);
-    this->kinds[i] = 0;
+    this->kinds[i] = RES_KIND_DEFAULT;
     this->fileSizes[i] = 0;
     this->fileStarts[i] = nullptr;
   }
@@ -35,11 +36,11 @@ MultiDvdArchive::MultiDvdArchive(u16 archiveCount) {
 
 void MultiDvdArchive::init() {
   const char* suffix = SZS;
-  for (unsigned short i = 0; i < this->archiveCount; i++) {
+  for (u16 i = 0; i < this->archiveCount; i++) {
     // matches less for some reason if this unneccesary extra comparison is
     // removed
     if (i < this->archiveCount) {
-      this->kinds[i] = 0;
+      this->kinds[i] = RES_KIND_DEFAULT;
       strncpy(this->suffixes[i], suffix, 128);
     }
   }
@@ -48,6 +49,8 @@ void MultiDvdArchive::init() {
 MultiDvdArchive::~MultiDvdArchive() {
   delete[] this->archives;
   delete[] this->suffixes;
+  // Memory leak: entries of this->suffixes
+  // Memory leak: this->fileStarts
   delete[] this->kinds;
   delete[] this->fileSizes;
 }
@@ -58,14 +61,17 @@ void* MultiDvdArchive::getFile(const char* filename, size_t* size) {
   void* file = nullptr;
 
   for (int i = this->archiveCount - 1; i >= 0; i--) {
-    loaded = false;
     archive = &this->archives[i];
-    if ((archive->mStatus == DVD_ARCHIVE_STATE_MOUNTED) ||
-        (archive->mStatus == DVD_ARCHIVE_STATE_UNKN5)) {
-      loaded = true;
+
+    loaded = archive->isLoaded();
+    if (!loaded) {
+      continue;
     }
-    if (loaded && ((file = archive->getFile(filename, size)) != NULL))
+
+    file = archive->getFile(filename, size);
+    if (file != nullptr) {
       break;
+    }
   }
 
   return file;
@@ -83,24 +89,23 @@ bool MultiDvdArchive::exists(const char* name) {
   char fullname[256];
 
   for (u16 i = 0; i < this->archiveCount; i++) {
-    s32 kind = this->kinds[i];
-
-    switch (kind) {
-    case 0:
+    switch (this->kinds[i]) {
+    case RES_KIND_FILE_DOUBLE_FORMAT:
       snprintf(fullname, sizeof(fullname), "%s%s", name, this->suffixes[i]);
       break;
-    case 1:
+    case RES_KIND_FILE_SINGLE_FORMAT:
       snprintf(fullname, sizeof(fullname), "%s", this->suffixes[i]);
       break;
-    case 2:
+    case RES_KIND_BUFFER:
       if (this->fileStarts[i] != 0) {
         return true;
       }
       break;
+    case RES_KIND_3:
+    case RES_KIND_4:
     default:
       continue;
     }
-    // from RVL
     if (DVDConvertPathToEntrynum(fullname) != -1) {
       return true;
     }
@@ -108,33 +113,34 @@ bool MultiDvdArchive::exists(const char* name) {
   return false;
 }
 
-void MultiDvdArchive::load(const char* filename, EGG::Heap* param_3,
-                           EGG::Heap* heap, unk32 param_5) {
+void MultiDvdArchive::load(const char* filename, EGG::Heap* archiveHeap,
+                           EGG::Heap* fileHeap, unk32 param_5) {
   bool kindFile;
   char fullname[256];
 
   for (u16 i = 0; i < this->archiveCount; i++) {
     kindFile = true;
-    s32 kind = this->kinds[i];
 
-    switch (kind) {
-    case 0:
+    switch (this->kinds[i]) {
+    case RES_KIND_FILE_DOUBLE_FORMAT:
       snprintf(fullname, sizeof(fullname), "%s%s", filename, this->suffixes[i]);
       break;
-    case 1:
+    case RES_KIND_FILE_SINGLE_FORMAT:
       snprintf(fullname, sizeof(fullname), "%s", this->suffixes[i]);
       break;
-    case 2:
+    case RES_KIND_BUFFER:
       kindFile = false;
       break;
+    case RES_KIND_3:
+    case RES_KIND_4:
     default:
       continue;
     }
     if (kindFile) {
-      this->archives[i].load(fullname, param_3, 1, '\b', heap, param_5);
+      this->archives[i].load(fullname, archiveHeap, true, 8, fileHeap, param_5);
     } else {
       this->archives[i].loadBuffer(this->fileStarts[i], this->fileSizes[i],
-                                   param_3, 1);
+                                   archiveHeap, 1);
     }
   }
 }
@@ -155,15 +161,16 @@ void MultiDvdArchive::rip(const char* name, EGG::Heap* heap) {
   char fullname[256];
 
   for (u16 i = 0; i < this->archiveCount; i++) {
-    s32 kind = this->kinds[i];
-
-    switch (kind) {
-    case 0:
+    switch (this->kinds[i]) {
+    case RES_KIND_FILE_DOUBLE_FORMAT:
       snprintf(fullname, sizeof(fullname), "%s%s", name, this->suffixes[i]);
       break;
-    case 1:
+    case RES_KIND_FILE_SINGLE_FORMAT:
       snprintf(fullname, sizeof(fullname), "%s", this->suffixes[i]);
       break;
+    case RES_KIND_BUFFER:
+    case RES_KIND_3:
+    case RES_KIND_4:
     default:
       continue;
     }
@@ -179,12 +186,10 @@ void MultiDvdArchive::clear() {
 
 int MultiDvdArchive::totalArchiveSize() {
   u32 sum = 0;
-  DvdArchive* archive;
 
   for (u16 i = 0; i < this->archiveCount; i++) {
-    archive = &this->archives[i];
-    if (archive->isLoaded()) {
-      sum += archive->mArchiveSize;
+    if (this->archives[i].isLoaded()) {
+      sum += this->archives[i].mArchiveSize;
     }
   }
 
