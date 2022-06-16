@@ -29,12 +29,13 @@ jinja_env.filters["addr"] = lambda x: "0x%08x" % (x)
 class AsmGenerator:
     """Generates assembly files."""
 
-    def __init__(self, data, _slice, symbols, output):
+    def __init__(self, data, _slice, symbols, output, rel=False):
         self.data = data
         self.slice = _slice
         self.symbols = symbols
         self.symbol_locs = [sym.addr for sym in symbols]
         self.output = output
+        self.is_rel = rel
 
     # TODO Define symbols in ASM
 
@@ -108,7 +109,7 @@ class AsmGenerator:
             assert part.start % 4 == 0, "misaligned text"
             self.emit_symbol(part.start)
             for ins in disasm_iter(self.get_data_chunk(part), part.start, self.symbols):
-                print(ins.disassemble(), file=self.output)
+                print(ins.disassemble(dont_use_labels=self.is_rel), file=self.output)
 
     def dump_section_body(self):
         name = self.slice.section
@@ -582,7 +583,7 @@ class RELSrcGenerator:
                 if section.type != "bss"
                 else None
             )
-            gen = AsmGenerator(data, _slice, SymbolsList(), asm_file)
+            gen = AsmGenerator(data, _slice, self.symbols, asm_file, rel=True)
             gen.dump_section()
 
 
