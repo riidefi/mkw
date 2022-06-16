@@ -1,9 +1,12 @@
 #include "DvdArchive.hpp"
+#include <egg/core/eggDvdRipper.hpp>
+#include <rvl/os/osCache.h>
+#include <egg/core/eggDecomp.hpp>
 
 namespace System {
 
-// ??????
-__declspec(section ".rodata") int int_8088FAA0 = 0x4B000;
+extern const int int_8088FAA0;
+const int int_8088FAA0 = 0x4B000;
 
 DvdArchive::DvdArchive() {
   mArchive = nullptr;
@@ -25,34 +28,35 @@ DvdArchive::~DvdArchive() {
   mStatus = DVD_ARCHIVE_STATE_CLEARED;
 }
 
-// inline function that's been compiled
-void DvdArchive::_mount(EGG::Heap* archiveHeap) {
-  DvdArchive::mount(archiveHeap);
+void DvdArchive::mount(EGG::Heap* archiveHeap) {
+  mArchive = EGG::Archive::mount(mArchiveStart, archiveHeap, 4);
+  mStatus = DVD_ARCHIVE_STATE_MOUNTED;
 }
 
-// haven't got a clue
 void DvdArchive::_UNKNOWN() {}
 
-void DvdArchive::load(const char* path, EGG::Heap* archiveHeap, int decompress,
-                      s32 align_, EGG::Heap* fileHeap, u32 param_7) {
-  if ((decompress == 0) || !fileHeap) {
+void DvdArchive::load(const char* path, EGG::Heap* archiveHeap,
+                      bool isCompressed, s32 align_, EGG::Heap* fileHeap,
+                      u32 param_7) {
+  if (!isCompressed || !fileHeap) {
     fileHeap = archiveHeap;
   }
 
   if (mStatus == DVD_ARCHIVE_STATE_CLEARED) {
     bool ripped = false;
-    s32 allocDirection = 1;
+    EGG::DvdRipper::EAllocDirection allocDirection =
+        EGG::DvdRipper::ALLOC_DIR_TOP;
     s8 align = -8;
 
-    if (decompress == 0) {
+    if (isCompressed == false) {
       align = align_;
     }
     if (align < 0) {
-      allocDirection = 2;
+      allocDirection = EGG::DvdRipper::ALLOC_DIR_BOTTOM;
     }
 
-    mFileStart = DvdRipper_loadToMainRAM(path, 0, fileHeap, allocDirection, 0,
-                                         0, &mFileSize);
+    mFileStart = EGG::DvdRipper::loadToMainRAM(
+        path, nullptr, fileHeap, allocDirection, 0, nullptr, &mFileSize);
     if (mFileSize != 0 && mFileStart != nullptr) {
       mFileHeap = fileHeap;
       ripped = true;
@@ -60,7 +64,6 @@ void DvdArchive::load(const char* path, EGG::Heap* archiveHeap, int decompress,
       mFileSize = 0;
     }
 
-    // ternary doesn't work here for some reason
     if (ripped) {
       mStatus = DVD_ARCHIVE_STATE_RIPPED;
     } else {
@@ -69,7 +72,7 @@ void DvdArchive::load(const char* path, EGG::Heap* archiveHeap, int decompress,
   }
 
   if (isRipped()) {
-    if (decompress != 0) {
+    if (isCompressed) {
       DvdArchive::decompress(path, archiveHeap, param_7);
       DvdArchive::clearFile();
     } else {
@@ -81,7 +84,7 @@ void DvdArchive::load(const char* path, EGG::Heap* archiveHeap, int decompress,
 
 void DvdArchive::load(const char* path, u32 param_2, EGG::Heap* archiveHeap) {
   (void)param_2;
-  DvdArchive::load(path, archiveHeap, 0, -8, 0, 0);
+  DvdArchive::load(path, archiveHeap, false, -8, 0, 0);
 }
 
 void DvdArchive::loadBuffer(void* fileStart, u32 fileSize,
@@ -118,7 +121,6 @@ void DvdArchive::_UNKNOWN2(int, u8* p) { delete[] p; }
 
 void DvdArchive::ripFile(const char* path, EGG::Heap* fileHeap, u8 align) {
   bool ripped = DvdArchive::tryRipFile(path, fileHeap, align);
-
   if (ripped) {
     mStatus = DVD_ARCHIVE_STATE_RIPPED;
   } else {
@@ -126,8 +128,24 @@ void DvdArchive::ripFile(const char* path, EGG::Heap* fileHeap, u8 align) {
   }
 }
 
-bool DvdArchive::_tryRipFile(const char* path, EGG::Heap* fileHeap, u8 align) {
-  return DvdArchive::tryRipFile(path, fileHeap, align);
+bool DvdArchive::tryRipFile(const char* path, EGG::Heap* fileHeap, s8 align) {
+  EGG::DvdRipper::EAllocDirection allocDirection =
+      EGG::DvdRipper::ALLOC_DIR_TOP;
+  bool ripped = false;
+
+  if (align < 0) {
+    allocDirection = EGG::DvdRipper::ALLOC_DIR_BOTTOM;
+  }
+
+  mFileStart = EGG::DvdRipper::loadToMainRAM(path, 0, fileHeap, allocDirection,
+                                             0, 0, &mFileSize);
+  if (mFileSize && mFileStart) {
+    mFileHeap = fileHeap;
+    ripped = true;
+  } else {
+    mFileSize = 0;
+  }
+  return ripped;
 }
 
 void DvdArchive::clear() {
@@ -146,9 +164,25 @@ void DvdArchive::unmount() {
   mStatus = DVD_ARCHIVE_STATE_CLEARED;
 }
 
-void DvdArchive::_clearArchive() { DvdArchive::clearArchive(); }
+void DvdArchive::clearArchive() {
+  if (!mArchiveStart)
+    return;
 
-void DvdArchive::_clearFile() { DvdArchive::clearFile(); }
+  mArchiveHeap->free(mArchiveStart);
+  mArchiveStart = nullptr;
+  mArchiveSize = NULL;
+  mArchiveHeap = nullptr;
+}
+
+void DvdArchive::clearFile() {
+  if (!mFileStart)
+    return;
+
+  mFileHeap->free(mFileStart);
+  mFileStart = nullptr;
+  mFileSize = NULL;
+  mFileHeap = nullptr;
+}
 
 void* DvdArchive::getFile(const char* filename, size_t* size) {
   void* result;
@@ -165,7 +199,7 @@ void* DvdArchive::getFile(const char* filename, size_t* size) {
   } else {
     snprintf(buffer, sizeof(buffer), "/%s", filename);
   }
-  buffer[255] = 0;
+  buffer[sizeof(buffer) - 1] = 0;
 
   fileInfo.startOffset = 0;
   fileInfo.length = 0;
@@ -204,7 +238,15 @@ void DvdArchive::decompress(const char* path, EGG::Heap* archiveHeap,
   (void)_unused;
 }
 
-void DvdArchive::_move() { DvdArchive::move(); }
+void DvdArchive::move() {
+  mArchiveStart = mFileStart;
+  mArchiveSize = mFileSize;
+  mArchiveHeap = mFileHeap;
+  mFileStart = 0;
+  mFileSize = 0;
+  mFileHeap = 0;
+  mStatus = DVD_ARCHIVE_STATE_DECOMPRESSED;
+}
 
 void DvdArchive::loadOther(const DvdArchive* other, EGG::Heap* heap) {
   if (other->isRipped()) {

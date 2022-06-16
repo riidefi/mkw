@@ -1,76 +1,96 @@
 #include "LocalizedArchive.hpp"
 
-const char* LOCALIZED_SZS[] = {"\0\0\0", "_E.szs\0", "_G.szs\0", "_F.szs\0",
-                               "_S.szs\0", "_I.szs\0", "_N.szs\0", nullptr};
-const char DIF_SZS[] = "_Dif.szs";
-
 namespace System {
 
-MultiDvdArchive* createMultiDvdArchive(SLoaderKind kind) {
+// TODO: Hack to re-enable string alignment
+#pragma legacy_struct_alignment off
+
+static const char* LOCALIZED_SZS[] = {"",       "_E.szs", "_G.szs", "_F.szs",
+                                      "_S.szs", "_I.szs", "_N.szs", nullptr};
+
+class RaceSysDvdArchive : public MultiDvdArchive {
+public:
+  RaceSysDvdArchive();
+  void init() override;
+};
+
+class UIDvdArchive : public MultiDvdArchive {
+public:
+  UIDvdArchive();
+  void init() override;
+};
+
+class CourseDvdArchive : public MultiDvdArchive {
+public:
+  CourseDvdArchive();
+  void init() override;
+};
+
+MultiDvdArchive* createMultiDvdArchive(ResourceChannelID kind) {
   MultiDvdArchive* archive = nullptr;
 
   switch (kind) {
-  case 3:
-  case 4:
-  case 5:
-  case 6:
-  case 7:
-  case 8:
+  case RES_CHAN_FONT:
+  case RES_CHAN_EARTH:
+  case RES_CHAN_MII:
+  case RES_CHAN_DRIVER:
+  case RES_CHAN_DEMO:
+  case RES_CHAN_UI_MODEL:
     archive = new MultiDvdArchive(1);
     break;
-  case RACE_COMMON:
-    archive = new RaceArchive;
+  case RES_CHAN_RACE_SYS:
+    archive = new RaceSysDvdArchive();
     break;
-  case 1:
-    archive = new CourseArchive;
+  case RES_CHAN_COURSE:
+    archive = new CourseDvdArchive();
     break;
-  case 2:
-    archive = new Unk2Archive;
+  case RES_CHAN_UI:
+    archive = new UIDvdArchive();
     break;
   }
 
   return archive;
 }
 
-CourseArchive::CourseArchive() : MultiDvdArchive(4) { init(); }
+CourseDvdArchive::CourseDvdArchive() : MultiDvdArchive(4) { init(); }
 
-void CourseArchive::init() {
+void CourseDvdArchive::init() {
   MultiDvdArchive::init();
-  const char* dif = DIF_SZS;
+  const char* dif = "_Dif.szs";
 
   if (this->archiveCount > 1) {
-    this->kinds[1] = 0;
-    strncpy(this->suffixes[1], dif, 0x80);
+    this->kinds[1] = RES_KIND_FILE_DOUBLE_FORMAT;
+    strncpy(this->suffixes[1], dif, SUFFIX_SIZE);
   }
   if (this->archiveCount > 2) {
-    this->kinds[2] = 4;
+    this->kinds[2] = RES_KIND_4;
   }
   if (this->archiveCount > 3) {
-    this->kinds[3] = 4;
+    this->kinds[3] = RES_KIND_4;
   }
 }
 
-Unk2Archive::Unk2Archive() : MultiDvdArchive(2) { init(); }
+UIDvdArchive::UIDvdArchive() : MultiDvdArchive(2) { init(); }
 
-void Unk2Archive::init() {
+void UIDvdArchive::init() {
   MultiDvdArchive::init();
   const char* localization = LOCALIZED_SZS[SystemManager::sInstance->mLanguage];
 
   if (this->archiveCount > 1) {
-    this->kinds[1] = 0;
-    strncpy(this->suffixes[1], localization, 0x80);
+    this->kinds[1] = RES_KIND_FILE_DOUBLE_FORMAT;
+    strncpy(this->suffixes[1], localization, SUFFIX_SIZE);
   }
 }
 
-RaceArchive::RaceArchive() : MultiDvdArchive(2) { init(); }
+RaceSysDvdArchive::RaceSysDvdArchive() : MultiDvdArchive(2) { init(); }
 
-void RaceArchive::init() {
+void RaceSysDvdArchive::init() {
   MultiDvdArchive::init();
   const char* localization = LOCALIZED_SZS[SystemManager::sInstance->mLanguage];
 
   if (this->archiveCount > 1) {
-    this->kinds[1] = 0;
-    strncpy(this->suffixes[1], localization, 0x80);
+    this->kinds[1] = RES_KIND_FILE_DOUBLE_FORMAT;
+    strncpy(this->suffixes[1], localization, SUFFIX_SIZE);
   }
 }
 
