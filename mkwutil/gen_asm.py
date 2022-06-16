@@ -390,7 +390,7 @@ class DOLSrcGenerator:
     def __process_section(self, section: Section):
         """Processes a program section and all its slices."""
         subtable = self.slices.slice(section.start, section.stop)
-        print(f".{section.name} ({section.type}): {subtable.count()} slices")
+        # print(f".{section.name} ({section.type}): {subtable.count()} slices")
         for _slice in subtable:
             self.__process_slice(section, _slice)
 
@@ -404,7 +404,7 @@ class DOLSrcGenerator:
 
     def __process_slice(self, section: Section, _slice: Slice):
         """Process a slice in slices.csv or a gap."""
-        print(f"  {_slice}")
+        # print(f"  {_slice}")
 
         if self.__slice_dest_asm(_slice):
             self.__gen_asm(section, _slice)
@@ -429,7 +429,7 @@ class DOLSrcGenerator:
             return
 
         c_path.parent.mkdir(parents=True, exist_ok=True)
-        print(f"    => {_slice.name}")
+        # print(f"    => {_slice.name}")
         data = self.dol.virtual_read(_slice.start, len(_slice))
         with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
             gen = CAsmGenerator(
@@ -448,7 +448,7 @@ class DOLSrcGenerator:
         self.dol_asm_sources.add(asm_path.stem)
         if not self.regen_asm and asm_path.exists():
             return
-        print(f"    => {asm_path}")
+        # print(f"    => {asm_path}")
         with open(asm_path, "w") as asm_file:
             data = (
                 self.dol.virtual_read(_slice.start, len(_slice))
@@ -527,7 +527,7 @@ class RELSrcGenerator:
 
     def __process_slice(self, section: Section, _slice: Slice):
         """Process a slice in slices.csv or a gap."""
-        print(f"  {_slice}")
+        # print(f"  {_slice}")
 
         if self.__slice_dest_asm(_slice):
             self.__gen_asm(section, _slice)
@@ -552,7 +552,7 @@ class RELSrcGenerator:
             return
 
         c_path.parent.mkdir(parents=True, exist_ok=True)
-        print(f"    => {_slice.name}")
+        # print(f"    => {_slice.name}")
         data = self.rel.virtual_read(
             _slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX
         )
@@ -573,7 +573,7 @@ class RELSrcGenerator:
         self.rel_asm_sources.add(asm_path.stem)
         if not self.regen_asm and asm_path.exists():
             return
-        print(f"    => {asm_path}")
+        # print(f"    => {asm_path}")
         with open(asm_path, "w") as asm_file:
             data = (
                 self.rel.virtual_read(
