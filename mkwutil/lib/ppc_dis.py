@@ -372,19 +372,19 @@ class Instruction:
             self.bytes[3],
         )
 
-    def disassemble(self):
-        return self.prefix_text() + self.disassemble_inner()
+    def disassemble(self, dont_use_labels=False):
+        return self.prefix_text() + self.disassemble_inner(dont_use_labels)
 
-    def disassemble_inner(self):
+    def disassemble_inner(self, dont_use_labels=False):
         """Returns inline disassembly of instruction."""
         # Nice address reference for branch instructions.
         branch_info = self.disassemble_branch()
         if branch_info is not None:
             branch_text, addr = branch_info
-            return f"{branch_text} {self.reference_addr(addr)}"
+            return f"{branch_text} {self.reference_addr(addr, dont_use_labels)}"
         # Fall back to generic diassembly.
         raw = struct.unpack(">I", self.bytes)[0]
-        asm = insn_to_text(self.insn, raw, self.symbols)
+        asm = insn_to_text(self.insn, raw, self.symbols if not dont_use_labels else SymbolsList())
         return asm.strip()
 
     def disassemble_branch(self):
@@ -405,11 +405,11 @@ class Instruction:
                 )
         return None
 
-    def reference_addr(self, addr):
+    def reference_addr(self, addr, dont_use_labels=False):
         """Get a nice reference to immediate address from operand (label or symbol)."""
         if addr in self.labels:
             return label_name(addr)
-        if self.symbols:
+        if not dont_use_labels and self.symbols:
             sym = self.symbols.get(addr)
             if sym is not None:
                 return sym.name
