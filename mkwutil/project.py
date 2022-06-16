@@ -63,5 +63,5 @@ def read_enabled_slices(dol, slices_path):
 
 def read_rel(rel_path):
     with open(rel_path, "rb") as file:
-        return Rel(file, True)
+        return Rel(file, verbose=False)
     raise RuntimeError("Cannot find StaticR.rel")

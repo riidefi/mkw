@@ -100,7 +100,7 @@ def pack_staticr_rel(elf_path, rel_path, orig_dir):
                     target = _unresolved
 
                     if st_value != 0:
-                        print(f"[cross-link] to {symbol.name}")
+                        # print(f"[cross-link] to {symbol.name}")
 
                         target = text_start + st_value
 
