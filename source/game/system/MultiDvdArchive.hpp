@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DvdArchive.hpp"
+#include <game/host_system/SystemManager.hpp>
 
 #include <rk_types.h>
 #include <decomp.h>
@@ -8,18 +9,16 @@
 
 // TODO: Move somewhere more appropriate
 typedef enum {
-    RACE_COMMON = 0,
-    SCENE_UI_FONT = 3,
-    SCENE_MODEL_EARTH = 4,
-    SCENE_MODEL_MII_BODY = 5,
-    SCENE_MODEL_DRIVER = 6,
-    DEMO = 7,
-    SCENE_MODEL_BACKMODEL = 8
+  RACE_COMMON = 0,
+  SCENE_UI_FONT = 3,
+  SCENE_MODEL_EARTH = 4,
+  SCENE_MODEL_MII_BODY = 5,
+  SCENE_MODEL_DRIVER = 6,
+  DEMO = 7,
+  SCENE_MODEL_BACKMODEL = 8
 } SLoaderKind;
 
 namespace System {
-
-class MultiDvdArchive;
 
 class MultiDvdArchive {
 public:
@@ -48,27 +47,5 @@ protected:
   void** fileStarts;
   u32* kinds;
 };
-
-class RaceArchive : public MultiDvdArchive {
-public:
-    // not actually inline, just optimized inline here
-    RaceArchive() : MultiDvdArchive(2) { init(); }
-    void init();
-};
-
-class Unk2Archive : public MultiDvdArchive {
-public:
-    // not actually inline, just optimized inline here
-    Unk2Archive() : MultiDvdArchive(2) { init(); }
-    void init();
-};
-
-class CourseArchive : public MultiDvdArchive {
-public:
-    CourseArchive();
-    void init();
-};
-
-MultiDvdArchive* createMultiDvdArchive(SLoaderKind kind);
 
 } // namespace System

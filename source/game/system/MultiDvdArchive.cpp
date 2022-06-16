@@ -1,86 +1,14 @@
 #include "MultiDvdArchive.hpp"
 #pragma dont_reuse_strings on
 
-
 #include <string.h>
 
 #include "game/host_system/SystemManager.hpp"
 
 #define SUFFIX_SIZE 128
-const char* LOCALIZED_SZS[] = {"", "_E.szs", "_G.szs", "_F.szs", "_S.szs", "_I.szs", "_N.szs"};
-const char* const SZS = ".szs";
-const char* const DIF_SZS = "_Dif.szs";
-// We have to force an alignment or else the other strings will start four bytes
-// early
-extern const int _8088FE0C;
-const int _8088FE0C = 0;
-
+extern const char* const SZS;
 
 namespace System {
-MultiDvdArchive* createMultiDvdArchive(SLoaderKind kind) {
-    MultiDvdArchive* archive = nullptr;
-
-    switch(kind) {
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-            archive = new MultiDvdArchive(1);
-            break;
-        case RACE_COMMON:
-            archive = new RaceArchive;
-            break;
-        case 1:
-            archive = new CourseArchive;
-            break;
-        case 2:
-            archive = new Unk2Archive;
-            break;
-    }
-
-    return archive;
-}
-
-CourseArchive::CourseArchive() : MultiDvdArchive(4) { 
-    init();
-}
-
-void CourseArchive::init() {
-    MultiDvdArchive::init();
-
-    if (this->archiveCount > 1) {
-        this->kinds[1] = 0;
-        strncpy(this->suffixes[1], DIF_SZS, 0x80);
-    }
-    if (this->archiveCount > 2) {
-        this->kinds[2] = 4;
-    }
-    if (this->archiveCount > 3) {
-        this->kinds[3] = 4;
-    }
-}
-
-void Unk2Archive::init() {
-    MultiDvdArchive::init();
-    const char* localization = LOCALIZED_SZS[SystemManager::sInstance->mLanguage];
-
-    if (this->archiveCount > 1) {
-        this->kinds[1] = 0;
-        strncpy(this->suffixes[1],localization,0x80);
-    }
-}
-
-void RaceArchive::init() {
-    MultiDvdArchive::init();
-    const char* localization = LOCALIZED_SZS[SystemManager::sInstance->mLanguage];
-    
-    if (this->archiveCount > 1) {
-        this->kinds[1] = 0;
-        strncpy(this->suffixes[1],localization,0x80);
-    }
-}
 
 MultiDvdArchive::MultiDvdArchive(u16 archiveCount) {
   this->archives = nullptr;

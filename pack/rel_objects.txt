@@ -13,7 +13,8 @@ out/rel/rodata_8088fab7_8088fdc0.o
 out/rel/data_808b2c88_808b2d38.o
 out/GhostFile.o
 out/rel/text_8051d4d4_8052a098.o
-out/rel/data_808b2d50_808b31a8.o
+out/rel/data_808b2d50_808b3188.o
+out/LocalizedArchive.o
 out/MultiDvdArchive.o
 out/rel/text_8052ae5c_80555464.o
 out/rel/rodata_8088fe28_80891370.o
