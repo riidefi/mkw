@@ -6,7 +6,10 @@
 #include "game/host_system/SystemManager.hpp"
 
 #define SUFFIX_SIZE 128
-extern const char* const SZS;
+const char* const SZS = ".szs\0";
+
+extern const int _tmp;
+const int _tmp = 0;
 
 namespace System {
 

@@ -1,9 +1,8 @@
 #include "LocalizedArchive.hpp"
 
-const char* LOCALIZED_SZS[] = {"\0\0\0", "_E.szs", "_G.szs", "_F.szs",
-                               "_S.szs", "_I.szs", "_N.szs", nullptr};
+const char* LOCALIZED_SZS[] = {"\0\0\0", "_E.szs\0", "_G.szs\0", "_F.szs\0",
+                               "_S.szs\0", "_I.szs\0", "_N.szs\0", nullptr};
 const char DIF_SZS[] = "_Dif.szs";
-const char* const SZS = ".szs";
 
 namespace System {
 
@@ -37,10 +36,11 @@ CourseArchive::CourseArchive() : MultiDvdArchive(4) { init(); }
 
 void CourseArchive::init() {
   MultiDvdArchive::init();
+  const char* dif = DIF_SZS;
 
   if (this->archiveCount > 1) {
     this->kinds[1] = 0;
-    strncpy(this->suffixes[1], DIF_SZS, 0x80);
+    strncpy(this->suffixes[1], dif, 0x80);
   }
   if (this->archiveCount > 2) {
     this->kinds[2] = 4;
