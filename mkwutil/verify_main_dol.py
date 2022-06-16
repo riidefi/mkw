@@ -10,6 +10,13 @@ import sys
 from .lib.dol import DolBinary
 from .lib.verify_binary import *
 
+from .sections import DOL_SECTIONS
+
+# https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
 
 def verify_dol(reference: Path, target: Path):
     """Verifies the target main.dol for authenticity."""
@@ -56,6 +63,16 @@ def verify_dol(reference: Path, target: Path):
                 tag,
             )
         )
+        if not match:
+            amount_printed = 0
+            for vaddr in range(min(good_segment.start, bad_segment.start), max(good_segment.stop, bad_segment.stop), 4):
+                good_bytes = good.virtual_read_word(vaddr)
+                bad_bytes = bad.virtual_read_word(vaddr)
+
+                if good_bytes == bad_bytes or amount_printed > 10:
+                    continue
+                print("%x: Good=%x Bad=%x" % (vaddr, good_bytes, bad_bytes))
+                amount_printed += 1
     print(
         format_segment(
             "bss",

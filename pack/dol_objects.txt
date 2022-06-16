@@ -418,7 +418,8 @@ out/eggSaveBanner.o
 out/eggScene.o
 out/eggSceneManager.o
 out/eggScnRenderer.o
-out/dol/text_8023c694_80242498.o
+out/dol/text_8023c694_80241b60.o
+out/eggStream.o
 out/dol/data_802a3e2c_802a3f78.o
 out/eggStreamDecomp.o
 out/dol/text_80242504_802428e8.o

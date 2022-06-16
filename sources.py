@@ -258,6 +258,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggScene.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggSceneManager.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/gfx/eggScnRenderer.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/util/eggStream.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggStreamDecomp.cpp", cc='4201_127', opts=EGG_OPTS),
     # Source(src="source/egg/core/eggSystem.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggTextureBuffer.cpp", cc='4201_127', opts=EGG_OPTS),
