@@ -2,6 +2,10 @@
 
 #include <rk_types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define FILENAME_MAX 256
 
 typedef struct _FILE FILE;
@@ -84,3 +88,7 @@ size_t fread(void* ptr, size_t size, size_t count, FILE* stream);
 void rewind(FILE* stream);
 
 int remove(const char* pathname);
+
+#ifdef __cplusplus
+}
+#endif

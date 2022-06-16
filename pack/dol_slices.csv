@@ -180,6 +180,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/egg/core/eggScene.cpp,,,,,,,0x8023AD10,0x8023ADDC,,,,,,,0x802A3DE0,0x802A3E08,,,,,,,,,,
 1,,source/egg/core/eggSceneManager.cpp,,,,,,,0x8023ADDC,0x8023B980,,,,,,,0x802A3E08,0x802A3E2C,,,,,0x80386F00,0x80386F10,,,,
 1,,source/egg/gfx/eggScnRenderer.cpp,,,,,,,0x8023B980,0x8023C694,,,,,,,,,,,,,,,,,,
+1,,source/egg/util/eggStream.cpp,,,,,,,0x80241B60,0x80242498,,,,,,,,,,,,,,,,,,
 1,,source/egg/core/eggStreamDecomp.cpp,,,,,,,0x80242498,0x80242504,,,,,,,0x802A3F78,0x802A3F90,,,,,,,,,,
 ,,source/egg/core/eggSystem.cpp,,,,,,,,,,,,,,,,,,,,,0x80386F60,0x80386F64,,,,
 1,,source/egg/core/eggTaskThread.cpp,,,,,,,0x802428e8,0x80242f1c,,,,,,,0x802a3f90,0x802a3fa8,,,,,,,,,,
