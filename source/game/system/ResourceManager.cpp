@@ -1,5 +1,12 @@
 #include "ResourceManager.hpp"
 
+#include "rvl/os/osThread.h"
+
+extern const char* COURSE_NAMES[];
+
+extern const int arr_80890AE8[];
+const int arr_80890AE8[] = {819200, 921600, 36, 48, 14, 51200};
+
 extern "C" {
 extern UNKNOWN_FUNCTION(load__Q26System10DvdArchiveFPCcUlPQ23EGG4Heap);
 extern UNKNOWN_FUNCTION(getFileCopy__Q26System10DvdArchiveFPcPQ23EGG4HeapPUlSc);
@@ -37,36 +44,17 @@ extern UNKNOWN_FUNCTION(getSlotForCourseId);
 extern UNKNOWN_FUNCTION(unk_805553b0);
 }
 
-// Symbol: ResourceManager_createInstance
-// PAL: 0x8053fc4c..0x8053fc9c
-MARK_BINARY_BLOB(ResourceManager_createInstance, 0x8053fc4c, 0x8053fc9c);
-asm UNKNOWN_FUNCTION(ResourceManager_createInstance) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  lis r3, 0;
-  stw r0, 0x14(r1);
-  lwz r0, 0(r3);
-  cmpwi r0, 0;
-  bne lbl_8053fc84;
-  li r3, 0x61c;
-  bl unk_805553b0;
-  cmpwi r3, 0;
-  beq lbl_8053fc7c;
-  bl ResourceManager_construct;
-lbl_8053fc7c:
-  lis r4, 0;
-  stw r3, 0(r4);
-lbl_8053fc84:
-  lwz r0, 0x14(r1);
-  lis r3, 0;
-  lwz r3, 0(r3);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+namespace System {
+
+ResourceManager* ResourceManager::createInstance() {
+  if (spInstance == nullptr) {
+    spInstance = new ResourceManager();
+  }
+
+  return spInstance;
 }
+
+} // namespace System
 
 // Symbol: ResourceManager_destroyInstance
 // PAL: 0x8053fc9c..0x8053fcec
@@ -98,10 +86,10 @@ lbl_8053fcd0:
   // clang-format on
 }
 
-// Symbol: ResourceManager_construct
+// Symbol: __ct__Q26System15ResourceManagerFv
 // PAL: 0x8053fcec..0x8053fe68
-MARK_BINARY_BLOB(ResourceManager_construct, 0x8053fcec, 0x8053fe68);
-asm UNKNOWN_FUNCTION(ResourceManager_construct) {
+MARK_BINARY_BLOB(__ct__Q26System15ResourceManagerFv, 0x8053fcec, 0x8053fe68);
+asm UNKNOWN_FUNCTION(__ct__Q26System15ResourceManagerFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -204,77 +192,16 @@ lbl_8053fe1c:
   // clang-format on
 }
 
-// Symbol: unk_8053fe68
-// PAL: 0x8053fe68..0x8053fe94
-MARK_BINARY_BLOB(unk_8053fe68, 0x8053fe68, 0x8053fe94);
-asm UNKNOWN_FUNCTION(unk_8053fe68) {
-  // clang-format off
-  nofralloc;
-  lis r4, 0;
-  li r5, 0;
-  addi r4, r4, 0;
-  li r0, 2;
-  stw r5, 4(r3);
-  stw r5, 8(r3);
-  stw r5, 0xc(r3);
-  stw r4, 0(r3);
-  stw r5, 0x10(r3);
-  stw r0, 0x14(r3);
-  blr;
-  // clang-format on
+namespace System {
+
+MenuCharacterManager::MenuCharacterManager() {
+  mCharacter = 0;
+  mModelType = 2;
 }
 
-// Symbol: unk_8053fe94
-// PAL: 0x8053fe94..0x8053fed4
-MARK_BINARY_BLOB(unk_8053fe94, 0x8053fe94, 0x8053fed4);
-asm UNKNOWN_FUNCTION(unk_8053fe94) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  beq lbl_8053febc;
-  cmpwi r4, 0;
-  ble lbl_8053febc;
-  bl unk_805553b0;
-lbl_8053febc:
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
+MenuCharacterManager::~MenuCharacterManager() {}
 
-// Symbol: unk_8053fed4
-// PAL: 0x8053fed4..0x8053ff14
-MARK_BINARY_BLOB(unk_8053fed4, 0x8053fed4, 0x8053ff14);
-asm UNKNOWN_FUNCTION(unk_8053fed4) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  beq lbl_8053fefc;
-  cmpwi r4, 0;
-  ble lbl_8053fefc;
-  bl unk_805553b0;
-lbl_8053fefc:
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
+} // namespace System
 
 // Symbol: unk_8053ff14
 // PAL: 0x8053ff14..0x8053ff1c
@@ -408,10 +335,10 @@ lbl_80540088:
   // clang-format on
 }
 
-// Symbol: ResourceManager_process
+// Symbol: process__Q26System15ResourceManagerFv
 // PAL: 0x805400a0..0x805401ec
-MARK_BINARY_BLOB(ResourceManager_process, 0x805400a0, 0x805401ec);
-asm UNKNOWN_FUNCTION(ResourceManager_process) {
+MARK_BINARY_BLOB(process__Q26System15ResourceManagerFv, 0x805400a0, 0x805401ec);
+asm UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -536,7 +463,7 @@ asm UNKNOWN_FUNCTION(unk_805401fc) {
 
 // Symbol: unk_8054020c
 // PAL: 0x8054020c..0x805402c0
-MARK_BINARY_BLOB(unk_8054020c, 0x8054020c, 0x805402c0);
+/*MARK_BINARY_BLOB(unk_8054020c, 0x8054020c, 0x805402c0);
 asm UNKNOWN_FUNCTION(unk_8054020c) {
   // clang-format off
   nofralloc;
@@ -564,7 +491,7 @@ asm UNKNOWN_FUNCTION(unk_8054020c) {
   lwz r3, 0x584(r27);
   bl unk_805553b0;
   mr r3, r27;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r29;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -587,7 +514,23 @@ lbl_805402ac:
   addi r1, r1, 0x20;
   blr;
   // clang-format on
+}*/
+
+namespace System {
+void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
+                                  EGG::Heap* archiveHeap) {
+  this->jobContexts[idx].multiArchive = m;
+  strncpy(this->jobContexts[idx].filename, p, 0x40);
+  this->jobContexts[idx].archiveHeap = archiveHeap;
+
+  this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+  this->process();
+
+  if (!m->isLoaded()) {
+    OSSleepMilliseconds(16);
+  }
 }
+} // namespace System
 
 // Symbol: unk_805402c0
 // PAL: 0x805402c0..0x80540394
@@ -621,7 +564,7 @@ asm UNKNOWN_FUNCTION(unk_805402c0) {
   lwz r3, 0x584(r26);
   bl unk_805553b0;
   mr r3, r26;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   lwz r0, 0x20(r28);
   li r3, 0;
   cmpwi r0, 4;
@@ -686,7 +629,7 @@ asm UNKNOWN_FUNCTION(unk_80540394) {
   lwz r3, 0x584(r26);
   bl unk_805553b0;
   mr r3, r26;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r28;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -758,7 +701,7 @@ lbl_80540490:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r31;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r30;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -840,7 +783,7 @@ lbl_8054059c:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r30;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   lwz r0, 0x2c8(r28);
   li r3, 0;
   cmpwi r0, 4;
@@ -912,7 +855,7 @@ asm UNKNOWN_FUNCTION(ResourceManager_loadUI) {
   li r6, 0;
   bl unk_805553b0;
   mr r3, r29;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r31;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -943,7 +886,7 @@ lbl_8054073c:
 
 // Symbol: ResourceManager_loadCourse
 // PAL: 0x80540760..0x80540918
-MARK_BINARY_BLOB(ResourceManager_loadCourse, 0x80540760, 0x80540918);
+/*MARK_BINARY_BLOB(ResourceManager_loadCourse, 0x80540760, 0x80540918);
 asm UNKNOWN_FUNCTION(ResourceManager_loadCourse) {
   // clang-format off
   nofralloc;
@@ -982,7 +925,8 @@ asm UNKNOWN_FUNCTION(ResourceManager_loadCourse) {
   bne cr6, lbl_805408f0;
   lwz r4, 0x5a8(r31);
   mr r5, r29;
-  bl loadOther__Q26System15MultiDvdArchiveFPQ26System15MultiDvdArchivePQ23EGG4Heap;
+  bl
+loadOther__Q26System15MultiDvdArchiveFPQ26System15MultiDvdArchivePQ23EGG4Heap;
   b lbl_805408f0;
 lbl_805407f4:
   cmpwi r30, 0;
@@ -1034,7 +978,7 @@ lbl_80540874:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r31;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r30;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1062,7 +1006,40 @@ lbl_805408f0:
   addi r1, r1, 0xa0;
   blr;
   // clang-format on
+}*/
+
+namespace System {
+MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId,
+                                             EGG::Heap* param_3,
+                                             bool splitScreen) {
+  char courseName[128];
+
+  if (!this->multiArchives1[1]->isLoaded()) {
+    this->multiArchives1[1]->init();
+    if (!splitScreen && this->courseCache.mState == 2 &&
+        courseId == this->courseCache.mCourseId) {
+      MultiDvdArchive* m = this->multiArchives1[1];
+      if (this->courseCache.mState == 2)
+        m->loadOther(this->courseCache.mArchive, param_3);
+    } else {
+      if (splitScreen) {
+        snprintf(courseName, sizeof(courseName), "Race/Course/%s_d",
+                 COURSE_NAMES[courseId]);
+        if (!this->multiArchives1[1]->exists(courseName)) {
+          splitScreen = false;
+        }
+      }
+      if (!splitScreen) {
+        snprintf(courseName, sizeof(courseName), "Race/Course/%s",
+                 COURSE_NAMES[courseId]);
+      }
+      requestLoad(2, this->multiArchives1[1], courseName, param_3);
+    }
+  }
+  return this->multiArchives1[1];
 }
+
+} // namespace System
 
 // Symbol: ResourceManager_loadMission
 // PAL: 0x80540918..0x80540b14
@@ -1178,7 +1155,7 @@ lbl_80540a7c:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r28;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r29;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1315,7 +1292,7 @@ lbl_80540c38:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r23;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r21;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1407,7 +1384,7 @@ lbl_80540d7c:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r28;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r31;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1507,7 +1484,7 @@ lbl_80540ed8:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r30;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r31;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1608,7 +1585,7 @@ lbl_8054102c:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r30;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r31;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -2519,118 +2496,59 @@ lbl_805419fc:
   // clang-format on
 }
 
-// Symbol: unk_80541a10
-// PAL: 0x80541a10..0x80541a70
-MARK_BINARY_BLOB(unk_80541a10, 0x80541a10, 0x80541a70);
-asm UNKNOWN_FUNCTION(unk_80541a10) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  bl unk_805553b0;
-  lis r3, 0;
-  li r0, 0;
-  addi r3, r3, 0;
-  stw r3, 0(r31);
-  li r3, 0x1c;
-  stw r0, 0x10(r31);
-  stw r0, 0x14(r31);
-  bl unk_805553b0;
-  cmpwi r3, 0;
-  beq lbl_80541a54;
-  bl __ct__Q26System16CourseDvdArchiveFv;
-lbl_80541a54:
-  stw r3, 0x20(r31);
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+namespace System {
+
+CourseCache::CourseCache() {
+  mBuffer = nullptr;
+  mHeap = nullptr;
+  mArchive = new CourseDvdArchive();
 }
 
-// Symbol: unk_80541a70
-// PAL: 0x80541a70..0x80541ac4
-MARK_BINARY_BLOB(unk_80541a70, 0x80541a70, 0x80541ac4);
-asm UNKNOWN_FUNCTION(unk_80541a70) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  li r4, -32;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  lis r31, 0x32;
-  stw r30, 8(r1);
-  mr r30, r3;
-  addi r3, r31, -28672;
-  bl unk_805553b0;
-  stw r3, 0x10(r30);
-  addi r4, r31, -28672;
-  li r5, 1;
-  bl unk_805553b0;
-  stw r3, 0x14(r30);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void CourseCache::init() {
+  void* block = new (-32) u8[0x319000];
+  mBuffer = block;
+  mHeap = EGG::ExpHeap::create(block, 0x319000, 1);
 }
 
-// Symbol: unk_80541ac4
-// PAL: 0x80541ac4..0x80541b58
-MARK_BINARY_BLOB(unk_80541ac4, 0x80541ac4, 0x80541b58);
-asm UNKNOWN_FUNCTION(unk_80541ac4) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  beq lbl_80541b3c;
-  lis r4, 0;
-  addi r4, r4, 0;
-  stw r4, 0(r3);
-  lwz r3, 0x20(r3);
-  bl clear__Q26System15MultiDvdArchiveFv;
-  lwz r3, 0x14(r30);
-  cmpwi r3, 0;
-  beq lbl_80541b20;
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, 0x10(r30);
-  bl unk_805553b0;
-lbl_80541b20:
-  mr r3, r30;
-  li r4, 0;
-  bl unk_805553b0;
-  cmpwi r31, 0;
-  ble lbl_80541b3c;
-  mr r3, r30;
-  bl unk_805553b0;
-lbl_80541b3c:
-  mr r3, r30;
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+CourseCache::~CourseCache() {
+  mArchive->clear();
+  if (mHeap) {
+    mHeap->destroy();
+    delete[](mBuffer);
+  }
 }
 
+} // namespace System
+
+#ifdef NON_MATCHING // requires rodata to work
+namespace System {
+
+void CourseCache::load(s32 courseId) {
+  if (!mHeap)
+    return;
+  char buffer[128];
+
+  mCourseId = courseId;
+  if (mState == 2) {
+    mArchive->clear();
+  }
+  mState = 1;
+
+  snprintf(buffer, sizeof(buffer), "Race/Course/%s", TRACK_NAMES[mCourseId]);
+  mArchive->rip(buffer, mHeap);
+
+  // something is wrong - this matches but requires rippedArchiveCount() to
+  // return s32, which almost certainly breaks MultiDvdArchive
+  if ((u16)mArchive->rippedArchiveCount()) {
+    mState = 2;
+  } else {
+    mArchive->clear();
+    mState = 0;
+  }
+}
+
+} // namespace System
+#else
 // Symbol: unk_80541b58
 // PAL: 0x80541b58..0x80541c18
 MARK_BINARY_BLOB(unk_80541b58, 0x80541b58, 0x80541c18);
@@ -2690,23 +2608,18 @@ lbl_80541c04:
   blr;
   // clang-format on
 }
+#endif
 
-// Symbol: unk_80541c18
-// PAL: 0x80541c18..0x80541c38
-MARK_BINARY_BLOB(unk_80541c18, 0x80541c18, 0x80541c38);
-asm UNKNOWN_FUNCTION(unk_80541c18) {
-  // clang-format off
-  nofralloc;
-  lwz r0, 0x1c(r3);
-  mr r6, r4;
-  cmpwi r0, 2;
-  bnelr;
-  lwz r4, 0x20(r3);
-  mr r3, r6;
-  b loadOther__Q26System15MultiDvdArchiveFPQ26System15MultiDvdArchivePQ23EGG4Heap;
-  blr;
-  // clang-format on
+namespace System {
+
+void CourseCache::loadOther(MultiDvdArchive* other, EGG::Heap* heap) {
+  if (mState != 2)
+    return;
+
+  other->loadOther(mArchive, heap);
 }
+
+} // namespace System
 
 // Symbol: unk_80541c38
 // PAL: 0x80541c38..0x80541c48
@@ -2750,7 +2663,7 @@ lbl_80541c90:
   cmpwi r31, 0;
   beq lbl_80541ca0;
   mr r3, r30;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
 lbl_80541ca0:
   mr r3, r31;
   lwz r31, 0xc(r1);
