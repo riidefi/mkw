@@ -15,7 +15,7 @@ UNKNOWN_FUNCTION(ResourceManager_destroyInstance);
 // PAL: 0x8053fcec..0x8053fe68
 UNKNOWN_FUNCTION(ResourceManager_construct);
 // PAL: 0x8053fe68..0x8053fe94
-UNKNOWN_FUNCTION(unk_8053fe68);
+UNKNOWN_FUNCTION(__ct__Q26System20MenuCharacterManagerFv);
 // PAL: 0x8053fe94..0x8053fed4
 UNKNOWN_FUNCTION(unk_8053fe94);
 // PAL: 0x8053fed4..0x8053ff14
@@ -158,3 +158,31 @@ UNKNOWN_FUNCTION(unk_80542868);
 #ifdef __cplusplus
 }
 #endif
+
+namespace System {
+
+// begrudging riidefi magic
+struct S {
+  virtual ~S() = 0;
+};
+inline S::~S() {}
+struct T {
+  T() {
+    mHeap1 = 0;
+    mHeap2 = 0;
+    _unk = 0;
+  }
+  void* mHeap1;
+  void* mHeap2;
+  s32 _unk;
+};
+
+class MenuCharacterManager : S, T {
+public:
+  MenuCharacterManager();
+  virtual ~MenuCharacterManager();
+  s32 mCharacter;
+  s32 mModelType;
+};
+
+} // namespace System

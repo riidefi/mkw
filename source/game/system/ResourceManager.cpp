@@ -204,77 +204,16 @@ lbl_8053fe1c:
   // clang-format on
 }
 
-// Symbol: unk_8053fe68
-// PAL: 0x8053fe68..0x8053fe94
-MARK_BINARY_BLOB(unk_8053fe68, 0x8053fe68, 0x8053fe94);
-asm UNKNOWN_FUNCTION(unk_8053fe68) {
-  // clang-format off
-  nofralloc;
-  lis r4, 0;
-  li r5, 0;
-  addi r4, r4, 0;
-  li r0, 2;
-  stw r5, 4(r3);
-  stw r5, 8(r3);
-  stw r5, 0xc(r3);
-  stw r4, 0(r3);
-  stw r5, 0x10(r3);
-  stw r0, 0x14(r3);
-  blr;
-  // clang-format on
+namespace System {
+
+MenuCharacterManager::MenuCharacterManager() {
+  mCharacter = 0;
+  mModelType = 2;
 }
 
-// Symbol: unk_8053fe94
-// PAL: 0x8053fe94..0x8053fed4
-MARK_BINARY_BLOB(unk_8053fe94, 0x8053fe94, 0x8053fed4);
-asm UNKNOWN_FUNCTION(unk_8053fe94) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  beq lbl_8053febc;
-  cmpwi r4, 0;
-  ble lbl_8053febc;
-  bl unk_805553b0;
-lbl_8053febc:
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
+MenuCharacterManager::~MenuCharacterManager() {}
 
-// Symbol: unk_8053fed4
-// PAL: 0x8053fed4..0x8053ff14
-MARK_BINARY_BLOB(unk_8053fed4, 0x8053fed4, 0x8053ff14);
-asm UNKNOWN_FUNCTION(unk_8053fed4) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  beq lbl_8053fefc;
-  cmpwi r4, 0;
-  ble lbl_8053fefc;
-  bl unk_805553b0;
-lbl_8053fefc:
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
+} // namespace System
 
 // Symbol: unk_8053ff14
 // PAL: 0x8053ff14..0x8053ff1c
