@@ -4,6 +4,12 @@
 
 #include <decomp.h>
 
+#include <egg/core/eggDisposer.hpp>
+#include <egg/core/eggExpHeap.hpp>
+#include <game/system/DvdArchive.hpp>
+#include <game/system/LocalizedArchive.hpp>
+#include <game/system/MultiDvdArchive.hpp>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -13,9 +19,9 @@ UNKNOWN_FUNCTION(ResourceManager_createInstance);
 // PAL: 0x8053fc9c..0x8053fcec
 UNKNOWN_FUNCTION(ResourceManager_destroyInstance);
 // PAL: 0x8053fcec..0x8053fe68
-UNKNOWN_FUNCTION(ResourceManager_construct);
+UNKNOWN_FUNCTION(__ct__Q26System15ResourceManagerFv);
 // PAL: 0x8053fe68..0x8053fe94
-UNKNOWN_FUNCTION(unk_8053fe68);
+UNKNOWN_FUNCTION(__ct__Q26System20MenuCharacterManagerFv);
 // PAL: 0x8053fe94..0x8053fed4
 UNKNOWN_FUNCTION(unk_8053fe94);
 // PAL: 0x8053fed4..0x8053ff14
@@ -27,7 +33,7 @@ UNKNOWN_FUNCTION(ResourceManager_destroy);
 // PAL: 0x80540038..0x805400a0
 UNKNOWN_FUNCTION(unk_80540038);
 // PAL: 0x805400a0..0x805401ec
-UNKNOWN_FUNCTION(ResourceManager_process);
+UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv);
 // PAL: 0x805401ec..0x805401fc
 UNKNOWN_FUNCTION(unk_805401ec);
 // PAL: 0x805401fc..0x8054020c
@@ -158,3 +164,95 @@ UNKNOWN_FUNCTION(unk_80542868);
 #ifdef __cplusplus
 }
 #endif
+
+namespace System {
+
+struct JobContext {
+  MultiDvdArchive* multiArchive;
+  DvdArchive* archive;
+  unk _08;
+  char filename[64];
+  EGG::Heap* archiveHeap;
+  EGG::Heap* fileHeap;
+};
+
+// begrudging riidefi magic
+struct S {
+  virtual ~S() = 0;
+};
+inline S::~S() {}
+struct T {
+  T() {
+    mHeap1 = 0;
+    mHeap2 = 0;
+    _unk = 0;
+  }
+  EGG::ExpHeap* mHeap1;
+  EGG::ExpHeap* mHeap2;
+  s32 _unk;
+};
+
+class MenuCharacterManager : S, T {
+public:
+  MenuCharacterManager();
+  virtual ~MenuCharacterManager();
+  s32 mCharacter;
+  s32 mModelType;
+};
+
+class CourseCache : EGG::Disposer {
+public:
+  CourseCache();
+  void init();
+  virtual ~CourseCache();
+  void load(u32 courseId);
+  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
+
+  // private: // idk if rii prefers to befriend every class over public-ing
+  // everything
+  void* mBuffer;
+  EGG::ExpHeap* mHeap;
+  s32 mCourseId;
+  s32 mState;
+  MultiDvdArchive* mArchive;
+};
+
+typedef enum {
+
+} CourseId;
+
+class ResourceManager {
+  virtual ~ResourceManager();
+
+public:
+  static ResourceManager* createInstance();
+  static void destroyInstance();
+
+  static ResourceManager* spInstance;
+
+  ResourceManager();
+
+  MultiDvdArchive** multiArchives1;
+  MultiDvdArchive multiArchives2[12];
+  MultiDvdArchive MultiArchives3[12];
+  DvdArchive dvdArchive[4];
+  JobContext jobContexts[7];
+  EGG::TaskThread* taskThread;
+  CourseCache courseCache;
+  MenuCharacterManager menuCharacterManager[4];
+  bool isGlobeLoadingBusy;
+  bool _60d; // these variables don't have names yet, but are used
+  EGG::ExpHeap* _610;
+  EGG::Heap* _614;
+  bool _618;
+  bool _619;
+
+  MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3,
+                              bool splitScreen);
+  void process();
+  static void doLoadTask(void* jobContext);
+  void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
+                   EGG::Heap* archiveHeap);
+};
+
+} // namespace System
