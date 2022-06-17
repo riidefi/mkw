@@ -4,6 +4,10 @@
 
 #include <decomp.h>
 
+#include <game/system/DvdArchive.hpp>
+#include <game/system/LocalizedArchive.hpp>
+#include <game/system/MultiDvdArchive.hpp>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -160,6 +164,15 @@ UNKNOWN_FUNCTION(unk_80542868);
 #endif
 
 namespace System {
+
+struct JobContext {
+  MultiDvdArchive* multiArchive;
+  DvdArchive* archive;
+  unk _08;
+  char filename[64];
+  EGG::Heap* archiveHeap;
+  EGG::Heap* fileHeap;
+};
 
 // begrudging riidefi magic
 struct S {
