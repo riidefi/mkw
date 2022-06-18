@@ -2458,7 +2458,6 @@ lbl_805419fc:
   // clang-format on
 }
 
-// #ifdef NON_MATCHING
 namespace System {
 
 CourseCache::CourseCache() {
@@ -2477,12 +2476,41 @@ CourseCache::~CourseCache() {
   mArchive->clear();
   if (mHeap) {
     mHeap->destroy();
-    delete[] (mBuffer);
+    delete[](mBuffer);
   }
 }
 
 } // namespace System
+ 
+#ifdef NON_MATCHING  // requires rodata to work
+namespace System {
 
+void CourseCache::load(s32 courseId) {
+  if (!mHeap)
+    return;
+  char buffer[128];
+
+  mCourseId = courseId;
+  if (mState == 2) {
+    mArchive->clear();
+  }
+  mState = 1;
+
+  snprintf(buffer, sizeof(buffer), "Race/Course/%s", TRACK_NAMES[mCourseId]);
+  mArchive->rip(buffer, mHeap);
+
+  // something is wrong - this matches but requires rippedArchiveCount() to
+  // return s32, which almost certainly breaks MultiDvdArchive
+  if ((u16)mArchive->rippedArchiveCount()) {
+    mState = 2;
+  } else {
+    mArchive->clear();
+    mState = 0;
+  }
+}
+
+} // namespace System
+#else
 // Symbol: unk_80541b58
 // PAL: 0x80541b58..0x80541c18
 MARK_BINARY_BLOB(unk_80541b58, 0x80541b58, 0x80541c18);
@@ -2542,6 +2570,7 @@ lbl_80541c04:
   blr;
   // clang-format on
 }
+#endif
 
 // Symbol: unk_80541c18
 // PAL: 0x80541c18..0x80541c38
