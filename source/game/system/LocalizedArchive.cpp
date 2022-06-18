@@ -8,24 +8,6 @@ namespace System {
 static const char* LOCALIZED_SZS[] = {"",       "_E.szs", "_G.szs", "_F.szs",
                                       "_S.szs", "_I.szs", "_N.szs", nullptr};
 
-class RaceSysDvdArchive : public MultiDvdArchive {
-public:
-  RaceSysDvdArchive();
-  void init() override;
-};
-
-class UIDvdArchive : public MultiDvdArchive {
-public:
-  UIDvdArchive();
-  void init() override;
-};
-
-class CourseDvdArchive : public MultiDvdArchive {
-public:
-  CourseDvdArchive();
-  void init() override;
-};
-
 MultiDvdArchive* createMultiDvdArchive(ResourceChannelID kind) {
   MultiDvdArchive* archive = nullptr;
 

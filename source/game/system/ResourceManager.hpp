@@ -4,6 +4,8 @@
 
 #include <decomp.h>
 
+#include <egg/core/eggDisposer.hpp>
+#include <egg/core/eggExpHeap.hpp>
 #include <game/system/DvdArchive.hpp>
 #include <game/system/LocalizedArchive.hpp>
 #include <game/system/MultiDvdArchive.hpp>
@@ -185,8 +187,8 @@ struct T {
     mHeap2 = 0;
     _unk = 0;
   }
-  void* mHeap1;
-  void* mHeap2;
+  EGG::ExpHeap* mHeap1;
+  EGG::ExpHeap* mHeap2;
   s32 _unk;
 };
 
@@ -196,6 +198,22 @@ public:
   virtual ~MenuCharacterManager();
   s32 mCharacter;
   s32 mModelType;
+};
+
+class CourseCache : EGG::Disposer {
+public:
+  CourseCache();
+  void init();
+  virtual ~CourseCache();
+  void load(u32 courseId);
+  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
+
+private:
+  void* mBuffer;
+  EGG::ExpHeap* mHeap;
+  u32 mCourseId;
+  volatile u32 mState;
+  MultiDvdArchive* mArchive;
 };
 
 } // namespace System
