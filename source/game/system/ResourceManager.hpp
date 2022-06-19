@@ -208,7 +208,8 @@ public:
   void load(u32 courseId);
   void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
 
-//private: // idk if rii prefers to befriend every class over public-ing everything
+  // private: // idk if rii prefers to befriend every class over public-ing
+  // everything
   void* mBuffer;
   EGG::ExpHeap* mHeap;
   s32 mCourseId;
@@ -222,20 +223,23 @@ typedef enum {
 
 class ResourceManager {
   virtual ~ResourceManager();
+
 public:
   MultiDvdArchive** multiArchives1;
   MultiDvdArchive multiArchives2[12];
   MultiDvdArchive MultiArchives3[12];
-  DvdArchive dvdArhive[4];
+  DvdArchive dvdArchive[4];
   JobContext jobContexts[7];
   EGG::TaskThread* taskThread;
   CourseCache courseCache;
-  char unk5ac_60b[0x60b-0x5ac];
+  char unk5ac_60b[0x60b - 0x5ac];
 
-  MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3, bool splitScreen);
+  MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3,
+                              bool splitScreen);
   void process();
   static void doLoadTask(void* jobContext);
-  void requestLoad(s32 idx, MultiDvdArchive* m, const char* p, EGG::Heap* archiveHeap) ;
+  void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
+                   EGG::Heap* archiveHeap);
 };
 
 } // namespace System

@@ -2,19 +2,10 @@
 
 #include "rvl/os/osThread.h"
 
-
-
 extern const char* COURSE_NAMES[];
 
 extern const int arr_80890AE8[];
-const int arr_80890AE8[] = {
-  819200,
-  921600,
-  36,
-  48,
-  14,
-  51200
-};
+const int arr_80890AE8[] = {819200, 921600, 36, 48, 14, 51200};
 
 extern "C" {
 extern UNKNOWN_FUNCTION(load__Q26System10DvdArchiveFPCcUlPQ23EGG4Heap);
@@ -545,19 +536,20 @@ lbl_805402ac:
 }*/
 
 namespace System {
-void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p, EGG::Heap* archiveHeap) {
-    this->jobContexts[idx].multiArchive = m;
-    strncpy(this->jobContexts[idx].filename, p, 0x40);
-    this->jobContexts[idx].archiveHeap = archiveHeap;
+void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
+                                  EGG::Heap* archiveHeap) {
+  this->jobContexts[idx].multiArchive = m;
+  strncpy(this->jobContexts[idx].filename, p, 0x40);
+  this->jobContexts[idx].archiveHeap = archiveHeap;
 
-    this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
-    this->process();
+  this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+  this->process();
 
-    if (!m->isLoaded()) {
-        OSSleepMilliseconds(16);
-    }
+  if (!m->isLoaded()) {
+    OSSleepMilliseconds(16);
+  }
 }
-}
+} // namespace System
 
 // Symbol: unk_805402c0
 // PAL: 0x805402c0..0x80540394
@@ -952,7 +944,8 @@ asm UNKNOWN_FUNCTION(ResourceManager_loadCourse) {
   bne cr6, lbl_805408f0;
   lwz r4, 0x5a8(r31);
   mr r5, r29;
-  bl loadOther__Q26System15MultiDvdArchiveFPQ26System15MultiDvdArchivePQ23EGG4Heap;
+  bl
+loadOther__Q26System15MultiDvdArchiveFPQ26System15MultiDvdArchivePQ23EGG4Heap;
   b lbl_805408f0;
 lbl_805407f4:
   cmpwi r30, 0;
@@ -1035,32 +1028,37 @@ lbl_805408f0:
 }*/
 
 namespace System {
-MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId, EGG::Heap* param_3, bool splitScreen) {
-    char courseName[128];
+MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId,
+                                             EGG::Heap* param_3,
+                                             bool splitScreen) {
+  char courseName[128];
 
-    if (!this->multiArchives1[1]->isLoaded()) {
-        this->multiArchives1[1]->init();
-        if (!splitScreen && this->courseCache.mState == 2 && courseId == this->courseCache.mCourseId) {
-            MultiDvdArchive* m = this->multiArchives1[1];
-            if (this->courseCache.mState == 2)
-                m->loadOther(this->courseCache.mArchive, param_3);
-        } else {
-            if (splitScreen) {
-                snprintf(courseName, sizeof(courseName), "Race/Course/%s_d", COURSE_NAMES[courseId]);
-                if (!this->multiArchives1[1]->exists(courseName)) {
-                    splitScreen = false;
-                }
-            }
-            if (!splitScreen) {
-                snprintf(courseName, sizeof(courseName), "Race/Course/%s", COURSE_NAMES[courseId]);
-            }
-            requestLoad(2, this->multiArchives1[1], courseName, param_3);
+  if (!this->multiArchives1[1]->isLoaded()) {
+    this->multiArchives1[1]->init();
+    if (!splitScreen && this->courseCache.mState == 2 &&
+        courseId == this->courseCache.mCourseId) {
+      MultiDvdArchive* m = this->multiArchives1[1];
+      if (this->courseCache.mState == 2)
+        m->loadOther(this->courseCache.mArchive, param_3);
+    } else {
+      if (splitScreen) {
+        snprintf(courseName, sizeof(courseName), "Race/Course/%s_d",
+                 COURSE_NAMES[courseId]);
+        if (!this->multiArchives1[1]->exists(courseName)) {
+          splitScreen = false;
         }
+      }
+      if (!splitScreen) {
+        snprintf(courseName, sizeof(courseName), "Race/Course/%s",
+                 COURSE_NAMES[courseId]);
+      }
+      requestLoad(2, this->multiArchives1[1], courseName, param_3);
     }
-    return this->multiArchives1[1];
+  }
+  return this->multiArchives1[1];
 }
 
-}
+} // namespace System
 
 // Symbol: ResourceManager_loadMission
 // PAL: 0x80540918..0x80540b14
@@ -2540,8 +2538,8 @@ CourseCache::~CourseCache() {
 }
 
 } // namespace System
- 
-#ifdef NON_MATCHING  // requires rodata to work
+
+#ifdef NON_MATCHING // requires rodata to work
 namespace System {
 
 void CourseCache::load(s32 courseId) {
@@ -2631,22 +2629,16 @@ lbl_80541c04:
 }
 #endif
 
-// Symbol: unk_80541c18
-// PAL: 0x80541c18..0x80541c38
-MARK_BINARY_BLOB(unk_80541c18, 0x80541c18, 0x80541c38);
-asm UNKNOWN_FUNCTION(unk_80541c18) {
-  // clang-format off
-  nofralloc;
-  lwz r0, 0x1c(r3);
-  mr r6, r4;
-  cmpwi r0, 2;
-  bnelr;
-  lwz r4, 0x20(r3);
-  mr r3, r6;
-  b loadOther__Q26System15MultiDvdArchiveFPQ26System15MultiDvdArchivePQ23EGG4Heap;
-  blr;
-  // clang-format on
+namespace System {
+
+void CourseCache::loadOther(MultiDvdArchive* other, EGG::Heap* heap) {
+  if (mState != 2)
+    return;
+
+  other->loadOther(mArchive, heap);
 }
+
+} // namespace System
 
 // Symbol: unk_80541c38
 // PAL: 0x80541c38..0x80541c48
