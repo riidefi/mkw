@@ -2,6 +2,20 @@
 
 #include "rvl/os/osThread.h"
 
+
+
+extern const char* COURSE_NAMES[];
+
+extern const int arr_80890AE8[];
+const int arr_80890AE8[] = {
+  819200,
+  921600,
+  36,
+  48,
+  14,
+  51200
+};
+
 extern "C" {
 extern UNKNOWN_FUNCTION(load__Q26System10DvdArchiveFPCcUlPQ23EGG4Heap);
 extern UNKNOWN_FUNCTION(getFileCopy__Q26System10DvdArchiveFPcPQ23EGG4HeapPUlSc);
@@ -349,10 +363,10 @@ lbl_80540088:
   // clang-format on
 }
 
-// Symbol: ResourceManager_process
+// Symbol: process__Q26System15ResourceManagerFv
 // PAL: 0x805400a0..0x805401ec
-MARK_BINARY_BLOB(ResourceManager_process, 0x805400a0, 0x805401ec);
-asm UNKNOWN_FUNCTION(ResourceManager_process) {
+MARK_BINARY_BLOB(process__Q26System15ResourceManagerFv, 0x805400a0, 0x805401ec);
+asm UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -505,7 +519,7 @@ asm UNKNOWN_FUNCTION(unk_8054020c) {
   lwz r3, 0x584(r27);
   bl unk_805553b0;
   mr r3, r27;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r29;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -577,7 +591,7 @@ asm UNKNOWN_FUNCTION(unk_805402c0) {
   lwz r3, 0x584(r26);
   bl unk_805553b0;
   mr r3, r26;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   lwz r0, 0x20(r28);
   li r3, 0;
   cmpwi r0, 4;
@@ -642,7 +656,7 @@ asm UNKNOWN_FUNCTION(unk_80540394) {
   lwz r3, 0x584(r26);
   bl unk_805553b0;
   mr r3, r26;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r28;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -714,7 +728,7 @@ lbl_80540490:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r31;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r30;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -796,7 +810,7 @@ lbl_8054059c:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r30;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   lwz r0, 0x2c8(r28);
   li r3, 0;
   cmpwi r0, 4;
@@ -868,7 +882,7 @@ asm UNKNOWN_FUNCTION(ResourceManager_loadUI) {
   li r6, 0;
   bl unk_805553b0;
   mr r3, r29;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r31;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -990,7 +1004,7 @@ lbl_80540874:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r31;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r30;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1162,7 +1176,7 @@ lbl_80540a7c:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r28;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r29;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1299,7 +1313,7 @@ lbl_80540c38:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r23;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r21;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1391,7 +1405,7 @@ lbl_80540d7c:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r28;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r31;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1491,7 +1505,7 @@ lbl_80540ed8:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r30;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r31;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -1592,7 +1606,7 @@ lbl_8054102c:
   li r6, 0;
   bl unk_805553b0;
   mr r3, r30;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
   mr r3, r31;
   bl isLoaded__Q26System15MultiDvdArchiveFv;
   cmpwi r3, 0;
@@ -2676,7 +2690,7 @@ lbl_80541c90:
   cmpwi r31, 0;
   beq lbl_80541ca0;
   mr r3, r30;
-  bl ResourceManager_process;
+  bl process__Q26System15ResourceManagerFv;
 lbl_80541ca0:
   mr r3, r31;
   lwz r31, 0xc(r1);

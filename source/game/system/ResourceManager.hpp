@@ -33,7 +33,7 @@ UNKNOWN_FUNCTION(ResourceManager_destroy);
 // PAL: 0x80540038..0x805400a0
 UNKNOWN_FUNCTION(unk_80540038);
 // PAL: 0x805400a0..0x805401ec
-UNKNOWN_FUNCTION(ResourceManager_process);
+UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv);
 // PAL: 0x805401ec..0x805401fc
 UNKNOWN_FUNCTION(unk_805401ec);
 // PAL: 0x805401fc..0x8054020c
@@ -167,8 +167,6 @@ UNKNOWN_FUNCTION(unk_80542868);
 
 namespace System {
 
-const char* COURSE_NAMES[] = {"TODO"};
-
 struct JobContext {
   MultiDvdArchive* multiArchive;
   DvdArchive* archive;
@@ -213,8 +211,8 @@ public:
 //private: // idk if rii prefers to befriend every class over public-ing everything
   void* mBuffer;
   EGG::ExpHeap* mHeap;
-  u32 mCourseId;
-  volatile u32 mState;
+  s32 mCourseId;
+  s32 mState;
   MultiDvdArchive* mArchive;
 };
 
