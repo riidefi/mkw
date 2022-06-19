@@ -477,7 +477,7 @@ asm UNKNOWN_FUNCTION(unk_805401fc) {
 
 // Symbol: unk_8054020c
 // PAL: 0x8054020c..0x805402c0
-MARK_BINARY_BLOB(unk_8054020c, 0x8054020c, 0x805402c0);
+/*MARK_BINARY_BLOB(unk_8054020c, 0x8054020c, 0x805402c0);
 asm UNKNOWN_FUNCTION(unk_8054020c) {
   // clang-format off
   nofralloc;
@@ -528,6 +528,21 @@ lbl_805402ac:
   addi r1, r1, 0x20;
   blr;
   // clang-format on
+}*/
+
+namespace System {
+void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p, EGG::Heap* archiveHeap) {
+    this->jobContexts[idx].multiArchive = m;
+    strncpy(this->jobContexts[idx].filename, p, 0x40);
+    this->jobContexts[idx].archiveHeap = archiveHeap;
+
+    this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+    this->process();
+
+    if (!m->isLoaded()) {
+        OSSleepMilliseconds(16);
+    }
+}
 }
 
 // Symbol: unk_805402c0
@@ -1006,19 +1021,6 @@ lbl_805408f0:
 }*/
 
 namespace System {
-void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p, EGG::Heap* archiveHeap) {
-    this->jobContexts[idx].multiArchive = m;
-    strncpy(this->jobContexts[idx].filename, p, 0x40);
-    this->jobContexts[idx].archiveHeap = archiveHeap;
-
-    this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
-    this->process();
-
-    if (!m->isLoaded()) {
-        OSSleepMilliseconds(16);
-    }
-}
-
 MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId, EGG::Heap* param_3, bool splitScreen) {
     char courseName[128];
 
