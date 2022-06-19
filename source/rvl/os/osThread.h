@@ -18,6 +18,9 @@ u32* const __OSBusClock = (u32*)0x800000F8;
 
 #define OS_TIMER_CLOCK (__OSBusClock >> 2)
 
+#define OSMillisecondsToTicks(msec) ((msec) * (OS_TIMER_CLOCK / 1000))
+#define OSSleepMilliseconds(msec) OSSleepTicks(OSMillisecondsToTicks((OSTime)msec))
+
 typedef struct OSThread {
   char _00[0x304];
   char* stack_high; // 304

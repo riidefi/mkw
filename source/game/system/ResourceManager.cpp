@@ -1,5 +1,7 @@
 #include "ResourceManager.hpp"
 
+#include "rvl/os/osThread.h"
+
 extern "C" {
 extern UNKNOWN_FUNCTION(load__Q26System10DvdArchiveFPCcUlPQ23EGG4Heap);
 extern UNKNOWN_FUNCTION(getFileCopy__Q26System10DvdArchiveFPcPQ23EGG4HeapPUlSc);
@@ -882,7 +884,7 @@ lbl_8054073c:
 
 // Symbol: ResourceManager_loadCourse
 // PAL: 0x80540760..0x80540918
-MARK_BINARY_BLOB(ResourceManager_loadCourse, 0x80540760, 0x80540918);
+/*MARK_BINARY_BLOB(ResourceManager_loadCourse, 0x80540760, 0x80540918);
 asm UNKNOWN_FUNCTION(ResourceManager_loadCourse) {
   // clang-format off
   nofralloc;
@@ -1001,6 +1003,47 @@ lbl_805408f0:
   addi r1, r1, 0xa0;
   blr;
   // clang-format on
+}*/
+
+namespace System {
+void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p, EGG::Heap* archiveHeap) {
+    this->jobContexts[idx].multiArchive = m;
+    strncpy(this->jobContexts[idx].filename, p, 0x40);
+    this->jobContexts[idx].archiveHeap = archiveHeap;
+
+    this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+    this->process();
+
+    if (!m->isLoaded()) {
+        OSSleepMilliseconds(16);
+    }
+}
+
+MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId, EGG::Heap* param_3, bool splitScreen) {
+    char courseName[128];
+
+    if (!this->multiArchives1[1]->isLoaded()) {
+        this->multiArchives1[1]->init();
+        if (!splitScreen && this->courseCache.mState == 2 && courseId == this->courseCache.mCourseId) {
+            MultiDvdArchive* m = this->multiArchives1[1];
+            if (this->courseCache.mState == 2)
+                m->loadOther(this->courseCache.mArchive, param_3);
+        } else {
+            if (splitScreen) {
+                snprintf(courseName, sizeof(courseName), "Race/Course/%s_d", COURSE_NAMES[courseId]);
+                if (!this->multiArchives1[1]->exists(courseName)) {
+                    splitScreen = false;
+                }
+            }
+            if (!splitScreen) {
+                snprintf(courseName, sizeof(courseName), "Race/Course/%s", COURSE_NAMES[courseId]);
+            }
+            requestLoad(2, this->multiArchives1[1], courseName, param_3);
+        }
+    }
+    return this->multiArchives1[1];
+}
+
 }
 
 // Symbol: ResourceManager_loadMission

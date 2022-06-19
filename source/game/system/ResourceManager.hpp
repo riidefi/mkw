@@ -167,6 +167,8 @@ UNKNOWN_FUNCTION(unk_80542868);
 
 namespace System {
 
+const char* COURSE_NAMES[] = {"TODO"};
+
 struct JobContext {
   MultiDvdArchive* multiArchive;
   DvdArchive* archive;
@@ -208,12 +210,34 @@ public:
   void load(u32 courseId);
   void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
 
-private:
+//private: // idk if rii prefers to befriend every class over public-ing everything
   void* mBuffer;
   EGG::ExpHeap* mHeap;
   u32 mCourseId;
   volatile u32 mState;
   MultiDvdArchive* mArchive;
+};
+
+typedef enum {
+
+} CourseId;
+
+class ResourceManager {
+  virtual ~ResourceManager();
+public:
+  MultiDvdArchive** multiArchives1;
+  MultiDvdArchive multiArchives2[12];
+  MultiDvdArchive MultiArchives3[12];
+  DvdArchive dvdArhive[4];
+  JobContext jobContexts[7];
+  EGG::TaskThread* taskThread;
+  CourseCache courseCache;
+  char unk5ac_60b[0x60b-0x5ac];
+
+  MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3, bool splitScreen);
+  void process();
+  static void doLoadTask(void* jobContext);
+  void requestLoad(s32 idx, MultiDvdArchive* m, const char* p, EGG::Heap* archiveHeap) ;
 };
 
 } // namespace System

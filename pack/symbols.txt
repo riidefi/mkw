@@ -9977,7 +9977,7 @@
 0x80540450 ResourceManager_load
 0x80540558 unk_80540558
 0x80540680 ResourceManager_loadUI
-0x80540760 ResourceManager_loadCourse
+0x80540760 loadCourse__Q26System15ResourceManagerF8CourseIdPQ23EGG4Heapb
 0x80540918 ResourceManager_loadMission
 0x80540b14 ResourceManager_loadCompetition
 0x80540cfc unk_80540cfc
