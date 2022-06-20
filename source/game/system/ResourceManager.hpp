@@ -19,7 +19,7 @@ UNKNOWN_FUNCTION(ResourceManager_createInstance);
 // PAL: 0x8053fc9c..0x8053fcec
 UNKNOWN_FUNCTION(ResourceManager_destroyInstance);
 // PAL: 0x8053fcec..0x8053fe68
-UNKNOWN_FUNCTION(ResourceManager_construct);
+UNKNOWN_FUNCTION(__ct__Q26System15ResourceManagerFv);
 // PAL: 0x8053fe68..0x8053fe94
 UNKNOWN_FUNCTION(__ct__Q26System20MenuCharacterManagerFv);
 // PAL: 0x8053fe94..0x8053fed4
@@ -225,6 +225,13 @@ class ResourceManager {
   virtual ~ResourceManager();
 
 public:
+  static ResourceManager* createInstance();
+  static void destroyInstance();
+
+  static ResourceManager* spInstance;
+
+  ResourceManager();
+
   MultiDvdArchive** multiArchives1;
   MultiDvdArchive multiArchives2[12];
   MultiDvdArchive MultiArchives3[12];
@@ -232,7 +239,13 @@ public:
   JobContext jobContexts[7];
   EGG::TaskThread* taskThread;
   CourseCache courseCache;
-  char unk5ac_60b[0x60b - 0x5ac];
+  MenuCharacterManager menuCharacterManager[4];
+  bool isGlobeLoadingBusy;
+  bool _60d; // these variables don't have names yet, but are used
+  EGG::ExpHeap* _610;
+  EGG::Heap* _614;
+  bool _618;
+  bool _619;
 
   MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3,
                               bool splitScreen);

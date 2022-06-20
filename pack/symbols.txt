@@ -9961,7 +9961,7 @@
 0x8053fb98 unk_8053fb98
 0x8053fc4c ResourceManager_createInstance
 0x8053fc9c ResourceManager_destroyInstance
-0x8053fcec ResourceManager_construct
+0x8053fcec __ct__Q26System15ResourceManagerFv
 0x8053fe68 __ct__Q26System20MenuCharacterManagerFv
 0x8053fe94 unk_8053fe94
 0x8053fed4 unk_8053fed4

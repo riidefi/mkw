@@ -44,36 +44,17 @@ extern UNKNOWN_FUNCTION(getSlotForCourseId);
 extern UNKNOWN_FUNCTION(unk_805553b0);
 }
 
-// Symbol: ResourceManager_createInstance
-// PAL: 0x8053fc4c..0x8053fc9c
-MARK_BINARY_BLOB(ResourceManager_createInstance, 0x8053fc4c, 0x8053fc9c);
-asm UNKNOWN_FUNCTION(ResourceManager_createInstance) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  lis r3, 0;
-  stw r0, 0x14(r1);
-  lwz r0, 0(r3);
-  cmpwi r0, 0;
-  bne lbl_8053fc84;
-  li r3, 0x61c;
-  bl unk_805553b0;
-  cmpwi r3, 0;
-  beq lbl_8053fc7c;
-  bl ResourceManager_construct;
-lbl_8053fc7c:
-  lis r4, 0;
-  stw r3, 0(r4);
-lbl_8053fc84:
-  lwz r0, 0x14(r1);
-  lis r3, 0;
-  lwz r3, 0(r3);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+namespace System {
+
+ResourceManager* ResourceManager::createInstance() {
+  if (spInstance == nullptr) {
+    spInstance = new ResourceManager();
+  }
+
+  return spInstance;
 }
+
+} // namespace System
 
 // Symbol: ResourceManager_destroyInstance
 // PAL: 0x8053fc9c..0x8053fcec
@@ -105,10 +86,10 @@ lbl_8053fcd0:
   // clang-format on
 }
 
-// Symbol: ResourceManager_construct
+// Symbol: __ct__Q26System15ResourceManagerFv
 // PAL: 0x8053fcec..0x8053fe68
-MARK_BINARY_BLOB(ResourceManager_construct, 0x8053fcec, 0x8053fe68);
-asm UNKNOWN_FUNCTION(ResourceManager_construct) {
+MARK_BINARY_BLOB(__ct__Q26System15ResourceManagerFv, 0x8053fcec, 0x8053fe68);
+asm UNKNOWN_FUNCTION(__ct__Q26System15ResourceManagerFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
