@@ -9,7 +9,6 @@
 #include <game/system/DvdArchive.hpp>
 #include <game/system/LocalizedArchive.hpp>
 #include <game/system/MultiDvdArchive.hpp>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -194,8 +193,11 @@ struct T {
 
 class MenuCharacterManager : S, T {
 public:
-  MenuCharacterManager();
-  virtual ~MenuCharacterManager();
+  MenuCharacterManager() {
+    mCharacter = 0;
+    mModelType = 2;
+  }
+  virtual ~MenuCharacterManager() {}
   s32 mCharacter;
   s32 mModelType;
 };
@@ -246,6 +248,15 @@ public:
   EGG::Heap* _614;
   bool _618;
   bool _619;
+
+  void foo() volatile {
+    _618 = 0;
+    _619 = 1;
+  }
+  void bar() volatile {
+    _614 = 0;
+    isGlobeLoadingBusy = false;
+  }
 
   MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3,
                               bool splitScreen);
