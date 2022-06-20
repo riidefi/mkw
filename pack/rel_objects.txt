@@ -17,8 +17,8 @@ out/rel/data_808b2d50_808b3188.o
 out/LocalizedArchive.o
 out/MultiDvdArchive.o
 out/rel/text_8052ae5c_8053fc4c.o
-out/rel/rodata_8088fe28_80890ae8.o
-out/rel/data_808b31e8_808b3c08.o
+out/rel/rodata_8088fe28_80890ad8.o
+out/rel/data_808b31e8_808b3bf8.o
 out/ResourceManager.o
 out/rel/text_80542878_80555464.o
 out/rel/rodata_80890b20_80891370.o

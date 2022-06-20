@@ -1,7 +1,15 @@
 #include "ResourceManager.hpp"
 
-#include "rvl/os/osThread.h"
+#include <rvl/os/osThread.h>
+#include <game/host_system/SystemManager.hpp>
+#include <game/RKScene.hpp>
 
+extern RKScene* scenePtr;
+
+extern const char* EarthResourceListing;
+const char* EarthResourceListing = "/earth.brres.LZ";
+
+// .rodata
 extern const char* COURSE_NAMES[];
 
 extern const int arr_80890AE8[];
@@ -54,248 +62,30 @@ ResourceManager* ResourceManager::createInstance() {
   return spInstance;
 }
 
-} // namespace System
-
-// Symbol: ResourceManager_destroyInstance
-// PAL: 0x8053fc9c..0x8053fcec
-MARK_BINARY_BLOB(ResourceManager_destroyInstance, 0x8053fc9c, 0x8053fcec);
-asm UNKNOWN_FUNCTION(ResourceManager_destroyInstance) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  lis r3, 0;
-  stw r0, 0x14(r1);
-  lwz r3, 0(r3);
-  cmpwi r3, 0;
-  beq lbl_8053fcd0;
-  beq lbl_8053fcd0;
-  lwz r12, 0(r3);
-  li r4, 1;
-  lwz r12, 8(r12);
-  mtctr r12;
-  bctrl;
-lbl_8053fcd0:
-  lis r3, 0;
-  li r0, 0;
-  stw r0, 0(r3);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void ResourceManager::destroyInstance() {
+  if (spInstance != nullptr) {
+    delete spInstance;
+  }
+  spInstance = nullptr;
 }
 
-// Symbol: __ct__Q26System15ResourceManagerFv
-// PAL: 0x8053fcec..0x8053fe68
-MARK_BINARY_BLOB(__ct__Q26System15ResourceManagerFv, 0x8053fcec, 0x8053fe68);
-asm UNKNOWN_FUNCTION(__ct__Q26System15ResourceManagerFv) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  lis r4, 0;
-  li r6, 0x1c;
-  stw r0, 0x24(r1);
-  addi r4, r4, 0;
-  li r7, 0xc;
-  stw r31, 0x1c(r1);
-  mr r31, r3;
-  stw r30, 0x18(r1);
-  lis r30, 0;
-  addi r5, r30, 0;
-  stw r29, 0x14(r1);
-  lis r29, 0;
-  stw r4, 0(r3);
-  addi r4, r29, 0;
-  addi r3, r3, 8;
-  bl unk_805553b0;
-  addi r3, r31, 0x158;
-  addi r4, r29, 0;
-  addi r5, r30, 0;
-  li r6, 0x1c;
-  li r7, 0xc;
-  bl unk_805553b0;
-  lis r4, 0;
-  lis r5, 0;
-  addi r3, r31, 0x2a8;
-  li r6, 0x24;
-  addi r4, r4, 0;
-  addi r5, r5, 0;
-  li r7, 4;
-  bl unk_805553b0;
-  addi r29, r31, 0x588;
-  mr r3, r29;
-  bl unk_805553b0;
-  lis r3, 0;
-  li r0, 0;
-  addi r3, r3, 0;
-  stw r3, 0(r29);
-  li r3, 0x1c;
-  stw r0, 0x10(r29);
-  stw r0, 0x14(r29);
-  bl unk_805553b0;
-  cmpwi r3, 0;
-  beq lbl_8053fda4;
-  bl __ct__Q26System16CourseDvdArchiveFv;
-lbl_8053fda4:
-  lis r4, 0;
-  lis r5, 0;
-  stw r3, 0x20(r29);
-  addi r3, r31, 0x5ac;
-  addi r4, r4, 0;
-  addi r5, r5, 0;
-  li r6, 0x18;
-  li r7, 4;
-  bl unk_805553b0;
-  li r0, 0;
-  stb r0, 0x618(r31);
-  li r0, 1;
-  lis r4, 0;
-  stb r0, 0x619(r31);
-  lis r3, 1;
-  addi r5, r3, -14336;
-  lwz r6, 0(r4);
-  li r3, 0xe;
-  li r4, 0x18;
-  lwz r6, 0x30(r6);
-  bl unk_805553b0;
-  stw r3, 0x584(r31);
-  lis r4, 0;
-  lwz r4, 0(r4);
-  addi r0, r4, 0xb8;
-  stw r0, 0x54(r3);
-  li r3, 0x24;
-  bl unk_805553b0;
-  stw r3, 4(r31);
-  li r29, 0;
-lbl_8053fe1c:
-  clrlwi r3, r29, 0x10;
-  bl createMultiDvdArchive__6SystemFQ26System17ResourceChannelID;
-  rlwinm r0, r29, 2, 0xe, 0x1d;
-  lwz r4, 4(r31);
-  addi r29, r29, 1;
-  cmplwi r29, 9;
-  stwx r3, r4, r0;
-  blt lbl_8053fe1c;
-  li r0, 0;
-  stw r0, 0x614(r31);
-  mr r3, r31;
-  stb r0, 0x60c(r31);
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+ResourceManager::ResourceManager() {
+  foo();
+  taskThread = EGG::TaskThread::create(14, 24, 0xC800, scenePtr->getA());
+  taskThread->mTaskEndMessageQueue = &System::SystemManager::sInstance->_B8;
+  multiArchives1 = new MultiDvdArchive*[9];
+  for (u16 i = 0; i < 9; ++i) {
+    multiArchives1[i] = createMultiDvdArchive((ResourceChannelID)i);
+  }
+  bar();
 }
 
-namespace System {
-
-MenuCharacterManager::MenuCharacterManager() {
-  mCharacter = 0;
-  mModelType = 2;
+System::ResourceManager::~ResourceManager() {
+  taskThread->destroy();
+  taskThread = nullptr;
 }
-
-MenuCharacterManager::~MenuCharacterManager() {}
 
 } // namespace System
-
-// Symbol: unk_8053ff14
-// PAL: 0x8053ff14..0x8053ff1c
-MARK_BINARY_BLOB(unk_8053ff14, 0x8053ff14, 0x8053ff1c);
-asm UNKNOWN_FUNCTION(unk_8053ff14) {
-  // clang-format off
-  nofralloc;
-  li r4, 1;
-  b __ct__Q26System15MultiDvdArchiveFUs;
-  // clang-format on
-}
-
-// Symbol: ResourceManager_destroy
-// PAL: 0x8053ff1c..0x80540038
-MARK_BINARY_BLOB(ResourceManager_destroy, 0x8053ff1c, 0x80540038);
-asm UNKNOWN_FUNCTION(ResourceManager_destroy) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  beq lbl_80540018;
-  lis r4, 0;
-  addi r4, r4, 0;
-  stw r4, 0(r3);
-  lwz r3, 0x584(r3);
-  bl unk_805553b0;
-  li r0, 0;
-  lis r4, 0;
-  stw r0, 0x584(r29);
-  addi r3, r29, 0x5ac;
-  addi r4, r4, 0;
-  li r5, 0x18;
-  li r6, 4;
-  bl unk_805553b0;
-  addic. r31, r29, 0x588;
-  beq lbl_8053ffc4;
-  lis r4, 0;
-  lwz r3, 0x20(r31);
-  addi r4, r4, 0;
-  stw r4, 0(r31);
-  bl clear__Q26System15MultiDvdArchiveFv;
-  lwz r3, 0x14(r31);
-  cmpwi r3, 0;
-  beq lbl_8053ffb8;
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, 0x10(r31);
-  bl unk_805553b0;
-lbl_8053ffb8:
-  mr r3, r31;
-  li r4, 0;
-  bl unk_805553b0;
-lbl_8053ffc4:
-  lis r4, 0;
-  addi r3, r29, 0x2a8;
-  addi r4, r4, 0;
-  li r5, 0x24;
-  li r6, 4;
-  bl unk_805553b0;
-  lis r31, 0;
-  addi r3, r29, 0x158;
-  addi r4, r31, 0;
-  li r5, 0x1c;
-  li r6, 0xc;
-  bl unk_805553b0;
-  addi r3, r29, 8;
-  addi r4, r31, 0;
-  li r5, 0x1c;
-  li r6, 0xc;
-  bl unk_805553b0;
-  cmpwi r30, 0;
-  ble lbl_80540018;
-  mr r3, r29;
-  bl unk_805553b0;
-lbl_80540018:
-  lwz r31, 0x1c(r1);
-  mr r3, r29;
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
-}
 
 // Symbol: unk_80540038
 // PAL: 0x80540038..0x805400a0

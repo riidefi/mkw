@@ -24,7 +24,7 @@ enum ResourceChannelID {
 
 class MultiDvdArchive {
 public:
-  MultiDvdArchive(u16 archiveCount);
+  MultiDvdArchive(u16 archiveCount = 1);
   virtual ~MultiDvdArchive();
 
   virtual void init();
