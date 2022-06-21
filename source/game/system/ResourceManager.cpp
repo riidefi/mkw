@@ -109,6 +109,7 @@ void ResourceManager::doLoadTask(void* jobContext) {
 
 // Symbol: process__Q26System15ResourceManagerFv
 // PAL: 0x805400a0..0x805401ec
+// Notes: we cannot decompile this without DiscCheckThread
 MARK_BINARY_BLOB(process__Q26System15ResourceManagerFv, 0x805400a0, 0x805401ec);
 asm UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv) {
   // clang-format off
@@ -207,31 +208,21 @@ lbl_805401c8:
   // clang-format on
 }
 
-// Symbol: unk_805401ec
-// PAL: 0x805401ec..0x805401fc
-MARK_BINARY_BLOB(unk_805401ec, 0x805401ec, 0x805401fc);
-asm UNKNOWN_FUNCTION(unk_805401ec) {
-  // clang-format off
-  nofralloc;
-  lwz r12, 0(r3);
-  lwz r12, 0x14(r12);
-  mtctr r12;
-  bctr;
-  // clang-format on
-}
+class Dummy {
+public:
+  Dummy();
+  virtual void _08() = 0;
+  virtual void _0c() = 0;
+  virtual void _10() = 0;
+  virtual void _14() = 0;
+  virtual void _18() = 0;
+  virtual void _1C() = 0;
+};
 
-// Symbol: unk_805401fc
-// PAL: 0x805401fc..0x8054020c
-MARK_BINARY_BLOB(unk_805401fc, 0x805401fc, 0x8054020c);
-asm UNKNOWN_FUNCTION(unk_805401fc) {
-  // clang-format off
-  nofralloc;
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctr;
-  // clang-format on
-}
+// no clue what class this is supposed to be so here are two dummy functions
+void _unk_call14(Dummy* dummy) { dummy->_14(); }
+
+void _unk_call1c(Dummy* dummy) { dummy->_1C(); }
 
 namespace System {
 void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
@@ -247,6 +238,7 @@ void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
     OSSleepMilliseconds(16);
   }
 }
+
 } // namespace System
 
 // Symbol: unk_805402c0
