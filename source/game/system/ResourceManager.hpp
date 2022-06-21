@@ -52,9 +52,11 @@ UNKNOWN_FUNCTION(ResourceManager_loadUI);
 // PAL: 0x80540760..0x80540918
 UNKNOWN_FUNCTION(ResourceManager_loadCourse);
 // PAL: 0x80540918..0x80540b14
-UNKNOWN_FUNCTION(ResourceManager_loadMission);
+UNKNOWN_FUNCTION(
+    loadMission__Q26System15ResourceManagerF8CourseIdlPQ23EGG4Heapb);
 // PAL: 0x80540b14..0x80540cfc
-UNKNOWN_FUNCTION(ResourceManager_loadCompetition);
+UNKNOWN_FUNCTION(
+    loadCompetition__Q26System15ResourceManagerF8CourseIdPvUlPQ23EGG4HeapUc);
 // PAL: 0x80540cfc..0x80540e3c
 UNKNOWN_FUNCTION(unk_80540cfc);
 // PAL: 0x80540e3c..0x80540f90
@@ -260,6 +262,10 @@ public:
 
   MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3,
                               bool splitScreen);
+  MultiDvdArchive* loadMission(CourseId courseId, s32 missionNum,
+                               EGG::Heap* param_3, bool splitScreen);
+  MultiDvdArchive* loadCompetition(CourseId courseId, void* fileStart,
+                                   u32 fileSize, EGG::Heap* heap, u8 unk6);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,

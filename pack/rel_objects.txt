@@ -21,7 +21,7 @@ out/rel/rodata_8088fe28_80890ad8.o
 out/rel/data_808b31e8_808b3bf8.o
 out/ResourceManager.o
 out/rel/text_80542878_80555464.o
-out/rel/rodata_80890b20_80891370.o
+out/rel/rodata_80890b97_80891370.o
 out/rel/data_808b3c2c_808b42e0.o
 out/Random.o
 out/rel/text_8055572c_80590128.o
