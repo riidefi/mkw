@@ -260,6 +260,8 @@ public:
     isGlobeLoadingBusy = false;
   }
 
+  MultiDvdArchive* load(ResourceChannelID channelId, EGG::Heap* archiveHeap,
+                        const char* filename);
   MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3,
                               bool splitScreen);
   MultiDvdArchive* loadMission(CourseId courseId, s32 missionNum,

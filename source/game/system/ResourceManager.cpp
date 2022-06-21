@@ -5,14 +5,186 @@
 #include <game/RKScene.hpp>
 
 #pragma dont_reuse_strings on
+#pragma legacy_struct_alignment off
 
 extern RKScene* scenePtr;
 
 extern const char* EarthResourceListing;
-const char* EarthResourceListing = "/earth.brres.LZ";
 
 // .rodata
-extern const char* COURSE_NAMES[];
+const char* RESOURCES[] = {"/Race/Common",
+                           "",
+                           "",
+                           "/Scene/UI/Font",
+                           "/Scene/Model/Earth",
+                           "/Scene/Model/MiiBody",
+                           "/Scene/Model/Driver",
+                           "/Demo/Award",
+                           "/Scene/Model/BackModel"};
+
+const char* COURSE_NAMES[] = {
+    "castle_course",       // 808B3984
+    "farm_course",         // 808B3988
+    "kinoko_course",       // 808B398C
+    "volcano_course",      // 808B3990
+    "factory_course",      // 808B3994
+    "shopping_course",     // 808B3998
+    "boardcross_course",   // 808B399C
+    "truck_course",        // 808B39A0
+    "beginner_course",     // 808B39A4
+    "senior_course",       // 808B39A8
+    "ridgehighway_course", // 808B39AC
+    "treehouse_course",    // 808B39B0
+    "koopa_course",        // 808B39B4
+    "rainbow_course",      // 808B39B8
+    "desert_course",       // 808B39BC
+    "water_course",        // 808B39C0
+    "old_peach_gc",        // 808B39C4
+    "old_mario_gc",        // 808B39C8
+    "old_waluigi_gc",      // 808B39CC
+    "old_donkey_gc",       // 808B39D0
+    "old_falls_ds",        // 808B39D4
+    "old_desert_ds",       // 808B39D8
+    "old_garden_ds",       // 808B39DC
+    "old_town_ds",         // 808B39E0
+    "old_mario_sfc",       // 808B39E4
+    "old_obake_sfc",       // 808B39E8
+    "old_mario_64",        // 808B39EC
+    "old_sherbet_64",      // 808B39F0
+    "old_koopa_64",        // 808B39F4
+    "old_donkey_64",       // 808B39F8
+    "old_koopa_gba",       // 808B39FC
+    "old_heyho_gba",       // 808B3A00
+    "venice_battle",       // 808B3A04
+    "block_battle",        // 808B3A08
+    "casino_battle",       // 808B3A0C
+    "skate_battle",        // 808B3A10
+    "sand_battle",         // 808B3A14
+    "old_CookieLand_gc",   // 808B3A18
+    "old_House_ds",        // 808B3A1C
+    "old_battle4_sfc",     // 808B3A20
+    "old_battle3_gba",     // 808B3A24
+    "old_matenro_64",      // 808B3A28
+    nullptr,               // 808B3A2C
+    nullptr,               // 808B3A30
+    nullptr,               // 808B3A34
+    nullptr,               // 808B3A38
+    nullptr,               // 808B3A3C
+    nullptr,               // 808B3A40
+    nullptr,               // 808B3A44
+    nullptr,               // 808B3A48
+    nullptr,               // 808B3A4C
+    nullptr,               // 808B3A50
+    nullptr,               // 808B3A54
+    nullptr,               // 808B3A58
+    "ring_mission",        // 808B3A5C
+    "winningrun_demo",     // 808B3A60
+    "loser_demo",          // 808B3A64
+    "draw_dmeo",           // 808B3A68
+    "ending_demo",         // 808B3A6C
+    nullptr,               // 808B3A70
+    nullptr,               // 808B3A74
+    nullptr,               // 808B3A78
+    nullptr,               // 808B3A7C
+    nullptr,               // 808B3A80
+    nullptr,               // 808B3A84
+    nullptr,               // 808B3A88
+    nullptr                // 808B3A8C
+};
+
+const char* CHARACTER_NAMES[] = {
+    "mr",       // 808B3A90
+    "bpc",      // 808B3A94
+    "wl",       // 808B3A98
+    "kp",       // 808B3A9C
+    "bds",      // 808B3AA0
+    "ka",       // 808B3AA4
+    "bmr",      // 808B3AA8
+    "lg",       // 808B3AAC
+    "ko",       // 808B3AB0
+    "dk",       // 808B3AB4
+    "ys",       // 808B3AB8
+    "wr",       // 808B3ABC
+    "blg",      // 808B3AC0
+    "kk",       // 808B3AC4
+    "nk",       // 808B3AC8
+    "ds",       // 808B3ACC
+    "pc",       // 808B3AD0
+    "ca",       // 808B3AD4
+    "dd",       // 808B3AD8
+    "kt",       // 808B3ADC
+    "jr",       // 808B3AE0
+    "bk",       // 808B3AE4
+    "fk",       // 808B3AE8
+    "rs",       // 808B3AEC
+    "sa_mii_m", // 808B3AF0
+    "sa_mii_f", // 808B3AF4
+    "sb_mii_m", // 808B3AF8
+    "sb_mii_f", // 808B3AFC
+    "sc_mii_m", // 808B3B00
+    "sc_mii_f", // 808B3B04
+    "ma_mii_m", // 808B3B08
+    "ma_mii_f", // 808B3B0C
+    "mb_mii_m", // 808B3B10
+    "mb_mii_f", // 808B3B14
+    "mc_mii_m", // 808B3B18
+    "mc_mii_f", // 808B3B1C
+    "la_mii_m", // 808B3B20
+    "la_mii_f", // 808B3B24
+    "lb_mii_m", // 808B3B28
+    "lb_mii_f", // 808B3B2C
+    "lc_mii_m", // 808B3B30
+    "lc_mii_f", // 808B3B34
+    "m_mii",    // 808B3B38
+    "s_mii",    // 808B3B3C
+    "l_mii",    // 808B3B40
+    "pc_menu",  // 808B3B44
+    "ds_menu",  // 808B3B48
+    "rs_menu"   // 808B3B4C
+};
+
+const char* VEHICLE_NAMES[] = {
+    "sdf_kart", // 808B3B50
+    "mdf_kart", // 808B3B54
+    "ldf_kart", // 808B3B58
+    "sa_kart",  // 808B3B5C
+    "ma_kart",  // 808B3B60
+    "la_kart",  // 808B3B64
+    "sb_kart",  // 808B3B68
+    "mb_kart",  // 808B3B6C
+    "lb_kart",  // 808B3B70
+    "sc_kart",  // 808B3B74
+    "mc_kart",  // 808B3B78
+    "lc_kart",  // 808B3B7C
+    "sd_kart",  // 808B3B80
+    "md_kart",  // 808B3B84
+    "ld_kart",  // 808B3B88
+    "se_kart",  // 808B3B8C
+    "me_kart",  // 808B3B90
+    "le_kart",  // 808B3B94
+    "sdf_bike", // 808B3B98
+    "mdf_bike", // 808B3B9C
+    "ldf_bike", // 808B3BA0
+    "sa_bike",  // 808B3BA4
+    "ma_bike",  // 808B3BA8
+    "la_bike",  // 808B3BAC
+    "sb_bike",  // 808B3BB0
+    "mb_bike",  // 808B3BB4
+    "lb_bike",  // 808B3BB8
+    "sc_bike",  // 808B3BBC
+    "mc_bike",  // 808B3BC0
+    "lc_bike",  // 808B3BC4
+    "sd_bike",  // 808B3BC8
+    "md_bike",  // 808B3BCC
+    "ld_bike",  // 808B3BD0
+    "se_bike",  // 808B3BD4
+    "me_bike",  // 808B3BD8
+    "le_bike",  // 808B3BDC
+};
+const char* TEAM_SUFFIXES[] = {"_red", "_blue", ""};
+const char* LOD_RES_SUFFIXES[] = {"", "_2", "_4"};
+
+const char* EarthResourceListing = "/earth.brres.LZ";
 
 extern const int arr_80890AE8[];
 const int arr_80890AE8[] = {819200, 921600, 36, 48, 14, 51200};
@@ -271,84 +443,21 @@ void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* archive,
   }
 }
 
-} // namespace System
+MultiDvdArchive* ResourceManager::load(ResourceChannelID channelId,
+                                       EGG::Heap* archiveHeap,
+                                       const char* filename) {
+  if (!filename) {
+    filename = RESOURCES[channelId];
+  }
 
-// Symbol: ResourceManager_load
-// PAL: 0x80540450..0x80540558
-MARK_BINARY_BLOB(ResourceManager_load, 0x80540450, 0x80540558);
-asm UNKNOWN_FUNCTION(ResourceManager_load) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  cmpwi r6, 0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r3;
-  stw r30, 0x18(r1);
-  mr r30, r6;
-  stw r29, 0x14(r1);
-  stw r28, 0x10(r1);
-  mr r28, r5;
-  bne lbl_80540490;
-  lis r5, 0;
-  slwi r0, r4, 2;
-  addi r5, r5, 0;
-  lwzx r30, r5, r0;
-lbl_80540490:
-  lwz r3, 4(r3);
-  slwi r29, r4, 2;
-  lwzx r3, r3, r29;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_80540530;
-  lbz r0, 0(r30);
-  extsb. r0, r0;
-  beq lbl_80540530;
-  lwz r6, 4(r31);
-  mr r4, r30;
-  addi r3, r31, 0x344;
-  li r5, 0x40;
-  lwzx r30, r6, r29;
-  stw r30, 0x338(r31);
-  bl unk_805553b0;
-  lis r4, 0;
-  stw r28, 0x384(r31);
-  lwz r3, 0x584(r31);
-  addi r4, r4, 0;
-  li r5, 0;
-  li r6, 0;
-  bl unk_805553b0;
-  mr r3, r31;
-  bl process__Q26System15ResourceManagerFv;
-  mr r3, r30;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_80540530;
-  lis r4, 0x8000;
-  lis r3, 0x1062;
-  lwz r0, 0xf8(r4);
-  addi r4, r3, 0x4dd3;
-  li r3, 0;
-  srwi r0, r0, 2;
-  mulhwu r4, r4, r0;
-  srwi r0, r4, 6;
-  rlwinm r4, r4, 0x1e, 2, 0x1b;
-  rlwimi r3, r0, 4, 0x1c, 0x1f;
-  bl unk_805553b0;
-lbl_80540530:
-  lwz r3, 4(r31);
-  lwz r31, 0x1c(r1);
-  lwzx r3, r3, r29;
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r28, 0x10(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+  if (!multiArchives1[channelId]->isLoaded() && filename[0]) {
+    requestLoad(0, this->multiArchives1[channelId], filename, archiveHeap);
+  }
+
+  return this->multiArchives1[channelId];
 }
+
+} // namespace System
 
 // Symbol: unk_80540558
 // PAL: 0x80540558..0x80540680
