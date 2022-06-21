@@ -239,9 +239,6 @@ void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
   }
 }
 
-} // namespace System
-
-namespace System {
 void ResourceManager::requestLoad(s32 idx, DvdArchive* archive,
                                   const char* filename, u32 unk,
                                   EGG::Heap* archiveHeap) {
@@ -258,64 +255,23 @@ void ResourceManager::requestLoad(s32 idx, DvdArchive* archive,
   }
 }
 
-} // namespace System
+void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* archive,
+                                  const char* filename, EGG::Heap* archiveHeap,
+                                  EGG::Heap* fileHeap) {
+  this->jobContexts[idx].multiArchive = archive;
+  strncpy(this->jobContexts[idx].filename, filename, 0x40);
+  this->jobContexts[idx].archiveHeap = archiveHeap;
+  this->jobContexts[idx].fileHeap = fileHeap;
 
-// Symbol: unk_80540394
-// PAL: 0x80540394..0x80540450
-MARK_BINARY_BLOB(unk_80540394, 0x80540394, 0x80540450);
-asm UNKNOWN_FUNCTION(unk_80540394) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stmw r26, 8(r1);
-  mr r27, r4;
-  mulli r31, r27, 0x54;
-  mr r26, r3;
-  mr r28, r5;
-  mr r4, r6;
-  add r3, r3, r31;
-  mr r29, r7;
-  mr r30, r8;
-  stw r5, 0x338(r3);
-  addi r3, r3, 0x344;
-  li r5, 0x40;
-  bl unk_805553b0;
-  add r3, r26, r31;
-  lis r4, 0;
-  stw r29, 0x384(r3);
-  mr r5, r27;
-  addi r4, r4, 0;
-  li r6, 0;
-  stw r30, 0x388(r3);
-  lwz r3, 0x584(r26);
-  bl unk_805553b0;
-  mr r3, r26;
-  bl process__Q26System15ResourceManagerFv;
-  mr r3, r28;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_8054043c;
-  lis r4, 0x8000;
-  lis r3, 0x1062;
-  lwz r0, 0xf8(r4);
-  addi r4, r3, 0x4dd3;
-  li r3, 0;
-  srwi r0, r0, 2;
-  mulhwu r4, r4, r0;
-  srwi r0, r4, 6;
-  rlwinm r4, r4, 0x1e, 2, 0x1b;
-  rlwimi r3, r0, 4, 0x1c, 0x1f;
-  bl unk_805553b0;
-lbl_8054043c:
-  lmw r26, 8(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+  this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+  this->process();
+
+  if (!archive->isLoaded()) {
+    OSSleepMilliseconds(16);
+  }
 }
+
+} // namespace System
 
 // Symbol: ResourceManager_load
 // PAL: 0x80540450..0x80540558

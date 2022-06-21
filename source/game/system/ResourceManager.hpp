@@ -272,6 +272,8 @@ public:
                    EGG::Heap* archiveHeap);
   void requestLoad(s32 idx, DvdArchive* archive, const char* filename, u32 unk,
                    EGG::Heap* archiveHeap);
+  void requestLoad(s32 idx, MultiDvdArchive* archive, const char* filename,
+                   EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
 };
 
 } // namespace System
