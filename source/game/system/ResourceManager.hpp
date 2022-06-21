@@ -270,6 +270,8 @@ public:
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
                    EGG::Heap* archiveHeap);
+  void requestLoad(s32 idx, DvdArchive* archive, const char* filename, u32 unk,
+                   EGG::Heap* archiveHeap);
 };
 
 } // namespace System
