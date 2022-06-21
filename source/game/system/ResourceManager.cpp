@@ -12,174 +12,109 @@ extern RKScene* scenePtr;
 extern const char* EarthResourceListing;
 
 // .rodata
-const char* RESOURCES[] = {"/Race/Common",
-                           "",
-                           "",
-                           "/Scene/UI/Font",
-                           "/Scene/Model/Earth",
-                           "/Scene/Model/MiiBody",
-                           "/Scene/Model/Driver",
-                           "/Demo/Award",
-                           "/Scene/Model/BackModel"};
+const char* RESOURCES[] = {
+    // clang-format off
+    "/Race/Common",
+    "",
+    "",
+    "/Scene/UI/Font",
+    "/Scene/Model/Earth",
+    "/Scene/Model/MiiBody",
+    "/Scene/Model/Driver",
+    "/Demo/Award",
+    "/Scene/Model/BackModel"
+    // clang-format on
+};
 
 const char* COURSE_NAMES[] = {
-    "castle_course",       // 808B3984
-    "farm_course",         // 808B3988
-    "kinoko_course",       // 808B398C
-    "volcano_course",      // 808B3990
-    "factory_course",      // 808B3994
-    "shopping_course",     // 808B3998
-    "boardcross_course",   // 808B399C
-    "truck_course",        // 808B39A0
-    "beginner_course",     // 808B39A4
-    "senior_course",       // 808B39A8
-    "ridgehighway_course", // 808B39AC
-    "treehouse_course",    // 808B39B0
-    "koopa_course",        // 808B39B4
-    "rainbow_course",      // 808B39B8
-    "desert_course",       // 808B39BC
-    "water_course",        // 808B39C0
-    "old_peach_gc",        // 808B39C4
-    "old_mario_gc",        // 808B39C8
-    "old_waluigi_gc",      // 808B39CC
-    "old_donkey_gc",       // 808B39D0
-    "old_falls_ds",        // 808B39D4
-    "old_desert_ds",       // 808B39D8
-    "old_garden_ds",       // 808B39DC
-    "old_town_ds",         // 808B39E0
-    "old_mario_sfc",       // 808B39E4
-    "old_obake_sfc",       // 808B39E8
-    "old_mario_64",        // 808B39EC
-    "old_sherbet_64",      // 808B39F0
-    "old_koopa_64",        // 808B39F4
-    "old_donkey_64",       // 808B39F8
-    "old_koopa_gba",       // 808B39FC
-    "old_heyho_gba",       // 808B3A00
-    "venice_battle",       // 808B3A04
-    "block_battle",        // 808B3A08
-    "casino_battle",       // 808B3A0C
-    "skate_battle",        // 808B3A10
-    "sand_battle",         // 808B3A14
-    "old_CookieLand_gc",   // 808B3A18
-    "old_House_ds",        // 808B3A1C
-    "old_battle4_sfc",     // 808B3A20
-    "old_battle3_gba",     // 808B3A24
-    "old_matenro_64",      // 808B3A28
-    nullptr,               // 808B3A2C
-    nullptr,               // 808B3A30
-    nullptr,               // 808B3A34
-    nullptr,               // 808B3A38
-    nullptr,               // 808B3A3C
-    nullptr,               // 808B3A40
-    nullptr,               // 808B3A44
-    nullptr,               // 808B3A48
-    nullptr,               // 808B3A4C
-    nullptr,               // 808B3A50
-    nullptr,               // 808B3A54
-    nullptr,               // 808B3A58
-    "ring_mission",        // 808B3A5C
-    "winningrun_demo",     // 808B3A60
-    "loser_demo",          // 808B3A64
-    "draw_dmeo",           // 808B3A68
-    "ending_demo",         // 808B3A6C
-    nullptr,               // 808B3A70
-    nullptr,               // 808B3A74
-    nullptr,               // 808B3A78
-    nullptr,               // 808B3A7C
-    nullptr,               // 808B3A80
-    nullptr,               // 808B3A84
-    nullptr,               // 808B3A88
-    nullptr                // 808B3A8C
+    // clang-format off
+    "castle_course",
+    "farm_course",
+    "kinoko_course",
+    "volcano_course",
+    "factory_course",
+    "shopping_course",
+    "boardcross_course",
+    "truck_course",
+    "beginner_course",
+    "senior_course",
+    "ridgehighway_course",
+    "treehouse_course",
+    "koopa_course",
+    "rainbow_course",
+    "desert_course",
+    "water_course",
+    "old_peach_gc",
+    "old_mario_gc",
+    "old_waluigi_gc",
+    "old_donkey_gc",
+    "old_falls_ds",
+    "old_desert_ds",
+    "old_garden_ds",
+    "old_town_ds",
+    "old_mario_sfc",
+    "old_obake_sfc",
+    "old_mario_64",
+    "old_sherbet_64",
+    "old_koopa_64",
+    "old_donkey_64",
+    "old_koopa_gba",
+    "old_heyho_gba",
+    "venice_battle",
+    "block_battle",
+    "casino_battle",
+    "skate_battle",
+    "sand_battle",
+    "old_CookieLand_gc",
+    "old_House_ds",
+    "old_battle4_sfc",
+    "old_battle3_gba",
+    "old_matenro_64",
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    "ring_mission",
+    "winningrun_demo",
+    "loser_demo",
+    "draw_dmeo",
+    "ending_demo",
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr
+    // clang-format on
 };
 
 const char* CHARACTER_NAMES[] = {
-    "mr",       // 808B3A90
-    "bpc",      // 808B3A94
-    "wl",       // 808B3A98
-    "kp",       // 808B3A9C
-    "bds",      // 808B3AA0
-    "ka",       // 808B3AA4
-    "bmr",      // 808B3AA8
-    "lg",       // 808B3AAC
-    "ko",       // 808B3AB0
-    "dk",       // 808B3AB4
-    "ys",       // 808B3AB8
-    "wr",       // 808B3ABC
-    "blg",      // 808B3AC0
-    "kk",       // 808B3AC4
-    "nk",       // 808B3AC8
-    "ds",       // 808B3ACC
-    "pc",       // 808B3AD0
-    "ca",       // 808B3AD4
-    "dd",       // 808B3AD8
-    "kt",       // 808B3ADC
-    "jr",       // 808B3AE0
-    "bk",       // 808B3AE4
-    "fk",       // 808B3AE8
-    "rs",       // 808B3AEC
-    "sa_mii_m", // 808B3AF0
-    "sa_mii_f", // 808B3AF4
-    "sb_mii_m", // 808B3AF8
-    "sb_mii_f", // 808B3AFC
-    "sc_mii_m", // 808B3B00
-    "sc_mii_f", // 808B3B04
-    "ma_mii_m", // 808B3B08
-    "ma_mii_f", // 808B3B0C
-    "mb_mii_m", // 808B3B10
-    "mb_mii_f", // 808B3B14
-    "mc_mii_m", // 808B3B18
-    "mc_mii_f", // 808B3B1C
-    "la_mii_m", // 808B3B20
-    "la_mii_f", // 808B3B24
-    "lb_mii_m", // 808B3B28
-    "lb_mii_f", // 808B3B2C
-    "lc_mii_m", // 808B3B30
-    "lc_mii_f", // 808B3B34
-    "m_mii",    // 808B3B38
-    "s_mii",    // 808B3B3C
-    "l_mii",    // 808B3B40
-    "pc_menu",  // 808B3B44
-    "ds_menu",  // 808B3B48
-    "rs_menu"   // 808B3B4C
-};
+    "mr",       "bpc",      "wl",       "kp",       "bds",      "ka",
+    "bmr",      "lg",       "ko",       "dk",       "ys",       "wr",
+    "blg",      "kk",       "nk",       "ds",       "pc",       "ca",
+    "dd",       "kt",       "jr",       "bk",       "fk",       "rs",
+    "sa_mii_m", "sa_mii_f", "sb_mii_m", "sb_mii_f", "sc_mii_m", "sc_mii_f",
+    "ma_mii_m", "ma_mii_f", "mb_mii_m", "mb_mii_f", "mc_mii_m", "mc_mii_f",
+    "la_mii_m", "la_mii_f", "lb_mii_m", "lb_mii_f", "lc_mii_m", "lc_mii_f",
+    "m_mii",    "s_mii",    "l_mii",    "pc_menu",  "ds_menu",  "rs_menu"};
 
 const char* VEHICLE_NAMES[] = {
-    "sdf_kart", // 808B3B50
-    "mdf_kart", // 808B3B54
-    "ldf_kart", // 808B3B58
-    "sa_kart",  // 808B3B5C
-    "ma_kart",  // 808B3B60
-    "la_kart",  // 808B3B64
-    "sb_kart",  // 808B3B68
-    "mb_kart",  // 808B3B6C
-    "lb_kart",  // 808B3B70
-    "sc_kart",  // 808B3B74
-    "mc_kart",  // 808B3B78
-    "lc_kart",  // 808B3B7C
-    "sd_kart",  // 808B3B80
-    "md_kart",  // 808B3B84
-    "ld_kart",  // 808B3B88
-    "se_kart",  // 808B3B8C
-    "me_kart",  // 808B3B90
-    "le_kart",  // 808B3B94
-    "sdf_bike", // 808B3B98
-    "mdf_bike", // 808B3B9C
-    "ldf_bike", // 808B3BA0
-    "sa_bike",  // 808B3BA4
-    "ma_bike",  // 808B3BA8
-    "la_bike",  // 808B3BAC
-    "sb_bike",  // 808B3BB0
-    "mb_bike",  // 808B3BB4
-    "lb_bike",  // 808B3BB8
-    "sc_bike",  // 808B3BBC
-    "mc_bike",  // 808B3BC0
-    "lc_bike",  // 808B3BC4
-    "sd_bike",  // 808B3BC8
-    "md_bike",  // 808B3BCC
-    "ld_bike",  // 808B3BD0
-    "se_bike",  // 808B3BD4
-    "me_bike",  // 808B3BD8
-    "le_bike",  // 808B3BDC
+    "sdf_kart", "mdf_kart", "ldf_kart", "sa_kart", "ma_kart", "la_kart",
+    "sb_kart",  "mb_kart",  "lb_kart",  "sc_kart", "mc_kart", "lc_kart",
+    "sd_kart",  "md_kart",  "ld_kart",  "se_kart", "me_kart", "le_kart",
+    "sdf_bike", "mdf_bike", "ldf_bike", "sa_bike", "ma_bike", "la_bike",
+    "sb_bike",  "mb_bike",  "lb_bike",  "sc_bike", "mc_bike", "lc_bike",
+    "sd_bike",  "md_bike",  "ld_bike",  "se_bike", "me_bike", "le_bike",
 };
 const char* TEAM_SUFFIXES[] = {"_red", "_blue", ""};
 const char* LOD_RES_SUFFIXES[] = {"", "_2", "_4"};
