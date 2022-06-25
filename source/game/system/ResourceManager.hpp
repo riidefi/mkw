@@ -51,12 +51,6 @@ UNKNOWN_FUNCTION(unk_80540558);
 UNKNOWN_FUNCTION(ResourceManager_loadUI);
 // PAL: 0x80540760..0x80540918
 UNKNOWN_FUNCTION(ResourceManager_loadCourse);
-// PAL: 0x80540918..0x80540b14
-UNKNOWN_FUNCTION(
-    loadMission__Q26System15ResourceManagerF8CourseIdlPQ23EGG4Heapb);
-// PAL: 0x80540b14..0x80540cfc
-UNKNOWN_FUNCTION(
-    loadCompetition__Q26System15ResourceManagerF8CourseIdPvUlPQ23EGG4HeapUc);
 // PAL: 0x80540cfc..0x80540e3c
 UNKNOWN_FUNCTION(unk_80540cfc);
 // PAL: 0x80540e3c..0x80540f90
@@ -95,8 +89,6 @@ UNKNOWN_FUNCTION(unk_805415c4);
 UNKNOWN_FUNCTION(unk_805415d4);
 // PAL: 0x805415e4..0x80541614
 UNKNOWN_FUNCTION(unk_805415e4);
-// PAL: 0x80541614..0x8054169c
-UNKNOWN_FUNCTION(unk_80541614);
 // PAL: 0x8054169c..0x80541738
 UNKNOWN_FUNCTION(unk_8054169c);
 // PAL: 0x80541738..0x80541794
@@ -221,9 +213,35 @@ public:
   MultiDvdArchive* mArchive;
 };
 
+// Enums that represent indices in vehicle name specifiers arrays.
 typedef enum {
+  // TODO: Fill
+} CharacterId;
 
+typedef enum {
+  // TODO: Fill
+} VehicleId;
+
+// name of battle mode team
+typedef enum {
+    BATTLE_TEAM_RED = 0,
+    BATTLE_TEAM_BLUE = 1,
+    BATTLE_TEAM_NONE = 2 // not in battle mode
+} BattleTeam;
+
+// single player/number of multiplayer
+typedef enum {
+    PLAYER_MODE_FOUR = 0,
+    PLAYER_MODE_TWO = 1,
+    PLAYER_MODE_SINGLE = 2
+} PlayMode;
+
+typedef enum {
+  // TODO: Fill
 } CourseId;
+
+const char* getCharacterName(CharacterId charId);
+const char* getVehicleName(VehicleId vehicleId);
 
 class ResourceManager {
   virtual ~ResourceManager();
@@ -238,7 +256,7 @@ public:
 
   MultiDvdArchive** multiArchives1;
   MultiDvdArchive multiArchives2[12];
-  MultiDvdArchive MultiArchives3[12];
+  MultiDvdArchive multiArchives3[12];
   DvdArchive dvdArchive[4];
   JobContext jobContexts[7];
   EGG::TaskThread* taskThread;
@@ -268,6 +286,12 @@ public:
                                EGG::Heap* param_3, bool splitScreen);
   MultiDvdArchive* loadCompetition(CourseId courseId, void* fileStart,
                                    u32 fileSize, EGG::Heap* heap, u8 unk6);
+  MultiDvdArchive* loadKartFromArchive(MultiDvdArchive* archive, u32 unu, VehicleId vehicleId, CharacterId characterId,
+    BattleTeam battleTeam, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
+  MultiDvdArchive* loadKartFromArchive2(s32 archiveIdx, VehicleId vehicleId, CharacterId characterId,
+    BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
+  MultiDvdArchive* loadKartFromArchive3(s32 archiveIdx, VehicleId vehicleId, CharacterId characterId,
+    BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
@@ -276,6 +300,23 @@ public:
                    EGG::Heap* archiveHeap);
   void requestLoad(s32 idx, MultiDvdArchive* archive, const char* filename,
                    EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
+  void* getArchiveStart(ResourceChannelID resId, u32 archiveIdx);
+
+  // TODO: check if actually inline
+  inline void requestLoadFile(s32 idx, MultiDvdArchive* m, const char* p, EGG::Heap* archiveHeap, EGG::Heap* fileHeap)
+{
+    this->jobContexts[idx].multiArchive = m;
+    strncpy(this->jobContexts[idx].filename, p, sizeof(this->jobContexts[idx].filename));
+    this->jobContexts[idx].archiveHeap = archiveHeap;
+    this->jobContexts[idx].fileHeap = fileHeap;
+
+    this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+    this->process();
+
+    if (!m->isLoaded()) {
+        OSSleepMilliseconds(16);
+    }
+}
 };
 
 } // namespace System
