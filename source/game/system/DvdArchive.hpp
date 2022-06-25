@@ -16,6 +16,7 @@ enum ArchiveState {
 
 class DvdArchive {
   friend class MultiDvdArchive;
+  friend class ResourceManager;
 
 public:
   DvdArchive();
