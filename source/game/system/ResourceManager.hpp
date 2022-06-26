@@ -224,16 +224,16 @@ typedef enum {
 
 // name of battle mode team
 typedef enum {
-    BATTLE_TEAM_RED = 0,
-    BATTLE_TEAM_BLUE = 1,
-    BATTLE_TEAM_NONE = 2 // not in battle mode
+  BATTLE_TEAM_RED = 0,
+  BATTLE_TEAM_BLUE = 1,
+  BATTLE_TEAM_NONE = 2 // not in battle mode
 } BattleTeam;
 
 // single player/number of multiplayer
 typedef enum {
-    PLAYER_MODE_FOUR = 0,
-    PLAYER_MODE_TWO = 1,
-    PLAYER_MODE_SINGLE = 2
+  PLAYER_MODE_FOUR = 0,
+  PLAYER_MODE_TWO = 1,
+  PLAYER_MODE_SINGLE = 2
 } PlayMode;
 
 typedef enum {
@@ -280,18 +280,31 @@ public:
 
   MultiDvdArchive* load(ResourceChannelID channelId, EGG::Heap* archiveHeap,
                         const char* filename);
+  MultiDvdArchive* loadUI(const char* filename, EGG::Heap* archiveHeap);
   MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3,
                               bool splitScreen);
   MultiDvdArchive* loadMission(CourseId courseId, s32 missionNum,
                                EGG::Heap* param_3, bool splitScreen);
   MultiDvdArchive* loadCompetition(CourseId courseId, void* fileStart,
                                    u32 fileSize, EGG::Heap* heap, u8 unk6);
-  MultiDvdArchive* loadKartFromArchive(MultiDvdArchive* archive, u32 unu, VehicleId vehicleId, CharacterId characterId,
-    BattleTeam battleTeam, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
-  MultiDvdArchive* loadKartFromArchive2(s32 archiveIdx, VehicleId vehicleId, CharacterId characterId,
-    BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
-  MultiDvdArchive* loadKartFromArchive3(s32 archiveIdx, VehicleId vehicleId, CharacterId characterId,
-    BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
+  MultiDvdArchive* loadKartFromArchive(MultiDvdArchive* archive, u32 unu,
+                                       VehicleId vehicleId,
+                                       CharacterId characterId,
+                                       BattleTeam battleTeam, PlayMode playMode,
+                                       EGG::Heap* archiveHeap,
+                                       EGG::Heap* fileHeap);
+  MultiDvdArchive* loadKartFromArchive2(s32 archiveIdx, VehicleId vehicleId,
+                                        CharacterId characterId,
+                                        BattleTeam battleTeamId,
+                                        PlayMode playMode,
+                                        EGG::Heap* archiveHeap,
+                                        EGG::Heap* fileHeap);
+  MultiDvdArchive* loadKartFromArchive3(s32 archiveIdx, VehicleId vehicleId,
+                                        CharacterId characterId,
+                                        BattleTeam battleTeamId,
+                                        PlayMode playMode,
+                                        EGG::Heap* archiveHeap,
+                                        EGG::Heap* fileHeap);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
@@ -303,10 +316,11 @@ public:
   void* getArchiveStart(ResourceChannelID resId, u32 archiveIdx);
 
   // TODO: check if actually inline
-  inline void requestLoadFile(s32 idx, MultiDvdArchive* m, const char* p, EGG::Heap* archiveHeap, EGG::Heap* fileHeap)
-{
+  inline void requestLoadFile(s32 idx, MultiDvdArchive* m, const char* p,
+                              EGG::Heap* archiveHeap, EGG::Heap* fileHeap) {
     this->jobContexts[idx].multiArchive = m;
-    strncpy(this->jobContexts[idx].filename, p, sizeof(this->jobContexts[idx].filename));
+    strncpy(this->jobContexts[idx].filename, p,
+            sizeof(this->jobContexts[idx].filename));
     this->jobContexts[idx].archiveHeap = archiveHeap;
     this->jobContexts[idx].fileHeap = fileHeap;
 
@@ -314,9 +328,9 @@ public:
     this->process();
 
     if (!m->isLoaded()) {
-        OSSleepMilliseconds(16);
+      OSSleepMilliseconds(16);
     }
-}
+  }
 };
 
 } // namespace System

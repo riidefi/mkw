@@ -97,7 +97,7 @@ const char* COURSE_NAMES[] = {
     nullptr
     // clang-format on
 };
-const s32 COURSE_NAMES_SIZE = sizeof(COURSE_NAMES)/sizeof(COURSE_NAMES[0]);
+const s32 COURSE_NAMES_SIZE = sizeof(COURSE_NAMES) / sizeof(COURSE_NAMES[0]);
 
 const char* CHARACTER_NAMES[] = {
     "mr",       "bpc",      "wl",       "kp",       "bds",      "ka",
@@ -109,7 +109,8 @@ const char* CHARACTER_NAMES[] = {
     "la_mii_m", "la_mii_f", "lb_mii_m", "lb_mii_f", "lc_mii_m", "lc_mii_f",
     "m_mii",    "s_mii",    "l_mii",    "pc_menu",  "ds_menu",  "rs_menu"};
 
-const s32 CHAR_NAMES_SIZE = sizeof(CHARACTER_NAMES)/sizeof(CHARACTER_NAMES[0]);
+const s32 CHAR_NAMES_SIZE =
+    sizeof(CHARACTER_NAMES) / sizeof(CHARACTER_NAMES[0]);
 
 const char* VEHICLE_NAMES[] = {
     "sdf_kart", "mdf_kart", "ldf_kart", "sa_kart", "ma_kart", "la_kart",
@@ -119,7 +120,7 @@ const char* VEHICLE_NAMES[] = {
     "sb_bike",  "mb_bike",  "lb_bike",  "sc_bike", "mc_bike", "lc_bike",
     "sd_bike",  "md_bike",  "ld_bike",  "se_bike", "me_bike", "le_bike",
 };
-const s32 VEHICLE_NAMES_SIZE = sizeof(VEHICLE_NAMES)/sizeof(VEHICLE_NAMES[0]);
+const s32 VEHICLE_NAMES_SIZE = sizeof(VEHICLE_NAMES) / sizeof(VEHICLE_NAMES[0]);
 
 const char* TEAM_SUFFIXES[] = {"_red", "_blue", ""};
 const char* LOD_RES_SUFFIXES[] = {"", "_2", "_4"};
@@ -486,73 +487,15 @@ lbl_80540664:
   // clang-format on
 }
 
-// Symbol: ResourceManager_loadUI
-// PAL: 0x80540680..0x80540760
-MARK_BINARY_BLOB(ResourceManager_loadUI, 0x80540680, 0x80540760);
-asm UNKNOWN_FUNCTION(ResourceManager_loadUI) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r4;
-  stw r30, 0x18(r1);
-  mr r30, r5;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lwz r6, 4(r3);
-  lwz r3, 8(r6);
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_8054073c;
-  cmpwi r31, 0;
-  beq lbl_8054073c;
-  lwz r6, 4(r29);
-  mr r4, r31;
-  addi r3, r29, 0x398;
-  li r5, 0x40;
-  lwz r31, 8(r6);
-  stw r31, 0x38c(r29);
-  bl unk_805553b0;
-  lis r4, 0;
-  stw r30, 0x3d8(r29);
-  lwz r3, 0x584(r29);
-  addi r4, r4, 0;
-  li r5, 1;
-  li r6, 0;
-  bl unk_805553b0;
-  mr r3, r29;
-  bl process__Q26System15ResourceManagerFv;
-  mr r3, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_8054073c;
-  lis r4, 0x8000;
-  lis r3, 0x1062;
-  lwz r0, 0xf8(r4);
-  addi r4, r3, 0x4dd3;
-  li r3, 0;
-  srwi r0, r0, 2;
-  mulhwu r4, r4, r0;
-  srwi r0, r4, 6;
-  rlwinm r4, r4, 0x1e, 2, 0x1b;
-  rlwimi r3, r0, 4, 0x1c, 0x1f;
-  bl unk_805553b0;
-lbl_8054073c:
-  lwz r3, 4(r29);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  lwz r3, 8(r3);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
-}
-
 namespace System {
+
+MultiDvdArchive* ResourceManager::loadUI(const char* filename,
+                                         EGG::Heap* archiveHeap) {
+  if (!this->multiArchives1[2]->isLoaded() && filename) {
+    requestLoad(1, this->multiArchives1[2], filename, archiveHeap);
+  }
+  return this->multiArchives1[2];
+}
 
 MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId,
                                              EGG::Heap* param_3,
@@ -667,54 +610,57 @@ MultiDvdArchive* ResourceManager::loadCompetition(CourseId courseId,
   return this->multiArchives1[1];
 }
 
-} // namespace System
+MultiDvdArchive* ResourceManager::loadKartFromArchive(
+    MultiDvdArchive* archive, u32 unu, VehicleId vehicleId,
+    CharacterId characterId, BattleTeam battleTeamId, PlayMode playMode,
+    EGG::Heap* archiveHeap, EGG::Heap* fileHeap) {
+  char path[128];
+  const char* driver = getCharacterName(characterId);
+  const char* kart = getVehicleName(vehicleId);
 
+  snprintf(path, sizeof(path), "Race/Kart/%s%s-%s%s", kart,
+           TEAM_SUFFIXES[battleTeamId], driver, LOD_RES_SUFFIXES[playMode]);
+  requestLoadFile(5, archive, path, archiveHeap, fileHeap);
+  return archive;
+}
 
-namespace System {
-MultiDvdArchive* ResourceManager::loadKartFromArchive(MultiDvdArchive* archive, u32 unu, VehicleId vehicleId,
-    CharacterId characterId, BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap) {
-    char path[128];
+MultiDvdArchive* ResourceManager::loadKartFromArchive2(
+    s32 archiveIdx, VehicleId vehicleId, CharacterId characterId,
+    BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap,
+    EGG::Heap* fileHeap) {
+  MultiDvdArchive* archive = &this->multiArchives2[archiveIdx];
+  char path[128];
+
+  if (!archive->isLoaded()) {
     const char* driver = getCharacterName(characterId);
     const char* kart = getVehicleName(vehicleId);
-
-    snprintf(path, sizeof(path), "Race/Kart/%s%s-%s%s", kart, TEAM_SUFFIXES[battleTeamId],
-        driver, LOD_RES_SUFFIXES[playMode]);
+    snprintf(path, sizeof(path), "Race/Kart/%s%s-%s%s", kart,
+             TEAM_SUFFIXES[battleTeamId], driver, LOD_RES_SUFFIXES[playMode]);
     requestLoadFile(5, archive, path, archiveHeap, fileHeap);
     return archive;
+  }
+  return archive;
 }
 
-MultiDvdArchive* ResourceManager::loadKartFromArchive2(s32 archiveIdx, VehicleId vehicleId,
-    CharacterId characterId, BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap) {
-    MultiDvdArchive* archive = &this->multiArchives2[archiveIdx];
-    char path[128];
+MultiDvdArchive* ResourceManager::loadKartFromArchive3(
+    s32 archiveIdx, VehicleId vehicleId, CharacterId characterId,
+    BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap,
+    EGG::Heap* fileHeap) {
+  MultiDvdArchive* archive = &this->multiArchives3[archiveIdx];
+  char path[128];
 
-    if (!archive->isLoaded()) {
-        const char* driver = getCharacterName(characterId);
-        const char* kart = getVehicleName(vehicleId);
-        snprintf(path, sizeof(path), "Race/Kart/%s%s-%s%s", kart, TEAM_SUFFIXES[battleTeamId],
-            driver, LOD_RES_SUFFIXES[playMode]);
-        requestLoadFile(5, archive, path, archiveHeap, fileHeap);
-        return archive;
-    }
+  if (!archive->isLoaded()) {
+    const char* driver = getCharacterName(characterId);
+    const char* kart = getVehicleName(vehicleId);
+    snprintf(path, sizeof(path), "Race/Kart/%s%s-%s%s", kart,
+             TEAM_SUFFIXES[battleTeamId], driver, LOD_RES_SUFFIXES[playMode]);
+    requestLoadFile(5, archive, path, archiveHeap, fileHeap);
     return archive;
+  }
+  return archive;
 }
 
-MultiDvdArchive* ResourceManager::loadKartFromArchive3(s32 archiveIdx, VehicleId vehicleId,
-    CharacterId characterId, BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap, EGG::Heap* fileHeap) {
-    MultiDvdArchive* archive = &this->multiArchives3[archiveIdx];
-    char path[128];
-
-    if (!archive->isLoaded()) {
-        const char* driver = getCharacterName(characterId);
-        const char* kart = getVehicleName(vehicleId);
-        snprintf(path, sizeof(path), "Race/Kart/%s%s-%s%s", kart, TEAM_SUFFIXES[battleTeamId],
-            driver, LOD_RES_SUFFIXES[playMode]);
-        requestLoadFile(5, archive, path, archiveHeap, fileHeap);
-        return archive;
-    }
-    return archive;
-}
-}
+} // namespace System
 
 // Symbol: unk_805410e4
 // PAL: 0x805410e4..0x805411d4
@@ -1220,62 +1166,19 @@ lbl_8054160c:
   // clang-format on
 }
 
-// Symbol: unk_80541614
-// PAL: 0x80541614..0x8054169c
-/*MARK_BINARY_BLOB(unk_80541614, 0x80541614, 0x8054169c);
-asm UNKNOWN_FUNCTION(unk_80541614) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  slwi r31, r4, 2;
-  stw r30, 0x18(r1);
-  mr r30, r5;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lwz r6, 4(r3);
-  lwzx r3, r6, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_80541654;
-  li r3, 0;
-  b lbl_80541680;
-lbl_80541654:
-  lwz r3, 4(r29);
-  lwzx r3, r3, r31;
-  lhz r0, 8(r3);
-  cmplw r30, r0;
-  bge lbl_8054167c;
-  mulli r0, r30, 0x24;
-  lwz r3, 4(r3);
-  add r3, r3, r0;
-  lwz r3, 8(r3);
-  b lbl_80541680;
-lbl_8054167c:
-  li r3, 0;
-lbl_80541680:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
-}*/
-
 namespace System {
-void* ResourceManager::getArchiveStart(ResourceChannelID resId, u32 archiveIdx) {
-    if (!this->multiArchives1[resId]->isLoaded()) {
-        return nullptr;
-    } else if (archiveIdx < this->multiArchives1[resId]->archiveCount) {
-        return this->multiArchives1[resId]->archives[archiveIdx].mArchiveStart;
-    }
+
+void* ResourceManager::getArchiveStart(ResourceChannelID resId,
+                                       u32 archiveIdx) {
+  if (!this->multiArchives1[resId]->isLoaded()) {
     return nullptr;
+  } else if (archiveIdx < this->multiArchives1[resId]->archiveCount) {
+    return this->multiArchives1[resId]->archives[archiveIdx].mArchiveStart;
+  }
+  return nullptr;
 }
-}
+
+} // namespace System
 
 // Symbol: unk_8054169c
 // PAL: 0x8054169c..0x80541738
@@ -1572,17 +1475,17 @@ asm UNKNOWN_FUNCTION(ResourceManager_preloadCourseAsync) {
 
 namespace System {
 const char* getCharacterName(CharacterId charId) {
-    if (charId >= CHAR_NAMES_SIZE) {
-        return nullptr;
-    }
-    return CHARACTER_NAMES[charId];
+  if (charId >= CHAR_NAMES_SIZE) {
+    return nullptr;
+  }
+  return CHARACTER_NAMES[charId];
 }
 
 const char* getVehicleName(VehicleId vehicleId) {
-    if (vehicleId >= VEHICLE_NAMES_SIZE) {
-        return nullptr;
-    }
-    return VEHICLE_NAMES[vehicleId];
+  if (vehicleId >= VEHICLE_NAMES_SIZE) {
+    return nullptr;
+  }
+  return VEHICLE_NAMES[vehicleId];
 }
 
 CourseCache::CourseCache() {
