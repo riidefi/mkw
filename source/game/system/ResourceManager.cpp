@@ -2,6 +2,7 @@
 
 #include <rvl/os/osThread.h>
 #include <game/host_system/SystemManager.hpp>
+#include <game/host_system/SystemResources.hpp>
 #include <game/RKScene.hpp>
 
 #pragma dont_reuse_strings on
@@ -398,96 +399,18 @@ MultiDvdArchive* ResourceManager::load(ResourceChannelID channelId,
   return this->multiArchives1[channelId];
 }
 
-} // namespace System
-
-// Symbol: unk_80540558
-// PAL: 0x80540558..0x80540680
-MARK_BINARY_BLOB(unk_80540558, 0x80540558, 0x80540680);
-asm UNKNOWN_FUNCTION(unk_80540558) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stmw r26, 8(r1);
-  mulli r31, r4, 0x24;
-  mr r30, r3;
-  mr r26, r4;
-  add r28, r3, r31;
-  mr r27, r5;
-  li r3, 1;
-  lwz r0, 0x2c8(r28);
-  cmpwi r0, 4;
-  beq lbl_8054059c;
-  lwz r0, 0x2c8(r28);
-  cmpwi r0, 5;
-  beq lbl_8054059c;
-  li r3, 0;
-lbl_8054059c:
-  cmpwi r3, 0;
-  bne lbl_80540664;
-  mr r3, r26;
-  bl unk_805553b0;
-  lbz r0, 0(r3);
-  extsb. r0, r0;
-  beq lbl_80540664;
-  mr r3, r26;
-  bl unk_805553b0;
-  mr r29, r3;
-  mr r3, r26;
-  bl unk_805553b0;
-  add r5, r30, r31;
-  mr r4, r3;
-  addi r0, r5, 0x2a8;
-  stw r0, 0x534(r30);
-  addi r3, r30, 0x53c;
-  li r5, 0x40;
-  bl unk_805553b0;
-  lis r4, 0;
-  stw r27, 0x57c(r30);
-  lwz r3, 0x584(r30);
-  addi r4, r4, 0;
-  stw r29, 0x538(r30);
-  li r5, 6;
-  li r6, 0;
-  bl unk_805553b0;
-  mr r3, r30;
-  bl process__Q26System15ResourceManagerFv;
-  lwz r0, 0x2c8(r28);
-  li r3, 0;
-  cmpwi r0, 4;
-  beq lbl_8054062c;
-  lwz r0, 0x2c8(r28);
-  cmpwi r0, 5;
-  bne lbl_80540630;
-lbl_8054062c:
-  li r3, 1;
-lbl_80540630:
-  cmpwi r3, 0;
-  bne lbl_80540664;
-  lis r4, 0x8000;
-  lis r3, 0x1062;
-  lwz r0, 0xf8(r4);
-  addi r4, r3, 0x4dd3;
-  li r3, 0;
-  srwi r0, r0, 2;
-  mulhwu r4, r4, r0;
-  srwi r0, r4, 6;
-  rlwinm r4, r4, 0x1e, 2, 0x1b;
-  rlwimi r3, r0, 4, 0x1c, 0x1f;
-  bl unk_805553b0;
-lbl_80540664:
-  add r3, r30, r31;
-  lmw r26, 8(r1);
-  lwz r0, 0x24(r1);
-  addi r3, r3, 0x2a8;
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+DvdArchive* ResourceManager::loadSystemResource(s32 idx,
+                                                EGG::Heap* archiveHeap) {
+  if (!dvdArchive[idx].isLoaded()) {
+    const char* resourcePath = Resource::GetResourcePath((eSystemResource)idx);
+    if (resourcePath[0] != 0) {
+      requestLoadFile(
+          6, &dvdArchive[idx], Resource::GetResourcePath((eSystemResource)idx),
+          Resource::GetResourceID((eSystemResource)idx), archiveHeap);
+    }
+  }
+  return &dvdArchive[idx];
 }
-
-namespace System {
 
 MultiDvdArchive* ResourceManager::loadUI(const char* filename,
                                          EGG::Heap* archiveHeap) {

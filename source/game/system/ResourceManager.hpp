@@ -280,6 +280,7 @@ public:
 
   MultiDvdArchive* load(ResourceChannelID channelId, EGG::Heap* archiveHeap,
                         const char* filename);
+  DvdArchive* loadSystemResource(s32 idx, EGG::Heap* archiveHeap);
   MultiDvdArchive* loadUI(const char* filename, EGG::Heap* archiveHeap);
   MultiDvdArchive* loadCourse(CourseId courseId, EGG::Heap* param_3,
                               bool splitScreen);
@@ -328,6 +329,21 @@ public:
     this->process();
 
     if (!m->isLoaded()) {
+      OSSleepMilliseconds(16);
+    }
+  }
+  inline void requestLoadFile(s32 idx, DvdArchive* archive,
+                              const char* filename, u32 unk,
+                              EGG::Heap* archiveHeap) {
+    this->jobContexts[idx].archive = archive;
+    strncpy(this->jobContexts[idx].filename, filename, 0x40);
+    this->jobContexts[idx].archiveHeap = archiveHeap;
+    this->jobContexts[idx]._08 = unk;
+
+    this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+    this->process();
+
+    if (!archive->isLoaded()) {
       OSSleepMilliseconds(16);
     }
   }
