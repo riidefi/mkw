@@ -314,6 +314,7 @@ public:
   void unmountMulti(MultiDvdArchive* other);
   void unmountArchive(s32 archiveIdx);
   void* getFile(s32 archiveIdx, const char* filename, size_t* size);
+  void* getCharacterFile(CharacterId characterId, size_t* size);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,

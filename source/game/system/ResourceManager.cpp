@@ -623,62 +623,19 @@ void* ResourceManager::getFile(s32 archiveIdx, const char* filename,
              : nullptr;
 }
 
-} // namespace System
+void* ResourceManager::getCharacterFile(CharacterId characterId, size_t* size) {
+  char buffer[128];
 
-// Symbol: unk_80541278
-// PAL: 0x80541278..0x80541320
-MARK_BINARY_BLOB(unk_80541278, 0x80541278, 0x80541320);
-asm UNKNOWN_FUNCTION(unk_80541278) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0xa0(r1);
-  mflr r0;
-  stw r0, 0xa4(r1);
-  stw r31, 0x9c(r1);
-  mr r31, r5;
-  stw r30, 0x98(r1);
-  mr r30, r4;
-  stw r29, 0x94(r1);
-  mr r29, r3;
-  lwz r6, 4(r3);
-  lwz r3, 0x18(r6);
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_805412b8;
-  li r3, 0;
-  b lbl_80541304;
-lbl_805412b8:
-  lis r3, 0;
-  cmpwi r30, 0x30;
-  addi r3, r3, 0;
-  li r4, 0x80;
-  addi r3, r3, 0x10e;
-  blt lbl_805412d8;
-  li r5, 0;
-  b lbl_805412e8;
-lbl_805412d8:
-  lis r5, 0;
-  slwi r0, r30, 2;
-  addi r5, r5, 0;
-  lwzx r5, r5, r0;
-lbl_805412e8:
-  crclr 6;
-  bl unk_805553b0;
-  lwz r3, 4(r29);
-  mr r5, r31;
-  addi r4, r1, 8;
-  lwz r3, 0x18(r3);
-  bl getFile__Q26System15MultiDvdArchiveFPCcPUl;
-lbl_80541304:
-  lwz r0, 0xa4(r1);
-  lwz r31, 0x9c(r1);
-  lwz r30, 0x98(r1);
-  lwz r29, 0x94(r1);
-  mtlr r0;
-  addi r1, r1, 0xa0;
-  blr;
-  // clang-format on
+  if (!multiArchives1[6]->isLoaded()) {
+    return nullptr;
+  }
+  const char* character = getCharacterName(characterId);
+  // I can't believe this compiles
+  snprintf("%s.brres", sizeof(buffer), character);
+  return multiArchives1[6]->getFile(buffer, size);
 }
+
+} // namespace System
 
 // Symbol: unk_80541320
 // PAL: 0x80541320..0x805413c8
