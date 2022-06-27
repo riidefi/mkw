@@ -616,49 +616,14 @@ void ResourceManager::unmountArchive(s32 archiveIdx) {
   dvdArchive[archiveIdx].unmount();
 }
 
-} // namespace System
-
-// Symbol: ResourceManager_getFile
-// PAL: 0x805411fc..0x80541278
-MARK_BINARY_BLOB(ResourceManager_getFile, 0x805411fc, 0x80541278);
-asm UNKNOWN_FUNCTION(ResourceManager_getFile) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  slwi r31, r4, 2;
-  stw r30, 0x18(r1);
-  mr r30, r6;
-  stw r29, 0x14(r1);
-  mr r29, r5;
-  stw r28, 0x10(r1);
-  mr r28, r3;
-  lwz r7, 4(r3);
-  lwzx r3, r7, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_80541254;
-  lwz r3, 4(r28);
-  mr r4, r29;
-  mr r5, r30;
-  lwzx r3, r3, r31;
-  bl getFile__Q26System15MultiDvdArchiveFPCcPUl;
-  b lbl_80541258;
-lbl_80541254:
-  li r3, 0;
-lbl_80541258:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r28, 0x10(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+void* ResourceManager::getFile(s32 archiveIdx, const char* filename,
+                               size_t* size) {
+  return (multiArchives1[archiveIdx]->isLoaded())
+             ? multiArchives1[archiveIdx]->getFile(filename, size)
+             : nullptr;
 }
+
+} // namespace System
 
 // Symbol: unk_80541278
 // PAL: 0x80541278..0x80541320
