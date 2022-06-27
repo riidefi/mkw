@@ -583,83 +583,30 @@ MultiDvdArchive* ResourceManager::loadKartFromArchive3(
   return archive;
 }
 
-} // namespace System
+MultiDvdArchive* ResourceManager::loadMenuKartModel(s32 archiveIdx,
+                                                    CharacterId characterId,
+                                                    BattleTeam battleTeam,
+                                                    EGG::Heap* archiveHeap,
+                                                    EGG::Heap* fileHeap) {
+  const char* characterName;
+  char buffer[128];
 
-// Symbol: unk_805410e4
-// PAL: 0x805410e4..0x805411d4
-MARK_BINARY_BLOB(unk_805410e4, 0x805410e4, 0x805411d4);
-asm UNKNOWN_FUNCTION(unk_805410e4) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0xa0(r1);
-  mflr r0;
-  stw r0, 0xa4(r1);
-  mulli r0, r4, 0x1c;
-  stmw r27, 0x8c(r1);
-  mr r27, r5;
-  add r3, r3, r0;
-  mr r28, r6;
-  addi r31, r3, 8;
-  mr r29, r7;
-  mr r30, r8;
-  mr r3, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_805411bc;
-  cmpwi r28, 2;
-  bne lbl_80541168;
-  lis r4, 0;
-  cmpwi r27, 0x30;
-  addi r4, r4, 0;
-  addi r3, r1, 8;
-  addi r5, r4, 0xd3;
-  li r4, 0x80;
-  blt lbl_8054114c;
-  li r6, 0;
-  b lbl_8054115c;
-lbl_8054114c:
-  lis r6, 0;
-  slwi r0, r27, 2;
-  addi r6, r6, 0;
-  lwzx r6, r6, r0;
-lbl_8054115c:
-  crclr 6;
-  bl unk_805553b0;
-  b lbl_805411a4;
-lbl_80541168:
-  lis r4, 0;
-  cmpwi r27, 0x30;
-  addi r4, r4, 0;
-  addi r3, r1, 8;
-  addi r5, r4, 0xef;
-  li r4, 0x80;
-  blt lbl_8054118c;
-  li r6, 0;
-  b lbl_8054119c;
-lbl_8054118c:
-  lis r6, 0;
-  slwi r0, r27, 2;
-  addi r6, r6, 0;
-  lwzx r6, r6, r0;
-lbl_8054119c:
-  crclr 6;
-  bl unk_805553b0;
-lbl_805411a4:
-  mr r3, r31;
-  mr r5, r29;
-  mr r6, r30;
-  addi r4, r1, 8;
-  li r7, 0;
-  bl load__Q26System15MultiDvdArchiveFPCcPQ23EGG4HeapPQ23EGG4Heapi;
-lbl_805411bc:
-  mr r3, r31;
-  lmw r27, 0x8c(r1);
-  lwz r0, 0xa4(r1);
-  mtlr r0;
-  addi r1, r1, 0xa0;
-  blr;
-  // clang-format on
+  if (!multiArchives2[archiveIdx].isLoaded()) {
+    if (battleTeam == 2) { // not in battle mode
+      characterName = getCharacterName(characterId);
+      snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart",
+               characterName);
+    } else {
+      characterName = getCharacterName(characterId);
+      snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart_BT",
+               characterName);
+    }
+    multiArchives2[archiveIdx].load(buffer, archiveHeap, fileHeap, 0);
+  }
+  return &multiArchives2[archiveIdx];
 }
+
+} // namespace System
 
 // Symbol: unk_805411d4
 // PAL: 0x805411d4..0x805411e4
@@ -1397,18 +1344,13 @@ asm UNKNOWN_FUNCTION(ResourceManager_preloadCourseAsync) {
 }
 
 namespace System {
+
 const char* getCharacterName(CharacterId charId) {
-  if (charId >= CHAR_NAMES_SIZE) {
-    return nullptr;
-  }
-  return CHARACTER_NAMES[charId];
+  return (charId >= CHAR_NAMES_SIZE) ? nullptr : CHARACTER_NAMES[charId];
 }
 
 const char* getVehicleName(VehicleId vehicleId) {
-  if (vehicleId >= VEHICLE_NAMES_SIZE) {
-    return nullptr;
-  }
-  return VEHICLE_NAMES[vehicleId];
+  return (vehicleId >= VEHICLE_NAMES_SIZE) ? nullptr : VEHICLE_NAMES[vehicleId];
 }
 
 CourseCache::CourseCache() {

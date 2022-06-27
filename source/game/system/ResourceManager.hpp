@@ -306,6 +306,10 @@ public:
                                         PlayMode playMode,
                                         EGG::Heap* archiveHeap,
                                         EGG::Heap* fileHeap);
+  MultiDvdArchive* loadMenuKartModel(s32 archiveIdx, CharacterId characterId,
+                                     BattleTeam battleTeam,
+                                     EGG::Heap* archiveHeap,
+                                     EGG::Heap* fileHeap);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
