@@ -635,62 +635,20 @@ void* ResourceManager::getCharacterFile(CharacterId characterId, size_t* size) {
   return multiArchives1[6]->getFile(buffer, size);
 }
 
-} // namespace System
+void* ResourceManager::getVehicleFile(s32 archiveIdx, VehicleId vehicleId,
+                                      size_t* size) {
+  char buffer[128];
 
-// Symbol: unk_80541320
-// PAL: 0x80541320..0x805413c8
-MARK_BINARY_BLOB(unk_80541320, 0x80541320, 0x805413c8);
-asm UNKNOWN_FUNCTION(unk_80541320) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0xa0(r1);
-  mflr r0;
-  stw r0, 0xa4(r1);
-  mulli r0, r4, 0x1c;
-  stw r31, 0x9c(r1);
-  add r3, r3, r0;
-  stw r30, 0x98(r1);
-  addi r31, r3, 8;
-  mr r30, r6;
-  stw r29, 0x94(r1);
-  mr r29, r5;
-  mr r3, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_80541364;
-  li r3, 0;
-  b lbl_805413ac;
-lbl_80541364:
-  lis r3, 0;
-  cmpwi r29, 0x24;
-  addi r3, r3, 0;
-  li r4, 0x80;
-  addi r3, r3, 0x117;
-  blt lbl_80541384;
-  li r5, 0;
-  b lbl_80541394;
-lbl_80541384:
-  lis r5, 0;
-  slwi r0, r29, 2;
-  addi r5, r5, 0;
-  lwzx r5, r5, r0;
-lbl_80541394:
-  crclr 6;
-  bl unk_805553b0;
-  mr r3, r31;
-  mr r5, r30;
-  addi r4, r1, 8;
-  bl getFile__Q26System15MultiDvdArchiveFPCcPUl;
-lbl_805413ac:
-  lwz r0, 0xa4(r1);
-  lwz r31, 0x9c(r1);
-  lwz r30, 0x98(r1);
-  lwz r29, 0x94(r1);
-  mtlr r0;
-  addi r1, r1, 0xa0;
-  blr;
-  // clang-format on
+  if (!multiArchives2[archiveIdx].isLoaded()) {
+    return nullptr;
+  }
+  const char* vehicle = getVehicleName(vehicleId);
+  // I can't believe this compiles
+  snprintf("%s.brres", sizeof(buffer), vehicle);
+  return multiArchives2[archiveIdx].getFile(buffer, size);
 }
+
+} // namespace System
 
 // Symbol: unk_805413c8
 // PAL: 0x805413c8..0x80541438
