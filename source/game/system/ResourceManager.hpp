@@ -310,6 +310,9 @@ public:
                                      BattleTeam battleTeam,
                                      EGG::Heap* archiveHeap,
                                      EGG::Heap* fileHeap);
+  void unmountMulti(s32 archiveIdx);
+  void unmountMulti(MultiDvdArchive* other);
+  void unmountArchive(s32 archiveIdx);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,

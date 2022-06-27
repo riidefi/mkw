@@ -606,44 +606,17 @@ MultiDvdArchive* ResourceManager::loadMenuKartModel(s32 archiveIdx,
   return &multiArchives2[archiveIdx];
 }
 
+void ResourceManager::unmountMulti(s32 archiveIdx) {
+  multiArchives1[archiveIdx]->unmount();
+}
+
+void ResourceManager::unmountMulti(MultiDvdArchive* other) { other->unmount(); }
+
+void ResourceManager::unmountArchive(s32 archiveIdx) {
+  dvdArchive[archiveIdx].unmount();
+}
+
 } // namespace System
-
-// Symbol: unk_805411d4
-// PAL: 0x805411d4..0x805411e4
-MARK_BINARY_BLOB(unk_805411d4, 0x805411d4, 0x805411e4);
-asm UNKNOWN_FUNCTION(unk_805411d4) {
-  // clang-format off
-  nofralloc;
-  lwz r3, 4(r3);
-  slwi r0, r4, 2;
-  lwzx r3, r3, r0;
-  b unmount__Q26System15MultiDvdArchiveFv;
-  // clang-format on
-}
-
-// Symbol: unk_805411e4
-// PAL: 0x805411e4..0x805411ec
-MARK_BINARY_BLOB(unk_805411e4, 0x805411e4, 0x805411ec);
-asm UNKNOWN_FUNCTION(unk_805411e4) {
-  // clang-format off
-  nofralloc;
-  mr r3, r4;
-  b unmount__Q26System15MultiDvdArchiveFv;
-  // clang-format on
-}
-
-// Symbol: unk_805411ec
-// PAL: 0x805411ec..0x805411fc
-MARK_BINARY_BLOB(unk_805411ec, 0x805411ec, 0x805411fc);
-asm UNKNOWN_FUNCTION(unk_805411ec) {
-  // clang-format off
-  nofralloc;
-  mulli r0, r4, 0x24;
-  add r3, r3, r0;
-  addi r3, r3, 0x2a8;
-  b unmount__Q26System10DvdArchiveFv;
-  // clang-format on
-}
 
 // Symbol: ResourceManager_getFile
 // PAL: 0x805411fc..0x80541278
