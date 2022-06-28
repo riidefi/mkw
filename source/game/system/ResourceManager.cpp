@@ -728,10 +728,11 @@ lbl_8054148c:
   // clang-format on
 }
 
-// Symbol: unk_805414a8
+// Symbol: ResourceManager_loadBSP
 // PAL: 0x805414a8..0x8054155c
-MARK_BINARY_BLOB(unk_805414a8, 0x805414a8, 0x8054155c);
-asm UNKNOWN_FUNCTION(unk_805414a8) {
+// Notes: requires Racedata decomp
+MARK_BINARY_BLOB(ResourceManager_loadBSP, 0x805414a8, 0x8054155c);
+asm UNKNOWN_FUNCTION(ResourceManager_loadBSP) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
@@ -786,47 +787,17 @@ lbl_80541544:
   // clang-format on
 }
 
-// Symbol: unk_8054155c
-// PAL: 0x8054155c..0x805415b0
-MARK_BINARY_BLOB(unk_8054155c, 0x8054155c, 0x805415b0);
-asm UNKNOWN_FUNCTION(unk_8054155c) {
-  // clang-format off
-  nofralloc;
-  mulli r10, r4, 0x24;
-  li r9, 1;
-  add r4, r3, r10;
-  lwz r0, 0x2c8(r4);
-  cmpwi r0, 4;
-  beq lbl_80541584;
-  lwz r0, 0x2c8(r4);
-  cmpwi r0, 5;
-  beq lbl_80541584;
-  li r9, 0;
-lbl_80541584:
-  cmpwi r9, 0;
-  bne lbl_80541594;
-  li r3, 0;
-  blr;
-lbl_80541594:
-  add r3, r3, r10;
-  mr r4, r5;
-  mr r5, r6;
-  mr r6, r7;
-  addi r3, r3, 0x2a8;
-  extsb r7, r8;
-  b getFileCopy__Q26System10DvdArchiveFPcPQ23EGG4HeapPUlSc;
-  // clang-format on
+namespace System {
+
+void* ResourceManager::getFileCopy(s32 archiveIdx, char* filename,
+                                   EGG::Heap* heap, size_t* size, s8 param_5) {
+  return (!dvdArchive[archiveIdx].isLoaded())
+             ? 0
+             : dvdArchive[archiveIdx].getFileCopy(filename, heap, size,
+                                                  param_5);
 }
 
-// Symbol: unk_805415b0
-// PAL: 0x805415b0..0x805415b4
-MARK_BINARY_BLOB(unk_805415b0, 0x805415b0, 0x805415b4);
-asm UNKNOWN_FUNCTION(unk_805415b0) {
-  // clang-format off
-  nofralloc;
-  blr;
-  // clang-format on
-}
+} // namespace System
 
 // Symbol: unk_805415b4
 // PAL: 0x805415b4..0x805415c4

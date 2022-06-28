@@ -76,7 +76,7 @@ UNKNOWN_FUNCTION(unk_805413c8);
 // PAL: 0x80541438..0x805414a8
 UNKNOWN_FUNCTION(unk_80541438);
 // PAL: 0x805414a8..0x8054155c
-UNKNOWN_FUNCTION(unk_805414a8);
+UNKNOWN_FUNCTION(ResourceManager_loadBSP);
 // PAL: 0x8054155c..0x805415b0
 UNKNOWN_FUNCTION(unk_8054155c);
 // PAL: 0x805415b0..0x805415b4
@@ -316,6 +316,8 @@ public:
   void* getFile(s32 archiveIdx, const char* filename, size_t* size);
   void* getCharacterFile(CharacterId characterId, size_t* size);
   void* getVehicleFile(s32 archiveIdx, VehicleId vehicleId, size_t* size);
+  void* getFileCopy(s32 archiveIdx, char* filename, EGG::Heap* heap,
+                    size_t* size, s8 param_5);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
