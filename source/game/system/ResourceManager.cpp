@@ -401,15 +401,15 @@ MultiDvdArchive* ResourceManager::load(ResourceChannelID channelId,
 
 DvdArchive* ResourceManager::loadSystemResource(s32 idx,
                                                 EGG::Heap* archiveHeap) {
-  if (!dvdArchive[idx].isLoaded()) {
+  if (!dvdArchives[idx].isLoaded()) {
     const char* resourcePath = Resource::GetResourcePath((eSystemResource)idx);
     if (resourcePath[0] != 0) {
       requestLoadFile(
-          6, &dvdArchive[idx], Resource::GetResourcePath((eSystemResource)idx),
+          6, &dvdArchives[idx], Resource::GetResourcePath((eSystemResource)idx),
           Resource::GetResourceID((eSystemResource)idx), archiveHeap);
     }
   }
-  return &dvdArchive[idx];
+  return &dvdArchives[idx];
 }
 
 MultiDvdArchive* ResourceManager::loadUI(const char* filename,
@@ -613,7 +613,7 @@ void ResourceManager::unmountMulti(s32 archiveIdx) {
 void ResourceManager::unmountMulti(MultiDvdArchive* other) { other->unmount(); }
 
 void ResourceManager::unmountArchive(s32 archiveIdx) {
-  dvdArchive[archiveIdx].unmount();
+  dvdArchives[archiveIdx].unmount();
 }
 
 void* ResourceManager::getFile(s32 archiveIdx, const char* filename,
@@ -648,85 +648,20 @@ void* ResourceManager::getVehicleFile(s32 archiveIdx, VehicleId vehicleId,
   return multiArchives2[archiveIdx].getFile(buffer, size);
 }
 
+void* ResourceManager::getMultiFile2(u16 idx, const char* filename,
+                                     size_t* size) {
+  return this->multiArchives2[idx].isLoaded()
+             ? this->multiArchives2[idx].getFile(filename, size)
+             : nullptr;
+}
+
+void* ResourceManager::getMultiFile3(u16 idx, const char* filename,
+                                     size_t* size) {
+  return this->multiArchives3[idx].isLoaded()
+             ? this->multiArchives3[idx].getFile(filename, size)
+             : nullptr;
+}
 } // namespace System
-
-// Symbol: unk_805413c8
-// PAL: 0x805413c8..0x80541438
-MARK_BINARY_BLOB(unk_805413c8, 0x805413c8, 0x80541438);
-asm UNKNOWN_FUNCTION(unk_805413c8) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  mulli r0, r4, 0x1c;
-  stw r31, 0x1c(r1);
-  add r3, r3, r0;
-  stw r30, 0x18(r1);
-  addi r31, r3, 8;
-  mr r30, r6;
-  stw r29, 0x14(r1);
-  mr r29, r5;
-  mr r3, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_80541418;
-  mr r3, r31;
-  mr r4, r29;
-  mr r5, r30;
-  bl getFile__Q26System15MultiDvdArchiveFPCcPUl;
-  b lbl_8054141c;
-lbl_80541418:
-  li r3, 0;
-lbl_8054141c:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
-}
-
-// Symbol: unk_80541438
-// PAL: 0x80541438..0x805414a8
-MARK_BINARY_BLOB(unk_80541438, 0x80541438, 0x805414a8);
-asm UNKNOWN_FUNCTION(unk_80541438) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  mulli r0, r4, 0x1c;
-  stw r31, 0x1c(r1);
-  add r3, r3, r0;
-  stw r30, 0x18(r1);
-  addi r31, r3, 0x158;
-  mr r30, r6;
-  stw r29, 0x14(r1);
-  mr r29, r5;
-  mr r3, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_80541488;
-  mr r3, r31;
-  mr r4, r29;
-  mr r5, r30;
-  bl getFile__Q26System15MultiDvdArchiveFPCcPUl;
-  b lbl_8054148c;
-lbl_80541488:
-  li r3, 0;
-lbl_8054148c:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
-}
 
 // Symbol: ResourceManager_loadBSP
 // PAL: 0x805414a8..0x8054155c
@@ -788,79 +723,29 @@ lbl_80541544:
 }
 
 namespace System {
-
 void* ResourceManager::getFileCopy(s32 archiveIdx, char* filename,
                                    EGG::Heap* heap, size_t* size, s8 param_5) {
-  return (!dvdArchive[archiveIdx].isLoaded())
+  return (!dvdArchives[archiveIdx].isLoaded())
              ? 0
-             : dvdArchive[archiveIdx].getFileCopy(filename, heap, size,
-                                                  param_5);
+             : dvdArchives[archiveIdx].getFileCopy(filename, heap, size,
+                                                   param_5);
 }
 
-} // namespace System
-
-// Symbol: unk_805415b4
-// PAL: 0x805415b4..0x805415c4
-MARK_BINARY_BLOB(unk_805415b4, 0x805415b4, 0x805415c4);
-asm UNKNOWN_FUNCTION(unk_805415b4) {
-  // clang-format off
-  nofralloc;
-  lwz r3, 4(r3);
-  slwi r0, r4, 2;
-  lwzx r3, r3, r0;
-  b isLoaded__Q26System15MultiDvdArchiveFv;
-  // clang-format on
+bool ResourceManager::isMultiArchive1Loaded(int idx) {
+  return this->multiArchives1[idx]->isLoaded();
 }
 
-// Symbol: unk_805415c4
-// PAL: 0x805415c4..0x805415d4
-MARK_BINARY_BLOB(unk_805415c4, 0x805415c4, 0x805415d4);
-asm UNKNOWN_FUNCTION(unk_805415c4) {
-  // clang-format off
-  nofralloc;
-  mulli r0, r4, 0x1c;
-  add r3, r3, r0;
-  addi r3, r3, 8;
-  b isLoaded__Q26System15MultiDvdArchiveFv;
-  // clang-format on
+bool ResourceManager::isMultiArchive2Loaded(int idx) {
+  return this->multiArchives2[idx].isLoaded();
 }
 
-// Symbol: unk_805415d4
-// PAL: 0x805415d4..0x805415e4
-MARK_BINARY_BLOB(unk_805415d4, 0x805415d4, 0x805415e4);
-asm UNKNOWN_FUNCTION(unk_805415d4) {
-  // clang-format off
-  nofralloc;
-  mulli r0, r4, 0x1c;
-  add r3, r3, r0;
-  addi r3, r3, 0x158;
-  b isLoaded__Q26System15MultiDvdArchiveFv;
-  // clang-format on
+bool ResourceManager::isMultiArchive3Loaded(int idx) {
+  return this->multiArchives3[idx].isLoaded();
 }
 
-// Symbol: unk_805415e4
-// PAL: 0x805415e4..0x80541614
-MARK_BINARY_BLOB(unk_805415e4, 0x805415e4, 0x80541614);
-asm UNKNOWN_FUNCTION(unk_805415e4) {
-  // clang-format off
-  nofralloc;
-  mulli r0, r4, 0x24;
-  li r4, 1;
-  add r3, r3, r0;
-  lwz r0, 0x2c8(r3);
-  cmpwi r0, 4;
-  beq lbl_8054160c;
-  lwz r0, 0x2c8(r3);
-  cmpwi r0, 5;
-  beq lbl_8054160c;
-  li r4, 0;
-lbl_8054160c:
-  mr r3, r4;
-  blr;
-  // clang-format on
+bool ResourceManager::isDvdArchiveLoaded(int idx) {
+  return this->dvdArchives[idx].isLoaded();
 }
-
-namespace System {
 
 void* ResourceManager::getArchiveStart(ResourceChannelID resId,
                                        u32 archiveIdx) {
@@ -927,52 +812,17 @@ lbl_80541724:
   // clang-format on
 }
 
-// Symbol: unk_80541738
-// PAL: 0x80541738..0x80541794
-MARK_BINARY_BLOB(unk_80541738, 0x80541738, 0x80541794);
-asm UNKNOWN_FUNCTION(unk_80541738) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  slwi r31, r4, 2;
-  stw r30, 8(r1);
-  mr r30, r3;
-  lwz r5, 4(r3);
-  lwzx r3, r5, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_80541778;
-  lwz r3, 4(r30);
-  lwzx r3, r3, r31;
-  lhz r3, 8(r3);
-  b lbl_8054177c;
-lbl_80541778:
-  li r3, 0;
-lbl_8054177c:
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+namespace System {
+u16 ResourceManager::getLoadedArchiveCount(int idx) {
+  return this->multiArchives1[idx]->isLoaded()
+             ? this->multiArchives1[idx]->archiveCount
+             : 0;
 }
 
-// Symbol: ResourceManager_getMenuArchiveCount
-// PAL: 0x80541794..0x805417a4
-MARK_BINARY_BLOB(ResourceManager_getMenuArchiveCount, 0x80541794, 0x805417a4);
-asm UNKNOWN_FUNCTION(ResourceManager_getMenuArchiveCount) {
-  // clang-format off
-  nofralloc;
-  lwz r3, 4(r3);
-  lwz r3, 8(r3);
-  lhz r3, 8(r3);
-  blr;
-  // clang-format on
+u16 ResourceManager::getMenuArchiveCount() {
+  return this->multiArchives1[2]->archiveCount;
 }
+} // namespace System
 
 // Symbol: unk_805417a4
 // PAL: 0x805417a4..0x80541878
@@ -1150,6 +1000,10 @@ asm UNKNOWN_FUNCTION(ResourceManager_preloadCourseTask) {
   b unk_80541b58;
   // clang-format on
 }
+/*namespace System {
+void ResourceManager::preloadCourseTask(u32 courseId) {
+ResourceManager::spInstance->courseCache.load(courseId); }
+}*/
 
 // Symbol: ResourceManager_preloadCourseAsync
 // PAL: 0x805419ac..0x805419c8

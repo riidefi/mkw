@@ -257,7 +257,7 @@ public:
   MultiDvdArchive** multiArchives1;
   MultiDvdArchive multiArchives2[12];
   MultiDvdArchive multiArchives3[12];
-  DvdArchive dvdArchive[4];
+  DvdArchive dvdArchives[4];
   JobContext jobContexts[7];
   EGG::TaskThread* taskThread;
   CourseCache courseCache;
@@ -316,8 +316,19 @@ public:
   void* getFile(s32 archiveIdx, const char* filename, size_t* size);
   void* getCharacterFile(CharacterId characterId, size_t* size);
   void* getVehicleFile(s32 archiveIdx, VehicleId vehicleId, size_t* size);
+  // TODO: Better name
+  void* getMultiFile2(u16 idx, const char* filename, size_t* size);
+  void* getMultiFile3(u16 idx, const char* filename, size_t* size);
   void* getFileCopy(s32 archiveIdx, char* filename, EGG::Heap* heap,
                     size_t* size, s8 param_5);
+  // TODO: Better names
+  bool isMultiArchive1Loaded(int idx);
+  bool isMultiArchive2Loaded(int idx);
+  bool isMultiArchive3Loaded(int idx);
+  bool isDvdArchiveLoaded(int idx);
+  u16 getLoadedArchiveCount(int idx);
+  u16 getMenuArchiveCount();
+  // static void preloadCourseTask(u32 courseId);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
