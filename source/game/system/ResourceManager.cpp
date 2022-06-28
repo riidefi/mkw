@@ -392,7 +392,7 @@ MultiDvdArchive* ResourceManager::load(ResourceChannelID channelId,
     filename = RESOURCES[channelId];
   }
 
-  if (!multiArchives1[channelId]->isLoaded() && filename[0]) {
+  if (!isMultiArchive1Loaded(channelId) && filename[0]) {
     requestLoad(0, this->multiArchives1[channelId], filename, archiveHeap);
   }
 
@@ -401,7 +401,7 @@ MultiDvdArchive* ResourceManager::load(ResourceChannelID channelId,
 
 DvdArchive* ResourceManager::loadSystemResource(s32 idx,
                                                 EGG::Heap* archiveHeap) {
-  if (!dvdArchives[idx].isLoaded()) {
+  if (!isDvdArchiveLoaded(idx)) {
     const char* resourcePath = Resource::GetResourcePath((eSystemResource)idx);
     if (resourcePath[0] != 0) {
       requestLoadFile(
@@ -414,7 +414,7 @@ DvdArchive* ResourceManager::loadSystemResource(s32 idx,
 
 MultiDvdArchive* ResourceManager::loadUI(const char* filename,
                                          EGG::Heap* archiveHeap) {
-  if (!this->multiArchives1[2]->isLoaded() && filename) {
+  if (!isMultiArchive1Loaded(2) && filename) {
     requestLoad(1, this->multiArchives1[2], filename, archiveHeap);
   }
   return this->multiArchives1[2];
@@ -425,7 +425,7 @@ MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId,
                                              bool splitScreen) {
   char courseName[128];
 
-  if (!this->multiArchives1[1]->isLoaded()) {
+  if (!isMultiArchive1Loaded(1)) {
     this->multiArchives1[1]->init();
     if (!splitScreen && this->courseCache.mState == 2 &&
         courseId == this->courseCache.mCourseId) {
@@ -456,7 +456,7 @@ MultiDvdArchive* ResourceManager::loadMission(CourseId courseId, s32 missionNum,
   char missionPath[128];
   char courseName[128];
 
-  if (!this->multiArchives1[1]->isLoaded()) {
+  if (!isMultiArchive1Loaded(1)) {
     this->multiArchives1[1]->init();
     snprintf(missionPath, sizeof(missionPath), "Race/MissionRun/mr%02d.szs",
              missionNum);
@@ -495,7 +495,7 @@ MultiDvdArchive* ResourceManager::loadCompetition(CourseId courseId,
   char competitionPath[128];
   char courseName[128];
 
-  if (!this->multiArchives1[1]->isLoaded()) {
+  if (!isMultiArchive1Loaded(1)) {
     this->multiArchives1[1]->init();
 
     u16 objCount = 1;
@@ -591,7 +591,7 @@ MultiDvdArchive* ResourceManager::loadMenuKartModel(s32 archiveIdx,
   const char* characterName;
   char buffer[128];
 
-  if (!multiArchives2[archiveIdx].isLoaded()) {
+  if (!isMultiArchive2Loaded(archiveIdx)) {
     if (battleTeam == 2) { // not in battle mode
       characterName = getCharacterName(characterId);
       snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart",
@@ -618,7 +618,7 @@ void ResourceManager::unmountArchive(s32 archiveIdx) {
 
 void* ResourceManager::getFile(s32 archiveIdx, const char* filename,
                                size_t* size) {
-  return (multiArchives1[archiveIdx]->isLoaded())
+  return isMultiArchive1Loaded(archiveIdx)
              ? multiArchives1[archiveIdx]->getFile(filename, size)
              : nullptr;
 }
@@ -626,7 +626,7 @@ void* ResourceManager::getFile(s32 archiveIdx, const char* filename,
 void* ResourceManager::getCharacterFile(CharacterId characterId, size_t* size) {
   char buffer[128];
 
-  if (!multiArchives1[6]->isLoaded()) {
+  if (!isMultiArchive1Loaded(6)) {
     return nullptr;
   }
   const char* character = getCharacterName(characterId);
@@ -639,7 +639,7 @@ void* ResourceManager::getVehicleFile(s32 archiveIdx, VehicleId vehicleId,
                                       size_t* size) {
   char buffer[128];
 
-  if (!multiArchives2[archiveIdx].isLoaded()) {
+  if (!isMultiArchive2Loaded(archiveIdx)) {
     return nullptr;
   }
   const char* vehicle = getVehicleName(vehicleId);
@@ -648,16 +648,16 @@ void* ResourceManager::getVehicleFile(s32 archiveIdx, VehicleId vehicleId,
   return multiArchives2[archiveIdx].getFile(buffer, size);
 }
 
-void* ResourceManager::getMultiFile2(u16 idx, const char* filename,
+void* ResourceManager::getMultiFile2(s32 idx, const char* filename,
                                      size_t* size) {
-  return this->multiArchives2[idx].isLoaded()
+  return isMultiArchive2Loaded(idx)
              ? this->multiArchives2[idx].getFile(filename, size)
              : nullptr;
 }
 
-void* ResourceManager::getMultiFile3(u16 idx, const char* filename,
+void* ResourceManager::getMultiFile3(s32 idx, const char* filename,
                                      size_t* size) {
-  return this->multiArchives3[idx].isLoaded()
+  return isMultiArchive3Loaded(idx)
              ? this->multiArchives3[idx].getFile(filename, size)
              : nullptr;
 }
@@ -666,6 +666,7 @@ void* ResourceManager::getMultiFile3(u16 idx, const char* filename,
 // Symbol: ResourceManager_loadBSP
 // PAL: 0x805414a8..0x8054155c
 // Notes: requires Racedata decomp
+
 MARK_BINARY_BLOB(ResourceManager_loadBSP, 0x805414a8, 0x8054155c);
 asm UNKNOWN_FUNCTION(ResourceManager_loadBSP) {
   // clang-format off
@@ -723,33 +724,33 @@ lbl_80541544:
 }
 
 namespace System {
+
 void* ResourceManager::getFileCopy(s32 archiveIdx, char* filename,
                                    EGG::Heap* heap, size_t* size, s8 param_5) {
-  return (!dvdArchives[archiveIdx].isLoaded())
-             ? 0
-             : dvdArchives[archiveIdx].getFileCopy(filename, heap, size,
-                                                   param_5);
+  return !isDvdArchiveLoaded(archiveIdx) ? nullptr
+                                         : dvdArchives[archiveIdx].getFileCopy(
+                                               filename, heap, size, param_5);
 }
 
-bool ResourceManager::isMultiArchive1Loaded(int idx) {
+bool ResourceManager::isMultiArchive1Loaded(s32 idx) {
   return this->multiArchives1[idx]->isLoaded();
 }
 
-bool ResourceManager::isMultiArchive2Loaded(int idx) {
+bool ResourceManager::isMultiArchive2Loaded(s32 idx) {
   return this->multiArchives2[idx].isLoaded();
 }
 
-bool ResourceManager::isMultiArchive3Loaded(int idx) {
+bool ResourceManager::isMultiArchive3Loaded(s32 idx) {
   return this->multiArchives3[idx].isLoaded();
 }
 
-bool ResourceManager::isDvdArchiveLoaded(int idx) {
+bool ResourceManager::isDvdArchiveLoaded(s32 idx) {
   return this->dvdArchives[idx].isLoaded();
 }
 
 void* ResourceManager::getArchiveStart(ResourceChannelID resId,
                                        u32 archiveIdx) {
-  if (!this->multiArchives1[resId]->isLoaded()) {
+  if (!isMultiArchive1Loaded(resId)) {
     return nullptr;
   } else if (archiveIdx < this->multiArchives1[resId]->archiveCount) {
     return this->multiArchives1[resId]->archives[archiveIdx].mArchiveStart;
@@ -813,15 +814,16 @@ lbl_80541724:
 }
 
 namespace System {
-u16 ResourceManager::getLoadedArchiveCount(int idx) {
-  return this->multiArchives1[idx]->isLoaded()
-             ? this->multiArchives1[idx]->archiveCount
-             : 0;
+
+u16 ResourceManager::getLoadedArchiveCount(s32 idx) {
+  return isMultiArchive1Loaded(idx) ? this->multiArchives1[idx]->archiveCount
+                                    : 0;
 }
 
 u16 ResourceManager::getMenuArchiveCount() {
   return this->multiArchives1[2]->archiveCount;
 }
+
 } // namespace System
 
 // Symbol: unk_805417a4
@@ -987,6 +989,15 @@ lbl_80541978:
   // clang-format on
 }
 
+#ifdef NON_MATCHING
+namespace System {
+
+void ResourceManager::preloadCourseTask(u32 courseId) {
+  ResourceManager::spInstance->courseCache.load(courseId);
+}
+
+} // namespace System
+#else
 // Symbol: ResourceManager_preloadCourseTask
 // PAL: 0x80541998..0x805419ac
 MARK_BINARY_BLOB(ResourceManager_preloadCourseTask, 0x80541998, 0x805419ac);
@@ -1000,10 +1011,7 @@ asm UNKNOWN_FUNCTION(ResourceManager_preloadCourseTask) {
   b unk_80541b58;
   // clang-format on
 }
-/*namespace System {
-void ResourceManager::preloadCourseTask(u32 courseId) {
-ResourceManager::spInstance->courseCache.load(courseId); }
-}*/
+#endif
 
 // Symbol: ResourceManager_preloadCourseAsync
 // PAL: 0x805419ac..0x805419c8
@@ -1024,11 +1032,11 @@ asm UNKNOWN_FUNCTION(ResourceManager_preloadCourseAsync) {
 namespace System {
 
 const char* getCharacterName(CharacterId charId) {
-  return (charId >= CHAR_NAMES_SIZE) ? nullptr : CHARACTER_NAMES[charId];
+  return charId >= CHAR_NAMES_SIZE ? nullptr : CHARACTER_NAMES[charId];
 }
 
 const char* getVehicleName(VehicleId vehicleId) {
-  return (vehicleId >= VEHICLE_NAMES_SIZE) ? nullptr : VEHICLE_NAMES[vehicleId];
+  return vehicleId >= VEHICLE_NAMES_SIZE ? nullptr : VEHICLE_NAMES[vehicleId];
 }
 
 CourseCache::CourseCache() {
@@ -1067,11 +1075,9 @@ void CourseCache::load(s32 courseId) {
   }
   mState = 1;
 
-  snprintf(buffer, sizeof(buffer), "Race/Course/%s", TRACK_NAMES[mCourseId]);
+  snprintf(buffer, sizeof(buffer), "Race/Course/%s", COURSE_NAMES[mCourseId]);
   mArchive->rip(buffer, mHeap);
 
-  // something is wrong - this matches but requires rippedArchiveCount() to
-  // return s32, which almost certainly breaks MultiDvdArchive
   if ((u16)mArchive->rippedArchiveCount()) {
     mState = 2;
   } else {

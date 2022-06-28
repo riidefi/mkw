@@ -201,7 +201,7 @@ public:
   CourseCache();
   void init();
   virtual ~CourseCache();
-  void load(u32 courseId);
+  void load(s32 courseId);
   void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
 
   // private: // idk if rii prefers to befriend every class over public-ing
@@ -317,18 +317,18 @@ public:
   void* getCharacterFile(CharacterId characterId, size_t* size);
   void* getVehicleFile(s32 archiveIdx, VehicleId vehicleId, size_t* size);
   // TODO: Better name
-  void* getMultiFile2(u16 idx, const char* filename, size_t* size);
-  void* getMultiFile3(u16 idx, const char* filename, size_t* size);
+  void* getMultiFile2(s32 idx, const char* filename, size_t* size);
+  void* getMultiFile3(s32 idx, const char* filename, size_t* size);
   void* getFileCopy(s32 archiveIdx, char* filename, EGG::Heap* heap,
                     size_t* size, s8 param_5);
   // TODO: Better names
-  bool isMultiArchive1Loaded(int idx);
-  bool isMultiArchive2Loaded(int idx);
-  bool isMultiArchive3Loaded(int idx);
-  bool isDvdArchiveLoaded(int idx);
-  u16 getLoadedArchiveCount(int idx);
+  bool isMultiArchive1Loaded(s32 idx);
+  bool isMultiArchive2Loaded(s32 idx);
+  bool isMultiArchive3Loaded(s32 idx);
+  bool isDvdArchiveLoaded(s32 idx);
+  u16 getLoadedArchiveCount(s32 idx);
   u16 getMenuArchiveCount();
-  // static void preloadCourseTask(u32 courseId);
+  // static void preloadCourseTask(s32 courseId);
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
