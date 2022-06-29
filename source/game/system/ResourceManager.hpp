@@ -281,7 +281,7 @@ public:
     _614 = 0;
     isGlobeLoadingBusy = false;
   }
-
+  
   MultiDvdArchive* load(ResourceChannelID channelId, EGG::Heap* archiveHeap,
                         const char* filename);
   DvdArchive* loadSystemResource(s32 idx, EGG::Heap* archiveHeap);

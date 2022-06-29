@@ -999,7 +999,6 @@ lbl_80541978:
   // clang-format on
 }
 
-//#ifdef NON_MATCHING
 namespace System {
 
 // force not inline CourseCache::load
