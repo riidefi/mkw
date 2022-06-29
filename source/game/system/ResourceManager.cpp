@@ -661,12 +661,18 @@ void* ResourceManager::getMultiFile3(s32 idx, const char* filename,
              ? this->multiArchives3[idx].getFile(filename, size)
              : nullptr;
 }
+
+void* ResourceManager::getBspFile(s32 playerIdx, size_t* size) {
+  char buffer[32];
+
+  const char* vehicle = getVehicleName((VehicleId)RaceConfig::spInstance->raceScenario.players[playerIdx].vehicleId);
+  snprintf(buffer, sizeof(buffer), "/bsp/%s.bsp", vehicle);
+
+  return (isMultiArchive1Loaded(0)) ? multiArchives1[0]->getFile(buffer, size) : nullptr;
+}
+
 } // namespace System
-
-// Symbol: ResourceManager_loadBSP
-// PAL: 0x805414a8..0x8054155c
-// Notes: requires Racedata decomp
-
+/* #else
 MARK_BINARY_BLOB(ResourceManager_loadBSP, 0x805414a8, 0x8054155c);
 asm UNKNOWN_FUNCTION(ResourceManager_loadBSP) {
   // clang-format off
@@ -722,6 +728,7 @@ lbl_80541544:
   blr;
   // clang-format on
 }
+#endif */
 
 namespace System {
 
@@ -1008,7 +1015,7 @@ asm UNKNOWN_FUNCTION(ResourceManager_preloadCourseTask) {
   mr r4, r3;
   lwz r3, 0(r5);
   addi r3, r3, 0x588;
-  b unk_80541b58;
+  b load__Q26System11CourseCacheFl;
   // clang-format on
 }
 #endif
@@ -1059,11 +1066,6 @@ CourseCache::~CourseCache() {
   }
 }
 
-} // namespace System
-
-#ifdef NON_MATCHING // requires rodata to work
-namespace System {
-
 void CourseCache::load(s32 courseId) {
   if (!mHeap)
     return;
@@ -1085,71 +1087,6 @@ void CourseCache::load(s32 courseId) {
     mState = 0;
   }
 }
-
-} // namespace System
-#else
-// Symbol: unk_80541b58
-// PAL: 0x80541b58..0x80541c18
-MARK_BINARY_BLOB(unk_80541b58, 0x80541b58, 0x80541c18);
-asm UNKNOWN_FUNCTION(unk_80541b58) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x90(r1);
-  mflr r0;
-  stw r0, 0x94(r1);
-  stw r31, 0x8c(r1);
-  mr r31, r3;
-  lwz r0, 0x14(r3);
-  cmpwi r0, 0;
-  beq lbl_80541c04;
-  lwz r0, 0x1c(r3);
-  stw r4, 0x18(r3);
-  cmpwi r0, 2;
-  bne lbl_80541b90;
-  lwz r3, 0x20(r3);
-  bl clear__Q26System15MultiDvdArchiveFv;
-lbl_80541b90:
-  lwz r0, 0x18(r31);
-  li r3, 1;
-  lis r4, 0;
-  stw r3, 0x1c(r31);
-  lis r5, 0;
-  slwi r0, r0, 2;
-  addi r4, r4, 0;
-  addi r3, r1, 8;
-  addi r5, r5, 0;
-  lwzx r6, r4, r0;
-  addi r5, r5, 0x12c;
-  li r4, 0x80;
-  crclr 6;
-  bl unk_805553b0;
-  lwz r3, 0x20(r31);
-  addi r4, r1, 8;
-  lwz r5, 0x14(r31);
-  bl rip__Q26System15MultiDvdArchiveFPCcPQ23EGG4Heap;
-  lwz r3, 0x20(r31);
-  bl rippedArchiveCount__Q26System15MultiDvdArchiveFv;
-  clrlwi. r0, r3, 0x10;
-  beq lbl_80541bf4;
-  li r0, 2;
-  stw r0, 0x1c(r31);
-  b lbl_80541c04;
-lbl_80541bf4:
-  lwz r3, 0x20(r31);
-  bl clear__Q26System15MultiDvdArchiveFv;
-  li r0, 0;
-  stw r0, 0x1c(r31);
-lbl_80541c04:
-  lwz r0, 0x94(r1);
-  lwz r31, 0x8c(r1);
-  mtlr r0;
-  addi r1, r1, 0x90;
-  blr;
-  // clang-format on
-}
-#endif
-
-namespace System {
 
 void CourseCache::loadOther(MultiDvdArchive* other, EGG::Heap* heap) {
   if (mState != 2)

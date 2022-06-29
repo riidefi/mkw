@@ -9,6 +9,7 @@
 #include <game/system/DvdArchive.hpp>
 #include <game/system/LocalizedArchive.hpp>
 #include <game/system/MultiDvdArchive.hpp>
+#include <game/system/RaceConfig.hpp>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -114,7 +115,7 @@ UNKNOWN_FUNCTION(unk_80541a70);
 // PAL: 0x80541ac4..0x80541b58
 UNKNOWN_FUNCTION(unk_80541ac4);
 // PAL: 0x80541b58..0x80541c18
-UNKNOWN_FUNCTION(unk_80541b58);
+UNKNOWN_FUNCTION(load__Q26System11CourseCacheFl);
 // PAL: 0x80541c18..0x80541c38
 UNKNOWN_FUNCTION(unk_80541c18);
 // PAL: 0x80541c38..0x80541c48
@@ -278,7 +279,7 @@ public:
     _614 = 0;
     isGlobeLoadingBusy = false;
   }
-
+  
   MultiDvdArchive* load(ResourceChannelID channelId, EGG::Heap* archiveHeap,
                         const char* filename);
   DvdArchive* loadSystemResource(s32 idx, EGG::Heap* archiveHeap);
@@ -320,6 +321,7 @@ public:
   // TODO: Better name
   void* getMultiFile2(s32 idx, const char* filename, size_t* size);
   void* getMultiFile3(s32 idx, const char* filename, size_t* size);
+  void* getBspFile(s32 playerIdx, size_t* size);
   void* getFileCopy(s32 archiveIdx, char* filename, EGG::Heap* heap,
                     size_t* size, s8 param_5);
   // TODO: Better names
@@ -329,7 +331,7 @@ public:
   bool isDvdArchiveLoaded(s32 idx);
   u16 getLoadedArchiveCount(s32 idx);
   u16 getMenuArchiveCount();
-  // static void preloadCourseTask(s32 courseId);
+  static void preloadCourseTask(s32 courseId);
   void clear();
   void process();
   static void doLoadTask(void* jobContext);
