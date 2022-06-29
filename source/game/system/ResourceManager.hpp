@@ -187,7 +187,8 @@ struct T {
 };
 
 class MenuCharacterManager : S, T {
-friend class ResourceManager;
+  friend class ResourceManager;
+
 public:
   MenuCharacterManager() {
     mCharacter = 0;
@@ -196,23 +197,6 @@ public:
   virtual ~MenuCharacterManager() {}
   s32 mCharacter;
   s32 mModelType;
-};
-
-class CourseCache : EGG::Disposer {
-public:
-  CourseCache();
-  void init();
-  virtual ~CourseCache();
-  void load(s32 courseId);
-  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
-
-  // private: // idk if rii prefers to befriend every class over public-ing
-  // everything
-  void* mBuffer;
-  EGG::ExpHeap* mHeap;
-  s32 mCourseId;
-  s32 mState;
-  MultiDvdArchive* mArchive;
 };
 
 // Enums that represent indices in vehicle name specifiers arrays.
@@ -242,6 +226,24 @@ typedef enum {
   // TODO: Fill
 } CourseId;
 
+class CourseCache : EGG::Disposer {
+public:
+  CourseCache();
+  void init();
+  virtual ~CourseCache();
+  void load(CourseId courseId);
+  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
+
+  // private: // idk if rii prefers to befriend every class over public-ing
+  // everything
+  void* mBuffer;
+  EGG::ExpHeap* mHeap;
+  s32 mCourseId;
+  s32 mState;
+  MultiDvdArchive* mArchive;
+};
+
+void preloadCourseTask(void* courseId);
 const char* getCharacterName(CharacterId charId);
 const char* getVehicleName(VehicleId vehicleId);
 
@@ -331,7 +333,7 @@ public:
   bool isDvdArchiveLoaded(s32 idx);
   u16 getLoadedArchiveCount(s32 idx);
   u16 getMenuArchiveCount();
-  static void preloadCourseTask(s32 courseId);
+  void preloadCourseAsync(CourseId courseId);
   void clear();
   void process();
   static void doLoadTask(void* jobContext);

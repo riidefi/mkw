@@ -665,10 +665,13 @@ void* ResourceManager::getMultiFile3(s32 idx, const char* filename,
 void* ResourceManager::getBspFile(s32 playerIdx, size_t* size) {
   char buffer[32];
 
-  const char* vehicle = getVehicleName((VehicleId)RaceConfig::spInstance->raceScenario.players[playerIdx].vehicleId);
+  const char* vehicle = getVehicleName(
+      (VehicleId)RaceConfig::spInstance->raceScenario.players[playerIdx]
+          .vehicleId);
   snprintf(buffer, sizeof(buffer), "/bsp/%s.bsp", vehicle);
 
-  return (isMultiArchive1Loaded(0)) ? multiArchives1[0]->getFile(buffer, size) : nullptr;
+  return (isMultiArchive1Loaded(0)) ? multiArchives1[0]->getFile(buffer, size)
+                                    : nullptr;
 }
 
 } // namespace System
@@ -996,47 +999,23 @@ lbl_80541978:
   // clang-format on
 }
 
-#ifdef NON_MATCHING
 namespace System {
 
-void ResourceManager::preloadCourseTask(u32 courseId) {
-  ResourceManager::spInstance->courseCache.load(courseId);
+// force not inline CourseCache::load
+#ifdef __CWCC__
+#pragma dont_inline on
+#endif
+void preloadCourseTask(void* courseId) {
+  ResourceManager::spInstance->courseCache.load((CourseId)courseId);
 }
-
-} // namespace System
-#else
-// Symbol: ResourceManager_preloadCourseTask
-// PAL: 0x80541998..0x805419ac
-MARK_BINARY_BLOB(ResourceManager_preloadCourseTask, 0x80541998, 0x805419ac);
-asm UNKNOWN_FUNCTION(ResourceManager_preloadCourseTask) {
-  // clang-format off
-  nofralloc;
-  lis r5, 0;
-  mr r4, r3;
-  lwz r3, 0(r5);
-  addi r3, r3, 0x588;
-  b load__Q26System11CourseCacheFl;
-  // clang-format on
-}
+#ifdef __CWCC__
+#pragma dont_inline off
 #endif
 
-// Symbol: ResourceManager_preloadCourseAsync
-// PAL: 0x805419ac..0x805419c8
-MARK_BINARY_BLOB(ResourceManager_preloadCourseAsync, 0x805419ac, 0x805419c8);
-asm UNKNOWN_FUNCTION(ResourceManager_preloadCourseAsync) {
-  // clang-format off
-  nofralloc;
-  lis r6, 0x1000;
-  lwz r3, 0x584(r3);
-  lis r7, 0;
-  mr r5, r4;
-  addi r4, r7, 0;
-  addi r6, r6, 2;
-  b unk_805553b0;
-  // clang-format on
+void ResourceManager::preloadCourseAsync(CourseId courseId) {
+  this->taskThread->request(preloadCourseTask, (void*)courseId,
+                            (void*)0x10000002);
 }
-
-namespace System {
 
 const char* getCharacterName(CharacterId charId) {
   return charId >= CHAR_NAMES_SIZE ? nullptr : CHARACTER_NAMES[charId];
@@ -1066,7 +1045,7 @@ CourseCache::~CourseCache() {
   }
 }
 
-void CourseCache::load(s32 courseId) {
+void CourseCache::load(CourseId courseId) {
   if (!mHeap)
     return;
   char buffer[128];
