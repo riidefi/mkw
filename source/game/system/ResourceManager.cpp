@@ -1763,66 +1763,18 @@ lbl_8054239c:
   // clang-format on
 }
 
-// Symbol: unk_805423bc
-// PAL: 0x805423bc..0x8054247c
-MARK_BINARY_BLOB(unk_805423bc, 0x805423bc, 0x8054247c);
-asm UNKNOWN_FUNCTION(unk_805423bc) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stmw r26, 8(r1);
-  mr r26, r3;
-  li r27, 0;
-  li r31, 0;
-lbl_805423d8:
-  clrlwi r0, r27, 0x18;
-  mulli r3, r0, 0x18;
-  add r28, r26, r3;
-  mulli r0, r0, 0x1c;
-  lwz r30, 0x5b0(r28);
-  add r3, r26, r0;
-  addi r29, r3, 8;
-  mr r3, r29;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_8054240c;
-  mr r3, r29;
-  bl unmount__Q26System15MultiDvdArchiveFv;
-lbl_8054240c:
-  cmpwi r30, 0;
-  beq lbl_80542428;
-  lwz r12, 0(r30);
-  mr r3, r30;
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-lbl_80542428:
-  lwz r0, 0x5b8(r28);
-  cmpwi r0, 3;
-  beq lbl_80542440;
-  stw r31, 0x5b0(r28);
-  stw r31, 0x5b4(r28);
-  stw r31, 0x5b8(r28);
-lbl_80542440:
-  addi r27, r27, 1;
-  cmplwi r27, 4;
-  blt lbl_805423d8;
-  lwz r3, 0x610(r26);
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  li r0, 0;
-  stw r0, 0x610(r26);
-  lmw r26, 8(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+namespace System {
+
+void ResourceManager::clear() {
+  for (u8 i = 0; i < 4; i++) {
+    clear(i);
+  }
+
+  this->_610->destroy();
+  this->_610 = nullptr;
 }
+
+} // namespace System
 
 // Symbol: unk_8054247c
 // PAL: 0x8054247c..0x8054248c

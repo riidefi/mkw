@@ -186,6 +186,7 @@ struct T {
 };
 
 class MenuCharacterManager : S, T {
+friend class ResourceManager;
 public:
   MenuCharacterManager() {
     mCharacter = 0;
@@ -261,7 +262,7 @@ public:
   JobContext jobContexts[7];
   EGG::TaskThread* taskThread;
   CourseCache courseCache;
-  MenuCharacterManager menuCharacterManager[4];
+  MenuCharacterManager menuManagers[4];
   bool isGlobeLoadingBusy;
   bool _60d; // these variables don't have names yet, but are used
   EGG::ExpHeap* _610;
@@ -329,6 +330,7 @@ public:
   u16 getLoadedArchiveCount(s32 idx);
   u16 getMenuArchiveCount();
   // static void preloadCourseTask(s32 courseId);
+  void clear();
   void process();
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
@@ -368,6 +370,26 @@ public:
 
     if (!archive->isLoaded()) {
       OSSleepMilliseconds(16);
+    }
+  }
+  inline void clear(s32 i) {
+    MultiDvdArchive* archive;
+    EGG::ExpHeap* heap;
+
+    heap = menuManagers[i].mHeap1;
+    archive = &multiArchives2[i];
+
+    if (archive->isLoaded()) {
+      archive->unmount();
+    }
+    if (heap) {
+      heap->destroy();
+    }
+
+    if (menuManagers[i]._unk != 3) {
+      menuManagers[i].mHeap1 = 0;
+      menuManagers[i].mHeap2 = 0;
+      menuManagers[i]._unk = 0;
     }
   }
 };
