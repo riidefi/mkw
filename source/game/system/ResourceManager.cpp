@@ -1076,17 +1076,8 @@ void CourseCache::loadOther(MultiDvdArchive* other, EGG::Heap* heap) {
 
 } // namespace System
 
-// Symbol: unk_80541c38
-// PAL: 0x80541c38..0x80541c48
-MARK_BINARY_BLOB(unk_80541c38, 0x80541c38, 0x80541c48);
-asm UNKNOWN_FUNCTION(unk_80541c38) {
-  // clang-format off
-  nofralloc;
-  lis r3, 0;
-  addi r3, r3, 0;
-  addi r3, r3, 0x13b;
-  blr;
-  // clang-format on
+char* _unk_getNullString() {
+  return "";
 }
 
 // Symbol: unk_80541c48
