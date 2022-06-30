@@ -9,6 +9,8 @@
 #pragma legacy_struct_alignment off
 
 extern RKScene* scenePtr;
+extern void ArcResourceLink_set(void* arcResource, void* archiveStart,
+                                const char* dirname);
 
 extern const char* EarthResourceListing;
 
@@ -768,62 +770,26 @@ void* ResourceManager::getArchiveStart(ResourceChannelID resId,
   return nullptr;
 }
 
-} // namespace System
+bool ResourceManager::setArcResourceLink(s32 multiIdx, u32 archiveIdx,
+                                         void* arcResource,
+                                         const char* dirname) {
+  void* archiveStart;
 
-// Symbol: unk_8054169c
-// PAL: 0x8054169c..0x80541738
-MARK_BINARY_BLOB(unk_8054169c, 0x8054169c, 0x80541738);
-asm UNKNOWN_FUNCTION(unk_8054169c) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stmw r27, 0xc(r1);
-  slwi r31, r4, 2;
-  mr r27, r3;
-  mr r28, r5;
-  mr r29, r6;
-  mr r30, r7;
-  lwz r8, 4(r3);
-  lwzx r3, r8, r31;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_805416dc;
-  li r3, 0;
-  b lbl_80541724;
-lbl_805416dc:
-  lwz r3, 4(r27);
-  lwzx r4, r3, r31;
-  lhz r0, 8(r4);
-  cmplw r28, r0;
-  bge lbl_80541720;
-  mr r3, r29;
-  bge lbl_8054170c;
-  mulli r0, r28, 0x24;
-  lwz r4, 4(r4);
-  add r4, r4, r0;
-  lwz r4, 8(r4);
-  b lbl_80541710;
-lbl_8054170c:
-  li r4, 0;
-lbl_80541710:
-  mr r5, r30;
-  bl unk_805553b0;
-  li r3, 1;
-  b lbl_80541724;
-lbl_80541720:
-  li r3, 0;
-lbl_80541724:
-  lmw r27, 0xc(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+  if (!multiArchives1[multiIdx]->isLoaded()) {
+    return false;
+  }
+
+  if (archiveIdx < multiArchives1[multiIdx]->archiveCount) {
+    archiveStart =
+        (archiveIdx < multiArchives1[multiIdx]->archiveCount)
+            ? multiArchives1[multiIdx]->archives[archiveIdx].mArchiveStart
+            : nullptr;
+    ArcResourceLink_set(arcResource, archiveStart, dirname);
+    return true;
+  }
+
+  return false;
 }
-
-namespace System {
 
 u16 ResourceManager::getLoadedArchiveCount(s32 idx) {
   return isMultiArchive1Loaded(idx) ? this->multiArchives1[idx]->archiveCount
@@ -1076,9 +1042,7 @@ void CourseCache::loadOther(MultiDvdArchive* other, EGG::Heap* heap) {
 
 } // namespace System
 
-char* _unk_getNullString() {
-  return "";
-}
+char* _unk_getNullString() { return ""; }
 
 // Symbol: unk_80541c48
 // PAL: 0x80541c48..0x80541cbc

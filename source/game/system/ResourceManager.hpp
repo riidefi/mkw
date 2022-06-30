@@ -281,7 +281,7 @@ public:
     _614 = 0;
     isGlobeLoadingBusy = false;
   }
-  
+
   MultiDvdArchive* load(ResourceChannelID channelId, EGG::Heap* archiveHeap,
                         const char* filename);
   DvdArchive* loadSystemResource(s32 idx, EGG::Heap* archiveHeap);
@@ -331,6 +331,8 @@ public:
   bool isMultiArchive2Loaded(s32 idx);
   bool isMultiArchive3Loaded(s32 idx);
   bool isDvdArchiveLoaded(s32 idx);
+  bool setArcResourceLink(s32 multiIdx, u32 archiveIdx, void* arcResource,
+                          const char* dirname);
   u16 getLoadedArchiveCount(s32 idx);
   u16 getMenuArchiveCount();
   void preloadCourseAsync(CourseId courseId);
