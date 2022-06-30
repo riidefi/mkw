@@ -11,6 +11,8 @@
 extern RKScene* scenePtr;
 extern void ArcResourceLink_set(void* arcResource, void* archiveStart,
                                 const char* dirname);
+extern void ArcResourceAccessor_attach(void* arcResourceAccessor,
+                                       void* archiveStart, const char* dirname);
 
 extern const char* EarthResourceListing;
 
@@ -800,76 +802,36 @@ u16 ResourceManager::getMenuArchiveCount() {
   return this->multiArchives1[2]->archiveCount;
 }
 
-} // namespace System
+void ResourceManager::attachArcResourceAccessor(void* arcResourceAccessor,
+                                                const char* dirname) {
+  // look, it's 6am, this horribleness matches perfectly and I'm tired
+  // ping me tomorrow to clean this up
+  void* archiveStart;
 
-// Symbol: unk_805417a4
-// PAL: 0x805417a4..0x80541878
-MARK_BINARY_BLOB(unk_805417a4, 0x805417a4, 0x80541878);
-asm UNKNOWN_FUNCTION(unk_805417a4) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r5;
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lwz r6, 4(r3);
-  lwz r3, 8(r6);
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_805417e4;
-  li r0, 0;
-  b lbl_80541808;
-lbl_805417e4:
-  lwz r3, 4(r29);
-  lwz r3, 8(r3);
-  lhz r0, 8(r3);
-  cmpwi r0, 0;
-  beq lbl_80541804;
-  lwz r3, 4(r3);
-  lwz r0, 8(r3);
-  b lbl_80541808;
-lbl_80541804:
-  li r0, 0;
-lbl_80541808:
-  cmpwi r0, 0;
-  beq lbl_8054185c;
-  lwz r3, 4(r29);
-  lwz r3, 8(r3);
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_8054182c;
-  li r4, 0;
-  b lbl_80541850;
-lbl_8054182c:
-  lwz r3, 4(r29);
-  lwz r3, 8(r3);
-  lhz r0, 8(r3);
-  cmpwi r0, 0;
-  beq lbl_8054184c;
-  lwz r3, 4(r3);
-  lwz r4, 8(r3);
-  b lbl_80541850;
-lbl_8054184c:
-  li r4, 0;
-lbl_80541850:
-  mr r3, r30;
-  mr r5, r31;
-  bl unk_805553b0;
-lbl_8054185c:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+  if (!isMultiArchive1Loaded(2)) {
+    archiveStart = nullptr;
+  } else if (multiArchives1[2]->archiveCount != 0) {
+    archiveStart = multiArchives1[2]->archives->mArchiveStart;
+  } else {
+    archiveStart = nullptr;
+  }
+
+  if (!archiveStart) {
+    return;
+  }
+
+  if (!isMultiArchive1Loaded(2)) {
+    archiveStart = nullptr;
+  } else if (multiArchives1[2]->archiveCount != 0) {
+    archiveStart = multiArchives1[2]->archives->mArchiveStart;
+  } else {
+    archiveStart = nullptr;
+  }
+  
+  ArcResourceAccessor_attach(arcResourceAccessor, archiveStart, dirname);
 }
+
+} // namespace System
 
 // Symbol: ResourceManager_attachLayoutDir
 // PAL: 0x80541878..0x80541998

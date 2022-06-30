@@ -335,6 +335,8 @@ public:
                           const char* dirname);
   u16 getLoadedArchiveCount(s32 idx);
   u16 getMenuArchiveCount();
+  void attachArcResourceAccessor(void* arcResourceAccessor,
+                                 const char* dirname);
   void preloadCourseAsync(CourseId courseId);
   void clear();
   void process();
