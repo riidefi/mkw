@@ -3,6 +3,8 @@
 #include <rvl/os/osThread.h>
 #include <game/host_system/SystemManager.hpp>
 #include <game/host_system/SystemResources.hpp>
+#include <egg/core/eggStreamDecomp.hpp>
+#include <egg/core/eggDvdRipper.hpp>
 #include <game/RKScene.hpp>
 
 #pragma dont_reuse_strings on
@@ -1643,7 +1645,7 @@ asm UNKNOWN_FUNCTION(unk_8054247c) {
 
 // Symbol: unk_8054248c
 // PAL: 0x8054248c..0x80542524
-MARK_BINARY_BLOB(unk_8054248c, 0x8054248c, 0x80542524);
+/*MARK_BINARY_BLOB(unk_8054248c, 0x8054248c, 0x80542524);
 asm UNKNOWN_FUNCTION(unk_8054248c) {
   // clang-format off
   nofralloc;
@@ -1686,7 +1688,29 @@ asm UNKNOWN_FUNCTION(unk_8054248c) {
   addi r1, r1, 0x40;
   blr;
   // clang-format on
+}*/
+
+namespace System {
+void ResourceManager::FUN_8054248c(EGG::Heap* globeHeap) {
+  EGG::LZStreamDecomp lzstream;
+
+  const char* globePath = Resource::GetResourcePath(SYS_RES_GLOBE);
+  EGG::Archive* globeArchive = (EGG::Archive*)EGG::Archive::loadFromDisc(
+      globePath, globeHeap, 0xffffffe0);
+  globeArchive =
+      EGG::Archive::mountNoFastGet(globeArchive, globeHeap, 0xffffffe0);
+
+  EGG::Archive::FileInfo globeInfo;
+  globeInfo.startOffset = 0;
+  globeInfo.length = 0;
+  globeArchive->getFile(EarthResourceListing, &globeInfo);
+  globePath = Resource::GetResourcePath(SYS_RES_GLOBE);
+
+  EGG::DvdRipper::loadToMainRAMDecomp(
+      globePath, &lzstream, 0, globeHeap, EGG::DvdRipper::ALLOC_DIR_TOP,
+      globeInfo.startOffset, globeInfo.length, 0x20000);
 }
+} // namespace System
 
 // Symbol: unk_80542524
 // PAL: 0x80542524..0x80542584

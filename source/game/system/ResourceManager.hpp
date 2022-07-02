@@ -341,6 +341,7 @@ public:
   void attachArcResourceAccessor(void* arcResourceAccessor,
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
+  static void FUN_8054248c(EGG::Heap* globeHeap);
   void clear();
   void process();
   static void doLoadTask(void* jobContext);
