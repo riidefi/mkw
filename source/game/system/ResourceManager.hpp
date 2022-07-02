@@ -270,12 +270,12 @@ public:
   bool _60d; // these variables don't have names yet, but are used
   EGG::ExpHeap* _610;
   EGG::Heap* _614;
-  bool _618;
-  bool _619;
+  bool requestPending;
+  bool requestsEnabled;
 
   void foo() volatile {
-    _618 = 0;
-    _619 = 1;
+    requestPending = false;
+    requestsEnabled = true;
   }
   void bar() volatile {
     _614 = 0;
@@ -335,6 +335,9 @@ public:
                           const char* dirname);
   u16 getLoadedArchiveCount(s32 idx);
   u16 getMenuArchiveCount();
+  bool tryRequestTask(EGG::TaskThread::TFunction mainFunction, void* arg);
+  bool requestTask(EGG::TaskThread::TFunction mainFunction, void* arg,
+                   void* _8);
   void attachArcResourceAccessor(void* arcResourceAccessor,
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);

@@ -827,7 +827,7 @@ void ResourceManager::attachArcResourceAccessor(void* arcResourceAccessor,
   } else {
     archiveStart = nullptr;
   }
-  
+
   ArcResourceAccessor_attach(arcResourceAccessor, archiveStart, dirname);
 }
 
@@ -1008,7 +1008,7 @@ char* _unk_getNullString() { return ""; }
 
 // Symbol: unk_80541c48
 // PAL: 0x80541c48..0x80541cbc
-MARK_BINARY_BLOB(unk_80541c48, 0x80541c48, 0x80541cbc);
+/*MARK_BINARY_BLOB(unk_80541c48, 0x80541c48, 0x80541cbc);
 asm UNKNOWN_FUNCTION(unk_80541c48) {
   // clang-format off
   nofralloc;
@@ -1045,11 +1045,11 @@ lbl_80541ca0:
   addi r1, r1, 0x10;
   blr;
   // clang-format on
-}
+}*/
 
 // Symbol: unk_80541cbc
 // PAL: 0x80541cbc..0x80541ce0
-MARK_BINARY_BLOB(unk_80541cbc, 0x80541cbc, 0x80541ce0);
+/*MARK_BINARY_BLOB(unk_80541cbc, 0x80541cbc, 0x80541ce0);
 asm UNKNOWN_FUNCTION(unk_80541cbc) {
   // clang-format off
   nofralloc;
@@ -1064,7 +1064,26 @@ lbl_80541cd8:
   li r3, 0;
   blr;
   // clang-format on
+}*/
+namespace System {
+bool ResourceManager::tryRequestTask(EGG::TaskThread::TFunction fun,
+                                     void* arg) {
+  bool res = this->requestTask(fun, arg, (void*)0x10000001);
+  if (res) {
+    this->process();
+  }
+  return res;
 }
+
+bool ResourceManager::requestTask(EGG::TaskThread::TFunction fun, void* arg,
+                                  void* _8) {
+  if (this->requestsEnabled) {
+    this->requestPending = true;
+    return this->taskThread->request(fun, arg, _8);
+  }
+  return false;
+}
+} // namespace System
 
 // Symbol: unk_80541ce0
 // PAL: 0x80541ce0..0x80541e44
