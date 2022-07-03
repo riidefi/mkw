@@ -341,9 +341,19 @@ public:
   void attachArcResourceAccessor(void* arcResourceAccessor,
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
-  static void doLoadGlobe(u8** glodeBlob);
+  static void doLoadGlobe(void* glodeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
+  // for matching purposes
+  inline bool requestGlobeTaskHelper(void* arg, void* arg2) volatile {
+    this->isGlobeLoadingBusy = true;
+    if (this->requestsEnabled) {
+      this->requestPending = true;
+      this->taskThread->request(ResourceManager::doLoadGlobe, arg, arg2);
+    }
+    return true;
+  }
   static u8* FUN_8054248c(EGG::Heap* globeHeap);
+  bool loadGlobeAsync(void* arg);
   void clear();
   void process();
   static void doLoadTask(void* jobContext);

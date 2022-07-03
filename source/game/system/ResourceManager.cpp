@@ -1609,53 +1609,21 @@ asm UNKNOWN_FUNCTION(unk_80542584) {
 }
 
 namespace System {
-void ResourceManager::doLoadGlobe(u8** globeBlob) {
-  ResourceManager::spInstance->doLoadGlobeImpl(globeBlob);
+void ResourceManager::doLoadGlobe(void* globeBlob) {
+  ResourceManager::spInstance->doLoadGlobeImpl((u8**)globeBlob);
 }
 
 void ResourceManager::doLoadGlobeImpl(u8** globeBlob) volatile {
   *globeBlob = ResourceManager::FUN_8054248c(this->globeHeap);
   this->isGlobeLoadingBusy = false;
 }
-} // namespace System
 
-// Symbol: unk_80542754
-// PAL: 0x80542754..0x805427bc
-MARK_BINARY_BLOB(unk_80542754, 0x80542754, 0x805427bc);
-asm UNKNOWN_FUNCTION(unk_80542754) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  mr r5, r4;
-  stw r0, 0x14(r1);
-  lbz r0, 0x60c(r3);
-  cmpwi r0, 0;
-  beq lbl_80542778;
-  li r3, 0;
-  b lbl_805427ac;
-lbl_80542778:
-  li r4, 1;
-  stb r4, 0x60c(r3);
-  lbz r0, 0x619(r3);
-  cmpwi r0, 0;
-  beq lbl_805427a8;
-  stb r4, 0x618(r3);
-  lis r4, 0;
-  lis r6, 0x1000;
-  lwz r3, 0x584(r3);
-  addi r4, r4, 0;
-  addi r6, r6, 4;
-  bl unk_805553b0;
-lbl_805427a8:
-  li r3, 1;
-lbl_805427ac:
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+bool ResourceManager::loadGlobeAsync(void* arg) {
+  return this->isGlobeLoadingBusy
+             ? false
+             : requestGlobeTaskHelper(arg, (void*)0x10000004);
 }
+} // namespace System
 
 // Symbol: SaveManager_loadStaffGhostAsync
 // PAL: 0x805427bc..0x80542868
