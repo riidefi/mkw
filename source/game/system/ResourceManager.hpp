@@ -251,10 +251,10 @@ class ResourceManager {
   virtual ~ResourceManager();
 
 public:
-  static ResourceManager* createInstance();
+  static volatile ResourceManager* createInstance();
   static void destroyInstance();
 
-  static ResourceManager* spInstance;
+  static volatile ResourceManager* spInstance;
 
   ResourceManager();
 
@@ -269,7 +269,7 @@ public:
   bool isGlobeLoadingBusy;
   bool _60d; // these variables don't have names yet, but are used
   EGG::ExpHeap* _610;
-  EGG::Heap* _614;
+  EGG::Heap* globeHeap;
   bool requestPending;
   bool requestsEnabled;
 
@@ -278,7 +278,7 @@ public:
     requestsEnabled = true;
   }
   void bar() volatile {
-    _614 = 0;
+    globeHeap = nullptr;
     isGlobeLoadingBusy = false;
   }
 
@@ -341,7 +341,9 @@ public:
   void attachArcResourceAccessor(void* arcResourceAccessor,
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
-  static void FUN_8054248c(EGG::Heap* globeHeap);
+  static void doLoadGlobe(u8** glodeBlob);
+  void doLoadGlobeImpl(u8** glodeBlob) volatile;
+  static u8* FUN_8054248c(EGG::Heap* globeHeap);
   void clear();
   void process();
   static void doLoadTask(void* jobContext);

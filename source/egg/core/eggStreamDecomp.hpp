@@ -16,10 +16,11 @@ namespace EGG {
 //!
 class StreamDecomp {
 public:
-  virtual bool init(void* dst, u32 maxCompressedSize) = 0;
-  virtual bool decomp(const void* src, u32 len) = 0;
-  virtual u32 getHeaderSize() = 0;
-  virtual u32 getUncompressedSize(const void* src) = 0;
+  virtual bool init(void* dst, u32 maxCompressedSize);
+  virtual bool decomp(const void* src, u32 len);
+  virtual u32 getHeaderSize();
+  virtual u32 getUncompressedSize(const void* src);
+  void foo();
 };
 
 class LZStreamDecomp : public StreamDecomp {
