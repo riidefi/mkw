@@ -125,7 +125,7 @@ UNKNOWN_FUNCTION(unk_80541c48);
 // PAL: 0x80541cbc..0x80541ce0
 UNKNOWN_FUNCTION(unk_80541cbc);
 // PAL: 0x80541ce0..0x80541e44
-UNKNOWN_FUNCTION(unk_80541ce0);
+// UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv);
 // PAL: 0x80541e44..0x80542030
 UNKNOWN_FUNCTION(unk_80541e44);
 // PAL: 0x80542030..0x80542210
@@ -341,6 +341,9 @@ public:
   void attachArcResourceAccessor(void* arcResourceAccessor,
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
+  void initGlobeHeap(size_t size, EGG::Heap* heap);
+  void flush() volatile;
+  void deinitGlobeHeap() volatile;
   static void doLoadGlobe(void* glodeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
   // for matching purposes

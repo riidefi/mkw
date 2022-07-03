@@ -18,6 +18,13 @@ extern void ArcResourceAccessor_attach(void* arcResourceAccessor,
 
 extern const char* EarthResourceListing;
 
+// TODO: Define externally
+struct GameScene {
+  u8 _00[0xc94 - 0x0];
+  HeapCollection dynamicHeaps;
+};
+extern "C" GameScene* getGameScene();
+
 // .rodata
 const char* RESOURCES[] = {
     // clang-format off
@@ -143,7 +150,7 @@ extern UNKNOWN_FUNCTION(getFileCopy__Q26System10DvdArchiveFPcPQ23EGG4HeapPUlSc);
 // PAL: 0x805192cc
 extern UNKNOWN_FUNCTION(unmount__Q26System10DvdArchiveFv);
 // PAL: 0x8051bed0
-extern UNKNOWN_FUNCTION(getGameScene);
+// extern UNKNOWN_FUNCTION(getGameScene);
 extern UNKNOWN_FUNCTION(
     createMultiDvdArchive__6SystemFQ26System17ResourceChannelID);
 extern UNKNOWN_FUNCTION(__ct__Q26System16CourseDvdArchiveFv);
@@ -970,8 +977,8 @@ bool ResourceManager::requestTask(EGG::TaskThread::TFunction fun, void* arg,
 
 // Symbol: unk_80541ce0
 // PAL: 0x80541ce0..0x80541e44
-MARK_BINARY_BLOB(unk_80541ce0, 0x80541ce0, 0x80541e44);
-asm UNKNOWN_FUNCTION(unk_80541ce0) {
+MARK_BINARY_BLOB(flush__Q26System15ResourceManagerFv, 0x80541ce0, 0x80541e44);
+asm UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1544,42 +1551,26 @@ u8* ResourceManager::FUN_8054248c(EGG::Heap* globeHeap) {
       globePath, &lzstream, 0, globeHeap, EGG::DvdRipper::ALLOC_DIR_TOP,
       globeInfo.startOffset, globeInfo.length, 0x20000);
 }
+
+void ResourceManager::initGlobeHeap(size_t size, EGG::Heap* heap) {
+  if (heap == nullptr) {
+    GameScene* gameScene = getGameScene();
+    heap = gameScene->dynamicHeaps.mpHeaps[1];
+  }
+  this->globeHeap = EGG::ExpHeap::create(size + 0x2041fU & 0xffffffe0, heap, 0);
+}
 } // namespace System
 
-// Symbol: unk_80542524
-// PAL: 0x80542524..0x80542584
-MARK_BINARY_BLOB(unk_80542524, 0x80542524, 0x80542584);
-asm UNKNOWN_FUNCTION(unk_80542524) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r5, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  bne lbl_80542550;
-  bl getGameScene;
-  lwz r5, 0xc98(r3);
-lbl_80542550:
-  addis r3, r31, 2;
-  mr r4, r5;
-  addi r0, r3, 0x41f;
-  li r5, 0;
-  rlwinm r3, r0, 0, 0, 0x1a;
-  bl unk_805553b0;
-  stw r3, 0x614(r30);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+#ifdef MATCHING
+namespace System {
+void ResourceManager::deinitGlobeHeap() volatile {
+  this->flush();
+  this->globeHeap->destroy();
+  this->globeHeap = nullptr;
+  this->isGlobeLoadingBusy = false;
 }
-
+} // namespace System
+#else
 // Symbol: unk_80542584
 // PAL: 0x80542584..0x805425d0
 MARK_BINARY_BLOB(unk_80542584, 0x80542584, 0x805425d0);
@@ -1591,7 +1582,7 @@ asm UNKNOWN_FUNCTION(unk_80542584) {
   stw r0, 0x14(r1);
   stw r31, 0xc(r1);
   mr r31, r3;
-  bl unk_80541ce0;
+  bl flush__Q26System15ResourceManagerFv;
   lwz r3, 0x614(r31);
   lwz r12, 0(r3);
   lwz r12, 0x1c(r12);
@@ -1607,6 +1598,7 @@ asm UNKNOWN_FUNCTION(unk_80542584) {
   blr;
   // clang-format on
 }
+#endif
 
 namespace System {
 void ResourceManager::doLoadGlobe(void* globeBlob) {
