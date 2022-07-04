@@ -15,6 +15,9 @@ extern void ArcResourceLink_set(void* arcResource, void* archiveStart,
                                 const char* dirname);
 extern void ArcResourceAccessor_attach(void* arcResourceAccessor,
                                        void* archiveStart, const char* dirname);
+extern void MultiArcResourceAccessor_attach(void* multiArcResourceAccessor,
+                                            void* param_2);
+// extern s16 getSlotForCourseId(System::CourseId courseId);
 
 extern const char* EarthResourceListing;
 
@@ -694,7 +697,7 @@ void* ResourceManager::getFileCopy(s32 archiveIdx, char* filename,
                                                filename, heap, size, param_5);
 }
 
-bool ResourceManager::isMultiArchive1Loaded(s32 idx) {
+bool ResourceManager::isMultiArchive1Loaded(s32 idx) volatile {
   return this->multiArchives1[idx]->isLoaded();
 }
 
@@ -720,7 +723,7 @@ void* ResourceManager::getArchiveStart(ResourceChannelID resId,
   return nullptr;
 }
 
-bool ResourceManager::setArcResourceLink(s32 multiIdx, u32 archiveIdx,
+bool ResourceManager::setArcResourceLink(s32 multiIdx, u16 archiveIdx,
                                          void* arcResource,
                                          const char* dirname) {
   void* archiveStart;
@@ -783,7 +786,7 @@ void ResourceManager::attachArcResourceAccessor(void* arcResourceAccessor,
 
 // Symbol: ResourceManager_attachLayoutDir
 // PAL: 0x80541878..0x80541998
-MARK_BINARY_BLOB(ResourceManager_attachLayoutDir, 0x80541878, 0x80541998);
+/*MARK_BINARY_BLOB(ResourceManager_attachLayoutDir, 0x80541878, 0x80541998);
 asm UNKNOWN_FUNCTION(ResourceManager_attachLayoutDir) {
   // clang-format off
   nofralloc;
@@ -873,9 +876,28 @@ lbl_80541978:
   addi r1, r1, 0x20;
   blr;
   // clang-format on
-}
+}*/
 
 namespace System {
+void ResourceManager::attatchLayoutDir(void* accessor, const char* dirname,
+                                       Whatever2* whatever2, bool param_5) {
+  if (!param_5) {
+    getGameScene();
+  }
+
+  for (u16 i = 0; i < this->getLoadedArchiveCountInverse(RES_CHAN_UI); i++) {
+    void* arcResource;
+    if (i < whatever2->_08) {
+      arcResource = &whatever2->_04[i];
+    } else {
+      arcResource = nullptr;
+    }
+
+    if (setArcResourceLink(RES_CHAN_UI, i, arcResource, dirname)) {
+      MultiArcResourceAccessor_attach(accessor, arcResource);
+    }
+  }
+}
 
 // force not inline CourseCache::load
 #ifdef __CWCC__
@@ -1617,6 +1639,23 @@ bool ResourceManager::loadGlobeAsync(void* arg) {
 }
 } // namespace System
 
+/*namespace System {
+void ResourceManager::loadStaffGhostAsync(GhostFileGroup::GhostGroupType
+ghostType, CourseId courseId, u8* destBuffer) { char filename[128];
+
+    s16 slot = getSlotForCourseId(courseId);
+    // TODO: 2->slow staff ghost
+    if (ghostType == 2) {
+        snprintf(filename, sizeof(filename),
+"/Race/TimeAttack/ghost1/ghost1_comp_%02d.rkg", (s32)slot); } else {
+        snprintf(filename, sizeof(filename),
+"/Race/TimeAttack/ghost2/ghost2_comp_%02d.rkg", (s32)slot);
+    }
+
+    SystemManager::sInstance->ripFromDiscAsync(filename, nullptr, true, nullptr,
+destBuffer);
+}
+}*/
 // Symbol: SaveManager_loadStaffGhostAsync
 // PAL: 0x805427bc..0x80542868
 MARK_BINARY_BLOB(SaveManager_loadStaffGhostAsync, 0x805427bc, 0x80542868);
