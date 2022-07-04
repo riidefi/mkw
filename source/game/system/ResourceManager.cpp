@@ -3,6 +3,8 @@
 #include <rvl/os/osThread.h>
 #include <game/host_system/SystemManager.hpp>
 #include <game/host_system/SystemResources.hpp>
+#include <egg/core/eggStreamDecomp.hpp>
+#include <egg/core/eggDvdRipper.hpp>
 #include <game/RKScene.hpp>
 
 #pragma dont_reuse_strings on
@@ -18,6 +20,13 @@ extern void MultiArcResourceAccessor_attach(void* multiArcResourceAccessor,
 // extern s16 getSlotForCourseId(System::CourseId courseId);
 
 extern const char* EarthResourceListing;
+
+// TODO: Define externally
+struct GameScene {
+  u8 _00[0xc94 - 0x0];
+  HeapCollection dynamicHeaps;
+};
+extern "C" GameScene* getGameScene();
 
 // .rodata
 const char* RESOURCES[] = {
@@ -144,7 +153,7 @@ extern UNKNOWN_FUNCTION(getFileCopy__Q26System10DvdArchiveFPcPQ23EGG4HeapPUlSc);
 // PAL: 0x805192cc
 extern UNKNOWN_FUNCTION(unmount__Q26System10DvdArchiveFv);
 // PAL: 0x8051bed0
-extern UNKNOWN_FUNCTION(getGameScene);
+// extern UNKNOWN_FUNCTION(getGameScene);
 extern UNKNOWN_FUNCTION(
     createMultiDvdArchive__6SystemFQ26System17ResourceChannelID);
 extern UNKNOWN_FUNCTION(__ct__Q26System16CourseDvdArchiveFv);
@@ -177,7 +186,7 @@ extern UNKNOWN_FUNCTION(unk_805553b0);
 
 namespace System {
 
-ResourceManager* ResourceManager::createInstance() {
+volatile ResourceManager* ResourceManager::createInstance() {
   if (spInstance == nullptr) {
     spInstance = new ResourceManager();
   }
@@ -209,7 +218,7 @@ System::ResourceManager::~ResourceManager() {
 }
 
 void ResourceManager::doLoadTask(void* jobContext) {
-  JobContext* context = &spInstance->jobContexts[(s32)jobContext];
+  JobContext* context = (JobContext*)&spInstance->jobContexts[(s32)jobContext];
 
   switch ((s32)jobContext) {
   case 6:
@@ -895,7 +904,8 @@ void ResourceManager::attatchLayoutDir(void* accessor, const char* dirname,
 #pragma dont_inline on
 #endif
 void preloadCourseTask(void* courseId) {
-  ResourceManager::spInstance->courseCache.load((CourseId)courseId);
+  ((ResourceManager*)ResourceManager::spInstance)
+      ->courseCache.load((CourseId)courseId);
 }
 #ifdef __CWCC__
 #pragma dont_inline off
@@ -967,70 +977,30 @@ void CourseCache::loadOther(MultiDvdArchive* other, EGG::Heap* heap) {
 
 char* _unk_getNullString() { return ""; }
 
-// Symbol: unk_80541c48
-// PAL: 0x80541c48..0x80541cbc
-MARK_BINARY_BLOB(unk_80541c48, 0x80541c48, 0x80541cbc);
-asm UNKNOWN_FUNCTION(unk_80541c48) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  stw r30, 8(r1);
-  mr r30, r3;
-  lbz r0, 0x619(r3);
-  cmpwi r0, 0;
-  beq lbl_80541c8c;
-  li r0, 1;
-  stb r0, 0x618(r3);
-  lis r6, 0x1000;
-  lwz r3, 0x584(r3);
-  addi r6, r6, 1;
-  bl unk_805553b0;
-  mr r31, r3;
-  b lbl_80541c90;
-lbl_80541c8c:
-  li r31, 0;
-lbl_80541c90:
-  cmpwi r31, 0;
-  beq lbl_80541ca0;
-  mr r3, r30;
-  bl process__Q26System15ResourceManagerFv;
-lbl_80541ca0:
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+namespace System {
+bool ResourceManager::tryRequestTask(EGG::TaskThread::TFunction fun,
+                                     void* arg) {
+  bool res = this->requestTask(fun, arg, (void*)0x10000001);
+  if (res) {
+    this->process();
+  }
+  return res;
 }
 
-// Symbol: unk_80541cbc
-// PAL: 0x80541cbc..0x80541ce0
-MARK_BINARY_BLOB(unk_80541cbc, 0x80541cbc, 0x80541ce0);
-asm UNKNOWN_FUNCTION(unk_80541cbc) {
-  // clang-format off
-  nofralloc;
-  lbz r0, 0x619(r3);
-  cmpwi r0, 0;
-  beq lbl_80541cd8;
-  li r0, 1;
-  stb r0, 0x618(r3);
-  lwz r3, 0x584(r3);
-  b unk_805553b0;
-lbl_80541cd8:
-  li r3, 0;
-  blr;
-  // clang-format on
+bool ResourceManager::requestTask(EGG::TaskThread::TFunction fun, void* arg,
+                                  void* _8) {
+  if (this->requestsEnabled) {
+    this->requestPending = true;
+    return this->taskThread->request(fun, arg, _8);
+  }
+  return false;
 }
+} // namespace System
 
 // Symbol: unk_80541ce0
 // PAL: 0x80541ce0..0x80541e44
-MARK_BINARY_BLOB(unk_80541ce0, 0x80541ce0, 0x80541e44);
-asm UNKNOWN_FUNCTION(unk_80541ce0) {
+MARK_BINARY_BLOB(flush__Q26System15ResourceManagerFv, 0x80541ce0, 0x80541e44);
+asm UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1583,87 +1553,46 @@ asm UNKNOWN_FUNCTION(unk_8054247c) {
   // clang-format on
 }
 
-// Symbol: unk_8054248c
-// PAL: 0x8054248c..0x80542524
-MARK_BINARY_BLOB(unk_8054248c, 0x8054248c, 0x80542524);
-asm UNKNOWN_FUNCTION(unk_8054248c) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x40(r1);
-  mflr r0;
-  lis r4, 0;
-  stw r0, 0x44(r1);
-  addi r4, r4, 0;
-  stw r31, 0x3c(r1);
-  mr r31, r3;
-  li r3, 3;
-  stw r4, 0x10(r1);
-  bl unk_805553b0;
-  mr r4, r31;
-  li r5, -32;
-  bl unk_805553b0;
-  mr r4, r31;
-  li r5, -32;
-  bl unk_805553b0;
-  lis r4, 0;
-  li r0, 0;
-  stw r0, 8(r1);
-  addi r5, r1, 8;
-  lwz r4, 0(r4);
-  stw r0, 0xc(r1);
-  bl unk_805553b0;
-  li r3, 3;
-  bl unk_805553b0;
-  lwz r8, 8(r1);
-  mr r6, r31;
-  lwz r9, 0xc(r1);
-  addi r4, r1, 0x10;
-  li r5, 0;
-  li r7, 1;
-  lis r10, 2;
-  bl unk_805553b0;
-  lwz r0, 0x44(r1);
-  lwz r31, 0x3c(r1);
-  mtlr r0;
-  addi r1, r1, 0x40;
-  blr;
-  // clang-format on
+namespace System {
+u8* ResourceManager::FUN_8054248c(EGG::Heap* globeHeap) {
+  EGG::LZStreamDecomp lzstream;
+
+  const char* globePath = Resource::GetResourcePath(SYS_RES_GLOBE);
+  EGG::Archive* globeArchive = (EGG::Archive*)EGG::Archive::loadFromDisc(
+      globePath, globeHeap, 0xffffffe0);
+  globeArchive =
+      EGG::Archive::mountNoFastGet(globeArchive, globeHeap, 0xffffffe0);
+
+  EGG::Archive::FileInfo globeInfo;
+  globeInfo.startOffset = 0;
+  globeInfo.length = 0;
+  globeArchive->getFile(EarthResourceListing, &globeInfo);
+  globePath = Resource::GetResourcePath(SYS_RES_GLOBE);
+
+  return EGG::DvdRipper::loadToMainRAMDecomp(
+      globePath, &lzstream, 0, globeHeap, EGG::DvdRipper::ALLOC_DIR_TOP,
+      globeInfo.startOffset, globeInfo.length, 0x20000);
 }
 
-// Symbol: unk_80542524
-// PAL: 0x80542524..0x80542584
-MARK_BINARY_BLOB(unk_80542524, 0x80542524, 0x80542584);
-asm UNKNOWN_FUNCTION(unk_80542524) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r5, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  bne lbl_80542550;
-  bl getGameScene;
-  lwz r5, 0xc98(r3);
-lbl_80542550:
-  addis r3, r31, 2;
-  mr r4, r5;
-  addi r0, r3, 0x41f;
-  li r5, 0;
-  rlwinm r3, r0, 0, 0, 0x1a;
-  bl unk_805553b0;
-  stw r3, 0x614(r30);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void ResourceManager::initGlobeHeap(size_t size, EGG::Heap* heap) {
+  if (heap == nullptr) {
+    GameScene* gameScene = getGameScene();
+    heap = gameScene->dynamicHeaps.mpHeaps[1];
+  }
+  this->globeHeap = EGG::ExpHeap::create(size + 0x2041fU & 0xffffffe0, heap, 0);
 }
+} // namespace System
 
+#ifdef MATCHING
+namespace System {
+void ResourceManager::deinitGlobeHeap() volatile {
+  this->flush();
+  this->globeHeap->destroy();
+  this->globeHeap = nullptr;
+  this->isGlobeLoadingBusy = false;
+}
+} // namespace System
+#else
 // Symbol: unk_80542584
 // PAL: 0x80542584..0x805425d0
 MARK_BINARY_BLOB(unk_80542584, 0x80542584, 0x805425d0);
@@ -1675,7 +1604,7 @@ asm UNKNOWN_FUNCTION(unk_80542584) {
   stw r0, 0x14(r1);
   stw r31, 0xc(r1);
   mr r31, r3;
-  bl unk_80541ce0;
+  bl flush__Q26System15ResourceManagerFv;
   lwz r3, 0x614(r31);
   lwz r12, 0(r3);
   lwz r12, 0x1c(r12);
@@ -1691,159 +1620,24 @@ asm UNKNOWN_FUNCTION(unk_80542584) {
   blr;
   // clang-format on
 }
+#endif
 
-// Symbol: unk_805425d0
-// PAL: 0x805425d0..0x80542694
-MARK_BINARY_BLOB(unk_805425d0, 0x805425d0, 0x80542694);
-asm UNKNOWN_FUNCTION(unk_805425d0) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x50(r1);
-  mflr r0;
-  lis r4, 0;
-  lis r5, 0;
-  stw r0, 0x54(r1);
-  addi r4, r4, 0;
-  stw r31, 0x4c(r1);
-  stw r30, 0x48(r1);
-  stw r29, 0x44(r1);
-  stw r28, 0x40(r1);
-  mr r28, r3;
-  li r3, 3;
-  lwz r29, 0(r5);
-  lwz r30, 0x614(r29);
-  stw r4, 0x10(r1);
-  bl unk_805553b0;
-  mr r4, r30;
-  li r5, -32;
-  bl unk_805553b0;
-  mr r4, r30;
-  li r5, -32;
-  bl unk_805553b0;
-  lis r4, 0;
-  li r31, 0;
-  stw r31, 8(r1);
-  addi r5, r1, 8;
-  lwz r4, 0(r4);
-  stw r31, 0xc(r1);
-  bl unk_805553b0;
-  li r3, 3;
-  bl unk_805553b0;
-  lwz r8, 8(r1);
-  mr r6, r30;
-  lwz r9, 0xc(r1);
-  addi r4, r1, 0x10;
-  li r5, 0;
-  li r7, 1;
-  lis r10, 2;
-  bl unk_805553b0;
-  stw r3, 0(r28);
-  stb r31, 0x60c(r29);
-  lwz r0, 0x54(r1);
-  lwz r31, 0x4c(r1);
-  lwz r30, 0x48(r1);
-  lwz r29, 0x44(r1);
-  lwz r28, 0x40(r1);
-  mtlr r0;
-  addi r1, r1, 0x50;
-  blr;
-  // clang-format on
+namespace System {
+void ResourceManager::doLoadGlobe(void* globeBlob) {
+  ResourceManager::spInstance->doLoadGlobeImpl((u8**)globeBlob);
 }
 
-// Symbol: unk_80542694
-// PAL: 0x80542694..0x80542754
-MARK_BINARY_BLOB(unk_80542694, 0x80542694, 0x80542754);
-asm UNKNOWN_FUNCTION(unk_80542694) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x50(r1);
-  mflr r0;
-  lis r5, 0;
-  stw r0, 0x54(r1);
-  addi r5, r5, 0;
-  stw r31, 0x4c(r1);
-  stw r30, 0x48(r1);
-  stw r29, 0x44(r1);
-  mr r29, r4;
-  stw r28, 0x40(r1);
-  mr r28, r3;
-  lwz r30, 0x614(r3);
-  li r3, 3;
-  stw r5, 0x10(r1);
-  bl unk_805553b0;
-  mr r4, r30;
-  li r5, -32;
-  bl unk_805553b0;
-  mr r4, r30;
-  li r5, -32;
-  bl unk_805553b0;
-  lis r4, 0;
-  li r31, 0;
-  stw r31, 8(r1);
-  addi r5, r1, 8;
-  lwz r4, 0(r4);
-  stw r31, 0xc(r1);
-  bl unk_805553b0;
-  li r3, 3;
-  bl unk_805553b0;
-  lwz r8, 8(r1);
-  mr r6, r30;
-  lwz r9, 0xc(r1);
-  addi r4, r1, 0x10;
-  li r5, 0;
-  li r7, 1;
-  lis r10, 2;
-  bl unk_805553b0;
-  stw r3, 0(r29);
-  stb r31, 0x60c(r28);
-  lwz r0, 0x54(r1);
-  lwz r31, 0x4c(r1);
-  lwz r30, 0x48(r1);
-  lwz r29, 0x44(r1);
-  lwz r28, 0x40(r1);
-  mtlr r0;
-  addi r1, r1, 0x50;
-  blr;
-  // clang-format on
+void ResourceManager::doLoadGlobeImpl(u8** globeBlob) volatile {
+  *globeBlob = ResourceManager::FUN_8054248c(this->globeHeap);
+  this->isGlobeLoadingBusy = false;
 }
 
-// Symbol: unk_80542754
-// PAL: 0x80542754..0x805427bc
-MARK_BINARY_BLOB(unk_80542754, 0x80542754, 0x805427bc);
-asm UNKNOWN_FUNCTION(unk_80542754) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  mr r5, r4;
-  stw r0, 0x14(r1);
-  lbz r0, 0x60c(r3);
-  cmpwi r0, 0;
-  beq lbl_80542778;
-  li r3, 0;
-  b lbl_805427ac;
-lbl_80542778:
-  li r4, 1;
-  stb r4, 0x60c(r3);
-  lbz r0, 0x619(r3);
-  cmpwi r0, 0;
-  beq lbl_805427a8;
-  stb r4, 0x618(r3);
-  lis r4, 0;
-  lis r6, 0x1000;
-  lwz r3, 0x584(r3);
-  addi r4, r4, 0;
-  addi r6, r6, 4;
-  bl unk_805553b0;
-lbl_805427a8:
-  li r3, 1;
-lbl_805427ac:
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+bool ResourceManager::loadGlobeAsync(void* arg) {
+  return this->isGlobeLoadingBusy
+             ? false
+             : requestGlobeTaskHelper(arg, (void*)0x10000004);
 }
+} // namespace System
 
 /*namespace System {
 void ResourceManager::loadStaffGhostAsync(GhostFileGroup::GhostGroupType

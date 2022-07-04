@@ -126,7 +126,7 @@ UNKNOWN_FUNCTION(unk_80541c48);
 // PAL: 0x80541cbc..0x80541ce0
 UNKNOWN_FUNCTION(unk_80541cbc);
 // PAL: 0x80541ce0..0x80541e44
-UNKNOWN_FUNCTION(unk_80541ce0);
+// UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv);
 // PAL: 0x80541e44..0x80542030
 UNKNOWN_FUNCTION(unk_80541e44);
 // PAL: 0x80542030..0x80542210
@@ -263,10 +263,10 @@ class ResourceManager {
   virtual ~ResourceManager();
 
 public:
-  static ResourceManager* createInstance();
+  static volatile ResourceManager* createInstance();
   static void destroyInstance();
 
-  static ResourceManager* spInstance;
+  static volatile ResourceManager* spInstance;
 
   ResourceManager();
 
@@ -281,16 +281,16 @@ public:
   bool isGlobeLoadingBusy;
   bool _60d; // these variables don't have names yet, but are used
   EGG::ExpHeap* _610;
-  EGG::Heap* _614;
-  bool _618;
-  bool _619;
+  EGG::Heap* globeHeap;
+  bool requestPending;
+  bool requestsEnabled;
 
   void foo() volatile {
-    _618 = 0;
-    _619 = 1;
+    requestPending = false;
+    requestsEnabled = true;
   }
   void bar() volatile {
-    _614 = 0;
+    globeHeap = nullptr;
     isGlobeLoadingBusy = false;
   }
 
@@ -353,11 +353,31 @@ public:
                : this->multiArchives1[idx]->archiveCount;
   }
   u16 getMenuArchiveCount();
+  bool tryRequestTask(EGG::TaskThread::TFunction mainFunction, void* arg);
+  bool requestTask(EGG::TaskThread::TFunction mainFunction, void* arg,
+                   void* _8);
+
   void attatchLayoutDir(void* accessor, const char* dirname, Whatever2* param_4,
                         bool param_5);
   void attachArcResourceAccessor(void* arcResourceAccessor,
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
+  void initGlobeHeap(size_t size, EGG::Heap* heap);
+  void flush() volatile;
+  void deinitGlobeHeap() volatile;
+  static void doLoadGlobe(void* glodeBlob);
+  void doLoadGlobeImpl(u8** glodeBlob) volatile;
+  // for matching purposes
+  inline bool requestGlobeTaskHelper(void* arg, void* arg2) volatile {
+    this->isGlobeLoadingBusy = true;
+    if (this->requestsEnabled) {
+      this->requestPending = true;
+      this->taskThread->request(ResourceManager::doLoadGlobe, arg, arg2);
+    }
+    return true;
+  }
+  static u8* FUN_8054248c(EGG::Heap* globeHeap);
+  bool loadGlobeAsync(void* arg);
   void clear();
   void process();
   static void doLoadTask(void* jobContext);
