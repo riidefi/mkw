@@ -155,7 +155,7 @@ UNKNOWN_FUNCTION(unk_80542754);
 UNKNOWN_FUNCTION(SaveManager_loadStaffGhostAsync);
 // PAL: 0x80542868..0x80542878
 UNKNOWN_FUNCTION(unk_80542868);
-
+UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv);
 #ifdef __cplusplus
 }
 #endif
@@ -215,7 +215,7 @@ public:
   EGG::ExpHeap* fileHeap;
   s32 _unk;
   inline bool SOME_CHECK() const {
-    return archiveHeap && ((_unk <= 4 && (((1 << _unk) & 0x15U) != 0)));
+    return archiveHeap && ((_unk <= 4u && (((1 << _unk) & 0x15U) != 0)));
   }
   inline void destroy() {
     if (SOME_CHECK()) {
@@ -279,6 +279,7 @@ public:
   static void destroyInstance();
 
   static volatile ResourceManager* spInstance;
+  static ResourceManager* spInstance_REAL;
 
   ResourceManager();
 
@@ -377,7 +378,7 @@ public:
   void initGlobeHeap(size_t size, EGG::Heap* heap);
   void flush() volatile;
   void deinitGlobeHeap() volatile;
-  void doLoadCharacterKartModel(s32 idxs);
+  static void doLoadCharacterKartModel(s32 idxs);
   static void doLoadGlobe(void* glodeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
   // for matching purposes
