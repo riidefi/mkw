@@ -1483,44 +1483,13 @@ void ResourceManager::initGlobeHeap(size_t size, EGG::Heap* heap) {
 }
 } // namespace System
 
-#ifdef MATCHING
 namespace System {
-void ResourceManager::deinitGlobeHeap() volatile {
+void ResourceManager::deinitGlobeHeap() {
   this->flush();
   this->globeHeap->destroy();
-  this->globeHeap = nullptr;
-  this->isGlobeLoadingBusy = false;
+  bar();
 }
 } // namespace System
-#else
-// Symbol: unk_80542584
-// PAL: 0x80542584..0x805425d0
-MARK_BINARY_BLOB(unk_80542584, 0x80542584, 0x805425d0);
-asm UNKNOWN_FUNCTION(unk_80542584) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  bl flush__Q26System15ResourceManagerFv;
-  lwz r3, 0x614(r31);
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  li r0, 0;
-  stw r0, 0x614(r31);
-  stb r0, 0x60c(r31);
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
-#endif
 
 namespace System {
 void ResourceManager::doLoadGlobe(void* globeBlob) {

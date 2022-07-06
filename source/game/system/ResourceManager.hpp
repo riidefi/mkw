@@ -376,8 +376,8 @@ public:
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
   void initGlobeHeap(size_t size, EGG::Heap* heap);
-  void flush() volatile;
-  void deinitGlobeHeap() volatile;
+  void flush();
+  void deinitGlobeHeap();
   static void doLoadCharacterKartModel(s32 idxs);
   static void doLoadGlobe(void* glodeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
