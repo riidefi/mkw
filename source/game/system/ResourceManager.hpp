@@ -10,6 +10,7 @@
 #include <game/system/LocalizedArchive.hpp>
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/RaceConfig.hpp>
+#include <game/system/GhostFile.hpp>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -259,6 +260,17 @@ void preloadCourseTask(void* courseId);
 const char* getCharacterName(CharacterId charId);
 const char* getVehicleName(VehicleId vehicleId);
 
+// unknown structs
+struct Whatever {
+  u32 _00;
+  u8 _04[0xa4 - 0x04];
+};
+struct Whatever2 {
+  u8 _00[0x4 - 0x0];
+  Whatever* _04;
+  u16 _08; /* ... */
+};
+
 class ResourceManager {
   virtual ~ResourceManager();
 
@@ -339,17 +351,26 @@ public:
   void* getFileCopy(s32 archiveIdx, char* filename, EGG::Heap* heap,
                     size_t* size, s8 param_5);
   // TODO: Better names
-  bool isMultiArchive1Loaded(s32 idx);
+  bool isMultiArchive1Loaded(s32 idx) volatile;
   bool isMultiArchive2Loaded(s32 idx);
   bool isMultiArchive3Loaded(s32 idx);
   bool isDvdArchiveLoaded(s32 idx);
-  bool setArcResourceLink(s32 multiIdx, u32 archiveIdx, void* arcResource,
+  bool setArcResourceLink(s32 multiIdx, u16 archiveIdx, void* arcResource,
                           const char* dirname);
   u16 getLoadedArchiveCount(s32 idx);
+  // I need this terribleness to match attachArcResourceAccessor
+  inline u16 getLoadedArchiveCountInverse(u32 idx) volatile {
+    return !isMultiArchive1Loaded(idx)
+               ? 0
+               : this->multiArchives1[idx]->archiveCount;
+  }
   u16 getMenuArchiveCount();
   bool tryRequestTask(EGG::TaskThread::TFunction mainFunction, void* arg);
   bool requestTask(EGG::TaskThread::TFunction mainFunction, void* arg,
                    void* _8);
+
+  void attatchLayoutDir(void* accessor, const char* dirname, Whatever2* param_4,
+                        bool param_5);
   void attachArcResourceAccessor(void* arcResourceAccessor,
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
@@ -380,6 +401,8 @@ public:
   void requestLoad(s32 idx, MultiDvdArchive* archive, const char* filename,
                    EGG::Heap* archiveHeap, EGG::Heap* fileHeap);
   void* getArchiveStart(ResourceChannelID resId, u32 archiveIdx);
+  static void loadStaffGhostAsync(GhostFileGroup::GhostGroupType ghostType,
+                                  CourseId courseId, u8* destBuffer);
 
   // TODO: check if actually inline
   inline void requestLoadFile(s32 idx, MultiDvdArchive* m, const char* p,
