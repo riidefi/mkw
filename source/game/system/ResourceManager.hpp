@@ -170,38 +170,10 @@ struct JobContext {
   EGG::Heap* fileHeap;
 };
 
-// begrudging riidefi magic
-struct S {
-  virtual ~S() = 0;
-};
-inline S::~S() {}
-struct T {
-  T() {
-    mHeap1 = 0;
-    mHeap2 = 0;
-    _unk = 0;
-  }
-  EGG::ExpHeap* mHeap1;
-  EGG::ExpHeap* mHeap2;
-  s32 _unk;
-};
-
-class MenuCharacterManager : S, T {
-  friend class ResourceManager;
-
-public:
-  MenuCharacterManager() {
-    mCharacter = 0;
-    mModelType = 2;
-  }
-  virtual ~MenuCharacterManager() {}
-  s32 mCharacter;
-  s32 mModelType;
-};
-
 // Enums that represent indices in vehicle name specifiers arrays.
 typedef enum {
   // TODO: Fill
+  MARIO = 0
 } CharacterId;
 
 typedef enum {
@@ -225,6 +197,46 @@ typedef enum {
 typedef enum {
   // TODO: Fill
 } CourseId;
+
+// begrudging riidefi magic
+struct S {
+  virtual ~S() = 0;
+};
+inline S::~S() {}
+struct T {
+public:
+  T() {
+    archiveHeap = 0;
+    fileHeap = 0;
+    _unk = 0;
+  }
+  EGG::ExpHeap* archiveHeap;
+  EGG::ExpHeap* fileHeap;
+  s32 _unk;
+  inline bool SOME_CHECK() const {
+    return archiveHeap && ((_unk <= 4 && (((1 << _unk) & 0x15U) != 0)));
+  }
+  inline void destroy() {
+    if (SOME_CHECK()) {
+      archiveHeap->freeAll();
+      fileHeap->freeAll();
+    }
+    _unk = 3;
+  }
+};
+
+class MenuCharacterManager : S, public T {
+  friend class ResourceManager;
+
+public:
+  MenuCharacterManager() {
+    mCharacter = MARIO;
+    mModelType = BATTLE_TEAM_NONE;
+  }
+  virtual ~MenuCharacterManager() {}
+  CharacterId mCharacter;
+  BattleTeam mModelType;
+};
 
 class CourseCache : EGG::Disposer {
 public:
@@ -344,6 +356,7 @@ public:
   void initGlobeHeap(size_t size, EGG::Heap* heap);
   void flush() volatile;
   void deinitGlobeHeap() volatile;
+  void doLoadCharacterKartModel(s32 idxs);
   static void doLoadGlobe(void* glodeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
   // for matching purposes
@@ -403,7 +416,7 @@ public:
     MultiDvdArchive* archive;
     EGG::ExpHeap* heap;
 
-    heap = menuManagers[i].mHeap1;
+    heap = menuManagers[i].archiveHeap;
     archive = &multiArchives2[i];
 
     if (archive->isLoaded()) {
@@ -414,8 +427,8 @@ public:
     }
 
     if (menuManagers[i]._unk != 3) {
-      menuManagers[i].mHeap1 = 0;
-      menuManagers[i].mHeap2 = 0;
+      menuManagers[i].archiveHeap = 0;
+      menuManagers[i].fileHeap = 0;
       menuManagers[i]._unk = 0;
     }
   }

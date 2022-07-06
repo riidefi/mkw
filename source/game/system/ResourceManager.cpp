@@ -1083,7 +1083,7 @@ lbl_80541e10:
 
 // Symbol: unk_80541e44
 // PAL: 0x80541e44..0x80542030
-MARK_BINARY_BLOB(unk_80541e44, 0x80541e44, 0x80542030);
+/*MARK_BINARY_BLOB(unk_80541e44, 0x80541e44, 0x80542030);
 asm UNKNOWN_FUNCTION(unk_80541e44) {
   // clang-format off
   nofralloc;
@@ -1225,7 +1225,51 @@ lbl_8054201c:
   addi r1, r1, 0xa0;
   blr;
   // clang-format on
+}*/
+namespace System {
+namespace {
+void RloadMenuKartModel(MultiDvdArchive* m, CharacterId characterId,
+                        BattleTeam battleTeam, EGG::Heap* archiveHeap,
+                        EGG::Heap* fileHeap) {
+  char buffer[128];
+
+  if (!m->isLoaded()) {
+    if (battleTeam == 2) { // not in battle mode
+      snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart",
+               getCharacterName(characterId));
+    } else {
+      snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart_BT",
+               getCharacterName(characterId));
+    }
+    m->load(buffer, archiveHeap, fileHeap, 0);
+  }
 }
+void RloadMenuKartModel(MultiDvdArchive* m, MenuCharacterManager* c) {
+  RloadMenuKartModel(m, c->mCharacter, c->mModelType, c->archiveHeap,
+                     c->fileHeap);
+}
+} // namespace
+void ResourceManager::doLoadCharacterKartModel(s32 idxs) {
+  ResourceManager* resMgr = (ResourceManager*)ResourceManager::spInstance;
+  const u8 idx = idxs;
+  if (resMgr->multiArchives2[idx].isLoaded()) {
+    resMgr->multiArchives2[idx].unmount();
+  }
+  resMgr->menuManagers[idx]._unk = 2;
+  resMgr->menuManagers[idx].destroy();
+
+  MultiDvdArchive* archive = &resMgr->multiArchives2[idx];
+  RloadMenuKartModel(archive, &resMgr->menuManagers[idx]);
+  if (!archive->isLoaded()) {
+    OSSleepMilliseconds(16);
+  }
+  if (archive->isLoaded()) {
+    resMgr->menuManagers[idx]._unk = 4;
+  } else {
+    resMgr->menuManagers[idx]._unk = 0;
+  }
+}
+} // namespace System
 
 // Symbol: unk_80542030
 // PAL: 0x80542030..0x80542210
