@@ -224,6 +224,16 @@ public:
     }
     _unk = 3;
   }
+  inline void setArchiveHeap(EGG::ExpHeap* heapSrc) {
+    if (this->archiveHeap == 0) {
+      this->archiveHeap = heapSrc;
+    }
+  }
+  inline void setFileHeap(EGG::ExpHeap* heapSrc) {
+    if (this->fileHeap == 0) {
+      this->fileHeap = heapSrc;
+    }
+  }
 };
 
 class MenuCharacterManager : S, public T {
@@ -378,7 +388,11 @@ public:
   void initGlobeHeap(size_t size, EGG::Heap* heap);
   void flush();
   void deinitGlobeHeap();
-  static void doLoadCharacterKartModel(s32 idxs);
+  static void doLoadCharacterKartModel(void* idxs);
+  void doLoadCharacterKartModelPriv(s32 idxs);
+  bool loadKartMenuModelAsync(s32 idx, CharacterId characterId,
+                              BattleTeam battleTeam);
+  void FUN_805422cc(u32 count, s32 heapIdx);
   static void doLoadGlobe(void* glodeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
   // for matching purposes
