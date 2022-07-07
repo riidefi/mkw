@@ -379,6 +379,7 @@ public:
   void flush();
   void deinitGlobeHeap();
   static void doLoadCharacterKartModel(s32 idxs);
+  void doLoadCharacterKartModelPriv(s32 idxs);
   static void doLoadGlobe(void* glodeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
   // for matching purposes

@@ -17,7 +17,7 @@ extern void ArcResourceAccessor_attach(void* arcResourceAccessor,
                                        void* archiveStart, const char* dirname);
 extern void MultiArcResourceAccessor_attach(void* multiArcResourceAccessor,
                                             void* param_2);
-// extern s16 getSlotForCourseId(System::CourseId courseId);
+extern "C" s16 getSlotForCourseId(System::CourseId courseId);
 
 extern const char* EarthResourceListing;
 
@@ -179,7 +179,7 @@ extern UNKNOWN_FUNCTION(clear__Q26System15MultiDvdArchiveFv);
 // PAL: 0x8052ae08
 extern UNKNOWN_FUNCTION(rippedArchiveCount__Q26System15MultiDvdArchiveFv);
 // PAL: 0x80552d90
-extern UNKNOWN_FUNCTION(getSlotForCourseId);
+// extern UNKNOWN_FUNCTION(getSlotForCourseId);
 // PAL: 0x805553b0
 extern UNKNOWN_FUNCTION(unk_805553b0);
 }
@@ -1147,150 +1147,29 @@ void ResourceManager::doLoadCharacterKartModel(s32 idxs) {
     resMgr->menuManagers[idx]._unk = 0;
   }
 }
-} // namespace System
 
-// Symbol: unk_80542030
-// PAL: 0x80542030..0x80542210
-MARK_BINARY_BLOB(unk_80542030, 0x80542030, 0x80542210);
-asm UNKNOWN_FUNCTION(unk_80542030) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0xa0(r1);
-  mflr r0;
-  stw r0, 0xa4(r1);
-  mulli r0, r4, 0x1c;
-  stmw r26, 0x88(r1);
-  mr r27, r3;
-  add r3, r3, r0;
-  mr r26, r4;
-  addi r30, r3, 8;
-  mr r3, r30;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_8054206c;
-  mr r3, r30;
-  bl unmount__Q26System15MultiDvdArchiveFv;
-lbl_8054206c:
-  mulli r26, r26, 0x18;
-  li r0, 2;
-  li r4, 0;
-  add r31, r27, r26;
-  stw r0, 0x5b8(r31);
-  lwz r3, 0x5b0(r31);
-  cmpwi r3, 0;
-  beq lbl_805420bc;
-  lwz r6, 0x5b8(r31);
-  li r5, 0;
-  cmplwi r6, 4;
-  bgt lbl_805420b0;
-  li r0, 1;
-  slw r0, r0, r6;
-  andi. r0, r0, 0x15;
-  beq lbl_805420b0;
-  li r5, 1;
-lbl_805420b0:
-  cmpwi r5, 0;
-  beq lbl_805420bc;
-  li r4, 1;
-lbl_805420bc:
-  cmpwi r4, 0;
-  beq lbl_805420d4;
-  bl unk_805553b0;
-  add r3, r27, r26;
-  lwz r3, 0x5b4(r3);
-  bl unk_805553b0;
-lbl_805420d4:
-  li r0, 3;
-  stw r0, 0x5b8(r31);
-  add r4, r27, r26;
-  mr r3, r30;
-  lwz r26, 0x5b4(r4);
-  lwz r27, 0x5b0(r31);
-  lwz r28, 0x5c0(r4);
-  lwz r29, 0x5bc(r4);
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_8054219c;
-  cmpwi r28, 2;
-  bne lbl_80542148;
-  lis r4, 0;
-  cmpwi r29, 0x30;
-  addi r4, r4, 0;
-  addi r3, r1, 8;
-  addi r5, r4, 0x177;
-  li r4, 0x80;
-  blt lbl_8054212c;
-  li r6, 0;
-  b lbl_8054213c;
-lbl_8054212c:
-  lis r6, 0;
-  slwi r0, r29, 2;
-  addi r6, r6, 0;
-  lwzx r6, r6, r0;
-lbl_8054213c:
-  crclr 6;
-  bl unk_805553b0;
-  b lbl_80542184;
-lbl_80542148:
-  lis r4, 0;
-  cmpwi r29, 0x30;
-  addi r4, r4, 0;
-  addi r3, r1, 8;
-  addi r5, r4, 0x193;
-  li r4, 0x80;
-  blt lbl_8054216c;
-  li r6, 0;
-  b lbl_8054217c;
-lbl_8054216c:
-  lis r6, 0;
-  slwi r0, r29, 2;
-  addi r6, r6, 0;
-  lwzx r6, r6, r0;
-lbl_8054217c:
-  crclr 6;
-  bl unk_805553b0;
-lbl_80542184:
-  mr r3, r30;
-  mr r5, r27;
-  mr r6, r26;
-  addi r4, r1, 8;
-  li r7, 0;
-  bl load__Q26System15MultiDvdArchiveFPCcPQ23EGG4HeapPQ23EGG4Heapi;
-lbl_8054219c:
-  mr r3, r30;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_805421d8;
-  lis r4, 0x8000;
-  lis r3, 0x1062;
-  lwz r0, 0xf8(r4);
-  addi r4, r3, 0x4dd3;
-  li r3, 0;
-  srwi r0, r0, 2;
-  mulhwu r4, r4, r0;
-  srwi r0, r4, 6;
-  rlwinm r4, r4, 0x1e, 2, 0x1b;
-  rlwimi r3, r0, 4, 0x1c, 0x1f;
-  bl unk_805553b0;
-lbl_805421d8:
-  mr r3, r30;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_805421f4;
-  li r0, 4;
-  stw r0, 0x5b8(r31);
-  b lbl_805421fc;
-lbl_805421f4:
-  li r0, 0;
-  stw r0, 0x5b8(r31);
-lbl_805421fc:
-  lmw r26, 0x88(r1);
-  lwz r0, 0xa4(r1);
-  mtlr r0;
-  addi r1, r1, 0xa0;
-  blr;
-  // clang-format on
+void ResourceManager::doLoadCharacterKartModelPriv(s32 idx) {
+  if (this->multiArchives2[idx].isLoaded()) {
+    this->multiArchives2[idx].unmount();
+  }
+  this->menuManagers[idx]._unk = 2;
+  this->menuManagers[idx].destroy();
+
+  MultiDvdArchive* archive = &this->multiArchives2[idx];
+  RloadMenuKartModel(archive, this->menuManagers[idx].mCharacter,
+                     this->menuManagers[idx].mModelType,
+                     this->menuManagers[idx].archiveHeap,
+                     this->menuManagers[idx].fileHeap);
+  if (!archive->isLoaded()) {
+    OSSleepMilliseconds(16);
+  }
+  if (archive->isLoaded()) {
+    this->menuManagers[idx]._unk = 4;
+  } else {
+    this->menuManagers[idx]._unk = 0;
+  }
 }
+} // namespace System
 
 // Symbol: unk_80542210
 // PAL: 0x80542210..0x805422cc
@@ -1506,78 +1385,26 @@ bool ResourceManager::loadGlobeAsync(void* arg) {
              ? false
              : requestGlobeTaskHelper(arg, (void*)0x10000004);
 }
+
+void ResourceManager::loadStaffGhostAsync(
+    GhostFileGroup::GhostGroupType ghostType, CourseId courseId,
+    u8* destBuffer) {
+  char filename[128];
+
+  s16 slot = getSlotForCourseId(courseId);
+  // TODO: 2->slow staff ghost
+  if (ghostType == 2) {
+    snprintf(filename, sizeof(filename),
+             "/Race/TimeAttack/ghost1/ghost1_comp_%02d.rkg", (s32)slot);
+  } else {
+    snprintf(filename, sizeof(filename),
+             "/Race/TimeAttack/ghost2/ghost2_comp_%02d.rkg", (s32)slot);
+  }
+
+  SystemManager::sInstance->ripFromDiscAsync(filename, nullptr, true, nullptr,
+                                             destBuffer);
+}
 } // namespace System
-
-/*namespace System {
-void ResourceManager::loadStaffGhostAsync(GhostFileGroup::GhostGroupType
-ghostType, CourseId courseId, u8* destBuffer) { char filename[128];
-
-    s16 slot = getSlotForCourseId(courseId);
-    // TODO: 2->slow staff ghost
-    if (ghostType == 2) {
-        snprintf(filename, sizeof(filename),
-"/Race/TimeAttack/ghost1/ghost1_comp_%02d.rkg", (s32)slot); } else {
-        snprintf(filename, sizeof(filename),
-"/Race/TimeAttack/ghost2/ghost2_comp_%02d.rkg", (s32)slot);
-    }
-
-    SystemManager::sInstance->ripFromDiscAsync(filename, nullptr, true, nullptr,
-destBuffer);
-}
-}*/
-// Symbol: SaveManager_loadStaffGhostAsync
-// PAL: 0x805427bc..0x80542868
-MARK_BINARY_BLOB(SaveManager_loadStaffGhostAsync, 0x805427bc, 0x80542868);
-asm UNKNOWN_FUNCTION(SaveManager_loadStaffGhostAsync) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x90(r1);
-  mflr r0;
-  stw r0, 0x94(r1);
-  stw r31, 0x8c(r1);
-  mr r31, r5;
-  stw r30, 0x88(r1);
-  mr r30, r3;
-  mr r3, r4;
-  bl getSlotForCourseId;
-  cmpwi r30, 2;
-  mr r0, r3;
-  bne lbl_80542810;
-  lis r4, 0;
-  addi r3, r1, 8;
-  addi r4, r4, 0;
-  extsh r6, r0;
-  addi r5, r4, 0x1b2;
-  li r4, 0x80;
-  crclr 6;
-  bl unk_805553b0;
-  b lbl_80542830;
-lbl_80542810:
-  lis r4, 0;
-  addi r3, r1, 8;
-  addi r4, r4, 0;
-  extsh r6, r0;
-  addi r5, r4, 0x1df;
-  li r4, 0x80;
-  crclr 6;
-  bl unk_805553b0;
-lbl_80542830:
-  lis r3, 0;
-  mr r8, r31;
-  lwz r3, 0(r3);
-  addi r4, r1, 8;
-  li r5, 0;
-  li r6, 1;
-  li r7, 0;
-  bl unk_805553b0;
-  lwz r0, 0x94(r1);
-  lwz r31, 0x8c(r1);
-  lwz r30, 0x88(r1);
-  mtlr r0;
-  addi r1, r1, 0x90;
-  blr;
-  // clang-format on
-}
 
 // Symbol: unk_80542868
 // PAL: 0x80542868..0x80542878
