@@ -25,6 +25,9 @@ extern const char* EarthResourceListing;
 struct GameScene {
   u8 _00[0xc94 - 0x0];
   HeapCollection dynamicHeaps;
+  inline EGG::ExpHeap*& getHeap(s32 heapIdx) {
+    return dynamicHeaps.mpHeaps[heapIdx];
+  }
 };
 extern "C" GameScene* getGameScene();
 
@@ -782,103 +785,6 @@ void ResourceManager::attachArcResourceAccessor(void* arcResourceAccessor,
   ArcResourceAccessor_attach(arcResourceAccessor, archiveStart, dirname);
 }
 
-} // namespace System
-
-// Symbol: ResourceManager_attachLayoutDir
-// PAL: 0x80541878..0x80541998
-/*MARK_BINARY_BLOB(ResourceManager_attachLayoutDir, 0x80541878, 0x80541998);
-asm UNKNOWN_FUNCTION(ResourceManager_attachLayoutDir) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  cmpwi r7, 0;
-  stw r0, 0x24(r1);
-  stmw r26, 8(r1);
-  mr r27, r3;
-  mr r28, r4;
-  mr r29, r5;
-  mr r30, r6;
-  bne lbl_805418a4;
-  bl getGameScene;
-lbl_805418a4:
-  li r31, 0;
-  b lbl_80541950;
-lbl_805418ac:
-  lhz r0, 8(r30);
-  clrlwi r3, r31, 0x10;
-  cmplw r3, r0;
-  bge lbl_805418cc;
-  mulli r0, r3, 0xa4;
-  lwz r3, 4(r30);
-  add r26, r3, r0;
-  b lbl_805418d0;
-lbl_805418cc:
-  li r26, 0;
-lbl_805418d0:
-  lwz r3, 4(r27);
-  lwz r3, 8(r3);
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_805418ec;
-  li r0, 0;
-  b lbl_80541938;
-lbl_805418ec:
-  lwz r3, 4(r27);
-  clrlwi r0, r31, 0x10;
-  lwz r4, 8(r3);
-  lhz r3, 8(r4);
-  cmplw r0, r3;
-  bge lbl_80541934;
-  mr r3, r26;
-  bge lbl_80541920;
-  mulli r0, r0, 0x24;
-  lwz r4, 4(r4);
-  add r4, r4, r0;
-  lwz r4, 8(r4);
-  b lbl_80541924;
-lbl_80541920:
-  li r4, 0;
-lbl_80541924:
-  mr r5, r29;
-  bl unk_805553b0;
-  li r0, 1;
-  b lbl_80541938;
-lbl_80541934:
-  li r0, 0;
-lbl_80541938:
-  cmpwi r0, 0;
-  beq lbl_8054194c;
-  mr r3, r28;
-  mr r4, r26;
-  bl unk_805553b0;
-lbl_8054194c:
-  addi r31, r31, 1;
-lbl_80541950:
-  lwz r3, 4(r27);
-  lwz r3, 8(r3);
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_80541974;
-  lwz r3, 4(r27);
-  lwz r3, 8(r3);
-  lhz r3, 8(r3);
-  b lbl_80541978;
-lbl_80541974:
-  li r3, 0;
-lbl_80541978:
-  clrlwi r0, r31, 0x10;
-  cmplw r0, r3;
-  blt lbl_805418ac;
-  lmw r26, 8(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
-}*/
-
-namespace System {
 void ResourceManager::attatchLayoutDir(void* accessor, const char* dirname,
                                        Whatever2* whatever2, bool param_5) {
   if (!param_5) {
@@ -1183,81 +1089,31 @@ bool ResourceManager::loadKartMenuModelAsync(s32 idx, CharacterId characterId,
     return true;
   }
 }
-} // namespace System
 
-// Symbol: unk_805422cc
-// PAL: 0x805422cc..0x805423bc
-MARK_BINARY_BLOB(unk_805422cc, 0x805422cc, 0x805423bc);
-asm UNKNOWN_FUNCTION(unk_805422cc) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stmw r26, 8(r1);
-  mr r28, r3;
-  mr r29, r4;
-  mr r26, r5;
-  bl getGameScene;
-  slwi r31, r26, 2;
-  lis r5, 0xd;
-  add r3, r3, r31;
-  lwz r4, 0xc94(r3);
-  addi r3, r5, -32768;
-  li r5, 0;
-  bl unk_805553b0;
-  stw r3, 0x610(r28);
-  li r30, 0;
-  lis r26, 0xe;
-  li r27, 0;
-lbl_80542318:
-  clrlwi r0, r30, 0x18;
-  cmplw r0, r29;
-  bge lbl_80542374;
-  bl getGameScene;
-  mr r0, r3;
-  addi r3, r26, 0x1000;
-  add r4, r0, r31;
-  li r5, 0;
-  lwz r4, 0xc94(r4);
-  bl unk_805553b0;
-  clrlwi r0, r30, 0x18;
-  mulli r0, r0, 0x18;
-  add r4, r28, r0;
-  lwz r0, 0x5b0(r4);
-  cmpwi r0, 0;
-  bne lbl_8054235c;
-  stw r3, 0x5b0(r4);
-lbl_8054235c:
-  lwz r0, 0x5b4(r4);
-  lwz r3, 0x610(r28);
-  cmpwi r0, 0;
-  bne lbl_8054239c;
-  stw r3, 0x5b4(r4);
-  b lbl_8054239c;
-lbl_80542374:
-  mulli r0, r0, 0x18;
-  add r3, r28, r0;
-  lwz r0, 0x5b0(r3);
-  cmpwi r0, 0;
-  bne lbl_8054238c;
-  stw r27, 0x5b0(r3);
-lbl_8054238c:
-  lwz r0, 0x5b4(r3);
-  cmpwi r0, 0;
-  bne lbl_8054239c;
-  stw r27, 0x5b4(r3);
-lbl_8054239c:
-  addi r30, r30, 1;
-  cmplwi r30, 4;
-  blt lbl_80542318;
-  lmw r26, 8(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+static inline EGG::ExpHeap* createExpHeap(u32 size, s32 heapIdx) {
+  return EGG::ExpHeap::create(size, getGameScene()->getHeap(heapIdx), 0);
 }
+
+static inline void setHeap(EGG::ExpHeap** heapDest, EGG::ExpHeap* heapSrc) {
+  if (*heapDest == 0) {
+    *heapDest = heapSrc;
+  }
+}
+
+void ResourceManager::FUN_805422cc(u32 count, s32 heapIdx) {
+  this->_610 = createExpHeap(0xc8000, heapIdx);
+  for (u8 i = 0; i < 4; i++) {
+    if (i < count) {
+      EGG::ExpHeap* heap = createExpHeap(0xe1000, heapIdx);
+      this->menuManagers[i].setArchiveHeap(heap);
+      this->menuManagers[i].setFileHeap(this->_610);
+    } else {
+      this->menuManagers[i].setArchiveHeap(0);
+      this->menuManagers[i].setFileHeap(0);
+    }
+  }
+}
+} // namespace System
 
 namespace System {
 
