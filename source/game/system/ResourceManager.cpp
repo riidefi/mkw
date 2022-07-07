@@ -1103,151 +1103,51 @@ lbl_80541e10:
   // clang-format on
 }
 
-// Symbol: unk_80541e44
-// PAL: 0x80541e44..0x80542030
-MARK_BINARY_BLOB(unk_80541e44, 0x80541e44, 0x80542030);
-asm UNKNOWN_FUNCTION(unk_80541e44) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0xa0(r1);
-  mflr r0;
-  stw r0, 0xa4(r1);
-  stmw r26, 0x88(r1);
-  clrlwi r28, r3, 0x18;
-  lis r3, 0;
-  mulli r26, r28, 0x1c;
-  lwz r27, 0(r3);
-  add r3, r27, r26;
-  addi r3, r3, 8;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_80541e84;
-  add r3, r27, r26;
-  addi r3, r3, 8;
-  bl unmount__Q26System15MultiDvdArchiveFv;
-lbl_80541e84:
-  mulli r28, r28, 0x18;
-  li r0, 2;
-  li r4, 0;
-  add r31, r27, r28;
-  stw r0, 0x5b8(r31);
-  lwz r3, 0x5b0(r31);
-  cmpwi r3, 0;
-  beq lbl_80541ed4;
-  lwz r6, 0x5b8(r31);
-  li r5, 0;
-  cmplwi r6, 4;
-  bgt lbl_80541ec8;
-  li r0, 1;
-  slw r0, r0, r6;
-  andi. r0, r0, 0x15;
-  beq lbl_80541ec8;
-  li r5, 1;
-lbl_80541ec8:
-  cmpwi r5, 0;
-  beq lbl_80541ed4;
-  li r4, 1;
-lbl_80541ed4:
-  cmpwi r4, 0;
-  beq lbl_80541eec;
-  bl unk_805553b0;
-  add r3, r27, r28;
-  lwz r3, 0x5b4(r3);
-  bl unk_805553b0;
-lbl_80541eec:
-  li r0, 3;
-  stw r0, 0x5b8(r31);
-  add r4, r27, r28;
-  add r3, r27, r26;
-  addi r30, r3, 8;
-  lwz r29, 0x5b4(r4);
-  lwz r28, 0x5b0(r31);
-  mr r3, r30;
-  lwz r27, 0x5c0(r4);
-  lwz r26, 0x5bc(r4);
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_80541fbc;
-  cmpwi r27, 2;
-  bne lbl_80541f68;
-  lis r4, 0;
-  cmpwi r26, 0x30;
-  addi r4, r4, 0;
-  addi r3, r1, 8;
-  addi r5, r4, 0x13c;
-  li r4, 0x80;
-  blt lbl_80541f4c;
-  li r6, 0;
-  b lbl_80541f5c;
-lbl_80541f4c:
-  lis r6, 0;
-  slwi r0, r26, 2;
-  addi r6, r6, 0;
-  lwzx r6, r6, r0;
-lbl_80541f5c:
-  crclr 6;
-  bl unk_805553b0;
-  b lbl_80541fa4;
-lbl_80541f68:
-  lis r4, 0;
-  cmpwi r26, 0x30;
-  addi r4, r4, 0;
-  addi r3, r1, 8;
-  addi r5, r4, 0x158;
-  li r4, 0x80;
-  blt lbl_80541f8c;
-  li r6, 0;
-  b lbl_80541f9c;
-lbl_80541f8c:
-  lis r6, 0;
-  slwi r0, r26, 2;
-  addi r6, r6, 0;
-  lwzx r6, r6, r0;
-lbl_80541f9c:
-  crclr 6;
-  bl unk_805553b0;
-lbl_80541fa4:
-  mr r3, r30;
-  mr r5, r28;
-  mr r6, r29;
-  addi r4, r1, 8;
-  li r7, 0;
-  bl load__Q26System15MultiDvdArchiveFPCcPQ23EGG4HeapPQ23EGG4Heapi;
-lbl_80541fbc:
-  mr r3, r30;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  bne lbl_80541ff8;
-  lis r4, 0x8000;
-  lis r3, 0x1062;
-  lwz r0, 0xf8(r4);
-  addi r4, r3, 0x4dd3;
-  li r3, 0;
-  srwi r0, r0, 2;
-  mulhwu r4, r4, r0;
-  srwi r0, r4, 6;
-  rlwinm r4, r4, 0x1e, 2, 0x1b;
-  rlwimi r3, r0, 4, 0x1c, 0x1f;
-  bl unk_805553b0;
-lbl_80541ff8:
-  mr r3, r30;
-  bl isLoaded__Q26System15MultiDvdArchiveFv;
-  cmpwi r3, 0;
-  beq lbl_80542014;
-  li r0, 4;
-  stw r0, 0x5b8(r31);
-  b lbl_8054201c;
-lbl_80542014:
-  li r0, 0;
-  stw r0, 0x5b8(r31);
-lbl_8054201c:
-  lmw r26, 0x88(r1);
-  lwz r0, 0xa4(r1);
-  mtlr r0;
-  addi r1, r1, 0xa0;
-  blr;
-  // clang-format on
+namespace System {
+
+namespace {
+void RloadMenuKartModel(MultiDvdArchive* m, CharacterId characterId,
+                        BattleTeam battleTeam, EGG::Heap* archiveHeap,
+                        EGG::Heap* fileHeap) {
+  char buffer[128];
+
+  if (!m->isLoaded()) {
+    if (battleTeam == 2) { // not in battle mode
+      snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart",
+               getCharacterName(characterId));
+    } else {
+      snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart_BT",
+               getCharacterName(characterId));
+    }
+    m->load(buffer, archiveHeap, fileHeap, 0);
+  }
 }
+void RloadMenuKartModel(MultiDvdArchive* m, MenuCharacterManager* c) {
+  RloadMenuKartModel(m, c->mCharacter, c->mModelType, c->archiveHeap,
+                     c->fileHeap);
+}
+} // namespace
+void ResourceManager::doLoadCharacterKartModel(s32 idxs) {
+  ResourceManager* resMgr = ResourceManager::spInstance_REAL;
+  const u8 idx = idxs;
+  if (resMgr->multiArchives2[idx].isLoaded()) {
+    resMgr->multiArchives2[idx].unmount();
+  }
+  resMgr->menuManagers[idx]._unk = 2;
+  resMgr->menuManagers[idx].destroy();
+
+  MultiDvdArchive* archive = &resMgr->multiArchives2[idx];
+  RloadMenuKartModel(archive, &resMgr->menuManagers[idx]);
+  if (!archive->isLoaded()) {
+    OSSleepMilliseconds(16);
+  }
+  if (archive->isLoaded()) {
+    resMgr->menuManagers[idx]._unk = 4;
+  } else {
+    resMgr->menuManagers[idx]._unk = 0;
+  }
+}
+} // namespace System
 
 // Symbol: unk_80542030
 // PAL: 0x80542030..0x80542210
@@ -1583,44 +1483,13 @@ void ResourceManager::initGlobeHeap(size_t size, EGG::Heap* heap) {
 }
 } // namespace System
 
-#ifdef MATCHING
 namespace System {
-void ResourceManager::deinitGlobeHeap() volatile {
+void ResourceManager::deinitGlobeHeap() {
   this->flush();
   this->globeHeap->destroy();
-  this->globeHeap = nullptr;
-  this->isGlobeLoadingBusy = false;
+  bar();
 }
 } // namespace System
-#else
-// Symbol: unk_80542584
-// PAL: 0x80542584..0x805425d0
-MARK_BINARY_BLOB(unk_80542584, 0x80542584, 0x805425d0);
-asm UNKNOWN_FUNCTION(unk_80542584) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  bl flush__Q26System15ResourceManagerFv;
-  lwz r3, 0x614(r31);
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  li r0, 0;
-  stw r0, 0x614(r31);
-  stb r0, 0x60c(r31);
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
-#endif
 
 namespace System {
 void ResourceManager::doLoadGlobe(void* globeBlob) {
