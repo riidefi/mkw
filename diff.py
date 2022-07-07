@@ -7,7 +7,7 @@ on commit 291173ed30e8a6dc91c28334aa1275a555d725b1
 
 Edits:
     Symbol map regex changed to allow alignments longer than 1 digit
-    Dol ram-rom conversion added using mkwutil
+    Dol & rel ram-rom conversion added using mkwutil
     -mpowerpc and -Mgekko added to PPC_SETTINGS arch_flags
 """
 
@@ -1163,10 +1163,17 @@ def search_map_file(
                 return objfile, rom
                 """
 
-                from mkwutil.lib import dol
+                if project.myimg.endswith(".rel"):
+                    from mkwutil.lib import rel
 
-                maindol = dol.DolBinary(project.myimg)
-                return objfile, maindol.virtual_to_rom(ram)
+                    with open(project.myimg, 'rb') as f:
+                        staticr = rel.Rel(f)
+                        return objfile, ram + staticr.section_info[1].offset
+                else:
+                    from mkwutil.lib import dol
+
+                    maindol = dol.DolBinary(project.myimg)
+                    return objfile, maindol.virtual_to_rom(ram)
     else:
         fail(f"Linker map format {project.map_format} unrecognised.")
     return None, None
