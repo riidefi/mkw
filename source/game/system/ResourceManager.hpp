@@ -378,8 +378,10 @@ public:
   void initGlobeHeap(size_t size, EGG::Heap* heap);
   void flush();
   void deinitGlobeHeap();
-  static void doLoadCharacterKartModel(s32 idxs);
+  static void doLoadCharacterKartModel(void* idxs);
   void doLoadCharacterKartModelPriv(s32 idxs);
+  bool loadKartMenuModelAsync(s32 idx, CharacterId characterId,
+                              BattleTeam battleTeam);
   static void doLoadGlobe(void* glodeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
   // for matching purposes

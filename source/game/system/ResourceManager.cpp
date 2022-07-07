@@ -1127,9 +1127,9 @@ void RloadMenuKartModel(MultiDvdArchive* m, MenuCharacterManager* c) {
                      c->fileHeap);
 }
 } // namespace
-void ResourceManager::doLoadCharacterKartModel(s32 idxs) {
+void ResourceManager::doLoadCharacterKartModel(void* idxs) {
   ResourceManager* resMgr = ResourceManager::spInstance_REAL;
-  const u8 idx = idxs;
+  const u8 idx = (const u8)idxs;
   if (resMgr->multiArchives2[idx].isLoaded()) {
     resMgr->multiArchives2[idx].unmount();
   }
@@ -1169,68 +1169,21 @@ void ResourceManager::doLoadCharacterKartModelPriv(s32 idx) {
     this->menuManagers[idx]._unk = 0;
   }
 }
-} // namespace System
 
-// Symbol: unk_80542210
-// PAL: 0x80542210..0x805422cc
-MARK_BINARY_BLOB(unk_80542210, 0x80542210, 0x805422cc);
-asm UNKNOWN_FUNCTION(unk_80542210) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  mulli r9, r4, 0x18;
-  mr r10, r4;
-  stw r0, 0x14(r1);
-  li r7, 0;
-  add r4, r3, r9;
-  lwz r0, 0x5b0(r4);
-  cmpwi r0, 0;
-  beq lbl_80542268;
-  lwz r8, 0x5b8(r4);
-  li r4, 0;
-  cmplwi r8, 4;
-  bgt lbl_8054225c;
-  li r0, 1;
-  slw r0, r0, r8;
-  andi. r0, r0, 0x15;
-  beq lbl_8054225c;
-  li r4, 1;
-lbl_8054225c:
-  cmpwi r4, 0;
-  beq lbl_80542268;
-  li r7, 1;
-lbl_80542268:
-  cmpwi r7, 0;
-  bne lbl_80542278;
-  li r3, 0;
-  b lbl_805422bc;
-lbl_80542278:
-  add r7, r3, r9;
-  li r4, 1;
-  stw r5, 0x5bc(r7);
-  stw r6, 0x5c0(r7);
-  stw r4, 0x5b8(r7);
-  lbz r0, 0x619(r3);
-  cmpwi r0, 0;
-  beq lbl_805422b8;
-  stb r4, 0x618(r3);
-  lis r4, 0;
-  lis r6, 0x1000;
-  lwz r3, 0x584(r3);
-  mr r5, r10;
-  addi r4, r4, 0;
-  addi r6, r6, 3;
-  bl unk_805553b0;
-lbl_805422b8:
-  li r3, 1;
-lbl_805422bc:
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+bool ResourceManager::loadKartMenuModelAsync(s32 idx, CharacterId characterId,
+                                             BattleTeam battleTeam) {
+  if (!this->menuManagers[idx].SOME_CHECK()) {
+    return false;
+  } else {
+    this->menuManagers[idx].mCharacter = characterId;
+    this->menuManagers[idx].mModelType = battleTeam;
+    this->menuManagers[idx]._unk = 1;
+    this->requestTask(ResourceManager::doLoadCharacterKartModel, (void*)idx,
+                      (void*)0x10000003);
+    return true;
+  }
 }
+} // namespace System
 
 // Symbol: unk_805422cc
 // PAL: 0x805422cc..0x805423bc
