@@ -24,9 +24,9 @@ extern const char* EarthResourceListing;
 // TODO: Define externally
 struct GameScene {
   u8 _00[0xc94 - 0x0];
-  HeapCollection dynamicHeaps;
+  HeapCollection mDynamicHeaps;
   inline EGG::ExpHeap*& getHeap(s32 heapIdx) {
-    return dynamicHeaps.mpHeaps[heapIdx];
+    return mDynamicHeaps.mpHeaps[heapIdx];
   }
 };
 extern "C" GameScene* getGameScene();
@@ -190,7 +190,7 @@ extern UNKNOWN_FUNCTION(unk_805553b0);
 namespace System {
 
 volatile ResourceManager* ResourceManager::createInstance() {
-  if (spInstance == nullptr) {
+  if (!spInstance) {
     spInstance = new ResourceManager();
   }
 
@@ -198,7 +198,7 @@ volatile ResourceManager* ResourceManager::createInstance() {
 }
 
 void ResourceManager::destroyInstance() {
-  if (spInstance != nullptr) {
+  if (spInstance) {
     delete spInstance;
   }
   spInstance = nullptr;
@@ -206,34 +206,35 @@ void ResourceManager::destroyInstance() {
 
 ResourceManager::ResourceManager() {
   foo();
-  taskThread = EGG::TaskThread::create(14, 24, 0xC800, scenePtr->getA());
-  taskThread->mTaskEndMessageQueue = &System::SystemManager::sInstance->_B8;
-  multiArchives1 = new MultiDvdArchive*[9];
+  mpTaskThread = EGG::TaskThread::create(14, 24, 0xC800, scenePtr->getA());
+  mpTaskThread->mTaskEndMessageQueue = &System::SystemManager::sInstance->_B8;
+  mppSceneArchives = new MultiDvdArchive*[9];
   for (u16 i = 0; i < 9; ++i) {
-    multiArchives1[i] = createMultiDvdArchive((ResourceChannelID)i);
+    mppSceneArchives[i] = createMultiDvdArchive((ResourceChannelID)i);
   }
   bar();
 }
 
 System::ResourceManager::~ResourceManager() {
-  taskThread->destroy();
-  taskThread = nullptr;
+  mpTaskThread->destroy();
+  mpTaskThread = nullptr;
 }
 
 void ResourceManager::doLoadTask(void* jobContext) {
-  JobContext* context = (JobContext*)&spInstance->jobContexts[(s32)jobContext];
+  JobContext* context = (JobContext*)&spInstance->mJobContexts[(s32)jobContext];
 
   switch ((s32)jobContext) {
   case 6:
-    context->archive->load(context->filename, context->_08,
-                           context->archiveHeap);
+    context->mpArchive->load(context->mFilename, context->_08,
+                             context->mpArchiveHeap);
     return;
   case 5:
-    context->multiArchive->load(context->filename, context->archiveHeap,
-                                context->fileHeap, 0);
+    context->mpMultiArchive->load(context->mFilename, context->mpArchiveHeap,
+                                  context->mpFileHeap, 0);
     return;
   default:
-    context->multiArchive->load(context->filename, context->archiveHeap, 0, 0);
+    context->mpMultiArchive->load(context->mFilename, context->mpArchiveHeap, 0,
+                                  0);
     return;
   }
 }
@@ -358,14 +359,15 @@ void _unk_call14(Dummy* dummy) { dummy->_14(); }
 void _unk_call1c(Dummy* dummy) { dummy->_1C(); }
 
 namespace System {
+
 void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
                                   EGG::Heap* archiveHeap) {
-  this->jobContexts[idx].multiArchive = m;
-  strncpy(this->jobContexts[idx].filename, p, 0x40);
-  this->jobContexts[idx].archiveHeap = archiveHeap;
+  mJobContexts[idx].mpMultiArchive = m;
+  strncpy(mJobContexts[idx].mFilename, p, 0x40);
+  mJobContexts[idx].mpArchiveHeap = archiveHeap;
 
-  this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
-  this->process();
+  mpTaskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+  process();
 
   if (!m->isLoaded()) {
     OSSleepMilliseconds(16);
@@ -375,13 +377,13 @@ void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
 void ResourceManager::requestLoad(s32 idx, DvdArchive* archive,
                                   const char* filename, u32 unk,
                                   EGG::Heap* archiveHeap) {
-  this->jobContexts[idx].archive = archive;
-  strncpy(this->jobContexts[idx].filename, filename, 0x40);
-  this->jobContexts[idx].archiveHeap = archiveHeap;
-  this->jobContexts[idx]._08 = unk;
+  mJobContexts[idx].mpArchive = archive;
+  strncpy(mJobContexts[idx].mFilename, filename, 0x40);
+  mJobContexts[idx].mpArchiveHeap = archiveHeap;
+  mJobContexts[idx]._08 = unk;
 
-  this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
-  this->process();
+  mpTaskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+  process();
 
   if (!archive->isLoaded()) {
     OSSleepMilliseconds(16);
@@ -391,13 +393,13 @@ void ResourceManager::requestLoad(s32 idx, DvdArchive* archive,
 void ResourceManager::requestLoad(s32 idx, MultiDvdArchive* archive,
                                   const char* filename, EGG::Heap* archiveHeap,
                                   EGG::Heap* fileHeap) {
-  this->jobContexts[idx].multiArchive = archive;
-  strncpy(this->jobContexts[idx].filename, filename, 0x40);
-  this->jobContexts[idx].archiveHeap = archiveHeap;
-  this->jobContexts[idx].fileHeap = fileHeap;
+  mJobContexts[idx].mpMultiArchive = archive;
+  strncpy(mJobContexts[idx].mFilename, filename, 0x40);
+  mJobContexts[idx].mpArchiveHeap = archiveHeap;
+  mJobContexts[idx].mpFileHeap = fileHeap;
 
-  this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
-  this->process();
+  mpTaskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+  process();
 
   if (!archive->isLoaded()) {
     OSSleepMilliseconds(16);
@@ -411,32 +413,35 @@ MultiDvdArchive* ResourceManager::load(ResourceChannelID channelId,
     filename = RESOURCES[channelId];
   }
 
-  if (!isMultiArchive1Loaded(channelId) && filename[0]) {
-    requestLoad(0, this->multiArchives1[channelId], filename, archiveHeap);
+  if (!isSceneArchiveLoaded(channelId) && filename[0]) {
+    requestLoad(0, mppSceneArchives[channelId], filename, archiveHeap);
   }
 
-  return this->multiArchives1[channelId];
+  return mppSceneArchives[channelId];
 }
 
 DvdArchive* ResourceManager::loadSystemResource(s32 idx,
                                                 EGG::Heap* archiveHeap) {
-  if (!isDvdArchiveLoaded(idx)) {
+  if (!isSystemArchiveLoaded(idx)) {
     const char* resourcePath = Resource::GetResourcePath((eSystemResource)idx);
+
     if (resourcePath[0] != 0) {
-      requestLoadFile(
-          6, &dvdArchives[idx], Resource::GetResourcePath((eSystemResource)idx),
-          Resource::GetResourceID((eSystemResource)idx), archiveHeap);
+      requestLoadFile(6, &mSystemArchives[idx],
+                      Resource::GetResourcePath((eSystemResource)idx),
+                      Resource::GetResourceID((eSystemResource)idx),
+                      archiveHeap);
     }
   }
-  return &dvdArchives[idx];
+
+  return &mSystemArchives[idx];
 }
 
 MultiDvdArchive* ResourceManager::loadUI(const char* filename,
                                          EGG::Heap* archiveHeap) {
-  if (!isMultiArchive1Loaded(2) && filename) {
-    requestLoad(1, this->multiArchives1[2], filename, archiveHeap);
+  if (!isSceneArchiveLoaded(2) && filename) {
+    requestLoad(1, mppSceneArchives[2], filename, archiveHeap);
   }
-  return this->multiArchives1[2];
+  return mppSceneArchives[2];
 }
 
 MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId,
@@ -444,18 +449,21 @@ MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId,
                                              bool splitScreen) {
   char courseName[128];
 
-  if (!isMultiArchive1Loaded(1)) {
-    this->multiArchives1[1]->init();
-    if (!splitScreen && this->courseCache.mState == 2 &&
-        courseId == this->courseCache.mCourseId) {
-      MultiDvdArchive* m = this->multiArchives1[1];
-      if (this->courseCache.mState == 2)
-        m->loadOther(this->courseCache.mArchive, param_3);
+  if (!isSceneArchiveLoaded(1)) {
+    mppSceneArchives[1]->init();
+
+    if (!splitScreen && mCourseCache.mState == 2 &&
+        courseId == mCourseCache.mCourseId) {
+      MultiDvdArchive* m = mppSceneArchives[1];
+
+      if (mCourseCache.mState == 2)
+        m->loadOther(mCourseCache.mpArchive, param_3);
     } else {
       if (splitScreen) {
         snprintf(courseName, sizeof(courseName), "Race/Course/%s_d",
                  COURSE_NAMES[courseId]);
-        if (!this->multiArchives1[1]->exists(courseName)) {
+
+        if (!mppSceneArchives[1]->exists(courseName)) {
           splitScreen = false;
         }
       }
@@ -463,10 +471,10 @@ MultiDvdArchive* ResourceManager::loadCourse(CourseId courseId,
         snprintf(courseName, sizeof(courseName), "Race/Course/%s",
                  COURSE_NAMES[courseId]);
       }
-      requestLoad(2, this->multiArchives1[1], courseName, param_3);
+      requestLoad(2, mppSceneArchives[1], courseName, param_3);
     }
   }
-  return this->multiArchives1[1];
+  return mppSceneArchives[1];
 }
 
 MultiDvdArchive* ResourceManager::loadMission(CourseId courseId, s32 missionNum,
@@ -475,26 +483,31 @@ MultiDvdArchive* ResourceManager::loadMission(CourseId courseId, s32 missionNum,
   char missionPath[128];
   char courseName[128];
 
-  if (!isMultiArchive1Loaded(1)) {
-    this->multiArchives1[1]->init();
+  if (!isSceneArchiveLoaded(1)) {
+    mppSceneArchives[1]->init();
+
     snprintf(missionPath, sizeof(missionPath), "Race/MissionRun/mr%02d.szs",
              missionNum);
-    MultiDvdArchive* archive = this->multiArchives1[1];
+
+    MultiDvdArchive* archive = mppSceneArchives[1];
+
     if (archive->archiveCount > 1) {
       archive->kinds[1] = RES_KIND_FILE_SINGLE_FORMAT;
       strncpy(archive->suffixes[1], missionPath, sizeof(missionPath));
     }
 
-    if (!splitScreen && this->courseCache.mState == 2 &&
-        courseId == this->courseCache.mCourseId) {
-      MultiDvdArchive* m = this->multiArchives1[1];
-      if (this->courseCache.mState == 2)
-        m->loadOther(this->courseCache.mArchive, param_3);
+    if (!splitScreen && mCourseCache.mState == 2 &&
+        courseId == mCourseCache.mCourseId) {
+      MultiDvdArchive* m = mppSceneArchives[1];
+
+      if (mCourseCache.mState == 2)
+        m->loadOther(mCourseCache.mpArchive, param_3);
     } else {
       if (splitScreen) {
         snprintf(courseName, sizeof(courseName), "Race/Course/%s_d",
                  COURSE_NAMES[courseId]);
-        if (!this->multiArchives1[1]->exists(courseName)) {
+
+        if (!mppSceneArchives[1]->exists(courseName)) {
           splitScreen = false;
         }
       }
@@ -502,10 +515,10 @@ MultiDvdArchive* ResourceManager::loadMission(CourseId courseId, s32 missionNum,
         snprintf(courseName, sizeof(courseName), "Race/Course/%s",
                  COURSE_NAMES[courseId]);
       }
-      requestLoad(3, this->multiArchives1[1], courseName, param_3);
+      requestLoad(3, mppSceneArchives[1], courseName, param_3);
     }
   }
-  return this->multiArchives1[1];
+  return mppSceneArchives[1];
 }
 
 MultiDvdArchive* ResourceManager::loadCompetition(CourseId courseId,
@@ -514,16 +527,17 @@ MultiDvdArchive* ResourceManager::loadCompetition(CourseId courseId,
   char competitionPath[128];
   char courseName[128];
 
-  if (!isMultiArchive1Loaded(1)) {
-    this->multiArchives1[1]->init();
+  if (!isSceneArchiveLoaded(1)) {
+    mppSceneArchives[1]->init();
 
     u16 objCount = 1;
     u16 var4 = 0;
+
     for (u8 i = 0; i < 0x10; i++) {
       if ((param6 & (1 << i)) != 0) {
         snprintf(competitionPath, sizeof(competitionPath),
                  "Race/Competition/CommonObj/CommonObj%02d.szs", i + 1);
-        MultiDvdArchive* archive = this->multiArchives1[1];
+        MultiDvdArchive* archive = mppSceneArchives[1];
 
         if (objCount < archive->archiveCount) {
           archive->kinds[objCount] = RES_KIND_FILE_SINGLE_FORMAT;
@@ -538,8 +552,8 @@ MultiDvdArchive* ResourceManager::loadCompetition(CourseId courseId,
       }
     }
 
-    if (objCount < this->multiArchives1[1]->archiveCount) {
-      MultiDvdArchive* archive = this->multiArchives1[1];
+    if (objCount < mppSceneArchives[1]->archiveCount) {
+      MultiDvdArchive* archive = mppSceneArchives[1];
       archive->kinds[objCount] = RES_KIND_BUFFER;
       archive->fileStarts[objCount] = fileStart;
       archive->fileSizes[objCount] = fileSize;
@@ -547,9 +561,9 @@ MultiDvdArchive* ResourceManager::loadCompetition(CourseId courseId,
 
     snprintf(courseName, sizeof(courseName), "Race/Course/%s",
              COURSE_NAMES[courseId]);
-    requestLoad(4, this->multiArchives1[1], courseName, heap);
+    requestLoad(4, mppSceneArchives[1], courseName, heap);
   }
-  return this->multiArchives1[1];
+  return mppSceneArchives[1];
 }
 
 MultiDvdArchive* ResourceManager::loadKartFromArchive(
@@ -570,12 +584,13 @@ MultiDvdArchive* ResourceManager::loadKartFromArchive2(
     s32 archiveIdx, VehicleId vehicleId, CharacterId characterId,
     BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap,
     EGG::Heap* fileHeap) {
-  MultiDvdArchive* archive = &this->multiArchives2[archiveIdx];
+  MultiDvdArchive* archive = &mKartArchives[archiveIdx];
   char path[128];
 
   if (!archive->isLoaded()) {
     const char* driver = getCharacterName(characterId);
     const char* kart = getVehicleName(vehicleId);
+
     snprintf(path, sizeof(path), "Race/Kart/%s%s-%s%s", kart,
              TEAM_SUFFIXES[battleTeamId], driver, LOD_RES_SUFFIXES[playMode]);
     requestLoadFile(5, archive, path, archiveHeap, fileHeap);
@@ -588,7 +603,7 @@ MultiDvdArchive* ResourceManager::loadKartFromArchive3(
     s32 archiveIdx, VehicleId vehicleId, CharacterId characterId,
     BattleTeam battleTeamId, PlayMode playMode, EGG::Heap* archiveHeap,
     EGG::Heap* fileHeap) {
-  MultiDvdArchive* archive = &this->multiArchives3[archiveIdx];
+  MultiDvdArchive* archive = &mBackupKartArchives[archiveIdx];
   char path[128];
 
   if (!archive->isLoaded()) {
@@ -610,8 +625,8 @@ MultiDvdArchive* ResourceManager::loadMenuKartModel(s32 archiveIdx,
   const char* characterName;
   char buffer[128];
 
-  if (!isMultiArchive2Loaded(archiveIdx)) {
-    if (battleTeam == 2) { // not in battle mode
+  if (!isKartArchiveLoaded(archiveIdx)) {
+    if (battleTeam == BATTLE_TEAM_NONE) {
       characterName = getCharacterName(characterId);
       snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart",
                characterName);
@@ -620,64 +635,66 @@ MultiDvdArchive* ResourceManager::loadMenuKartModel(s32 archiveIdx,
       snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart_BT",
                characterName);
     }
-    multiArchives2[archiveIdx].load(buffer, archiveHeap, fileHeap, 0);
+    mKartArchives[archiveIdx].load(buffer, archiveHeap, fileHeap, 0);
   }
-  return &multiArchives2[archiveIdx];
+  return &mKartArchives[archiveIdx];
 }
 
 void ResourceManager::unmountMulti(s32 archiveIdx) {
-  multiArchives1[archiveIdx]->unmount();
+  mppSceneArchives[archiveIdx]->unmount();
 }
 
 void ResourceManager::unmountMulti(MultiDvdArchive* other) { other->unmount(); }
 
 void ResourceManager::unmountArchive(s32 archiveIdx) {
-  dvdArchives[archiveIdx].unmount();
+  mSystemArchives[archiveIdx].unmount();
 }
 
 void* ResourceManager::getFile(s32 archiveIdx, const char* filename,
                                size_t* size) {
-  return isMultiArchive1Loaded(archiveIdx)
-             ? multiArchives1[archiveIdx]->getFile(filename, size)
+  return isSceneArchiveLoaded(archiveIdx)
+             ? mppSceneArchives[archiveIdx]->getFile(filename, size)
              : nullptr;
 }
 
 void* ResourceManager::getCharacterFile(CharacterId characterId, size_t* size) {
   char buffer[128];
 
-  if (!isMultiArchive1Loaded(6)) {
+  if (!isSceneArchiveLoaded(6)) {
     return nullptr;
   }
+
   const char* character = getCharacterName(characterId);
   // I can't believe this compiles
   snprintf("%s.brres", sizeof(buffer), character);
-  return multiArchives1[6]->getFile(buffer, size);
+  return mppSceneArchives[6]->getFile(buffer, size);
 }
 
 void* ResourceManager::getVehicleFile(s32 archiveIdx, VehicleId vehicleId,
                                       size_t* size) {
   char buffer[128];
 
-  if (!isMultiArchive2Loaded(archiveIdx)) {
+  if (!isKartArchiveLoaded(archiveIdx)) {
     return nullptr;
   }
+
   const char* vehicle = getVehicleName(vehicleId);
   // I can't believe this compiles
   snprintf("%s.brres", sizeof(buffer), vehicle);
-  return multiArchives2[archiveIdx].getFile(buffer, size);
+  return mKartArchives[archiveIdx].getFile(buffer, size);
 }
 
-void* ResourceManager::getMultiFile2(s32 idx, const char* filename,
-                                     size_t* size) {
-  return isMultiArchive2Loaded(idx)
-             ? this->multiArchives2[idx].getFile(filename, size)
+void* ResourceManager::getKartArchiveFile(s32 idx, const char* filename,
+                                          size_t* size) {
+  return isKartArchiveLoaded(idx)
+             ? this->mKartArchives[idx].getFile(filename, size)
              : nullptr;
 }
 
-void* ResourceManager::getMultiFile3(s32 idx, const char* filename,
-                                     size_t* size) {
-  return isMultiArchive3Loaded(idx)
-             ? this->multiArchives3[idx].getFile(filename, size)
+void* ResourceManager::getBackupKartArchiveFile(s32 idx, const char* filename,
+                                                size_t* size) {
+  return isBackupKartArchiveLoaded(idx)
+             ? this->mBackupKartArchives[idx].getFile(filename, size)
              : nullptr;
 }
 
@@ -689,39 +706,40 @@ void* ResourceManager::getBspFile(s32 playerIdx, size_t* size) {
           .vehicleId);
   snprintf(buffer, sizeof(buffer), "/bsp/%s.bsp", vehicle);
 
-  return (isMultiArchive1Loaded(0)) ? multiArchives1[0]->getFile(buffer, size)
-                                    : nullptr;
+  return (isSceneArchiveLoaded(0)) ? mppSceneArchives[0]->getFile(buffer, size)
+                                   : nullptr;
 }
 
 void* ResourceManager::getFileCopy(s32 archiveIdx, char* filename,
                                    EGG::Heap* heap, size_t* size, s8 param_5) {
-  return !isDvdArchiveLoaded(archiveIdx) ? nullptr
-                                         : dvdArchives[archiveIdx].getFileCopy(
-                                               filename, heap, size, param_5);
+  return !isSystemArchiveLoaded(archiveIdx)
+             ? nullptr
+             : mSystemArchives[archiveIdx].getFileCopy(filename, heap, size,
+                                                       param_5);
 }
 
-bool ResourceManager::isMultiArchive1Loaded(s32 idx) volatile {
-  return this->multiArchives1[idx]->isLoaded();
+bool ResourceManager::isSceneArchiveLoaded(s32 idx) volatile {
+  return mppSceneArchives[idx]->isLoaded();
 }
 
-bool ResourceManager::isMultiArchive2Loaded(s32 idx) {
-  return this->multiArchives2[idx].isLoaded();
+bool ResourceManager::isKartArchiveLoaded(s32 idx) {
+  return mKartArchives[idx].isLoaded();
 }
 
-bool ResourceManager::isMultiArchive3Loaded(s32 idx) {
-  return this->multiArchives3[idx].isLoaded();
+bool ResourceManager::isBackupKartArchiveLoaded(s32 idx) {
+  return mBackupKartArchives[idx].isLoaded();
 }
 
-bool ResourceManager::isDvdArchiveLoaded(s32 idx) {
-  return this->dvdArchives[idx].isLoaded();
+bool ResourceManager::isSystemArchiveLoaded(s32 idx) {
+  return mSystemArchives[idx].isLoaded();
 }
 
 void* ResourceManager::getArchiveStart(ResourceChannelID resId,
                                        u32 archiveIdx) {
-  if (!isMultiArchive1Loaded(resId)) {
+  if (!isSceneArchiveLoaded(resId)) {
     return nullptr;
-  } else if (archiveIdx < this->multiArchives1[resId]->archiveCount) {
-    return this->multiArchives1[resId]->archives[archiveIdx].mArchiveStart;
+  } else if (archiveIdx < mppSceneArchives[resId]->archiveCount) {
+    return mppSceneArchives[resId]->archives[archiveIdx].mArchiveStart;
   }
   return nullptr;
 }
@@ -731,14 +749,14 @@ bool ResourceManager::setArcResourceLink(s32 multiIdx, u16 archiveIdx,
                                          const char* dirname) {
   void* archiveStart;
 
-  if (!multiArchives1[multiIdx]->isLoaded()) {
+  if (!mppSceneArchives[multiIdx]->isLoaded()) {
     return false;
   }
 
-  if (archiveIdx < multiArchives1[multiIdx]->archiveCount) {
+  if (archiveIdx < mppSceneArchives[multiIdx]->archiveCount) {
     archiveStart =
-        (archiveIdx < multiArchives1[multiIdx]->archiveCount)
-            ? multiArchives1[multiIdx]->archives[archiveIdx].mArchiveStart
+        (archiveIdx < mppSceneArchives[multiIdx]->archiveCount)
+            ? mppSceneArchives[multiIdx]->archives[archiveIdx].mArchiveStart
             : nullptr;
     ArcResourceLink_set(arcResource, archiveStart, dirname);
     return true;
@@ -748,12 +766,11 @@ bool ResourceManager::setArcResourceLink(s32 multiIdx, u16 archiveIdx,
 }
 
 u16 ResourceManager::getLoadedArchiveCount(s32 idx) {
-  return isMultiArchive1Loaded(idx) ? this->multiArchives1[idx]->archiveCount
-                                    : 0;
+  return isSceneArchiveLoaded(idx) ? mppSceneArchives[idx]->archiveCount : 0;
 }
 
 u16 ResourceManager::getMenuArchiveCount() {
-  return this->multiArchives1[2]->archiveCount;
+  return mppSceneArchives[2]->archiveCount;
 }
 
 void ResourceManager::attachArcResourceAccessor(void* arcResourceAccessor,
@@ -762,10 +779,10 @@ void ResourceManager::attachArcResourceAccessor(void* arcResourceAccessor,
   // ping me tomorrow to clean this up
   void* archiveStart;
 
-  if (!isMultiArchive1Loaded(2)) {
+  if (!isSceneArchiveLoaded(2)) {
     archiveStart = nullptr;
-  } else if (multiArchives1[2]->archiveCount != 0) {
-    archiveStart = multiArchives1[2]->archives->mArchiveStart;
+  } else if (mppSceneArchives[2]->archiveCount != 0) {
+    archiveStart = mppSceneArchives[2]->archives->mArchiveStart;
   } else {
     archiveStart = nullptr;
   }
@@ -774,10 +791,10 @@ void ResourceManager::attachArcResourceAccessor(void* arcResourceAccessor,
     return;
   }
 
-  if (!isMultiArchive1Loaded(2)) {
+  if (!isSceneArchiveLoaded(2)) {
     archiveStart = nullptr;
-  } else if (multiArchives1[2]->archiveCount != 0) {
-    archiveStart = multiArchives1[2]->archives->mArchiveStart;
+  } else if (mppSceneArchives[2]->archiveCount != 0) {
+    archiveStart = mppSceneArchives[2]->archives->mArchiveStart;
   } else {
     archiveStart = nullptr;
   }
@@ -793,6 +810,7 @@ void ResourceManager::attatchLayoutDir(void* accessor, const char* dirname,
 
   for (u16 i = 0; i < this->getLoadedArchiveCountInverse(RES_CHAN_UI); i++) {
     void* arcResource;
+
     if (i < whatever2->_08) {
       arcResource = &whatever2->_04[i];
     } else {
@@ -811,15 +829,14 @@ void ResourceManager::attatchLayoutDir(void* accessor, const char* dirname,
 #endif
 void preloadCourseTask(void* courseId) {
   ((ResourceManager*)ResourceManager::spInstance)
-      ->courseCache.load((CourseId)courseId);
+      ->mCourseCache.load((CourseId)courseId);
 }
 #ifdef __CWCC__
 #pragma dont_inline off
 #endif
 
 void ResourceManager::preloadCourseAsync(CourseId courseId) {
-  this->taskThread->request(preloadCourseTask, (void*)courseId,
-                            (void*)0x10000002);
+  mpTaskThread->request(preloadCourseTask, (void*)courseId, (void*)0x10000002);
 }
 
 const char* getCharacterName(CharacterId charId) {
@@ -831,44 +848,44 @@ const char* getVehicleName(VehicleId vehicleId) {
 }
 
 CourseCache::CourseCache() {
-  mBuffer = nullptr;
-  mHeap = nullptr;
-  mArchive = new CourseDvdArchive();
+  mpBuffer = nullptr;
+  mpHeap = nullptr;
+  mpArchive = new CourseDvdArchive();
 }
 
 void CourseCache::init() {
   void* block = new (-32) u8[0x319000];
-  mBuffer = block;
-  mHeap = EGG::ExpHeap::create(block, 0x319000, 1);
+  mpBuffer = block;
+  mpHeap = EGG::ExpHeap::create(block, 0x319000, 1);
 }
 
 CourseCache::~CourseCache() {
-  mArchive->clear();
-  if (mHeap) {
-    mHeap->destroy();
-    delete[](mBuffer);
+  mpArchive->clear();
+  if (mpHeap) {
+    mpHeap->destroy();
+    delete[](mpBuffer);
   }
 }
 
 void CourseCache::load(CourseId courseId) {
-  if (!mHeap)
+  if (!mpHeap)
     return;
   char buffer[128];
 
   mCourseId = courseId;
   if (mState == 2) {
-    mArchive->clear();
+    mpArchive->clear();
   }
-  mState = 1;
+  mState = COURSE_CACHE_STATE_UNK1;
 
   snprintf(buffer, sizeof(buffer), "Race/Course/%s", COURSE_NAMES[mCourseId]);
-  mArchive->rip(buffer, mHeap);
+  mpArchive->rip(buffer, mpHeap);
 
-  if ((u16)mArchive->rippedArchiveCount()) {
-    mState = 2;
+  if ((u16)mpArchive->rippedArchiveCount()) {
+    mState = COURSE_CACHE_STATE_UNK2;
   } else {
-    mArchive->clear();
-    mState = 0;
+    mpArchive->clear();
+    mState = COURSE_CACHE_STATE_UNK0;
   }
 }
 
@@ -876,7 +893,7 @@ void CourseCache::loadOther(MultiDvdArchive* other, EGG::Heap* heap) {
   if (mState != 2)
     return;
 
-  other->loadOther(mArchive, heap);
+  other->loadOther(mpArchive, heap);
 }
 
 } // namespace System
@@ -884,23 +901,25 @@ void CourseCache::loadOther(MultiDvdArchive* other, EGG::Heap* heap) {
 char* _unk_getNullString() { return ""; }
 
 namespace System {
+
 bool ResourceManager::tryRequestTask(EGG::TaskThread::TFunction fun,
                                      void* arg) {
   bool res = this->requestTask(fun, arg, (void*)0x10000001);
   if (res) {
-    this->process();
+    process();
   }
   return res;
 }
 
 bool ResourceManager::requestTask(EGG::TaskThread::TFunction fun, void* arg,
                                   void* _8) {
-  if (this->requestsEnabled) {
-    this->requestPending = true;
-    return this->taskThread->request(fun, arg, _8);
+  if (mRequestsEnabled) {
+    mRequestPending = true;
+    return mpTaskThread->request(fun, arg, _8);
   }
   return false;
 }
+
 } // namespace System
 
 // Symbol: unk_80541ce0
@@ -1012,13 +1031,14 @@ lbl_80541e10:
 namespace System {
 
 namespace {
+
 void RloadMenuKartModel(MultiDvdArchive* m, CharacterId characterId,
                         BattleTeam battleTeam, EGG::Heap* archiveHeap,
                         EGG::Heap* fileHeap) {
   char buffer[128];
 
   if (!m->isLoaded()) {
-    if (battleTeam == 2) { // not in battle mode
+    if (battleTeam == BATTLE_TEAM_NONE) { // not in battle mode
       snprintf(buffer, sizeof(buffer), "Scene/Model/Kart/%s-allkart",
                getCharacterName(characterId));
     } else {
@@ -1028,62 +1048,64 @@ void RloadMenuKartModel(MultiDvdArchive* m, CharacterId characterId,
     m->load(buffer, archiveHeap, fileHeap, 0);
   }
 }
+
 void RloadMenuKartModel(MultiDvdArchive* m, MenuCharacterManager* c) {
-  RloadMenuKartModel(m, c->mCharacter, c->mModelType, c->archiveHeap,
-                     c->fileHeap);
+  RloadMenuKartModel(m, c->mCharacter, c->mTeam, c->mpArchiveHeap,
+                     c->mpFileHeap);
 }
+
 } // namespace
+
 void ResourceManager::doLoadCharacterKartModel(void* idxs) {
   ResourceManager* resMgr = ResourceManager::spInstance_REAL;
   const u8 idx = (const u8)idxs;
-  if (resMgr->multiArchives2[idx].isLoaded()) {
-    resMgr->multiArchives2[idx].unmount();
+  if (resMgr->mKartArchives[idx].isLoaded()) {
+    resMgr->mKartArchives[idx].unmount();
   }
-  resMgr->menuManagers[idx]._unk = 2;
-  resMgr->menuManagers[idx].destroy();
+  resMgr->mMenuManagers[idx].mState = MENU_CHARACTER_MANAGER_STATE_UNK2;
+  resMgr->mMenuManagers[idx].destroy();
 
-  MultiDvdArchive* archive = &resMgr->multiArchives2[idx];
-  RloadMenuKartModel(archive, &resMgr->menuManagers[idx]);
+  MultiDvdArchive* archive = &resMgr->mKartArchives[idx];
+  RloadMenuKartModel(archive, &resMgr->mMenuManagers[idx]);
   if (!archive->isLoaded()) {
     OSSleepMilliseconds(16);
   }
   if (archive->isLoaded()) {
-    resMgr->menuManagers[idx]._unk = 4;
+    resMgr->mMenuManagers[idx].mState = MENU_CHARACTER_MANAGER_STATE_UNK4;
   } else {
-    resMgr->menuManagers[idx]._unk = 0;
+    resMgr->mMenuManagers[idx].mState = MENU_CHARACTER_MANAGER_STATE_CLEARED;
   }
 }
 
 void ResourceManager::doLoadCharacterKartModelPriv(s32 idx) {
-  if (this->multiArchives2[idx].isLoaded()) {
-    this->multiArchives2[idx].unmount();
+  if (mKartArchives[idx].isLoaded()) {
+    mKartArchives[idx].unmount();
   }
-  this->menuManagers[idx]._unk = 2;
-  this->menuManagers[idx].destroy();
+  mMenuManagers[idx].mState = MENU_CHARACTER_MANAGER_STATE_UNK2;
+  mMenuManagers[idx].destroy();
 
-  MultiDvdArchive* archive = &this->multiArchives2[idx];
-  RloadMenuKartModel(archive, this->menuManagers[idx].mCharacter,
-                     this->menuManagers[idx].mModelType,
-                     this->menuManagers[idx].archiveHeap,
-                     this->menuManagers[idx].fileHeap);
+  MultiDvdArchive* archive = &mKartArchives[idx];
+  RloadMenuKartModel(archive, mMenuManagers[idx].mCharacter,
+                     mMenuManagers[idx].mTeam, mMenuManagers[idx].mpArchiveHeap,
+                     mMenuManagers[idx].mpFileHeap);
   if (!archive->isLoaded()) {
     OSSleepMilliseconds(16);
   }
   if (archive->isLoaded()) {
-    this->menuManagers[idx]._unk = 4;
+    mMenuManagers[idx].mState = MENU_CHARACTER_MANAGER_STATE_UNK4;
   } else {
-    this->menuManagers[idx]._unk = 0;
+    mMenuManagers[idx].mState = MENU_CHARACTER_MANAGER_STATE_CLEARED;
   }
 }
 
 bool ResourceManager::loadKartMenuModelAsync(s32 idx, CharacterId characterId,
                                              BattleTeam battleTeam) {
-  if (!this->menuManagers[idx].SOME_CHECK()) {
+  if (!mMenuManagers[idx].SOME_CHECK()) {
     return false;
   } else {
-    this->menuManagers[idx].mCharacter = characterId;
-    this->menuManagers[idx].mModelType = battleTeam;
-    this->menuManagers[idx]._unk = 1;
+    mMenuManagers[idx].mCharacter = characterId;
+    mMenuManagers[idx].mTeam = battleTeam;
+    mMenuManagers[idx].mState = MENU_CHARACTER_MANAGER_STATE_UNK1;
     this->requestTask(ResourceManager::doLoadCharacterKartModel, (void*)idx,
                       (void*)0x10000003);
     return true;
@@ -1100,16 +1122,16 @@ static inline void setHeap(EGG::ExpHeap** heapDest, EGG::ExpHeap* heapSrc) {
   }
 }
 
-void ResourceManager::FUN_805422cc(u32 count, s32 heapIdx) {
-  this->_610 = createExpHeap(0xc8000, heapIdx);
+void ResourceManager::createMenuHeaps(u32 count, s32 heapIdx) {
+  mpMenuHeap = createExpHeap(0xc8000, heapIdx);
   for (u8 i = 0; i < 4; i++) {
     if (i < count) {
       EGG::ExpHeap* heap = createExpHeap(0xe1000, heapIdx);
-      this->menuManagers[i].setArchiveHeap(heap);
-      this->menuManagers[i].setFileHeap(this->_610);
+      mMenuManagers[i].setArchiveHeap(heap);
+      mMenuManagers[i].setFileHeap(mpMenuHeap);
     } else {
-      this->menuManagers[i].setArchiveHeap(0);
-      this->menuManagers[i].setFileHeap(0);
+      mMenuManagers[i].setArchiveHeap(nullptr);
+      mMenuManagers[i].setFileHeap(nullptr);
     }
   }
 }
@@ -1122,8 +1144,8 @@ void ResourceManager::clear() {
     clear(i);
   }
 
-  this->_610->destroy();
-  this->_610 = nullptr;
+  mpMenuHeap->destroy();
+  mpMenuHeap = nullptr;
 }
 
 } // namespace System
@@ -1142,7 +1164,7 @@ asm UNKNOWN_FUNCTION(unk_8054247c) {
 }
 
 namespace System {
-u8* ResourceManager::FUN_8054248c(EGG::Heap* globeHeap) {
+u8* ResourceManager::loadGlobe(EGG::Heap* globeHeap) {
   EGG::LZStreamDecomp lzstream;
 
   const char* globePath = Resource::GetResourcePath(SYS_RES_GLOBE);
@@ -1165,34 +1187,32 @@ u8* ResourceManager::FUN_8054248c(EGG::Heap* globeHeap) {
 void ResourceManager::initGlobeHeap(size_t size, EGG::Heap* heap) {
   if (heap == nullptr) {
     GameScene* gameScene = getGameScene();
-    heap = gameScene->dynamicHeaps.mpHeaps[1];
+    heap = gameScene->mDynamicHeaps.mpHeaps[1];
   }
-  this->globeHeap = EGG::ExpHeap::create(size + 0x2041fU & 0xffffffe0, heap, 0);
+  mpGlobeHeap = EGG::ExpHeap::create(size + 0x2041fU & 0xffffffe0, heap, 0);
 }
 } // namespace System
 
 namespace System {
+
 void ResourceManager::deinitGlobeHeap() {
-  this->flush();
-  this->globeHeap->destroy();
+  flush();
+  mpGlobeHeap->destroy();
   bar();
 }
-} // namespace System
 
-namespace System {
 void ResourceManager::doLoadGlobe(void* globeBlob) {
   ResourceManager::spInstance->doLoadGlobeImpl((u8**)globeBlob);
 }
 
 void ResourceManager::doLoadGlobeImpl(u8** globeBlob) volatile {
-  *globeBlob = ResourceManager::FUN_8054248c(this->globeHeap);
-  this->isGlobeLoadingBusy = false;
+  *globeBlob = ResourceManager::loadGlobe(mpGlobeHeap);
+  mIsGlobeLoadingBusy = false;
 }
 
 bool ResourceManager::loadGlobeAsync(void* arg) {
-  return this->isGlobeLoadingBusy
-             ? false
-             : requestGlobeTaskHelper(arg, (void*)0x10000004);
+  return mIsGlobeLoadingBusy ? false
+                             : requestGlobeTaskHelper(arg, (void*)0x10000004);
 }
 
 void ResourceManager::loadStaffGhostAsync(

@@ -11,150 +11,12 @@
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/RaceConfig.hpp>
 #include <game/system/GhostFile.hpp>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-// PAL: 0x8053fc4c..0x8053fc9c
-UNKNOWN_FUNCTION(ResourceManager_createInstance);
-// PAL: 0x8053fc9c..0x8053fcec
-UNKNOWN_FUNCTION(ResourceManager_destroyInstance);
-// PAL: 0x8053fcec..0x8053fe68
-UNKNOWN_FUNCTION(__ct__Q26System15ResourceManagerFv);
-// PAL: 0x8053fe68..0x8053fe94
-UNKNOWN_FUNCTION(__ct__Q26System20MenuCharacterManagerFv);
-// PAL: 0x8053fe94..0x8053fed4
-UNKNOWN_FUNCTION(unk_8053fe94);
-// PAL: 0x8053fed4..0x8053ff14
-UNKNOWN_FUNCTION(unk_8053fed4);
-// PAL: 0x8053ff14..0x8053ff1c
-UNKNOWN_FUNCTION(unk_8053ff14);
-// PAL: 0x8053ff1c..0x80540038
-UNKNOWN_FUNCTION(ResourceManager_destroy);
-// PAL: 0x80540038..0x805400a0
-UNKNOWN_FUNCTION(unk_80540038);
-// PAL: 0x805400a0..0x805401ec
 UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv);
-// PAL: 0x805401ec..0x805401fc
-UNKNOWN_FUNCTION(unk_805401ec);
-// PAL: 0x805401fc..0x8054020c
-UNKNOWN_FUNCTION(unk_805401fc);
-// PAL: 0x8054020c..0x805402c0
-UNKNOWN_FUNCTION(unk_8054020c);
-// PAL: 0x805402c0..0x80540394
-UNKNOWN_FUNCTION(unk_805402c0);
-// PAL: 0x80540394..0x80540450
-UNKNOWN_FUNCTION(unk_80540394);
-// PAL: 0x80540450..0x80540558
-UNKNOWN_FUNCTION(ResourceManager_load);
-// PAL: 0x80540558..0x80540680
-UNKNOWN_FUNCTION(unk_80540558);
-// PAL: 0x80540680..0x80540760
-UNKNOWN_FUNCTION(ResourceManager_loadUI);
-// PAL: 0x80540760..0x80540918
-UNKNOWN_FUNCTION(ResourceManager_loadCourse);
-// PAL: 0x80540cfc..0x80540e3c
-UNKNOWN_FUNCTION(unk_80540cfc);
-// PAL: 0x80540e3c..0x80540f90
-UNKNOWN_FUNCTION(unk_80540e3c);
-// PAL: 0x80540f90..0x805410e4
-UNKNOWN_FUNCTION(unk_80540f90);
-// PAL: 0x805410e4..0x805411d4
-UNKNOWN_FUNCTION(unk_805410e4);
-// PAL: 0x805411d4..0x805411e4
-UNKNOWN_FUNCTION(unk_805411d4);
-// PAL: 0x805411e4..0x805411ec
-UNKNOWN_FUNCTION(unk_805411e4);
-// PAL: 0x805411ec..0x805411fc
-UNKNOWN_FUNCTION(unk_805411ec);
-// PAL: 0x805411fc..0x80541278
-UNKNOWN_FUNCTION(ResourceManager_getFile);
-// PAL: 0x80541278..0x80541320
-UNKNOWN_FUNCTION(unk_80541278);
-// PAL: 0x80541320..0x805413c8
-UNKNOWN_FUNCTION(unk_80541320);
-// PAL: 0x805413c8..0x80541438
-UNKNOWN_FUNCTION(unk_805413c8);
-// PAL: 0x80541438..0x805414a8
-UNKNOWN_FUNCTION(unk_80541438);
-// PAL: 0x805414a8..0x8054155c
-UNKNOWN_FUNCTION(ResourceManager_loadBSP);
-// PAL: 0x8054155c..0x805415b0
-UNKNOWN_FUNCTION(unk_8054155c);
-// PAL: 0x805415b0..0x805415b4
-UNKNOWN_FUNCTION(unk_805415b0);
-// PAL: 0x805415b4..0x805415c4
-UNKNOWN_FUNCTION(unk_805415b4);
-// PAL: 0x805415c4..0x805415d4
-UNKNOWN_FUNCTION(unk_805415c4);
-// PAL: 0x805415d4..0x805415e4
-UNKNOWN_FUNCTION(unk_805415d4);
-// PAL: 0x805415e4..0x80541614
-UNKNOWN_FUNCTION(unk_805415e4);
-// PAL: 0x8054169c..0x80541738
-UNKNOWN_FUNCTION(unk_8054169c);
-// PAL: 0x80541738..0x80541794
-UNKNOWN_FUNCTION(unk_80541738);
-// PAL: 0x80541794..0x805417a4
-UNKNOWN_FUNCTION(ResourceManager_getMenuArchiveCount);
-// PAL: 0x805417a4..0x80541878
-UNKNOWN_FUNCTION(unk_805417a4);
-// PAL: 0x80541878..0x80541998
-UNKNOWN_FUNCTION(ResourceManager_attachLayoutDir);
-// PAL: 0x80541998..0x805419ac
-UNKNOWN_FUNCTION(ResourceManager_preloadCourseTask);
-// PAL: 0x805419ac..0x805419c8
-UNKNOWN_FUNCTION(ResourceManager_preloadCourseAsync);
-// PAL: 0x805419c8..0x805419ec
-UNKNOWN_FUNCTION(unk_805419c8);
-// PAL: 0x805419ec..0x80541a10
-UNKNOWN_FUNCTION(unk_805419ec);
-// PAL: 0x80541a10..0x80541a70
-UNKNOWN_FUNCTION(unk_80541a10);
-// PAL: 0x80541a70..0x80541ac4
-UNKNOWN_FUNCTION(unk_80541a70);
-// PAL: 0x80541ac4..0x80541b58
-UNKNOWN_FUNCTION(unk_80541ac4);
-// PAL: 0x80541b58..0x80541c18
-UNKNOWN_FUNCTION(load__Q26System11CourseCacheFl);
-// PAL: 0x80541c18..0x80541c38
-UNKNOWN_FUNCTION(unk_80541c18);
-// PAL: 0x80541c38..0x80541c48
-UNKNOWN_FUNCTION(unk_80541c38);
-// PAL: 0x80541c48..0x80541cbc
-UNKNOWN_FUNCTION(unk_80541c48);
-// PAL: 0x80541cbc..0x80541ce0
-UNKNOWN_FUNCTION(unk_80541cbc);
-// PAL: 0x80541ce0..0x80541e44
-// UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv);
-// PAL: 0x80541e44..0x80542030
-UNKNOWN_FUNCTION(unk_80541e44);
-// PAL: 0x80542030..0x80542210
-UNKNOWN_FUNCTION(unk_80542030);
-// PAL: 0x80542210..0x805422cc
-UNKNOWN_FUNCTION(unk_80542210);
-// PAL: 0x805422cc..0x805423bc
-UNKNOWN_FUNCTION(unk_805422cc);
-// PAL: 0x805423bc..0x8054247c
-UNKNOWN_FUNCTION(unk_805423bc);
-// PAL: 0x8054247c..0x8054248c
-UNKNOWN_FUNCTION(unk_8054247c);
-// PAL: 0x8054248c..0x80542524
-UNKNOWN_FUNCTION(unk_8054248c);
-// PAL: 0x80542524..0x80542584
-UNKNOWN_FUNCTION(unk_80542524);
-// PAL: 0x80542584..0x805425d0
-UNKNOWN_FUNCTION(unk_80542584);
-// PAL: 0x805425d0..0x80542694
-UNKNOWN_FUNCTION(unk_805425d0);
-// PAL: 0x80542694..0x80542754
-UNKNOWN_FUNCTION(unk_80542694);
-// PAL: 0x80542754..0x805427bc
-UNKNOWN_FUNCTION(unk_80542754);
-// PAL: 0x805427bc..0x80542868
-UNKNOWN_FUNCTION(SaveManager_loadStaffGhostAsync);
-// PAL: 0x80542868..0x80542878
-UNKNOWN_FUNCTION(unk_80542868);
 UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv);
 #ifdef __cplusplus
 }
@@ -163,22 +25,103 @@ UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv);
 namespace System {
 
 struct JobContext {
-  MultiDvdArchive* multiArchive;
-  DvdArchive* archive;
+  MultiDvdArchive* mpMultiArchive;
+  DvdArchive* mpArchive;
   unk _08;
-  char filename[64];
-  EGG::Heap* archiveHeap;
-  EGG::Heap* fileHeap;
+  char mFilename[64];
+  EGG::Heap* mpArchiveHeap;
+  EGG::Heap* mpFileHeap;
 };
 
 // Enums that represent indices in vehicle name specifiers arrays.
 typedef enum {
-  // TODO: Fill
-  MARIO = 0
+  MARIO = 0x0,
+  BABY_PEACH = 0x1,
+  WALUIGI = 0x2,
+  BOWSER = 0x3,
+  BABY_DAISY = 0x4,
+  DRY_BONES = 0x5,
+  BABY_MARIO = 0x6,
+  LUIGI = 0x7,
+  TOAD = 0x8,
+  DONKEY_KONG = 0x9,
+  YOSHI = 0xA,
+  WARIO = 0xB,
+  BABY_LUIGI = 0xC,
+  TOADETTE = 0xD,
+  KOOPA_TROOPA = 0xE,
+  DAISY = 0xF,
+  PEACH = 0x10,
+  BIRDO = 0x11,
+  DIDDY_KONG = 0x12,
+  KING_BOO = 0x13,
+  BOWSER_JR = 0x14,
+  DRY_BOWSER = 0x15,
+  FUNKY_KONG = 0x16,
+  ROSALINA = 0x17,
+  MII_S_A_MALE = 0x18,
+  MII_S_A_FEMALE = 0x19,
+  MII_S_B_MALE = 0x1A,
+  MII_S_B_FEMALE = 0x1B,
+  MII_S_C_MALE = 0x1C,
+  MII_S_C_FEMALE = 0x1D,
+  MII_M_A_MALE = 0x1E,
+  MII_M_A_FEMALE = 0x1F,
+  MII_M_B_MALE = 0x20,
+  MII_M_B_FEMALE = 0x21,
+  MII_M_C_MALE = 0x22,
+  MII_M_C_FEMALE = 0x23,
+  MII_L_A_MALE = 0x24,
+  MII_L_A_FEMALE = 0x25,
+  MII_L_B_MALE = 0x26,
+  MII_L_B_FEMALE = 0x27,
+  MII_L_C_MALE = 0x28,
+  MII_L_C_FEMALE = 0x29,
+  MII_M = 0x2A,
+  MII_S = 0x2B,
+  MII_L = 0x2C,
+  PEACH_BIKER = 0x2D,
+  DAISY_BIKER = 0x2E,
+  ROSALINA_BIKER = 0x2F
 } CharacterId;
 
 typedef enum {
-  // TODO: Fill
+  STANDARD_KART_S = 0x0,
+  STANDARD_KART_M = 0x1,
+  STANDARD_KART_L = 0x2,
+  BABY_BOOSTER = 0x3,
+  CLASSIC_DRAGSTER = 0x4,
+  OFFROADER = 0x5,
+  MINI_BEAST = 0x6,
+  WILD_WING = 0x7,
+  FLAME_FLYER = 0x8,
+  CHEEP_CHARGER = 0x9,
+  SUPER_BLOOPER = 0xA,
+  PIRANHA_PROWLER = 0xB,
+  RALLY_ROMPER = 0xC,
+  ROYAL_RACER = 0xD,
+  JETSETTER = 0xE,
+  BLUE_FALCON = 0xF,
+  SPRINTER = 0x10,
+  HONEYCOUPE = 0x11,
+  STANDARD_BIKE_S = 0x12,
+  STANDARD_BIKE_M = 0x13,
+  STANDARD_BIKE_L = 0x14,
+  BULLET_BIKE = 0x15,
+  MACH_BIKE = 0x16,
+  BOWSER_BIKE = 0x17,
+  BIT_BIKE = 0x18,
+  BON_BON = 0x19,
+  WARIO_BIKE = 0x1A,
+  QUACKER = 0x1B,
+  RAPIDE = 0x1C,
+  SHOOTING_STAR = 0x1D,
+  MAGIKRUISER = 0x1E,
+  NITROCYCLE = 0x1F,
+  SPEAR = 0x20,
+  JET_BUBBLE = 0x21,
+  DOLPHIN_DASHER = 0x22,
+  PHANTOM = 0x23
 } VehicleId;
 
 // name of battle mode team
@@ -196,8 +139,78 @@ typedef enum {
 } PlayMode;
 
 typedef enum {
-  // TODO: Fill
+  // Race courses
+
+  // Nitro tracks
+  MARIO_CIRCUIT = 0x0,
+  MOO_MOO_MEADOWS = 0x1,
+  MUSHROOM_GORGE = 0x2,
+  GRUMBLE_VOLCANO = 0x3,
+  TOADS_FACTORY = 0x4,
+  COCONUT_MALL = 0x5,
+  DK_SUMMIT = 0x6, // "snowboard cross" enjoyers punching air
+  WARIOS_GOLD_MINE = 0x7,
+  LUIGI_CIRCUIT = 0x8,
+  DAISY_CIRCUIT = 0x9,
+  MOONVIEW_HIGHWAY = 0xA,
+  MAPLE_TREEWAY = 0xB,
+  BOWSERS_CASTLE = 0xC,
+  RAINBOW_ROAD = 0xD,
+  DRY_DRY_RUINS = 0xE,
+  KOOPA_CAPE = 0xF,
+
+  // Retro tracks
+  GCN_PEACH_BEACH = 0x10,
+  GCN_MARIO_CIRCUIT = 0x11,
+  GCN_WALUIGI_STADIUM = 0x12,
+  GCN_DK_MOUNTAIN = 0x13,
+  DS_YOSHI_FALLS = 0x14,
+  DS_DESERT_HILLS = 0x15,
+  DS_PEACH_GARDENS = 0x16,
+  DS_DELFINO_SQUARE = 0x17,
+  SNES_MARIO_CIRCUIT_3 = 0x18,
+  SNES_GHOST_VALLEY_2 = 0x19,
+  N64_MARIO_RACEWAY = 0x1A,
+  N64_SHERBET_LAND = 0x1B,
+  N64_BOWSERS_CASTLE = 0x1C,
+  N64_DKS_JUNGLE_PARKWAY = 0x1D,
+  GBA_BOWSER_CASTLE_3 = 0x1E,
+  GBA_SHY_GUY_BEACH = 0x1F,
+
+  // Battle courses
+  DELFINO_PIER = 0x20,
+  BLOCK_PLAZA = 0x21,
+  CHAIN_CHOMP_ROULETTE = 0x22,
+  FUNKY_STADIUM = 0x23,
+  THWOMP_DESERT = 0x24,
+  GCN_COOKIE_LAND = 0x25,
+  DS_TWILIGHT_HOUSE = 0x26,
+  SNES_BATTLE_COURSE_4 = 0x27,
+  GBA_BATTLE_COURSE_3 = 0x28,
+  N64_SKYSCRAPER = 0x29,
+
+  // Other courses
+  GALAXY_COLOSSEUM = 0x36,
+  WINNING_DEMO = 0x37,
+  LOSING_DEMO = 0x38,
+  DRAW_DEMO = 0x39,
+  SUNSET_LUIGI_CIRCUIT = 0x3A
 } CourseId;
+
+typedef enum {
+  MENU_CHARACTER_MANAGER_STATE_CLEARED = 0,
+  MENU_CHARACTER_MANAGER_STATE_UNK1 = 1,
+  MENU_CHARACTER_MANAGER_STATE_UNK2 = 2,
+  MENU_CHARACTER_MANAGER_STATE_UNK3 = 3,
+  MENU_CHARACTER_MANAGER_STATE_UNK4 = 4
+} MenuCharacterManagerState;
+
+typedef enum {
+  COURSE_CACHE_STATE_UNK0 = 0,
+  COURSE_CACHE_STATE_UNK1 = 1,
+  COURSE_CACHE_STATE_UNK2 = 2,
+  COURSE_CACHE_STATE_UNK3 = 3
+} CourseCacheState;
 
 // begrudging riidefi magic
 struct S {
@@ -207,31 +220,33 @@ inline S::~S() {}
 struct T {
 public:
   T() {
-    archiveHeap = 0;
-    fileHeap = 0;
-    _unk = 0;
+    mpArchiveHeap = nullptr;
+    mpFileHeap = nullptr;
+    mState = MENU_CHARACTER_MANAGER_STATE_CLEARED;
   }
-  EGG::ExpHeap* archiveHeap;
-  EGG::ExpHeap* fileHeap;
-  s32 _unk;
+  EGG::ExpHeap* mpArchiveHeap;
+  EGG::ExpHeap* mpFileHeap;
+  MenuCharacterManagerState mState;
+
+  // what am I looking at
   inline bool SOME_CHECK() const {
-    return archiveHeap && ((_unk <= 4u && (((1 << _unk) & 0x15U) != 0)));
+    return mpArchiveHeap && ((mState <= 4u && (((1 << mState) & 0x15U) != 0)));
   }
   inline void destroy() {
     if (SOME_CHECK()) {
-      archiveHeap->freeAll();
-      fileHeap->freeAll();
+      mpArchiveHeap->freeAll();
+      mpFileHeap->freeAll();
     }
-    _unk = 3;
+    mState = MENU_CHARACTER_MANAGER_STATE_UNK3;
   }
   inline void setArchiveHeap(EGG::ExpHeap* heapSrc) {
-    if (this->archiveHeap == 0) {
-      this->archiveHeap = heapSrc;
+    if (!mpArchiveHeap) {
+      mpArchiveHeap = heapSrc;
     }
   }
   inline void setFileHeap(EGG::ExpHeap* heapSrc) {
-    if (this->fileHeap == 0) {
-      this->fileHeap = heapSrc;
+    if (!mpFileHeap) {
+      mpFileHeap = heapSrc;
     }
   }
 };
@@ -242,11 +257,11 @@ class MenuCharacterManager : S, public T {
 public:
   MenuCharacterManager() {
     mCharacter = MARIO;
-    mModelType = BATTLE_TEAM_NONE;
+    mTeam = BATTLE_TEAM_NONE;
   }
   virtual ~MenuCharacterManager() {}
   CharacterId mCharacter;
-  BattleTeam mModelType;
+  BattleTeam mTeam;
 };
 
 class CourseCache : EGG::Disposer {
@@ -259,11 +274,11 @@ public:
 
   // private: // idk if rii prefers to befriend every class over public-ing
   // everything
-  void* mBuffer;
-  EGG::ExpHeap* mHeap;
-  s32 mCourseId;
-  s32 mState;
-  MultiDvdArchive* mArchive;
+  void* mpBuffer;
+  EGG::ExpHeap* mpHeap;
+  CourseId mCourseId;
+  CourseCacheState mState;
+  MultiDvdArchive* mpArchive;
 };
 
 void preloadCourseTask(void* courseId);
@@ -273,12 +288,12 @@ const char* getVehicleName(VehicleId vehicleId);
 // unknown structs
 struct Whatever {
   u32 _00;
-  u8 _04[0xa4 - 0x04];
+  u8 _04[0xa4 - 0x4];
 };
 struct Whatever2 {
   u8 _00[0x4 - 0x0];
   Whatever* _04;
-  u16 _08; /* ... */
+  u16 _08; // ...
 };
 
 class ResourceManager {
@@ -288,33 +303,34 @@ public:
   static volatile ResourceManager* createInstance();
   static void destroyInstance();
 
+  // Pretty sure this is actual source code
   static volatile ResourceManager* spInstance;
   static ResourceManager* spInstance_REAL;
 
   ResourceManager();
 
-  MultiDvdArchive** multiArchives1;
-  MultiDvdArchive multiArchives2[12];
-  MultiDvdArchive multiArchives3[12];
-  DvdArchive dvdArchives[4];
-  JobContext jobContexts[7];
-  EGG::TaskThread* taskThread;
-  CourseCache courseCache;
-  MenuCharacterManager menuManagers[4];
-  bool isGlobeLoadingBusy;
-  bool _60d; // these variables don't have names yet, but are used
-  EGG::ExpHeap* _610;
-  EGG::Heap* globeHeap;
-  bool requestPending;
-  bool requestsEnabled;
+  MultiDvdArchive** mppSceneArchives;
+  MultiDvdArchive mKartArchives[12];
+  MultiDvdArchive mBackupKartArchives[12]; // TODO: better name
+  DvdArchive mSystemArchives[4];
+  JobContext mJobContexts[7];
+  EGG::TaskThread* mpTaskThread;
+  CourseCache mCourseCache;
+  MenuCharacterManager mMenuManagers[4];
+  bool mIsGlobeLoadingBusy;
+  bool _60d; // this variable is only used in GameScene
+  EGG::ExpHeap* mpMenuHeap;
+  EGG::Heap* mpGlobeHeap;
+  bool mRequestPending;
+  bool mRequestsEnabled;
 
   void foo() volatile {
-    requestPending = false;
-    requestsEnabled = true;
+    mRequestPending = false;
+    mRequestsEnabled = true;
   }
   void bar() volatile {
-    globeHeap = nullptr;
-    isGlobeLoadingBusy = false;
+    mpGlobeHeap = nullptr;
+    mIsGlobeLoadingBusy = false;
   }
 
   MultiDvdArchive* load(ResourceChannelID channelId, EGG::Heap* archiveHeap,
@@ -355,33 +371,29 @@ public:
   void* getFile(s32 archiveIdx, const char* filename, size_t* size);
   void* getCharacterFile(CharacterId characterId, size_t* size);
   void* getVehicleFile(s32 archiveIdx, VehicleId vehicleId, size_t* size);
-  // TODO: Better name
-  void* getMultiFile2(s32 idx, const char* filename, size_t* size);
-  void* getMultiFile3(s32 idx, const char* filename, size_t* size);
+  void* getKartArchiveFile(s32 idx, const char* filename, size_t* size);
+  void* getBackupKartArchiveFile(s32 idx, const char* filename, size_t* size);
   void* getBspFile(s32 playerIdx, size_t* size);
   void* getFileCopy(s32 archiveIdx, char* filename, EGG::Heap* heap,
                     size_t* size, s8 param_5);
-  // TODO: Better names
-  bool isMultiArchive1Loaded(s32 idx) volatile;
-  bool isMultiArchive2Loaded(s32 idx);
-  bool isMultiArchive3Loaded(s32 idx);
-  bool isDvdArchiveLoaded(s32 idx);
+  bool isSceneArchiveLoaded(s32 idx) volatile;
+  bool isKartArchiveLoaded(s32 idx);
+  bool isBackupKartArchiveLoaded(s32 idx);
+  bool isSystemArchiveLoaded(s32 idx);
   bool setArcResourceLink(s32 multiIdx, u16 archiveIdx, void* arcResource,
                           const char* dirname);
   u16 getLoadedArchiveCount(s32 idx);
   // I need this terribleness to match attachArcResourceAccessor
   inline u16 getLoadedArchiveCountInverse(u32 idx) volatile {
-    return !isMultiArchive1Loaded(idx)
-               ? 0
-               : this->multiArchives1[idx]->archiveCount;
+    return !isSceneArchiveLoaded(idx) ? 0 : mppSceneArchives[idx]->archiveCount;
   }
   u16 getMenuArchiveCount();
   bool tryRequestTask(EGG::TaskThread::TFunction mainFunction, void* arg);
   bool requestTask(EGG::TaskThread::TFunction mainFunction, void* arg,
                    void* _8);
 
-  void attatchLayoutDir(void* accessor, const char* dirname, Whatever2* param_4,
-                        bool param_5);
+  void attatchLayoutDir(void* accessor, const char* dirname, Whatever2* param_3,
+                        bool param_4);
   void attachArcResourceAccessor(void* arcResourceAccessor,
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
@@ -392,19 +404,19 @@ public:
   void doLoadCharacterKartModelPriv(s32 idxs);
   bool loadKartMenuModelAsync(s32 idx, CharacterId characterId,
                               BattleTeam battleTeam);
-  void FUN_805422cc(u32 count, s32 heapIdx);
-  static void doLoadGlobe(void* glodeBlob);
+  void createMenuHeaps(u32 count, s32 heapIdx);
+  static void doLoadGlobe(void* globeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
   // for matching purposes
   inline bool requestGlobeTaskHelper(void* arg, void* arg2) volatile {
-    this->isGlobeLoadingBusy = true;
-    if (this->requestsEnabled) {
-      this->requestPending = true;
-      this->taskThread->request(ResourceManager::doLoadGlobe, arg, arg2);
+    mIsGlobeLoadingBusy = true;
+    if (mRequestsEnabled) {
+      mRequestPending = true;
+      mpTaskThread->request(ResourceManager::doLoadGlobe, arg, arg2);
     }
     return true;
   }
-  static u8* FUN_8054248c(EGG::Heap* globeHeap);
+  static u8* loadGlobe(EGG::Heap* globeHeap);
   bool loadGlobeAsync(void* arg);
   void clear();
   void process();
@@ -422,14 +434,14 @@ public:
   // TODO: check if actually inline
   inline void requestLoadFile(s32 idx, MultiDvdArchive* m, const char* p,
                               EGG::Heap* archiveHeap, EGG::Heap* fileHeap) {
-    this->jobContexts[idx].multiArchive = m;
-    strncpy(this->jobContexts[idx].filename, p,
-            sizeof(this->jobContexts[idx].filename));
-    this->jobContexts[idx].archiveHeap = archiveHeap;
-    this->jobContexts[idx].fileHeap = fileHeap;
+    mJobContexts[idx].mpMultiArchive = m;
+    strncpy(mJobContexts[idx].mFilename, p,
+            sizeof(mJobContexts[idx].mFilename));
+    mJobContexts[idx].mpArchiveHeap = archiveHeap;
+    mJobContexts[idx].mpFileHeap = fileHeap;
 
-    this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
-    this->process();
+    mpTaskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+    process();
 
     if (!m->isLoaded()) {
       OSSleepMilliseconds(16);
@@ -438,13 +450,13 @@ public:
   inline void requestLoadFile(s32 idx, DvdArchive* archive,
                               const char* filename, u32 unk,
                               EGG::Heap* archiveHeap) {
-    this->jobContexts[idx].archive = archive;
-    strncpy(this->jobContexts[idx].filename, filename, 0x40);
-    this->jobContexts[idx].archiveHeap = archiveHeap;
-    this->jobContexts[idx]._08 = unk;
+    mJobContexts[idx].mpArchive = archive;
+    strncpy(mJobContexts[idx].mFilename, filename, 0x40);
+    mJobContexts[idx].mpArchiveHeap = archiveHeap;
+    mJobContexts[idx]._08 = unk;
 
-    this->taskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
-    this->process();
+    mpTaskThread->request(ResourceManager::doLoadTask, (void*)idx, 0);
+    process();
 
     if (!archive->isLoaded()) {
       OSSleepMilliseconds(16);
@@ -454,8 +466,8 @@ public:
     MultiDvdArchive* archive;
     EGG::ExpHeap* heap;
 
-    heap = menuManagers[i].archiveHeap;
-    archive = &multiArchives2[i];
+    heap = mMenuManagers[i].mpArchiveHeap;
+    archive = &mKartArchives[i];
 
     if (archive->isLoaded()) {
       archive->unmount();
@@ -464,10 +476,10 @@ public:
       heap->destroy();
     }
 
-    if (menuManagers[i]._unk != 3) {
-      menuManagers[i].archiveHeap = 0;
-      menuManagers[i].fileHeap = 0;
-      menuManagers[i]._unk = 0;
+    if (mMenuManagers[i].mState != MENU_CHARACTER_MANAGER_STATE_UNK3) {
+      mMenuManagers[i].mpArchiveHeap = nullptr;
+      mMenuManagers[i].mpFileHeap = nullptr;
+      mMenuManagers[i].mState = MENU_CHARACTER_MANAGER_STATE_CLEARED;
     }
   }
 };
