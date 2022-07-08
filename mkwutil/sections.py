@@ -68,8 +68,7 @@ REL_SECTIONS = [
 REL_SECTION_IDX = [1, 2, 3, 4, 5, 6]
 
 REL_DIRS = [
-    Slice(name="REL/JMAP", start=0x80510B84, stop=0x80518CC0, section="text"),
-    Slice(name="REL/SYSTEM", start=0x80518CC0, stop=0x80553788, section="text"),
+    Slice(name="REL/SYSTEM", start=0x805103B4, stop=0x80553788, section="text"),
     Slice(name="REL/SCENE", start=0x80553788, stop=0x8055531C, section="text"),
     Slice(name="REL/KART", start=0x805672CC, stop=0x805B9010, section="text"),
     Slice(name="REL/UI", start=0x805B9300, stop=0x80653208, section="text"),
