@@ -71,3 +71,6 @@ tools.zip
 .~lock.*
 
 doxygen
+
+# diff.py expected
+expected
