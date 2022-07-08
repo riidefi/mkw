@@ -23,7 +23,6 @@ def apply(config: dict, args):
     config["mw_build_dir"] = "out"  # only needed for mw map format
     config["makeflags"] = []
     config["objdump_executable"] = DEVKITPPC / "bin" / "powerpc-eabi-objdump.exe"
-    config["show_line_numbers_default"] = True
 
 def add_custom_arguments(parser: ArgumentParser):
     parser.add_argument("-r", "--rel", action="store_true", help="(MKW) Diff a function in staticR.rel")
