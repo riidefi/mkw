@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 import os
 from pathlib import Path
+from sys import executable
 
 DEVKITPPC = Path(os.environ.get("DEVKITPPC", "./tools/devkitppc"))
 
@@ -14,6 +15,7 @@ def apply(config: dict, args):
         config["mapfile"] = "artifacts/target/pal/main.map"
         config["myimg"] = "artifacts/target/pal/main.dol"
         config["baseimg"] = "artifacts/orig/pal/main.dol"
+    config["make_command"] = [executable, "build.py", "--diff_py"]
     config["makeflags"] = []
     config["source_directories"] = ["source"]
     config["arch"] = "ppc"
