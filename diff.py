@@ -3,7 +3,7 @@
 
 """
 Imported from https://github.com/simonlindholm/asm-differ/
-on commit 291173ed30e8a6dc91c28334aa1275a555d725b1
+on commit e7d0aaf06ce7f73acc2870bbc0f6ef66c76cb46a
 
 Edits:
     Dol & rel ram-rom conversion added using mkwutil
@@ -1979,7 +1979,7 @@ def process(dump: str, config: Config) -> List[Line]:
             # This regex is conservative, and assumes the file path does not contain "weird"
             # characters like colons, tabs, or angle brackets.
             if re.match(
-                r"^[^ \t<>:][^\t<>:]*:[0-9]+( \(discriminator [0-9]+\))?$", row
+                r"^[^ \t<>][^\t<>]*:[0-9]+( \(discriminator [0-9]+\))?$", row
             ):
                 source_filename, _, tail = row.rpartition(":")
                 source_line_num = int(tail.partition(" ")[0])
