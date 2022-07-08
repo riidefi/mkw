@@ -46,6 +46,9 @@ parser.add_argument(
 parser.add_argument(
     "--match", type=str, default=None, help="Only compile sources matching pattern"
 )
+parser.add_argument(
+    "--diff_py", type=str, default=None, help="Recompile a .o file for diff.py"
+)
 parser.add_argument("--link_only", action="store_true", help="Link only, don't build")
 args = parser.parse_args()
 # Start by running gen_asm.
@@ -333,12 +336,17 @@ def compile_sources():
     for src in chain(SOURCES_DOL, SOURCES_REL):
         queue_compile_source(Path(src.src), src.cc, src.opts)
 
-    if args.match:
+    if args.match or args.diff_py:
+        if args.match:
+            match = args.match
+        else:
+            # (Will still match a .cpp with the same name)
+            match = args.diff_py[len("out/"):-len(".o")] + ".c"
         print(
-            colored('[NOTE] Only compiling sources matching "%s".' % args.match, "red")
+            colored('[NOTE] Only compiling sources matching "%s".' % match, "red")
         )
         global gSourceQueue
-        gSourceQueue = list(filter(lambda x: args.match in str(x[0]), gSourceQueue))
+        gSourceQueue = list(filter(lambda x: match in str(x[0]), gSourceQueue))
     if args.link_only:
         gSourceQueue = []
 
@@ -416,6 +424,9 @@ def build():
     rel_objects = [Path(x.strip()) for x in rel_objects]
 
     compile_sources()
+
+    if args.diff_py:
+        return
 
     orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
     orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
