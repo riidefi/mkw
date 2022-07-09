@@ -16,7 +16,9 @@ out/rel/text_8051d4d4_8052a098.o
 out/rel/data_808b2d50_808b3188.o
 out/LocalizedArchive.o
 out/MultiDvdArchive.o
-out/rel/text_8052ae5c_8053fc4c.o
+out/rel/text_8052ae5c_8052d96c.o
+out/RaceConfig.o
+out/rel/text_80532084_8053fc4c.o
 out/rel/rodata_8088fe28_80890490.o
 out/rel/data_808b31e8_808b3960.o
 out/ResourceManager.o
