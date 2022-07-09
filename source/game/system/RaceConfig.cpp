@@ -1,14 +1,15 @@
 #include "RaceConfig.hpp"
 
+extern "C" {
 // Extern function references.
 // PAL: 0x8051c088
-extern UNKNOWN_FUNCTION(RawGhostFile_reset);
+extern UNKNOWN_FUNCTION(reset__Q26System12RawGhostFileFv);
 // PAL: 0x8051c120
-extern UNKNOWN_FUNCTION(RawGhostFile_isValid);
+extern UNKNOWN_FUNCTION(isValid__Q26System12RawGhostFileCFv);
 // PAL: 0x8051c270
-extern UNKNOWN_FUNCTION(GhostFile_construct);
+extern UNKNOWN_FUNCTION(__ct__Q26System9GhostFileFv);
 // PAL: 0x8051c790
-extern UNKNOWN_FUNCTION(GhostFile_read);
+extern UNKNOWN_FUNCTION(read__Q26System9GhostFileFRCQ26System12RawGhostFile);
 // PAL: 0x80524500
 extern UNKNOWN_FUNCTION(unk_80524500);
 // PAL: 0x8052453c
@@ -26,11 +27,12 @@ extern UNKNOWN_FUNCTION(unk_8052d270);
 // PAL: 0x805368f8
 extern UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore);
 // PAL: 0x805419ac
-extern UNKNOWN_FUNCTION(ResourceManager_preloadCourseAsync);
+extern UNKNOWN_FUNCTION(preloadCourseAsync__Q26System15ResourceManagerFQ26System8CourseId);
 // PAL: 0x805553b0
 extern UNKNOWN_FUNCTION(unk_805553b0);
 // PAL: 0x8066c8d8
 extern UNKNOWN_FUNCTION(unk_8066c8d8);
+}
 
 // Symbol: RacedataPlayer_construct
 // PAL: 0x8052d96c..0x8052da10
@@ -1199,9 +1201,9 @@ asm UNKNOWN_FUNCTION(unk_8052e870) {
   mflr r0;
   stw r0, 0x54(r1);
   stfd f31, 0x40(r1);
-  psq_st f31, 72(r1), 0, qr0;
+  psq_st f31, 72(r1), 0, 0;
   stfd f30, 0x30(r1);
-  psq_st f30, 56(r1), 0, qr0;
+  psq_st f30, 56(r1), 0, 0;
   addi r11, r1, 0x30;
   bl unk_805553b0;
   lis r29, 0;
@@ -1244,9 +1246,9 @@ lbl_8052e910:
   fctiwz f0, f30;
   stfd f0, 8(r1);
   lwz r3, 0xc(r1);
-  psq_l f31, 72(r1), 0, qr0;
+  psq_l f31, 72(r1), 0, 0;
   lfd f31, 0x40(r1);
-  psq_l f30, 56(r1), 0, qr0;
+  psq_l f30, 56(r1), 0, 0;
   lfd f30, 0x30(r1);
   addi r11, r1, 0x30;
   bl unk_805553b0;
@@ -1267,9 +1269,9 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   mflr r0;
   stw r0, 0x94(r1);
   stfd f31, 0x80(r1);
-  psq_st f31, 136(r1), 0, qr0;
+  psq_st f31, 136(r1), 0, 0;
   stfd f30, 0x70(r1);
-  psq_st f30, 120(r1), 0, qr0;
+  psq_st f30, 120(r1), 0, 0;
   addi r11, r1, 0x70;
   bl unk_805553b0;
   lwz r0, 0xb54(r3);
@@ -1524,9 +1526,9 @@ lbl_8052ecdc:
   cmplw r3, r0;
   blt lbl_8052ecb0;
 lbl_8052ecf0:
-  psq_l f31, 136(r1), 0, qr0;
+  psq_l f31, 136(r1), 0, 0;
   lfd f31, 0x80(r1);
-  psq_l f30, 120(r1), 0, qr0;
+  psq_l f30, 120(r1), 0, 0;
   addi r11, r1, 0x70;
   lfd f30, 0x70(r1);
   bl unk_805553b0;
@@ -1712,14 +1714,14 @@ asm UNKNOWN_FUNCTION(unk_8052eef0) {
   stw r28, 0xe0(r1);
   mr r28, r3;
   lwz r3, 0xbec(r3);
-  bl RawGhostFile_isValid;
+  bl isValid__Q26System12RawGhostFileCFv;
   cmpwi r3, 0;
   beq lbl_8052efb0;
   addi r3, r1, 8;
-  bl GhostFile_construct;
+  bl __ct__Q26System9GhostFileFv;
   lwz r4, 0xbec(r28);
   addi r3, r1, 8;
-  bl GhostFile_read;
+  bl read__Q26System9GhostFileFRCQ26System12RawGhostFile;
   lwz r3, 0xc0(r1);
   lwz r0, 0xb48(r28);
   cmpw r3, r0;
@@ -2202,14 +2204,14 @@ lbl_8052f5b4:
 lbl_8052f5c0:
   lwz r3, 0xbec(r24);
   li r21, 0;
-  bl RawGhostFile_isValid;
+  bl isValid__Q26System12RawGhostFileCFv;
   cmpwi r3, 0;
   beq lbl_8052f648;
   addi r3, r1, 8;
-  bl GhostFile_construct;
+  bl __ct__Q26System9GhostFileFv;
   lwz r4, 0xbec(r24);
   addi r3, r1, 8;
-  bl GhostFile_read;
+  bl read__Q26System9GhostFileFRCQ26System12RawGhostFile;
   lwz r3, 0xc0(r1);
   lwz r0, 0xb48(r24);
   cmpw r3, r0;
@@ -2931,7 +2933,7 @@ asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
   addi r31, r26, 0x73f0;
 lbl_8052ffb0:
   mr r3, r27;
-  bl RawGhostFile_reset;
+  bl reset__Q26System12RawGhostFileFv;
   addi r27, r27, 0x2800;
   cmplw r27, r31;
   blt lbl_8052ffb0;
@@ -3162,7 +3164,7 @@ asm UNKNOWN_FUNCTION(Racedata_construct) {
   addi r31, r26, 0x73f0;
 lbl_80530298:
   mr r3, r27;
-  bl RawGhostFile_reset;
+  bl reset__Q26System12RawGhostFileFv;
   addi r27, r27, 0x2800;
   cmplw r27, r31;
   blt lbl_80530298;
@@ -5222,7 +5224,7 @@ asm UNKNOWN_FUNCTION(unk_80531f80) {
   lwz r3, 0(r7);
   add r0, r5, r6;
   lwzx r4, r4, r0;
-  b ResourceManager_preloadCourseAsync;
+  b preloadCourseAsync__Q26System15ResourceManagerFQ26System8CourseId;
   blr;
   // clang-format on
 }
