@@ -144,8 +144,7 @@ class RaceConfigPlayer {
 public:
   RaceConfigPlayer();
   virtual ~RaceConfigPlayer();
-
-private:
+// private:
   unk8 _04;
   u8 mLocalPlayerNum;
   u8 mPlayerInputIdx;
@@ -189,7 +188,7 @@ class RaceConfigScenario {
 public:
   RaceConfigScenario();
   virtual ~RaceConfigScenario();
-private:
+// private:
   u8 mPlayerCount;
   u8 mHudCount;
   u8 mLocalPlayerCount;
@@ -201,14 +200,14 @@ private:
 };
 
 // These will be important later
-class RaceScenario : RaceConfigScenario {};
-class MenuScenario : RaceConfigScenario {};
-class AwardsScenario : RaceConfigScenario {};
+class RaceScenario : public RaceConfigScenario {};
+class MenuScenario : public RaceConfigScenario {};
+class AwardsScenario : public RaceConfigScenario {};
 
 class RaceConfigMain {
 public:
   RaceConfigMain();
-private:
+
   // Things get tricky here - we have a vtable with no virtual functions
   void* vtable;
   RaceScenario mRaceScenario;
@@ -217,10 +216,12 @@ private:
   RawGhostFile mGhosts[2];
 };
 
-class RaceConfig : ParameterFile, RaceConfigMain {
+class RaceConfig : ParameterFile, public RaceConfigMain {
 public:
   RaceConfig();
   virtual ~RaceConfig();
+
+  static RaceConfig* spInstance;
 };
 
 } // namespace System

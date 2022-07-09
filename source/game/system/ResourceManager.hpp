@@ -9,7 +9,6 @@
 #include <game/system/DvdArchive.hpp>
 #include <game/system/LocalizedArchive.hpp>
 #include <game/system/MultiDvdArchive.hpp>
-#include <game/system/RaceConfig.hpp>
 #include <game/system/GhostFile.hpp>
 
 #ifdef __cplusplus
