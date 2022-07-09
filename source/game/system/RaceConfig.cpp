@@ -27,7 +27,8 @@ extern UNKNOWN_FUNCTION(unk_8052d270);
 // PAL: 0x805368f8
 extern UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore);
 // PAL: 0x805419ac
-extern UNKNOWN_FUNCTION(preloadCourseAsync__Q26System15ResourceManagerFQ26System8CourseId);
+extern UNKNOWN_FUNCTION(
+    preloadCourseAsync__Q26System15ResourceManagerFQ26System8CourseId);
 // PAL: 0x805553b0
 extern UNKNOWN_FUNCTION(unk_805553b0);
 // PAL: 0x8066c8d8
@@ -5333,4 +5334,3 @@ asm UNKNOWN_FUNCTION(unk_8053207c) {
   blr;
   // clang-format on
 }
-

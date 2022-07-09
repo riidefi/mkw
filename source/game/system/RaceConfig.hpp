@@ -1,5 +1,9 @@
 #pragma once
 
+#include <game/host_system/ParameterFile.hpp>
+#include <game/system/GhostFile.hpp>
+#include <game/system/ResourceManager.hpp>
+
 #include <rk_types.h>
 
 #include <decomp.h>
@@ -133,27 +137,90 @@ UNKNOWN_FUNCTION(unk_8053207c);
 }
 #endif
 
-struct RaceConfigPlayer {
-  u8 _00[0x08 - 0x00];
-  u32 vehicleId;
-  u32 characterId;
-  u32 type;
-  u8 _14[0xd0 - 0x14];
-  s32 controllerId;
-  u8 _d4[0xf0 - 0xd4];
+// NOTE: anything marked u8, u16, or u32 could be signed
+namespace System {
+
+class RaceConfigPlayer {
+public:
+  RaceConfigPlayer();
+  virtual ~RaceConfigPlayer();
+
+private:
+  unk8 _04;
+  u8 mLocalPlayerNum;
+  u8 mPlayerInputIdx;
+  VehicleId mVehicleId;
+  CharacterId mCharacterId;
+  s32 mPlayerType;         // TODO: create enum
+  unk8 _mMii[0xcc - 0x14]; // TODO: this is a class that isn't decompiled yet
+                           // (Mii.hpp is 0x4c, this is 0xb8)
+  BattleTeam mTeam;
+  u32 mControllerId;
+  unk32 _d4;
+  u16 mPreviousScore;
+  u16 mGpScore;
+  unk16 _dc;
+  u16 mGpRankScore;
+  unk8 _e0;
+  u8 mPrevFinishPos;
+  u8 mFinishPos;
+  unk8 mRating[0xec - 0xe4];
+  unk32 _ec;
 };
 
-struct RaceConfigScenario {
-  u8 _000[0x004 - 0x000];
-  u8 playerCount;
-  u8 _005[0x008 - 0x005];
-  RaceConfigPlayer players[12];
-  // ...
+struct RaceConfigSettings {
+  CourseId mCourseId;
+  u32 mEngineClass; // probably an enum
+  s32 mGameMode; // TODO: create enum
+  s32 mGameType; // TODO: create enum
+  u32 mBattleType;
+  u32 mCpuMode;
+  u32 mItemMode;
+  u8 mHudPlayerIds[4];
+  s32 mCupId; // TODO: create enum
+  u8 mRaceNumber;
+  u8 mLapCount;
+  s32 mModeFlags; // TODO: create enum
+  u32 mSeed1;
+  u32 mSeed2;
 };
 
-struct RaceConfig {
-  static RaceConfig* spInstance;
-  u8 _0000[0x0020 - 0x0000];
-  RaceConfigScenario raceScenario;
-  // ...
+class RaceConfigScenario {
+public:
+  RaceConfigScenario();
+  virtual ~RaceConfigScenario();
+private:
+  u8 mPlayerCount;
+  u8 mHudCount;
+  u8 mLocalPlayerCount;
+  u8 mHudCount2; // ?
+  RaceConfigPlayer mPlayers[12];
+  RaceConfigSettings mSettings;
+  unk8 _b7c[0xbec - 0xb7c];
+  RawGhostFile mGhost;
 };
+
+// These will be important later
+class RaceScenario : RaceConfigScenario {};
+class MenuScenario : RaceConfigScenario {};
+class AwardsScenario : RaceConfigScenario {};
+
+class RaceConfigMain {
+public:
+  RaceConfigMain();
+private:
+  // Things get tricky here - we have a vtable with no virtual functions
+  void* vtable;
+  RaceScenario mRaceScenario;
+  MenuScenario mMenuScenario;
+  AwardsScenario mAwardsScenario;
+  RawGhostFile mGhosts[2];
+};
+
+class RaceConfig : ParameterFile, RaceConfigMain {
+public:
+  RaceConfig();
+  virtual ~RaceConfig();
+};
+
+} // namespace System
