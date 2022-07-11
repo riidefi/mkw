@@ -17,7 +17,7 @@ extern UNKNOWN_FUNCTION(InputMgr_setGhostController);
 // PAL: 0x80524558
 extern UNKNOWN_FUNCTION(unk_80524558);
 // PAL: 0x80525f88
-extern UNKNOWN_FUNCTION(SomethingMiis_construct);
+extern UNKNOWN_FUNCTION(init__Q26System3MiiFl);
 // PAL: 0x8052d118
 extern UNKNOWN_FUNCTION(unk_8052d118);
 // PAL: 0x8052d1c0
@@ -35,55 +35,23 @@ extern UNKNOWN_FUNCTION(unk_805553b0);
 extern UNKNOWN_FUNCTION(unk_8066c8d8);
 }
 
-// Symbol: RacedataPlayer_construct
-// PAL: 0x8052d96c..0x8052da10
-MARK_BINARY_BLOB(RacedataPlayer_construct, 0x8052d96c, 0x8052da10);
-asm UNKNOWN_FUNCTION(RacedataPlayer_construct) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  lis r4, 0;
-  lis r5, 0;
-  stw r0, 0x14(r1);
-  li r6, 0;
-  addi r4, r4, 0;
-  addi r5, r5, 0;
-  stw r31, 0xc(r1);
-  li r31, -1;
-  li r0, 1;
-  stw r30, 8(r1);
-  mr r30, r3;
-  stw r4, 0(r3);
-  li r4, 7;
-  stb r6, 4(r3);
-  stb r31, 5(r3);
-  stb r31, 6(r3);
-  stw r0, 8(r3);
-  stw r6, 0xc(r3);
-  stw r6, 0x10(r3);
-  stwu r5, 0x14(r3);
-  bl SomethingMiis_construct;
-  lbz r0, 0xec(r30);
-  lis r5, 0;
-  addi r5, r5, 0;
-  li r6, 8;
-  rlwinm r0, r0, 0, 0x19, 0x17;
-  li r4, 0x1388;
-  stw r31, 0xd0(r30);
-  mr r3, r30;
-  stw r6, 0xd4(r30);
-  stw r5, 0xe4(r30);
-  sth r4, 0xe8(r30);
-  stb r0, 0xec(r30);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
+namespace System {
+
+RaceConfigPlayer::RaceConfigPlayer() :
+  _04(0),
+  mLocalPlayerNum(-1),
+  mPlayerInputIdx(-1),
+  mVehicleId(STANDARD_KART_M),
+  mCharacterId(MARIO),
+  mPlayerType(0),
+  mMii(7),
+  mControllerId(-1),
+  _d4(8),
+  mRating(),
+  _ec(_ec & ~0x80)
+{}
+
+} // namespace System
 
 // Symbol: unk_8052da10
 // PAL: 0x8052da10..0x8052da50

@@ -2,7 +2,9 @@
 
 #include <game/host_system/ParameterFile.hpp>
 #include <game/system/GhostFile.hpp>
+#include <game/system/Mii.hpp>
 #include <game/system/ResourceManager.hpp>
+#include <game/system/SaveManager.hpp>
 
 #include <rk_types.h>
 
@@ -144,15 +146,14 @@ class RaceConfigPlayer {
 public:
   RaceConfigPlayer();
   virtual ~RaceConfigPlayer();
-// private:
+  // private:
   unk8 _04;
-  u8 mLocalPlayerNum;
-  u8 mPlayerInputIdx;
+  s8 mLocalPlayerNum;
+  s8 mPlayerInputIdx;
   VehicleId mVehicleId;
   CharacterId mCharacterId;
-  s32 mPlayerType;         // TODO: create enum
-  unk8 _mMii[0xcc - 0x14]; // TODO: this is a class that isn't decompiled yet
-                           // (Mii.hpp is 0x4c, this is 0xb8)
+  s32 mPlayerType; // TODO: create enum
+  Mii mMii;
   BattleTeam mTeam;
   u32 mControllerId;
   unk32 _d4;
@@ -163,15 +164,15 @@ public:
   unk8 _e0;
   u8 mPrevFinishPos;
   u8 mFinishPos;
-  unk8 mRating[0xec - 0xe4];
-  unk32 _ec;
+  Rating mRating;
+  s8 _ec;
 };
 
 struct RaceConfigSettings {
   CourseId mCourseId;
   u32 mEngineClass; // probably an enum
-  s32 mGameMode; // TODO: create enum
-  s32 mGameType; // TODO: create enum
+  s32 mGameMode;    // TODO: create enum
+  s32 mGameType;    // TODO: create enum
   u32 mBattleType;
   u32 mCpuMode;
   u32 mItemMode;
@@ -188,7 +189,7 @@ class RaceConfigScenario {
 public:
   RaceConfigScenario();
   virtual ~RaceConfigScenario();
-// private:
+  // private:
   u8 mPlayerCount;
   u8 mHudCount;
   u8 mLocalPlayerCount;
