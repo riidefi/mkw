@@ -104,7 +104,7 @@
 0x80009c24 unk_80009c24
 0x80009c8c unk_80009c8c
 0x80009ce0 unk_80009ce0
-0x80009d6c unk_80009d6c
+0x80009d6c ParamFile_append
 0x80009ddc unk_80009ddc
 0x80009ef8 RamStream_destroy
 0x80009f5c ModuleSlots_destroy

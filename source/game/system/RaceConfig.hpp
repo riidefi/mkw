@@ -6,6 +6,7 @@
 #include <game/system/GhostFile.hpp>
 #include <game/system/Mii.hpp>
 #include <game/system/ResourceManager.hpp>
+#include <game/system/InitScene.hpp>
 #include <game/system/SaveManager.hpp>
 
 #include <rk_types.h>
@@ -147,10 +148,13 @@ const u16 SCORES[] = {60, 52, 40, 20};
 // NOTE: anything marked u8, u16, or u32 could be signed
 namespace System {
 
+class RaceConfig;
+
 class RaceConfigPlayer {
 public:
   RaceConfigPlayer();
   virtual ~RaceConfigPlayer();
+  void appendParamFile(RaceConfig* raceConfig);
   s32 computeGpRank() const;
   // private:
   unk8 _04;

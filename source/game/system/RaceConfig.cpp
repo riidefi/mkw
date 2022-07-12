@@ -2,6 +2,8 @@
 
 extern "C" {
 // Extern function references.
+// PAL: 0x80009d6c
+extern UNKNOWN_FUNCTION(ParamFile_append);
 // PAL: 0x8051c088
 extern UNKNOWN_FUNCTION(reset__Q26System12RawGhostFileFv);
 // PAL: 0x8051c120
@@ -44,6 +46,26 @@ RaceConfigPlayer::RaceConfigPlayer()
 
 } // namespace System
 
+#ifdef NON_MATCHING
+namespace System {
+
+void RaceConfigPlayer::appendParamFile(RaceConfig* raceConfig) {
+  ParamFile_append(raceConfig, &mVehicleId, 4,
+                   InitScene::spInstance->mHeapCollection
+                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  ParamFile_append(raceConfig, &mCharacterId, 4,
+                   InitScene::spInstance->mHeapCollection
+                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  ParamFile_append(raceConfig, &mPlayerType, 4,
+                   InitScene::spInstance->mHeapCollection
+                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  ParamFile_append(raceConfig, &mTeam, 4,
+                   InitScene::spInstance->mHeapCollection
+                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+}
+
+} // namespace System
+#else
 // Symbol: unk_8052da50
 // PAL: 0x8052da50..0x8052daf0
 MARK_BINARY_BLOB(unk_8052da50, 0x8052da50, 0x8052daf0);
@@ -92,6 +114,7 @@ asm UNKNOWN_FUNCTION(unk_8052da50) {
   blr;
   // clang-format on
 }
+#endif
 
 namespace System {
 
