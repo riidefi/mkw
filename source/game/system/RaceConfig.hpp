@@ -32,27 +32,28 @@ UNKNOWN_FUNCTION(RacedataPlayer_destroy);
 // PAL: 0x8052dca8..0x8052dd18
 UNKNOWN_FUNCTION(unk_8052dca8);
 // PAL: 0x8052dd18..0x8052dd20
-UNKNOWN_FUNCTION(unk_8052dd18);
+UNKNOWN_FUNCTION(getTeam__Q26System16RaceConfigPlayerFv);
 // PAL: 0x8052dd20..0x8052dd30
-UNKNOWN_FUNCTION(unk_8052dd20);
+UNKNOWN_FUNCTION(getPlayer__Q26System12RaceScenarioFUc);
 // PAL: 0x8052dd30..0x8052dd40
-UNKNOWN_FUNCTION(unk_8052dd30);
+UNKNOWN_FUNCTION(getRacePlayerCount__Q26System10RaceConfigFv);
 // PAL: 0x8052dd40..0x8052e42c
 UNKNOWN_FUNCTION(Racedata_init);
 // PAL: 0x8052e42c..0x8052e434
-UNKNOWN_FUNCTION(unk_8052e42c);
+UNKNOWN_FUNCTION(
+    setCharacter__Q26System16RaceConfigPlayerFQ26System11CharacterId);
 // PAL: 0x8052e434..0x8052e444
-UNKNOWN_FUNCTION(RacedataScenario_getPlayer);
+UNKNOWN_FUNCTION(getPlayer__Q26System12MenuScenarioFUc);
 // PAL: 0x8052e444..0x8052e44c
-UNKNOWN_FUNCTION(unk_8052e444);
+UNKNOWN_FUNCTION(setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId);
 // PAL: 0x8052e44c..0x8052e454
-UNKNOWN_FUNCTION(unk_8052e44c);
+UNKNOWN_FUNCTION(setPlayerType__Q26System16RaceConfigPlayerFl);
 // PAL: 0x8052e454..0x8052e658
 UNKNOWN_FUNCTION(Racedata_resetSomeStuff);
 // PAL: 0x8052e658..0x8052e660
-UNKNOWN_FUNCTION(unk_8052e658);
+UNKNOWN_FUNCTION(setPrevFinishPos__Q26System16RaceConfigPlayerFSc);
 // PAL: 0x8052e660..0x8052e668
-UNKNOWN_FUNCTION(unk_8052e660);
+UNKNOWN_FUNCTION(setUnkPos__Q26System16RaceConfigPlayerFSc);
 // PAL: 0x8052e668..0x8052e870
 UNKNOWN_FUNCTION(unk_8052e668);
 // PAL: 0x8052e870..0x8052e950
@@ -60,15 +61,15 @@ UNKNOWN_FUNCTION(unk_8052e870);
 // PAL: 0x8052e950..0x8052ed18
 UNKNOWN_FUNCTION(unk_8052e950);
 // PAL: 0x8052ed18..0x8052ed20
-UNKNOWN_FUNCTION(unk_8052ed18);
+UNKNOWN_FUNCTION(getGametype__Q26System12MenuScenarioFv);
 // PAL: 0x8052ed20..0x8052ed28
-UNKNOWN_FUNCTION(unk_8052ed20);
+UNKNOWN_FUNCTION(getPlayerType__Q26System16RaceConfigPlayerFv);
 // PAL: 0x8052ed28..0x8052eef0
 UNKNOWN_FUNCTION(RacedataScenario_postInitControllers);
 // PAL: 0x8052eef0..0x8052efd4
 UNKNOWN_FUNCTION(unk_8052eef0);
 // PAL: 0x8052efd4..0x8052f064
-UNKNOWN_FUNCTION(unk_8052efd4);
+UNKNOWN_FUNCTION(resetPlayers__Q26System18RaceConfigScenarioFv);
 // PAL: 0x8052f064..0x8052f1e0
 UNKNOWN_FUNCTION(unk_8052f064);
 // PAL: 0x8052f1e0..0x8052f4e8
@@ -100,17 +101,17 @@ UNKNOWN_FUNCTION(RacedataScenario_copy);
 // PAL: 0x80530864..0x80530f0c
 UNKNOWN_FUNCTION(Racedata_initAwards);
 // PAL: 0x80530f0c..0x80530f18
-UNKNOWN_FUNCTION(unk_80530f0c);
+UNKNOWN_FUNCTION(getModeFlag__Q26System12MenuScenarioFv);
 // PAL: 0x80530f18..0x80530f20
-UNKNOWN_FUNCTION(unk_80530f18);
+UNKNOWN_FUNCTION(getUnkPos__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80530f20..0x80530f28
-UNKNOWN_FUNCTION(unk_80530f20);
+UNKNOWN_FUNCTION(getCharacter__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80530f28..0x80530f30
-UNKNOWN_FUNCTION(unk_80530f28);
+UNKNOWN_FUNCTION(getVehicle__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80530f30..0x80531068
 UNKNOWN_FUNCTION(unk_80530f30);
 // PAL: 0x80531068..0x80531070
-UNKNOWN_FUNCTION(unk_80531068);
+UNKNOWN_FUNCTION(getMii__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80531070..0x80531ce4
 UNKNOWN_FUNCTION(Racedata_initCredits);
 // PAL: 0x80531ce4..0x80531de4
@@ -118,7 +119,7 @@ UNKNOWN_FUNCTION(Racedata_updateEndOfRace);
 // PAL: 0x80531de4..0x80531f18
 UNKNOWN_FUNCTION(unk_80531de4);
 // PAL: 0x80531f18..0x80531f2c
-UNKNOWN_FUNCTION(Racedata_getLocalPlayerNum);
+UNKNOWN_FUNCTION(getLocalPlayerCount__Q26System10RaceConfigFUc);
 // PAL: 0x80531f2c..0x80531f70
 UNKNOWN_FUNCTION(Racedata_setGhost);
 // PAL: 0x80531f70..0x80531f80
@@ -156,6 +157,18 @@ public:
   virtual ~RaceConfigPlayer();
   void appendParamFile(RaceConfig* raceConfig);
   s32 computeGpRank() const;
+  BattleTeam getTeam();
+  void setCharacter(CharacterId character);
+  void setVehicle(VehicleId vehicle);
+  void setPlayerType(s32 playerType);
+  void reset(s8 pos);
+  void setPrevFinishPos(s8 pos);
+  void setUnkPos(s8 pos);
+  s32 getPlayerType();
+  u8 getUnkPos();
+  CharacterId getCharacter();
+  VehicleId getVehicle();
+  Mii* getMii();
   // private:
   unk8 _04;
   s8 mLocalPlayerNum;
@@ -199,6 +212,9 @@ class RaceConfigScenario {
 public:
   RaceConfigScenario(RawGhostFile* ghost);
   virtual ~RaceConfigScenario();
+  void reset();
+  u8 update();
+  void resetPlayers();
   // private:
   u8 mPlayerCount;
   u8 mHudCount;
@@ -211,8 +227,17 @@ public:
 };
 
 // These will be important later
-class RaceScenario : public RaceConfigScenario {};
-class MenuScenario : public RaceConfigScenario {};
+class RaceScenario : public RaceConfigScenario {
+public:
+  RaceConfigPlayer* getPlayer(u8 idx);
+};
+class MenuScenario : public RaceConfigScenario {
+public:
+  RaceConfigPlayer* getPlayer(u8 idx);
+  s32 getGametype();
+  bool initGhost(u8 playerIdx, u8 playerInputIdx);
+  u32 getModeFlag();
+};
 class AwardsScenario : public RaceConfigScenario {};
 
 class RaceConfigMain {
@@ -231,6 +256,11 @@ class RaceConfig : ParameterFile, public RaceConfigMain {
 public:
   RaceConfig();
   virtual ~RaceConfig();
+  static u8 getRacePlayerCount();
+  u8 update();
+  s32 getLocalPlayerCount(u8 playerIdx);
+  void setGhost(RawGhostFile* ghost);
+  s32 getHudPlayerId(u8 playerIdx);
 
   static RaceConfig* spInstance;
 };
