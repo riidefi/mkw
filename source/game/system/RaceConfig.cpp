@@ -55,6 +55,7 @@ RaceConfigPlayer::RaceConfigPlayer() :
 
 // Symbol: unk_8052da10
 // PAL: 0x8052da10..0x8052da50
+// Notes: Rating's dtor, not sure what it's doing here
 MARK_BINARY_BLOB(unk_8052da10, 0x8052da10, 0x8052da50);
 asm UNKNOWN_FUNCTION(unk_8052da10) {
   // clang-format off
@@ -128,6 +129,29 @@ asm UNKNOWN_FUNCTION(unk_8052da50) {
   // clang-format on
 }
 
+// #ifdef NON_MATCHING
+namespace System {
+
+s32 RaceConfigPlayer::computeGpRank() const {
+    s8 weightedRankScore = 5;
+    for (u8 i = 0; i < sizeof(RANK_SCORES) / 4; i++) {
+        if (mGpRankScore >= RANK_SCORES[i]) { weightedRankScore = i; break; }
+    }
+
+    s8 weightedScore = 4;
+    for (u8 i = 0; i < sizeof(SCORES) / 2; i++) {
+        if (mGpScore >= SCORES[i]) { weightedScore = i; break; }
+    }
+
+    if (weightedRankScore + weightedScore >= 8) {
+        return 7;
+    }
+
+    return weightedRankScore + weightedScore;
+}
+
+} // namespace System
+/* #else
 // Symbol: RacedataPlayer_computeGpRank
 // PAL: 0x8052daf0..0x8052dbc8
 MARK_BINARY_BLOB(RacedataPlayer_computeGpRank, 0x8052daf0, 0x8052dbc8);
@@ -198,7 +222,7 @@ lbl_8052dbb4:
   li r3, 7;
   blr;
   // clang-format on
-}
+}*/
 
 // Symbol: RacedataScenario_construct
 // PAL: 0x8052dbc8..0x8052dc68

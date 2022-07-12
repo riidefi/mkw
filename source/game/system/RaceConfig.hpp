@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma legacy_struct_alignment off
+
 #include <game/host_system/ParameterFile.hpp>
 #include <game/system/GhostFile.hpp>
 #include <game/system/Mii.hpp>
@@ -139,6 +141,9 @@ UNKNOWN_FUNCTION(unk_8053207c);
 }
 #endif
 
+const s32 RANK_SCORES[] = {1000, 700, 400, 200, 0};
+const u16 SCORES[] = {60, 52, 40, 20};
+
 // NOTE: anything marked u8, u16, or u32 could be signed
 namespace System {
 
@@ -146,6 +151,7 @@ class RaceConfigPlayer {
 public:
   RaceConfigPlayer();
   virtual ~RaceConfigPlayer();
+  s32 computeGpRank() const;
   // private:
   unk8 _04;
   s8 mLocalPlayerNum;
@@ -160,7 +166,7 @@ public:
   u16 mPreviousScore;
   u16 mGpScore;
   unk16 _dc;
-  u16 mGpRankScore;
+  s16 mGpRankScore;
   unk8 _e0;
   u8 mPrevFinishPos;
   u8 mFinishPos;
