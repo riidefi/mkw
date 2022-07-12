@@ -45,18 +45,14 @@ RaceConfigPlayer::RaceConfigPlayer()
       mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
 
 void RaceConfigPlayer::appendParamFile(RaceConfig* raceConfig) {
-  raceConfig->appendData((char*)&mVehicleId, sizeof(mVehicleId),
-                         InitScene::spInstance->mHeapCollection
-                             .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
-  raceConfig->appendData((char*)&mCharacterId, sizeof(mCharacterId),
-                         InitScene::spInstance->mHeapCollection
-                             .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
-  raceConfig->appendData((char*)&mPlayerType, sizeof(mPlayerType),
-                         InitScene::spInstance->mHeapCollection
-                             .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
-  raceConfig->appendData((char*)&mTeam, sizeof(mTeam),
-                         InitScene::spInstance->mHeapCollection
-                             .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->append(mVehicleId, InitScene::spInstance->mHeapCollection
+                                     .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->append(mCharacterId, InitScene::spInstance->mHeapCollection
+                                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->append(mPlayerType, InitScene::spInstance->mHeapCollection
+                                      .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->append(mTeam, InitScene::spInstance->mHeapCollection
+                                .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
 }
 
 s32 RaceConfigPlayer::computeGpRank() const {
