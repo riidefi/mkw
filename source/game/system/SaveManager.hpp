@@ -6,10 +6,8 @@ namespace System {
 
 class Rating {
 public:
-  Rating() {
-    mPoints = 5000;
-  }
-  virtual ~Rating();
+  Rating() { mPoints = 5000; }
+  virtual ~Rating() {}
 
   u16 mPoints;
 };

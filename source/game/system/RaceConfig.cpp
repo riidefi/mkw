@@ -37,48 +37,12 @@ extern UNKNOWN_FUNCTION(unk_8066c8d8);
 
 namespace System {
 
-RaceConfigPlayer::RaceConfigPlayer() :
-  _04(0),
-  mLocalPlayerNum(-1),
-  mPlayerInputIdx(-1),
-  mVehicleId(STANDARD_KART_M),
-  mCharacterId(MARIO),
-  mPlayerType(0),
-  mMii(7),
-  mControllerId(-1),
-  _d4(8),
-  mRating(),
-  _ec(_ec & ~0x80)
-{}
+RaceConfigPlayer::RaceConfigPlayer()
+    : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
+      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(0), mMii(7),
+      mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
 
 } // namespace System
-
-// Symbol: unk_8052da10
-// PAL: 0x8052da10..0x8052da50
-// Notes: Rating's dtor, not sure what it's doing here
-MARK_BINARY_BLOB(unk_8052da10, 0x8052da10, 0x8052da50);
-asm UNKNOWN_FUNCTION(unk_8052da10) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  cmpwi r3, 0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  beq lbl_8052da38;
-  cmpwi r4, 0;
-  ble lbl_8052da38;
-  bl unk_805553b0;
-lbl_8052da38:
-  mr r3, r31;
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
 
 // Symbol: unk_8052da50
 // PAL: 0x8052da50..0x8052daf0
@@ -129,100 +93,33 @@ asm UNKNOWN_FUNCTION(unk_8052da50) {
   // clang-format on
 }
 
-// #ifdef NON_MATCHING
 namespace System {
 
 s32 RaceConfigPlayer::computeGpRank() const {
-    s8 weightedRankScore = 5;
-    for (u8 i = 0; i < sizeof(RANK_SCORES) / 4; i++) {
-        if (mGpRankScore >= RANK_SCORES[i]) { weightedRankScore = i; break; }
+  s8 weightedRankScore = 5;
+  for (u8 i = 0; i < sizeof(RANK_SCORES) / 4; i++) {
+    if (mGpRankScore >= RANK_SCORES[i]) {
+      weightedRankScore = i;
+      break;
     }
+  }
 
-    s8 weightedScore = 4;
-    for (u8 i = 0; i < sizeof(SCORES) / 2; i++) {
-        if (mGpScore >= SCORES[i]) { weightedScore = i; break; }
+  s8 weightedScore = 4;
+  for (u8 i = 0; i < sizeof(SCORES) / 2; i++) {
+    if (mGpScore >= SCORES[i]) {
+      weightedScore = i;
+      break;
     }
+  }
 
-    if (weightedRankScore + weightedScore >= 8) {
-        return 7;
-    }
+  if (weightedRankScore + weightedScore >= 8) {
+    return 7;
+  }
 
-    return weightedRankScore + weightedScore;
+  return weightedRankScore + weightedScore;
 }
 
 } // namespace System
-/* #else
-// Symbol: RacedataPlayer_computeGpRank
-// PAL: 0x8052daf0..0x8052dbc8
-MARK_BINARY_BLOB(RacedataPlayer_computeGpRank, 0x8052daf0, 0x8052dbc8);
-asm UNKNOWN_FUNCTION(RacedataPlayer_computeGpRank) {
-  // clang-format off
-  nofralloc;
-  lis r4, 0;
-  lha r5, 0xde(r3);
-  lwzu r0, 0(r4);
-  li r6, 5;
-  cmpw r5, r0;
-  blt lbl_8052db10;
-  li r6, 0;
-  b lbl_8052db5c;
-lbl_8052db10:
-  lwz r0, 4(r4);
-  cmpw r5, r0;
-  blt lbl_8052db24;
-  li r6, 1;
-  b lbl_8052db5c;
-lbl_8052db24:
-  lwz r0, 8(r4);
-  cmpw r5, r0;
-  blt lbl_8052db38;
-  li r6, 2;
-  b lbl_8052db5c;
-lbl_8052db38:
-  lwz r0, 0xc(r4);
-  cmpw r5, r0;
-  blt lbl_8052db4c;
-  li r6, 3;
-  b lbl_8052db5c;
-lbl_8052db4c:
-  lwz r0, 0x10(r4);
-  cmpw r5, r0;
-  blt lbl_8052db5c;
-  li r6, 4;
-lbl_8052db5c:
-  lis r4, 0;
-  lhz r3, 0xda(r3);
-  lhzu r0, 0(r4);
-  li r5, 4;
-  cmplw r3, r0;
-  blt lbl_8052db7c;
-  li r5, 0;
-  b lbl_8052dbb4;
-lbl_8052db7c:
-  lhz r0, 2(r4);
-  cmplw r3, r0;
-  blt lbl_8052db90;
-  li r5, 1;
-  b lbl_8052dbb4;
-lbl_8052db90:
-  lhz r0, 4(r4);
-  cmplw r3, r0;
-  blt lbl_8052dba4;
-  li r5, 2;
-  b lbl_8052dbb4;
-lbl_8052dba4:
-  lhz r0, 6(r4);
-  cmplw r3, r0;
-  blt lbl_8052dbb4;
-  li r5, 3;
-lbl_8052dbb4:
-  add r3, r6, r5;
-  cmpwi r3, 8;
-  bltlr;
-  li r3, 7;
-  blr;
-  // clang-format on
-}*/
 
 // Symbol: RacedataScenario_construct
 // PAL: 0x8052dbc8..0x8052dc68
