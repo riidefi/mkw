@@ -193,7 +193,7 @@ struct RaceConfigSettings {
 
 class RaceConfigScenario {
 public:
-  RaceConfigScenario();
+  RaceConfigScenario(RawGhostFile* ghost);
   virtual ~RaceConfigScenario();
   // private:
   u8 mPlayerCount;
@@ -203,7 +203,7 @@ public:
   RaceConfigPlayer mPlayers[12];
   RaceConfigSettings mSettings;
   unk8 _b7c[0xbec - 0xb7c];
-  RawGhostFile mGhost;
+  RawGhostFile* mGhost;
 };
 
 // These will be important later

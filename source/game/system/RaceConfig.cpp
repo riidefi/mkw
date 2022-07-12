@@ -119,56 +119,20 @@ s32 RaceConfigPlayer::computeGpRank() const {
   return weightedRankScore + weightedScore;
 }
 
-} // namespace System
+RaceConfigScenario::RaceConfigScenario(RawGhostFile* ghost)
+    : mPlayerCount(0), mHudCount(0), mPlayers() {
+  mSettings.mCourseId = GCN_MARIO_CIRCUIT;
+  mSettings.mGameMode = 0;
+  mSettings.mGameType = 0;
+  mSettings.mCupId = 0;
 
-// Symbol: RacedataScenario_construct
-// PAL: 0x8052dbc8..0x8052dc68
-MARK_BINARY_BLOB(RacedataScenario_construct, 0x8052dbc8, 0x8052dc68);
-asm UNKNOWN_FUNCTION(RacedataScenario_construct) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  lis r6, 0;
-  lis r5, 0;
-  stw r0, 0x24(r1);
-  addi r6, r6, 0;
-  addi r5, r5, 0;
-  li r7, 0xc;
-  stw r31, 0x1c(r1);
-  li r31, 0;
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  stw r6, 0(r3);
-  lis r6, 0;
-  addi r4, r6, 0;
-  stb r31, 4(r3);
-  li r6, 0xf0;
-  stb r31, 5(r3);
-  addi r3, r3, 8;
-  bl unk_805553b0;
-  li r0, 0x11;
-  stw r0, 0xb48(r29);
-  addi r3, r29, 0xb7c;
-  li r4, 0;
-  stw r31, 0xb50(r29);
-  li r5, 0x70;
-  stw r31, 0xb54(r29);
-  stw r31, 0xb68(r29);
-  bl unk_805553b0;
-  stw r30, 0xbec(r29);
-  mr r3, r29;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+  // seems dubious
+  memset(&this->_b7c, 0, 0x70);
+
+  mGhost = ghost;
 }
+
+} // namespace System
 
 // Symbol: RacedataPlayer_destroy
 // PAL: 0x8052dc68..0x8052dca8
