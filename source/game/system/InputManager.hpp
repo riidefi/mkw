@@ -7,7 +7,8 @@ class InputManager {
 public:
   InputManager();
   virtual ~InputManager();
-  void setGhostController(u8 playerInputIdx, const u8* inputs, bool driftIsAuto);
+  void setGhostController(u8 playerInputIdx, const u8* inputs,
+                          bool driftIsAuto);
 
   static InputManager* spInstance;
 };

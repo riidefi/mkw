@@ -44,79 +44,20 @@ RaceConfigPlayer::RaceConfigPlayer()
       mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(0), mMii(7),
       mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
 
-} // namespace System
-
-#ifdef NON_MATCHING
-namespace System {
-
 void RaceConfigPlayer::appendParamFile(RaceConfig* raceConfig) {
-  ParamFile_append(raceConfig, &mVehicleId, 4,
-                   InitScene::spInstance->mHeapCollection
-                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
-  ParamFile_append(raceConfig, &mCharacterId, 4,
-                   InitScene::spInstance->mHeapCollection
-                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
-  ParamFile_append(raceConfig, &mPlayerType, 4,
-                   InitScene::spInstance->mHeapCollection
-                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
-  ParamFile_append(raceConfig, &mTeam, 4,
-                   InitScene::spInstance->mHeapCollection
-                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->appendData((char*)&mVehicleId, sizeof(mVehicleId),
+                         InitScene::spInstance->mHeapCollection
+                             .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->appendData((char*)&mCharacterId, sizeof(mCharacterId),
+                         InitScene::spInstance->mHeapCollection
+                             .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->appendData((char*)&mPlayerType, sizeof(mPlayerType),
+                         InitScene::spInstance->mHeapCollection
+                             .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->appendData((char*)&mTeam, sizeof(mTeam),
+                         InitScene::spInstance->mHeapCollection
+                             .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
 }
-
-} // namespace System
-#else
-// Symbol: unk_8052da50
-// PAL: 0x8052da50..0x8052daf0
-MARK_BINARY_BLOB(unk_8052da50, 0x8052da50, 0x8052daf0);
-asm UNKNOWN_FUNCTION(unk_8052da50) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  lis r31, 0;
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  mr r3, r30;
-  lwz r5, 0(r31);
-  addi r4, r29, 8;
-  lwz r6, 0x34(r5);
-  li r5, 4;
-  bl unk_805553b0;
-  lwz r6, 0(r31);
-  mr r3, r30;
-  addi r4, r29, 0xc;
-  li r5, 4;
-  lwz r6, 0x34(r6);
-  bl unk_805553b0;
-  lwz r6, 0(r31);
-  mr r3, r30;
-  addi r4, r29, 0x10;
-  li r5, 4;
-  lwz r6, 0x34(r6);
-  bl unk_805553b0;
-  lwz r6, 0(r31);
-  mr r3, r30;
-  addi r4, r29, 0xcc;
-  li r5, 4;
-  lwz r6, 0x34(r6);
-  bl unk_805553b0;
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
-}
-#endif
-
-namespace System {
 
 s32 RaceConfigPlayer::computeGpRank() const {
   s8 weightedRankScore = 5;
@@ -5044,8 +4985,8 @@ void RaceConfig::setGhost(RawGhostFile* ghost) {
   memcpy(mMenuScenario.mGhost, ghost, 0x2800);
 }
 
-s32 RaceConfig::getHudPlayerId(u8 playerIdx) {
-  return (s8)mRaceScenario.mSettings.mHudPlayerIds[playerIdx];
+s8 RaceConfig::getHudPlayerId(u8 playerIdx) {
+  return mRaceScenario.mSettings.mHudPlayerIds[playerIdx];
 }
 
 } // namespace System

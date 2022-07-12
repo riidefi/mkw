@@ -252,7 +252,7 @@ public:
   RawGhostFile mGhosts[2];
 };
 
-class RaceConfig : ParameterFile, public RaceConfigMain {
+class RaceConfig : public ParameterFile, public RaceConfigMain {
 public:
   RaceConfig();
   virtual ~RaceConfig();
@@ -260,7 +260,7 @@ public:
   u8 update();
   s32 getLocalPlayerCount(u8 playerIdx);
   void setGhost(RawGhostFile* ghost);
-  s32 getHudPlayerId(u8 playerIdx);
+  s8 getHudPlayerId(u8 playerIdx);
 
   static RaceConfig* spInstance;
 };
