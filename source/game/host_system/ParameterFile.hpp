@@ -23,7 +23,7 @@ public:
 
   void appendData(char* str, u32 str_size, EGG::Heap* heap);
 
-  template <typename T> void append(const T& obj, EGG::Heap* heap) {
+  template <typename T> void append(T& obj, EGG::Heap* heap) {
     appendData(reinterpret_cast<char*>(&obj), sizeof(obj), heap);
   }
 
