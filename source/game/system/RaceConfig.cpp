@@ -1,5 +1,7 @@
 #include "RaceConfig.hpp"
 
+#pragma legacy_struct_alignment off
+
 extern "C" {
 // Extern function references.
 // PAL: 0x80009d6c
@@ -120,46 +122,18 @@ lbl_8052dc90:
   // clang-format on
 }
 
-// Symbol: unk_8052dca8
-// PAL: 0x8052dca8..0x8052dd18
-MARK_BINARY_BLOB(unk_8052dca8, 0x8052dca8, 0x8052dd18);
-asm UNKNOWN_FUNCTION(unk_8052dca8) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  lis r4, 0;
-  li r0, 0;
-  li r8, 0;
-  stw r0, 8(r1);
-  addi r5, r1, 8;
-  lwz r7, 0(r4);
-  b lbl_8052dcf0;
-lbl_8052dcc8:
-  clrlwi r0, r8, 0x18;
-  addi r8, r8, 1;
-  mulli r0, r0, 0xf0;
-  add r4, r3, r0;
-  lwz r6, 0xd4(r4);
-  lhz r0, 0xe0(r4);
-  slwi r6, r6, 1;
-  lhzx r4, r5, r6;
-  add r0, r4, r0;
-  sthx r0, r5, r6;
-lbl_8052dcf0:
-  lbz r0, 0x24(r7);
-  clrlwi r4, r8, 0x18;
-  cmplw r4, r0;
-  blt lbl_8052dcc8;
-  lhz r3, 8(r1);
-  lhz r0, 0xa(r1);
-  subf r0, r0, r3;
-  srwi r3, r0, 0x1f;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
-
 namespace System {
+
+BattleTeam RaceScenario::computeWinningTeam() {
+  u16 results[] = {0, 0};
+
+  for (u8 i = 0; i < RaceConfig::spInstance->mRaceScenario.mPlayerCount; i++) {
+    const BattleTeam team = mPlayers[i].mTeam;
+    results[team] += mPlayers[i].mPreviousScore;
+  }
+
+  return (results[0] < results[1]) ? BATTLE_TEAM_BLUE : BATTLE_TEAM_RED;
+}
 
 BattleTeam RaceConfigPlayer::getTeam() { return mTeam; }
 
@@ -3535,7 +3509,7 @@ lbl_80530a2c:
   cmpwi r3, 0;
   beq lbl_80530d18;
   addi r3, r31, 0x20;
-  bl unk_8052dca8;
+  bl computeWinningTeam__Q26System12RaceScenarioFv;
   cntlzw r0, r3;
   mr r27, r3;
   srwi r28, r0, 5;

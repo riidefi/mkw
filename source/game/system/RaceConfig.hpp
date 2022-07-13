@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma legacy_struct_alignment off
-
 #include <game/host_system/ParameterFile.hpp>
 #include <game/system/GhostFile.hpp>
 #include <game/system/Mii.hpp>
@@ -30,7 +28,7 @@ UNKNOWN_FUNCTION(RacedataScenario_construct);
 // PAL: 0x8052dc68..0x8052dca8
 UNKNOWN_FUNCTION(RacedataPlayer_destroy);
 // PAL: 0x8052dca8..0x8052dd18
-UNKNOWN_FUNCTION(unk_8052dca8);
+UNKNOWN_FUNCTION(computeWinningTeam__Q26System12RaceScenarioFv);
 // PAL: 0x8052dd18..0x8052dd20
 UNKNOWN_FUNCTION(getTeam__Q26System16RaceConfigPlayerFv);
 // PAL: 0x8052dd20..0x8052dd30
@@ -230,6 +228,7 @@ public:
 class RaceScenario : public RaceConfigScenario {
 public:
   RaceConfigPlayer* getPlayer(u8 idx);
+  BattleTeam computeWinningTeam();
 };
 class MenuScenario : public RaceConfigScenario {
 public:

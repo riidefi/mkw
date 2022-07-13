@@ -9600,7 +9600,7 @@
 0x80528598 unk_80528598
 0x805287bc unk_805287bc
 0x80528ea8 unk_80528ea8
-0x80529034 unk_80529034
+0x80529034 __dt__Q26System3MiiFv
 0x80529074 unk_80529074
 0x80529330 unk_80529330
 0x80529420 unk_80529420
@@ -9720,7 +9720,7 @@
 0x8052daf0 RacedataPlayer_computeGpRank
 0x8052dbc8 RacedataScenario_construct
 0x8052dc68 RacedataPlayer_destroy
-0x8052dca8 unk_8052dca8
+0x8052dca8 computeWinningTeam__Q26System12RaceScenarioFv
 0x8052dd18 getTeam__Q26System16RaceConfigPlayerFv
 0x8052dd20 getPlayer__Q26System12RaceScenarioFUc
 0x8052dd30 getRacePlayerCount__Q26System10RaceConfigFv
