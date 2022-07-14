@@ -767,13 +767,6 @@ void RaceConfigPlayer::setPrevFinishPos(s8 pos) { mPrevFinishPos = pos; }
 
 void RaceConfigPlayer::setUnkPos(s8 pos) { this->_e0 = pos; }
 
-} // namespace System
-
-// https://media.discordapp.net/attachments/727908905828483073/991961345715077190/regswap.gif
-// Scratch: https://decomp.me/scratch/T0McN
-#ifdef NON_MATCHING
-namespace System {
-
 void RaceConfigScenario::reset() {
   mSettings.mItemMode = 0;
   mSettings.mCpuMode = 1;
@@ -782,7 +775,7 @@ void RaceConfigScenario::reset() {
   mSettings.mModeFlags = mSettings.mModeFlags & 0xFFFFFFF8;
 
   for (u8 i = 0; i < 12; i++) {
-    mPlayers[i].reset(i + 1);
+    getPlayer(i)->reset(i + 1);
   }
 
   mSettings.mRaceNumber = 0;
@@ -790,80 +783,6 @@ void RaceConfigScenario::reset() {
 }
 
 } // namespace System
-#else
-// Symbol: unk_8052e668
-// PAL: 0x8052e668..0x8052e764
-MARK_BINARY_BLOB(unk_8052e668, 0x8052e668, 0x8052e764);
-asm UNKNOWN_FUNCTION(unk_8052e668) {
-  // clang-format off
-  nofralloc;
-  lwz r4, 0xb70(r3);
-  li r6, 1;
-  li r0, 2;
-  li r11, 0;
-  rlwinm r4, r4, 0, 0, 0x1c;
-  li r5, 3;
-  stw r11, 0xb60(r3);
-  li r12, 0;
-  stw r6, 0xb5c(r3);
-  stb r5, 0xb6d(r3);
-  stw r6, 0xb4c(r3);
-  stw r4, 0xb70(r3);
-  mtctr r0;
-lbl_8052e69c:
-  clrlwi r10, r12, 0x18;
-  addi r0, r12, 2;
-  mulli r5, r10, 0xf0;
-  addi r4, r12, 1;
-  clrlwi r7, r0, 0x18;
-  addi r0, r12, 3;
-  add r9, r3, r5;
-  clrlwi r8, r4, 0x18;
-  sth r11, 0xe0(r9);
-  clrlwi r6, r0, 0x18;
-  addi r4, r12, 4;
-  addi r0, r12, 5;
-  sth r11, 0xe6(r9);
-  clrlwi r5, r4, 0x18;
-  addi r10, r10, 1;
-  clrlwi r4, r0, 0x18;
-  stb r10, 0xe9(r9);
-  addi r0, r8, 1;
-  addi r7, r7, 1;
-  addi r6, r6, 1;
-  stb r10, 0xe8(r9);
-  addi r5, r5, 1;
-  addi r4, r4, 1;
-  addi r12, r12, 6;
-  sth r11, 0x1d0(r9);
-  sth r11, 0x1d6(r9);
-  stb r0, 0x1d9(r9);
-  stb r0, 0x1d8(r9);
-  sth r11, 0x2c0(r9);
-  sth r11, 0x2c6(r9);
-  stb r7, 0x2c9(r9);
-  stb r7, 0x2c8(r9);
-  sth r11, 0x3b0(r9);
-  sth r11, 0x3b6(r9);
-  stb r6, 0x3b9(r9);
-  stb r6, 0x3b8(r9);
-  sth r11, 0x4a0(r9);
-  sth r11, 0x4a6(r9);
-  stb r5, 0x4a9(r9);
-  stb r5, 0x4a8(r9);
-  sth r11, 0x590(r9);
-  sth r11, 0x596(r9);
-  stb r4, 0x599(r9);
-  stb r4, 0x598(r9);
-  bdnz lbl_8052e69c;
-  li r4, 0;
-  li r0, 3;
-  stb r4, 0xb6c(r3);
-  stb r0, 0xb6d(r3);
-  blr;
-  // clang-format on
-}
-#endif
 
 // Symbol: unk_8052e764
 // PAL: 0x8052e764..0x8052e770
@@ -876,9 +795,6 @@ asm UNKNOWN_FUNCTION(unk_8052e764) {
   // clang-format on
 }
 
-// https://media.discordapp.net/attachments/727908905828483073/991961345715077190/regswap.gif
-// Scratch: https://decomp.me/scratch/NxTL1
-#ifdef NON_MATCHING
 namespace System {
 
 u8 RaceConfigScenario::update() {
@@ -889,89 +805,15 @@ u8 RaceConfigScenario::update() {
   }
 
   for (u8 i = 0; i < 12; i++) {
-    mPlayers[i].mPrevFinishPos = mPlayers[i].mFinishPos;
-    mPlayers[i].mPreviousScore = mPlayers[i].mGpScore;
+    RaceConfigPlayer* player = getPlayer(i);
+    player->mPrevFinishPos = player->mFinishPos;
+    player->mPreviousScore = player->mGpScore;
   }
 
   return mSettings.mRaceNumber;
 }
 
 } // namespace System
-#else
-// Symbol: unk_8052e770
-// PAL: 0x8052e770..0x8052e870
-MARK_BINARY_BLOB(unk_8052e770, 0x8052e770, 0x8052e870);
-asm UNKNOWN_FUNCTION(unk_8052e770) {
-  // clang-format off
-  lbz r4, 0xb6c(r3);
-  cmplwi r4, 0x64;
-  bge lbl_8052e788;
-  addi r0, r4, 1;
-  stb r0, 0xb6c(r3);
-  b lbl_8052e790;
-lbl_8052e788:
-  li r0, 0;
-  stb r0, 0xb6c(r3);
-lbl_8052e790:
-  li r6, 0;
-  mulli r5, r6, 0xf0;
-  li r6, 6;
-  add r4, r3, r5;
-  lbz r0, 0xea(r4);
-  mulli r5, r6, 0xf0;
-  stb r0, 0xe9(r4);
-  lhz r0, 0xe2(r4);
-  sth r0, 0xe0(r4);
-  lbz r0, 0x1da(r4);
-  stb r0, 0x1d9(r4);
-  lhz r0, 0x1d2(r4);
-  sth r0, 0x1d0(r4);
-  lbz r0, 0x2ca(r4);
-  stb r0, 0x2c9(r4);
-  lhz r0, 0x2c2(r4);
-  sth r0, 0x2c0(r4);
-  lbz r0, 0x3ba(r4);
-  stb r0, 0x3b9(r4);
-  lhz r0, 0x3b2(r4);
-  sth r0, 0x3b0(r4);
-  lbz r0, 0x4aa(r4);
-  stb r0, 0x4a9(r4);
-  lhz r0, 0x4a2(r4);
-  sth r0, 0x4a0(r4);
-  lbz r0, 0x59a(r4);
-  stb r0, 0x599(r4);
-  lhz r0, 0x592(r4);
-  sth r0, 0x590(r4);
-  add r4, r3, r5;
-  lbz r0, 0xea(r4);
-  stb r0, 0xe9(r4);
-  lhz r0, 0xe2(r4);
-  sth r0, 0xe0(r4);
-  lbz r0, 0x1da(r4);
-  stb r0, 0x1d9(r4);
-  lhz r0, 0x1d2(r4);
-  sth r0, 0x1d0(r4);
-  lbz r0, 0x2ca(r4);
-  stb r0, 0x2c9(r4);
-  lhz r0, 0x2c2(r4);
-  sth r0, 0x2c0(r4);
-  lbz r0, 0x3ba(r4);
-  stb r0, 0x3b9(r4);
-  lhz r0, 0x3b2(r4);
-  sth r0, 0x3b0(r4);
-  lbz r0, 0x4aa(r4);
-  stb r0, 0x4a9(r4);
-  lhz r0, 0x4a2(r4);
-  sth r0, 0x4a0(r4);
-  lbz r0, 0x59a(r4);
-  stb r0, 0x599(r4);
-  lhz r0, 0x592(r4);
-  sth r0, 0x590(r4);
-  lbz r3, 0xb6c(r3);
-  blr;
-  // clang-format on
-}
-#endif
 
 // Symbol: unk_8052e870
 // PAL: 0x8052e870..0x8052e950
@@ -1566,71 +1408,21 @@ lbl_8052efb0:
 }
 #endif
 
-// https://media.discordapp.net/attachments/727908905828483073/991961345715077190/regswap.gif
-// Scratch: https://decomp.me/scratch/U5rl1
-#ifdef NON_MATCHING
 namespace System {
 
 void RaceConfigScenario::resetPlayers() {
   for (u8 i = 0; i < 12; i++) {
-    mPlayers[i].mLocalPlayerNum = -1;
-    mPlayers[i].mPlayerInputIdx = -1;
+    RaceConfigPlayer* player = getPlayer(i);
+    player->mLocalPlayerNum = -1;
+    player->mPlayerInputIdx = -1;
   }
 
-  mSettings.mHudPlayerIds[0] = -1;
-  mSettings.mHudPlayerIds[1] = -1;
-  mSettings.mHudPlayerIds[2] = -1;
-  mSettings.mHudPlayerIds[3] = -1;
+  for (u8 i = 0; i < 4; i++) {
+    mSettings.mHudPlayerIds[i] = -1;
+  }
 }
 
 } // namespace System
-#else
-// Symbol: resetPlayers__Q26System18RaceConfigScenarioFv
-// PAL: 0x8052efd4..0x8052f064
-MARK_BINARY_BLOB(resetPlayers__Q26System18RaceConfigScenarioFv, 0x8052efd4,
-                 0x8052f064);
-asm UNKNOWN_FUNCTION(resetPlayers__Q26System18RaceConfigScenarioFv) {
-  // clang-format off
-  nofralloc;
-  li r6, 0;
-  li r0, -1;
-  mulli r5, r6, 0xf0;
-  li r6, 6;
-  add r4, r3, r5;
-  stb r0, 0xd(r4);
-  mulli r5, r6, 0xf0;
-  stb r0, 0xe(r4);
-  stb r0, 0xfd(r4);
-  stb r0, 0xfe(r4);
-  stb r0, 0x1ed(r4);
-  stb r0, 0x1ee(r4);
-  stb r0, 0x2dd(r4);
-  stb r0, 0x2de(r4);
-  stb r0, 0x3cd(r4);
-  stb r0, 0x3ce(r4);
-  stb r0, 0x4bd(r4);
-  stb r0, 0x4be(r4);
-  add r4, r3, r5;
-  stb r0, 0xd(r4);
-  stb r0, 0xe(r4);
-  stb r0, 0xfd(r4);
-  stb r0, 0xfe(r4);
-  stb r0, 0x1ed(r4);
-  stb r0, 0x1ee(r4);
-  stb r0, 0x2dd(r4);
-  stb r0, 0x2de(r4);
-  stb r0, 0x3cd(r4);
-  stb r0, 0x3ce(r4);
-  stb r0, 0x4bd(r4);
-  stb r0, 0x4be(r4);
-  stb r0, 0xb64(r3);
-  stb r0, 0xb65(r3);
-  stb r0, 0xb66(r3);
-  stb r0, 0xb67(r3);
-  blr;
-  // clang-format on
-}
-#endif
 
 // Symbol: unk_8052f064
 // PAL: 0x8052f064..0x8052f1e0
@@ -4959,7 +4751,7 @@ void RaceConfig::setGhost(RawGhostFile* ghost) {
 }
 
 s8 RaceConfig::getHudPlayerId(u8 playerIdx) {
-  return mRaceScenario.mSettings.mHudPlayerIds[playerIdx];
+  return (s8)(u8)mRaceScenario.mSettings.mHudPlayerIds[playerIdx];
 }
 
 } // namespace System

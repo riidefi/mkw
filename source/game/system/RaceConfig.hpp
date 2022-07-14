@@ -197,7 +197,7 @@ struct RaceConfigSettings {
   u32 mBattleType;
   u32 mCpuMode;
   u32 mItemMode;
-  u8 mHudPlayerIds[4];
+  s8 mHudPlayerIds[4];
   s32 mCupId; // TODO: create enum
   u8 mRaceNumber;
   u8 mLapCount;
@@ -210,6 +210,7 @@ class RaceConfigScenario {
 public:
   RaceConfigScenario(RawGhostFile* ghost);
   virtual ~RaceConfigScenario();
+  RaceConfigPlayer* getPlayer(u8 idx) { return &mPlayers[idx]; }
   void reset();
   u8 update();
   void resetPlayers();
