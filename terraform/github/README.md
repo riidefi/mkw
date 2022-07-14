@@ -1,0 +1,1 @@
+Manages GitHub repository configuration.
