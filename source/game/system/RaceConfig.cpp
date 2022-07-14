@@ -770,6 +770,7 @@ void RaceConfigPlayer::setUnkPos(s8 pos) { this->_e0 = pos; }
 } // namespace System
 
 // https://media.discordapp.net/attachments/727908905828483073/991961345715077190/regswap.gif
+// Scratch: https://decomp.me/scratch/T0McN
 #ifdef NON_MATCHING
 namespace System {
 
@@ -876,6 +877,7 @@ asm UNKNOWN_FUNCTION(unk_8052e764) {
 }
 
 // https://media.discordapp.net/attachments/727908905828483073/991961345715077190/regswap.gif
+// Scratch: https://decomp.me/scratch/NxTL1
 #ifdef NON_MATCHING
 namespace System {
 
@@ -1565,6 +1567,7 @@ lbl_8052efb0:
 #endif
 
 // https://media.discordapp.net/attachments/727908905828483073/991961345715077190/regswap.gif
+// Scratch: https://decomp.me/scratch/U5rl1
 #ifdef NON_MATCHING
 namespace System {
 
