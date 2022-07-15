@@ -228,34 +228,40 @@ public:
 // These will be important later
 class RaceScenario : public RaceConfigScenario {
 public:
+  RaceScenario(RawGhostFile* ghost) : RaceConfigScenario(ghost) {}
   RaceConfigPlayer* getPlayer(u8 idx);
   BattleTeam computeWinningTeam();
 };
 class MenuScenario : public RaceConfigScenario {
 public:
+  MenuScenario(RawGhostFile* ghost) : RaceConfigScenario(ghost) {}
   RaceConfigPlayer* getPlayer(u8 idx);
   s32 getGametype();
   bool initGhost(u8 playerIdx, u8 playerInputIdx);
   u32 getModeFlag();
 };
-class AwardsScenario : public RaceConfigScenario {};
-
-class RaceConfigMain {
+class AwardsScenario : public RaceConfigScenario {
 public:
-  RaceConfigMain();
-
-  // Things get tricky here - we have a vtable with no virtual functions
-  void* vtable;
-  RaceScenario mRaceScenario;
-  MenuScenario mMenuScenario;
-  AwardsScenario mAwardsScenario;
-  RawGhostFile mGhosts[2];
+  AwardsScenario(RawGhostFile* ghost) : RaceConfigScenario(ghost) {}
 };
 
-class RaceConfig : public ParameterFile, public RaceConfigMain {
+class RaceConfigEx {
+public:
+  inline RaceConfigEx() {}
+};
+
+class RaceConfigEx2 {
+public:
+  inline RaceConfigEx2() {}
+};
+
+class RaceConfig : public RaceConfigEx2, public ParameterFile, RaceConfigEx {
 public:
   RaceConfig();
   virtual ~RaceConfig();
+  virtual void vf10();
+  virtual void vf14();
+  virtual void vf18();
   static u8 getRacePlayerCount();
   u8 update();
   s32 getLocalPlayerCount(u8 playerIdx);
@@ -263,6 +269,11 @@ public:
   s8 getHudPlayerId(u8 playerIdx);
 
   static RaceConfig* spInstance;
+
+  RaceScenario mRaceScenario;
+  MenuScenario mMenuScenario;
+  AwardsScenario mAwardsScenario;
+  RawGhostFile mGhosts[2];
 };
 
 } // namespace System

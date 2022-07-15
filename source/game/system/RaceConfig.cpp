@@ -2691,6 +2691,16 @@ lbl_80530140:
   // clang-format on
 }
 
+// Requires rodata from unk_8052e870 and unk_8052fa0c first
+#ifdef NON_MATCHING
+namespace System {
+
+RaceConfig::RaceConfig()
+    : ParameterFile("/boot/menuset.prm", 0), mRaceScenario(&mGhosts[0]),
+      mMenuScenario(&mGhosts[1]), mAwardsScenario(nullptr) {}
+
+} // namespace System
+#else
 // Symbol: Racedata_construct
 // PAL: 0x8053015c..0x805302c4
 MARK_BINARY_BLOB(Racedata_construct, 0x8053015c, 0x805302c4);
@@ -2790,6 +2800,7 @@ lbl_80530298:
   blr;
   // clang-format on
 }
+#endif
 
 // Symbol: Racedata_initRace
 // PAL: 0x805302c4..0x805305ac
@@ -4561,89 +4572,11 @@ lbl_80531cb4:
   // clang-format on
 }
 
-// Relies on regswap fix for RaceConfigScenario::update()
-#ifdef NON_MATCHING
 namespace System {
 
 u8 RaceConfig::update() { return mMenuScenario.update(); }
 
 } // namespace System
-#else
-// Symbol: Racedata_updateEndOfRace
-// PAL: 0x80531ce4..0x80531de4
-MARK_BINARY_BLOB(Racedata_updateEndOfRace, 0x80531ce4, 0x80531de4);
-asm UNKNOWN_FUNCTION(Racedata_updateEndOfRace) {
-  // clang-format off
-  nofralloc;
-  lbz r4, 0x177c(r3);
-  cmplwi r4, 0x64;
-  bge lbl_80531cfc;
-  addi r0, r4, 1;
-  stb r0, 0x177c(r3);
-  b lbl_80531d04;
-lbl_80531cfc:
-  li r0, 0;
-  stb r0, 0x177c(r3);
-lbl_80531d04:
-  li r6, 0;
-  mulli r5, r6, 0xf0;
-  li r6, 6;
-  add r4, r3, r5;
-  lbz r0, 0xcfa(r4);
-  mulli r5, r6, 0xf0;
-  stb r0, 0xcf9(r4);
-  lhz r0, 0xcf2(r4);
-  sth r0, 0xcf0(r4);
-  lbz r0, 0xdea(r4);
-  stb r0, 0xde9(r4);
-  lhz r0, 0xde2(r4);
-  sth r0, 0xde0(r4);
-  lbz r0, 0xeda(r4);
-  stb r0, 0xed9(r4);
-  lhz r0, 0xed2(r4);
-  sth r0, 0xed0(r4);
-  lbz r0, 0xfca(r4);
-  stb r0, 0xfc9(r4);
-  lhz r0, 0xfc2(r4);
-  sth r0, 0xfc0(r4);
-  lbz r0, 0x10ba(r4);
-  stb r0, 0x10b9(r4);
-  lhz r0, 0x10b2(r4);
-  sth r0, 0x10b0(r4);
-  lbz r0, 0x11aa(r4);
-  stb r0, 0x11a9(r4);
-  lhz r0, 0x11a2(r4);
-  sth r0, 0x11a0(r4);
-  add r4, r3, r5;
-  lbz r0, 0xcfa(r4);
-  stb r0, 0xcf9(r4);
-  lhz r0, 0xcf2(r4);
-  sth r0, 0xcf0(r4);
-  lbz r0, 0xdea(r4);
-  stb r0, 0xde9(r4);
-  lhz r0, 0xde2(r4);
-  sth r0, 0xde0(r4);
-  lbz r0, 0xeda(r4);
-  stb r0, 0xed9(r4);
-  lhz r0, 0xed2(r4);
-  sth r0, 0xed0(r4);
-  lbz r0, 0xfca(r4);
-  stb r0, 0xfc9(r4);
-  lhz r0, 0xfc2(r4);
-  sth r0, 0xfc0(r4);
-  lbz r0, 0x10ba(r4);
-  stb r0, 0x10b9(r4);
-  lhz r0, 0x10b2(r4);
-  sth r0, 0x10b0(r4);
-  lbz r0, 0x11aa(r4);
-  stb r0, 0x11a9(r4);
-  lhz r0, 0x11a2(r4);
-  sth r0, 0x11a0(r4);
-  lbz r3, 0x177c(r3);
-  blr;
-  // clang-format on
-}
-#endif
 
 // Symbol: unk_80531de4
 // PAL: 0x80531de4..0x80531f18
@@ -4847,35 +4780,15 @@ lbl_80532048:
   // clang-format on
 }
 
-// Symbol: unk_80532070
-// PAL: 0x80532070..0x80532074
-MARK_BINARY_BLOB(unk_80532070, 0x80532070, 0x80532074);
-asm UNKNOWN_FUNCTION(unk_80532070) {
-  // clang-format off
-  nofralloc;
-  blr;
-  // clang-format on
-}
+namespace System {
 
-// Symbol: unk_80532074
-// PAL: 0x80532074..0x80532078
-MARK_BINARY_BLOB(unk_80532074, 0x80532074, 0x80532078);
-asm UNKNOWN_FUNCTION(unk_80532074) {
-  // clang-format off
-  nofralloc;
-  blr;
-  // clang-format on
-}
+void RaceConfig::vf18() {}
 
-// Symbol: unk_80532078
-// PAL: 0x80532078..0x8053207c
-MARK_BINARY_BLOB(unk_80532078, 0x80532078, 0x8053207c);
-asm UNKNOWN_FUNCTION(unk_80532078) {
-  // clang-format off
-  nofralloc;
-  blr;
-  // clang-format on
-}
+void RaceConfig::vf14() {}
+
+void RaceConfig::vf10() {}
+
+} // namespace System
 
 // Symbol: unk_8053207c
 // PAL: 0x8053207c..0x80532084
