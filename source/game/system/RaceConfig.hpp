@@ -75,7 +75,7 @@ UNKNOWN_FUNCTION(RacedataScenario_copyPrevPositions);
 // PAL: 0x8052f4e8..0x8052f788
 UNKNOWN_FUNCTION(RacedataScenario_initControllers);
 // PAL: 0x8052f788..0x8052f924
-UNKNOWN_FUNCTION(RacedataScenario_computePlayerCounts);
+UNKNOWN_FUNCTION(computePlayerCounts__Q26System12MenuScenarioFPUcPUcPUc);
 // PAL: 0x8052f924..0x8052fa0c
 UNKNOWN_FUNCTION(RacedataScenario_initRng);
 // PAL: 0x8052fa0c..0x8052fb90
@@ -238,6 +238,7 @@ public:
   RaceConfigPlayer* getPlayer(u8 idx);
   s32 getGametype();
   bool initGhost(u8 playerIdx, u8 playerInputIdx);
+  void computePlayerCounts(u8* playerCount, u8* hudCount, u8* localPlayerCount);
   u32 getModeFlag();
 };
 class AwardsScenario : public RaceConfigScenario {

@@ -1944,133 +1944,72 @@ lbl_8052f774:
   // clang-format on
 }
 
-// Symbol: RacedataScenario_computePlayerCounts
-// PAL: 0x8052f788..0x8052f924
-MARK_BINARY_BLOB(RacedataScenario_computePlayerCounts, 0x8052f788, 0x8052f924);
-asm UNKNOWN_FUNCTION(RacedataScenario_computePlayerCounts) {
-  // clang-format off
-  nofralloc;
-  li r0, 3;
-  li r8, 0;
-  li r9, 0;
-  li r10, 0;
-  li r11, 0;
-  mtctr r0;
-lbl_8052f7a0:
-  clrlwi r0, r11, 0x18;
-  mulli r0, r0, 0xf0;
-  add r7, r3, r0;
-  lwz r0, 0x18(r7);
-  cmpwi r0, 5;
-  beq lbl_8052f7d8;
-  cmpwi r0, 0;
-  addi r8, r8, 1;
-  bne lbl_8052f7d8;
-  cmplwi r9, 4;
-  bge lbl_8052f7d4;
-  addi r0, r9, 1;
-  clrlwi r9, r0, 0x18;
-lbl_8052f7d4:
-  addi r10, r10, 1;
-lbl_8052f7d8:
-  addi r11, r11, 1;
-  clrlwi r0, r11, 0x18;
-  mulli r0, r0, 0xf0;
-  add r7, r3, r0;
-  lwz r0, 0x18(r7);
-  cmpwi r0, 5;
-  beq lbl_8052f814;
-  cmpwi r0, 0;
-  addi r8, r8, 1;
-  bne lbl_8052f814;
-  cmplwi r9, 4;
-  bge lbl_8052f810;
-  addi r0, r9, 1;
-  clrlwi r9, r0, 0x18;
-lbl_8052f810:
-  addi r10, r10, 1;
-lbl_8052f814:
-  addi r11, r11, 1;
-  clrlwi r0, r11, 0x18;
-  mulli r0, r0, 0xf0;
-  add r7, r3, r0;
-  lwz r0, 0x18(r7);
-  cmpwi r0, 5;
-  beq lbl_8052f850;
-  cmpwi r0, 0;
-  addi r8, r8, 1;
-  bne lbl_8052f850;
-  cmplwi r9, 4;
-  bge lbl_8052f84c;
-  addi r0, r9, 1;
-  clrlwi r9, r0, 0x18;
-lbl_8052f84c:
-  addi r10, r10, 1;
-lbl_8052f850:
-  addi r11, r11, 1;
-  clrlwi r0, r11, 0x18;
-  mulli r0, r0, 0xf0;
-  add r7, r3, r0;
-  lwz r0, 0x18(r7);
-  cmpwi r0, 5;
-  beq lbl_8052f88c;
-  cmpwi r0, 0;
-  addi r8, r8, 1;
-  bne lbl_8052f88c;
-  cmplwi r9, 4;
-  bge lbl_8052f888;
-  addi r0, r9, 1;
-  clrlwi r9, r0, 0x18;
-lbl_8052f888:
-  addi r10, r10, 1;
-lbl_8052f88c:
-  addi r11, r11, 1;
-  bdnz lbl_8052f7a0;
-  cmpwi r9, 0;
-  bne lbl_8052f8a0;
-  li r9, 1;
-lbl_8052f8a0:
-  cmplwi r9, 3;
-  bne lbl_8052f8ac;
-  li r9, 4;
-lbl_8052f8ac:
-  lwz r7, 0xb54(r3);
-  cmpwi r7, 2;
-  bne lbl_8052f8c0;
-  li r9, 1;
-  b lbl_8052f8dc;
-lbl_8052f8c0:
-  cmpwi r7, 3;
-  bne lbl_8052f8d0;
-  li r9, 2;
-  b lbl_8052f8dc;
-lbl_8052f8d0:
-  cmpwi r7, 4;
-  bne lbl_8052f8dc;
-  li r9, 4;
-lbl_8052f8dc:
-  lwz r0, 0xb50(r3);
-  cmpwi r0, 0xb;
-  bne lbl_8052f914;
-  cmpwi r7, 7;
-  bne lbl_8052f904;
-  clrlwi r0, r8, 0x18;
-  cmplwi r0, 3;
-  ble lbl_8052f914;
-  li r8, 3;
-  b lbl_8052f914;
-lbl_8052f904:
-  clrlwi r0, r8, 0x18;
-  cmplwi r0, 6;
-  ble lbl_8052f914;
-  li r8, 6;
-lbl_8052f914:
-  stb r8, 0(r4);
-  stb r9, 0(r5);
-  stb r10, 0(r6);
-  blr;
-  // clang-format on
+namespace System {
+
+void MenuScenario::computePlayerCounts(u8* playerCount, u8* hudCount,
+                                       u8* localPlayerCount) {
+  u8 playerCount_ = 0;
+  u8 hudCount_ = 0;
+  u8 localPlayerCount_ = 0;
+
+  for (u8 i = 0; i < 12; i++) {
+    const s32 playerType = mPlayers[i].mPlayerType;
+
+    // Check if player exists
+    if (playerType == 5) {
+      continue;
+    }
+    playerCount_++;
+
+    // Check if player is local
+    if (playerType != 0) {
+      continue;
+    }
+
+    // Increment HUD count
+    if (hudCount_ < 4) {
+      hudCount_++;
+    }
+
+    localPlayerCount_++;
+  }
+
+  // Correct HUD counts
+  if (hudCount_ == 0) {
+    hudCount_ = 1;
+  }
+  if (hudCount_ == 3) {
+    hudCount_ = 4;
+  }
+
+  // Set HUD count based on menu game type
+  const s32 gameType = mSettings.mGameType;
+  if (gameType == 2) {
+    hudCount_ = 1;
+  } else if (gameType == 3) {
+    hudCount_ = 2;
+  } else if (gameType == 4) {
+    hudCount_ = 4;
+  }
+
+  // Cap player count on awards
+  if (mSettings.mGameMode == 11) {
+    if (gameType == 7) {
+      // Cap player count on GP win
+      if (3 < playerCount_) {
+        playerCount_ = 3;
+      }
+    } else if (6 < playerCount_) {
+      playerCount_ = 6;
+    }
+  }
+
+  *playerCount = playerCount_;
+  *hudCount = hudCount_;
+  *localPlayerCount = localPlayerCount_;
 }
+
+} // namespace System
 
 // Symbol: RacedataScenario_initRng
 // PAL: 0x8052f924..0x8052fa0c
@@ -2323,7 +2262,7 @@ lbl_8052fbd4:
   stb r0, 0xb65(r29);
   stb r0, 0xb66(r29);
   stb r0, 0xb67(r29);
-  bl RacedataScenario_computePlayerCounts;
+  bl computePlayerCounts__Q26System12MenuScenarioFPUcPUcPUc;
   lwz r0, 0xb54(r29);
   lbz r31, 9(r1);
   cmpwi r0, 5;

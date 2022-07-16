@@ -9743,7 +9743,7 @@
 0x8052f064 unk_8052f064
 0x8052f1e0 RacedataScenario_copyPrevPositions
 0x8052f4e8 RacedataScenario_initControllers
-0x8052f788 RacedataScenario_computePlayerCounts
+0x8052f788 computePlayerCounts__Q26System12MenuScenarioFPUcPUcPUc
 0x8052f924 RacedataScenario_initRng
 0x8052fa0c unk_8052fa0c
 0x8052fb90 RacedataScenario_initRace
