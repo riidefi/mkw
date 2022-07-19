@@ -5,7 +5,7 @@ from pathlib import Path
 from mkwutil.lib.symbols import SymbolsList
 
 parser = argparse.ArgumentParser(
-    description="Updates a symbols.txt symbol names from a new one, ignoring non-existing"
+    description="Populates a symbols.txt with new entries, ignoring existing"
 )
 parser.add_argument("base", type=Path, help="Path to base symbols.txt")
 parser.add_argument("new", type=Path, help="Path to new symbols.txt")
@@ -20,8 +20,7 @@ with open(args.new, "r") as f:
     new_syms.read_from(f)
 
 for sym in new_syms:
-    if sym.addr in symbols:
-        del symbols[sym.addr]
+    if not sym.addr in symbols:
         symbols.put(sym)
 
 temp_filename = args.base.with_name("." + args.base.name + ".tmp")

@@ -1,6 +1,7 @@
 """This module implements symbols file handling."""
 
 from bisect import bisect_left
+import sys
 import csv
 
 
@@ -113,7 +114,11 @@ class SymbolsList:
 
     def write_to(self, file):
         """Writes a symbol list to a file."""
-        writer = csv.writer(file, delimiter=" ")
+        if sys.platform == "win32" or sys.platform == "msys":
+            lineterm = '\r\n'
+        else:
+            lineterm = '\n'
+        writer = csv.writer(file, delimiter=" ", lineterminator=lineterm)
         for sym in self:
             writer.writerow(["0x%08x" % (sym.addr), sym.name])
 
