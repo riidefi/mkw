@@ -27,6 +27,8 @@ from typing import (
     Union,
 )
 
+from mkwutil.lib.symbols import SymbolsList
+
 
 def fail(msg: str) -> NoReturn:
     print(msg, file=sys.stderr)
@@ -386,6 +388,7 @@ class ProjectSettings:
     build_command: List[str]
     map_format: str
     mw_build_dir: str
+    symbols_txt: str
     baseimg: Optional[str]
     myimg: Optional[str]
     mapfile: Optional[str]
@@ -444,6 +447,7 @@ def create_project_settings(settings: Dict[str, Any]) -> ProjectSettings:
         baseimg=settings.get("baseimg"),
         myimg=settings.get("myimg"),
         mapfile=settings.get("mapfile"),
+        symbols_txt=settings.get("symbols_txt"),
         build_command=settings.get(
             "make_command", ["make", *settings.get("makeflags", [])]
         ),
@@ -1379,6 +1383,27 @@ def dump_objfile(
     )
 
 
+def search_symbols_txt(start, start_addr, project, config):
+    symbols = SymbolsList()
+    with open(project.symbols_txt, "r") as f:
+        symbols.read_from(f)
+    symbols.derive_sizes(0x8100_0000)
+
+    if start_addr is not None:
+        sym = symbols.get(start_addr)
+    else:
+        sym = symbols.get_by_name(start)
+
+    if sym is None:
+        return start_addr, None
+
+    start = sym.addr
+    end = sym.addr + sym.size
+
+    return start, end
+
+
+
 def dump_binary(
     start: str, end: Optional[str], config: Config, project: ProjectSettings
 ) -> Tuple[str, ObjdumpCommand, ObjdumpCommand]:
@@ -1387,14 +1412,32 @@ def dump_binary(
     if config.make:
         run_make(project.myimg, project)
     start_addr = maybe_eval_int(start)
-    if start_addr is None:
+
+    start_addr, end_addr = search_symbols_txt(start, start_addr, project, config)
+
+    if start_addr is None: # if symbol not found in symbols.txt AND start arg not an int, search map file
         _, start_addr = search_map_file(start, project, config)
         if start_addr is None:
             fail("Not able to find function in map file.")
     if end is not None:
         end_addr = eval_int(end, "End address must be an integer expression.")
-    else:
+    if end_addr is not None and end_addr - start_addr > config.max_function_size_bytes:
+        print(f"WARNING: Symbol too large, clipping to {config.max_function_size_bytes}, if this is not desired raise max_function_size_bytes")
         end_addr = start_addr + config.max_function_size_bytes
+    if end_addr is None:
+        end_addr = start_addr + config.max_function_size_bytes
+
+    if start_addr > 0x8000_0000 and project.myimg.endswith(".rel"):
+        start_addr = start_addr - 0x8051_02E0
+    if end_addr > 0x8000_0000 and project.myimg.endswith(".rel"):
+        end_addr = end_addr - 0x8051_02E0
+    if start_addr > 0x8000_0000 and project.myimg.endswith(".dol"):
+        start_addr = start_addr - 0x8000_4D60
+    if end_addr > 0x8000_0000 and project.myimg.endswith(".dol"):
+        end_addr = end_addr - 0x8000_4D60
+
+    assert start_addr <= end_addr, f"End address ({end_addr}) must be larger than ({start_addr})"
+
     objdump_flags = ["-Dz", "-bbinary"] + ["-EB" if config.arch.big_endian else "-EL"]
     flags1 = [
         f"--start-address={start_addr + config.base_shift}",
