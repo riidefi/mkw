@@ -3133,7 +3133,7 @@ lbl_8053091c:
   addi r3, r31, 0xc10;
   bl getPlayer__Q26System12MenuScenarioFUc;
   mr r4, r29;
-  bl unk_80530f30;
+  bl setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii;
   b lbl_80530a1c;
 lbl_80530a10:
   addi r28, r28, 1;
@@ -3248,7 +3248,7 @@ lbl_80530ab0:
   clrlwi r4, r27, 0x18;
   bl getPlayer__Q26System12MenuScenarioFUc;
   mr r4, r29;
-  bl unk_80530f30;
+  bl setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii;
   addi r27, r27, 1;
 lbl_80530bb8:
   addi r25, r25, 1;
@@ -3332,7 +3332,7 @@ lbl_80530bdc:
   clrlwi r4, r27, 0x18;
   bl getPlayer__Q26System12MenuScenarioFUc;
   mr r4, r29;
-  bl unk_80530f30;
+  bl setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii;
   addi r27, r27, 1;
 lbl_80530cfc:
   addi r26, r26, 1;
@@ -3409,7 +3409,7 @@ lbl_80530d30:
   clrlwi r4, r25, 0x18;
   bl getPlayer__Q26System12MenuScenarioFUc;
   mr r4, r30;
-  bl unk_80530f30;
+  bl setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii;
   addi r25, r25, 1;
 lbl_80530e20:
   addi r27, r27, 1;
@@ -3464,7 +3464,7 @@ lbl_80530e3c:
   li r4, 0;
   bl getPlayer__Q26System12MenuScenarioFUc;
   mr r4, r30;
-  bl unk_80530f30;
+  bl setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii;
 lbl_80530ef0:
   mr r3, r31;
   bl Racedata_initRace;
@@ -3486,98 +3486,9 @@ CharacterId RaceConfigPlayer::getCharacter() { return mCharacterId; }
 
 VehicleId RaceConfigPlayer::getVehicle() { return mVehicleId; }
 
-} // namespace System
-
-// Symbol: unk_80530f30
-// PAL: 0x80530f30..0x80531068
-// Scratch: https://decomp.me/scratch/7sJZl
-MARK_BINARY_BLOB(unk_80530f30, 0x80530f30, 0x80531068);
-asm UNKNOWN_FUNCTION(unk_80530f30) {
-  // clang-format off
-  nofralloc;
-  lwz r5, 4(r4);
-  li r0, 0x26;
-  stw r5, 0x18(r3);
-  addi r7, r3, 0x23;
-  addi r6, r4, 0xf;
-  lbz r5, 8(r4);
-  stb r5, 0x1c(r3);
-  lbz r5, 9(r4);
-  stb r5, 0x1d(r3);
-  lwz r5, 0xc(r4);
-  stw r5, 0x20(r3);
-  mtctr r0;
-lbl_80530f60:
-  lbz r5, 1(r6);
-  lbzu r0, 2(r6);
-  stb r5, 1(r7);
-  stbu r0, 2(r7);
-  bdnz lbl_80530f60;
-  lwz r0, 0x5c(r4);
-  stw r0, 0x70(r3);
-  lbz r0, 0x60(r4);
-  stb r0, 0x74(r3);
-  lbz r0, 0x61(r4);
-  stb r0, 0x75(r3);
-  lbz r0, 0x62(r4);
-  stb r0, 0x76(r3);
-  lbz r0, 0x63(r4);
-  stb r0, 0x77(r3);
-  lwz r0, 0x64(r4);
-  stw r0, 0x78(r3);
-  lwz r5, 0x68(r4);
-  lwz r0, 0x6c(r4);
-  stw r0, 0x80(r3);
-  stw r5, 0x7c(r3);
-  lwz r5, 0x70(r4);
-  lwz r0, 0x74(r4);
-  stw r0, 0x88(r3);
-  stw r5, 0x84(r3);
-  lwz r5, 0x78(r4);
-  lwz r0, 0x7c(r4);
-  stw r0, 0x90(r3);
-  stw r5, 0x8c(r3);
-  lwz r5, 0x80(r4);
-  lwz r0, 0x84(r4);
-  stw r0, 0x98(r3);
-  stw r5, 0x94(r3);
-  lwz r5, 0x88(r4);
-  lwz r0, 0x8c(r4);
-  stw r0, 0xa0(r3);
-  stw r5, 0x9c(r3);
-  lwz r5, 0x90(r4);
-  lwz r0, 0x94(r4);
-  stw r0, 0xa8(r3);
-  stw r5, 0xa4(r3);
-  lwz r5, 0x98(r4);
-  lwz r0, 0x9c(r4);
-  stw r0, 0xb0(r3);
-  stw r5, 0xac(r3);
-  lwz r0, 0xa0(r4);
-  stw r0, 0xb4(r3);
-  lbz r0, 0xa4(r4);
-  stb r0, 0xb8(r3);
-  lbz r0, 0xa5(r4);
-  stb r0, 0xb9(r3);
-  lbz r0, 0xa6(r4);
-  stb r0, 0xba(r3);
-  lwz r0, 0xa8(r4);
-  stw r0, 0xbc(r3);
-  lbz r0, 0xac(r4);
-  stb r0, 0xc0(r3);
-  lbz r0, 0xad(r4);
-  stb r0, 0xc1(r3);
-  lbz r0, 0xae(r4);
-  stb r0, 0xc2(r3);
-  lwz r0, 0xb0(r4);
-  stw r0, 0xc4(r3);
-  lwz r0, 0xb4(r4);
-  stw r0, 0xc8(r3);
-  blr;
-  // clang-format on
-}
-
-namespace System {
+#pragma legacy_struct_alignment on
+void RaceConfigPlayer::setMii(const Mii& mii) { mMii = mii; }
+#pragma legacy_struct_alignment off
 
 Mii* RaceConfigPlayer::getMii() { return &mMii; }
 

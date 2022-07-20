@@ -107,7 +107,7 @@ UNKNOWN_FUNCTION(getCharacter__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80530f28..0x80530f30
 UNKNOWN_FUNCTION(getVehicle__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80530f30..0x80531068
-UNKNOWN_FUNCTION(unk_80530f30);
+UNKNOWN_FUNCTION(setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii);
 // PAL: 0x80531068..0x80531070
 UNKNOWN_FUNCTION(getMii__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80531070..0x80531ce4
@@ -166,6 +166,7 @@ public:
   u8 getUnkPos();
   CharacterId getCharacter();
   VehicleId getVehicle();
+  void setMii(const Mii& mii);
   Mii* getMii();
   // private:
   unk8 _04;

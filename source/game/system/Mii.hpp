@@ -35,28 +35,19 @@ public:
   s8 _9;
   s32 _C;
   RawMii mRaw;
-  unk32 _5C;
-  unkStruct _60; // almost certainly a color struct
-  s32 _64;
-  char mName[20];
-  unk32 _7C;
-  unk32 _80;
-  unk32 _84;
-  unk32 _88;
-  unk32 _8C;
-  unk32 _90;
-  MiiId mId;
-  unk32 _9C;
-  unk32 _A0;
+  s32 _5C;
+  unkStruct _60;
+  u32 _64;
+  u32 _68[15];
   u8 _A4;
   u8 _A5;
   u8 _A6;
-  unk32 _A8;
-  unk8 _AC;
-  unk8 _AD;
-  unk8 _AE;
-  unk32 _B0;
-  unk32 _B4;
+  u32 _A8;
+  u8 _AC;
+  u8 _AD;
+  u8 _AE;
+  u32 _B0;
+  u32 _B4;
 };
 
 } // namespace System
