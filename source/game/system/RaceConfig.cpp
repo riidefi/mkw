@@ -4553,46 +4553,30 @@ asm UNKNOWN_FUNCTION(unk_80531f80) {
   // clang-format on
 }
 
-// Symbol: unk_80531fc8
-// PAL: 0x80531fc8..0x80532030
-// Scratch: https://decomp.me/scratch/7aPIN
-MARK_BINARY_BLOB(unk_80531fc8, 0x80531fc8, 0x80532030);
-asm UNKNOWN_FUNCTION(unk_80531fc8) {
-  // clang-format off
-  nofralloc;
-  lwz r5, 0xb74(r3);
-  addi r0, r5, -2;
-  cmplwi r0, 2;
-  bgt lbl_80531fe0;
-  li r3, 1;
-  blr;
-lbl_80531fe0:
-  cmpwi r5, 1;
-  bne lbl_80531ff0;
-  li r3, 1;
-  blr;
-lbl_80531ff0:
-  add r4, r3, r4;
-  lbz r0, 0xb84(r4);
-  extsb. r0, r0;
-  blt lbl_80532028;
-  clrlwi r0, r0, 0x18;
-  mulli r0, r0, 0xf0;
-  add r3, r3, r0;
-  lwz r0, 0x38(r3);
-  cmpwi r0, 0;
-  beq lbl_80532028;
-  cmpwi r0, 3;
-  beq lbl_80532028;
-  li r3, 1;
-  blr;
-lbl_80532028:
-  li r3, 0;
-  blr;
-  // clang-format on
-}
-
 namespace System {
+
+// Unsure what to call this because I'm unsure of what it does
+bool RaceConfig::unk_80531fc8(u8 hudPlayerIdx) {
+  // In fairness, this makes more sense when it's an enum
+  s32 gameType = mRaceScenario.mSettings.mGameType;
+  if (2 >= (u32)gameType - 2) {
+    return true;
+  }
+
+  if (gameType == 1) {
+    return true;
+  }
+
+  s32 playerId = mRaceScenario.mSettings.mHudPlayerIds[hudPlayerIdx];
+  if (playerId >= 0) {
+    s32 playerType = mRaceScenario.mPlayers[(u8)playerId].mPlayerType;
+    if (playerType != 0 && playerType != 3) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 bool RaceConfig::isTimeAttackReplay() {
   const s32 gameMode = mRaceScenario.mSettings.mGameMode;
