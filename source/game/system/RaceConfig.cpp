@@ -4592,34 +4592,17 @@ lbl_80532028:
   // clang-format on
 }
 
-// Symbol: Racedata_isTimeAttackReplay
-// PAL: 0x80532030..0x80532070
-// Scratch: https://decomp.me/scratch/Ai9Da
-MARK_BINARY_BLOB(Racedata_isTimeAttackReplay, 0x80532030, 0x80532070);
-asm UNKNOWN_FUNCTION(Racedata_isTimeAttackReplay) {
-  // clang-format off
-  nofralloc;
-  lwz r0, 0xb70(r3);
-  li r3, 0;
-  cmpwi r0, 2;
-  beq lbl_80532048;
-  cmpwi r0, 5;
-  bnelr;
-lbl_80532048:
-  lis r4, 0;
-  lwz r4, 0(r4);
-  lbz r0, 0x24(r4);
-  cmpwi r0, 0;
-  beqlr;
-  lwz r0, 0x38(r4);
-  cmpwi r0, 3;
-  bnelr;
-  li r3, 1;
-  blr;
-  // clang-format on
-}
-
 namespace System {
+
+bool RaceConfig::isTimeAttackReplay() {
+  const s32 gameMode = mRaceScenario.mSettings.mGameMode;
+
+  return ((gameMode == 2 || gameMode == 5) &&
+          spInstance->mRaceScenario.mPlayerCount != 0 &&
+          spInstance->mRaceScenario.mPlayers[0].mPlayerType == 3)
+             ? true
+             : false;
+}
 
 void RaceConfig::vf18() {}
 

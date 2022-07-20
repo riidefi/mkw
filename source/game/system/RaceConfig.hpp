@@ -269,6 +269,7 @@ public:
   s32 getLocalPlayerCount(u8 playerIdx);
   void setGhost(RawGhostFile* ghost);
   s8 getHudPlayerId(u8 playerIdx);
+  bool isTimeAttackReplay();
 
   static RaceConfig* spInstance;
 
