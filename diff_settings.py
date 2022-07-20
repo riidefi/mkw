@@ -24,12 +24,7 @@ def apply(config: dict, args):
     config["map_format"] = "mw"  # gnu or mw
     config["mw_build_dir"] = "out"  # only needed for mw map format
     config["makeflags"] = []
-
-    if sys.platform == "win32" or sys.platform == "msys":
-        objdump_bin_name = "powerpc-eabi-objdump.exe"
-    else:
-        objdump_bin_name = "powerpc-eabi-objdump"
-    config["objdump_executable"] = DEVKITPPC / "bin" / objdump_bin_name
+    config["objdump_executable"] = DEVKITPPC / "bin" / "powerpc-eabi-objdump"
     config["show_line_numbers_default"] = True
 
 def add_custom_arguments(parser: ArgumentParser):

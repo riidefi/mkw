@@ -7,6 +7,8 @@ on commit e7d0aaf06ce7f73acc2870bbc0f6ef66c76cb46a
 
 Edits:
     Dol & rel ram-rom conversion added using mkwutil
+    Check symbols.txt (pack/symbols.txt) for symbol name and size definitions
+    Convert runtime VMAs of REL and DOL to offsets in binary file if start or end > 0x8000000
 """
 
 import argparse
@@ -26,8 +28,6 @@ from typing import (
     Type,
     Union,
 )
-
-from mkwutil.lib.symbols import SymbolsList
 
 
 def fail(msg: str) -> NoReturn:
@@ -1384,6 +1384,8 @@ def dump_objfile(
 
 
 def search_symbols_txt(start, start_addr, project, config):
+    from mkwutil.lib.symbols import SymbolsList
+
     symbols = SymbolsList()
     with open(project.symbols_txt, "r") as f:
         symbols.read_from(f)
