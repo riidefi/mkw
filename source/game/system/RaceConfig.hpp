@@ -263,6 +263,7 @@ public:
   virtual void vf10();
   virtual void vf14();
   virtual void vf18();
+  void reset();
   static u8 getRacePlayerCount();
   u8 update();
   s32 getLocalPlayerCount(u8 playerIdx);

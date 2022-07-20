@@ -147,6 +147,7 @@ u8 RaceConfig::getRacePlayerCount() {
 
 // Symbol: Racedata_init
 // PAL: 0x8052dd40..0x8052e42c
+// Scratch: https://decomp.me/scratch/c7cMM
 MARK_BINARY_BLOB(Racedata_init, 0x8052dd40, 0x8052e42c);
 asm UNKNOWN_FUNCTION(Racedata_init) {
   // clang-format off
@@ -618,143 +619,10 @@ void RaceConfigPlayer::setPlayerType(s32 playerType) {
   mPlayerType = playerType;
 }
 
-} // namespace System
-
-// Symbol: Racedata_resetSomeStuff
-// PAL: 0x8052e454..0x8052e658
-MARK_BINARY_BLOB(Racedata_resetSomeStuff, 0x8052e454, 0x8052e640);
-asm UNKNOWN_FUNCTION(Racedata_resetSomeStuff) {
-  // clang-format off
-  nofralloc;
-  lwz r4, 0x1780(r3);
-  li r6, 1;
-  li r0, 2;
-  li r11, 0;
-  rlwinm r4, r4, 0, 0, 0x1c;
-  li r5, 3;
-  stw r11, 0x1770(r3);
-  li r12, 0;
-  stw r6, 0x176c(r3);
-  stb r5, 0x177d(r3);
-  stw r6, 0x175c(r3);
-  stw r4, 0x1780(r3);
-  mtctr r0;
-lbl_8052e488:
-  clrlwi r10, r12, 0x18;
-  addi r0, r12, 2;
-  mulli r5, r10, 0xf0;
-  addi r4, r12, 1;
-  clrlwi r7, r0, 0x18;
-  addi r0, r12, 3;
-  add r9, r3, r5;
-  clrlwi r8, r4, 0x18;
-  sth r11, 0xcf0(r9);
-  clrlwi r6, r0, 0x18;
-  addi r4, r12, 4;
-  addi r0, r12, 5;
-  sth r11, 0xcf6(r9);
-  clrlwi r5, r4, 0x18;
-  addi r10, r10, 1;
-  clrlwi r4, r0, 0x18;
-  stb r10, 0xcf9(r9);
-  addi r0, r8, 1;
-  addi r7, r7, 1;
-  addi r6, r6, 1;
-  stb r10, 0xcf8(r9);
-  addi r5, r5, 1;
-  addi r4, r4, 1;
-  addi r12, r12, 6;
-  sth r11, 0xde0(r9);
-  sth r11, 0xde6(r9);
-  stb r0, 0xde9(r9);
-  stb r0, 0xde8(r9);
-  sth r11, 0xed0(r9);
-  sth r11, 0xed6(r9);
-  stb r7, 0xed9(r9);
-  stb r7, 0xed8(r9);
-  sth r11, 0xfc0(r9);
-  sth r11, 0xfc6(r9);
-  stb r6, 0xfc9(r9);
-  stb r6, 0xfc8(r9);
-  sth r11, 0x10b0(r9);
-  sth r11, 0x10b6(r9);
-  stb r5, 0x10b9(r9);
-  stb r5, 0x10b8(r9);
-  sth r11, 0x11a0(r9);
-  sth r11, 0x11a6(r9);
-  stb r4, 0x11a9(r9);
-  stb r4, 0x11a8(r9);
-  bdnz lbl_8052e488;
-  lwz r4, 0x2370(r3);
-  li r11, 0;
-  li r0, 2;
-  li r6, 3;
-  li r5, 1;
-  rlwinm r4, r4, 0, 0, 0x1c;
-  stb r11, 0x177c(r3);
-  li r12, 0;
-  stb r6, 0x177d(r3);
-  stw r11, 0x2360(r3);
-  stw r5, 0x235c(r3);
-  stb r6, 0x236d(r3);
-  stw r5, 0x234c(r3);
-  stw r4, 0x2370(r3);
-  mtctr r0;
-lbl_8052e578:
-  clrlwi r10, r12, 0x18;
-  addi r0, r12, 2;
-  mulli r5, r10, 0xf0;
-  addi r4, r12, 1;
-  clrlwi r7, r0, 0x18;
-  addi r0, r12, 3;
-  add r9, r3, r5;
-  clrlwi r8, r4, 0x18;
-  sth r11, 0x18e0(r9);
-  clrlwi r6, r0, 0x18;
-  addi r4, r12, 4;
-  addi r0, r12, 5;
-  sth r11, 0x18e6(r9);
-  clrlwi r5, r4, 0x18;
-  addi r10, r10, 1;
-  clrlwi r4, r0, 0x18;
-  stb r10, 0x18e9(r9);
-  addi r0, r8, 1;
-  addi r7, r7, 1;
-  addi r6, r6, 1;
-  stb r10, 0x18e8(r9);
-  addi r5, r5, 1;
-  addi r4, r4, 1;
-  addi r12, r12, 6;
-  sth r11, 0x19d0(r9);
-  sth r11, 0x19d6(r9);
-  stb r0, 0x19d9(r9);
-  stb r0, 0x19d8(r9);
-  sth r11, 0x1ac0(r9);
-  sth r11, 0x1ac6(r9);
-  stb r7, 0x1ac9(r9);
-  stb r7, 0x1ac8(r9);
-  sth r11, 0x1bb0(r9);
-  sth r11, 0x1bb6(r9);
-  stb r6, 0x1bb9(r9);
-  stb r6, 0x1bb8(r9);
-  sth r11, 0x1ca0(r9);
-  sth r11, 0x1ca6(r9);
-  stb r5, 0x1ca9(r9);
-  stb r5, 0x1ca8(r9);
-  sth r11, 0x1d90(r9);
-  sth r11, 0x1d96(r9);
-  stb r4, 0x1d99(r9);
-  stb r4, 0x1d98(r9);
-  bdnz lbl_8052e578;
-  li r4, 0;
-  li r0, 3;
-  stb r4, 0x236c(r3);
-  stb r0, 0x236d(r3);
-  blr;
-  // clang-format on
+void RaceConfig::reset() {
+  mMenuScenario.reset();
+  mAwardsScenario.reset();
 }
-
-namespace System {
 
 void RaceConfigPlayer::reset(s8 pos) {
   mPreviousScore = 0;
@@ -817,6 +685,7 @@ u8 RaceConfigScenario::update() {
 
 // Symbol: unk_8052e870
 // PAL: 0x8052e870..0x8052e950
+// Scratch: https://decomp.me/scratch/SvbY2
 MARK_BINARY_BLOB(unk_8052e870, 0x8052e870, 0x8052e950);
 asm UNKNOWN_FUNCTION(unk_8052e870) {
   // clang-format off
@@ -885,6 +754,7 @@ lbl_8052e910:
 
 // Symbol: unk_8052e950
 // PAL: 0x8052e950..0x8052ed18
+// Scratch: https://decomp.me/scratch/AQNbc
 MARK_BINARY_BLOB(unk_8052e950, 0x8052e950, 0x8052ed18);
 asm UNKNOWN_FUNCTION(unk_8052e950) {
   // clang-format off
@@ -1173,6 +1043,7 @@ s32 RaceConfigPlayer::getPlayerType() { return mPlayerType; }
 
 // Symbol: RacedataScenario_postInitControllers
 // PAL: 0x8052ed28..0x8052eef0
+// Scratch: https://decomp.me/scratch/aw5WV
 MARK_BINARY_BLOB(RacedataScenario_postInitControllers, 0x8052ed28, 0x8052eef0);
 asm UNKNOWN_FUNCTION(RacedataScenario_postInitControllers) {
   // clang-format off
@@ -1426,6 +1297,7 @@ void RaceConfigScenario::resetPlayers() {
 
 // Symbol: unk_8052f064
 // PAL: 0x8052f064..0x8052f1e0
+// Scratch: https://decomp.me/scratch/ANzFM
 MARK_BINARY_BLOB(unk_8052f064, 0x8052f064, 0x8052f1e0);
 asm UNKNOWN_FUNCTION(unk_8052f064) {
   // clang-format off
@@ -1535,6 +1407,7 @@ lbl_8052f1d0:
 
 // Symbol: RacedataScenario_copyPrevPositions
 // PAL: 0x8052f1e0..0x8052f4e8
+// Scratch: https://decomp.me/scratch/w7jKr
 MARK_BINARY_BLOB(RacedataScenario_copyPrevPositions, 0x8052f1e0, 0x8052f4e8);
 asm UNKNOWN_FUNCTION(RacedataScenario_copyPrevPositions) {
   // clang-format off
@@ -1752,6 +1625,7 @@ lbl_8052f4e0:
 
 // Symbol: RacedataScenario_initControllers
 // PAL: 0x8052f4e8..0x8052f788
+// Scratch: https://decomp.me/scratch/V2Pce
 MARK_BINARY_BLOB(RacedataScenario_initControllers, 0x8052f4e8, 0x8052f788);
 asm UNKNOWN_FUNCTION(RacedataScenario_initControllers) {
   // clang-format off
@@ -2013,6 +1887,7 @@ void MenuScenario::computePlayerCounts(u8* playerCount, u8* hudCount,
 
 // Symbol: RacedataScenario_initRng
 // PAL: 0x8052f924..0x8052fa0c
+// Scratch: https://decomp.me/scratch/Y23JS
 MARK_BINARY_BLOB(RacedataScenario_initRng, 0x8052f924, 0x8052fa0c);
 asm UNKNOWN_FUNCTION(RacedataScenario_initRng) {
   // clang-format off
@@ -2086,6 +1961,7 @@ lbl_8052f9f8:
 
 // Symbol: unk_8052fa0c
 // PAL: 0x8052fa0c..0x8052fb90
+// Scratch: https://decomp.me/scratch/UHaS4
 MARK_BINARY_BLOB(unk_8052fa0c, 0x8052fa0c, 0x8052fb90);
 asm UNKNOWN_FUNCTION(unk_8052fa0c) {
   // clang-format off
@@ -2199,6 +2075,7 @@ lbl_8052fb7c:
 
 // Symbol: RacedataScenario_initRace
 // PAL: 0x8052fb90..0x8052fe58
+// Scratch: https://decomp.me/scratch/omAC0
 MARK_BINARY_BLOB(RacedataScenario_initRace, 0x8052fb90, 0x8052fe58);
 asm UNKNOWN_FUNCTION(RacedataScenario_initRace) {
   // clang-format off
@@ -2394,6 +2271,7 @@ lbl_8052fdfc:
 
 // Symbol: Racedata_initStaticInstance
 // PAL: 0x8052fe58..0x8052ffe8
+// Scratch: N/A (trivial to match when RaceConfig ctor matches)
 MARK_BINARY_BLOB(Racedata_initStaticInstance, 0x8052fe58, 0x8052ffe8);
 asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
   // clang-format off
@@ -2506,6 +2384,7 @@ lbl_8052ffcc:
 
 // Symbol: Racedata_destroyStaticInstance
 // PAL: 0x8052ffe8..0x80530038
+// Scratch: https://decomp.me/scratch/sGUYR
 MARK_BINARY_BLOB(Racedata_destroyStaticInstance, 0x8052ffe8, 0x80530038);
 asm UNKNOWN_FUNCTION(Racedata_destroyStaticInstance) {
   // clang-format off
@@ -2536,6 +2415,7 @@ lbl_8053001c:
 
 // Symbol: Racedata_destroy
 // PAL: 0x80530038..0x805300f4
+// Scratch: https://decomp.me/scratch/Fhjji
 MARK_BINARY_BLOB(Racedata_destroy, 0x80530038, 0x805300f4);
 asm UNKNOWN_FUNCTION(Racedata_destroy) {
   // clang-format off
@@ -2594,6 +2474,14 @@ lbl_805300d8:
   // clang-format on
 }
 
+// Requires RaceConfigPlayer vtable
+#ifdef NON_MATCHING
+namespace System {
+
+RaceConfigScenario::~RaceConfigScenario() {}
+
+} // namespace System
+#else
 // Symbol: RacedataScenario_destroy
 // PAL: 0x805300f4..0x8053015c
 MARK_BINARY_BLOB(RacedataScenario_destroy, 0x805300f4, 0x8053015c);
@@ -2629,8 +2517,10 @@ lbl_80530140:
   blr;
   // clang-format on
 }
+#endif
 
 // Requires rodata from unk_8052e870 and unk_8052fa0c first
+// Also may be a complete non-match
 #ifdef NON_MATCHING
 namespace System {
 
@@ -2642,6 +2532,7 @@ RaceConfig::RaceConfig()
 #else
 // Symbol: Racedata_construct
 // PAL: 0x8053015c..0x805302c4
+// Scratch: https://decomp.me/scratch/ZyQzz
 MARK_BINARY_BLOB(Racedata_construct, 0x8053015c, 0x805302c4);
 asm UNKNOWN_FUNCTION(Racedata_construct) {
   // clang-format off
@@ -2743,6 +2634,7 @@ lbl_80530298:
 
 // Symbol: Racedata_initRace
 // PAL: 0x805302c4..0x805305ac
+// Scratch: https://decomp.me/scratch/2bYoM
 MARK_BINARY_BLOB(Racedata_initRace, 0x805302c4, 0x805305ac);
 asm UNKNOWN_FUNCTION(Racedata_initRace) {
   // clang-format off
@@ -2941,6 +2833,7 @@ lbl_8053057c:
 
 // Symbol: RacedataScenario_copy
 // PAL: 0x805305ac..0x80530864
+// Scratch: https://decomp.me/scratch/10rsj
 MARK_BINARY_BLOB(RacedataScenario_copy, 0x805305ac, 0x80530864);
 asm UNKNOWN_FUNCTION(RacedataScenario_copy) {
   // clang-format off
@@ -3127,6 +3020,7 @@ lbl_80530844:
 
 // Symbol: Racedata_initAwards
 // PAL: 0x80530864..0x80530f0c
+// Scratch: https://decomp.me/scratch/y64A8
 MARK_BINARY_BLOB(Racedata_initAwards, 0x80530864, 0x80530f0c);
 asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   // clang-format off
@@ -3596,6 +3490,7 @@ VehicleId RaceConfigPlayer::getVehicle() { return mVehicleId; }
 
 // Symbol: unk_80530f30
 // PAL: 0x80530f30..0x80531068
+// Scratch: https://decomp.me/scratch/7sJZl
 MARK_BINARY_BLOB(unk_80530f30, 0x80530f30, 0x80531068);
 asm UNKNOWN_FUNCTION(unk_80530f30) {
   // clang-format off
@@ -3690,6 +3585,7 @@ Mii* RaceConfigPlayer::getMii() { return &mMii; }
 
 // Symbol: Racedata_initCredits
 // PAL: 0x80531070..0x80531ce4
+// Scratch: https://decomp.me/scratch/wyhhV
 MARK_BINARY_BLOB(Racedata_initCredits, 0x80531070, 0x80531ce4);
 asm UNKNOWN_FUNCTION(Racedata_initCredits) {
   // clang-format off
@@ -4519,6 +4415,7 @@ u8 RaceConfig::update() { return mMenuScenario.update(); }
 
 // Symbol: unk_80531de4
 // PAL: 0x80531de4..0x80531f18
+// Scratch: https://decomp.me/scratch/kUMDQ
 MARK_BINARY_BLOB(unk_80531de4, 0x80531de4, 0x80531f18);
 asm UNKNOWN_FUNCTION(unk_80531de4) {
   // clang-format off
@@ -4630,6 +4527,7 @@ s8 RaceConfig::getHudPlayerId(u8 playerIdx) {
 
 // Symbol: unk_80531f80
 // PAL: 0x80531f80..0x80531fc8
+// Scratch: https://decomp.me/scratch/xgmJ3
 MARK_BINARY_BLOB(unk_80531f80, 0x80531f80, 0x80531fc8);
 asm UNKNOWN_FUNCTION(unk_80531f80) {
   // clang-format off
@@ -4657,6 +4555,7 @@ asm UNKNOWN_FUNCTION(unk_80531f80) {
 
 // Symbol: unk_80531fc8
 // PAL: 0x80531fc8..0x80532030
+// Scratch: https://decomp.me/scratch/7aPIN
 MARK_BINARY_BLOB(unk_80531fc8, 0x80531fc8, 0x80532030);
 asm UNKNOWN_FUNCTION(unk_80531fc8) {
   // clang-format off
@@ -4695,6 +4594,7 @@ lbl_80532028:
 
 // Symbol: Racedata_isTimeAttackReplay
 // PAL: 0x80532030..0x80532070
+// Scratch: https://decomp.me/scratch/Ai9Da
 MARK_BINARY_BLOB(Racedata_isTimeAttackReplay, 0x80532030, 0x80532070);
 asm UNKNOWN_FUNCTION(Racedata_isTimeAttackReplay) {
   // clang-format off
