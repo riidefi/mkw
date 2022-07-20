@@ -64,6 +64,7 @@ tmp
 *.map
 out.html
 tools.zip
+pack/new_symbols.txt
 
 # Editors
 .vscode/
