@@ -4434,37 +4434,19 @@ s8 RaceConfig::getHudPlayerId(u8 playerIdx) {
   return (s8)(u8)mRaceScenario.mSettings.mHudPlayerIds[playerIdx];
 }
 
-} // namespace System
+void RaceConfig::loadNextCourse() {
+  if (mRaceScenario.mSettings.mGameMode != 0) {
+    return;
+  }
 
-// Symbol: unk_80531f80
-// PAL: 0x80531f80..0x80531fc8
-// Scratch: https://decomp.me/scratch/xgmJ3
-MARK_BINARY_BLOB(unk_80531f80, 0x80531f80, 0x80531fc8);
-asm UNKNOWN_FUNCTION(unk_80531f80) {
-  // clang-format off
-  nofralloc;
-  lwz r0, 0xb70(r3);
-  cmpwi r0, 0;
-  bnelr;
-  lbz r4, 0xb8c(r3);
-  cmplwi r4, 3;
-  bgelr;
-  lwz r3, 0xb88(r3);
-  lis r5, 0;
-  addi r0, r4, 1;
-  lis r7, 0;
-  slwi r6, r3, 4;
-  addi r5, r5, 0;
-  slwi r4, r0, 2;
-  lwz r3, 0(r7);
-  add r0, r5, r6;
-  lwzx r4, r4, r0;
-  b preloadCourseAsync__Q26System15ResourceManagerFQ26System8CourseId;
-  blr;
-  // clang-format on
+  u8 raceNumber = mRaceScenario.mSettings.mRaceNumber;
+  if (raceNumber >= 3) {
+    return;
+  }
+
+  ResourceManager::spInstance_REAL->preloadCourseAsync(
+      COURSE_ORDER[mRaceScenario.mSettings.mCupId][raceNumber + 1]);
 }
-
-namespace System {
 
 // Unsure what to call this because I'm unsure of what it does
 bool RaceConfig::unk_80531fc8(u8 hudPlayerIdx) {
