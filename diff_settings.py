@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 import os
 from pathlib import Path
+import sys
 from sys import executable
 
 DEVKITPPC = Path(os.environ.get("DEVKITPPC", "./tools/devkitppc"))
@@ -8,13 +9,14 @@ DEVKITPPC = Path(os.environ.get("DEVKITPPC", "./tools/devkitppc"))
 
 def apply(config: dict, args):
     if args.rel:
-        config["mapfile"] = "artifacts/target/pal/staticR.map"
-        config["myimg"] = "artifacts/target/pal/staticR.rel"
-        config["baseimg"] = "artifacts/orig/pal/staticR.rel"
+        config["mapfile"] = "artifacts/target/pal/StaticR.map"
+        config["myimg"] = "artifacts/target/pal/StaticR.rel"
+        config["baseimg"] = "artifacts/orig/pal/StaticR.rel"
     else:
         config["mapfile"] = "artifacts/target/pal/main.map"
         config["myimg"] = "artifacts/target/pal/main.dol"
         config["baseimg"] = "artifacts/orig/pal/main.dol"
+    config["symbols_txt"] = "pack/symbols.txt"
     config["make_command"] = [executable, "build.py", "--diff_py"]
     config["makeflags"] = []
     config["source_directories"] = ["source"]
@@ -22,7 +24,7 @@ def apply(config: dict, args):
     config["map_format"] = "mw"  # gnu or mw
     config["mw_build_dir"] = "out"  # only needed for mw map format
     config["makeflags"] = []
-    config["objdump_executable"] = DEVKITPPC / "bin" / "powerpc-eabi-objdump.exe"
+    config["objdump_executable"] = DEVKITPPC / "bin" / "powerpc-eabi-objdump"
     config["show_line_numbers_default"] = True
 
 def add_custom_arguments(parser: ArgumentParser):
