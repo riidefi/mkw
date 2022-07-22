@@ -40,6 +40,35 @@ extern UNKNOWN_FUNCTION(unk_8066c8d8);
 }
 
 namespace System {
+const CourseId COURSE_ORDER[8][4] = {
+    {LUIGI_CIRCUIT, MOO_MOO_MEADOWS, MUSHROOM_GORGE, TOADS_FACTORY},
+    {MARIO_CIRCUIT, COCONUT_MALL, DK_SUMMIT, WARIOS_GOLD_MINE},
+    {DAISY_CIRCUIT, KOOPA_CAPE, MAPLE_TREEWAY, GRUMBLE_VOLCANO},
+    {DRY_DRY_RUINS, MOONVIEW_HIGHWAY, BOWSERS_CASTLE, RAINBOW_ROAD},
+    {GCN_PEACH_BEACH, DS_YOSHI_FALLS, SNES_GHOST_VALLEY_2, N64_MARIO_RACEWAY},
+    {N64_SHERBET_LAND, GBA_SHY_GUY_BEACH, DS_DELFINO_SQUARE,
+     GCN_WALUIGI_STADIUM},
+    {DS_DESERT_HILLS, GBA_BOWSER_CASTLE_3, N64_DKS_JUNGLE_PARKWAY,
+     GCN_MARIO_CIRCUIT},
+    {SNES_MARIO_CIRCUIT_3, DS_PEACH_GARDENS, GCN_DK_MOUNTAIN,
+     N64_BOWSERS_CASTLE}};
+
+const u8 __attribute__((force_export))
+VS_POINT_DISTRIBUTION[12][12] = {{15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {15, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {15, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {15, 9, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {15, 9, 5, 2, 1, 0, 0, 0, 0, 0, 0, 0},
+                                 {15, 10, 6, 3, 1, 0, 0, 0, 0, 0, 0, 0},
+                                 {15, 10, 7, 5, 3, 1, 0, 0, 0, 0, 0, 0},
+                                 {15, 11, 8, 6, 4, 2, 1, 0, 0, 0, 0, 0},
+                                 {15, 11, 8, 6, 4, 3, 2, 1, 0, 0, 0, 0},
+                                 {15, 12, 10, 8, 6, 4, 3, 2, 1, 0, 0, 0},
+                                 {15, 12, 10, 8, 6, 5, 4, 3, 2, 1, 0, 0},
+                                 {15, 12, 10, 8, 7, 6, 5, 4, 3, 2, 1, 0}};
+
+const s32 RANK_SCORES[] = {1000, 700, 400, 200, 0};
+const u16 SCORES[] = {60, 52, 40, 20};
 
 RaceConfigPlayer::RaceConfigPlayer()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
