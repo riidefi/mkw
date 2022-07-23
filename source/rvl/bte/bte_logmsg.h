@@ -1,0 +1,30 @@
+#pragma once
+
+#include <rk_types.h>
+
+#include <decomp.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PAL: 0x80131684..0x80131740
+UNKNOWN_FUNCTION(LogMsg);
+// PAL: 0x80131740..0x80131758
+UNKNOWN_FUNCTION(LogMsg_0);
+// PAL: 0x80131758..0x80131770
+UNKNOWN_FUNCTION(LogMsg_1);
+// PAL: 0x80131770..0x80131788
+UNKNOWN_FUNCTION(LogMsg_2);
+// PAL: 0x80131788..0x801317a0
+UNKNOWN_FUNCTION(LogMsg_3);
+// PAL: 0x801317a0..0x801317b8
+UNKNOWN_FUNCTION(LogMsg_4);
+// PAL: 0x801317b8..0x801317d0
+UNKNOWN_FUNCTION(LogMsg_5);
+// PAL: 0x801317d0..0x801317e8
+UNKNOWN_FUNCTION(LogMsg_6);
+
+#ifdef __cplusplus
+}
+#endif
