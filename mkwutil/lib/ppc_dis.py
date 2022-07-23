@@ -91,24 +91,13 @@ def insn_to_text_capstone(insn, raw, symbols: SymbolsList):
         if ref < 0x80389180:
             label = symbols.get_or_default(ref).name
             return f"{insn.mnemonic} {insn.reg_name(insn.operands[0].reg)}, {label}@sda21(2)"
-    # Sign-extend immediate values because Capstone is an idiot and doesn't do that automatically
-    if insn.id in {PPC_INS_ADDI, PPC_INS_ADDIC, PPC_INS_SUBFIC, PPC_INS_MULLI} and (
-        insn.operands[2].imm & 0x8000
-    ):
-        return "%s %s, %s, %i" % (
-            insn.mnemonic,
-            insn.reg_name(insn.operands[0].reg),
-            insn.reg_name(insn.operands[1].value.reg),
-            insn.operands[2].imm - 0x10000,
-        )
-    elif (insn.id == PPC_INS_LI or insn.id == PPC_INS_CMPWI) and (
-        insn.operands[1].imm & 0x8000
-    ):
-        return "%s %s, %i" % (
-            insn.mnemonic,
-            insn.reg_name(insn.operands[0].reg),
-            insn.operands[1].imm - 0x10000,
-        )
+    if PPC_GRP_JUMP in insn.groups: # make jump dests relative (fix)
+        if len(insn.operands) > 0 and insn.operands[len(insn.operands)-1].imm:
+            op_str = insn.op_str[:insn.op_str.rfind(" ") + 1]
+            dest = insn.operands[len(insn.operands)-1].imm - insn.address
+            return f"{insn.mnemonic} {op_str}{hex(dest)}"
+    elif insn.id == PPC_INS_LIS: # make LIS immediate unsigned for readability
+        return f"lis {insn.reg_name(insn.operands[0].reg)}, {hex(insn.operands[1].imm & 0xFFFF)}"
     # cntlz -> cntlzw
     elif insn.id == PPC_INS_CNTLZW:
         return "cntlzw %s" % insn.op_str
