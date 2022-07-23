@@ -48,12 +48,59 @@ powershell -ExecutionPolicy Bypass -File ".\env\Scripts\Activate.ps1"
 Then, each time you open a terminal, enter the venv:
 * Windows: `.\env\Scripts\Activate.ps1`
 * Good OSes: `source ./env/bin/activate`
-
 ### Install dependencies
 
-```shell
+To prepare your venv with necessary tools for the build scripts, follow these next steps.
+
+You'll need a C build toolchain (for Capstone) and various Python packages from the dependency file.
+
+<details>
+<summary>Debian</summary>
+
+```
+sudo apt install cmake build-essential
+source ./env/bin/activate
 pip install -r requirements.txt
 ```
+
+</details>
+
+<details>
+<summary>macOS</summary>
+
+```
+brew install cmake
+source ./env/bin/activate
+pip install -r requirements.txt
+```
+
+</details>
+
+<details>
+<summary>Windows</summary>
+
+Make sure you have Visual Studio 2019 with C toolchain and Windows 10 SDK.
+
+Run in PowerShell Admin:
+
+```pwsh
+choco install cmake --installargs 'ADD_CMAKE_TO_PATH=User'
+choco install visualstudio2019buildtools
+```
+
+Exit your terminal or editor and relaunch (if the terminal is embedded in your editor, you still need to relaunch the entire editor).
+
+Run in normal PowerShell (i fucking hate Windows):
+
+```pwsh
+$vs_install=(& "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath)
+cmd.exe /c ('"' + $vs_install + '\VC\Auxiliary\Build\vcvarsall.bat" amd64 && .\env\Scripts\activate.bat && pip install -r requirements.txt')
+```
+
+If this fails, create a new PowerShell session and do not enter venv until the installation succeeds.
+Windows is truly the worst.
+
+</details>
 
 ### Unit testing
 
