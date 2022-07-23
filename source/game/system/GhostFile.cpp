@@ -1,7 +1,9 @@
 #include "GhostFile.hpp"
 
+#include <rvl/mem/heapi.h>
 #include <rvl/net.h>
 #include <rvl/os/os.h>
+#include <egg/core/eggCompress.hpp>
 
 #include <decomp.h>
 
@@ -720,69 +722,41 @@ void GhostFileGroup::readHeader(u16 idx, const RawGhostFile& raw) {
   mFiles[idx].readHeader(raw);
 }
 
-MARK_BINARY_BLOB(
-    compress__Q26System12RawGhostFileFRCQ26System12RawGhostFileRQ26System12RawGhostFile,
-    0x8051d0e0, 0x8051d1b4);
-asm bool RawGhostFile::compress(const RawGhostFile& src, RawGhostFile& dst) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r3;
-  stw r30, 0x18(r1);
-  stw r29, 0x14(r1);
-  mr r29, r4;
-  lhz r0, 0xc(r3);
-  rlwinm r0, r0, 0x15, 0x1f, 0x1f;
-  cmplwi r0, 1;
-  bne lbl_8051d120;
-  li r0, 0;
-  stw r0, 0(r4);
-  li r3, 0;
-  b lbl_8051d198;
-lbl_8051d120:
-  mr r3, r29;
-  li r4, 0;
-  li r5, 0x2800;
-  bl memset;
-  mr r3, r29;
-  mr r4, r31;
-  li r5, 0x88;
-  bl memcpy;
-  lhz r0, 0xc(r29);
-  addi r30, r29, 0x8c;
-  mr r4, r30;
-  addi r3, r31, 0x88;
-  ori r0, r0, 0x800;
-  sth r0, 0xc(r29);
-  lhz r5, 0xe(r31);
-  bl encodeSZS__Q23EGG4CompFPCUcPUcUl;
-  cmpwi r3, 0;
-  bgt lbl_8051d178;
-  li r0, 0;
-  stw r0, 0(r29);
-  li r3, 0;
-  b lbl_8051d198;
-lbl_8051d178:
-  addi r0, r3, 3;
-  mr r3, r29;
-  rlwinm r31, r0, 0, 0, 0x1d;
-  stw r31, 0x88(r29);
-  addi r4, r31, 0x8c;
-  bl NETCalcCRC32;
-  stwx r3, r30, r31;
-  li r3, 1;
-lbl_8051d198:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool RawGhostFile::compress(const RawGhostFile& src, RawGhostFile& dst) {
+  if ((u32)src.isCompressed == true) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  // Copy over RKG header
+  dst.reset();
+  memcpy(dst.buffer, src.buffer, 0x88);
+
+  dst.isCompressed = true;
+  const u8* srcInputsStart = src.buffer + 0x88;
+  // The destination inputs start 4 bytes earlier to include YAZ1 magic
+  u8* dstInputsStart = dst.buffer + 0x8c;
+  int compressedSize =
+      EGG::encodeSZS(srcInputsStart, dstInputsStart, src.inputsSize);
+
+  if (compressedSize <= 0) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  // Compressed data is padded to multiple of 4 bytes in length
+  u32 paddedCompressedSize = fastceil_u32(compressedSize, 0x4);
+  dst.compressedInputsSize = paddedCompressedSize;
+  u32 fileCRC32 = NETCalcCRC32(dst.buffer, paddedCompressedSize + 0x8c);
+
+#ifdef NON_MATCHING
+  *reinterpret_cast<u32*>(inputsStart + paddedCompressedSize) = fileCRC32;
+#else
+  *reinterpret_cast<u32*>(dstInputsStart + fastceil_u32(compressedSize, 0x4)) =
+      fileCRC32;
+#endif
+
+  return true
 }
 
 MARK_BINARY_BLOB(
