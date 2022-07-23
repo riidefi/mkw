@@ -1,7 +1,7 @@
 ansiwrap==0.8.4
 atomicwrites==1.4.0
 attrs==21.4.0
-git+https://github.com/capstone-engine/capstone@eea2890521c47dfc1b91ec1d590a990c992c124f#egg=capstone&subdirectory=bindings/python
+git+https://github.com/terorie/capstone@391e0cb349d66bc668d1aea6c424d39d1a0c3600#egg=capstone&subdirectory=bindings/python
 chardet==4.0.0
 colorama==0.4.4
 cxxfilt==0.2.2

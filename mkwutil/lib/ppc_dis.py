@@ -92,7 +92,7 @@ def insn_to_text_capstone(insn, raw, symbols: SymbolsList):
             label = symbols.get_or_default(ref).name
             return f"{insn.mnemonic} {insn.reg_name(insn.operands[0].reg)}, {label}@sda21(2)"
     if PPC_GRP_JUMP in insn.groups: # make jump dests relative (fix)
-        if len(insn.operands) > 0 and insn.operands[len(insn.operands)-1].imm:
+        if len(insn.operands) > 0 and insn.operands[len(insn.operands)-1].type == CS_OP_IMM:
             op_str = insn.op_str[:insn.op_str.rfind(" ") + 1]
             dest = insn.operands[len(insn.operands)-1].imm - insn.address
             return f"{insn.mnemonic} {op_str}{hex(dest)}"
