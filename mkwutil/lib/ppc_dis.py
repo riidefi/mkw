@@ -33,67 +33,11 @@ def sign_extend_12(value):
     return value
 
 
-cs = Cs(CS_ARCH_PPC, CS_MODE_32 | CS_MODE_BIG_ENDIAN)
+cs = Cs(CS_ARCH_PPC, CS_MODE_32 | CS_MODE_PS | CS_MODE_BIG_ENDIAN)
 cs.detail = True
 cs.imm_unsigned = False
 
 blacklistedInsns = {
-    # Unsupported instructions
-    PPC_INS_VMSUMSHM,
-    PPC_INS_VMHADDSHS,
-    PPC_INS_XXSLDWI,
-    PPC_INS_VSEL,
-    PPC_INS_XVSUBSP,
-    PPC_INS_XXSEL,
-    PPC_INS_XVMULSP,
-    PPC_INS_XVDIVSP,
-    PPC_INS_VADDUHM,
-    PPC_INS_XXPERMDI,
-    PPC_INS_XVMADDASP,
-    PPC_INS_XVMADDMSP,
-    PPC_INS_XVCMPGTSP,
-    PPC_INS_XXMRGHD,
-    PPC_INS_XSMSUBMDP,
-    PPC_INS_XSTDIVDP,
-    PPC_INS_XVADDSP,
-    PPC_INS_XVCMPEQSP,
-    PPC_INS_XVMSUBASP,
-    PPC_INS_XVCMPGESP,
-    PPC_INS_XSMSUBADP,
-    PPC_INS_XSMADDADP,
-    PPC_INS_XSCMPODP,
-    PPC_INS_XVTDIVSP,
-    PPC_INS_VMRGHB,
-    PPC_INS_VADDUBM,
-    PPC_INS_XSMADDMDP,
-    PPC_INS_XSCMPUDP,
-    PPC_INS_XVNMADDASP,
-    PPC_INS_VADDUWM,
-    PPC_INS_XVMSUBMSP,
-    PPC_INS_XSNMSUBMDP,
-    PPC_INS_XSNMSUBADP,
-    PPC_INS_XVCMPEQDP,
-    PPC_INS_VPKUHUM,
-    PPC_INS_XVCMPGTDP,
-    PPC_INS_XVMADDADP,
-    PPC_INS_XVMSUBMDP,
-    PPC_INS_VMADDFP,
-    PPC_INS_XXSPLTW,
-    PPC_INS_XVMSUBADP,
-    PPC_INS_XVCMPGEDP,
-    PPC_INS_XVNMSUBMDP,
-    PPC_INS_XVMADDMDP,
-    PPC_INS_XXMRGHW,
-    PPC_INS_XVTDIVDP,
-    PPC_INS_XXMRGLW,
-    PPC_INS_XVADDDP,
-    PPC_INS_XXLAND,
-    PPC_INS_XVNMSUBASP,
-    PPC_INS_XVNMSUBMSP,
-    PPC_INS_XVNMADDADP,
-    PPC_INS_XVNMADDMSP,
-    PPC_INS_XSSUBDP,
-    # Instructions that Capstone gets wrong
     PPC_INS_MFESR,
     PPC_INS_MFDEAR,
     PPC_INS_MTESR,
@@ -176,110 +120,6 @@ def insn_to_text_capstone(insn, raw, symbols: SymbolsList):
     return f"{insn.mnemonic} {insn.op_str}"
 
 
-def disasm_ps(inst):
-    """Disassembles paired-singles instruction."""
-    RA = (inst >> 16) & 0x1F
-    RB = (inst >> 11) & 0x1F
-    FA = (inst >> 16) & 0x1F
-    FB = (inst >> 11) & 0x1F
-    FC = (inst >> 6) & 0x1F
-    FD = (inst >> 21) & 0x1F
-    FS = (inst >> 21) & 0x1F
-    IX = (inst >> 7) & 0x7
-    WX = (inst >> 10) & 0x1
-
-    opcode = (inst >> 1) & 0x1F
-    if opcode == 6:  # doesn't seem to be used
-        mnemonic = "psq_lux" if inst & 0x40 else "psq_lx"
-        return "%s f%i, r%i, r%i, %i, qr%i" % (mnemonic, FD, RA, RB, WX, IX)
-    if opcode == 7:
-        mnemonic = "psq_stux" if inst & 0x40 else "psq_stx"
-        return "%s f%i, r%i, r%i, %i, qr%i" % (mnemonic, FS, RA, RB, WX, IX)
-    if opcode == 18:
-        return "ps_div f%i, f%i, f%i" % (FD, FA, FB)
-    if opcode == 20:
-        return "ps_sub f%i, f%i, f%i" % (FD, FA, FB)
-    if opcode == 21:
-        return "ps_add f%i, f%i, f%i" % (FD, FA, FB)
-    if opcode == 23:
-        return "ps_sel f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-    if opcode == 24:
-        return "ps_res f%i, f%i" % (FD, FB)
-    if opcode == 25:
-        return "ps_mul f%i, f%i, f%i" % (FD, FA, FC)
-    if opcode == 26:
-        return "ps_rsqrte f%i, f%i" % (FD, FB)
-    if opcode == 28:
-        return "ps_msub f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-    if opcode == 29:
-        return "ps_madd f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-    if opcode == 30:
-        return "ps_nmsub f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-    if opcode == 31:
-        return "ps_nmadd f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-    if opcode == 10:
-        return "ps_sum0 f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-    if opcode == 11:
-        return "ps_sum1 f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-    if opcode == 12:
-        return "ps_muls0 f%i, f%i, f%i" % (FD, FA, FC)
-    if opcode == 13:
-        return "ps_muls1 f%i, f%i, f%i" % (FD, FA, FC)
-    if opcode == 14:
-        return "ps_madds0 f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-    if opcode == 15:
-        return "ps_madds1 f%i, f%i, f%i, f%i" % (FD, FA, FC, FB)
-
-    opcode = (inst >> 1) & 0x3FF
-    if opcode == 40:
-        return "ps_neg f%i, f%i" % (FD, FB)
-    if opcode == 72:
-        return "ps_mr f%i, f%i" % (FD, FB)
-    if opcode == 136:
-        return "ps_nabs f%i, f%i" % (FD, FB)
-    if opcode == 264:
-        return "ps_abs f%i, f%i" % (FD, FB)
-    if opcode in {0, 32, 64, 96}:
-        mnemonics = ["ps_cmpu0", "ps_cmpo0", "ps_cmpu1", "ps_cmpo1"]
-        mnemonic = mnemonics[(inst >> 6) & 3]
-        i = (inst & 0x03800000) >> 23
-        return "%s cr%i, f%i, f%i" % (mnemonic, i, FA, FB)
-    if opcode == 528:
-        return "ps_merge00 f%i, f%i, f%i" % (FD, FA, FB)
-    if opcode == 560:
-        return "ps_merge01 f%i, f%i, f%i" % (FD, FA, FB)
-    if opcode == 592:
-        return "ps_merge10 f%i, f%i, f%i" % (FD, FA, FB)
-    if opcode == 624:
-        return "ps_merge11 f%i, f%i, f%i" % (FD, FA, FB)
-    if opcode == 1014:
-        if not inst & 0x03E00000:
-            if (inst & 1) == 0:
-                return "dcbz_l r%i, r%i" % (
-                    (inst & 0x001F0000) >> 16,
-                    (inst & 0x0000F800) >> 11,
-                )
-    return None
-
-
-def disasm_ps_mem(inst, idx):
-    """Disassembles special ps_mem instruction."""
-    RA = (inst >> 16) & 0x1F
-    RS = (inst >> 21) & 0x1F
-    I = (inst >> 12) & 0x7
-    W = (inst >> 15) & 0x1
-    disp = sign_extend_12(inst & 0xFFF)
-    if idx == 56:
-        mnemonic = "psq_l"
-    if idx == 57:
-        mnemonic = "psq_lu"
-    if idx == 60:
-        mnemonic = "psq_st"
-    if idx == 61:
-        mnemonic = "psq_stu"
-    return "%s f%i, %i(r%i), %i, qr%i" % (mnemonic, RS, disp, RA, W, I)
-
-
 def disasm_fcmp(inst):
     """Disassembles special fcmp instruction."""
     crd = (inst & 0x03800000) >> 23
@@ -330,11 +170,6 @@ def insn_to_text(insn, raw, symbols):
         # fcmpo
         elif idx == 63 and idx2 == 32:
             asm = disasm_fcmp(raw)
-        # Paired singles
-        elif idx == 4:
-            asm = disasm_ps(raw)
-        elif idx in {56, 57, 60, 61}:
-            asm = disasm_ps_mem(raw, idx)
     if asm is None:
         if raw == 0:
             asm = ".4byte 0"
