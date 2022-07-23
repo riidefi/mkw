@@ -756,7 +756,7 @@ bool RawGhostFile::compress(const RawGhostFile& src, RawGhostFile& dst) {
       fileCRC32;
 #endif
 
-  return true
+  return true;
 }
 
 MARK_BINARY_BLOB(
