@@ -152,6 +152,9 @@ SOURCES_RVL_CX = [
     Source(src="source/rvl/cx/cxStreamingUncompression.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/cx/cxUncompression.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_DARCH = [
+    Source(src="source/rvl/darch/darch.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_FS = [
     Source(src="source/rvl/fs/fs.c", cc='4199_60831', opts=RVL_OPTS),
 ]
@@ -362,6 +365,7 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_BTE,
     SOURCES_RVL_CNT,
     SOURCES_RVL_CX,
+    SOURCES_RVL_DARCH,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
     SOURCES_RVL_KPAD,

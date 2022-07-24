@@ -253,7 +253,7 @@ out/rvlAxFxReverbHiExp.o
 out/rvlAxFxReverbHiExpDpl2.o
 out/dol/text_8012a154_8012b47c.o
 out/dol/data_80281b7c_80281b80.o
-out/dol/sbss_803865c0_80386770.o
+out/dol/sbss_803865c0_803865f8.o
 out/dol/sdata2_80388550_80388580.o
 out/rvlAxFxReverbStdExp.o
 out/dol/text_8012c17c_8012e52c.o
@@ -331,7 +331,9 @@ out/sdp_utils.o
 out/cnt.o
 out/cxStreamingUncompression.o
 out/cxUncompression.o
-out/dol/text_8015c320_80169bcc.o
+out/darch.o
+out/dol/text_8015d314_80169bcc.o
+out/dol/sbss_803865fc_80386770.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o
 out/dol/sdata_80385930_80385990.o
