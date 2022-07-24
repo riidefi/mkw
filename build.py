@@ -59,7 +59,7 @@ colorama.init()
 print_mutex = Lock()
 
 # Remember which files are stripped.
-def get_object_slices():
+def get_strip_info_and_slices():
     dol_slices = load_dol_slices(sections=DOL_SECTIONS)
     stripped_files = set()
     for _slice in dol_slices:
@@ -77,7 +77,7 @@ def get_object_slices():
     rel_object_slices.objects = {
         Path(k).stem: v for k, v in rel_object_slices.objects.items()
     }
-    return dol_object_slices, rel_object_slices
+    return stripped_files, dol_object_slices, rel_object_slices
 
 
 def __native_binary(path):
@@ -273,11 +273,11 @@ def compile_queued_sources(concurrency):
     #
     # colorama doesn't seem to work with multithreading
     #
+    stripped_files, dol_object_slices, rel_object_slices = get_strip_info_and_slices()
     for (src, dst, _, _) in gSourceQueue:
         if src.stem in stripped_files:
             continue
         # Verify ELF file section sizes.
-        dol_object_slices, rel_object_slices = get_object_slices()
         obj_slices = dol_object_slices.get(src.stem) or rel_object_slices.get(src.stem)
 
         if obj_slices:
