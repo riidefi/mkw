@@ -332,8 +332,11 @@ out/cnt.o
 out/cxStreamingUncompression.o
 out/cxUncompression.o
 out/darch.o
-out/dol/text_8015d314_80169bcc.o
-out/dol/sbss_803865fc_80386770.o
+out/dol/sbss_803865fc_80386600.o
+out/db.o
+out/dbPrintf.o
+out/dol/text_8015d3fc_80169bcc.o
+out/dol/sbss_80386604_80386770.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o
 out/dol/sdata_80385930_80385990.o
