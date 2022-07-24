@@ -329,7 +329,9 @@ out/sdp_main.o
 out/sdp_server.o
 out/sdp_utils.o
 out/cnt.o
-out/dol/text_8015bef0_80169bcc.o
+out/cxStreamingUncompression.o
+out/cxUncompression.o
+out/dol/text_8015c320_80169bcc.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o
 out/dol/sdata_80385930_80385990.o
