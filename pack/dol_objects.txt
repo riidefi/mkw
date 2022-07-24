@@ -275,7 +275,7 @@ out/bta_sys.o
 out/ptim.o
 out/utl.o
 out/dol/data_802826d7_8028e998.o
-out/dol/sdata_80385810_80385920.o
+out/dol/sdata_80385810_80385908.o
 out/dol/sdata2_803885c0_80388678.o
 out/bta_dm_int.o
 out/bta_api.o
@@ -351,7 +351,10 @@ out/dvdFatal.o
 out/dvdDeviceError.o
 out/dvdBroadway.o
 out/encUtility.o
-out/dol/text_80166d0c_80169bcc.o
+out/dol/text_80166d0c_801671d0.o
+out/esp.o
+out/dol/text_80167b08_80169bcc.o
+out/dol/sdata_80385918_80385920.o
 out/dol/sbss_80386744_80386770.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o
