@@ -353,9 +353,13 @@ out/dvdBroadway.o
 out/encUtility.o
 out/dol/text_80166d0c_801671d0.o
 out/esp.o
-out/dol/text_80167b08_80169bcc.o
+out/euart.o
+out/exiBios.o
+out/exiUart.o
 out/dol/sdata_80385918_80385920.o
 out/dol/sbss_80386744_80386770.o
+out/dol/sdata2_803886bc_803886c0.o
+out/exiCommon.o
 out/fs.o
 out/dol/text_8016b49c_80192f7c.o
 out/dol/sdata_80385930_80385990.o
@@ -365,7 +369,7 @@ out/dol/sbss_803867fc_80386800.o
 out/ipcclt.o
 out/dol/text_801949b8_801950a0.o
 out/dol/sbss_80386810_80386818.o
-out/dol/sdata2_803886bc_80388800.o
+out/dol/sdata2_803886c4_80388800.o
 out/rvlKpad.o
 out/rvlMemHeap.o
 out/rvlMemExpHeap.o
