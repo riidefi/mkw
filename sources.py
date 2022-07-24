@@ -145,6 +145,9 @@ SOURCES_RVL_BTE = [
     Source(src="source/rvl/bte/sdp_server.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/bte/sdp_utils.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_CNT = [
+    Source(src="source/rvl/cnt/cnt.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_FS = [
     Source(src="source/rvl/fs/fs.c", cc='4199_60831', opts=RVL_OPTS),
 ]
@@ -353,6 +356,7 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_AXFX,
     SOURCES_RVL_BASE,
     SOURCES_RVL_BTE,
+    SOURCES_RVL_CNT,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
     SOURCES_RVL_KPAD,
