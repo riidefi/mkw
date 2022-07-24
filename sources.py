@@ -177,6 +177,9 @@ SOURCES_RVL_DVD = [
 SOURCES_RVL_ENC = [
     Source(src="source/rvl/enc/encUtility.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_ESP = [
+    Source(src="source/rvl/esp/esp.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_FS = [
     Source(src="source/rvl/fs/fs.c", cc='4199_60831', opts=RVL_OPTS),
 ]
@@ -392,6 +395,7 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_DSP,
     SOURCES_RVL_DVD,
     SOURCES_RVL_ENC,
+    SOURCES_RVL_ESP,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
     SOURCES_RVL_KPAD,
