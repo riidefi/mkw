@@ -718,11 +718,6 @@ u8 RaceConfigScenario::update() {
   return mSettings.mRaceNumber;
 }
 
-} // namespace System
-
-#if 1
-namespace System {
-
 s16 RaceConfig::updateRating(u8 playerIdx) {
   const u8 playerCount = RaceConfig::getRacePlayerCount();
   f32 totalPoints = ZERO_FLOAT;
@@ -741,76 +736,6 @@ s16 RaceConfig::updateRating(u8 playerIdx) {
 }
 
 } // namespace System
-#else
-// Symbol: unk_8052e870
-// PAL: 0x8052e870..0x8052e950
-// Scratch: https://decomp.me/scratch/SvbY2
-MARK_BINARY_BLOB(unk_8052e870, 0x8052e870, 0x8052e950);
-asm UNKNOWN_FUNCTION(unk_8052e870) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x50(r1);
-  mflr r0;
-  stw r0, 0x54(r1);
-  stfd f31, 0x40(r1);
-  psq_st f31, 72(r1), 0, 0;
-  stfd f30, 0x30(r1);
-  psq_st f30, 56(r1), 0, 0;
-  addi r11, r1, 0x30;
-  bl unk_805553b0;
-  lis r29, 0;
-  lis r5, 0;
-  lwz r6, 0(r29);
-  lis r3, 0;
-  mulli r28, r4, 0xf0;
-  lfs f30, 0(r5);
-  lbz r30, 0x24(r6);
-  mr r26, r4;
-  lfd f31, 0(r3);
-  li r27, 0;
-  lis r31, 0x4330;
-  b lbl_8052e910;
-lbl_8052e8c4:
-  clrlwi r0, r27, 0x18;
-  cmplw r26, r0;
-  beq lbl_8052e90c;
-  lwz r3, 0(r29);
-  mulli r0, r0, 0xf0;
-  addi r4, r3, 0x28;
-  add r3, r4, r28;
-  add r4, r4, r0;
-  addi r4, r4, 0xe4;
-  addi r3, r3, 0xe4;
-  bl unk_8052d1c0;
-  extsh r0, r3;
-  stw r31, 8(r1);
-  xoris r0, r0, 0x8000;
-  stw r0, 0xc(r1);
-  lfd f0, 8(r1);
-  fsubs f0, f0, f31;
-  fadds f30, f30, f0;
-lbl_8052e90c:
-  addi r27, r27, 1;
-lbl_8052e910:
-  clrlwi r0, r27, 0x18;
-  cmplw r0, r30;
-  blt lbl_8052e8c4;
-  fctiwz f0, f30;
-  stfd f0, 8(r1);
-  lwz r3, 0xc(r1);
-  psq_l f31, 72(r1), 0, 0;
-  lfd f31, 0x40(r1);
-  psq_l f30, 56(r1), 0, 0;
-  lfd f30, 0x30(r1);
-  addi r11, r1, 0x30;
-  bl unk_805553b0;
-  lwz r0, 0x54(r1);
-  mtlr r0;
-  addi r1, r1, 0x50;
-  blr;
-  // clang-format on
-}
-#endif
 
 // Symbol: unk_8052e950
 // PAL: 0x8052e950..0x8052ed18
