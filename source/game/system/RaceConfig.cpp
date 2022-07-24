@@ -25,7 +25,7 @@ extern UNKNOWN_FUNCTION(init__Q26System3MiiFl);
 // PAL: 0x8052d118
 extern UNKNOWN_FUNCTION(unk_8052d118);
 // PAL: 0x8052d1c0
-extern UNKNOWN_FUNCTION(unk_8052d1c0);
+extern UNKNOWN_FUNCTION(calcNegPoints__Q26System6RatingFPQ26System6Rating);
 // PAL: 0x8052d270
 extern UNKNOWN_FUNCTION(unk_8052d270);
 // PAL: 0x805368f8
@@ -176,7 +176,7 @@ BattleTeam RaceConfigPlayer::getTeam() { return mTeam; }
 
 RaceConfigPlayer* RaceScenario::getPlayer(u8 idx) { return &mPlayers[idx]; }
 
-u8 RaceConfig::getRacePlayerCount() {
+const u8 RaceConfig::getRacePlayerCount() {
   return RaceConfig::spInstance->mRaceScenario.mPlayerCount;
 }
 
@@ -887,7 +887,7 @@ lbl_8052eb40:
   mulli r0, r0, 0xf0;
   add r4, r15, r0;
   addi r4, r4, 0xec;
-  bl unk_8052d1c0;
+  bl calcNegPoints__Q26System6RatingFPQ26System6Rating;
   extsh r0, r3;
   stw r31, 0x20(r1);
   xoris r0, r0, 0x8000;

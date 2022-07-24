@@ -261,7 +261,7 @@ public:
   virtual void vf14();
   virtual void vf18();
   void reset();
-  static u8 getRacePlayerCount();
+  static const u8 getRacePlayerCount();
   s16 updateRating(u8 playerIdx);
   u8 update();
   s32 getLocalPlayerCount(u8 playerIdx);
