@@ -5222,7 +5222,7 @@
 0x8015bcf0 CNTGetLength
 0x8015bcf8 contentReadNAND
 0x8015bd98 contentCloseNAND
-0x8015bda0 unk_8015bda0
+0x8015bda0 __CNTConvertErrorCode
 0x8015bef0 CXInitUncompContextLZ
 0x8015bf24 CXReadUncompLZ
 0x8015c2e0 CXGetUncompressedSize
