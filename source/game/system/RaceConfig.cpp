@@ -41,8 +41,13 @@ extern UNKNOWN_FUNCTION(unk_8066c8d8);
 
 namespace System {
 
-const f32 ZERO_FLOAT = 0.0;
+extern const f32 ZERO_FLOAT;
+extern const CourseId COURSE_ORDER[8][4];
+extern const u8 VS_POINT_DISTRIBUTION[12][12];
+extern const s32 RANK_SCORES[5];
+extern const u16 SCORES[4];
 
+const f32 ZERO_FLOAT = 0;
 const CourseId COURSE_ORDER[8][4] = {
     {LUIGI_CIRCUIT, MOO_MOO_MEADOWS, MUSHROOM_GORGE, TOADS_FACTORY},
     {MARIO_CIRCUIT, COCONUT_MALL, DK_SUMMIT, WARIOS_GOLD_MINE},
@@ -719,16 +724,20 @@ u8 RaceConfigScenario::update() {
 namespace System {
 
 s16 RaceConfig::updateRating(u8 playerIdx) {
-    const u8 playerCount = RaceConfig::getRacePlayerCount();
-    f32 totalPoints = ZERO_FLOAT;
-    
-    for (u8 i = 0; i < playerCount; i++) {
-        if (playerIdx == i) { continue; }
+  const u8 playerCount = RaceConfig::getRacePlayerCount();
+  f32 totalPoints = ZERO_FLOAT;
 
-        RaceConfigPlayer* player = RaceConfig::spInstance->mRaceScenario.getPlayer(playerIdx);
-        totalPoints += player->mRating.calcNegPoints(&RaceConfig::spInstance->mRaceScenario.getPlayer(i)->mRating);
+  for (u8 i = 0; i < playerCount; i++) {
+    if (playerIdx == i) {
+      continue;
     }
-    return totalPoints;
+
+    RaceConfigPlayer* player =
+        RaceConfig::spInstance->mRaceScenario.getPlayer(playerIdx);
+    totalPoints += player->mRating.calcNegPoints(
+        &RaceConfig::spInstance->mRaceScenario.getPlayer(i)->mRating);
+  }
+  return totalPoints;
 }
 
 } // namespace System
