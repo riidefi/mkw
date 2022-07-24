@@ -189,6 +189,7 @@ enabled,strip,name,initStart,initEnd,extabStart,extabEnd,extabindexStart,extabin
 1,,source/rvl/dvd/dvdFatal.c,,,,,,,0x80164294,0x801643ec,,,,,,,,,,,,,,,0x803886b8,0x803886bc,,
 1,,source/rvl/dvd/dvdDeviceError.c,,,,,,,0x801643ec,0x80164684,,,,,,,,,,,,,,,,,,
 1,,source/rvl/dvd/dvdBroadway.c,,,,,,,0x80164684,0x80166ad0,,,,,,,,,,,,,,,,,,
+1,,source/rvl/enc/encUtility.c,,,,,,,0x80166ad0,0x80166d0c,,,,,,,,,,,,,0x80386740,0x80386744,,,,
 1,,source/rvl/fs/fs.c,,,,,,,0x80169bcc,0x8016b49c,,,,,,,,,,,0x80385920,0x80385930,0x80386770,0x80386788,,,,
 1,,source/rvl/ipc/ipcMain.c,,,,,,,0x80192f7c,0x80193048,,,,,,,,,,,,,0x803867e8,0x803867fc,,,,
 1,,source/rvl/ipc/ipcclt.c,,,,,,,0x80193048,0x801949b8,,,,,,,,,,,0x80385990,0x80385998,0x80386800,0x80386810,,,,
