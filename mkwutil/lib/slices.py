@@ -89,6 +89,11 @@ class ObjectSlices:
     def __len__(self) -> int:
         return self.objects.__len__()
 
+    def write_to(self, file, sections):
+        writer = SlicesCSVWriter(file, sections)
+        for name, slices in self.objects.items():
+            writer.write(name, slices)
+
 
 class SliceTable:
     """A list of contiguous slices for a given range."""
@@ -167,12 +172,6 @@ class SliceTable:
                 break
             new_table.add(_slice)
         return new_table
-
-    # def write_to(self, file):
-    #    writer = SlicesCSVWriter(file)
-    #    for slice in self.slices:
-    #        if slice.name is not None:
-    #            writer.write(slice)
 
     def find_parent(self, _slice: Slice) -> Optional[Slice]:
         """Searches for a slice in the table containing the given slice."""
@@ -508,3 +507,29 @@ class SlicesCSVReader:
             start = int(start_str.strip(), 16)
             stop = int(stop_str, 16)
             yield Slice(start, stop, name, section, flags)
+
+
+class SlicesCSVWriter:
+    """Writes a list of object slices to slices.csv"""
+
+    def __init__(self, file, sections):
+        cols = [
+            "enabled",
+            "strip",
+            "name",
+        ]
+        for section in sections:
+            cols += [f"{section}Start", f"{section}End"]
+        self.writer = csv.DictWriter(file, cols)
+        self.writer.writeheader()
+
+    def write(self, name: str, slices: list[Slice]):
+        if len(slices) == 0:
+            return
+        entry = {"name": name}
+        for tag in slices[0].tags:
+            entry[tag] = "1"
+        for slice in slices:
+            entry[f"{slice.section}Start"] = hex(slice.start)
+            entry[f"{slice.section}End"] = hex(slice.stop)
+        self.writer.writerow(entry)
