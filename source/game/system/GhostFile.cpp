@@ -4,6 +4,7 @@
 #include <rvl/net.h>
 #include <rvl/os/os.h>
 #include <egg/core/eggCompress.hpp>
+#include <egg/core/eggDecomp.hpp>
 
 #include <decomp.h>
 
@@ -759,144 +760,32 @@ bool RawGhostFile::compress(const RawGhostFile& src, RawGhostFile& dst) {
   return true;
 }
 
-MARK_BINARY_BLOB(
-    decompress__Q26System12RawGhostFileFRCQ26System12RawGhostFileRQ26System12RawGhostFile,
-    0x8051d1b4, 0x8051d388);
-asm bool RawGhostFile::decompress(const RawGhostFile& src, RawGhostFile& dst) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r4;
-  stw r30, 0x18(r1);
-  mr r30, r3;
-  stw r29, 0x14(r1);
-  lhz r0, 0xc(r3);
-  rlwinm r6, r0, 0x15, 0x1f, 0x1f;
-  cmplwi r6, 1;
-  beq lbl_8051d1f4;
-  li r0, 0;
-  stw r0, 0(r4);
-  li r3, 0;
-  b lbl_8051d36c;
-lbl_8051d1f4:
-  lwz r4, 0(r3);
-  addis r0, r4, 0xadb5;
-  cmplwi r0, 0x4744;
-  beq lbl_8051d20c;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d20c:
-  lwz r4, 8(r3);
-  srwi r0, r4, 0x1a;
-  cmplwi r0, 0x24;
-  blt lbl_8051d224;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d224:
-  rlwinm r0, r4, 0xc, 0x1a, 0x1f;
-  cmplwi r0, 0x30;
-  blt lbl_8051d238;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d238:
-  rlwinm r0, r4, 0x13, 0x19, 0x1f;
-  cmplwi r0, 0x63;
-  ble lbl_8051d24c;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d24c:
-  rlwinm r0, r4, 0x1c, 0x1b, 0x1f;
-  cmplwi r0, 0x1f;
-  ble lbl_8051d260;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d260:
-  rlwinm r5, r4, 0x17, 0x1c, 0x1f;
-  li r4, 0xc;
-  subfic r0, r5, 0xc;
-  orc r4, r4, r5;
-  srwi r0, r0, 1;
-  subf r0, r0, r4;
-  srwi r0, r0, 0x1f;
-lbl_8051d27c:
-  cmpwi r0, 0;
-  bne lbl_8051d28c;
-  li r0, 0;
-  b lbl_8051d2d8;
-lbl_8051d28c:
-  cmplwi r6, 1;
-  bne lbl_8051d2bc;
-  lwz r4, 0x88(r3);
-  mr r3, r30;
-  addi r29, r4, 0x8c;
-  mr r4, r29;
-  bl NETCalcCRC32;
-  lwzx r0, r30, r29;
-  subf r0, r0, r3;
-  cntlzw r0, r0;
-  srwi r0, r0, 5;
-  b lbl_8051d2d8;
-lbl_8051d2bc:
-  mr r3, r30;
-  li r4, 0x27fc;
-  bl NETCalcCRC32;
-  lwz r0, 0x27fc(r30);
-  subf r0, r0, r3;
-  cntlzw r0, r0;
-  srwi r0, r0, 5;
-lbl_8051d2d8:
-  cmpwi r0, 0;
-  bne lbl_8051d2f0;
-  li r0, 0;
-  stw r0, 0(r31);
-  li r3, 0;
-  b lbl_8051d36c;
-lbl_8051d2f0:
-  mr r3, r31;
-  li r4, 0;
-  li r5, 0x2800;
-  bl memset;
-  mr r3, r31;
-  mr r4, r30;
-  li r5, 0x88;
-  bl memcpy;
-  lhz r0, 0xc(r31);
-  addi r3, r30, 0x8c;
-  rlwinm r0, r0, 0, 0x15, 0x13;
-  sth r0, 0xc(r31);
-  bl getExpandSize__Q23EGG6DecompFPUc;
-  cmpwi r3, 0;
-  mr r29, r3;
-  beq lbl_8051d338;
-  cmplwi r3, 0x2774;
-  ble lbl_8051d348;
-lbl_8051d338:
-  li r0, 0;
-  stw r0, 0(r31);
-  li r3, 0;
-  b lbl_8051d36c;
-lbl_8051d348:
-  addi r3, r30, 0x8c;
-  addi r4, r31, 0x88;
-  bl decodeSZS__Q23EGG6DecompFPUcPUc;
-  sth r29, 0xe(r31);
-  mr r3, r31;
-  li r4, 0x27fc;
-  bl NETCalcCRC32;
-  stw r3, 0x27fc(r31);
-  li r3, 1;
-lbl_8051d36c:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool RawGhostFile::decompress(const RawGhostFile& src, RawGhostFile& dst) {
+  if ((u32)src.isCompressed != true) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  if (!src.isValid()) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  dst.reset();
+  memcpy(dst.buffer, src.buffer, 0x88);
+  dst.isCompressed = false;
+
+  s32 expandSize = EGG::Decomp::getExpandSize(src.buffer + 0x8c);
+  if (expandSize == 0 || expandSize > sizeof(src.buffer) - 0x8c) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  EGG::Decomp::decodeSZS(src.buffer + 0x8c, dst.buffer + 0x88);
+  dst.inputsSize = expandSize;
+  u32 fileCRC32 = NETCalcCRC32(dst.buffer, sizeof(dst.buffer) - 0x4);
+  *reinterpret_cast<u32*>(dst.buffer + sizeof(dst.buffer) - 0x4) = fileCRC32;
+  return true;
 }
 
 u32 RawGhostFile::getSize() const {
