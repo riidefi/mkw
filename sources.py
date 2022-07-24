@@ -145,6 +145,49 @@ SOURCES_RVL_BTE = [
     Source(src="source/rvl/bte/sdp_server.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/bte/sdp_utils.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_CNT = [
+    Source(src="source/rvl/cnt/cnt.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_CX = [
+    Source(src="source/rvl/cx/cxStreamingUncompression.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/cx/cxUncompression.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_DARCH = [
+    Source(src="source/rvl/darch/darch.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_DB = [
+    Source(src="source/rvl/db/db.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/db/dbPrintf.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_DSP = [
+    Source(src="source/rvl/dsp/dsp.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dsp/dspPrintf.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dsp/dspTask.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_DVD = [
+    Source(src="source/rvl/dvd/dvdFs.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdMain.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdQueue.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdError.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdUtils.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdFatal.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdDeviceError.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdBroadway.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_ENC = [
+    Source(src="source/rvl/enc/encUtility.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_ESP = [
+    Source(src="source/rvl/esp/esp.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_EUART = [
+    Source(src="source/rvl/euart/euart.c", cc='4199_60831', opts=RVL_OPTS),
+]
+SOURCES_RVL_EXI = [
+    Source(src="source/rvl/exi/exiBios.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/exi/exiUart.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/exi/exiCommon.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_FS = [
     Source(src="source/rvl/fs/fs.c", cc='4199_60831', opts=RVL_OPTS),
 ]
@@ -353,6 +396,16 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_AXFX,
     SOURCES_RVL_BASE,
     SOURCES_RVL_BTE,
+    SOURCES_RVL_CNT,
+    SOURCES_RVL_CX,
+    SOURCES_RVL_DARCH,
+    SOURCES_RVL_DB,
+    SOURCES_RVL_DSP,
+    SOURCES_RVL_DVD,
+    SOURCES_RVL_ENC,
+    SOURCES_RVL_ESP,
+    SOURCES_RVL_EUART,
+    SOURCES_RVL_EXI,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
     SOURCES_RVL_KPAD,
