@@ -1,0 +1,30 @@
+#pragma once
+
+#include <rk_types.h>
+
+#include <decomp.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PAL: 0x80136f8c..0x80137014
+UNKNOWN_FUNCTION(BTA_HhEnable);
+// PAL: 0x80137014..0x8013704c
+UNKNOWN_FUNCTION(BTA_HhDisable);
+// PAL: 0x8013704c..0x801370b0
+UNKNOWN_FUNCTION(BTA_HhClose);
+// PAL: 0x801370b0..0x80137164
+UNKNOWN_FUNCTION(BTA_HhOpen);
+// PAL: 0x80137164..0x801371f4
+UNKNOWN_FUNCTION(BTA_HhSendData);
+// PAL: 0x801371f4..0x8013729c
+UNKNOWN_FUNCTION(BTA_HhAddDev);
+// PAL: 0x8013729c..0x80137308
+UNKNOWN_FUNCTION(BTA_HhRemoveDev);
+// PAL: 0x80137308..0x8013735c
+UNKNOWN_FUNCTION(BTA_HhGetAclQueueInfo);
+
+#ifdef __cplusplus
+}
+#endif
