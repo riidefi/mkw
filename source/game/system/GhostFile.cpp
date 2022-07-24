@@ -12,15 +12,11 @@
 // PAL: 0x8052758c
 extern "C" UNKNOWN_FUNCTION(unk_8052758c);
 // PAL: 0x805336a4
-extern "C" UNKNOWN_FUNCTION(unk_805336a4);
+extern "C" u8 unk_805336a4();
 // PAL: 0x8053572c
 extern "C" UNKNOWN_FUNCTION(unk_8053572c);
 // PAL: 0x8054a9b8
 extern "C" UNKNOWN_FUNCTION(unk_8054a9b8);
-
-extern "C" UNKNOWN_FUNCTION(encodeSZS__Q23EGG4CompFPCUcPUcUl);
-extern "C" UNKNOWN_FUNCTION(getExpandSize__Q23EGG6DecompFPUc);
-extern "C" UNKNOWN_FUNCTION(decodeSZS__Q23EGG6DecompFPUcPUc);
 
 namespace System {
 
@@ -391,6 +387,13 @@ bool GhostFile::writeUncompressed(RawGhostFile& raw) const {
   return ret;
 }
 
+#if 0
+void GhostFile::init(u8 playerId) {
+  mLapCount = unk_805336a4();
+  Time raceTime = Time();
+  raceTime.set(0, 0, 0, false);
+}
+#else
 MARK_BINARY_BLOB(init__Q26System9GhostFileFUc, 0x8051cb1c, 0x8051ce7c);
 asm void GhostFile::init(u8 playerId) {
   // clang-format off
@@ -630,6 +633,7 @@ lbl_8051ce60:
   blr;
   // clang-format on
 }
+#endif
 
 // Symbol: Controller_vf10
 // PAL: 0x8051ce7c..0x8051ce84
