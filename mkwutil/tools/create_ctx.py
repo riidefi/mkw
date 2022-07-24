@@ -25,7 +25,6 @@ CWCC_OPT = " ".join(CW_ARGS)
 
 
 def get_ctx(match: str, out: Path):
-    source_header = "source/game/system/ResourceManager.hpp"
     source = next(x for x in chain(SOURCES_DOL, SOURCES_REL) if match in x.src)
     source_header = Path(source.src).with_suffix(".hpp")
     print(f"Generating context for {source_header} at {out}")
