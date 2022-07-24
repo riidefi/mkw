@@ -164,6 +164,16 @@ SOURCES_RVL_DSP = [
     Source(src="source/rvl/dsp/dspPrintf.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/dsp/dspTask.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_DVD = [
+    Source(src="source/rvl/dvd/dvdFs.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdMain.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdQueue.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdError.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdUtils.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdFatal.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdDeviceError.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/dvd/dvdBroadway.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_FS = [
     Source(src="source/rvl/fs/fs.c", cc='4199_60831', opts=RVL_OPTS),
 ]
@@ -377,6 +387,7 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_DARCH,
     SOURCES_RVL_DB,
     SOURCES_RVL_DSP,
+    SOURCES_RVL_DVD,
     SOURCES_RVL_FS,
     SOURCES_RVL_IPC,
     SOURCES_RVL_KPAD,

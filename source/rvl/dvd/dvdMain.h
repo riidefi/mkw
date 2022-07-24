@@ -1,0 +1,112 @@
+#pragma once
+
+#include <rk_types.h>
+
+#include <decomp.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PAL: 0x8015e964..0x8015ea18
+UNKNOWN_FUNCTION(dvd_StampCommand);
+// PAL: 0x8015ea18..0x8015ea1c
+UNKNOWN_FUNCTION(dvd_defaultOptionalCommandChecker);
+// PAL: 0x8015ea1c..0x8015eb70
+UNKNOWN_FUNCTION(DVDInit);
+// PAL: 0x8015eb70..0x8015ece8
+UNKNOWN_FUNCTION(dvd_stateReadingFST);
+// PAL: 0x8015ece8..0x8015ee70
+UNKNOWN_FUNCTION(cbForStateReadingFST);
+// PAL: 0x8015ee70..0x8015ef94
+UNKNOWN_FUNCTION(dvd_cbForStateError);
+// PAL: 0x8015ef94..0x8015efd0
+UNKNOWN_FUNCTION(dvd_cbForStoreErrorCode2);
+// PAL: 0x8015efd0..0x8015f0c4
+UNKNOWN_FUNCTION(unk_8015efd0);
+// PAL: 0x8015f0c4..0x8015f188
+UNKNOWN_FUNCTION(dvd_cbForStoreErrorCode3);
+// PAL: 0x8015f188..0x8015f68c
+UNKNOWN_FUNCTION(dvd_cbForStateGettingError);
+// PAL: 0x8015f68c..0x8015f86c
+UNKNOWN_FUNCTION(dvd_cbForUnrecoveredError);
+// PAL: 0x8015f86c..0x8015f940
+UNKNOWN_FUNCTION(dvd_cbForUnrecoveredErrorRetry);
+// PAL: 0x8015f940..0x8015fb80
+UNKNOWN_FUNCTION(dvd_cbForStateGoToRetry);
+// PAL: 0x8015fb80..0x8015feb8
+UNKNOWN_FUNCTION(dvd_stateCheckID);
+// PAL: 0x8015feb8..0x80160058
+UNKNOWN_FUNCTION(dvd_cbForStateReadingTOC);
+// PAL: 0x80160058..0x801604d0
+UNKNOWN_FUNCTION(dvd_cbForStateReadingPartitionInfo);
+// PAL: 0x801604d0..0x80160658
+UNKNOWN_FUNCTION(dvd_cbForStateOpenPartition);
+// PAL: 0x80160658..0x801607bc
+UNKNOWN_FUNCTION(dvd_cbForStateOpenPartition2);
+// PAL: 0x801607bc..0x80160984
+UNKNOWN_FUNCTION(dvd_cbForStateCheckID1);
+// PAL: 0x80160984..0x80160b18
+UNKNOWN_FUNCTION(dvd_cbForStateCheckID2);
+// PAL: 0x80160b18..0x80160bdc
+UNKNOWN_FUNCTION(dvd_stateCoverClosed);
+// PAL: 0x80160bdc..0x80160e2c
+UNKNOWN_FUNCTION(dvd_ResetAlarmHandler);
+// PAL: 0x80160e2c..0x80160f10
+UNKNOWN_FUNCTION(dvd_cbForStateReset);
+// PAL: 0x80160f10..0x80160fd8
+UNKNOWN_FUNCTION(dvd_stateDownRotation);
+// PAL: 0x80160fd8..0x80161218
+UNKNOWN_FUNCTION(dvd_cbForStateDownRotation);
+// PAL: 0x80161218..0x80161390
+UNKNOWN_FUNCTION(dvd_stateCoverClosed_CMD);
+// PAL: 0x80161390..0x80161468
+UNKNOWN_FUNCTION(dvd_cbForStateCoverClosed);
+// PAL: 0x80161468..0x80161614
+UNKNOWN_FUNCTION(dvd_cbForPrepareCoverRegister);
+// PAL: 0x80161614..0x8016193c
+UNKNOWN_FUNCTION(stateReady);
+// PAL: 0x8016193c..0x80161eec
+UNKNOWN_FUNCTION(stateBusy);
+// PAL: 0x80161eec..0x801628cc
+UNKNOWN_FUNCTION(dvd_cbForStateBusy);
+// PAL: 0x801628cc..0x801629b0
+UNKNOWN_FUNCTION(DVDReadAbsAsyncPrio);
+// PAL: 0x801629b0..0x80162a88
+UNKNOWN_FUNCTION(DVDInquiryAsync);
+// PAL: 0x80162a88..0x80162b50
+UNKNOWN_FUNCTION(DVDGetCommandBlockStatus);
+// PAL: 0x80162b50..0x80162bec
+UNKNOWN_FUNCTION(DVDGetDriveStatus);
+// PAL: 0x80162bec..0x80162bfc
+UNKNOWN_FUNCTION(DVDSetAutoInvalidation);
+// PAL: 0x80162bfc..0x80162c38
+UNKNOWN_FUNCTION(DVDPause);
+// PAL: 0x80162c38..0x80162c88
+UNKNOWN_FUNCTION(DVDResume);
+// PAL: 0x80162c88..0x80162fec
+UNKNOWN_FUNCTION(DVDCancelAsync);
+// PAL: 0x80162fec..0x801630d0
+UNKNOWN_FUNCTION(DVDCancel);
+// PAL: 0x801630d0..0x8016321c
+UNKNOWN_FUNCTION(DVDCancelAll);
+// PAL: 0x8016321c..0x80163224
+UNKNOWN_FUNCTION(DVDGetCurrentDiskID);
+// PAL: 0x80163224..0x8016322c
+UNKNOWN_FUNCTION(__BS2DVDLowCallback);
+// PAL: 0x8016322c..0x801632f4
+UNKNOWN_FUNCTION(__DVDGetCoverStatus);
+// PAL: 0x801632f4..0x80163338
+UNKNOWN_FUNCTION(__DVDResetWithNoSpinup);
+// PAL: 0x80163338..0x80163460
+UNKNOWN_FUNCTION(__DVDPrepareResetAsync);
+// PAL: 0x80163460..0x80163594
+UNKNOWN_FUNCTION(__DVDPrepareReset);
+// PAL: 0x80163594..0x801635b4
+UNKNOWN_FUNCTION(__DVDTestAlarm);
+// PAL: 0x801635b4..0x801635bc
+UNKNOWN_FUNCTION(__DVDStopMotorAsync);
+
+#ifdef __cplusplus
+}
+#endif
