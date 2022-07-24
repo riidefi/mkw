@@ -1,77 +1,22 @@
 #include "eggAsyncDisplay.hpp"
 
+#include <rvl/os/osAlarm.h>
 #include <rvl/os/osInterrupt.h>
 #include <rvl/os/osThread.h>
 #include <rvl/vi.h>
+#include <rvl/gx/gxAttr.h>
+#include <rvl/gx/gxDraw.h>
+#include <rvl/gx/gxFrameBuf.h>
+#include <rvl/gx/gxGeometry.h>
+#include <rvl/gx/gxLight.h>
+#include <rvl/gx/gxMisc.h>
+#include <rvl/gx/gxPixel.h>
+#include <rvl/gx/gxTexture.h>
+#include <rvl/gx/gxTev.h>
+#include <rvl/gx/gxTransform.h>
+#include <rvl/mtx/mtx.h>
 
 // extern function references.
-extern "C" UNKNOWN_FUNCTION(GXSetVtxDesc);
-// PAL: 0x8016dc34
-extern "C" UNKNOWN_FUNCTION(GXClearVtxDesc);
-// PAL: 0x8016dc68
-extern "C" UNKNOWN_FUNCTION(GXSetVtxAttrFmt);
-// PAL: 0x8016e37c
-extern "C" UNKNOWN_FUNCTION(GXSetTexCoordGen2);
-// PAL: 0x8016e5a4
-extern "C" UNKNOWN_FUNCTION(GXSetNumTexGens);
-// PAL: 0x8016eab0
-extern "C" UNKNOWN_FUNCTION(GXDraw);
-// PAL: 0x8016ed50
-extern "C" UNKNOWN_FUNCTION(GXSetDrawDoneCallback);
-// PAL: 0x8016f0f0
-extern "C" UNKNOWN_FUNCTION(GXBegin);
-// PAL: 0x8016f3b8
-extern "C" UNKNOWN_FUNCTION(GXSetCullMode);
-// PAL: 0x8017054c
-extern "C" UNKNOWN_FUNCTION(GXSetNumChans);
-// PAL: 0x80170570
-extern "C" UNKNOWN_FUNCTION(GXSetChanCtrl);
-// PAL: 0x801707f8
-extern "C" UNKNOWN_FUNCTION(GXInitTexObj);
-// PAL: 0x80170a4c
-extern "C" UNKNOWN_FUNCTION(GXInitTexObjLOD);
-// PAL: 0x80170f2c
-extern "C" UNKNOWN_FUNCTION(GXLoadTexObj);
-// PAL: 0x80171ce0
-extern "C" UNKNOWN_FUNCTION(GXSetTevColorIn);
-// PAL: 0x80171d20
-extern "C" UNKNOWN_FUNCTION(GXSetTevAlphaIn);
-// PAL: 0x80171d60
-extern "C" UNKNOWN_FUNCTION(GXSetTevColorOp);
-// PAL: 0x80171db8
-extern "C" UNKNOWN_FUNCTION(GXSetTevAlphaOp);
-// PAL: 0x80171e10
-extern "C" UNKNOWN_FUNCTION(GXSetTevColor);
-// PAL: 0x80172088
-extern "C" UNKNOWN_FUNCTION(GXSetAlphaCompare);
-// PAL: 0x801720c0
-extern "C" UNKNOWN_FUNCTION(GXSetZTexture);
-// PAL: 0x8017214c
-extern "C" UNKNOWN_FUNCTION(GXSetTevOrder);
-// PAL: 0x801722a8
-extern "C" UNKNOWN_FUNCTION(GXSetNumTevStages);
-// PAL: 0x8017277c
-extern "C" UNKNOWN_FUNCTION(GXSetBlendMode);
-// PAL: 0x801727f8
-extern "C" UNKNOWN_FUNCTION(GXSetAlphaUpdate);
-// PAL: 0x80172824
-extern "C" UNKNOWN_FUNCTION(GXSetZMode);
-// PAL: 0x80172858
-extern "C" UNKNOWN_FUNCTION(GXSetZCompLoc);
-// PAL: 0x8017295c
-extern "C" UNKNOWN_FUNCTION(GXSetDstAlpha);
-// PAL: 0x8017301c
-extern "C" UNKNOWN_FUNCTION(GXSetProjection);
-// PAL: 0x80173214
-extern "C" UNKNOWN_FUNCTION(GXSetCurrentMtx);
-// PAL: 0x801733b4
-extern "C" UNKNOWN_FUNCTION(GXSetViewport);
-// PAL: 0x80173430
-extern "C" UNKNOWN_FUNCTION(GXSetScissor);
-// PAL: 0x8019ab4c
-extern "C" UNKNOWN_FUNCTION(C_MTXOrtho);
-// PAL: 0x801a08e0
-extern "C" UNKNOWN_FUNCTION(OSSetPeriodicAlarm);
 // PAL: 0x801b9138
 extern "C" UNKNOWN_FUNCTION(VISetPostRetraceCallback);
 // PAL: 0x80219e68
