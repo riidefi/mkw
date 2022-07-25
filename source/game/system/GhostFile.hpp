@@ -162,7 +162,7 @@ private:
       wchar_t userData[10];
       u32 location;
       u32 _38;
-      Mii mii;
+      RawMii mii;
 
       u32 compressedInputsSize;
     };
@@ -201,7 +201,7 @@ private:
 
   bool mHeaderIsValid;
   wchar_t mUserData[11];
-  Mii mMii;
+  RawMii mMii;
   u8 mLapCount;
   Time mLapTimes[5];
   Time mRaceTime;
