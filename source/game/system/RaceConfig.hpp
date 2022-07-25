@@ -246,6 +246,7 @@ public:
   s32 getGametype();
   void postInitControllers(RaceScenario* raceScenario);
   bool initGhost(u8 playerIdx, u8 playerInputIdx);
+  void initPlayers(u8 playerCount);
   void computePlayerCounts(u8* playerCount, u8* hudCount, u8* localPlayerCount);
   void initRng();
   void copyPrevPositions();

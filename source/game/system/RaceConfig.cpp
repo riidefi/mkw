@@ -1281,117 +1281,20 @@ void RaceConfigScenario::resetPlayers() {
   }
 }
 
-} // namespace System
+void MenuScenario::initPlayers(u8 playerCount) {
+  if (isOnline(mSettings.mGameMode)) {
+    return;
+  }
 
-// Symbol: unk_8052f064
-// PAL: 0x8052f064..0x8052f1e0
-// Scratch: https://decomp.me/scratch/ANzFM
-MARK_BINARY_BLOB(unk_8052f064, 0x8052f064, 0x8052f1e0);
-asm UNKNOWN_FUNCTION(unk_8052f064) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  li r0, 0;
-  stw r31, 0xc(r1);
-  stw r30, 8(r1);
-  lwz r5, 0xb50(r3);
-  cmpwi r5, 7;
-  blt lbl_8052f08c;
-  cmpwi r5, 0xa;
-  bgt lbl_8052f08c;
-  li r0, 1;
-lbl_8052f08c:
-  cmpwi r0, 0;
-  bne lbl_8052f1d0;
-  cmpwi r4, 0;
-  li r5, 0;
-  beq lbl_8052f1d0;
-  cmplwi r4, 8;
-  addi r0, r4, 0xf8;
-  ble lbl_8052f194;
-  clrlwi r6, r0, 0x18;
-  li r12, 0;
-  addi r0, r6, 7;
-  srwi r0, r0, 3;
-  mtctr r0;
-  cmplwi r6, 0;
-  ble lbl_8052f194;
-lbl_8052f0c8:
-  clrlwi r8, r5, 0x18;
-  addi r6, r5, 1;
-  mulli r7, r8, 0xf0;
-  addi r0, r5, 2;
-  clrlwi r11, r6, 0x18;
-  clrlwi r10, r0, 0x18;
-  add r31, r3, r7;
-  addi r0, r5, 3;
-  sth r12, 0xe0(r31);
-  clrlwi r9, r0, 0x18;
-  subf r30, r8, r4;
-  addi r0, r5, 4;
-  stb r30, 0xe9(r31);
-  clrlwi r8, r0, 0x18;
-  addi r7, r5, 5;
-  addi r6, r5, 6;
-  stb r30, 0xe8(r31);
-  addi r0, r5, 7;
-  clrlwi r7, r7, 0x18;
-  clrlwi r6, r6, 0x18;
-  sth r12, 0x1d0(r31);
-  subf r11, r11, r4;
-  clrlwi r0, r0, 0x18;
-  subf r10, r10, r4;
-  stb r11, 0x1d9(r31);
-  subf r9, r9, r4;
-  subf r8, r8, r4;
-  subf r7, r7, r4;
-  stb r11, 0x1d8(r31);
-  subf r6, r6, r4;
-  subf r0, r0, r4;
-  addi r5, r5, 8;
-  sth r12, 0x2c0(r31);
-  stb r10, 0x2c9(r31);
-  stb r10, 0x2c8(r31);
-  sth r12, 0x3b0(r31);
-  stb r9, 0x3b9(r31);
-  stb r9, 0x3b8(r31);
-  sth r12, 0x4a0(r31);
-  stb r8, 0x4a9(r31);
-  stb r8, 0x4a8(r31);
-  sth r12, 0x590(r31);
-  stb r7, 0x599(r31);
-  stb r7, 0x598(r31);
-  sth r12, 0x680(r31);
-  stb r6, 0x689(r31);
-  stb r6, 0x688(r31);
-  sth r12, 0x770(r31);
-  stb r0, 0x779(r31);
-  stb r0, 0x778(r31);
-  bdnz lbl_8052f0c8;
-lbl_8052f194:
-  clrlwi r6, r5, 0x18;
-  li r7, 0;
-  subf r0, r6, r4;
-  mtctr r0;
-  cmplw r6, r4;
-  bge lbl_8052f1d0;
-lbl_8052f1ac:
-  clrlwi r6, r5, 0x18;
-  addi r5, r5, 1;
-  mulli r0, r6, 0xf0;
-  subf r8, r6, r4;
-  add r6, r3, r0;
-  sth r7, 0xe0(r6);
-  stb r8, 0xe9(r6);
-  stb r8, 0xe8(r6);
-  bdnz lbl_8052f1ac;
-lbl_8052f1d0:
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+  for (u8 i = 0; i < playerCount; i++) {
+    RaceConfigPlayer* player = getPlayer(i);
+    player->mPreviousScore = 0;
+    player->mPrevFinishPos = playerCount - i;
+    player->_e0 = playerCount - i;
+  }
 }
+
+} // namespace System
 
 // Symbol: copyPrevPositions__Q26System12MenuScenarioFv
 // PAL: 0x8052f1e0..0x8052f4e8
@@ -2075,17 +1978,7 @@ void MenuScenario::initRace(RaceScenario* raceScenario) {
   }
 
   copyPrevPositions();
-
-  for (u8 i = 0; i < 12; i++) {
-    RaceConfigPlayer* player = getPlayer(i);
-    player->mLocalPlayerNum = -1;
-    player->mPlayerInputIdx = -1;
-  }
-
-  for (u8 i = 0; i < 4; i++) {
-    mSettings.mHudPlayerIds[i] = -1;
-  }
-
+  resetPlayers();
   computePlayerCounts(&playerCount, &hudCount, &localPlayerCount);
 
   u8 hudCount_ = hudCount;
@@ -2094,15 +1987,7 @@ void MenuScenario::initRace(RaceScenario* raceScenario) {
   }
 
   if (mSettings.mRaceNumber == 0) {
-    u8 playerCount_ = playerCount;
-    if (!isOnline(mSettings.mGameMode)) {
-      for (u8 i = 0; i < playerCount_; i++) {
-        RaceConfigPlayer* player = getPlayer(i);
-        player->mPreviousScore = 0;
-        player->mPrevFinishPos = playerCount_ - i;
-        player->_e0 = playerCount_ - i;
-      }
-    }
+    initPlayers(playerCount);
   }
 
   initControllers(hudCount);
