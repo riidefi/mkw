@@ -1,0 +1,50 @@
+#pragma once
+
+#include <rk_types.h>
+
+#include <decomp.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PAL: 0x8016c668..0x8016c7c8
+UNKNOWN_FUNCTION(GXCPInterruptHandler);
+// PAL: 0x8016c7c8..0x8016c854
+UNKNOWN_FUNCTION(GXInitFifoBase);
+// PAL: 0x8016c854..0x8016c94c
+UNKNOWN_FUNCTION(CPGPLinkCheck);
+// PAL: 0x8016c94c..0x8016cb2c
+UNKNOWN_FUNCTION(GXSetCPUFifo);
+// PAL: 0x8016cb2c..0x8016cdbc
+UNKNOWN_FUNCTION(GXSetGPFifo);
+// PAL: 0x8016cdbc..0x8016cebc
+UNKNOWN_FUNCTION(__GXSaveFifo);
+// PAL: 0x8016cebc..0x8016cec4
+UNKNOWN_FUNCTION(__GXIsGPFifoReady);
+// PAL: 0x8016cf10..0x8016cfa0
+UNKNOWN_FUNCTION(GXGetCPUFifo);
+// PAL: 0x8016cfa0..0x8016d030
+UNKNOWN_FUNCTION(GXGetGPFifo);
+// PAL: 0x8016d030..0x8016d044
+UNKNOWN_FUNCTION(GXGetFifoPtrs);
+// PAL: 0x8016d044..0x8016d04c
+UNKNOWN_FUNCTION(GXGetFifoCount);
+// PAL: 0x8016d04c..0x8016d054
+UNKNOWN_FUNCTION(GXGetFifoWrap);
+// PAL: 0x8016d054..0x8016d098
+UNKNOWN_FUNCTION(GXSetBreakPtCallback);
+// PAL: 0x8016d098..0x8016d138
+UNKNOWN_FUNCTION(GXEnableBreakPt);
+// PAL: 0x8016d138..0x8016d180
+UNKNOWN_FUNCTION(GXDisableBreakPt);
+// PAL: 0x8016d180..0x8016d1fc
+UNKNOWN_FUNCTION(__GXFifoInit);
+// PAL: 0x8016d1fc..0x8016d39c
+UNKNOWN_FUNCTION(__GXCleanGPFifo);
+// PAL: 0x8016d39c..0x8016d3a4
+UNKNOWN_FUNCTION(GXGetCurrentGXThread);
+
+#ifdef __cplusplus
+}
+#endif

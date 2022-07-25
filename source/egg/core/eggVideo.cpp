@@ -5,6 +5,7 @@
 
 #include <egg/core/eggVideo.hpp>
 #include <rvl/gx.h>
+#include <rvl/gx/gxFrameBuf.h>
 #include <rvl/os/osThread.h>
 #include <rvl/sc.h>
 #include <rvl/vi.h>
