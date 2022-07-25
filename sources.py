@@ -191,6 +191,23 @@ SOURCES_RVL_EXI = [
 SOURCES_RVL_FS = [
     Source(src="source/rvl/fs/fs.c", cc='4199_60831', opts=RVL_OPTS),
 ]
+SOURCES_RVL_GX = [
+    Source(src="source/rvl/gx/gxInit.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxFifo.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxAttr.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxMisc.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxGeometry.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxFrameBuf.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxLight.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxTexture.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxBump.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxTev.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxPixel.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxDraw.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxDisplayList.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxTransform.c", cc='4199_60831', opts=RVL_OPTS),
+    Source(src="source/rvl/gx/gxPerf.c", cc='4199_60831', opts=RVL_OPTS),
+]
 SOURCES_RVL_IPC = [
     Source(src="source/rvl/ipc/ipcclt.c", cc='4199_60831', opts=RVL_OPTS),
     Source(src="source/rvl/ipc/ipcMain.c", cc='4199_60831', opts=RVL_OPTS),
@@ -407,6 +424,7 @@ SOURCES_DOL = list(chain(
     SOURCES_RVL_EUART,
     SOURCES_RVL_EXI,
     SOURCES_RVL_FS,
+    SOURCES_RVL_GX,
     SOURCES_RVL_IPC,
     SOURCES_RVL_KPAD,
     SOURCES_RVL_MEM,
