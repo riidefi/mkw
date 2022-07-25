@@ -63,7 +63,8 @@ UNKNOWN_FUNCTION(getGametype__Q26System12MenuScenarioFv);
 // PAL: 0x8052ed20..0x8052ed28
 UNKNOWN_FUNCTION(getPlayerType__Q26System16RaceConfigPlayerFv);
 // PAL: 0x8052ed28..0x8052eef0
-UNKNOWN_FUNCTION(RacedataScenario_postInitControllers);
+UNKNOWN_FUNCTION(
+    postInitControllers__Q26System12MenuScenarioFPQ26System12RaceScenario);
 // PAL: 0x8052eef0..0x8052efd4
 UNKNOWN_FUNCTION(unk_8052eef0);
 // PAL: 0x8052efd4..0x8052f064
@@ -71,17 +72,17 @@ UNKNOWN_FUNCTION(resetPlayers__Q26System18RaceConfigScenarioFv);
 // PAL: 0x8052f064..0x8052f1e0
 UNKNOWN_FUNCTION(unk_8052f064);
 // PAL: 0x8052f1e0..0x8052f4e8
-UNKNOWN_FUNCTION(RacedataScenario_copyPrevPositions);
+UNKNOWN_FUNCTION(copyPrevPositions__Q26System12MenuScenarioFv);
 // PAL: 0x8052f4e8..0x8052f788
-UNKNOWN_FUNCTION(RacedataScenario_initControllers);
+UNKNOWN_FUNCTION(initControllers__Q26System12MenuScenarioFUc);
 // PAL: 0x8052f788..0x8052f924
 UNKNOWN_FUNCTION(computePlayerCounts__Q26System12MenuScenarioFPUcPUcPUc);
 // PAL: 0x8052f924..0x8052fa0c
-UNKNOWN_FUNCTION(RacedataScenario_initRng);
+UNKNOWN_FUNCTION(initRng__Q26System12MenuScenarioFv);
 // PAL: 0x8052fa0c..0x8052fb90
 UNKNOWN_FUNCTION(unk_8052fa0c);
 // PAL: 0x8052fb90..0x8052fe58
-UNKNOWN_FUNCTION(RacedataScenario_initRace);
+UNKNOWN_FUNCTION(initRace__Q26System12MenuScenarioFPQ26System12RaceScenario);
 // PAL: 0x8052fe58..0x8052ffe8
 UNKNOWN_FUNCTION(Racedata_initStaticInstance);
 // PAL: 0x8052ffe8..0x80530038
@@ -211,6 +212,15 @@ public:
   void reset();
   u8 update();
   void resetPlayers();
+
+  // This is required for some MenuScenario methods
+  // We're basically tricking the compiler into doing two comparisons
+  inline bool isOnlineLower(s32 mode) { return mode >= 7; }
+  inline bool isOnlineHigher(s32 mode) { return mode <= 10; }
+  inline bool isOnline(s32 mode) {
+    return !isOnlineLower(mode) || !isOnlineHigher(mode) ? false : true;
+  }
+
   // private:
   u8 mPlayerCount;
   u8 mHudCount;
@@ -234,8 +244,13 @@ public:
   MenuScenario(RawGhostFile* ghost) : RaceConfigScenario(ghost) {}
   RaceConfigPlayer* getPlayer(u8 idx);
   s32 getGametype();
+  void postInitControllers(RaceScenario* raceScenario);
   bool initGhost(u8 playerIdx, u8 playerInputIdx);
   void computePlayerCounts(u8* playerCount, u8* hudCount, u8* localPlayerCount);
+  void initRng();
+  void copyPrevPositions();
+  void initControllers(u8 controllerCount);
+  void initRace(RaceScenario* raceScenario);
   u32 getModeFlag();
 };
 class AwardsScenario : public RaceConfigScenario {

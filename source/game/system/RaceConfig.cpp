@@ -457,7 +457,7 @@ lbl_8052e0b4:
   bctrl;
   addi r3, r31, 0xc10;
   addi r4, r31, 0x20;
-  bl RacedataScenario_initRace;
+  bl initRace__Q26System12MenuScenarioFPQ26System12RaceScenario;
   lbz r9, 0xc14(r31);
   addi r3, r31, 0x28;
   lbz r8, 0xc15(r31);
@@ -1026,11 +1026,14 @@ s32 RaceConfigPlayer::getPlayerType() { return mPlayerType; }
 
 } // namespace System
 
-// Symbol: RacedataScenario_postInitControllers
+// Symbol: postInitControllers__Q26System12MenuScenarioFPQ26System12RaceScenario
 // PAL: 0x8052ed28..0x8052eef0
 // Scratch: https://decomp.me/scratch/aw5WV
-MARK_BINARY_BLOB(RacedataScenario_postInitControllers, 0x8052ed28, 0x8052eef0);
-asm UNKNOWN_FUNCTION(RacedataScenario_postInitControllers) {
+MARK_BINARY_BLOB(
+    postInitControllers__Q26System12MenuScenarioFPQ26System12RaceScenario,
+    0x8052ed28, 0x8052eef0);
+asm UNKNOWN_FUNCTION(
+    postInitControllers__Q26System12MenuScenarioFPQ26System12RaceScenario) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1390,11 +1393,12 @@ lbl_8052f1d0:
   // clang-format on
 }
 
-// Symbol: RacedataScenario_copyPrevPositions
+// Symbol: copyPrevPositions__Q26System12MenuScenarioFv
 // PAL: 0x8052f1e0..0x8052f4e8
 // Scratch: https://decomp.me/scratch/w7jKr
-MARK_BINARY_BLOB(RacedataScenario_copyPrevPositions, 0x8052f1e0, 0x8052f4e8);
-asm UNKNOWN_FUNCTION(RacedataScenario_copyPrevPositions) {
+MARK_BINARY_BLOB(copyPrevPositions__Q26System12MenuScenarioFv, 0x8052f1e0,
+                 0x8052f4e8);
+asm UNKNOWN_FUNCTION(copyPrevPositions__Q26System12MenuScenarioFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -1608,11 +1612,12 @@ lbl_8052f4e0:
   // clang-format on
 }
 
-// Symbol: RacedataScenario_initControllers
+// Symbol: initControllers__Q26System12MenuScenarioFUc
 // PAL: 0x8052f4e8..0x8052f788
 // Scratch: https://decomp.me/scratch/V2Pce
-MARK_BINARY_BLOB(RacedataScenario_initControllers, 0x8052f4e8, 0x8052f788);
-asm UNKNOWN_FUNCTION(RacedataScenario_initControllers) {
+MARK_BINARY_BLOB(initControllers__Q26System12MenuScenarioFUc, 0x8052f4e8,
+                 0x8052f788);
+asm UNKNOWN_FUNCTION(initControllers__Q26System12MenuScenarioFUc) {
   // clang-format off
   nofralloc;
   stwu r1, -0x110(r1);
@@ -1870,11 +1875,11 @@ void MenuScenario::computePlayerCounts(u8* playerCount, u8* hudCount,
 
 } // namespace System
 
-// Symbol: RacedataScenario_initRng
+// Symbol: initRng__Q26System12MenuScenarioFv
 // PAL: 0x8052f924..0x8052fa0c
 // Scratch: https://decomp.me/scratch/Y23JS
-MARK_BINARY_BLOB(RacedataScenario_initRng, 0x8052f924, 0x8052fa0c);
-asm UNKNOWN_FUNCTION(RacedataScenario_initRng) {
+MARK_BINARY_BLOB(initRng__Q26System12MenuScenarioFv, 0x8052f924, 0x8052fa0c);
+asm UNKNOWN_FUNCTION(initRng__Q26System12MenuScenarioFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -2058,201 +2063,59 @@ lbl_8052fb7c:
   // clang-format on
 }
 
-// Symbol: RacedataScenario_initRace
-// PAL: 0x8052fb90..0x8052fe58
-// Scratch: https://decomp.me/scratch/omAC0
-MARK_BINARY_BLOB(RacedataScenario_initRace, 0x8052fb90, 0x8052fe58);
-asm UNKNOWN_FUNCTION(RacedataScenario_initRace) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  li r0, 0;
-  stw r31, 0x1c(r1);
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  stw r28, 0x10(r1);
-  stb r0, 0xa(r1);
-  stb r0, 9(r1);
-  stb r0, 8(r1);
-  lwz r0, 0xb70(r3);
-  rlwinm. r0, r0, 0, 0x1d, 0x1d;
-  beq lbl_8052fbd4;
-  bl unk_8052fa0c;
-lbl_8052fbd4:
-  mr r3, r29;
-  bl RacedataScenario_copyPrevPositions;
-  li r5, 0;
-  li r0, -1;
-  mulli r8, r5, 0xf0;
-  mr r3, r29;
-  li r5, 6;
-  addi r4, r1, 0xa;
-  add r7, r29, r8;
-  addi r6, r1, 8;
-  stb r0, 0xd(r7);
-  mulli r8, r5, 0xf0;
-  addi r5, r1, 9;
-  stb r0, 0xe(r7);
-  stb r0, 0xfd(r7);
-  stb r0, 0xfe(r7);
-  stb r0, 0x1ed(r7);
-  stb r0, 0x1ee(r7);
-  stb r0, 0x2dd(r7);
-  stb r0, 0x2de(r7);
-  stb r0, 0x3cd(r7);
-  stb r0, 0x3ce(r7);
-  stb r0, 0x4bd(r7);
-  stb r0, 0x4be(r7);
-  add r7, r29, r8;
-  stb r0, 0xd(r7);
-  stb r0, 0xe(r7);
-  stb r0, 0xfd(r7);
-  stb r0, 0xfe(r7);
-  stb r0, 0x1ed(r7);
-  stb r0, 0x1ee(r7);
-  stb r0, 0x2dd(r7);
-  stb r0, 0x2de(r7);
-  stb r0, 0x3cd(r7);
-  stb r0, 0x3ce(r7);
-  stb r0, 0x4bd(r7);
-  stb r0, 0x4be(r7);
-  stb r0, 0xb64(r29);
-  stb r0, 0xb65(r29);
-  stb r0, 0xb66(r29);
-  stb r0, 0xb67(r29);
-  bl computePlayerCounts__Q26System12MenuScenarioFPUcPUcPUc;
-  lwz r0, 0xb54(r29);
-  lbz r31, 9(r1);
-  cmpwi r0, 5;
-  bne lbl_8052fc94;
-  li r0, 1;
-  stb r0, 9(r1);
-lbl_8052fc94:
-  lbz r0, 0xb6c(r29);
-  cmpwi r0, 0;
-  bne lbl_8052fdfc;
-  lwz r4, 0xb50(r29);
-  li r0, 0;
-  lbz r3, 0xa(r1);
-  cmpwi r4, 7;
-  blt lbl_8052fcc0;
-  cmpwi r4, 0xa;
-  bgt lbl_8052fcc0;
-  li r0, 1;
-lbl_8052fcc0:
-  cmpwi r0, 0;
-  bne lbl_8052fdfc;
-  cmpwi r3, 0;
-  li r4, 0;
-  beq lbl_8052fdfc;
-  cmplwi r3, 8;
-  addi r0, r3, 0xf8;
-  ble lbl_8052fdc8;
-  clrlwi r5, r0, 0x18;
-  li r11, 0;
-  addi r0, r5, 7;
-  srwi r0, r0, 3;
-  mtctr r0;
-  cmplwi r5, 0;
-  ble lbl_8052fdc8;
-lbl_8052fcfc:
-  clrlwi r7, r4, 0x18;
-  addi r5, r4, 1;
-  mulli r6, r7, 0xf0;
-  addi r0, r4, 2;
-  clrlwi r10, r5, 0x18;
-  clrlwi r9, r0, 0x18;
-  add r12, r29, r6;
-  addi r0, r4, 3;
-  sth r11, 0xe0(r12);
-  clrlwi r8, r0, 0x18;
-  subf r28, r7, r3;
-  addi r0, r4, 4;
-  stb r28, 0xe9(r12);
-  clrlwi r7, r0, 0x18;
-  addi r6, r4, 5;
-  addi r5, r4, 6;
-  stb r28, 0xe8(r12);
-  addi r0, r4, 7;
-  clrlwi r6, r6, 0x18;
-  clrlwi r5, r5, 0x18;
-  sth r11, 0x1d0(r12);
-  subf r10, r10, r3;
-  clrlwi r0, r0, 0x18;
-  subf r9, r9, r3;
-  stb r10, 0x1d9(r12);
-  subf r8, r8, r3;
-  subf r7, r7, r3;
-  subf r6, r6, r3;
-  stb r10, 0x1d8(r12);
-  subf r5, r5, r3;
-  subf r0, r0, r3;
-  addi r4, r4, 8;
-  sth r11, 0x2c0(r12);
-  stb r9, 0x2c9(r12);
-  stb r9, 0x2c8(r12);
-  sth r11, 0x3b0(r12);
-  stb r8, 0x3b9(r12);
-  stb r8, 0x3b8(r12);
-  sth r11, 0x4a0(r12);
-  stb r7, 0x4a9(r12);
-  stb r7, 0x4a8(r12);
-  sth r11, 0x590(r12);
-  stb r6, 0x599(r12);
-  stb r6, 0x598(r12);
-  sth r11, 0x680(r12);
-  stb r5, 0x689(r12);
-  stb r5, 0x688(r12);
-  sth r11, 0x770(r12);
-  stb r0, 0x779(r12);
-  stb r0, 0x778(r12);
-  bdnz lbl_8052fcfc;
-lbl_8052fdc8:
-  li r5, 0;
-  b lbl_8052fdf0;
-lbl_8052fdd0:
-  clrlwi r6, r4, 0x18;
-  addi r4, r4, 1;
-  mulli r0, r6, 0xf0;
-  subf r7, r6, r3;
-  add r6, r29, r0;
-  sth r5, 0xe0(r6);
-  stb r7, 0xe9(r6);
-  stb r7, 0xe8(r6);
-lbl_8052fdf0:
-  clrlwi r0, r4, 0x18;
-  cmplw r0, r3;
-  blt lbl_8052fdd0;
-lbl_8052fdfc:
-  lbz r4, 9(r1);
-  mr r3, r29;
-  bl RacedataScenario_initControllers;
-  mr r3, r29;
-  mr r4, r30;
-  bl RacedataScenario_postInitControllers;
-  mr r3, r29;
-  bl RacedataScenario_initRng;
-  lbz r0, 0xa(r1);
-  stb r0, 4(r29);
-  lbz r0, 9(r1);
-  stb r0, 5(r29);
-  stb r31, 7(r29);
-  lbz r0, 8(r1);
-  stb r0, 6(r29);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r28, 0x10(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+namespace System {
+
+void MenuScenario::initRace(RaceScenario* raceScenario) {
+  u8 playerCount = 0;
+  u8 hudCount = 0;
+  u8 localPlayerCount = 0;
+
+  if (mSettings.mModeFlags & 4) {
+    unk_8052fa0c();
+  }
+
+  copyPrevPositions();
+
+  for (u8 i = 0; i < 12; i++) {
+    RaceConfigPlayer* player = getPlayer(i);
+    player->mLocalPlayerNum = -1;
+    player->mPlayerInputIdx = -1;
+  }
+
+  for (u8 i = 0; i < 4; i++) {
+    mSettings.mHudPlayerIds[i] = -1;
+  }
+
+  computePlayerCounts(&playerCount, &hudCount, &localPlayerCount);
+
+  u8 hudCount_ = hudCount;
+  if (mSettings.mGameType == 5) {
+    hudCount = 1;
+  }
+
+  if (mSettings.mRaceNumber == 0) {
+    u8 playerCount_ = playerCount;
+    if (!isOnline(mSettings.mGameMode)) {
+      for (u8 i = 0; i < playerCount_; i++) {
+        RaceConfigPlayer* player = getPlayer(i);
+        player->mPreviousScore = 0;
+        player->mPrevFinishPos = playerCount_ - i;
+        player->_e0 = playerCount_ - i;
+      }
+    }
+  }
+
+  initControllers(hudCount);
+  postInitControllers(raceScenario);
+  initRng();
+
+  mPlayerCount = playerCount;
+  mHudCount = hudCount;
+  mHudCount2 = hudCount_;
+  mLocalPlayerCount = localPlayerCount;
 }
+
+} // namespace System
 
 // Symbol: Racedata_initStaticInstance
 // PAL: 0x8052fe58..0x8052ffe8
@@ -2631,7 +2494,7 @@ asm UNKNOWN_FUNCTION(Racedata_initRace) {
   mr r31, r3;
   addi r3, r3, 0xc10;
   addi r4, r31, 0x20;
-  bl RacedataScenario_initRace;
+  bl initRace__Q26System12MenuScenarioFPQ26System12RaceScenario;
   lbz r9, 0xc14(r31);
   addi r4, r31, 0x28;
   lbz r8, 0xc15(r31);
@@ -3669,7 +3532,7 @@ lbl_8053131c:
   addi r4, r31, 0x20;
   stw r0, 0x17fc(r3);
   addi r3, r3, 0xc10;
-  bl RacedataScenario_initRace;
+  bl initRace__Q26System12MenuScenarioFPQ26System12RaceScenario;
   lbz r9, 0xc14(r31);
   addi r3, r31, 0x28;
   lbz r8, 0xc15(r31);
@@ -4118,7 +3981,7 @@ lbl_805319f8:
   ble lbl_80531864;
   addi r3, r31, 0xc10;
   addi r4, r31, 0x20;
-  bl RacedataScenario_initRace;
+  bl initRace__Q26System12MenuScenarioFPQ26System12RaceScenario;
   lbz r9, 0xc14(r31);
   addi r3, r31, 0x28;
   lbz r8, 0xc15(r31);
