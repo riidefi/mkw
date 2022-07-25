@@ -3,6 +3,7 @@
 #include <rvl/os/osThread.h>
 #include <game/host_system/SystemManager.hpp>
 #include <game/host_system/SystemResources.hpp>
+#include <game/system/RaceConfig.hpp>
 #include <egg/core/eggStreamDecomp.hpp>
 #include <egg/core/eggDvdRipper.hpp>
 #include <game/RKScene.hpp>
@@ -702,8 +703,8 @@ void* ResourceManager::getBspFile(s32 playerIdx, size_t* size) {
   char buffer[32];
 
   const char* vehicle = getVehicleName(
-      (VehicleId)RaceConfig::spInstance->raceScenario.players[playerIdx]
-          .vehicleId);
+      (VehicleId)RaceConfig::spInstance->mRaceScenario.mPlayers[playerIdx]
+          .mVehicleId);
   snprintf(buffer, sizeof(buffer), "/bsp/%s.bsp", vehicle);
 
   return (isSceneArchiveLoaded(0)) ? mppSceneArchives[0]->getFile(buffer, size)

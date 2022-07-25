@@ -1,0 +1,56 @@
+#pragma once
+
+#include <rk_types.h>
+
+#include <decomp.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PAL: 0x8016e5c8..0x8016e654
+UNKNOWN_FUNCTION(GXSetMisc);
+// PAL: 0x8016e654..0x8016e6b0
+UNKNOWN_FUNCTION(GXFlush);
+// PAL: 0x8016e6b0..0x8016e6e4
+UNKNOWN_FUNCTION(GXResetWriteGatherPipe);
+// PAL: 0x8016e6e4..0x8016e848
+UNKNOWN_FUNCTION(__GXAbort);
+// PAL: 0x8016e848..0x8016e9fc
+UNKNOWN_FUNCTION(GXAbortFrame);
+// PAL: 0x8016e9fc..0x8016eab0
+UNKNOWN_FUNCTION(GXSetDrawSync);
+// PAL: 0x8016eab0..0x8016eb70
+UNKNOWN_FUNCTION(GXDraw);
+// PAL: 0x8016eb70..0x8016eb94
+UNKNOWN_FUNCTION(GXTexModeSync);
+// PAL: 0x8016eb94..0x8016eba4
+UNKNOWN_FUNCTION(GXPokeAlphaMode);
+// PAL: 0x8016eba4..0x8016ebbc
+UNKNOWN_FUNCTION(GXPokeAlphaRead);
+// PAL: 0x8016ebbc..0x8016ebd0
+UNKNOWN_FUNCTION(GXPokeAlphaUpdate);
+// PAL: 0x8016ebd0..0x8016ec2c
+UNKNOWN_FUNCTION(GXPokeBlendMode);
+// PAL: 0x8016ec2c..0x8016ec40
+UNKNOWN_FUNCTION(GXPokeColorUpdate);
+// PAL: 0x8016ec40..0x8016ec58
+UNKNOWN_FUNCTION(GXPokeDstAlpha);
+// PAL: 0x8016ec58..0x8016ec6c
+UNKNOWN_FUNCTION(GXPokeDither);
+// PAL: 0x8016ec6c..0x8016ec88
+UNKNOWN_FUNCTION(GXPokeZMode);
+// PAL: 0x8016ec88..0x8016eccc
+UNKNOWN_FUNCTION(GXSetDrawSyncCallback);
+// PAL: 0x8016eccc..0x8016ed50
+UNKNOWN_FUNCTION(GXTokenInterruptHandler);
+// PAL: 0x8016ed50..0x8016ed94
+UNKNOWN_FUNCTION(GXSetDrawDoneCallback);
+// PAL: 0x8016ed94..0x8016ee14
+UNKNOWN_FUNCTION(GXFinishInterruptHandler);
+// PAL: 0x8016ee14..0x8016ee78
+UNKNOWN_FUNCTION(__GXPEInit);
+
+#ifdef __cplusplus
+}
+#endif

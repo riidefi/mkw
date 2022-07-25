@@ -6,11 +6,17 @@ from mkwutil.lib.symbols import SymbolsList
 from pathlib import Path
 
 
+dol_slices_path = Path(__file__).parent / ".." / "pack" / "dol_slices.csv"
+
+
 def load_dol_slices(sections=None) -> "SliceTable":
     """Loads pack/dol_slices.csv in the default DOL region."""
-    return SliceTable.load_path(
-        Path(__file__).parent / ".." / "pack" / "dol_slices.csv", sections=sections
-    )
+    return SliceTable.load_path(dol_slices_path, sections=sections)
+
+
+def save_dol_slices(objects: ObjectSlices):
+    with open(dol_slices_path, "w", newline="\n") as slices_file:
+        objects.write_to(slices_file, sections=SliceTable.SECTION_ORDER)
 
 
 def load_rel_slices(sections=None) -> "SliceTable":

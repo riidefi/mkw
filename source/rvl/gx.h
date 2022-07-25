@@ -8,8 +8,11 @@ extern "C" {
 
 typedef struct GXFifoObj GXFifoObj;
 
+// PAL: 0x8016cec4..0x8016cf10
 void GXGetGPStatus(u8* overhi, u8* underlow, u8* readIdle, u8* cmdIdle,
                    u8* brkpt);
+
+// PAL: 0x8016b850..0x8016bd54
 GXFifoObj* GXInit(void* buf, u32 size);
 
 typedef struct GXRenderModeObj {
@@ -27,12 +30,6 @@ typedef struct GXRenderModeObj {
   u8 sample[12][2];
   u8 vert_filter[7];
 } GXRenderModeObj;
-
-f32 GXGetYScaleFactor(u16 efb_height, u16 xfb_height);
-u16 GXGetNumXfbLines(u16 efb_height, f32 y_scale_factor);
-void GXSetDispCopySrc(u16 left, u16 top, u16 width, u16 height);
-void GXSetDispCopyDst(u16 width, u16 height);
-u32 GXSetDispCopyYScale(f32 y_scale_factor);
 
 #ifdef __cplusplus
 }

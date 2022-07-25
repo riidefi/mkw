@@ -16,8 +16,7 @@ from mkwutil.project import read_symbol_map
 
 def diff_symbols(elf_sym: Symbol, orig_sym: Optional[Symbol]) -> bool:
     if orig_sym is None:
-        if not elf_sym.name.startswith("unk_") and not elf_sym.name.startswith("_unk_"):
-            print("[-] 0x%08x %s" % (elf_sym.addr, elf_sym.name))
+        print("[-] 0x%08x %s" % (elf_sym.addr, elf_sym.name))
         return False
     if elf_sym.name in ("__save_gpr", "__rest_gpr"):
         return True  # ignore

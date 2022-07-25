@@ -1,16 +1,13 @@
 #include "eggDisplay.hpp"
 
 #include <rvl/os/os.h>
+#include <rvl/gx/gxDraw.h>
+#include <rvl/gx/gxFrameBuf.h>
+#include <rvl/gx/gxMisc.h>
 
 extern "C" {
 
 // Extern function references.
-// PAL: 0x8016eab0
-extern UNKNOWN_FUNCTION(GXDraw);
-// PAL: 0x8016f9c8
-extern UNKNOWN_FUNCTION(GXSetCopyClear);
-// PAL: 0x8016fa40
-extern UNKNOWN_FUNCTION(GXSetCopyFilter);
 // PAL: 0x801b99ec
 extern UNKNOWN_FUNCTION(VIWaitForRetrace);
 // PAL: 0x801bab2c

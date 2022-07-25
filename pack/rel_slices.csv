@@ -2,8 +2,10 @@ enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataSta
 1,source/game/jmap/CourseMap.cpp,0x80512694,0x805127ec,,,,,,,0x808B2C30,0x808B2C3C,0x809BD6E8,0x809BD6EC
 1,source/game/system/DvdArchive.cpp,0x80518CC0,0x80519670,,,,,0x8088FAA0,0x8088FAB7,0x808B2C78,0x808B2C88,,
 1,source/game/system/GhostFile.cpp,0x8051c088,0x8051d4d4,,,,,,,0x808b2d38,0x808b2d50,,
+1,source/game/system/Mii.cpp,0x80525f88,0x80525ff4,,,,,0x8088fd60,0x8088fd64,,,,
 1,source/game/system/LocalizedArchive.cpp,0x8052a098,0x8052a538,,,,,0x8088fdc0,0x8088fe00,0x808b3188,0x808b31d8,,
 1,source/game/system/MultiDvdArchive.cpp,0x8052a538,0x8052ae5c,,,,,0x8088fe00,0x8088fe28,0x808b31d8,0x808b31e8,,
+1,source/game/system/RaceConfig.cpp,0x8052d96c,0x80532084,,,,,0x8088ffa8,0x808900e8,0x808b32a0,0x808b32ac,,
 1,source/game/system/ResourceManager.cpp,0x8053FC4C,0x80542878,,,,,0x80890490,0x80890d0c,0x808b3960,0x808b3c2c,,
 1,source/game/util/Random.cpp,0x80555464,0x8055572c,,,,,0x80891370,0x80891380,0x808b42e0,0x808b42ec,,
 1,source/game/kart/KartComponent.cpp,0x80590128,0x805901d0,,,,,,,,,0x809c1900,0x809c1910
