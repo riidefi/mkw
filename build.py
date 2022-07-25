@@ -34,48 +34,50 @@ from mkwutil.gen_asm import gen_asm
 from mkwutil.project import load_dol_slices, load_rel_slices
 
 
-parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
-parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
-parser.add_argument(
-    "-j",
-    "--concurrency",
-    type=int,
-    default=multiprocessing.cpu_count(),
-    help="Compile concurrency",
-)
-parser.add_argument(
-    "--match", type=str, default=None, help="Only compile sources matching pattern"
-)
-parser.add_argument(
-    "--diff_py", type=str, default=None, help="Recompile a .o file for diff.py"
-)
-parser.add_argument("--link_only", action="store_true", help="Link only, don't build")
-args = parser.parse_args()
-# Start by running gen_asm.
-gen_asm(args.regen_asm)
+def parse_args():
+    parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
+    parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
+    parser.add_argument(
+        "-j",
+        "--concurrency",
+        type=int,
+        default=multiprocessing.cpu_count(),
+        help="Compile concurrency",
+    )
+    parser.add_argument(
+        "--match", type=str, default=None, help="Only compile sources matching pattern"
+    )
+    parser.add_argument(
+        "--diff_py", type=str, default=None, help="Recompile a .o file for diff.py"
+    )
+    parser.add_argument("--link_only", action="store_true", help="Link only, don't build")
+    args = parser.parse_args()
+    return args
 
 
 colorama.init()
 print_mutex = Lock()
 
 # Remember which files are stripped.
-dol_slices = load_dol_slices(sections=DOL_SECTIONS)
-stripped_files = set()
-for _slice in dol_slices:
-    if "strip" in _slice.tags:
-        stripped_files.add(Path(_slice.name).stem)
-dol_object_slices = dol_slices.object_slices()
-# Rename objects to stem, not full path.
-dol_object_slices.objects = {
-    Path(k).stem: v for k, v in dol_object_slices.objects.items()
-}
+def get_strip_info_and_slices():
+    dol_slices = load_dol_slices(sections=DOL_SECTIONS)
+    stripped_files = set()
+    for _slice in dol_slices:
+        if "strip" in _slice.tags:
+            stripped_files.add(Path(_slice.name).stem)
+    dol_object_slices = dol_slices.object_slices()
+    # Rename objects to stem, not full path.
+    dol_object_slices.objects = {
+        Path(k).stem: v for k, v in dol_object_slices.objects.items()
+    }
 
-rel_slices = load_rel_slices(sections=REL_SECTIONS)
-rel_object_slices = rel_slices.object_slices()
-# Rename objects to stem, not full path.
-rel_object_slices.objects = {
-    Path(k).stem: v for k, v in rel_object_slices.objects.items()
-}
+    rel_slices = load_rel_slices(sections=REL_SECTIONS)
+    rel_object_slices = rel_slices.object_slices()
+    # Rename objects to stem, not full path.
+    rel_object_slices.objects = {
+        Path(k).stem: v for k, v in rel_object_slices.objects.items()
+    }
+    return stripped_files, dol_object_slices, rel_object_slices
 
 
 def __native_binary(path):
@@ -253,15 +255,15 @@ def compile_source_impl(src, dst, version="default", additional="-ipa file"):
 gSourceQueue = []
 
 
-def compile_queued_sources():
+def compile_queued_sources(concurrency):
     """Dispatches multiple threads to compile all queued sources."""
-    print(colored(f"max_hw_concurrency={args.concurrency}", color="yellow"))
+    print(colored(f"max_hw_concurrency={concurrency}", color="yellow"))
 
     if not len(gSourceQueue):
         print(colored("No sources to compile", color="red"))
         return
 
-    pool = ThreadPool(min(args.concurrency, len(gSourceQueue)))
+    pool = ThreadPool(min(concurrency, len(gSourceQueue)))
 
     pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
 
@@ -271,6 +273,7 @@ def compile_queued_sources():
     #
     # colorama doesn't seem to work with multithreading
     #
+    stripped_files, dol_object_slices, rel_object_slices = get_strip_info_and_slices()
     for (src, dst, _, _) in gSourceQueue:
         if src.stem in stripped_files:
             continue
@@ -328,7 +331,7 @@ def link(
     __assert_command_success(returncode, command)
 
 
-def compile_sources():
+def compile_sources(args):
     """Compiles all C/C++ and ASM files."""
     out_dir = Path("out")
     out_dir.mkdir(exist_ok=True)
@@ -350,7 +353,7 @@ def compile_sources():
     if args.link_only:
         gSourceQueue = []
 
-    compile_queued_sources()
+    compile_queued_sources(args.concurrency)
 
     asm_files = [
         x.relative_to(os.getcwd())
@@ -412,7 +415,10 @@ def link_rel(o_files: list[Path]):
     return rel_path
 
 
-def build():
+def build(args):
+    # Start by running gen_asm.
+    gen_asm(args.regen_asm)
+
     """Builds the game."""
     Path("target").mkdir(exist_ok=True)
 
@@ -423,7 +429,7 @@ def build():
     rel_objects = open(rel_objects_path, "r").readlines()
     rel_objects = [Path(x.strip()) for x in rel_objects]
 
-    compile_sources()
+    compile_sources(args)
 
     if args.diff_py:
         return
@@ -440,4 +446,5 @@ def build():
 
 
 if __name__ == "__main__":
-    build()
+    args = parse_args()
+    build(args)
