@@ -1,7 +1,10 @@
 #include "GhostFile.hpp"
 
+#include <rvl/mem/heapi.h>
 #include <rvl/net.h>
 #include <rvl/os/os.h>
+#include <egg/core/eggCompress.hpp>
+#include <egg/core/eggDecomp.hpp>
 
 #include <decomp.h>
 
@@ -9,15 +12,11 @@
 // PAL: 0x8052758c
 extern "C" UNKNOWN_FUNCTION(unk_8052758c);
 // PAL: 0x805336a4
-extern "C" UNKNOWN_FUNCTION(unk_805336a4);
+extern "C" u8 unk_805336a4();
 // PAL: 0x8053572c
 extern "C" UNKNOWN_FUNCTION(unk_8053572c);
 // PAL: 0x8054a9b8
 extern "C" UNKNOWN_FUNCTION(unk_8054a9b8);
-
-extern "C" UNKNOWN_FUNCTION(encodeSZS__Q23EGG4CompFPCUcPUcUl);
-extern "C" UNKNOWN_FUNCTION(getExpandSize__Q23EGG6DecompFPUc);
-extern "C" UNKNOWN_FUNCTION(decodeSZS__Q23EGG6DecompFPUcPUc);
 
 namespace System {
 
@@ -388,6 +387,13 @@ bool GhostFile::writeUncompressed(RawGhostFile& raw) const {
   return ret;
 }
 
+#if 0
+void GhostFile::init(u8 playerId) {
+  mLapCount = unk_805336a4();
+  Time raceTime = Time();
+  raceTime.set(0, 0, 0, false);
+}
+#else
 MARK_BINARY_BLOB(init__Q26System9GhostFileFUc, 0x8051cb1c, 0x8051ce7c);
 asm void GhostFile::init(u8 playerId) {
   // clang-format off
@@ -627,6 +633,7 @@ lbl_8051ce60:
   blr;
   // clang-format on
 }
+#endif
 
 // Symbol: Controller_vf10
 // PAL: 0x8051ce7c..0x8051ce84
@@ -720,209 +727,69 @@ void GhostFileGroup::readHeader(u16 idx, const RawGhostFile& raw) {
   mFiles[idx].readHeader(raw);
 }
 
-MARK_BINARY_BLOB(
-    compress__Q26System12RawGhostFileFRCQ26System12RawGhostFileRQ26System12RawGhostFile,
-    0x8051d0e0, 0x8051d1b4);
-asm bool RawGhostFile::compress(const RawGhostFile& src, RawGhostFile& dst) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r3;
-  stw r30, 0x18(r1);
-  stw r29, 0x14(r1);
-  mr r29, r4;
-  lhz r0, 0xc(r3);
-  rlwinm r0, r0, 0x15, 0x1f, 0x1f;
-  cmplwi r0, 1;
-  bne lbl_8051d120;
-  li r0, 0;
-  stw r0, 0(r4);
-  li r3, 0;
-  b lbl_8051d198;
-lbl_8051d120:
-  mr r3, r29;
-  li r4, 0;
-  li r5, 0x2800;
-  bl memset;
-  mr r3, r29;
-  mr r4, r31;
-  li r5, 0x88;
-  bl memcpy;
-  lhz r0, 0xc(r29);
-  addi r30, r29, 0x8c;
-  mr r4, r30;
-  addi r3, r31, 0x88;
-  ori r0, r0, 0x800;
-  sth r0, 0xc(r29);
-  lhz r5, 0xe(r31);
-  bl encodeSZS__Q23EGG4CompFPCUcPUcUl;
-  cmpwi r3, 0;
-  bgt lbl_8051d178;
-  li r0, 0;
-  stw r0, 0(r29);
-  li r3, 0;
-  b lbl_8051d198;
-lbl_8051d178:
-  addi r0, r3, 3;
-  mr r3, r29;
-  rlwinm r31, r0, 0, 0, 0x1d;
-  stw r31, 0x88(r29);
-  addi r4, r31, 0x8c;
-  bl NETCalcCRC32;
-  stwx r3, r30, r31;
-  li r3, 1;
-lbl_8051d198:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool RawGhostFile::compress(const RawGhostFile& src, RawGhostFile& dst) {
+  if ((u32)src.isCompressed == true) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  // Copy over RKG header
+  dst.reset();
+  memcpy(dst.buffer, src.buffer, 0x88);
+
+  dst.isCompressed = true;
+  const u8* srcInputsStart = src.buffer + 0x88;
+  // The destination inputs start 4 bytes earlier to include YAZ1 magic
+  u8* dstInputsStart = dst.buffer + 0x8c;
+  int compressedSize =
+      EGG::encodeSZS(srcInputsStart, dstInputsStart, src.inputsSize);
+
+  if (compressedSize <= 0) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  // Compressed data is padded to multiple of 4 bytes in length
+  u32 paddedCompressedSize = fastceil_u32(compressedSize, 0x4);
+  dst.compressedInputsSize = paddedCompressedSize;
+  u32 fileCRC32 = NETCalcCRC32(dst.buffer, paddedCompressedSize + 0x8c);
+
+#ifdef NON_MATCHING
+  *reinterpret_cast<u32*>(inputsStart + paddedCompressedSize) = fileCRC32;
+#else
+  *reinterpret_cast<u32*>(dstInputsStart + fastceil_u32(compressedSize, 0x4)) =
+      fileCRC32;
+#endif
+
+  return true;
 }
 
-MARK_BINARY_BLOB(
-    decompress__Q26System12RawGhostFileFRCQ26System12RawGhostFileRQ26System12RawGhostFile,
-    0x8051d1b4, 0x8051d388);
-asm bool RawGhostFile::decompress(const RawGhostFile& src, RawGhostFile& dst) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r4;
-  stw r30, 0x18(r1);
-  mr r30, r3;
-  stw r29, 0x14(r1);
-  lhz r0, 0xc(r3);
-  rlwinm r6, r0, 0x15, 0x1f, 0x1f;
-  cmplwi r6, 1;
-  beq lbl_8051d1f4;
-  li r0, 0;
-  stw r0, 0(r4);
-  li r3, 0;
-  b lbl_8051d36c;
-lbl_8051d1f4:
-  lwz r4, 0(r3);
-  addis r0, r4, 0xadb5;
-  cmplwi r0, 0x4744;
-  beq lbl_8051d20c;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d20c:
-  lwz r4, 8(r3);
-  srwi r0, r4, 0x1a;
-  cmplwi r0, 0x24;
-  blt lbl_8051d224;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d224:
-  rlwinm r0, r4, 0xc, 0x1a, 0x1f;
-  cmplwi r0, 0x30;
-  blt lbl_8051d238;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d238:
-  rlwinm r0, r4, 0x13, 0x19, 0x1f;
-  cmplwi r0, 0x63;
-  ble lbl_8051d24c;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d24c:
-  rlwinm r0, r4, 0x1c, 0x1b, 0x1f;
-  cmplwi r0, 0x1f;
-  ble lbl_8051d260;
-  li r0, 0;
-  b lbl_8051d27c;
-lbl_8051d260:
-  rlwinm r5, r4, 0x17, 0x1c, 0x1f;
-  li r4, 0xc;
-  subfic r0, r5, 0xc;
-  orc r4, r4, r5;
-  srwi r0, r0, 1;
-  subf r0, r0, r4;
-  srwi r0, r0, 0x1f;
-lbl_8051d27c:
-  cmpwi r0, 0;
-  bne lbl_8051d28c;
-  li r0, 0;
-  b lbl_8051d2d8;
-lbl_8051d28c:
-  cmplwi r6, 1;
-  bne lbl_8051d2bc;
-  lwz r4, 0x88(r3);
-  mr r3, r30;
-  addi r29, r4, 0x8c;
-  mr r4, r29;
-  bl NETCalcCRC32;
-  lwzx r0, r30, r29;
-  subf r0, r0, r3;
-  cntlzw r0, r0;
-  srwi r0, r0, 5;
-  b lbl_8051d2d8;
-lbl_8051d2bc:
-  mr r3, r30;
-  li r4, 0x27fc;
-  bl NETCalcCRC32;
-  lwz r0, 0x27fc(r30);
-  subf r0, r0, r3;
-  cntlzw r0, r0;
-  srwi r0, r0, 5;
-lbl_8051d2d8:
-  cmpwi r0, 0;
-  bne lbl_8051d2f0;
-  li r0, 0;
-  stw r0, 0(r31);
-  li r3, 0;
-  b lbl_8051d36c;
-lbl_8051d2f0:
-  mr r3, r31;
-  li r4, 0;
-  li r5, 0x2800;
-  bl memset;
-  mr r3, r31;
-  mr r4, r30;
-  li r5, 0x88;
-  bl memcpy;
-  lhz r0, 0xc(r31);
-  addi r3, r30, 0x8c;
-  rlwinm r0, r0, 0, 0x15, 0x13;
-  sth r0, 0xc(r31);
-  bl getExpandSize__Q23EGG6DecompFPUc;
-  cmpwi r3, 0;
-  mr r29, r3;
-  beq lbl_8051d338;
-  cmplwi r3, 0x2774;
-  ble lbl_8051d348;
-lbl_8051d338:
-  li r0, 0;
-  stw r0, 0(r31);
-  li r3, 0;
-  b lbl_8051d36c;
-lbl_8051d348:
-  addi r3, r30, 0x8c;
-  addi r4, r31, 0x88;
-  bl decodeSZS__Q23EGG6DecompFPUcPUc;
-  sth r29, 0xe(r31);
-  mr r3, r31;
-  li r4, 0x27fc;
-  bl NETCalcCRC32;
-  stw r3, 0x27fc(r31);
-  li r3, 1;
-lbl_8051d36c:
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool RawGhostFile::decompress(const RawGhostFile& src, RawGhostFile& dst) {
+  if ((u32)src.isCompressed != true) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  if (!src.isValid()) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  dst.reset();
+  memcpy(dst.buffer, src.buffer, 0x88);
+  dst.isCompressed = false;
+
+  s32 expandSize = EGG::Decomp::getExpandSize(src.buffer + 0x8c);
+  if (expandSize == 0 || expandSize > sizeof(src.buffer) - 0x8c) {
+    dst.fourcc = 0;
+    return false;
+  }
+
+  EGG::Decomp::decodeSZS(src.buffer + 0x8c, dst.buffer + 0x88);
+  dst.inputsSize = expandSize;
+  u32 fileCRC32 = NETCalcCRC32(dst.buffer, sizeof(dst.buffer) - 0x4);
+  *reinterpret_cast<u32*>(dst.buffer + sizeof(dst.buffer) - 0x4) = fileCRC32;
+  return true;
 }
 
 u32 RawGhostFile::getSize() const {
