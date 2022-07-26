@@ -45,7 +45,8 @@ UNKNOWN_FUNCTION(getPlayer__Q26System12MenuScenarioFUc);
 // PAL: 0x8052e444..0x8052e44c
 UNKNOWN_FUNCTION(setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId);
 // PAL: 0x8052e44c..0x8052e454
-UNKNOWN_FUNCTION(setPlayerType__Q26System16RaceConfigPlayerFl);
+UNKNOWN_FUNCTION(
+    setPlayerType__Q26System16RaceConfigPlayerFQ26System10PlayerType);
 // PAL: 0x8052e454..0x8052e658
 UNKNOWN_FUNCTION(Racedata_resetSomeStuff);
 // PAL: 0x8052e658..0x8052e660
@@ -59,7 +60,7 @@ UNKNOWN_FUNCTION(unk_8052e870);
 // PAL: 0x8052e950..0x8052ed18
 UNKNOWN_FUNCTION(unk_8052e950);
 // PAL: 0x8052ed18..0x8052ed20
-UNKNOWN_FUNCTION(getGametype__Q26System12MenuScenarioFv);
+UNKNOWN_FUNCTION(getGameType__Q26System12MenuScenarioFv);
 // PAL: 0x8052ed20..0x8052ed28
 UNKNOWN_FUNCTION(getPlayerType__Q26System16RaceConfigPlayerFv);
 // PAL: 0x8052ed28..0x8052eef0
@@ -143,6 +144,61 @@ UNKNOWN_FUNCTION(unk_8053207c);
 #endif
 
 namespace System {
+
+typedef enum {
+  PLAYER_TYPE_REAL_LOCAL = 0,
+  PLAYER_TYPE_CPU = 1,
+  PLAYER_TYPE_UNKNOWN = 2,
+  PLAYER_TYPE_GHOST = 3,
+  PLAYER_TYPE_REAL_ONLINE = 4,
+  PLAYER_TYPE_NONE = 5
+} PlayerType;
+
+// TODO: verify
+typedef enum {
+  GAMEMODE_GRAND_PRIX = 0,
+  GAMEMODE_VS_RACE = 1,
+  GAMEMODE_TIME_TRIAL = 2,
+  GAMEMODE_BATTLE = 3,
+  GAMEMODE_MISSION_TOURNAMENT = 4,
+  GAMEMODE_GHOST_RACE = 5,
+  GAMEMODE_UNK_6 = 6,
+  GAMEMODE_PRIVATE_VS = 7,
+  GAMEMODE_PUBLIC_VS = 8,
+  GAMEMODE_PUBLIC_BATTLE = 9,
+  GAMEMODE_PRIVATE_BATTLE = 10,
+  GAMEMODE_AWARDS = 11,
+  GAMEMODE_CREDITS = 12
+} GameMode;
+
+// TODO: verify
+typedef enum {
+  GAMETYPE_TIME_ATTACK = 0,
+  GAMETYPE_REPLAY = 1,
+  GAMETYPE_UNK_2 = 2, // possibly related to HUD count?
+  GAMETYPE_UNK_3 = 3, //
+  GAMETYPE_UNK_4 = 4, //
+  GAMETYPE_GAMEPLAY = 5,
+  GAMETYPE_LIVE_VIEW = 6,
+  GAMETYPE_GRAND_PRIX_WIN = 7,
+  GAMETYPE_SOLO_VS_WIN = 8,
+  GAMETYPE_TEAM_VS_WIN = 9,
+  GAMETYPE_BATTLE_WIN = 10,
+  GAMETYPE_UNK_11 = 11,
+  GAMETYPE_LOSS = 12
+} GameType;
+
+typedef enum {
+  MUSHROOM_CUP = 0,
+  FLOWER_CUP = 1,
+  STAR_CUP = 2,
+  SPECIAL_CUP = 3,
+  SHELL_CUP = 4,
+  BANANA_CUP = 5,
+  LEAF_CUP = 6,
+  LIGHTNING_CUP = 7
+} CupId;
+
 // NOTE: anything marked u8, u16, or u32 could be signed
 class RaceConfig;
 
@@ -155,11 +211,11 @@ public:
   BattleTeam getTeam();
   void setCharacter(CharacterId character);
   void setVehicle(VehicleId vehicle);
-  void setPlayerType(s32 playerType);
+  void setPlayerType(PlayerType playerType);
   void reset(s8 pos);
   void setPrevFinishPos(s8 pos);
   void setUnkPos(s8 pos);
-  s32 getPlayerType();
+  PlayerType getPlayerType();
   u8 getUnkPos();
   CharacterId getCharacter();
   VehicleId getVehicle();
@@ -171,7 +227,7 @@ public:
   s8 mPlayerInputIdx;
   VehicleId mVehicleId;
   CharacterId mCharacterId;
-  s32 mPlayerType; // TODO: create enum
+  PlayerType mPlayerType;
   Mii mMii;
   BattleTeam mTeam;
   u32 mControllerId;
@@ -190,13 +246,13 @@ public:
 struct RaceConfigSettings {
   CourseId mCourseId;
   u32 mEngineClass; // probably an enum
-  s32 mGameMode;    // TODO: create enum
-  s32 mGameType;    // TODO: create enum
+  GameMode mGameMode;
+  GameType mGameType;
   u32 mBattleType;
   u32 mCpuMode;
   u32 mItemMode;
   s8 mHudPlayerIds[4];
-  s32 mCupId; // TODO: create enum
+  CupId mCupId;
   u8 mRaceNumber;
   u8 mLapCount;
   s32 mModeFlags; // TODO: create enum
@@ -215,9 +271,13 @@ public:
 
   // This is required for some MenuScenario methods
   // We're basically tricking the compiler into doing two comparisons
-  inline bool isOnlineLower(s32 mode) { return mode >= 7; }
-  inline bool isOnlineHigher(s32 mode) { return mode <= 10; }
-  inline bool isOnline(s32 mode) {
+  inline bool isOnlineLower(GameMode mode) {
+    return mode >= GAMEMODE_PRIVATE_VS;
+  }
+  inline bool isOnlineHigher(GameMode mode) {
+    return mode <= GAMEMODE_PRIVATE_BATTLE;
+  }
+  inline bool isOnline(GameMode mode) {
     return !isOnlineLower(mode) || !isOnlineHigher(mode) ? false : true;
   }
 
@@ -243,7 +303,7 @@ class MenuScenario : public RaceConfigScenario {
 public:
   MenuScenario(RawGhostFile* ghost) : RaceConfigScenario(ghost) {}
   RaceConfigPlayer* getPlayer(u8 idx);
-  s32 getGametype();
+  GameType getGameType();
   void postInitControllers(RaceScenario* raceScenario);
   bool initGhost(u8 playerIdx, u8 playerInputIdx);
   void initPlayers(u8 playerCount);

@@ -80,8 +80,9 @@ const u16 SCORES[] = {60, 52, 40, 20};
 
 RaceConfigPlayer::RaceConfigPlayer()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
-      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(0), mMii(7),
-      mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
+      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO),
+      mPlayerType(PLAYER_TYPE_REAL_LOCAL), mMii(7), mControllerId(-1), _d4(8),
+      mRating(), _ec(_ec & ~0x80) {}
 
 void RaceConfigPlayer::appendParamFile(RaceConfig* raceConfig) {
   raceConfig->append(mVehicleId, InitScene::spInstance->mHeapCollection
@@ -121,9 +122,9 @@ s32 RaceConfigPlayer::computeGpRank() const {
 RaceConfigScenario::RaceConfigScenario(RawGhostFile* ghost)
     : mPlayerCount(0), mHudCount(0), mPlayers() {
   mSettings.mCourseId = GCN_MARIO_CIRCUIT;
-  mSettings.mGameMode = 0;
-  mSettings.mGameType = 0;
-  mSettings.mCupId = 0;
+  mSettings.mGameMode = GAMEMODE_GRAND_PRIX;
+  mSettings.mGameType = GAMETYPE_TIME_ATTACK;
+  mSettings.mCupId = MUSHROOM_CUP;
 
   // seems dubious
   memset(&this->_b7c, 0, 0x70);
@@ -652,7 +653,7 @@ RaceConfigPlayer* MenuScenario::getPlayer(u8 idx) { return &mPlayers[idx]; }
 
 void RaceConfigPlayer::setVehicle(VehicleId vehicle) { mVehicleId = vehicle; }
 
-void RaceConfigPlayer::setPlayerType(s32 playerType) {
+void RaceConfigPlayer::setPlayerType(PlayerType playerType) {
   mPlayerType = playerType;
 }
 
@@ -1020,9 +1021,9 @@ lbl_8052ecf0:
 
 namespace System {
 
-s32 MenuScenario::getGametype() { return mSettings.mGameType; }
+GameType MenuScenario::getGameType() { return mSettings.mGameType; }
 
-s32 RaceConfigPlayer::getPlayerType() { return mPlayerType; }
+PlayerType RaceConfigPlayer::getPlayerType() { return mPlayerType; }
 
 } // namespace System
 
@@ -1720,16 +1721,16 @@ void MenuScenario::computePlayerCounts(u8* playerCount, u8* hudCount,
   u8 localPlayerCount_ = 0;
 
   for (u8 i = 0; i < 12; i++) {
-    const s32 playerType = mPlayers[i].mPlayerType;
+    const PlayerType playerType = mPlayers[i].mPlayerType;
 
     // Check if player exists
-    if (playerType == 5) {
+    if (playerType == PLAYER_TYPE_NONE) {
       continue;
     }
     playerCount_++;
 
     // Check if player is local
-    if (playerType != 0) {
+    if (playerType != PLAYER_TYPE_REAL_LOCAL) {
       continue;
     }
 
@@ -1750,18 +1751,18 @@ void MenuScenario::computePlayerCounts(u8* playerCount, u8* hudCount,
   }
 
   // Set HUD count based on menu game type
-  const s32 gameType = mSettings.mGameType;
-  if (gameType == 2) {
+  const GameType gameType = mSettings.mGameType;
+  if (gameType == GAMETYPE_UNK_2) {
     hudCount_ = 1;
-  } else if (gameType == 3) {
+  } else if (gameType == GAMETYPE_UNK_3) {
     hudCount_ = 2;
-  } else if (gameType == 4) {
+  } else if (gameType == GAMETYPE_UNK_4) {
     hudCount_ = 4;
   }
 
   // Cap player count on awards
-  if (mSettings.mGameMode == 11) {
-    if (gameType == 7) {
+  if (mSettings.mGameMode == GAMEMODE_AWARDS) {
+    if (gameType == GAMETYPE_GRAND_PRIX_WIN) {
       // Cap player count on GP win
       if (3 < playerCount_) {
         playerCount_ = 3;
@@ -1982,7 +1983,7 @@ void MenuScenario::initRace(RaceScenario* raceScenario) {
   computePlayerCounts(&playerCount, &hudCount, &localPlayerCount);
 
   u8 hudCount_ = hudCount;
-  if (mSettings.mGameType == 5) {
+  if (mSettings.mGameType == GAMETYPE_GAMEPLAY) {
     hudCount = 1;
   }
 
@@ -2773,7 +2774,7 @@ lbl_8053088c:
   clrlwi r4, r30, 0x18;
   bl getPlayer__Q26System12MenuScenarioFUc;
   li r4, 5;
-  bl setPlayerType__Q26System16RaceConfigPlayerFl;
+  bl setPlayerType__Q26System16RaceConfigPlayerFQ26System10PlayerType;
   clrlwi r4, r30, 0x18;
   addi r3, r31, 0xc10;
   addi r29, r4, 1;
@@ -2789,12 +2790,12 @@ lbl_8053088c:
   cmplwi r30, 0xc;
   blt lbl_8053088c;
   addi r3, r31, 0xc10;
-  bl getGametype__Q26System12MenuScenarioFv;
+  bl getGameType__Q26System12MenuScenarioFv;
   addi r0, r3, -7;
   addi r3, r31, 0xc10;
   cntlzw r0, r0;
   srwi r29, r0, 5;
-  bl getGametype__Q26System12MenuScenarioFv;
+  bl getGameType__Q26System12MenuScenarioFv;
   addi r0, r3, -12;
   addi r3, r31, 0xc10;
   cntlzw r0, r0;
@@ -2846,7 +2847,7 @@ lbl_8053091c:
   addi r3, r31, 0xc10;
   bl getPlayer__Q26System12MenuScenarioFUc;
   li r4, 1;
-  bl setPlayerType__Q26System16RaceConfigPlayerFl;
+  bl setPlayerType__Q26System16RaceConfigPlayerFQ26System10PlayerType;
   mr r4, r27;
   addi r3, r31, 0xc10;
   bl getPlayer__Q26System12MenuScenarioFUc;
@@ -2960,7 +2961,7 @@ lbl_80530ab0:
   clrlwi r4, r27, 0x18;
   bl getPlayer__Q26System12MenuScenarioFUc;
   li r4, 1;
-  bl setPlayerType__Q26System16RaceConfigPlayerFl;
+  bl setPlayerType__Q26System16RaceConfigPlayerFQ26System10PlayerType;
   clrlwi r4, r27, 0x18;
   addi r3, r31, 0xc10;
   addi r29, r4, 1;
@@ -3044,7 +3045,7 @@ lbl_80530bdc:
   clrlwi r4, r27, 0x18;
   bl getPlayer__Q26System12MenuScenarioFUc;
   li r4, 1;
-  bl setPlayerType__Q26System16RaceConfigPlayerFl;
+  bl setPlayerType__Q26System16RaceConfigPlayerFQ26System10PlayerType;
   clrlwi r4, r27, 0x18;
   addi r3, r31, 0xc10;
   addi r29, r4, 1;
@@ -3121,7 +3122,7 @@ lbl_80530d30:
   clrlwi r4, r25, 0x18;
   bl getPlayer__Q26System12MenuScenarioFUc;
   li r4, 1;
-  bl setPlayerType__Q26System16RaceConfigPlayerFl;
+  bl setPlayerType__Q26System16RaceConfigPlayerFQ26System10PlayerType;
   clrlwi r4, r25, 0x18;
   addi r3, r31, 0xc10;
   addi r30, r4, 1;
@@ -3177,7 +3178,7 @@ lbl_80530e3c:
   li r4, 0;
   bl getPlayer__Q26System12MenuScenarioFUc;
   li r4, 1;
-  bl setPlayerType__Q26System16RaceConfigPlayerFl;
+  bl setPlayerType__Q26System16RaceConfigPlayerFQ26System10PlayerType;
   addi r3, r31, 0xc10;
   li r4, 0;
   bl getPlayer__Q26System12MenuScenarioFUc;
@@ -4168,7 +4169,7 @@ s8 RaceConfig::getHudPlayerId(u8 playerIdx) {
 }
 
 void RaceConfig::loadNextCourse() {
-  if (mRaceScenario.mSettings.mGameMode != 0) {
+  if (mRaceScenario.mSettings.mGameMode != GAMEMODE_GRAND_PRIX) {
     return;
   }
 
@@ -4183,19 +4184,21 @@ void RaceConfig::loadNextCourse() {
 
 // Unsure what to call this because I'm unsure of what it does
 bool RaceConfig::unk_80531fc8(u8 hudPlayerIdx) {
-  s32 gameType = mRaceScenario.mSettings.mGameType;
-  if (gameType > 1 && gameType < 5) {
+  GameType gameType = mRaceScenario.mSettings.mGameType;
+  // UNK_2, UNK_3, UNK_4 return true
+  if (gameType > GAMETYPE_REPLAY && gameType < GAMETYPE_GAMEPLAY) {
     return true;
   }
 
-  if (gameType == 1) {
+  if (gameType == GAMETYPE_REPLAY) {
     return true;
   }
 
   s32 playerId = mRaceScenario.mSettings.mHudPlayerIds[hudPlayerIdx];
   if (playerId >= 0) {
-    s32 playerType = mRaceScenario.mPlayers[(u8)playerId].mPlayerType;
-    if (playerType != 0 && playerType != 3) {
+    PlayerType playerType = mRaceScenario.mPlayers[(u8)playerId].mPlayerType;
+    if (playerType != PLAYER_TYPE_REAL_LOCAL &&
+        playerType != PLAYER_TYPE_GHOST) {
       return true;
     }
   }
@@ -4206,9 +4209,11 @@ bool RaceConfig::unk_80531fc8(u8 hudPlayerIdx) {
 bool RaceConfig::isTimeAttackReplay() {
   const s32 gameMode = mRaceScenario.mSettings.mGameMode;
 
-  return ((gameMode == 2 || gameMode == 5) &&
+  return ((gameMode == GAMEMODE_TIME_TRIAL ||
+           gameMode == GAMEMODE_GHOST_RACE) &&
           spInstance->mRaceScenario.mPlayerCount != 0 &&
-          spInstance->mRaceScenario.mPlayers[0].mPlayerType == 3)
+          spInstance->mRaceScenario.mPlayers[0].mPlayerType ==
+              PLAYER_TYPE_GHOST)
              ? true
              : false;
 }
