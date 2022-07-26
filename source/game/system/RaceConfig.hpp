@@ -101,7 +101,7 @@ UNKNOWN_FUNCTION(RacedataScenario_copy);
 // PAL: 0x80530864..0x80530f0c
 UNKNOWN_FUNCTION(Racedata_initAwards);
 // PAL: 0x80530f0c..0x80530f18
-UNKNOWN_FUNCTION(getModeFlag__Q26System12MenuScenarioFv);
+UNKNOWN_FUNCTION(isTeamMode__Q26System12MenuScenarioFv);
 // PAL: 0x80530f18..0x80530f20
 UNKNOWN_FUNCTION(getUnkPos__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80530f20..0x80530f28
@@ -318,7 +318,7 @@ public:
   void copyPrevPositions();
   void initControllers(u8 controllerCount);
   void initRace(RaceScenario* raceScenario);
-  bool getModeFlag();
+  bool isTeamMode();
 };
 class AwardsScenario : public RaceConfigScenario {
 public:

@@ -2802,7 +2802,7 @@ lbl_8053088c:
   addi r3, r31, 0xc10;
   cntlzw r0, r0;
   srwi r30, r0, 5;
-  bl getModeFlag__Q26System12MenuScenarioFv;
+  bl isTeamMode__Q26System12MenuScenarioFv;
   cmpwi r29, 0;
   beq lbl_80530a2c;
   li r30, 1;
@@ -3214,7 +3214,7 @@ lbl_80530ef0:
 
 namespace System {
 
-bool MenuScenario::getModeFlag() { return mSettings.mModeFlags >> 1 & 1; }
+bool MenuScenario::isTeamMode() { return mSettings.mModeFlags >> 1 & 1; }
 
 u8 RaceConfigPlayer::getUnkPos() { return this->_e0; }
 
