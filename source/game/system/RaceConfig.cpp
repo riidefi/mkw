@@ -678,7 +678,9 @@ void RaceConfigScenario::reset() {
   mSettings.mCpuMode = 1;
   mSettings.mLapCount = 3;
   mSettings.mEngineClass = 1;
-  mSettings.mModeFlags = mSettings.mModeFlags & 0xFFFFFFF8;
+  mSettings.mModeFlags =
+      (RaceModeFlags)(mSettings.mModeFlags &
+                      ~(SOMETHING_ONLINE | TEAM_MODE | MIRROR_MODE));
 
   for (u8 i = 0; i < 12; i++) {
     getPlayer(i)->reset(i + 1);
@@ -1750,13 +1752,13 @@ void MenuScenario::computePlayerCounts(u8* playerCount, u8* hudCount,
     hudCount_ = 4;
   }
 
-  // Set HUD count based on menu game type
+  // Set HUD count based on title screen
   const GameType gameType = mSettings.mGameType;
-  if (gameType == GAMETYPE_UNK_2) {
+  if (gameType == GAMETYPE_TITLE_ONE_PLAYER) {
     hudCount_ = 1;
-  } else if (gameType == GAMETYPE_UNK_3) {
+  } else if (gameType == GAMETYPE_TITLE_TWO_PLAYER) {
     hudCount_ = 2;
-  } else if (gameType == GAMETYPE_UNK_4) {
+  } else if (gameType == GAMETYPE_TITLE_FOUR_PLAYER) {
     hudCount_ = 4;
   }
 
@@ -1974,7 +1976,7 @@ void MenuScenario::initRace(RaceScenario* raceScenario) {
   u8 hudCount = 0;
   u8 localPlayerCount = 0;
 
-  if (mSettings.mModeFlags & 4) {
+  if (mSettings.mModeFlags & SOMETHING_ONLINE) {
     unk_8052fa0c();
   }
 
@@ -3212,7 +3214,7 @@ lbl_80530ef0:
 
 namespace System {
 
-u32 MenuScenario::getModeFlag() { return mSettings.mModeFlags >> 1 & 1; }
+bool MenuScenario::getModeFlag() { return mSettings.mModeFlags >> 1 & 1; }
 
 u8 RaceConfigPlayer::getUnkPos() { return this->_e0; }
 
@@ -4182,10 +4184,8 @@ void RaceConfig::loadNextCourse() {
       COURSE_ORDER[mRaceScenario.mSettings.mCupId][raceNumber + 1]);
 }
 
-// Unsure what to call this because I'm unsure of what it does
-bool RaceConfig::unk_80531fc8(u8 hudPlayerIdx) {
+bool RaceConfig::isLiveView(u8 hudPlayerIdx) {
   GameType gameType = mRaceScenario.mSettings.mGameType;
-  // UNK_2, UNK_3, UNK_4 return true
   if (gameType > GAMETYPE_REPLAY && gameType < GAMETYPE_GAMEPLAY) {
     return true;
   }

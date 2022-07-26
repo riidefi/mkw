@@ -173,11 +173,11 @@ typedef enum {
 
 // TODO: verify
 typedef enum {
-  GAMETYPE_TIME_ATTACK = 0,
+  GAMETYPE_TIME_ATTACK = 0, // how are TIME_ATTACK and GAMEPLAY different?
   GAMETYPE_REPLAY = 1,
-  GAMETYPE_UNK_2 = 2, // possibly related to HUD count?
-  GAMETYPE_UNK_3 = 3, //
-  GAMETYPE_UNK_4 = 4, //
+  GAMETYPE_TITLE_ONE_PLAYER = 2,
+  GAMETYPE_TITLE_TWO_PLAYER = 3,
+  GAMETYPE_TITLE_FOUR_PLAYER = 4,
   GAMETYPE_GAMEPLAY = 5,
   GAMETYPE_LIVE_VIEW = 6,
   GAMETYPE_GRAND_PRIX_WIN = 7,
@@ -198,6 +198,12 @@ typedef enum {
   LEAF_CUP = 6,
   LIGHTNING_CUP = 7
 } CupId;
+
+typedef enum {
+  MIRROR_MODE = 1,
+  TEAM_MODE = 2,
+  SOMETHING_ONLINE = 4
+} RaceModeFlags;
 
 // NOTE: anything marked u8, u16, or u32 could be signed
 class RaceConfig;
@@ -255,7 +261,7 @@ struct RaceConfigSettings {
   CupId mCupId;
   u8 mRaceNumber;
   u8 mLapCount;
-  s32 mModeFlags; // TODO: create enum
+  RaceModeFlags mModeFlags;
   u32 mSeed1;
   u32 mSeed2;
 };
@@ -312,7 +318,7 @@ public:
   void copyPrevPositions();
   void initControllers(u8 controllerCount);
   void initRace(RaceScenario* raceScenario);
-  u32 getModeFlag();
+  bool getModeFlag();
 };
 class AwardsScenario : public RaceConfigScenario {
 public:
@@ -344,7 +350,7 @@ public:
   void setGhost(RawGhostFile* ghost);
   s8 getHudPlayerId(u8 playerIdx);
   void loadNextCourse();
-  bool unk_80531fc8(u8 hudPlayerIdx);
+  bool isLiveView(u8 hudPlayerIdx);
   bool isTimeAttackReplay();
 
   static RaceConfig* spInstance;
