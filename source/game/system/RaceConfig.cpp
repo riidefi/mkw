@@ -2256,7 +2256,7 @@ lbl_80530140:
 #endif
 
 // Requires rodata from unk_8052e870 and unk_8052fa0c first
-// Also may be a complete non-match
+// Also may be completely non-equivalent
 #ifdef NON_MATCHING
 namespace System {
 
@@ -2754,6 +2754,128 @@ lbl_80530844:
   // clang-format on
 }
 
+// Requires some inline-related pragma to be implemented correctly
+#ifdef NON_MATCHING
+namespace System {
+
+void RaceConfig::initAwards() {
+  initRace();
+  mAwardsScenario.copy(&mRaceScenario);
+
+  for (u8 i = 0; i < 12; i++) {
+    mMenuScenario.getPlayer(i)->setPlayerType(PLAYER_TYPE_NONE);
+    mMenuScenario.getPlayer(i)->setPrevFinishPos(i + 1);
+    mMenuScenario.getPlayer(i)->setUnkPos(i + 1);
+  }
+
+  bool isGpWin = mMenuScenario.getGameType() == GAMETYPE_GRAND_PRIX_WIN;
+  bool isLoss = mMenuScenario.getGameType() == GAMETYPE_LOSS;
+  bool isTeamMode = mMenuScenario.isTeamMode();
+
+  if (isGpWin) {
+    for (u8 i = 1; i <= 3; i++) {
+      for (u8 j = 0; j < 12; j++) {
+        u8 unkPos = mRaceScenario.getPlayer(j)->getUnkPos();
+        if (i != unkPos) {
+          continue;
+        }
+
+        PlayerType playerType = mRaceScenario.getPlayer(j)->getPlayerType();
+        if (playerType == PLAYER_TYPE_NONE) {
+          continue;
+        }
+
+        u8 idx = i - 1;
+        copy(i, j, idx);
+        break;
+      }
+    }
+  } else if (isTeamMode) {
+    BattleTeam winningTeam = mRaceScenario.computeWinningTeam();
+    BattleTeam winningTeam_ = (BattleTeam)(winningTeam == 0);
+    for (u8 i = 0; i < getRacePlayerCount(); i++) {
+      PlayerType playerType = mRaceScenario.getPlayer(i)->getPlayerType();
+      if (playerType == PLAYER_TYPE_REAL_LOCAL) {
+        BattleTeam playerTeam = mRaceScenario.getPlayer(i)->getTeam();
+        if (winningTeam == playerTeam) {
+          winningTeam_ = winningTeam;
+          break;
+        }
+      }
+    }
+
+    u8 idx = 0;
+    for (u8 i = 1; i <= 12; i++) {
+      for (u8 j = 0; j < 12; j++) {
+        u8 unkPos = mRaceScenario.getPlayer(j)->getUnkPos();
+        if (i != unkPos) {
+          continue;
+        }
+
+        PlayerType playerType = mRaceScenario.getPlayer(j)->getPlayerType();
+        if (playerType == PLAYER_TYPE_REAL_LOCAL) {
+          BattleTeam playerTeam = mRaceScenario.getPlayer(j)->getTeam();
+          if (winningTeam_ != playerTeam) {
+            continue;
+          }
+
+          copy(idx + 1, j, idx);
+          idx++;
+        }
+      }
+    }
+
+    for (u8 i = 1; i <= 12; i++) {
+      for (u8 j = 0; j < 12; j++) {
+        u8 unkPos = mRaceScenario.getPlayer(j)->getUnkPos();
+        if (i != unkPos) {
+          continue;
+        }
+
+        PlayerType playerType = mRaceScenario.getPlayer(j)->getPlayerType();
+        if (playerType == PLAYER_TYPE_NONE) {
+          continue;
+        }
+
+        playerType = mRaceScenario.getPlayer(j)->getPlayerType();
+        if (playerType != PLAYER_TYPE_REAL_LOCAL) {
+          BattleTeam playerTeam = mRaceScenario.getPlayer(j)->getTeam();
+          if (winningTeam_ != playerTeam) {
+            continue;
+          }
+
+          copy(idx + 1, j, idx);
+          idx++;
+        }
+      }
+    }
+  } else if (isLoss) {
+    u8 idx = 0;
+    for (u8 i = 1; i <= 12; i++) {
+      for (u8 j = 0; j < 12; j++) {
+        u8 unkPos = mRaceScenario.getPlayer(j)->getUnkPos();
+        if (i != unkPos) {
+          continue;
+        }
+
+        PlayerType playerType = mRaceScenario.getPlayer(j)->getPlayerType();
+        if (playerType != PLAYER_TYPE_REAL_LOCAL) {
+          continue;
+        }
+
+        copy(idx + 1, j, idx);
+        idx++;
+      }
+    }
+  } else {
+    copy(1, 0, 0);
+  }
+
+  initRace();
+}
+
+} // namespace System
+#else
 // Symbol: Racedata_initAwards
 // PAL: 0x80530864..0x80530f0c
 // Scratch: https://decomp.me/scratch/y64A8
@@ -3211,6 +3333,7 @@ lbl_80530ef0:
   blr;
   // clang-format on
 }
+#endif
 
 namespace System {
 

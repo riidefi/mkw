@@ -323,6 +323,7 @@ public:
 class AwardsScenario : public RaceConfigScenario {
 public:
   AwardsScenario(RawGhostFile* ghost) : RaceConfigScenario(ghost) {}
+  void copy(RaceScenario* raceScenario);
 };
 
 class RaceConfigEx {
@@ -346,12 +347,26 @@ public:
   static const u8 getRacePlayerCount();
   s16 updateRating(u8 playerIdx);
   u8 update();
+  void initAwards();
+  void initRace();
   s32 getLocalPlayerCount(u8 playerIdx);
   void setGhost(RawGhostFile* ghost);
   s8 getHudPlayerId(u8 playerIdx);
   void loadNextCourse();
   bool isLiveView(u8 hudPlayerIdx);
   bool isTimeAttackReplay();
+
+  inline void copy(u8 i, u8 j, u8 playerIdx) {
+    mMenuScenario.getPlayer(playerIdx)->setCharacter(
+        mRaceScenario.getPlayer(j)->getCharacter());
+    mMenuScenario.getPlayer(playerIdx)->setVehicle(
+        mRaceScenario.getPlayer(j)->getVehicle());
+    mMenuScenario.getPlayer(playerIdx)->setPlayerType(PLAYER_TYPE_CPU);
+    mMenuScenario.getPlayer(playerIdx)->setPrevFinishPos(i);
+    mMenuScenario.getPlayer(playerIdx)->setUnkPos(i);
+    mMenuScenario.getPlayer(playerIdx)->setMii(
+        *mRaceScenario.getPlayer(j)->getMii());
+  }
 
   static RaceConfig* spInstance;
 
