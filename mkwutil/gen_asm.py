@@ -16,6 +16,8 @@ from mkwutil.lib.rel import Rel, dump_staticr
 from mkwutil.lib.symbols import Symbol, SymbolsList
 from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS, REL_SECTION_IDX, Section
 from mkwutil.lib.slices import Slice, SliceTable
+from mkwutil.ppcdis_adapter.ppcdis_disas import get_dol_disaser, get_rel_disaser
+from mkwutil.ppcdis.disassembler import Disassembler
 
 from mkwutil.project import *
 
@@ -467,6 +469,7 @@ class RELSrcGenerator:
         self,
         slices: SliceTable,
         rel: Rel,
+        disaser: Disassembler,
         symbols: SymbolsList,
         rel_asm_dir: Path,
         rel_bin_dir: Path,
@@ -476,6 +479,7 @@ class RELSrcGenerator:
         self.slices = slices
         self.slices.set_sections(REL_SECTIONS)
         self.rel = rel
+        self.disaser = disaser
         self.symbols = symbols
         self.rel_asm_dir = rel_asm_dir
         self.rel_bin_dir = rel_bin_dir
@@ -575,6 +579,8 @@ class RELSrcGenerator:
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
+        self.disaser.output_slice(asm_file, _slice.start, _slice.start+len(_slice))
+        """
         with open(asm_path, "w") as asm_file:
             data = (
                 self.rel.virtual_read(
@@ -585,6 +591,7 @@ class RELSrcGenerator:
             )
             gen = AsmGenerator(data, _slice, self.symbols, asm_file, rel=True)
             gen.dump_section()
+        """
 
 
 def gen_asm(regen_asm=False):
@@ -608,6 +615,7 @@ def gen_asm(regen_asm=False):
     dol_gen.run()
 
     rel = read_rel(binary_dir / "StaticR.rel")
+    rel_disaser = get_rel_disaser()
     # Dump StaticR.rel segments.
     rel_bin_dir = binary_dir / "rel"
     dump_staticr(rel, rel_bin_dir)
@@ -617,7 +625,7 @@ def gen_asm(regen_asm=False):
     rel_asm_dir = asm_dir / "rel"
     rel_asm_dir.mkdir(exist_ok=True)
     rel_gen = RELSrcGenerator(
-        rel_slices, rel, symbols, rel_asm_dir, rel_bin_dir, pack_dir, regen_asm
+        rel_slices, rel, rel_disaser, symbols, rel_asm_dir, rel_bin_dir, pack_dir, regen_asm
     )
     rel_gen.run()
 
