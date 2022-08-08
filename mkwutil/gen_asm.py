@@ -315,6 +315,7 @@ class DOLSrcGenerator:
         self,
         slices: SliceTable,
         dol: DolBinary,
+        disaser: Disassembler,
         symbols: SymbolsList,
         dol_asm_dir: Path,
         pack_dir: Path,
@@ -323,6 +324,7 @@ class DOLSrcGenerator:
         self.slices = slices
         self.slices.set_sections(DOL_SECTIONS)
         self.dol = dol
+        self.disaser = disaser
         self.symbols = symbols
         self.dol_asm_dir = dol_asm_dir
         self.pack_dir = pack_dir
@@ -579,19 +581,7 @@ class RELSrcGenerator:
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
-        self.disaser.output_slice(asm_file, _slice.start, _slice.start+len(_slice))
-        """
-        with open(asm_path, "w") as asm_file:
-            data = (
-                self.rel.virtual_read(
-                    _slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX
-                )
-                if section.type != "bss"
-                else None
-            )
-            gen = AsmGenerator(data, _slice, self.symbols, asm_file, rel=True)
-            gen.dump_section()
-        """
+        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
 
 
 def gen_asm(regen_asm=False):

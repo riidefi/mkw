@@ -1,3 +1,4 @@
+dol: mkwutil/ppcdis_adapter/dol.yaml
 path: artifacts/orig/pal/StaticR.rel
 address: 0x805102e0
 bss_address: 0x809bd6e0

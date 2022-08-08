@@ -11,6 +11,7 @@ def analyse_bins():
     thispath = Path('./mkwutil/ppcdis_adapter')
     rel_labelspath = thispath / 'rel_labels.pickle'
     rel_relocspath = thispath / 'rel_relocs.pickle'
+    rel_overridespath = thispath / 'rel_overrides.yaml'
     dol_labelspath = thispath / 'dol_labels.pickle'
     dol_relocspath = thispath / 'dol_relocs.pickle'
     dolpath = thispath / 'dol.yaml'
@@ -23,17 +24,16 @@ def analyse_bins():
     sympath = Path(thispath / 'symbol_map.yml')
     symbols.write_to_yaml(sympath)
 
-    overrides = None
     extra_labels = None
     thorough = False
     quiet = False
 
     if not (rel_labelspath.exists() and rel_relocspath.exists()):
-        relanl = Analyser(relbin, overrides, extra_labels, thorough, quiet)
+        relanl = Analyser(relbin, rel_overridespath, extra_labels, thorough, quiet)
         relanl.output(rel_labelspath, rel_relocspath)
 
     if not (dol_labelspath.exists() and dol_relocspath.exists()):
-        dolanl = Analyser(dolbin, overrides, extra_labels, thorough, quiet)
+        dolanl = Analyser(dolbin, None, extra_labels, thorough, quiet)
         dolanl.output(dol_labelspath, dol_relocspath)
 
 
