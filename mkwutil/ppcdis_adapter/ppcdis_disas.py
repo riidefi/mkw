@@ -13,18 +13,18 @@ def get_dol_disaser():
     rel_relocspath = thispath / 'rel_relocs.pickle'
     dol_labelspath = thispath / 'dol_labels.pickle'
     dol_relocspath = thispath / 'dol_relocs.pickle'
+    dol_overridespath = thispath / 'dol_overrides.yaml'
     dolpath = thispath / 'dol.yaml'
     relpath = thispath / 'rel.yaml'
     dolbin = load_binary_yml(dolpath)
 
-    overrides = None
     extra_labels = None
     thorough = False
     quiet = False
     source_name = None
 
     dol_disaser = Disassembler(dolbin, symbol_map_path, source_name, dol_labelspath,
-                       dol_relocspath, overrides, quiet)
+                       dol_relocspath, dol_overridespath, quiet)
 
     return dol_disaser
 

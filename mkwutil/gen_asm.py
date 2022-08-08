@@ -454,6 +454,8 @@ class DOLSrcGenerator:
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
+        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
+        """
         with open(asm_path, "w") as asm_file:
             data = (
                 self.dol.virtual_read(_slice.start, len(_slice))
@@ -462,6 +464,7 @@ class DOLSrcGenerator:
             )
             gen = AsmGenerator(data, _slice, self.symbols, asm_file)
             gen.dump_section()
+        """
 
 
 class RELSrcGenerator:
@@ -594,13 +597,14 @@ def gen_asm(regen_asm=False):
     symbols = read_symbol_map(pack_dir / "symbols.txt")
 
     dol = read_dol(binary_dir / "main.dol")
+    dol_disaser = get_dol_disaser()
     dol_slices = read_enabled_slices(dol, pack_dir / "dol_slices.csv")
 
     # Disassemble DOL sections.
     dol_asm_dir = asm_dir / "dol"
     dol_asm_dir.mkdir(exist_ok=True)
     dol_gen = DOLSrcGenerator(
-        dol_slices, dol, symbols, dol_asm_dir, pack_dir, regen_asm
+        dol_slices, dol, dol_disaser, symbols, dol_asm_dir, pack_dir, regen_asm
     )
     dol_gen.run()
 

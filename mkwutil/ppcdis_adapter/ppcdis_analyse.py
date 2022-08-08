@@ -14,6 +14,7 @@ def analyse_bins():
     rel_overridespath = thispath / 'rel_overrides.yaml'
     dol_labelspath = thispath / 'dol_labels.pickle'
     dol_relocspath = thispath / 'dol_relocs.pickle'
+    dol_overridespath = thispath / 'dol_overrides.yaml'
     dolpath = thispath / 'dol.yaml'
     relpath = thispath / 'rel.yaml'
     dolbin = load_binary_yml(dolpath)
@@ -33,7 +34,7 @@ def analyse_bins():
         relanl.output(rel_labelspath, rel_relocspath)
 
     if not (dol_labelspath.exists() and dol_relocspath.exists()):
-        dolanl = Analyser(dolbin, None, extra_labels, thorough, quiet)
+        dolanl = Analyser(dolbin, dol_overridespath, extra_labels, thorough, quiet)
         dolanl.output(dol_labelspath, dol_relocspath)
 
 
