@@ -17,7 +17,7 @@ from mkwutil.lib.symbols import Symbol, SymbolsList
 from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS, REL_SECTION_IDX, Section
 from mkwutil.lib.slices import Slice, SliceTable
 from mkwutil.ppcdis_adapter.ppcdis_disas import get_dol_disaser, get_rel_disaser
-from mkwutil.ppcdis.disassembler import Disassembler
+from ppcdis import Disassembler
 
 from mkwutil.project import *
 

@@ -2,8 +2,8 @@
 # Performs preprocessing for disassembly
 from pathlib import Path
 
-from mkwutil.ppcdis.disassembler import Disassembler
-from mkwutil.ppcdis.binaryyml import load_binary_yml
+from ppcdis import Disassembler
+from ppcdis.binaryyml import load_binary_yml
 
 
 def get_dol_disaser():
@@ -23,8 +23,8 @@ def get_dol_disaser():
     quiet = False
     source_name = None
 
-    dol_disaser = Disassembler(dolbin, symbol_map_path, source_name, dol_labelspath,
-                       dol_relocspath, dol_overridespath, quiet)
+    dol_disaser = Disassembler(dolbin, dol_labelspath, dol_relocspath, symbol_map_path,
+        dol_overridespath, source_name, quiet)
 
     return dol_disaser
 
@@ -46,7 +46,7 @@ def get_rel_disaser():
     quiet = False
     source_name = None
 
-    rel_disaser = Disassembler(relbin, symbol_map_path, source_name, rel_labelspath,
-                       rel_relocspath, rel_overridespath, quiet)
+    rel_disaser = Disassembler(relbin, rel_labelspath, rel_relocspath, symbol_map_path,
+        rel_overridespath, source_name, quiet)
 
     return rel_disaser

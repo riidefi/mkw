@@ -2,8 +2,8 @@
 # Performs preprocessing for disassembly
 from pathlib import Path
 
-from mkwutil.ppcdis.analyser import Analyser
-from mkwutil.ppcdis.binaryyml import load_binary_yml
+from ppcdis import Analyser
+from ppcdis.binaryyml import load_binary_yml
 from mkwutil.project import read_symbol_map
 
 
