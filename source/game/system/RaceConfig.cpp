@@ -687,20 +687,10 @@ void RaceConfigScenario::reset() {
   mSettings.mLapCount = 3;
 }
 
-} // namespace System
-
-// Symbol: unk_8052e764
-// PAL: 0x8052e764..0x8052e770
-MARK_BINARY_BLOB(unk_8052e764, 0x8052e764, 0x8052e770);
-asm UNKNOWN_FUNCTION(unk_8052e764) {
-  // clang-format off
-  blr;
-  blr;
-  blr;
-  // clang-format on
-}
-
-namespace System {
+// 3 blr padding
+void empty1() {}
+void empty2() {}
+void empty3() {}
 
 u8 RaceConfigScenario::update() {
   if (mSettings.mRaceNumber < 100) {
