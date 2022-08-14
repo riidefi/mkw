@@ -20,7 +20,7 @@ def get_dol_disaser():
 
     extra_labels = None
     thorough = False
-    quiet = False
+    quiet = True
     source_name = None
 
     dol_disaser = Disassembler(dolbin, dol_labelspath, dol_relocspath, symbol_map_path,
@@ -43,7 +43,7 @@ def get_rel_disaser():
 
     extra_labels = None
     thorough = False
-    quiet = False
+    quiet = True
     source_name = None
 
     rel_disaser = Disassembler(relbin, rel_labelspath, rel_relocspath, symbol_map_path,
