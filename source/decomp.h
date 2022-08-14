@@ -7,6 +7,7 @@
 #else
 #define UNKNOWN_FUNCTION(...)
 #endif
+#define UNKNOWN_DATA(name) u8 name
 
 #ifdef __CWCC__
 

@@ -638,37 +638,31 @@ lbl_8051ce60:
 // Symbol: Controller_vf10
 // PAL: 0x8051ce7c..0x8051ce84
 MARK_BINARY_BLOB(Controller_vf10, 0x8051ce7c, 0x8051ce84);
-asm UNKNOWN_FUNCTION(Controller_vf10) {
-  // clang-format off
-  nofralloc;
-  li r3, -1;
-  blr;
-  // clang-format on
-}
-
-// Symbol: Input_vf18
+asm UNKNOWN_FUNCTION(Controller_vf10){
+    // clang-format off
+  nofralloc
+  /* 8051CE7C 3860FFFF */ li          r3, -0x1
+  /* 8051CE80 4E800020 */ blr
+    // clang-format on
+} // Symbol: Input_vf18
 // PAL: 0x8051ce84..0x8051ce8c
 MARK_BINARY_BLOB(Input_vf18, 0x8051ce84, 0x8051ce8c);
-asm UNKNOWN_FUNCTION(Input_vf18) {
-  // clang-format off
-  nofralloc;
-  li r3, 0;
-  blr;
-  // clang-format on
-}
-
-// Symbol: Input_vf1c
+asm UNKNOWN_FUNCTION(Input_vf18){
+    // clang-format off
+  nofralloc
+  /* 8051CE84 38600000 */ li          r3, 0x0
+  /* 8051CE88 4E800020 */ blr
+    // clang-format on
+} // Symbol: Input_vf1c
 // PAL: 0x8051ce8c..0x8051ce94
 MARK_BINARY_BLOB(Input_vf1c, 0x8051ce8c, 0x8051ce94);
-asm UNKNOWN_FUNCTION(Input_vf1c) {
-  // clang-format off
-  nofralloc;
-  li r3, 0;
-  blr;
-  // clang-format on
-}
-
-GhostFileGroup::GhostFileGroup(EGG::Heap* heap, s32 type) {
+asm UNKNOWN_FUNCTION(Input_vf1c){
+    // clang-format off
+  nofralloc
+  /* 8051CE8C 38600000 */ li          r3, 0x0
+  /* 8051CE90 4E800020 */ blr
+    // clang-format on
+} GhostFileGroup::GhostFileGroup(EGG::Heap* heap, s32 type) {
   switch (type) {
   case GHOST_GROUP_TYPE_SAVED:
     mCount = 32;

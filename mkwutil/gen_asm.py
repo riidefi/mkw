@@ -9,6 +9,7 @@ from re import I
 import struct
 
 import jinja2
+from ast import literal_eval
 
 from mkwutil.lib.ppc_dis import InlineInstruction, disasm_iter, label_name
 from mkwutil.lib.dol import DolBinary
@@ -320,6 +321,7 @@ class DOLSrcGenerator:
         dol_asm_dir: Path,
         pack_dir: Path,
         regen_asm: bool,
+        regen_inline: bool,
     ):
         self.slices = slices
         self.slices.set_sections(DOL_SECTIONS)
@@ -329,6 +331,7 @@ class DOLSrcGenerator:
         self.dol_asm_dir = dol_asm_dir
         self.pack_dir = pack_dir
         self.regen_asm = regen_asm
+        self.regen_inline = regen_inline
         self.dol_asm_sources = set()
         self.dol_decomp_sources = set()
 
@@ -454,7 +457,7 @@ class DOLSrcGenerator:
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
-        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
+        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice), enforce_align=False)
         """
         with open(asm_path, "w") as asm_file:
             data = (
@@ -480,6 +483,7 @@ class RELSrcGenerator:
         rel_bin_dir: Path,
         pack_dir: Path,
         regen_asm: bool,
+        regen_inline: bool,
     ):
         self.slices = slices
         self.slices.set_sections(REL_SECTIONS)
@@ -490,6 +494,7 @@ class RELSrcGenerator:
         self.rel_bin_dir = rel_bin_dir
         self.pack_dir = pack_dir
         self.regen_asm = regen_asm
+        self.regen_inline = regen_inline
         self.rel_asm_sources = set()
         self.rel_decomp_sources = set()
 
@@ -551,15 +556,72 @@ class RELSrcGenerator:
             if section.type == "code":
                 self.__gen_c(_slice)
 
+
+    def __replace_inline_asm(self, lines):
+        new_filestr = ""
+        template = jinja_env.get_template("source_fun.c.j2")
+        fn_name = None
+        fn_start= None
+        fn_end = None
+        fn_start_vma = None
+        fn_end_vma = None
+        i = 0
+        while i < len(lines):
+            if fn_start is None: # Look for function start
+                res = re.search('// Symbol: (\S+)', lines[i])
+                if res is not None:
+                    fn_start = i
+                elif lines[i]: # Outside inline asm function, copy as is
+                    new_filestr += lines[i]
+            elif fn_name is None: # Look for binary blob declaration
+                print(lines[i])
+                assert i - fn_start < 10, f"MARK_BINARY_BLOB was not found after '// Symbol' at L{fn_start}"
+                res = re.search('MARK_BINARY_BLOB\((\w+),\s*(\w+),\s*(\w+)\);', lines[i])
+                if res is not None:
+                    fn_name = res.group(1)
+                    fn_start_vma = literal_eval(res.group(2))
+                    fn_end_vma = literal_eval(res.group(3))
+            elif '}' in lines[i]: # detect function end, and replace asm
+                sym = self.symbols[fn_start_vma]
+                assert sym.size == fn_end_vma-fn_start_vma, "Symbol size change not supported" + \
+                    "in inline ASM replacement"
+                fn_end = i
+                # TODO
+                print(f"Updating {sym.name}: L{fn_start}-L{fn_end} (0x{fn_start_vma:08x}-0x{fn_end_vma:08x})")
+                inline_asm = self.disaser._function_to_text(fn_start_vma, inline=True, end_addr=fn_end_vma)
+                new_asm_lines = inline_asm.split("\n")
+                function = {"addr": fn_start_vma,
+                            "size": fn_end_vma-fn_start_vma,
+                            "name": fn_name,
+                            "inline_asm": new_asm_lines}
+                func_str = template.render(function=function)
+                new_filestr += func_str
+                fn_name = None
+                fn_start = None
+                fn_end = None
+            i = i+1
+
+        #print(new_filestr)
+        return new_filestr
+
+
     def __gen_c(self, _slice: Slice):
         """Generates a C file with inline assembly if not exists."""
         # Generate C inline assembly.
         c_path = Path(_slice.name)
-        if c_path.exists():
-            return
         h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
-        if h_path.exists():
-            return
+        if c_path.exists() or h_path.exists():
+            if self.regen_inline:
+                with open(c_path) as file:
+                    lines = file.readlines()
+                    new_filestr = self.__replace_inline_asm(lines)
+
+                with open(c_path, "w") as c_file:
+                    c_file.write(new_filestr)
+
+                return
+            else:
+                return
 
         c_path.parent.mkdir(parents=True, exist_ok=True)
         # print(f"    => {_slice.name}")
@@ -584,10 +646,10 @@ class RELSrcGenerator:
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
-        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
+        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice), enforce_align=False)
 
 
-def gen_asm(regen_asm=False):
+def gen_asm(regen_asm=False, regen_inline=False):
     asm_dir = Path("./asm")
     pack_dir = Path("./pack")
     binary_dir = Path("./artifacts/orig/pal")
@@ -595,6 +657,7 @@ def gen_asm(regen_asm=False):
     asm_dir.mkdir(exist_ok=True)
 
     symbols = read_symbol_map(pack_dir / "symbols.txt")
+    symbols.derive_sizes(0x81000000)
 
     dol = read_dol(binary_dir / "main.dol")
     dol_disaser = get_dol_disaser()
@@ -604,7 +667,7 @@ def gen_asm(regen_asm=False):
     dol_asm_dir = asm_dir / "dol"
     dol_asm_dir.mkdir(exist_ok=True)
     dol_gen = DOLSrcGenerator(
-        dol_slices, dol, dol_disaser, symbols, dol_asm_dir, pack_dir, regen_asm
+        dol_slices, dol, dol_disaser, symbols, dol_asm_dir, pack_dir, regen_asm, regen_inline
     )
     dol_gen.run()
 
@@ -619,7 +682,7 @@ def gen_asm(regen_asm=False):
     rel_asm_dir = asm_dir / "rel"
     rel_asm_dir.mkdir(exist_ok=True)
     rel_gen = RELSrcGenerator(
-        rel_slices, rel, rel_disaser, symbols, rel_asm_dir, rel_bin_dir, pack_dir, regen_asm
+        rel_slices, rel, rel_disaser, symbols, rel_asm_dir, rel_bin_dir, pack_dir, regen_asm, regen_inline
     )
     rel_gen.run()
 
@@ -628,6 +691,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Generate ASM blobs and linker object lists."
     )
-    parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
+    parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM files")
+    parser.add_argument("--regen_inline", action="store_true", help="Regenerate all inline ASM")
     args = parser.parse_args()
-    gen_asm(args.regen_asm)
+    gen_asm(args.regen_asm, args.regen_inline)
