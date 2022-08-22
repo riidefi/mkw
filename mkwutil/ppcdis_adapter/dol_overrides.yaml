@@ -40,3 +40,11 @@ forced_types:
   0x8020f2f4: FUNCTION
   0x8020f494: FUNCTION
   0x8023318c: FUNCTION
+
+blocked_pointer_ranges:
+  - [0x802531a0, 0x80257418]
+
+blocked_targets:
+  - 0x80010138
+  - 0x80020800
+  - 0x80004000

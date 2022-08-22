@@ -2,3 +2,18 @@ dol: mkwutil/ppcdis_adapter/dol.yaml
 path: artifacts/orig/pal/StaticR.rel
 address: 0x805102e0
 bss_address: 0x809bd6e0
+section_defs:
+    text:
+        .text:
+    data:
+        .ctors:
+            balign: 0
+        .dtors:
+            balign: 0
+        .rodata:
+            balign: 0
+        .data:
+            balign: 0
+    bss:
+        .bss:
+            balign: 0

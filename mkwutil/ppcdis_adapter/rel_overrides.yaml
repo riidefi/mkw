@@ -42,3 +42,6 @@ forced_types:
   0x80814ea8: FUNCTION
   0x80815444: FUNCTION
   0x80815d64: FUNCTION
+
+blocked_targets:
+  - 0x80800000

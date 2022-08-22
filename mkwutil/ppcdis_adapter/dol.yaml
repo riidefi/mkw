@@ -1,3 +1,31 @@
 path: artifacts/orig/pal/main.dol
 r13: 0x8038cc00
 r2: 0x8038efa0
+section_defs:
+    text:
+        .init:
+        .text:
+    data:
+        extab_:
+            attr: a
+        extabindex_:
+            attr: a
+        .ctors:
+            balign: 0
+        .dtors:
+            balign: 0
+        .rodata:
+            balign: 0
+        .data:
+            balign: 0
+        .sdata:
+            balign: 0
+        .sdata2:
+            balign: 0
+    bss:
+        .bss:
+            balign: 0
+        .sbss:
+            balign: 0
+        .sbss2:
+            balign: 0

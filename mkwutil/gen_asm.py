@@ -166,8 +166,9 @@ def addr_in_sym(addr, sym):
 class CAsmGenerator:
     """Generates C files with assembly functions."""
 
-    def __init__(self, data, _slice, symbols, out_h, out_c, cpp_mode):
+    def __init__(self, data, disaser, _slice, symbols, out_h, out_c, cpp_mode):
         self.data = data
+        self.disaser = disaser
         self.slice = _slice
         self.symbols = symbols
         self.own_symbols = self.symbols.slice(self.slice.start, self.slice.stop)
@@ -292,6 +293,7 @@ class CAsmGenerator:
         assert isinstance(sym.size, int)
         assert sym.size > 0, f"Empty symbol: {sym}"
         # Grab the instructions.
+        #"""
         data_start = sym.addr - self.slice.start
         data_stop = data_start + sym.size
         data = self.data[data_start:data_stop]
@@ -300,7 +302,12 @@ class CAsmGenerator:
         labels = self.__analyze_jumps(sym, insns)
         sorted_labels = list(sorted(labels))
         func_body = list(self.__disasm_instructions(insns, labels, sorted_labels))
+        """
 
+        data_start = sym.addr
+        data_stop = data_start + sym.size
+        func_body = self.disaser._function_to_text(data_start, inline=True, end_addr=data_end)
+        """
         return func_body
 
 
@@ -442,6 +449,7 @@ class DOLSrcGenerator:
         with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
             gen = CAsmGenerator(
                 data,
+                self.disaser,
                 _slice,
                 self.symbols,
                 h_file,
@@ -457,7 +465,7 @@ class DOLSrcGenerator:
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
-        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice), enforce_align=False)
+        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
         """
         with open(asm_path, "w") as asm_file:
             data = (
@@ -631,6 +639,7 @@ class RELSrcGenerator:
         with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
             gen = CAsmGenerator(
                 data,
+                self.disaser,
                 _slice,
                 self.symbols,
                 h_file,
@@ -646,7 +655,7 @@ class RELSrcGenerator:
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
-        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice), enforce_align=False)
+        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
 
 
 def gen_asm(regen_asm=False, regen_inline=False):

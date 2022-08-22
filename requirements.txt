@@ -15,7 +15,7 @@ mbstrdecoder==1.1.0
 packaging==21.3
 pathvalidate==2.4.1
 pluggy==0.13.1
-ppcdis @ git+https://github.com/em-eight/ppcdis.git@master
+ppcdis @ git+https://github.com/SeekyCt/ppcdis.git@main
 pre-commit==2.19.0
 py==1.10.0
 pyelftools==0.28
