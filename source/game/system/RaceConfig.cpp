@@ -2,84 +2,452 @@
 
 #pragma legacy_struct_alignment off
 
+// --- EXTERN DECLARATIONS BEGIN ---
+
 extern "C" {
+
 // Extern function references.
+// PAL: 0x80229e14
+extern UNKNOWN_FUNCTION(__dl__FPv);
+// PAL: 0x8052dc90
+extern UNKNOWN_FUNCTION(lbl_8052dc90);
+// PAL: 0x8052e3fc
+extern UNKNOWN_FUNCTION(lbl_8052e3fc);
+// PAL: 0x8052df6c
+extern UNKNOWN_FUNCTION(lbl_8052df6c);
 // PAL: 0x80009d6c
 extern UNKNOWN_FUNCTION(ParamFile_append);
-// PAL: 0x8051c088
-extern UNKNOWN_FUNCTION(reset__Q26System12RawGhostFileFv);
-// PAL: 0x8051c120
-extern UNKNOWN_FUNCTION(isValid__Q26System12RawGhostFileCFv);
-// PAL: 0x8051c270
-extern UNKNOWN_FUNCTION(__ct__Q26System9GhostFileFv);
-// PAL: 0x8051c790
-extern UNKNOWN_FUNCTION(read__Q26System9GhostFileFRCQ26System12RawGhostFile);
-// PAL: 0x80524500
-extern UNKNOWN_FUNCTION(unk_80524500);
-// PAL: 0x8052453c
-extern UNKNOWN_FUNCTION(InputMgr_setGhostController);
-// PAL: 0x80524558
-extern UNKNOWN_FUNCTION(unk_80524558);
-// PAL: 0x80525f88
-extern UNKNOWN_FUNCTION(init__Q26System3MiiFl);
-// PAL: 0x8052d118
-extern UNKNOWN_FUNCTION(unk_8052d118);
-// PAL: 0x8052d1c0
-extern UNKNOWN_FUNCTION(calcNegPoints__Q26System6RatingFPQ26System6Rating);
+// PAL: 0x8052fb90
+extern UNKNOWN_FUNCTION(
+    initRace__Q26System12MenuScenarioFPQ26System12RaceScenario);
+// PAL: 0x8052e194
+extern UNKNOWN_FUNCTION(lbl_8052e194);
+// PAL: 0x8052e0b4
+extern UNKNOWN_FUNCTION(lbl_8052e0b4);
+// PAL: 0x8052de7c
+extern UNKNOWN_FUNCTION(lbl_8052de7c);
+// PAL: 0x8052e1f0
+extern UNKNOWN_FUNCTION(lbl_8052e1f0);
+// PAL: 0x8052dd94
+extern UNKNOWN_FUNCTION(lbl_8052dd94);
+// PAL: 0x8052ea08
+extern UNKNOWN_FUNCTION(lbl_8052ea08);
+// PAL: 0x8052ea40
+extern UNKNOWN_FUNCTION(lbl_8052ea40);
+// PAL: 0x8052eaf8
+extern UNKNOWN_FUNCTION(lbl_8052eaf8);
+// PAL: 0x8052ecb0
+extern UNKNOWN_FUNCTION(lbl_8052ecb0);
+// PAL: 0x8052ec3c
+extern UNKNOWN_FUNCTION(lbl_8052ec3c);
+// PAL: 0x8052ebe4
+extern UNKNOWN_FUNCTION(lbl_8052ebe4);
+// PAL: 0x8052ebe0
+extern UNKNOWN_FUNCTION(lbl_8052ebe0);
 // PAL: 0x8052d270
 extern UNKNOWN_FUNCTION(unk_8052d270);
 // PAL: 0x805368f8
 extern UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore);
-// PAL: 0x805419ac
-extern UNKNOWN_FUNCTION(
-    preloadCourseAsync__Q26System15ResourceManagerFQ26System8CourseId);
-// PAL: 0x805553b0
-extern UNKNOWN_FUNCTION(unk_805553b0);
-// PAL: 0x8066c8d8
-extern UNKNOWN_FUNCTION(unk_8066c8d8);
-
-// PAL: 0x8051c334
-extern UNKNOWN_FUNCTION(__dt__Q26System4TimeFv);
+// PAL: 0x8052d118
+extern UNKNOWN_FUNCTION(unk_8052d118);
+// PAL: 0x800215b8
+extern UNKNOWN_FUNCTION(_restgpr_14);
+// PAL: 0x8052eb80
+extern UNKNOWN_FUNCTION(lbl_8052eb80);
+// PAL: 0x8052ecf0
+extern UNKNOWN_FUNCTION(lbl_8052ecf0);
+// PAL: 0x8052ea9c
+extern UNKNOWN_FUNCTION(lbl_8052ea9c);
+// PAL: 0x8052ec20
+extern UNKNOWN_FUNCTION(lbl_8052ec20);
+// PAL: 0x8052ecd8
+extern UNKNOWN_FUNCTION(lbl_8052ecd8);
+// PAL: 0x8052ecdc
+extern UNKNOWN_FUNCTION(lbl_8052ecdc);
+// PAL: 0x8052ec84
+extern UNKNOWN_FUNCTION(lbl_8052ec84);
+// PAL: 0x8052ec34
+extern UNKNOWN_FUNCTION(lbl_8052ec34);
+// PAL: 0x8002156c
+extern UNKNOWN_FUNCTION(_savegpr_14);
+// PAL: 0x8052eb40
+extern UNKNOWN_FUNCTION(lbl_8052eb40);
+// PAL: 0x8052ec4c
+extern UNKNOWN_FUNCTION(lbl_8052ec4c);
+// PAL: 0x8052d1c0
+extern UNKNOWN_FUNCTION(calcNegPoints__Q26System6RatingFPQ26System6Rating);
+// PAL: 0x8052ec64
+extern UNKNOWN_FUNCTION(lbl_8052ec64);
+// PAL: 0x8052eac8
+extern UNKNOWN_FUNCTION(lbl_8052eac8);
+// PAL: 0x8052eb00
+extern UNKNOWN_FUNCTION(lbl_8052eb00);
+// PAL: 0x8052ebc0
+extern UNKNOWN_FUNCTION(lbl_8052ebc0);
+// PAL: 0x8052ec48
+extern UNKNOWN_FUNCTION(lbl_8052ec48);
+// PAL: 0x8052ea1c
+extern UNKNOWN_FUNCTION(lbl_8052ea1c);
+// PAL: 0x8052ec18
+extern UNKNOWN_FUNCTION(lbl_8052ec18);
+// PAL: 0x8052ead4
+extern UNKNOWN_FUNCTION(lbl_8052ead4);
+// PAL: 0x8052e9cc
+extern UNKNOWN_FUNCTION(lbl_8052e9cc);
+// PAL: 0x8052ea60
+extern UNKNOWN_FUNCTION(lbl_8052ea60);
+// PAL: 0x8052eb7c
+extern UNKNOWN_FUNCTION(lbl_8052eb7c);
+// PAL: 0x8052ea18
+extern UNKNOWN_FUNCTION(lbl_8052ea18);
+// PAL: 0x8052eec8
+extern UNKNOWN_FUNCTION(lbl_8052eec8);
+// PAL: 0x8052ee78
+extern UNKNOWN_FUNCTION(lbl_8052ee78);
+// PAL: 0x8052ee98
+extern UNKNOWN_FUNCTION(lbl_8052ee98);
+// PAL: 0x8052edac
+extern UNKNOWN_FUNCTION(lbl_8052edac);
+// PAL: 0x8052ed9c
+extern UNKNOWN_FUNCTION(lbl_8052ed9c);
+// PAL: 0x8052edf8
+extern UNKNOWN_FUNCTION(lbl_8052edf8);
+// PAL: 0x8052ee84
+extern UNKNOWN_FUNCTION(lbl_8052ee84);
+// PAL: 0x8052ed6c
+extern UNKNOWN_FUNCTION(lbl_8052ed6c);
+// PAL: 0x80524500
+extern UNKNOWN_FUNCTION(unk_80524500);
+// PAL: 0x8052edbc
+extern UNKNOWN_FUNCTION(lbl_8052edbc);
+// PAL: 0x8052ee38
+extern UNKNOWN_FUNCTION(lbl_8052ee38);
+// PAL: 0x8052ed64
+extern UNKNOWN_FUNCTION(lbl_8052ed64);
+// PAL: 0x8052eed4
+extern UNKNOWN_FUNCTION(lbl_8052eed4);
+// PAL: 0x80524558
+extern UNKNOWN_FUNCTION(unk_80524558);
+// PAL: 0x8052ef70
+extern UNKNOWN_FUNCTION(lbl_8052ef70);
+// PAL: 0x8051c120
+extern UNKNOWN_FUNCTION(isValid__Q26System12RawGhostFileCFv);
+// PAL: 0x8052efb0
+extern UNKNOWN_FUNCTION(lbl_8052efb0);
 // PAL: 0x800210ec
 extern UNKNOWN_FUNCTION(__destroy_arr);
-// PAL: 0x80020ff4
-extern UNKNOWN_FUNCTION(__construct_array);
-// PAL: 0x80009c8c
-extern UNKNOWN_FUNCTION(unk_80009c8c);
-// PAL: 0x80009ce0
-extern UNKNOWN_FUNCTION(unk_80009ce0);
-// PAL: 0x80229dcc
-extern UNKNOWN_FUNCTION(__nw__FUl);
+// PAL: 0x8051c334
+extern UNKNOWN_FUNCTION(__dt__Q26System4TimeFv);
+// PAL: 0x8052453c
+extern UNKNOWN_FUNCTION(InputMgr_setGhostController);
+// PAL: 0x8051c790
+extern UNKNOWN_FUNCTION(read__Q26System9GhostFileFRCQ26System12RawGhostFile);
+// PAL: 0x8051c270
+extern UNKNOWN_FUNCTION(__ct__Q26System9GhostFileFv);
+// PAL: 0x8052ef98
+extern UNKNOWN_FUNCTION(lbl_8052ef98);
+// PAL: 0x8052f08c
+extern UNKNOWN_FUNCTION(lbl_8052f08c);
+// PAL: 0x8052f1d0
+extern UNKNOWN_FUNCTION(lbl_8052f1d0);
+// PAL: 0x8052f0c8
+extern UNKNOWN_FUNCTION(lbl_8052f0c8);
+// PAL: 0x8052f1ac
+extern UNKNOWN_FUNCTION(lbl_8052f1ac);
+// PAL: 0x8052f194
+extern UNKNOWN_FUNCTION(lbl_8052f194);
+// PAL: 0x8052f244
+extern UNKNOWN_FUNCTION(lbl_8052f244);
+// PAL: 0x8052f4e0
+extern UNKNOWN_FUNCTION(lbl_8052f4e0);
+// PAL: 0x8052f350
+extern UNKNOWN_FUNCTION(lbl_8052f350);
+// PAL: 0x8052f228
+extern UNKNOWN_FUNCTION(lbl_8052f228);
+// PAL: 0x8052f400
+extern UNKNOWN_FUNCTION(lbl_8052f400);
+// PAL: 0x8052f430
+extern UNKNOWN_FUNCTION(lbl_8052f430);
+// PAL: 0x8052f3a4
+extern UNKNOWN_FUNCTION(lbl_8052f3a4);
+// PAL: 0x8052f2f0
+extern UNKNOWN_FUNCTION(lbl_8052f2f0);
+// PAL: 0x8052f2c4
+extern UNKNOWN_FUNCTION(lbl_8052f2c4);
+// PAL: 0x8052f2b8
+extern UNKNOWN_FUNCTION(lbl_8052f2b8);
+// PAL: 0x8052f320
+extern UNKNOWN_FUNCTION(lbl_8052f320);
+// PAL: 0x8052f3d0
+extern UNKNOWN_FUNCTION(lbl_8052f3d0);
+// PAL: 0x8052f380
+extern UNKNOWN_FUNCTION(lbl_8052f380);
+// PAL: 0x8052f460
+extern UNKNOWN_FUNCTION(lbl_8052f460);
+// PAL: 0x8052f634
+extern UNKNOWN_FUNCTION(lbl_8052f634);
+// PAL: 0x8052f76c
+extern UNKNOWN_FUNCTION(lbl_8052f76c);
+// PAL: 0x8052f664
+extern UNKNOWN_FUNCTION(lbl_8052f664);
+// PAL: 0x8052f5c0
+extern UNKNOWN_FUNCTION(lbl_8052f5c0);
+// PAL: 0x8052f68c
+extern UNKNOWN_FUNCTION(lbl_8052f68c);
+// PAL: 0x8052f52c
+extern UNKNOWN_FUNCTION(lbl_8052f52c);
+// PAL: 0x8052f6d4
+extern UNKNOWN_FUNCTION(lbl_8052f6d4);
+// PAL: 0x8052f720
+extern UNKNOWN_FUNCTION(lbl_8052f720);
+// PAL: 0x8052f5b4
+extern UNKNOWN_FUNCTION(lbl_8052f5b4);
+// PAL: 0x8052f668
+extern UNKNOWN_FUNCTION(lbl_8052f668);
+// PAL: 0x8052f774
+extern UNKNOWN_FUNCTION(lbl_8052f774);
+// PAL: 0x8052f590
+extern UNKNOWN_FUNCTION(lbl_8052f590);
+// PAL: 0x8052f648
+extern UNKNOWN_FUNCTION(lbl_8052f648);
+// PAL: 0x8052f614
+extern UNKNOWN_FUNCTION(lbl_8052f614);
+// PAL: 0x8052f658
+extern UNKNOWN_FUNCTION(lbl_8052f658);
+// PAL: 0x8052f594
+extern UNKNOWN_FUNCTION(lbl_8052f594);
+// PAL: 0x8052f558
+extern UNKNOWN_FUNCTION(lbl_8052f558);
+// PAL: 0x801aad74
+extern UNKNOWN_FUNCTION(OSGetTick);
+// PAL: 0x8052f9c4
+extern UNKNOWN_FUNCTION(lbl_8052f9c4);
+// PAL: 0x8052f9a0
+extern UNKNOWN_FUNCTION(lbl_8052f9a0);
+// PAL: 0x8052f974
+extern UNKNOWN_FUNCTION(lbl_8052f974);
+// PAL: 0x8052f9f8
+extern UNKNOWN_FUNCTION(lbl_8052f9f8);
+// PAL: 0x8052f954
+extern UNKNOWN_FUNCTION(lbl_8052f954);
+// PAL: 0x8052f94c
+extern UNKNOWN_FUNCTION(lbl_8052f94c);
+// PAL: 0x8052fb10
+extern UNKNOWN_FUNCTION(lbl_8052fb10);
+// PAL: 0x8052fa68
+extern UNKNOWN_FUNCTION(lbl_8052fa68);
+// PAL: 0x8052fb4c
+extern UNKNOWN_FUNCTION(lbl_8052fb4c);
+// PAL: 0x8052fb34
+extern UNKNOWN_FUNCTION(lbl_8052fb34);
+// PAL: 0x8052fb68
+extern UNKNOWN_FUNCTION(lbl_8052fb68);
+// PAL: 0x80006038
+extern UNKNOWN_FUNCTION(memset);
+// PAL: 0x8052fb00
+extern UNKNOWN_FUNCTION(lbl_8052fb00);
+// PAL: 0x8052fb7c
+extern UNKNOWN_FUNCTION(lbl_8052fb7c);
+// PAL: 0x8066c8d8
+extern UNKNOWN_FUNCTION(unk_8066c8d8);
+// PAL: 0x8051c088
+extern UNKNOWN_FUNCTION(reset__Q26System12RawGhostFileFv);
+// PAL: 0x8052ffcc
+extern UNKNOWN_FUNCTION(lbl_8052ffcc);
 // PAL: 0x8052d96c
 extern UNKNOWN_FUNCTION(__ct__Q26System16RaceConfigPlayerFv);
-
-// PAL: 0x8088ffa8
-extern UNKNOWN_DATA(lbl_8088ffa8);
-// PAL: 0x80890030
-extern UNKNOWN_DATA(lbl_80890030);
+// PAL: 0x80229dcc
+extern UNKNOWN_FUNCTION(__nw__FUl);
+// PAL: 0x8052ffb0
+extern UNKNOWN_FUNCTION(lbl_8052ffb0);
+// PAL: 0x8052ffc4
+extern UNKNOWN_FUNCTION(lbl_8052ffc4);
+// PAL: 0x80009c8c
+extern UNKNOWN_FUNCTION(unk_80009c8c);
+// PAL: 0x80020ff4
+extern UNKNOWN_FUNCTION(__construct_array);
+// PAL: 0x8052dc68
+extern UNKNOWN_FUNCTION(RacedataPlayer_destroy);
+// PAL: 0x8053001c
+extern UNKNOWN_FUNCTION(lbl_8053001c);
+// PAL: 0x805300bc
+extern UNKNOWN_FUNCTION(lbl_805300bc);
+// PAL: 0x805300d8
+extern UNKNOWN_FUNCTION(lbl_805300d8);
+// PAL: 0x8053007c
+extern UNKNOWN_FUNCTION(lbl_8053007c);
+// PAL: 0x80009ce0
+extern UNKNOWN_FUNCTION(unk_80009ce0);
+// PAL: 0x8053009c
+extern UNKNOWN_FUNCTION(lbl_8053009c);
+// PAL: 0x80530140
+extern UNKNOWN_FUNCTION(lbl_80530140);
+// PAL: 0x80530298
+extern UNKNOWN_FUNCTION(lbl_80530298);
+// PAL: 0x8053057c
+extern UNKNOWN_FUNCTION(lbl_8053057c);
+// PAL: 0x80530370
+extern UNKNOWN_FUNCTION(lbl_80530370);
+// PAL: 0x80530314
+extern UNKNOWN_FUNCTION(lbl_80530314);
+// PAL: 0x80530844
+extern UNKNOWN_FUNCTION(lbl_80530844);
+// PAL: 0x805305dc
+extern UNKNOWN_FUNCTION(lbl_805305dc);
+// PAL: 0x80530638
+extern UNKNOWN_FUNCTION(lbl_80530638);
+// PAL: 0x8052ed20
+extern UNKNOWN_FUNCTION(getPlayerType__Q26System16RaceConfigPlayerFv);
+// PAL: 0x80530d30
+extern UNKNOWN_FUNCTION(lbl_80530d30);
+// PAL: 0x8052e660
+extern UNKNOWN_FUNCTION(setUnkPos__Q26System16RaceConfigPlayerFSc);
+// PAL: 0x80530a88
+extern UNKNOWN_FUNCTION(lbl_80530a88);
+// PAL: 0x80530e20
+extern UNKNOWN_FUNCTION(lbl_80530e20);
+// PAL: 0x80530914
+extern UNKNOWN_FUNCTION(lbl_80530914);
+// PAL: 0x80530bb8
+extern UNKNOWN_FUNCTION(lbl_80530bb8);
+// PAL: 0x80530e3c
+extern UNKNOWN_FUNCTION(lbl_80530e3c);
+// PAL: 0x8052dd30
+extern UNKNOWN_FUNCTION(getRacePlayerCount__Q26System10RaceConfigFv);
+// PAL: 0x80530bdc
+extern UNKNOWN_FUNCTION(lbl_80530bdc);
+// PAL: 0x8052e44c
+extern UNKNOWN_FUNCTION(setPlayerType__Q26System16RaceConfigPlayerFl);
+// PAL: 0x8053088c
+extern UNKNOWN_FUNCTION(lbl_8053088c);
+// PAL: 0x8052ed18
+extern UNKNOWN_FUNCTION(getGametype__Q26System12MenuScenarioFv);
+// PAL: 0x80530f20
+extern UNKNOWN_FUNCTION(getCharacter__Q26System16RaceConfigPlayerFv);
+// PAL: 0x80530a1c
+extern UNKNOWN_FUNCTION(lbl_80530a1c);
+// PAL: 0x8052e444
+extern UNKNOWN_FUNCTION(
+    setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId);
+// PAL: 0x80530d18
+extern UNKNOWN_FUNCTION(lbl_80530d18);
+// PAL: 0x80530cfc
+extern UNKNOWN_FUNCTION(lbl_80530cfc);
+// PAL: 0x80530aa8
+extern UNKNOWN_FUNCTION(lbl_80530aa8);
+// PAL: 0x80530a8c
+extern UNKNOWN_FUNCTION(lbl_80530a8c);
+// PAL: 0x80530a10
+extern UNKNOWN_FUNCTION(lbl_80530a10);
+// PAL: 0x80530a2c
+extern UNKNOWN_FUNCTION(lbl_80530a2c);
+// PAL: 0x80531068
+extern UNKNOWN_FUNCTION(getMii__Q26System16RaceConfigPlayerFv);
+// PAL: 0x80530a50
+extern UNKNOWN_FUNCTION(lbl_80530a50);
+// PAL: 0x8052dd18
+extern UNKNOWN_FUNCTION(getTeam__Q26System16RaceConfigPlayerFv);
+// PAL: 0x80530bd4
+extern UNKNOWN_FUNCTION(lbl_80530bd4);
+// PAL: 0x80530f30
+extern UNKNOWN_FUNCTION(setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii);
+// PAL: 0x80530f18
+extern UNKNOWN_FUNCTION(getUnkPos__Q26System16RaceConfigPlayerFv);
+// PAL: 0x80530f28
+extern UNKNOWN_FUNCTION(getVehicle__Q26System16RaceConfigPlayerFv);
+// PAL: 0x80530ab0
+extern UNKNOWN_FUNCTION(lbl_80530ab0);
+// PAL: 0x805302c4
+extern UNKNOWN_FUNCTION(Racedata_initRace);
+// PAL: 0x8052e658
+extern UNKNOWN_FUNCTION(setPrevFinishPos__Q26System16RaceConfigPlayerFSc);
+// PAL: 0x8052dd20
+extern UNKNOWN_FUNCTION(getPlayer__Q26System12RaceScenarioFUc);
+// PAL: 0x8052e434
+extern UNKNOWN_FUNCTION(getPlayer__Q26System12MenuScenarioFUc);
+// PAL: 0x80530f0c
+extern UNKNOWN_FUNCTION(getModeFlag__Q26System12MenuScenarioFv);
+// PAL: 0x8052dca8
+extern UNKNOWN_FUNCTION(computeWinningTeam__Q26System12RaceScenarioFv);
+// PAL: 0x8053091c
+extern UNKNOWN_FUNCTION(lbl_8053091c);
+// PAL: 0x80530aa0
+extern UNKNOWN_FUNCTION(lbl_80530aa0);
+// PAL: 0x80530ef0
+extern UNKNOWN_FUNCTION(lbl_80530ef0);
+// PAL: 0x80530d28
+extern UNKNOWN_FUNCTION(lbl_80530d28);
+// PAL: 0x8052e42c
+extern UNKNOWN_FUNCTION(
+    setCharacter__Q26System16RaceConfigPlayerFQ26System11CharacterId);
+// PAL: 0x805305ac
+extern UNKNOWN_FUNCTION(RacedataScenario_copy);
+// PAL: 0x805313d0
+extern UNKNOWN_FUNCTION(lbl_805313d0);
+// PAL: 0x80531848
+extern UNKNOWN_FUNCTION(lbl_80531848);
+// PAL: 0x8053186c
+extern UNKNOWN_FUNCTION(lbl_8053186c);
+// PAL: 0x805318f0
+extern UNKNOWN_FUNCTION(lbl_805318f0);
+// PAL: 0x80531374
+extern UNKNOWN_FUNCTION(lbl_80531374);
+// PAL: 0x805319f8
+extern UNKNOWN_FUNCTION(lbl_805319f8);
+// PAL: 0x805316c8
+extern UNKNOWN_FUNCTION(lbl_805316c8);
+// PAL: 0x80531740
+extern UNKNOWN_FUNCTION(lbl_80531740);
+// PAL: 0x80531cb4
+extern UNKNOWN_FUNCTION(lbl_80531cb4);
+// PAL: 0x80531110
+extern UNKNOWN_FUNCTION(lbl_80531110);
+// PAL: 0x80531a4c
+extern UNKNOWN_FUNCTION(lbl_80531a4c);
+// PAL: 0x8053131c
+extern UNKNOWN_FUNCTION(lbl_8053131c);
+// PAL: 0x80531864
+extern UNKNOWN_FUNCTION(lbl_80531864);
+// PAL: 0x80531618
+extern UNKNOWN_FUNCTION(lbl_80531618);
+// PAL: 0x80531aa8
+extern UNKNOWN_FUNCTION(lbl_80531aa8);
+// PAL: 0x805315dc
+extern UNKNOWN_FUNCTION(lbl_805315dc);
+// PAL: 0x805310b4
+extern UNKNOWN_FUNCTION(lbl_805310b4);
+// PAL: 0x80531e80
+extern UNKNOWN_FUNCTION(lbl_80531e80);
+// Extern data references.
+// PAL: 0x809bd740
+extern UNKNOWN_DATA(lbl_809bd740);
 // PAL: 0x808900e0
 extern UNKNOWN_DATA(lbl_808900e0);
+// PAL: 0x80890030
+extern UNKNOWN_DATA(lbl_80890030);
+// PAL: 0x8088ffa8
+extern UNKNOWN_DATA(lbl_8088ffa8);
+// PAL: 0x809bd730
+extern UNKNOWN_DATA(lbl_809bd730);
+// PAL: 0x809bd728
+extern UNKNOWN_DATA(lbl_809bd728);
+// PAL: 0x809bd70c
+extern UNKNOWN_DATA(lbl_809bd70c);
+// PAL: 0x8088ffb0
+extern UNKNOWN_DATA(lbl_8088ffb0);
 // PAL: 0x808900e8
 extern UNKNOWN_DATA(lbl_808900e8);
-// PAL: 0x80890124
-extern UNKNOWN_DATA(lbl_80890124);
+// PAL: 0x809c2144
+extern UNKNOWN_DATA(lbl_809c2144);
 // PAL: 0x808b3260
 extern UNKNOWN_DATA(lbl_808b3260);
 // PAL: 0x808b3288
 extern UNKNOWN_DATA(lbl_808b3288);
-// PAL: 0x809bd70c
-extern UNKNOWN_DATA(lbl_809bd70c);
-// PAL: 0x809bd728
-extern UNKNOWN_DATA(lbl_809bd728);
-// PAL: 0x809bd730
-extern UNKNOWN_DATA(lbl_809bd730);
-// PAL: 0x809bd740
-extern UNKNOWN_DATA(lbl_809bd740);
-// PAL: 0x809c2144
-extern UNKNOWN_DATA(lbl_809c2144);
-// TODO: This declaration causes internal compiler error
-extern UNKNOWN_DATA(COURSE_ORDER__6System);
+// PAL: 0x80890124
+extern UNKNOWN_DATA(lbl_80890124);
 }
+
+// --- EXTERN DECLARATIONS END ---
 
 namespace System {
 extern const f32 ZERO_FLOAT;
@@ -199,6 +567,7 @@ asm UNKNOWN_FUNCTION(RacedataPlayer_destroy) {
   /* 8052DCA4 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 
 BattleTeam RaceScenario::computeWinningTeam() {
@@ -680,6 +1049,7 @@ asm UNKNOWN_FUNCTION(Racedata_init) {
   /* 8052E428 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 
 void RaceConfigPlayer::setCharacter(CharacterId character) {
@@ -1044,6 +1414,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052ED14 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 
 s32 MenuScenario::getGametype() { return mSettings.mGameType; }
@@ -1290,6 +1661,7 @@ asm UNKNOWN_FUNCTION(unk_8052eef0) {
   /* 8052EFD0 4E800020 */ blr
   // clang-format on
 }
+
 #endif
 
 namespace System {
@@ -1435,8 +1807,8 @@ asm UNKNOWN_FUNCTION(copyPrevPositions__Q26System12MenuScenarioFv) {
   /* 8052F200 2C000001 */ cmpwi       r0, 0x1
   /* 8052F204 41820024 */ beq-        lbl_8052f228
   /* 8052F208 80030B68 */ lwz         r0, 0xb68(r3)
-  /* 8052F20C 3CA08089 */ lis         r5, COURSE_ORDER__6System@ha
-  /* 8052F210 38A5FFB0 */ addi        r5, r5, COURSE_ORDER__6System@l
+  /* 8052F20C 3CA08089 */ lis         r5, lbl_8088ffb0@ha
+  /* 8052F210 38A5FFB0 */ addi        r5, r5, lbl_8088ffb0@l
   /* 8052F214 548415BA */ rlwinm      r4, r4, 2, 0x16, 0x1d
   /* 8052F218 54002036 */ slwi        r0, r0, 4
   /* 8052F21C 7C050214 */ add         r0, r5, r0
@@ -1968,7 +2340,9 @@ asm UNKNOWN_FUNCTION(initRng__Q26System12MenuScenarioFv){
   /* 8052FA04 38210010 */ addi        r1, r1, 0x10
   /* 8052FA08 4E800020 */ blr
   // clang-format on
-} // Symbol: unk_8052fa0c
+}
+
+// Symbol: unk_8052fa0c
 // PAL: 0x8052fa0c..0x8052fb90
 MARK_BINARY_BLOB(unk_8052fa0c, 0x8052fa0c, 0x8052fb90);
 asm UNKNOWN_FUNCTION(unk_8052fa0c) {
@@ -2080,6 +2454,7 @@ asm UNKNOWN_FUNCTION(unk_8052fa0c) {
   /* 8052FB8C 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 
 void MenuScenario::initRace(RaceScenario* raceScenario) {
@@ -2245,6 +2620,7 @@ asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
   /* 8052FFE4 4E800020 */ blr
   // clang-format on
 }
+
 // Symbol: Racedata_destroyStaticInstance
 // PAL: 0x8052ffe8..0x80530038
 MARK_BINARY_BLOB(Racedata_destroyStaticInstance, 0x8052ffe8, 0x80530038);
@@ -2274,6 +2650,7 @@ asm UNKNOWN_FUNCTION(Racedata_destroyStaticInstance) {
   /* 80530034 4E800020 */ blr
   // clang-format on
 }
+
 // Symbol: Racedata_destroy
 // PAL: 0x80530038..0x805300f4
 MARK_BINARY_BLOB(Racedata_destroy, 0x80530038, 0x805300f4);
@@ -2333,6 +2710,7 @@ asm UNKNOWN_FUNCTION(Racedata_destroy) {
   /* 805300F0 4E800020 */ blr
   // clang-format on
 }
+
 // Requires RaceConfigPlayer vtable
 #ifdef NON_MATCHING
 namespace System {
@@ -2376,6 +2754,7 @@ asm UNKNOWN_FUNCTION(RacedataScenario_destroy) {
   /* 80530158 4E800020 */ blr
   // clang-format on
 }
+
 #endif
 
 // Requires rodata from unk_8052e870 and unk_8052fa0c first
@@ -2488,6 +2867,7 @@ asm UNKNOWN_FUNCTION(Racedata_construct) {
   /* 805302C0 4E800020 */ blr
   // clang-format on
 }
+
 #endif
 
 // Symbol: Racedata_initRace
@@ -2686,7 +3066,9 @@ asm UNKNOWN_FUNCTION(Racedata_initRace){
   /* 805305A4 38210030 */ addi        r1, r1, 0x30
   /* 805305A8 4E800020 */ blr
   // clang-format on
-} // Symbol: RacedataScenario_copy
+}
+
+// Symbol: RacedataScenario_copy
 // PAL: 0x805305ac..0x80530864
 MARK_BINARY_BLOB(RacedataScenario_copy, 0x805305ac, 0x80530864);
 asm UNKNOWN_FUNCTION(RacedataScenario_copy){
@@ -2870,7 +3252,9 @@ asm UNKNOWN_FUNCTION(RacedataScenario_copy){
   /* 8053085C 90030BEC */ stw         r0, 0xbec(r3)
   /* 80530860 4E800020 */ blr
   // clang-format on
-} // Symbol: Racedata_initAwards
+}
+
+// Symbol: Racedata_initAwards
 // PAL: 0x80530864..0x80530f0c
 MARK_BINARY_BLOB(Racedata_initAwards, 0x80530864, 0x80530f0c);
 asm UNKNOWN_FUNCTION(Racedata_initAwards) {
@@ -3326,6 +3710,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530F08 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 
 u32 MenuScenario::getModeFlag() { return mSettings.mModeFlags >> 1 & 1; }
@@ -4166,6 +4551,7 @@ asm UNKNOWN_FUNCTION(Racedata_initCredits) {
   /* 80531CE0 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 
 u8 RaceConfig::update() { return mMenuScenario.update(); }
@@ -4258,6 +4644,7 @@ asm UNKNOWN_FUNCTION(unk_80531de4) {
   /* 80531F14 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 
 // This is so stupid, Nintendo just HAD to use r0

@@ -15,7 +15,7 @@ out/dol/sdata_80384c00_80384c38.o
 out/dol/sbss_80385fc0_803860a8.o
 out/dol/sdata2_80386fa0_80387030.o
 out/ansi_fp.o
-out/dol/text_8000e418_8000ef04.o
+out/dol/text_8000e434_8000ef04.o
 out/float.o
 out/dol/text_8000eff8_8000f1f0.o
 out/mem.o

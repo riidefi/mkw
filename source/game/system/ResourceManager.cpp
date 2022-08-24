@@ -8,19 +8,67 @@
 #include <egg/core/eggDvdRipper.hpp>
 #include <game/RKScene.hpp>
 
+// --- EXTERN DECLARATIONS BEGIN ---
+
 extern "C" {
-UNKNOWN_DATA(lbl_80385fc0);
-UNKNOWN_DATA(lbl_80385fc8);
-UNKNOWN_DATA(lbl_80386000);
+
+// Extern function references.
+// PAL: 0x801aa824
+extern UNKNOWN_FUNCTION(OSSuspendThread);
+// PAL: 0x8000b26c
+extern UNKNOWN_FUNCTION(unk_8000b26c);
+// PAL: 0x80008e74
+extern UNKNOWN_FUNCTION(unk_80008e74);
+// PAL: 0x805401b0
+extern UNKNOWN_FUNCTION(lbl_805401b0);
+// PAL: 0x80540164
+extern UNKNOWN_FUNCTION(lbl_80540164);
+// PAL: 0x801aa58c
+extern UNKNOWN_FUNCTION(OSResumeThread);
+// PAL: 0x805401c8
+extern UNKNOWN_FUNCTION(lbl_805401c8);
+// PAL: 0x805400c8
+extern UNKNOWN_FUNCTION(lbl_805400c8);
+// PAL: 0x80540148
+extern UNKNOWN_FUNCTION(lbl_80540148);
+// PAL: 0x80540198
+extern UNKNOWN_FUNCTION(lbl_80540198);
 // PAL: 0x80242c98
-UNKNOWN_FUNCTION(isTaskExist__Q23EGG10TaskThreadCFv);
+extern UNKNOWN_FUNCTION(isTaskExist__Q23EGG10TaskThreadCFv);
+// PAL: 0x80008e20
+extern UNKNOWN_FUNCTION(unk_80008e20);
+// PAL: 0x80540124
+extern UNKNOWN_FUNCTION(lbl_80540124);
 // PAL: 0x801bab2c
-UNKNOWN_FUNCTION(VISetBlack);
-UNKNOWN_FUNCTION(unk_80008e20);
-UNKNOWN_FUNCTION(unk_80008e74);
-UNKNOWN_FUNCTION(unk_8000b26c);
-UNKNOWN_FUNCTION(unk_80008e20);
+extern UNKNOWN_FUNCTION(VISetBlack);
+// PAL: 0x80540134
+extern UNKNOWN_FUNCTION(lbl_80540134);
+// PAL: 0x80541d7c
+extern UNKNOWN_FUNCTION(lbl_80541d7c);
+// PAL: 0x80541dac
+extern UNKNOWN_FUNCTION(lbl_80541dac);
+// PAL: 0x80541d6c
+extern UNKNOWN_FUNCTION(lbl_80541d6c);
+// PAL: 0x80541e10
+extern UNKNOWN_FUNCTION(lbl_80541e10);
+// PAL: 0x80541d90
+extern UNKNOWN_FUNCTION(lbl_80541d90);
+// PAL: 0x80541df8
+extern UNKNOWN_FUNCTION(lbl_80541df8);
+// PAL: 0x80541de0
+extern UNKNOWN_FUNCTION(lbl_80541de0);
+// PAL: 0x80541d10
+extern UNKNOWN_FUNCTION(lbl_80541d10);
+// Extern data references.
+// PAL: 0x80386000
+extern UNKNOWN_DATA(lbl_80386000);
+// PAL: 0x80385fc8
+extern UNKNOWN_DATA(lbl_80385fc8);
+// PAL: 0x80385fc0
+extern UNKNOWN_DATA(lbl_80385fc0);
 }
+
+// --- EXTERN DECLARATIONS END ---
 
 #pragma dont_reuse_strings on
 #pragma legacy_struct_alignment off
@@ -355,6 +403,7 @@ asm UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv) {
   /* 805401E8 4E800020 */ blr
   // clang-format on
 }
+
 class Dummy {
 public:
   Dummy();
@@ -1040,6 +1089,7 @@ asm UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv) {
   /* 80541E40 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 
 namespace {
@@ -1174,6 +1224,7 @@ asm UNKNOWN_FUNCTION(unk_8054247c) {
   /* 80542488 4E800020 */ blr
   // clang-format on
 }
+
 namespace System {
 u8* ResourceManager::loadGlobe(EGG::Heap* globeHeap) {
   EGG::LZStreamDecomp lzstream;
