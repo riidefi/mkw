@@ -409,9 +409,10 @@ def link_rel(o_files: list[Path]):
     map_path = dest_dir / "StaticR.map"
     link(elf_path, o_files, dst_lcf_path, map_path, partial=True)
     # Convert ELF to REL.
+    dol_elf_path = dest_dir / "main.elf"
     rel_path = dest_dir / "StaticR.rel"
     orig_dir = Path("artifacts", "orig")
-    pack_staticr_rel(elf_path, rel_path, orig_dir)
+    pack_staticr_rel(elf_path, rel_path, dol_elf_path)
     return rel_path
 
 

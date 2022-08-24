@@ -12,11 +12,11 @@
 // PAL: 0x8052758c
 extern "C" UNKNOWN_FUNCTION(unk_8052758c);
 // PAL: 0x805336a4
-extern "C" u8 unk_805336a4();
+extern "C" u8 getLapCount();
 // PAL: 0x8053572c
-extern "C" UNKNOWN_FUNCTION(unk_8053572c);
+extern "C" UNKNOWN_FUNCTION(RaceinfoPlayer_getLapSplit);
 // PAL: 0x8054a9b8
-extern "C" UNKNOWN_FUNCTION(unk_8054a9b8);
+extern "C" UNKNOWN_FUNCTION(SaveManager_getLocation);
 
 namespace System {
 
@@ -389,7 +389,7 @@ bool GhostFile::writeUncompressed(RawGhostFile& raw) const {
 
 #if 0
 void GhostFile::init(u8 playerId) {
-  mLapCount = unk_805336a4();
+  mLapCount = getLapCount();
   Time raceTime = Time();
   raceTime.set(0, 0, 0, false);
 }
@@ -406,7 +406,7 @@ asm void GhostFile::init(u8 playerId) {
   mr r29, r3;
   mr r30, r4;
   lwz r3, 0(r31);
-  bl unk_805336a4;
+  bl getLapCount;
   stb r3, 0x64(r29);
   li r0, 0;
   lis r4, 0;
@@ -431,7 +431,7 @@ lbl_8051cb84:
   addi r5, r1, 0x18;
   lwz r0, 0xc(r3);
   lwzx r3, r28, r0;
-  bl unk_8053572c;
+  bl RaceinfoPlayer_getLapSplit;
   clrlwi r3, r27, 0x18;
   lhz r0, 0x1c(r1);
   mulli r3, r3, 0xc;
@@ -563,7 +563,7 @@ lbl_8051cd64:
   stb r6, 0xc1(r29);
   stb r5, 0xc2(r29);
   lwz r3, 0(r3);
-  bl unk_8054a9b8;
+  bl SaveManager_getLocation;
   lwz r0, 8(r1);
   lis r3, 0;
   stw r0, 0xcc(r29);

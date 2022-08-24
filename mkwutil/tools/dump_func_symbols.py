@@ -13,26 +13,56 @@ from mkwutil.lib.symbols import Symbol, SymbolsList
 
 MATCH_DOLLAR_THING = re.compile(r"^\w+\$\d+$")
 
+STATICR_ELF_TEXT_SECTION_IDX = 1
+STATICR_ELF_RODATA_SECTION_IDX = 2
+STATICR_ELF_DATA_SECTION_IDX = 5
+STATICR_ELF_BSS_SECTION_IDX = 6
+
+STATICR_TEXT_SECTION_VMA = 0x805103b4
+STATICR_BSS_SECTION_VMA = 0x809bd6e0
+STATICR_RODATA_SECTION_VMA = 0x8088f720
+STATICR_DATA_SECTION_VMA = 0x808b2bd0
+
 
 def process_symbol(sym: ELFSymbol, strtab: StringTableSection) -> Optional[Symbol]:
     sym_type = sym.entry["st_info"]["type"]
     sym_bind = sym.entry["st_info"]["bind"]
     sym_name = strtab.get_string(sym["st_name"])
     sym_shndx = sym.entry["st_shndx"]
+    size = sym["st_size"]
+
     if len(sym_name) == 0:
         return
-    if not sym_type in ("STT_FUNC", "STT_OBJECT"):
+
+    # function symbol
+    if sym_type == "STT_FUNC" and sym_shndx == STATICR_ELF_TEXT_SECTION_IDX:
+        if sym_bind in ("STB_GLOBAL", "STB_WEAK"):
+            # Output
+            addr = sym["st_value"] + STATICR_TEXT_SECTION_VMA
+            if not (0x800_0000 <= addr < 0x8100_0000):
+                return
+            return Symbol(addr, sym_name, size)
+
+    # data symbol
+    elif sym_type == "STT_OBJECT" and sym_bind in ("STB_GLOBAL",):
+        if sym_shndx == STATICR_ELF_BSS_SECTION_IDX:
+            addr = sym["st_value"] + STATICR_BSS_SECTION_VMA
+            if not (0x800_0000 <= addr < 0x8100_0000):
+                return
+            return Symbol(addr, sym_name, size)
+        elif sym_shndx == STATICR_ELF_RODATA_SECTION_IDX:
+            addr = sym["st_value"] + STATICR_RODATA_SECTION_VMA
+            if not (0x800_0000 <= addr < 0x8100_0000):
+                return
+            return Symbol(addr, sym_name, size)
+        elif sym_shndx == STATICR_ELF_DATA_SECTION_IDX:
+            addr = sym["st_value"] + STATICR_DATA_SECTION_VMA
+            if not (0x800_0000 <= addr < 0x8100_0000):
+                return
+            return Symbol(addr, sym_name, size)
         return
-    if sym_shndx != 1:
-        return
-    if not sym_bind in ("STB_GLOBAL", "STB_WEAK"):
-        return
-    # Output
-    addr = sym["st_value"] + 0x8051_03B4
-    if not (0x8000_0000 <= addr < 0x8100_0000):
-        return
-    size = sym["st_size"]
-    return Symbol(addr, sym_name, size)
+
+    return
 
 
 def symbols_from_elf(elf: ELFFile) -> SymbolsList:
@@ -52,7 +82,10 @@ def symbols_from_elf(elf: ELFFile) -> SymbolsList:
 
 def process_elf(elf: ELFFile, out):
     symbols = symbols_from_elf(elf)
-    symbols.write_to(out)
+    symbols_sorted = SymbolsList()
+    for sym in symbols:
+        symbols_sorted.put(sym)
+    symbols_sorted.write_to(out)
 
 
 def main():

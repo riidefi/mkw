@@ -9,6 +9,7 @@ import struct
 from elftools.elf.elffile import ELFFile
 
 from .lib.rel import Rel, RelSection
+from ppcdis import RelLinker
 
 SYMS = {
     "debug__Q22UI9UIControlFv": 0x8063CFFC,
@@ -53,7 +54,11 @@ def read_elf_sec(elf, name):
     return sec
 
 
-def pack_staticr_rel(elf_path, rel_path, orig_dir):
+def pack_staticr_rel(elf_path, rel_path, dol_elf_path):
+    linker = RelLinker(dol_elf_path, elf_path, 1, name_offset=0, name_size=66, base_rel_path=elf_path)
+    linker.link_rel(rel_path)
+
+    """
     rel = Rel()
 
     # TODO hardcoded path
@@ -133,6 +138,7 @@ def pack_staticr_rel(elf_path, rel_path, orig_dir):
 
     with open(rel_path, "wb") as file:
         rel.reconstruct(file)
+    """
 
 
 if __name__ == "__main__":

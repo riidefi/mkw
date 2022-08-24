@@ -8,7 +8,7 @@ extern "C" {
 
 // Extern function references.
 // PAL: 0x80229e14
-extern UNKNOWN_FUNCTION(__dl__FPv);
+// extern UNKNOWN_FUNCTION(__dl__FPv);
 // PAL: 0x8052dc90
 extern UNKNOWN_FUNCTION(lbl_8052dc90);
 // PAL: 0x8052e3fc
@@ -218,8 +218,6 @@ extern UNKNOWN_FUNCTION(lbl_8052f658);
 extern UNKNOWN_FUNCTION(lbl_8052f594);
 // PAL: 0x8052f558
 extern UNKNOWN_FUNCTION(lbl_8052f558);
-// PAL: 0x801aad74
-extern UNKNOWN_FUNCTION(OSGetTick);
 // PAL: 0x8052f9c4
 extern UNKNOWN_FUNCTION(lbl_8052f9c4);
 // PAL: 0x8052f9a0
@@ -242,8 +240,6 @@ extern UNKNOWN_FUNCTION(lbl_8052fb4c);
 extern UNKNOWN_FUNCTION(lbl_8052fb34);
 // PAL: 0x8052fb68
 extern UNKNOWN_FUNCTION(lbl_8052fb68);
-// PAL: 0x80006038
-extern UNKNOWN_FUNCTION(memset);
 // PAL: 0x8052fb00
 extern UNKNOWN_FUNCTION(lbl_8052fb00);
 // PAL: 0x8052fb7c

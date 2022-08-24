@@ -2,6 +2,8 @@
 
 namespace Field {
 
+CourseMap* CourseMap::spInstance;
+
 CourseMap* CourseMap::initStaticInstance() {
   if (spInstance == nullptr) {
     spInstance = new CourseMap();
