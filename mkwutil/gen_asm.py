@@ -37,6 +37,133 @@ def is_text_addr(addr):
     # could be less hardcoded using mkwutil.lib
     return (0x805103b4<=addr and addr<0x8088f400) or (0x80004000<=addr and addr<0x80006460) or (0x800072c0<=addr and addr<0x80244de0)
 
+class AsmGenerator:
+    """Generates assembly files."""
+
+    def __init__(self, data, _slice, symbols, output, rel=False):
+        self.data = data
+        self.slice = _slice
+        self.symbols = symbols
+        self.symbol_locs = [sym.addr for sym in symbols]
+        self.output = output
+        self.is_rel = rel
+
+    # TODO Define symbols in ASM
+
+    def emit_symbol(self, address):
+        """Maybe emits a symbol, if there is one."""
+        if address not in self.symbols:  # probably slow
+            return
+        name = self.symbols[address].name
+        print(f'.global "{name}"\n"{name}":', file=self.output)
+
+    def dump_bss(self):
+        """Writes a bss segment."""
+        for part in self.slice.split(self.symbol_locs):
+            self.emit_symbol(part.start)
+            print(".skip 0x%x" % len(part), file=self.output)
+
+    def dump_data(self):
+        """Writes a data segment."""
+        for part in self.slice.split(self.symbol_locs):
+            self.emit_data_words(part)
+
+    def emit_data_words(self, part: Slice):
+        """Emits a bunch of data segment words."""
+        for address, chunk in self.iter_data_chunks(part, 4):
+            if len(chunk) == 4:
+                self.emit_symbol(address)
+                print(".4byte 0x%08X" % struct.unpack(">I", chunk), file=self.output)
+            else:
+                self.emit_data_bytes(address, chunk)
+
+    def emit_data_bytes(self, address, data):
+        """Emits a few data segment bytes."""
+        while len(data) > 0:
+            self.emit_symbol(address)
+            byte_val = data[0]
+            print(".byte 0x%02x" % (byte_val), file=self.output)
+            data = data[1:]
+            address += 1
+
+    def get_data_chunk(self, part: Slice) -> bytes:
+        view = memoryview(self.data)
+        view = view[part.start - self.slice.start :]
+        view = view[: len(part)]
+        return bytes(view)
+
+    def iter_data_chunks(
+        self, part: Slice, chunk_size: int
+    ) -> Iterator[tuple[int, bytes]]:
+        offset = part.start - self.slice.start
+        # Use memoryview to scan over data efficiently.
+        view = memoryview(self.data)
+        view = view[offset : part.stop - self.slice.start]
+        # Align first word.
+        if offset % chunk_size != 0 and len(view) > chunk_size:
+            cut = chunk_size - offset
+            left, view = view[:cut], view[cut:]
+            yield self.slice.start + offset, bytes(left)
+            offset += len(left)
+        while len(view) > 0:
+            if len(view) > chunk_size:
+                bs = len(view)
+            else:
+                bs = chunk_size
+            left, view = view[:bs], view[bs:]
+            yield self.slice.start + offset, bytes(left)
+            offset += len(left)
+
+    def dump_text(self):
+        """Writes a disassembled text segment."""
+        for part in self.slice.split(self.symbol_locs):
+            assert part.start % 4 == 0, "misaligned text"
+            self.emit_symbol(part.start)
+            for ins in disasm_iter(self.get_data_chunk(part), part.start, self.symbols):
+                print(ins.disassemble(dont_use_labels=self.is_rel), file=self.output)
+
+    def dump_section_body(self):
+        name = self.slice.section
+        if "bss" in name:
+            self.dump_bss()
+        elif name == "text":
+            self.dump_text()
+        else:
+            self.dump_data()
+
+    def format_segname(self, name):
+        if name in ("extab", "extabindex"):
+            # The linker is supposed to auto-generate those.
+            # It will crash if we try to feed it those sections with object files.
+            return name + "_"
+        return "." + name
+
+    def dump_section_header(self):
+        """Writes the header to output."""
+        # section permissions
+        perm = self.compute_perm()
+        print(
+            f""".include "macros.inc"
+.section {self.format_segname(self.slice.section)}, "{perm}" # {self.slice}""",
+            file=self.output,
+        )
+
+    def compute_perm(self):
+        """Computes the memory permissions."""
+        name = self.slice.section
+        perm = "wa"
+        if name == "text":
+            perm = "ax"
+        # if "bss" in name:
+        #     perm = "ba"
+        if name == "rodata" or "2" in name:
+            perm = perm.replace("w", "")
+        return perm
+
+    def dump_section(self):
+        """Writes unit header and body to output."""
+        self.dump_section_header()
+        self.dump_section_body()
 
 class CAsmGenerator:
     """Generates C files with assembly functions."""
@@ -363,6 +490,7 @@ class DOLSrcGenerator:
         c_path = Path(_slice.name)
         h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
         if c_path.exists() or h_path.exists():
+            """
             if self.regen_inline and (str(c_path).endswith(".c") or str(c_path).endswith(".cpp")):
                 print(c_path)
                 with open(c_path) as file:
@@ -373,10 +501,9 @@ class DOLSrcGenerator:
                         new_filestr = replace_source_extern_decls(new_filestr, extern_functions, extern_data, cpp_mode)
                 #print(new_filestr)
 
-                """
                 with open(c_path, "w") as c_file:
                     c_file.write(new_filestr)
-                """
+            """
             return
 
         c_path.parent.mkdir(parents=True, exist_ok=True)
@@ -396,12 +523,28 @@ class DOLSrcGenerator:
 
     def __gen_asm(self, section: Section, _slice: Slice):
         """Generates an ASM file."""
+        # Relocatable ASM unsupported for DOL
+        """
         asm_path = get_asm_path(self.dol_asm_dir, _slice)
         self.dol_asm_sources.add(asm_path.stem)
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
         self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
+        """
+        asm_path = get_asm_path(self.dol_asm_dir, _slice)
+        self.dol_asm_sources.add(asm_path.stem)
+        if not self.regen_asm and asm_path.exists():
+            return
+        # print(f"    => {asm_path}")
+        with open(asm_path, "w") as asm_file:
+            data = (
+                self.dol.virtual_read(_slice.start, len(_slice))
+                if section.type != "bss"
+                else None
+            )
+            gen = AsmGenerator(data, _slice, self.symbols, asm_file)
+            gen.dump_section()
 
 
 class RELSrcGenerator:
