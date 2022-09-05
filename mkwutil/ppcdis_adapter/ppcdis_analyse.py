@@ -21,11 +21,6 @@ def analyse_bins():
     dolbin = load_binary_yml(dolpath)
     relbin = load_binary_yml(relpath)
 
-    pack_dir = Path("./pack")
-    symbols = read_symbol_map(pack_dir / "symbols.txt")
-    sympath = Path(thispath / 'symbol_map.yml')
-    symbols.write_to_yaml(sympath)
-
     extra_labels = [externspath]
     thorough = False
     quiet = False

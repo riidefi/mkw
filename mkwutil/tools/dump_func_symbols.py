@@ -90,7 +90,7 @@ def process_elf(elf: ELFFile, out):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Dumps symbols in ELF to symbols.txt format"
+        description="Dumps symbols in ELF to symbols.yml format"
     )
     parser.add_argument("elf", type=Path)
     parser.add_argument(

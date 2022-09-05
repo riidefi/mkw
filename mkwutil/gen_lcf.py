@@ -78,7 +78,7 @@ if __name__ == "__main__":
         "--slices", type=Path, required=True, help="Path to slices file"
     )
     parser.add_argument(
-        "--symbols", type=Path, required=True, help="Path to symbols.txt file"
+        "--symbols", type=Path, required=True, help="Path to symbols.yml file"
     )
     args = parser.parse_args()
 

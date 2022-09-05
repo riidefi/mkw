@@ -7,8 +7,10 @@ from ppcdis.binaryyml import load_binary_yml
 
 
 def get_dol_disaser():
+    pack_dir = Path("./pack")
+    symbol_map_path = pack_dir / "symbols.yml"
+
     thispath = Path('./mkwutil/ppcdis_adapter')
-    symbol_map_path = thispath / 'symbol_map.yml'
     rel_labelspath = thispath / 'rel_labels.pickle'
     rel_relocspath = thispath / 'rel_relocs.pickle'
     dol_labelspath = thispath / 'dol_labels.pickle'
@@ -30,8 +32,10 @@ def get_dol_disaser():
 
 
 def get_rel_disaser():
+    pack_dir = Path("./pack")
+    symbol_map_path = pack_dir / "symbols.yml"
+
     thispath = Path('./mkwutil/ppcdis_adapter')
-    symbol_map_path = thispath / 'symbol_map.yml'
     rel_labelspath = thispath / 'rel_labels.pickle'
     rel_relocspath = thispath / 'rel_relocs.pickle'
     rel_overridespath = thispath / 'rel_overrides.yaml'

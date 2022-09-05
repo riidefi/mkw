@@ -209,7 +209,7 @@ class CAsmGenerator:
 
         assert addr == self.slice.stop, (
             f"Disassembled up to {hex(addr)} but slice goes to {hex(self.slice.stop)}.\n"
-            + "You're probably missing entries in symbols.txt"
+            + "You're probably missing entries in symbols.yml"
         )
 
     def dump_slice(self):
@@ -705,7 +705,7 @@ def gen_asm(regen_asm=False, regen_inline=False):
 
     asm_dir.mkdir(exist_ok=True)
 
-    symbols = read_symbol_map(pack_dir / "symbols.txt")
+    symbols = read_symbol_map(pack_dir / "symbols.yml")
     symbols.derive_sizes(0x81000000)
 
     dol = read_dol(binary_dir / "main.dol")

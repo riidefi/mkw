@@ -3,6 +3,11 @@
 from bisect import bisect_left
 import sys
 import csv
+import yaml
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
 
 
 class Symbol:
@@ -111,6 +116,14 @@ class SymbolsList:
             name = row[1].strip()
             assert name != ""
             self[addr] = name
+
+    def read_from_yaml(self, file):
+        """Reads a symbol list from a YAML file."""
+        symsyaml = yaml.load(file.read(), Loader)
+        for addr, name in symsyaml['global'].items():
+            assert 0 <= addr <= 0xFFFFFFFF
+            self[addr] = name
+
 
     def write_to(self, file):
         """Writes a symbol list to a file."""
