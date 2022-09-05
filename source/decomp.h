@@ -38,6 +38,62 @@ typedef struct ps_f32 {
 #define sdata_ps_f32 __declspec(section ".sdata") ps_f32
 #define sdata2_ps_f32 __declspec(section ".sdata2") const ps_f32
 
+//// Defines from ppcdis: https://github.com/SeekyCt/ppcdis
+// Data dummy helpers
+
+void __dummy_str(const char*);
+void __dummy_float(float);
+void __dummy_double(double);
+void __dummy_pointer(const void*);
+
+// Force a symbol to be stripped by elf2rel/elf2dol
+
+#pragma section RX "forcestrip"
+#ifndef __INTELLISENSE__
+#define FORCESTRIP __declspec(section "forcestrip")
+#else
+#define FORCESTRIP
+#endif
+
+// Wrap in force_active pragmas to force a piece of data active
+#define DUMMY_POINTER(name)                                                    \
+  void dummy_ptr_##name();                                                     \
+  void FORCESTRIP dummy_ptr_##name() { __dummy_pointer((const void*)&name); }
+
+// Unfortunately these don't work on older compilers
+
+#if __MWERKS__ >= 0x4199
+
+// Disable deadstripping for a region
+
+#define FORCEACTIVE_START _Pragma("push") _Pragma("force_active on")
+#define FORCEACTIVE_END _Pragma("pop")
+
+// Disable deadstripping for a bit of data
+
+#define FORCEACTIVE_DATA(name)                                                 \
+  FORCEACTIVE_START                                                            \
+  DUMMY_POINTER(name)                                                          \
+  FORCEACTIVE_END
+
+#endif
+
+// Rel symbol definition
+
+#pragma section RW "relsymdef"
+
+typedef struct {
+  unsigned long addr;
+  const void* ref;
+} __RelSymbolDef;
+
+#define REL_SYMBOL_AT(name, addr)                                              \
+  __declspec(section "relsymdef")                                              \
+      __RelSymbolDef rel_sym_##name = {addr, (const void*)&name};              \
+  FORCEACTIVE_DATA(rel_sym_##name)
+
+//// end of macros from ppcdis
+
 #pragma section "garbage"
 #define SECTION_GARBAGE
 #define static_order_hints                                                     \

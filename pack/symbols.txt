@@ -104,7 +104,7 @@
 0x80009c24 unk_80009c24
 0x80009c8c unk_80009c8c
 0x80009ce0 unk_80009ce0
-0x80009d6c ParamFile_append
+0x80009d6c appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
 0x80009ddc unk_80009ddc
 0x80009ef8 RamStream_destroy
 0x80009f5c ModuleSlots_destroy
@@ -9036,6 +9036,7 @@
 0x80385ee4 soBufAddrCheck
 0x80385ee8 __SOCKET_VERSION
 0x80385f88 sErrorRetry__Q23EGG9DvdRipper
+0x80386000 sInstance__Q26System13SystemManager
 0x803860ac __global_destructor_chain
 0x80386240 typeInfo__Q34nw4r2ut8IOStream
 0x80386248 typeInfo__Q34nw4r2ut10FileStream
@@ -10039,7 +10040,7 @@
 0x8052da50 appendParamFile__Q26System16RaceConfigPlayerFPQ26System10RaceConfig
 0x8052daf0 computeGpRank__Q26System16RaceConfigPlayerCFv
 0x8052dbc8 __ct__Q26System18RaceConfigScenarioFPQ26System12RawGhostFile
-0x8052dc68 RacedataPlayer_destroy
+0x8052dc68 __dt__Q26System16RaceConfigPlayerFv
 0x8052dca8 computeWinningTeam__Q26System12RaceScenarioFv
 0x8052dd18 getTeam__Q26System16RaceConfigPlayerFv
 0x8052dd20 getPlayer__Q26System12RaceScenarioFUc
@@ -22508,6 +22509,7 @@
 0x8088f350 unk_8088f350
 0x8088f3a4 unk_8088f3a4
 0x8088faa0 int_8088FAA0__6System
+0x8088fd60 defColor__6System
 0x8088fe0c _tmp
 0x8088ffa8 ZERO_FLOAT__6System
 0x8088ffb0 COURSE_ORDER__6System
@@ -22520,10 +22522,13 @@
 0x808b2c78 __vt__Q26System10DvdArchive
 0x808b2d38 __vt__Q26System14GhostFileGroup
 0x808b2d44 __vt__Q26System4Time
+0x808b3148 __vt__Q26System3Mii
 0x808b31a8 __vt__Q26System16CourseDvdArchive
 0x808b31b8 __vt__Q26System12UIDvdArchive
 0x808b31c8 __vt__Q26System17RaceSysDvdArchive
 0x808b31d8 __vt__Q26System15MultiDvdArchive
+0x808b3288 __vt__Q26System18RaceConfigScenario
+0x808b3294 __vt__Q26System16RaceConfigPlayer
 0x808b3960 RESOURCES
 0x808b3984 COURSE_NAMES
 0x808b3a90 CHARACTER_NAMES
@@ -22535,3 +22540,5 @@
 0x808b3c08 __vt__Q26System11CourseCache
 0x808b42e0 __vt__Q24Util6Random
 0x809bd6e8 spInstance__Q25Field9CourseMap
+0x809bd728 spInstance__Q26System10RaceConfig
+0x809bd740 spInstance__Q26System9InitScene

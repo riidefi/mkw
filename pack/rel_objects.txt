@@ -22,6 +22,7 @@ out/MultiDvdArchive.o
 out/rel/text_8052ae5c_8052d96c.o
 out/rel/rodata_8088fe28_8088ffa8.o
 out/rel/data_808b31e8_808b32a0.o
+out/rel/bss_809bd6ec_809bd728.o
 out/RaceConfig.o
 out/rel/text_80532084_8053fc4c.o
 out/rel/rodata_808900e8_80890490.o
@@ -34,7 +35,7 @@ out/Random.o
 out/rel/text_8055572c_80590128.o
 out/rel/rodata_80891380_80896148.o
 out/rel/data_808b42ec_808dd3d4.o
-out/rel/bss_809bd6ec_809c1900.o
+out/rel/bss_809bd72c_809c1900.o
 out/KartComponent.o
 out/rel/text_805901d0_805c23e4.o
 out/ControlGroup.o

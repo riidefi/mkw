@@ -323,7 +323,7 @@ def link(
         ]
     )
     if partial:
-        cmd.append("-r")
+        cmd.append("-r1")
     command = " ".join(map(str, cmd))
     lines, returncode = run_windows_cmd(command)
     for line in lines:

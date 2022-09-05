@@ -10,13 +10,13 @@ extern "C" {
 // PAL: 0x80229e14
 // extern UNKNOWN_FUNCTION(__dl__FPv);
 // PAL: 0x8052dc90
-extern UNKNOWN_FUNCTION(lbl_8052dc90);
+// extern UNKNOWN_FUNCTION(lbl_8052dc90);
 // PAL: 0x8052e3fc
 extern UNKNOWN_FUNCTION(lbl_8052e3fc);
 // PAL: 0x8052df6c
 extern UNKNOWN_FUNCTION(lbl_8052df6c);
 // PAL: 0x80009d6c
-extern UNKNOWN_FUNCTION(ParamFile_append);
+extern UNKNOWN_FUNCTION(appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap);
 // PAL: 0x8052fb90
 extern UNKNOWN_FUNCTION(
     initRace__Q26System12MenuScenarioFPQ26System12RaceScenario);
@@ -55,7 +55,7 @@ extern UNKNOWN_FUNCTION(_restgpr_14);
 // PAL: 0x8052eb80
 extern UNKNOWN_FUNCTION(lbl_8052eb80);
 // PAL: 0x8052ecf0
-extern UNKNOWN_FUNCTION(lbl_8052ecf0);
+// extern UNKNOWN_FUNCTION(lbl_8052ecf0);
 // PAL: 0x8052ea9c
 extern UNKNOWN_FUNCTION(lbl_8052ea9c);
 // PAL: 0x8052ec20
@@ -263,7 +263,7 @@ extern UNKNOWN_FUNCTION(unk_80009c8c);
 // PAL: 0x80020ff4
 extern UNKNOWN_FUNCTION(__construct_array);
 // PAL: 0x8052dc68
-extern UNKNOWN_FUNCTION(RacedataPlayer_destroy);
+extern UNKNOWN_FUNCTION(__dt__Q26System16RaceConfigPlayerFv);
 // PAL: 0x8053001c
 extern UNKNOWN_FUNCTION(lbl_8053001c);
 // PAL: 0x805300bc
@@ -416,7 +416,7 @@ extern UNKNOWN_FUNCTION(lbl_805310b4);
 extern UNKNOWN_FUNCTION(lbl_80531e80);
 // Extern data references.
 // PAL: 0x809bd740
-extern UNKNOWN_DATA(lbl_809bd740);
+extern UNKNOWN_DATA(spInstance__Q26System9InitScene);
 // PAL: 0x808900e0
 extern UNKNOWN_DATA(lbl_808900e0);
 // PAL: 0x80890030
@@ -426,7 +426,7 @@ extern UNKNOWN_DATA(lbl_8088ffa8);
 // PAL: 0x809bd730
 extern UNKNOWN_DATA(lbl_809bd730);
 // PAL: 0x809bd728
-extern UNKNOWN_DATA(lbl_809bd728);
+extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd70c
 extern UNKNOWN_DATA(lbl_809bd70c);
 // PAL: 0x8088ffb0
@@ -483,6 +483,9 @@ VS_POINT_DISTRIBUTION[12][12] = {{15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 const s32 RANK_SCORES[] = {1000, 700, 400, 200, 0};
 const u16 SCORES[] = {60, 52, 40, 20};
 
+// bss
+RaceConfig* RaceConfig::spInstance;
+
 RaceConfigPlayer::RaceConfigPlayer()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
       mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(0), mMii(7),
@@ -538,10 +541,10 @@ RaceConfigScenario::RaceConfigScenario(RawGhostFile* ghost)
 
 } // namespace System
 
-// Symbol: RacedataPlayer_destroy
+// Symbol: __dt__Q26System16RaceConfigPlayerFv
 // PAL: 0x8052dc68..0x8052dca8
-MARK_BINARY_BLOB(RacedataPlayer_destroy, 0x8052dc68, 0x8052dca8);
-asm UNKNOWN_FUNCTION(RacedataPlayer_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System16RaceConfigPlayerFv, 0x8052dc68, 0x8052dca8);
+asm UNKNOWN_FUNCTION(__dt__Q26System16RaceConfigPlayerFv) {
   // clang-format off
   nofralloc
   /* 8052DC68 9421FFF0 */ stwu        r1, -0x10(r1)
@@ -783,65 +786,65 @@ asm UNKNOWN_FUNCTION(Racedata_init) {
   /* 8052E020 38800000 */ li          r4, 0x0
   /* 8052E024 38000003 */ li          r0, 0x3
   /* 8052E028 9883236C */ stb         r4, 0x236c(r3)
-  /* 8052E02C 3EC0809C */ lis         r22, lbl_809bd740@ha
+  /* 8052E02C 3EC0809C */ lis         r22, spInstance__Q26System9InitScene@ha
   /* 8052E030 389F1758 */ addi        r4, r31, 0x1758
   /* 8052E034 38A00004 */ li          r5, 0x4
   /* 8052E038 9803236D */ stb         r0, 0x236d(r3)
   /* 8052E03C 7FE3FB78 */ mr          r3, r31
-  /* 8052E040 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E040 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E044 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E048 4BADBD25 */ bl          ParamFile_append
-  /* 8052E04C 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E048 4BADBD25 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 8052E04C 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E050 7FE3FB78 */ mr          r3, r31
   /* 8052E054 389F175C */ addi        r4, r31, 0x175c
   /* 8052E058 38A00004 */ li          r5, 0x4
   /* 8052E05C 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E060 4BADBD0D */ bl          ParamFile_append
-  /* 8052E064 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E060 4BADBD0D */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 8052E064 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E068 7FE3FB78 */ mr          r3, r31
   /* 8052E06C 389F1760 */ addi        r4, r31, 0x1760
   /* 8052E070 38A00004 */ li          r5, 0x4
   /* 8052E074 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E078 4BADBCF5 */ bl          ParamFile_append
-  /* 8052E07C 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E078 4BADBCF5 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 8052E07C 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E080 7FE3FB78 */ mr          r3, r31
   /* 8052E084 389F0C14 */ addi        r4, r31, 0xc14
   /* 8052E088 38A00001 */ li          r5, 0x1
   /* 8052E08C 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E090 4BADBCDD */ bl          ParamFile_append
-  /* 8052E094 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E090 4BADBCDD */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 8052E094 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E098 7FE3FB78 */ mr          r3, r31
   /* 8052E09C 389F0C16 */ addi        r4, r31, 0xc16
   /* 8052E0A0 38A00001 */ li          r5, 0x1
   /* 8052E0A4 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E0A8 4BADBCC5 */ bl          ParamFile_append
+  /* 8052E0A8 4BADBCC5 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
   /* 8052E0AC 3B1F0C18 */ addi        r24, r31, 0xc18
   /* 8052E0B0 3AE00000 */ li          r23, 0x0
   lbl_8052e0b4:
-  /* 8052E0B4 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E0B4 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E0B8 7FE3FB78 */ mr          r3, r31
   /* 8052E0BC 38980008 */ addi        r4, r24, 0x8
   /* 8052E0C0 38A00004 */ li          r5, 0x4
   /* 8052E0C4 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E0C8 4BADBCA5 */ bl          ParamFile_append
-  /* 8052E0CC 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E0C8 4BADBCA5 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 8052E0CC 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E0D0 7FE3FB78 */ mr          r3, r31
   /* 8052E0D4 3898000C */ addi        r4, r24, 0xc
   /* 8052E0D8 38A00004 */ li          r5, 0x4
   /* 8052E0DC 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E0E0 4BADBC8D */ bl          ParamFile_append
-  /* 8052E0E4 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E0E0 4BADBC8D */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 8052E0E4 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E0E8 7FE3FB78 */ mr          r3, r31
   /* 8052E0EC 38980010 */ addi        r4, r24, 0x10
   /* 8052E0F0 38A00004 */ li          r5, 0x4
   /* 8052E0F4 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E0F8 4BADBC75 */ bl          ParamFile_append
-  /* 8052E0FC 80D6D740 */ lwz         r6, lbl_809bd740@l(r22)
+  /* 8052E0F8 4BADBC75 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 8052E0FC 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
   /* 8052E100 7FE3FB78 */ mr          r3, r31
   /* 8052E104 389800CC */ addi        r4, r24, 0xcc
   /* 8052E108 38A00004 */ li          r5, 0x4
   /* 8052E10C 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E110 4BADBC5D */ bl          ParamFile_append
+  /* 8052E110 4BADBC5D */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
   /* 8052E114 3AF70001 */ addi        r23, r23, 0x1
   /* 8052E118 3B1800F0 */ addi        r24, r24, 0xf0
   /* 8052E11C 2C17000C */ cmpwi       r23, 0xc
@@ -850,10 +853,10 @@ asm UNKNOWN_FUNCTION(Racedata_init) {
   /* 8052E128 389F1780 */ addi        r4, r31, 0x1780
   /* 8052E12C 38A00004 */ li          r5, 0x4
   /* 8052E130 38C00000 */ li          r6, 0x0
-  /* 8052E134 4BADBC39 */ bl          ParamFile_append
+  /* 8052E134 4BADBC39 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
   /* 8052E138 819F0000 */ lwz         r12, 0(r31)
-  /* 8052E13C 3C80809C */ lis         r4, lbl_809bd740@ha
-  /* 8052E140 8084D740 */ lwz         r4, lbl_809bd740@l(r4)
+  /* 8052E13C 3C80809C */ lis         r4, spInstance__Q26System9InitScene@ha
+  /* 8052E140 8084D740 */ lwz         r4, spInstance__Q26System9InitScene@l(r4)
   /* 8052E144 7FE3FB78 */ mr          r3, r31
   /* 8052E148 818C000C */ lwz         r12, 0xc(r12)
   /* 8052E14C 80840034 */ lwz         r4, 0x34(r4)
@@ -1147,8 +1150,8 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052E96C 39610070 */ addi        r11, r1, 0x70
   /* 8052E970 4BAF2BFD */ bl          _savegpr_14
   /* 8052E974 80030B54 */ lwz         r0, 0xb54(r3)
-  /* 8052E978 3EA0809C */ lis         r21, lbl_809bd728@ha
-  /* 8052E97C 8095D728 */ lwz         r4, lbl_809bd728@l(r21)
+  /* 8052E978 3EA0809C */ lis         r21, spInstance__Q26System10RaceConfig@ha
+  /* 8052E97C 8095D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r21)
   /* 8052E980 7C6F1B78 */ mr          r15, r3
   /* 8052E984 2C000000 */ cmpwi       r0, 0x0
   /* 8052E988 8AC40024 */ lbz         r22, 0x24(r4)
@@ -1171,7 +1174,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   lbl_8052e9cc:
   /* 8052E9CC 807ED730 */ lwz         r3, lbl_809bd730@l(r30)
   /* 8052E9D0 563315BA */ rlwinm      r19, r17, 2, 0x16, 0x1d
-  /* 8052E9D4 80D5D728 */ lwz         r6, lbl_809bd728@l(r21)
+  /* 8052E9D4 80D5D728 */ lwz         r6, spInstance__Q26System10RaceConfig@l(r21)
   /* 8052E9D8 38800000 */ li          r4, 0x0
   /* 8052E9DC 80A3000C */ lwz         r5, 0xc(r3)
   /* 8052E9E0 80660B70 */ lwz         r3, 0xb70(r6)
@@ -1214,7 +1217,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EA60 5600063E */ clrlwi      r0, r16, 0x18
   /* 8052EA64 7C1B0040 */ cmplw       r27, r0
   /* 8052EA68 41820114 */ beq-        lbl_8052eb7c
-  /* 8052EA6C 8095D728 */ lwz         r4, lbl_809bd728@l(r21)
+  /* 8052EA6C 8095D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r21)
   /* 8052EA70 38000000 */ li          r0, 0x0
   /* 8052EA74 38600000 */ li          r3, 0x0
   /* 8052EA78 38A00000 */ li          r5, 0x0
@@ -1294,7 +1297,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EB80 5600063E */ clrlwi      r0, r16, 0x18
   /* 8052EB84 7C00B040 */ cmplw       r0, r22
   /* 8052EB88 4180FED8 */ blt+        lbl_8052ea60
-  /* 8052EB8C 8075D728 */ lwz         r3, lbl_809bd728@l(r21)
+  /* 8052EB8C 8075D728 */ lwz         r3, spInstance__Q26System10RaceConfig@l(r21)
   /* 8052EB90 FC00F01E */ fctiwz      f0, f30
   /* 8052EB94 38800000 */ li          r4, 0x0
   /* 8052EB98 80630B70 */ lwz         r3, 0xb70(r3)
@@ -1376,7 +1379,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EC9C 3C60809C */ lis         r3, lbl_809bd730@ha
   /* 8052ECA0 3A000000 */ li          r16, 0x0
   /* 8052ECA4 81E3D730 */ lwz         r15, lbl_809bd730@l(r3)
-  /* 8052ECA8 3DC0809C */ lis         r14, lbl_809bd728@ha
+  /* 8052ECA8 3DC0809C */ lis         r14, spInstance__Q26System10RaceConfig@ha
   /* 8052ECAC 48000030 */ b           lbl_8052ecdc
   lbl_8052ecb0:
   /* 8052ECB0 5600063E */ clrlwi      r0, r16, 0x18
@@ -1392,7 +1395,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   lbl_8052ecd8:
   /* 8052ECD8 3A100001 */ addi        r16, r16, 0x1
   lbl_8052ecdc:
-  /* 8052ECDC 808ED728 */ lwz         r4, lbl_809bd728@l(r14)
+  /* 8052ECDC 808ED728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r14)
   /* 8052ECE0 5603063E */ clrlwi      r3, r16, 0x18
   /* 8052ECE4 88040024 */ lbz         r0, 0x24(r4)
   /* 8052ECE8 7C030040 */ cmplw       r3, r0
@@ -2513,10 +2516,10 @@ asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
   nofralloc
   /* 8052FE58 9421FFE0 */ stwu        r1, -0x20(r1)
   /* 8052FE5C 7C0802A6 */ mflr        r0
-  /* 8052FE60 3C60809C */ lis         r3, lbl_809bd728@ha
+  /* 8052FE60 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
   /* 8052FE64 90010024 */ stw         r0, 0x24(r1)
   /* 8052FE68 BF410008 */ stmw        r26, 8(r1)
-  /* 8052FE6C 8003D728 */ lwz         r0, lbl_809bd728@l(r3)
+  /* 8052FE6C 8003D728 */ lwz         r0, spInstance__Q26System10RaceConfig@l(r3)
   /* 8052FE70 2C000000 */ cmpwi       r0, 0x0
   /* 8052FE74 40820158 */ bne-        lbl_8052ffcc
   /* 8052FE78 386073F0 */ li          r3, 0x73f0
@@ -2536,12 +2539,12 @@ asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
   /* 8052FEB0 3FA08053 */ lis         r29, __ct__Q26System16RaceConfigPlayerFv@ha
   /* 8052FEB4 901A0000 */ stw         r0, 0(r26)
   /* 8052FEB8 3B7B3288 */ addi        r27, r27, lbl_808b3288@l
-  /* 8052FEBC 3FC08053 */ lis         r30, RacedataPlayer_destroy@ha
+  /* 8052FEBC 3FC08053 */ lis         r30, __dt__Q26System16RaceConfigPlayerFv@ha
   /* 8052FEC0 3B800000 */ li          r28, 0x0
   /* 8052FEC4 937A0020 */ stw         r27, 0x20(r26)
   /* 8052FEC8 387A0028 */ addi        r3, r26, 0x28
   /* 8052FECC 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
-  /* 8052FED0 38BEDC68 */ addi        r5, r30, RacedataPlayer_destroy@l
+  /* 8052FED0 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
   /* 8052FED4 9B9A0024 */ stb         r28, 0x24(r26)
   /* 8052FED8 38C000F0 */ li          r6, 0xf0
   /* 8052FEDC 38E0000C */ li          r7, 0xc
@@ -2561,7 +2564,7 @@ asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
   /* 8052FF14 387A0C18 */ addi        r3, r26, 0xc18
   /* 8052FF18 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
   /* 8052FF1C 937A0C10 */ stw         r27, 0xc10(r26)
-  /* 8052FF20 38BEDC68 */ addi        r5, r30, RacedataPlayer_destroy@l
+  /* 8052FF20 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
   /* 8052FF24 38C000F0 */ li          r6, 0xf0
   /* 8052FF28 38E0000C */ li          r7, 0xc
   /* 8052FF2C 9B9A0C14 */ stb         r28, 0xc14(r26)
@@ -2580,7 +2583,7 @@ asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
   /* 8052FF60 387A1808 */ addi        r3, r26, 0x1808
   /* 8052FF64 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
   /* 8052FF68 937A1800 */ stw         r27, 0x1800(r26)
-  /* 8052FF6C 38BEDC68 */ addi        r5, r30, RacedataPlayer_destroy@l
+  /* 8052FF6C 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
   /* 8052FF70 38C000F0 */ li          r6, 0xf0
   /* 8052FF74 38E0000C */ li          r7, 0xc
   /* 8052FF78 9B9A1804 */ stb         r28, 0x1804(r26)
@@ -2604,13 +2607,13 @@ asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
   /* 8052FFBC 7C1BF840 */ cmplw       r27, r31
   /* 8052FFC0 4180FFF0 */ blt+        lbl_8052ffb0
   lbl_8052ffc4:
-  /* 8052FFC4 3C60809C */ lis         r3, lbl_809bd728@ha
-  /* 8052FFC8 9343D728 */ stw         r26, lbl_809bd728@l(r3)
+  /* 8052FFC4 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
+  /* 8052FFC8 9343D728 */ stw         r26, spInstance__Q26System10RaceConfig@l(r3)
   lbl_8052ffcc:
   /* 8052FFCC BB410008 */ lmw         r26, 8(r1)
-  /* 8052FFD0 3C60809C */ lis         r3, lbl_809bd728@ha
+  /* 8052FFD0 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
   /* 8052FFD4 80010024 */ lwz         r0, 0x24(r1)
-  /* 8052FFD8 8063D728 */ lwz         r3, lbl_809bd728@l(r3)
+  /* 8052FFD8 8063D728 */ lwz         r3, spInstance__Q26System10RaceConfig@l(r3)
   /* 8052FFDC 7C0803A6 */ mtlr        r0
   /* 8052FFE0 38210020 */ addi        r1, r1, 0x20
   /* 8052FFE4 4E800020 */ blr
@@ -2625,9 +2628,9 @@ asm UNKNOWN_FUNCTION(Racedata_destroyStaticInstance) {
   nofralloc
   /* 8052FFE8 9421FFF0 */ stwu        r1, -0x10(r1)
   /* 8052FFEC 7C0802A6 */ mflr        r0
-  /* 8052FFF0 3C60809C */ lis         r3, lbl_809bd728@ha
+  /* 8052FFF0 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
   /* 8052FFF4 90010014 */ stw         r0, 0x14(r1)
-  /* 8052FFF8 8063D728 */ lwz         r3, lbl_809bd728@l(r3)
+  /* 8052FFF8 8063D728 */ lwz         r3, spInstance__Q26System10RaceConfig@l(r3)
   /* 8052FFFC 2C030000 */ cmpwi       r3, 0x0
   /* 80530000 4182001C */ beq-        lbl_8053001c
   /* 80530004 41820018 */ beq-        lbl_8053001c
@@ -2637,9 +2640,9 @@ asm UNKNOWN_FUNCTION(Racedata_destroyStaticInstance) {
   /* 80530014 7D8903A6 */ mtctr       r12
   /* 80530018 4E800421 */ bctrl
   lbl_8053001c:
-  /* 8053001C 3C60809C */ lis         r3, lbl_809bd728@ha
+  /* 8053001C 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
   /* 80530020 38000000 */ li          r0, 0x0
-  /* 80530024 9003D728 */ stw         r0, lbl_809bd728@l(r3)
+  /* 80530024 9003D728 */ stw         r0, spInstance__Q26System10RaceConfig@l(r3)
   /* 80530028 80010014 */ lwz         r0, 0x14(r1)
   /* 8053002C 7C0803A6 */ mtlr        r0
   /* 80530030 38210010 */ addi        r1, r1, 0x10
@@ -2664,27 +2667,27 @@ asm UNKNOWN_FUNCTION(Racedata_destroy) {
   /* 80530058 41820080 */ beq-        lbl_805300d8
   /* 8053005C 34631800 */ addic.      r3, r3, 0x1800
   /* 80530060 4182001C */ beq-        lbl_8053007c
-  /* 80530064 3C808053 */ lis         r4, RacedataPlayer_destroy@ha
+  /* 80530064 3C808053 */ lis         r4, __dt__Q26System16RaceConfigPlayerFv@ha
   /* 80530068 38630008 */ addi        r3, r3, 0x8
-  /* 8053006C 3884DC68 */ addi        r4, r4, RacedataPlayer_destroy@l
+  /* 8053006C 3884DC68 */ addi        r4, r4, __dt__Q26System16RaceConfigPlayerFv@l
   /* 80530070 38A000F0 */ li          r5, 0xf0
   /* 80530074 38C0000C */ li          r6, 0xc
   /* 80530078 4BAF1075 */ bl          __destroy_arr
   lbl_8053007c:
   /* 8053007C 347E0C10 */ addic.      r3, r30, 0xc10
   /* 80530080 4182001C */ beq-        lbl_8053009c
-  /* 80530084 3C808053 */ lis         r4, RacedataPlayer_destroy@ha
+  /* 80530084 3C808053 */ lis         r4, __dt__Q26System16RaceConfigPlayerFv@ha
   /* 80530088 38630008 */ addi        r3, r3, 0x8
-  /* 8053008C 3884DC68 */ addi        r4, r4, RacedataPlayer_destroy@l
+  /* 8053008C 3884DC68 */ addi        r4, r4, __dt__Q26System16RaceConfigPlayerFv@l
   /* 80530090 38A000F0 */ li          r5, 0xf0
   /* 80530094 38C0000C */ li          r6, 0xc
   /* 80530098 4BAF1055 */ bl          __destroy_arr
   lbl_8053009c:
   /* 8053009C 347E0020 */ addic.      r3, r30, 0x20
   /* 805300A0 4182001C */ beq-        lbl_805300bc
-  /* 805300A4 3C808053 */ lis         r4, RacedataPlayer_destroy@ha
+  /* 805300A4 3C808053 */ lis         r4, __dt__Q26System16RaceConfigPlayerFv@ha
   /* 805300A8 38630008 */ addi        r3, r3, 0x8
-  /* 805300AC 3884DC68 */ addi        r4, r4, RacedataPlayer_destroy@l
+  /* 805300AC 3884DC68 */ addi        r4, r4, __dt__Q26System16RaceConfigPlayerFv@l
   /* 805300B0 38A000F0 */ li          r5, 0xf0
   /* 805300B4 38C0000C */ li          r6, 0xc
   /* 805300B8 4BAF1035 */ bl          __destroy_arr
@@ -2730,9 +2733,9 @@ asm UNKNOWN_FUNCTION(RacedataScenario_destroy) {
   /* 8053010C 93C10008 */ stw         r30, 8(r1)
   /* 80530110 7C7E1B78 */ mr          r30, r3
   /* 80530114 4182002C */ beq-        lbl_80530140
-  /* 80530118 3C808053 */ lis         r4, RacedataPlayer_destroy@ha
+  /* 80530118 3C808053 */ lis         r4, __dt__Q26System16RaceConfigPlayerFv@ha
   /* 8053011C 38A000F0 */ li          r5, 0xf0
-  /* 80530120 3884DC68 */ addi        r4, r4, RacedataPlayer_destroy@l
+  /* 80530120 3884DC68 */ addi        r4, r4, __dt__Q26System16RaceConfigPlayerFv@l
   /* 80530124 38C0000C */ li          r6, 0xc
   /* 80530128 38630008 */ addi        r3, r3, 0x8
   /* 8053012C 4BAF0FC1 */ bl          __destroy_arr
@@ -2787,11 +2790,11 @@ asm UNKNOWN_FUNCTION(Racedata_construct) {
   /* 80530194 38030008 */ addi        r0, r3, 0x8
   /* 80530198 3FA08053 */ lis         r29, __ct__Q26System16RaceConfigPlayerFv@ha
   /* 8053019C 3B7B3288 */ addi        r27, r27, lbl_808b3288@l
-  /* 805301A0 3FC08053 */ lis         r30, RacedataPlayer_destroy@ha
+  /* 805301A0 3FC08053 */ lis         r30, __dt__Q26System16RaceConfigPlayerFv@ha
   /* 805301A4 907A001C */ stw         r3, 0x1c(r26)
   /* 805301A8 387A0028 */ addi        r3, r26, 0x28
   /* 805301AC 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
-  /* 805301B0 38BEDC68 */ addi        r5, r30, RacedataPlayer_destroy@l
+  /* 805301B0 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
   /* 805301B4 901A0000 */ stw         r0, 0(r26)
   /* 805301B8 38C000F0 */ li          r6, 0xf0
   /* 805301BC 38E0000C */ li          r7, 0xc
@@ -2813,7 +2816,7 @@ asm UNKNOWN_FUNCTION(Racedata_construct) {
   /* 805301FC 387A0C18 */ addi        r3, r26, 0xc18
   /* 80530200 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
   /* 80530204 937A0C10 */ stw         r27, 0xc10(r26)
-  /* 80530208 38BEDC68 */ addi        r5, r30, RacedataPlayer_destroy@l
+  /* 80530208 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
   /* 8053020C 38C000F0 */ li          r6, 0xf0
   /* 80530210 38E0000C */ li          r7, 0xc
   /* 80530214 9B9A0C14 */ stb         r28, 0xc14(r26)
@@ -2832,7 +2835,7 @@ asm UNKNOWN_FUNCTION(Racedata_construct) {
   /* 80530248 387A1808 */ addi        r3, r26, 0x1808
   /* 8053024C 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
   /* 80530250 937A1800 */ stw         r27, 0x1800(r26)
-  /* 80530254 38BEDC68 */ addi        r5, r30, RacedataPlayer_destroy@l
+  /* 80530254 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
   /* 80530258 38C000F0 */ li          r6, 0xf0
   /* 8053025C 38E0000C */ li          r7, 0xc
   /* 80530260 9B9A1804 */ stb         r28, 0x1804(r26)
@@ -4143,10 +4146,10 @@ asm UNKNOWN_FUNCTION(Racedata_initCredits) {
   /* 805316B8 38E00000 */ li          r7, 0x0
   /* 805316BC 38600001 */ li          r3, 0x1
   /* 805316C0 38000026 */ li          r0, 0x26
-  /* 805316C4 3CC0809C */ lis         r6, lbl_809bd728@ha
+  /* 805316C4 3CC0809C */ lis         r6, spInstance__Q26System10RaceConfig@ha
   lbl_805316c8:
   /* 805316C8 54E5063E */ clrlwi      r5, r7, 0x18
-  /* 805316CC 8086D728 */ lwz         r4, lbl_809bd728@l(r6)
+  /* 805316CC 8086D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r6)
   /* 805316D0 1CA500F0 */ mulli       r5, r5, 0xf0
   /* 805316D4 7C842A14 */ add         r4, r4, r5
   /* 805316D8 80840038 */ lwz         r4, 0x38(r4)
@@ -4249,13 +4252,13 @@ asm UNKNOWN_FUNCTION(Racedata_initCredits) {
   /* 80531854 39200001 */ li          r9, 0x1
   /* 80531858 38600001 */ li          r3, 0x1
   /* 8053185C 38000026 */ li          r0, 0x26
-  /* 80531860 3CE0809C */ lis         r7, lbl_809bd728@ha
+  /* 80531860 3CE0809C */ lis         r7, spInstance__Q26System10RaceConfig@ha
   lbl_80531864:
   /* 80531864 5526063E */ clrlwi      r6, r9, 0x18
   /* 80531868 39400000 */ li          r10, 0x0
   lbl_8053186c:
   /* 8053186C 5545063E */ clrlwi      r5, r10, 0x18
-  /* 80531870 8087D728 */ lwz         r4, lbl_809bd728@l(r7)
+  /* 80531870 8087D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r7)
   /* 80531874 1D6500F0 */ mulli       r11, r5, 0xf0
   /* 80531878 7CA45A14 */ add         r5, r4, r11
   /* 8053187C 88850108 */ lbz         r4, 0x108(r5)
@@ -4564,66 +4567,66 @@ asm UNKNOWN_FUNCTION(unk_80531de4) {
   /* 80531DE8 7C0802A6 */ mflr        r0
   /* 80531DEC 90010024 */ stw         r0, 0x24(r1)
   /* 80531DF0 BF61000C */ stmw        r27, 0xc(r1)
-  /* 80531DF4 3FE0809C */ lis         r31, lbl_809bd740@ha
+  /* 80531DF4 3FE0809C */ lis         r31, spInstance__Q26System9InitScene@ha
   /* 80531DF8 7C7B1B78 */ mr          r27, r3
   /* 80531DFC 7C9C2378 */ mr          r28, r4
   /* 80531E00 7F83E378 */ mr          r3, r28
   /* 80531E04 389B0B48 */ addi        r4, r27, 0xb48
-  /* 80531E08 80BFD740 */ lwz         r5, lbl_809bd740@l(r31)
+  /* 80531E08 80BFD740 */ lwz         r5, spInstance__Q26System9InitScene@l(r31)
   /* 80531E0C 80C50034 */ lwz         r6, 0x34(r5)
   /* 80531E10 38A00004 */ li          r5, 0x4
-  /* 80531E14 4BAD7F59 */ bl          ParamFile_append
-  /* 80531E18 80DFD740 */ lwz         r6, lbl_809bd740@l(r31)
+  /* 80531E14 4BAD7F59 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 80531E18 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
   /* 80531E1C 7F83E378 */ mr          r3, r28
   /* 80531E20 389B0B4C */ addi        r4, r27, 0xb4c
   /* 80531E24 38A00004 */ li          r5, 0x4
   /* 80531E28 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E2C 4BAD7F41 */ bl          ParamFile_append
-  /* 80531E30 80DFD740 */ lwz         r6, lbl_809bd740@l(r31)
+  /* 80531E2C 4BAD7F41 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 80531E30 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
   /* 80531E34 7F83E378 */ mr          r3, r28
   /* 80531E38 389B0B50 */ addi        r4, r27, 0xb50
   /* 80531E3C 38A00004 */ li          r5, 0x4
   /* 80531E40 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E44 4BAD7F29 */ bl          ParamFile_append
-  /* 80531E48 80DFD740 */ lwz         r6, lbl_809bd740@l(r31)
+  /* 80531E44 4BAD7F29 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 80531E48 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
   /* 80531E4C 7F83E378 */ mr          r3, r28
   /* 80531E50 389B0004 */ addi        r4, r27, 0x4
   /* 80531E54 38A00001 */ li          r5, 0x1
   /* 80531E58 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E5C 4BAD7F11 */ bl          ParamFile_append
-  /* 80531E60 80DFD740 */ lwz         r6, lbl_809bd740@l(r31)
+  /* 80531E5C 4BAD7F11 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 80531E60 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
   /* 80531E64 7F83E378 */ mr          r3, r28
   /* 80531E68 389B0006 */ addi        r4, r27, 0x6
   /* 80531E6C 38A00001 */ li          r5, 0x1
   /* 80531E70 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E74 4BAD7EF9 */ bl          ParamFile_append
+  /* 80531E74 4BAD7EF9 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
   /* 80531E78 3BDB0008 */ addi        r30, r27, 0x8
   /* 80531E7C 3BA00000 */ li          r29, 0x0
   lbl_80531e80:
-  /* 80531E80 80DFD740 */ lwz         r6, lbl_809bd740@l(r31)
+  /* 80531E80 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
   /* 80531E84 7F83E378 */ mr          r3, r28
   /* 80531E88 389E0008 */ addi        r4, r30, 0x8
   /* 80531E8C 38A00004 */ li          r5, 0x4
   /* 80531E90 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E94 4BAD7ED9 */ bl          ParamFile_append
-  /* 80531E98 80DFD740 */ lwz         r6, lbl_809bd740@l(r31)
+  /* 80531E94 4BAD7ED9 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 80531E98 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
   /* 80531E9C 7F83E378 */ mr          r3, r28
   /* 80531EA0 389E000C */ addi        r4, r30, 0xc
   /* 80531EA4 38A00004 */ li          r5, 0x4
   /* 80531EA8 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531EAC 4BAD7EC1 */ bl          ParamFile_append
-  /* 80531EB0 80DFD740 */ lwz         r6, lbl_809bd740@l(r31)
+  /* 80531EAC 4BAD7EC1 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 80531EB0 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
   /* 80531EB4 7F83E378 */ mr          r3, r28
   /* 80531EB8 389E0010 */ addi        r4, r30, 0x10
   /* 80531EBC 38A00004 */ li          r5, 0x4
   /* 80531EC0 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531EC4 4BAD7EA9 */ bl          ParamFile_append
-  /* 80531EC8 80DFD740 */ lwz         r6, lbl_809bd740@l(r31)
+  /* 80531EC4 4BAD7EA9 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
+  /* 80531EC8 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
   /* 80531ECC 7F83E378 */ mr          r3, r28
   /* 80531ED0 389E00CC */ addi        r4, r30, 0xcc
   /* 80531ED4 38A00004 */ li          r5, 0x4
   /* 80531ED8 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531EDC 4BAD7E91 */ bl          ParamFile_append
+  /* 80531EDC 4BAD7E91 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
   /* 80531EE0 3BBD0001 */ addi        r29, r29, 0x1
   /* 80531EE4 3BDE00F0 */ addi        r30, r30, 0xf0
   /* 80531EE8 2C1D000C */ cmpwi       r29, 0xc
@@ -4632,7 +4635,7 @@ asm UNKNOWN_FUNCTION(unk_80531de4) {
   /* 80531EF4 389B0B70 */ addi        r4, r27, 0xb70
   /* 80531EF8 38A00004 */ li          r5, 0x4
   /* 80531EFC 38C00000 */ li          r6, 0x0
-  /* 80531F00 4BAD7E6D */ bl          ParamFile_append
+  /* 80531F00 4BAD7E6D */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
   /* 80531F04 BB61000C */ lmw         r27, 0xc(r1)
   /* 80531F08 80010024 */ lwz         r0, 0x24(r1)
   /* 80531F0C 7C0803A6 */ mtlr        r0
