@@ -420,7 +420,7 @@ extern UNKNOWN_DATA(spInstance__Q26System9InitScene);
 // PAL: 0x808900e0
 // extern UNKNOWN_DATA(lbl_808900e0);
 // PAL: 0x80890030
-extern UNKNOWN_DATA(lbl_80890030);
+extern UNKNOWN_DATA(VS_POINT_DISTRIBUTION__6System);
 // PAL: 0x8088ffa8
 // extern UNKNOWN_DATA(lbl_8088ffa8);
 // PAL: 0x809bd730
@@ -1175,10 +1175,10 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052E990 3816FFFF */ addi        r0, r22, -0x1
   /* 8052E994 3C608089 */ lis         r3, lbl_808900e0@ha
   /* 8052E998 1C00000C */ mulli       r0, r0, 0xc
-  /* 8052E99C 3C808089 */ lis         r4, lbl_80890030@ha
+  /* 8052E99C 3C808089 */ lis         r4, VS_POINT_DISTRIBUTION__6System@ha
   /* 8052E9A0 CBE300E0 */ lfd         f31, lbl_808900e0@l(r3)
   /* 8052E9A4 3A410008 */ addi        r18, r1, 0x8
-  /* 8052E9A8 38840030 */ addi        r4, r4, lbl_80890030@l
+  /* 8052E9A8 38840030 */ addi        r4, r4, VS_POINT_DISTRIBUTION__6System@l
   /* 8052E9AC 7E840214 */ add         r20, r4, r0
   /* 8052E9B0 3A200000 */ li          r17, 0x0
   /* 8052E9B4 3FC0809C */ lis         r30, lbl_809bd730@ha
