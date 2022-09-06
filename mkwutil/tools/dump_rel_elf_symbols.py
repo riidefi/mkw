@@ -85,7 +85,7 @@ def process_elf(elf: ELFFile, out):
     symbols_sorted = SymbolsList()
     for sym in symbols:
         symbols_sorted.put(sym)
-    symbols_sorted.write_to(out)
+    symbols_sorted.write_to_yaml(out)
 
 
 def main():

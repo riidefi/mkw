@@ -3,6 +3,9 @@
 #include <game/geo/BoxColUnit.hpp>
 #include <egg/core/eggDisposer.hpp>
 
+extern "C" const float flt_808A47EC;
+// extern const float flt_808A47EC;
+
 struct BoxColRightPoint {
   /*
   MKDS:

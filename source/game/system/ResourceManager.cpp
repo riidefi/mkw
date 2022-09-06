@@ -20,50 +20,51 @@ extern UNKNOWN_FUNCTION(unk_8000b26c);
 // PAL: 0x80008e74
 extern UNKNOWN_FUNCTION(unk_80008e74);
 // PAL: 0x805401b0
-extern UNKNOWN_FUNCTION(lbl_805401b0);
+// extern UNKNOWN_FUNCTION(lbl_805401b0);
 // PAL: 0x80540164
-extern UNKNOWN_FUNCTION(lbl_80540164);
+// extern UNKNOWN_FUNCTION(lbl_80540164);
 // PAL: 0x805401c8
-extern UNKNOWN_FUNCTION(lbl_805401c8);
+// extern UNKNOWN_FUNCTION(lbl_805401c8);
 // PAL: 0x805400c8
-extern UNKNOWN_FUNCTION(lbl_805400c8);
+// extern UNKNOWN_FUNCTION(lbl_805400c8);
 // PAL: 0x80540148
-extern UNKNOWN_FUNCTION(lbl_80540148);
+// extern UNKNOWN_FUNCTION(lbl_80540148);
 // PAL: 0x80540198
-extern UNKNOWN_FUNCTION(lbl_80540198);
+// extern UNKNOWN_FUNCTION(lbl_80540198);
 // PAL: 0x80242c98
 extern UNKNOWN_FUNCTION(isTaskExist__Q23EGG10TaskThreadCFv);
 // PAL: 0x80008e20
 extern UNKNOWN_FUNCTION(unk_80008e20);
 // PAL: 0x80540124
-extern UNKNOWN_FUNCTION(lbl_80540124);
+// extern UNKNOWN_FUNCTION(lbl_80540124);
 // PAL: 0x801bab2c
 extern UNKNOWN_FUNCTION(VISetBlack);
 // PAL: 0x80540134
-extern UNKNOWN_FUNCTION(lbl_80540134);
+// extern UNKNOWN_FUNCTION(lbl_80540134);
 // PAL: 0x80541d7c
-extern UNKNOWN_FUNCTION(lbl_80541d7c);
+// extern UNKNOWN_FUNCTION(lbl_80541d7c);
 // PAL: 0x80541dac
-extern UNKNOWN_FUNCTION(lbl_80541dac);
+// extern UNKNOWN_FUNCTION(lbl_80541dac);
 // PAL: 0x80541d6c
-extern UNKNOWN_FUNCTION(lbl_80541d6c);
+// extern UNKNOWN_FUNCTION(lbl_80541d6c);
 // PAL: 0x80541e10
-extern UNKNOWN_FUNCTION(lbl_80541e10);
+// extern UNKNOWN_FUNCTION(lbl_80541e10);
 // PAL: 0x80541d90
-extern UNKNOWN_FUNCTION(lbl_80541d90);
+// extern UNKNOWN_FUNCTION(lbl_80541d90);
 // PAL: 0x80541df8
-extern UNKNOWN_FUNCTION(lbl_80541df8);
+// extern UNKNOWN_FUNCTION(lbl_80541df8);
 // PAL: 0x80541de0
-extern UNKNOWN_FUNCTION(lbl_80541de0);
+// extern UNKNOWN_FUNCTION(lbl_80541de0);
 // PAL: 0x80541d10
-extern UNKNOWN_FUNCTION(lbl_80541d10);
+// extern UNKNOWN_FUNCTION(lbl_80541d10);
 // Extern data references.
 // PAL: 0x80386000
-extern UNKNOWN_DATA(lbl_80386000);
+extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
 // PAL: 0x80385fc8
 extern UNKNOWN_DATA(lbl_80385fc8);
 // PAL: 0x80385fc0
 extern UNKNOWN_DATA(lbl_80385fc0);
+extern UNKNOWN_DATA(spInstance__Q26System9InitScene);
 }
 
 // --- EXTERN DECLARATIONS END ---
@@ -71,7 +72,6 @@ extern UNKNOWN_DATA(lbl_80385fc0);
 #pragma dont_reuse_strings on
 #pragma legacy_struct_alignment off
 
-extern RKScene* scenePtr;
 extern void ArcResourceLink_set(void* arcResource, void* archiveStart,
                                 const char* dirname);
 extern void ArcResourceAccessor_attach(void* arcResourceAccessor,
@@ -267,7 +267,8 @@ void ResourceManager::destroyInstance() {
 
 ResourceManager::ResourceManager() {
   foo();
-  mpTaskThread = EGG::TaskThread::create(14, 24, 0xC800, scenePtr->getA());
+  mpTaskThread =
+      EGG::TaskThread::create(14, 24, 0xC800, InitScene::spInstance->getA());
   mpTaskThread->mTaskEndMessageQueue = &System::SystemManager::sInstance->_B8;
   mppSceneArchives = new MultiDvdArchive*[9];
   for (u16 i = 0; i < 9; ++i) {
@@ -316,7 +317,7 @@ asm UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv) {
   /* 805400B4 3B800000 */ li          r28, 0x0
   /* 805400B8 3FE08038 */ lis         r31, lbl_80385fc0@ha
   /* 805400BC 3FA08038 */ lis         r29, lbl_80385fc8@ha
-  /* 805400C0 3FC08038 */ lis         r30, lbl_80386000@ha
+  /* 805400C0 3FC08038 */ lis         r30, sInstance__Q26System13SystemManager@ha
   /* 805400C4 48000104 */ b           lbl_805401c8
   lbl_805400c8:
   /* 805400C8 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
@@ -362,7 +363,7 @@ asm UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv) {
   /* 8054015C 7D8903A6 */ mtctr       r12
   /* 80540160 4E800421 */ bctrl
   lbl_80540164:
-  /* 80540164 807E6000 */ lwz         r3, lbl_80386000@l(r30)
+  /* 80540164 807E6000 */ lwz         r3, sInstance__Q26System13SystemManager@l(r30)
   /* 80540168 4BACB105 */ bl          unk_8000b26c
   /* 8054016C 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
   /* 80540170 8063004C */ lwz         r3, 0x4c(r3)
@@ -997,7 +998,7 @@ asm UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv) {
   /* 80541CF8 3B800000 */ li          r28, 0x0
   /* 80541CFC 3FE08038 */ lis         r31, lbl_80385fc0@ha
   /* 80541D00 3FA08038 */ lis         r29, lbl_80385fc8@ha
-  /* 80541D04 3FC08038 */ lis         r30, lbl_80386000@ha
+  /* 80541D04 3FC08038 */ lis         r30, sInstance__Q26System13SystemManager@ha
   /* 80541D08 98030619 */ stb         r0, 0x619(r3)
   /* 80541D0C 48000104 */ b           lbl_80541e10
   lbl_80541d10:
@@ -1044,7 +1045,7 @@ asm UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv) {
   /* 80541DA4 7D8903A6 */ mtctr       r12
   /* 80541DA8 4E800421 */ bctrl
   lbl_80541dac:
-  /* 80541DAC 807E6000 */ lwz         r3, lbl_80386000@l(r30)
+  /* 80541DAC 807E6000 */ lwz         r3, sInstance__Q26System13SystemManager@l(r30)
   /* 80541DB0 4BAC94BD */ bl          unk_8000b26c
   /* 80541DB4 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
   /* 80541DB8 8063004C */ lwz         r3, 0x4c(r3)

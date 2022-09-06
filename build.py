@@ -412,7 +412,8 @@ def link_rel(o_files: list[Path]):
     dol_elf_path = dest_dir / "main.elf"
     rel_path = dest_dir / "StaticR.rel"
     orig_dir = Path("artifacts", "orig")
-    pack_staticr_rel(elf_path, rel_path, dol_elf_path)
+    orig_rel_yml_path = Path("mkwutil", "ppcdis_adapter", "rel.yaml")
+    pack_staticr_rel(elf_path, rel_path, orig_rel_yml_path, dol_elf_path)
     return rel_path
 
 

@@ -1,6 +1,8 @@
 #include "KartComponent.hpp"
 #include <cstddef>
 
+nw4r::ut::List Kart::KartComponent::sList;
+
 namespace Kart {
 
 void KartComponent::initList() {

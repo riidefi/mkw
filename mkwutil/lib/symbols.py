@@ -137,11 +137,10 @@ class SymbolsList:
 
     def write_to_yaml(self, file):
         """Writes a symbol list to a file in YAML format."""
-        with open(file, 'w') as yamlfile:
-            yamlfile.write('global:\n')
+        file.write('global:\n')
 
-            for sym in self:
-                yamlfile.write("    0x%08x: %r\n" % (sym.addr, sym.name))
+        for sym in self:
+            file.write("    0x%08x: %r\n" % (sym.addr, sym.name))
 
     def derive_sizes(self, stop):
         """Fills in sizes of each symbol."""
