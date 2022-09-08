@@ -21,7 +21,7 @@ void MessageGroup::load(const char* filename) {
   path[sizeof(path) - 1] = '\0'; // Redundant
 
   const void* file =
-      System::ResourceManager::spInstance_REAL->getFile(2, path, nullptr);
+      System::ResourceManager::spInstance.nonvol->getFile(2, path, nullptr);
 
   load(file);
 }

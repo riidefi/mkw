@@ -22553,4 +22553,5 @@ global:
     0x808b42e0: '__vt__Q24Util6Random'
     0x809bd6e8: 'spInstance__Q25Field9CourseMap'
     0x809bd728: 'spInstance__Q26System10RaceConfig'
+    0x809bd738: 'spInstance__Q26System15ResourceManager'
     0x809bd740: 'spInstance__Q26System9InitScene'

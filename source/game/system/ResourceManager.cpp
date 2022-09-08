@@ -19,45 +19,12 @@ extern UNKNOWN_FUNCTION(OSSuspendThread);
 extern UNKNOWN_FUNCTION(unk_8000b26c);
 // PAL: 0x80008e74
 extern UNKNOWN_FUNCTION(unk_80008e74);
-// PAL: 0x805401b0
-// extern UNKNOWN_FUNCTION(lbl_805401b0);
-// PAL: 0x80540164
-// extern UNKNOWN_FUNCTION(lbl_80540164);
-// PAL: 0x805401c8
-// extern UNKNOWN_FUNCTION(lbl_805401c8);
-// PAL: 0x805400c8
-// extern UNKNOWN_FUNCTION(lbl_805400c8);
-// PAL: 0x80540148
-// extern UNKNOWN_FUNCTION(lbl_80540148);
-// PAL: 0x80540198
-// extern UNKNOWN_FUNCTION(lbl_80540198);
 // PAL: 0x80242c98
 extern UNKNOWN_FUNCTION(isTaskExist__Q23EGG10TaskThreadCFv);
 // PAL: 0x80008e20
 extern UNKNOWN_FUNCTION(unk_80008e20);
-// PAL: 0x80540124
-// extern UNKNOWN_FUNCTION(lbl_80540124);
 // PAL: 0x801bab2c
 extern UNKNOWN_FUNCTION(VISetBlack);
-// PAL: 0x80540134
-// extern UNKNOWN_FUNCTION(lbl_80540134);
-// PAL: 0x80541d7c
-// extern UNKNOWN_FUNCTION(lbl_80541d7c);
-// PAL: 0x80541dac
-// extern UNKNOWN_FUNCTION(lbl_80541dac);
-// PAL: 0x80541d6c
-// extern UNKNOWN_FUNCTION(lbl_80541d6c);
-// PAL: 0x80541e10
-// extern UNKNOWN_FUNCTION(lbl_80541e10);
-// PAL: 0x80541d90
-// extern UNKNOWN_FUNCTION(lbl_80541d90);
-// PAL: 0x80541df8
-// extern UNKNOWN_FUNCTION(lbl_80541df8);
-// PAL: 0x80541de0
-// extern UNKNOWN_FUNCTION(lbl_80541de0);
-// PAL: 0x80541d10
-// extern UNKNOWN_FUNCTION(lbl_80541d10);
-// Extern data references.
 // PAL: 0x80386000
 extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
 // PAL: 0x80385fc8
@@ -242,27 +209,30 @@ extern UNKNOWN_FUNCTION(rip__Q26System15MultiDvdArchiveFPCcPQ23EGG4Heap);
 extern UNKNOWN_FUNCTION(clear__Q26System15MultiDvdArchiveFv);
 // PAL: 0x8052ae08
 extern UNKNOWN_FUNCTION(rippedArchiveCount__Q26System15MultiDvdArchiveFv);
-// PAL: 0x80552d90
-// extern UNKNOWN_FUNCTION(getSlotForCourseId);
 // PAL: 0x805553b0
 extern UNKNOWN_FUNCTION(unk_805553b0);
 }
 
 namespace System {
 
+// .bss
+ResourceManager::ResMgrInstance ResourceManager::spInstance;
+// volatile ResourceManager* ResourceManager::ResMgrInstance::vol;
+// ResourceManager* ResourceManager::ResMgrInstance::nonvol;
+
 volatile ResourceManager* ResourceManager::createInstance() {
-  if (!spInstance) {
-    spInstance = new ResourceManager();
+  if (!spInstance.vol) {
+    spInstance.vol = new ResourceManager();
   }
 
-  return spInstance;
+  return spInstance.vol;
 }
 
 void ResourceManager::destroyInstance() {
-  if (spInstance) {
-    delete spInstance;
+  if (spInstance.vol) {
+    delete spInstance.vol;
   }
-  spInstance = nullptr;
+  spInstance.vol = nullptr;
 }
 
 ResourceManager::ResourceManager() {
@@ -283,7 +253,8 @@ System::ResourceManager::~ResourceManager() {
 }
 
 void ResourceManager::doLoadTask(void* jobContext) {
-  JobContext* context = (JobContext*)&spInstance->mJobContexts[(s32)jobContext];
+  JobContext* context =
+      (JobContext*)&spInstance.vol->mJobContexts[(s32)jobContext];
 
   switch ((s32)jobContext) {
   case 6:
@@ -889,7 +860,8 @@ void ResourceManager::attatchLayoutDir(void* accessor, const char* dirname,
 #pragma dont_inline on
 #endif
 void preloadCourseTask(void* courseId) {
-  ((ResourceManager*)ResourceManager::spInstance)
+  // programming
+  ((ResourceManager*)ResourceManager::spInstance.vol)
       ->mCourseCache.load((CourseId)courseId);
 }
 #ifdef __CWCC__
@@ -1118,7 +1090,7 @@ void RloadMenuKartModel(MultiDvdArchive* m, MenuCharacterManager* c) {
 } // namespace
 
 void ResourceManager::doLoadCharacterKartModel(void* idxs) {
-  ResourceManager* resMgr = ResourceManager::spInstance_REAL;
+  ResourceManager* resMgr = ResourceManager::spInstance.nonvol;
   const u8 idx = (const u8)idxs;
   if (resMgr->mKartArchives[idx].isLoaded()) {
     resMgr->mKartArchives[idx].unmount();
@@ -1252,9 +1224,6 @@ void ResourceManager::initGlobeHeap(size_t size, EGG::Heap* heap) {
   }
   mpGlobeHeap = EGG::ExpHeap::create(size + 0x2041fU & 0xffffffe0, heap, 0);
 }
-} // namespace System
-
-namespace System {
 
 void ResourceManager::deinitGlobeHeap() {
   flush();
@@ -1263,7 +1232,7 @@ void ResourceManager::deinitGlobeHeap() {
 }
 
 void ResourceManager::doLoadGlobe(void* globeBlob) {
-  ResourceManager::spInstance->doLoadGlobeImpl((u8**)globeBlob);
+  ResourceManager::spInstance.vol->doLoadGlobeImpl((u8**)globeBlob);
 }
 
 void ResourceManager::doLoadGlobeImpl(u8** globeBlob) volatile {

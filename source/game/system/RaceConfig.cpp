@@ -4371,7 +4371,7 @@ void RaceConfig::loadNextCourse() {
     return;
   }
 
-  ResourceManager::spInstance_REAL->preloadCourseAsync(
+  ResourceManager::spInstance.nonvol->preloadCourseAsync(
       COURSE_ORDER[mRaceScenario.mSettings.mCupId][raceNumber + 1]);
 }
 
