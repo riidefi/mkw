@@ -1388,7 +1388,7 @@ def search_symbols_yml(start, start_addr, project, config):
 
     symbols = SymbolsList()
     with open(project.symbols_yml, "r") as f:
-        symbols.read_from(f)
+        symbols.read_from_yaml(f)
     symbols.derive_sizes(0x8100_0000)
 
     if start_addr is not None:

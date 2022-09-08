@@ -6,9 +6,6 @@
 
 namespace System {
 
-struct unkStruct;
-extern const unkStruct defColor;
-
 class RawMii {
 public:
   void reset() { memset(mBuffer, 0, sizeof(mBuffer)); }

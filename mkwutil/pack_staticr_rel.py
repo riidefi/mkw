@@ -56,7 +56,7 @@ def read_elf_sec(elf, name):
 
 def pack_staticr_rel(elf_path, rel_path, orig_rel_yaml_path, dol_elf_path):
     linker = RelLinker(dol_elf_path, elf_path, 1, num_sections=17, name_offset=0, name_size=66, \
-        base_rel_path=orig_rel_yaml_path, ignore_missing=True)
+        base_rel_path=orig_rel_yaml_path, ignore_missing=True, ignore_sections=["binary_blobs"])
     linker.link_rel(rel_path)
 
     """

@@ -45,3 +45,6 @@ forced_types:
 
 blocked_targets:
   - 0x80800000
+
+trim_ctors: true
+trim_dtors: true
