@@ -10,7 +10,7 @@ out/rel/data_808b2c3c_808b2c78.o
 out/DvdArchive.o
 out/rel/text_80519670_8051c088.o
 out/rel/rodata_8088fab7_8088fd60.o
-out/rel/data_808b2c88_808b2d38.o
+out/rel/data_808b2c84_808b2d38.o
 out/GhostFile.o
 out/rel/text_8051d4d4_80525f88.o
 out/Mii.o
