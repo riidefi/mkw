@@ -217,8 +217,6 @@ namespace System {
 
 // .bss
 ResourceManager::ResMgrInstance ResourceManager::spInstance;
-// volatile ResourceManager* ResourceManager::ResMgrInstance::vol;
-// ResourceManager* ResourceManager::ResMgrInstance::nonvol;
 
 volatile ResourceManager* ResourceManager::createInstance() {
   if (!spInstance.vol) {
@@ -1232,7 +1230,8 @@ void ResourceManager::deinitGlobeHeap() {
 }
 
 void ResourceManager::doLoadGlobe(void* globeBlob) {
-  ResourceManager::spInstance.vol->doLoadGlobeImpl((u8**)globeBlob);
+  volatile ResourceManager* inst = ResourceManager::spInstance.vol;
+  inst->doLoadGlobeImpl((u8**)globeBlob);
 }
 
 void ResourceManager::doLoadGlobeImpl(u8** globeBlob) volatile {

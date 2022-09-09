@@ -410,6 +410,7 @@ class DOLSrcGenerator:
         dol_labels_path = Path("./mkwutil/ppcdis_adapter/externs.pickle")
         with open(dol_labels_path, 'rb') as dol_labels_file:
             self.extra_labels = pickle.load(dol_labels_file)
+            self.extra_labels = self.extra_labels['labels']
 
     # Delete stale ASM files.
     def __prune_asm(self):
