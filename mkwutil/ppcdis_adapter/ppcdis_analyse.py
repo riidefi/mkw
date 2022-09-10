@@ -32,11 +32,9 @@ def analyse_bins(force_analyse=False):
         relanl = Analyser(relbin, rel_overridespath, extra_labels, thorough, quiet)
         relanl.output(rel_labelspath, rel_relocspath)
 
-""" uncomment for DOL analysis
-    if not (dol_labelspath.exists() and dol_relocspath.exists()):
+    if (not (dol_labelspath.exists() and dol_relocspath.exists())) or force_analyse:
         dolanl = Analyser(dolbin, dol_overridespath, extra_labels, thorough, quiet)
         dolanl.output(dol_labelspath, dol_relocspath)
-"""
 
 
 if __name__ == '__main__':
