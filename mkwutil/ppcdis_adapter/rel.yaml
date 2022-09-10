@@ -4,16 +4,16 @@ address: 0x805102e0
 bss_address: 0x809bd6e0
 section_defs:
     text:
-        .text:
+      - name: .text
     data:
-        .ctors:
-            balign: 0
-        .dtors:
-            balign: 0
-        .rodata:
-            balign: 0
-        .data:
-            balign: 0
+      - name: .ctors
+        balign: 0
+      - name: .dtors
+        balign: 0
+      - name: .rodata
+        balign: 0
+      - name: .data
+        balign: 0
     bss:
-        .bss:
-            balign: 0
+      - name: .bss
+        balign: 0

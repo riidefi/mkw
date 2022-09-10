@@ -63,7 +63,7 @@ Run `pip install -e .` to do that.
 
 ## Building
 
-First, permorm static analysis on the binaries with `python mkwutil/ppcdis_adapter/ppcdis_analyse.py`. Then run `python3 ./build.py` to build the game and verify build authenticity. Final results:
+Run `python3 ./build.py` to build the game and verify build authenticity. Final results:
   - `artifacts/target/pal/main.dol`
   - `artifacts/target/pal/StaticR.rel`
 

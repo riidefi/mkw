@@ -3,29 +3,29 @@ r13: 0x8038cc00
 r2: 0x8038efa0
 section_defs:
     text:
-        .init:
-        .text:
+      - name: .init
+      - name: .text
     data:
-        extab_:
-            attr: a
-        extabindex_:
-            attr: a
-        .ctors:
-            balign: 0
-        .dtors:
-            balign: 0
-        .rodata:
-            balign: 0
-        .data:
-            balign: 0
-        .sdata:
-            balign: 0
-        .sdata2:
-            balign: 0
+      - name: extab_
+        attr: a
+      - name: extabindex_
+        attr: a
+      - name: .ctors
+        balign: 0
+      - name: .dtors
+        balign: 0
+      - name: .rodata
+        balign: 0
+      - name: .data
+        balign: 0
+      - name: .sdata
+        balign: 0
+      - name: .sdata2
+        balign: 0
     bss:
-        .bss:
-            balign: 0
-        .sbss:
-            balign: 0
-        .sbss2:
-            balign: 0
+      - name: .bss
+        balign: 0
+      - name: .sbss
+        balign: 0
+      - name: .sbss2
+        balign: 0

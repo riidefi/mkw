@@ -32,11 +32,13 @@ from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.progress.percent_decompiled import build_stats
 from mkwutil.gen_asm import gen_asm
 from mkwutil.project import load_dol_slices, load_rel_slices
+from mkwutil.ppcdis_adapter.ppcdis_analyse import analyse_bins
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
     parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
+    parser.add_argument("--force_analyse", action="store_true", help="Force run original binary analysis")
     parser.add_argument(
         "-j",
         "--concurrency",
@@ -418,7 +420,7 @@ def link_rel(o_files: list[Path]):
 
 
 def build(args):
-    # Start by running gen_asm.
+    analyse_bins(args.force_analyse)
     gen_asm(args.regen_asm)
 
     """Builds the game."""

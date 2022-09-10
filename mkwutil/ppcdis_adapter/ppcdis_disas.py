@@ -3,7 +3,7 @@
 from pathlib import Path
 
 from ppcdis import Disassembler
-from ppcdis.binaryyml import load_binary_yml
+from ppcdis import load_binary_yml
 
 
 def get_dol_disaser():

@@ -3,11 +3,11 @@
 from pathlib import Path
 
 from ppcdis import Analyser, dump_rel_externs
-from ppcdis.binaryyml import load_binary_yml
+from ppcdis import load_binary_yml
 from mkwutil.project import read_symbol_map
 
 
-def analyse_bins():
+def analyse_bins(force_analyse=False):
     thispath = Path('./mkwutil/ppcdis_adapter')
     rel_labelspath = thispath / 'rel_labels.pickle'
     rel_relocspath = thispath / 'rel_relocs.pickle'
@@ -25,16 +25,18 @@ def analyse_bins():
     thorough = False
     quiet = False
 
-    if not externspath.exists():
+    if (not externspath.exists()) or force_analyse:
         dump_rel_externs(externspath, [relbin])
 
-    if not (rel_labelspath.exists() and rel_relocspath.exists()):
+    if (not (rel_labelspath.exists() and rel_relocspath.exists())) or force_analyse:
         relanl = Analyser(relbin, rel_overridespath, extra_labels, thorough, quiet)
         relanl.output(rel_labelspath, rel_relocspath)
 
+""" uncomment for DOL analysis
     if not (dol_labelspath.exists() and dol_relocspath.exists()):
         dolanl = Analyser(dolbin, dol_overridespath, extra_labels, thorough, quiet)
         dolanl.output(dol_labelspath, dol_relocspath)
+"""
 
 
 if __name__ == '__main__':
