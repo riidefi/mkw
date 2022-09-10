@@ -55,6 +55,10 @@ jobs:
           Remove-Item '.\tools.zip'
           Remove-Item -LiteralPath 'tools2' -Force -Recurse
 
+      - name: Analyse orignal binaries
+        shell: bash
+        run: python mkwutil/ppcdis_adapter/ppcdis_analyse.py
+
       - name: Build mkw
         shell: bash
         run: python build.py --regen_asm
