@@ -211,9 +211,26 @@ typedef enum {
   COURSE_CACHE_STATE_UNK3 = 3
 } CourseCacheState;
 
+class CourseCache : EGG::Disposer {
+public:
+  CourseCache();
+  void init();
+  virtual ~CourseCache();
+  void load(CourseId courseId);
+  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
+
+  // private: // idk if rii prefers to befriend every class over public-ing
+  // everything
+  void* mpBuffer;
+  EGG::ExpHeap* mpHeap;
+  CourseId mCourseId;
+  CourseCacheState mState;
+  MultiDvdArchive* mpArchive;
+};
+
 // begrudging riidefi magic
 struct S {
-  virtual ~S() = 0;
+  virtual ~S();
 };
 inline S::~S() {}
 struct T {
@@ -261,23 +278,6 @@ public:
   virtual ~MenuCharacterManager() {}
   CharacterId mCharacter;
   BattleTeam mTeam;
-};
-
-class CourseCache : EGG::Disposer {
-public:
-  CourseCache();
-  void init();
-  virtual ~CourseCache();
-  void load(CourseId courseId);
-  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
-
-  // private: // idk if rii prefers to befriend every class over public-ing
-  // everything
-  void* mpBuffer;
-  EGG::ExpHeap* mpHeap;
-  CourseId mCourseId;
-  CourseCacheState mState;
-  MultiDvdArchive* mpArchive;
 };
 
 void preloadCourseTask(void* courseId);

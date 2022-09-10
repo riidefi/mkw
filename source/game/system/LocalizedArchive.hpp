@@ -6,9 +6,9 @@ namespace System {
 
 MultiDvdArchive* createMultiDvdArchive(ResourceChannelID kind);
 
-class RaceSysDvdArchive : public MultiDvdArchive {
+class CourseDvdArchive : public MultiDvdArchive {
 public:
-  RaceSysDvdArchive();
+  CourseDvdArchive();
   void init() override;
 };
 
@@ -18,9 +18,9 @@ public:
   void init() override;
 };
 
-class CourseDvdArchive : public MultiDvdArchive {
+class RaceSysDvdArchive : public MultiDvdArchive {
 public:
-  CourseDvdArchive();
+  RaceSysDvdArchive();
   void init() override;
 };
 
