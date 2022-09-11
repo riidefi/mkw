@@ -41,19 +41,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
     parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
     parser.add_argument("--force_analyse", action="store_true", help="Force run original binary analysis")
-    parser.add_argument(
-        "-j",
-        "--concurrency",
-        type=int,
-        default=multiprocessing.cpu_count(),
-        help="Compile concurrency",
-    )
-    parser.add_argument(
-        "--match", type=str, default=None, help="Only compile sources matching pattern"
-    )
-    parser.add_argument(
-        "--diff_py", type=str, default=None, help="Recompile a .o file for diff.py"
-    )
     parser.add_argument("--link_only", action="store_true", help="Link only, don't build")
     args = parser.parse_args()
     return args
@@ -401,9 +388,6 @@ def build(args):
     rel_objects = [Path(x.strip()) for x in rel_objects]
 
     compile_sources(args)
-
-    if args.diff_py:
-        return
 
     orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
     orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
