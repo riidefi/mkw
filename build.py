@@ -32,11 +32,13 @@ from mkwutil.verify_staticr_rel import verify_rel
 from mkwutil.progress.percent_decompiled import build_stats
 from mkwutil.gen_asm import gen_asm
 from mkwutil.project import load_dol_slices, load_rel_slices
+from mkwutil.ppcdis_adapter.ppcdis_analyse import analyse_bins
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
     parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
+    parser.add_argument("--force_analyse", action="store_true", help="Force run original binary analysis")
     parser.add_argument(
         "-j",
         "--concurrency",
@@ -183,7 +185,7 @@ CW_ARGS = [
     "-nostdinc",
     "-msgstyle gcc -lang=c99 -DREVOKART",
     "-func_align 4",
-    "-sym dwarf-2",
+    #"-sym dwarf-2",
 ]
 
 # Hack: $@ doesn't behave properly with this
@@ -323,7 +325,7 @@ def link(
         ]
     )
     if partial:
-        cmd.append("-r")
+        cmd.append("-r1")
     command = " ".join(map(str, cmd))
     lines, returncode = run_windows_cmd(command)
     for line in lines:
@@ -409,14 +411,16 @@ def link_rel(o_files: list[Path]):
     map_path = dest_dir / "StaticR.map"
     link(elf_path, o_files, dst_lcf_path, map_path, partial=True)
     # Convert ELF to REL.
+    dol_elf_path = dest_dir / "main.elf"
     rel_path = dest_dir / "StaticR.rel"
     orig_dir = Path("artifacts", "orig")
-    pack_staticr_rel(elf_path, rel_path, orig_dir)
+    orig_rel_yml_path = Path("mkwutil", "ppcdis_adapter", "rel.yaml")
+    pack_staticr_rel(elf_path, rel_path, orig_rel_yml_path, dol_elf_path)
     return rel_path
 
 
 def build(args):
-    # Start by running gen_asm.
+    analyse_bins(args.force_analyse)
     gen_asm(args.regen_asm)
 
     """Builds the game."""

@@ -211,9 +211,26 @@ typedef enum {
   COURSE_CACHE_STATE_UNK3 = 3
 } CourseCacheState;
 
+class CourseCache : EGG::Disposer {
+public:
+  CourseCache();
+  void init();
+  virtual ~CourseCache();
+  void load(CourseId courseId);
+  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
+
+  // private: // idk if rii prefers to befriend every class over public-ing
+  // everything
+  void* mpBuffer;
+  EGG::ExpHeap* mpHeap;
+  CourseId mCourseId;
+  CourseCacheState mState;
+  MultiDvdArchive* mpArchive;
+};
+
 // begrudging riidefi magic
 struct S {
-  virtual ~S() = 0;
+  virtual ~S();
 };
 inline S::~S() {}
 struct T {
@@ -263,23 +280,6 @@ public:
   BattleTeam mTeam;
 };
 
-class CourseCache : EGG::Disposer {
-public:
-  CourseCache();
-  void init();
-  virtual ~CourseCache();
-  void load(CourseId courseId);
-  void loadOther(MultiDvdArchive* other, EGG::Heap* heap);
-
-  // private: // idk if rii prefers to befriend every class over public-ing
-  // everything
-  void* mpBuffer;
-  EGG::ExpHeap* mpHeap;
-  CourseId mCourseId;
-  CourseCacheState mState;
-  MultiDvdArchive* mpArchive;
-};
-
 void preloadCourseTask(void* courseId);
 const char* getCharacterName(CharacterId charId);
 const char* getVehicleName(VehicleId vehicleId);
@@ -303,8 +303,13 @@ public:
   static void destroyInstance();
 
   // Pretty sure this is actual source code
-  static volatile ResourceManager* spInstance;
-  static ResourceManager* spInstance_REAL;
+  union ResMgrInstance {
+    volatile ResourceManager* vol;
+    ResourceManager* nonvol;
+  };
+  static ResMgrInstance spInstance;
+  // static volatile ResourceManager* spInstance;
+  // static ResourceManager* spInstance_REAL;
 
   ResourceManager();
 
@@ -404,6 +409,7 @@ public:
   bool loadKartMenuModelAsync(s32 idx, CharacterId characterId,
                               BattleTeam battleTeam);
   void createMenuHeaps(u32 count, s32 heapIdx);
+  static u8* loadGlobe(EGG::Heap* globeHeap);
   static void doLoadGlobe(void* globeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
   // for matching purposes
@@ -415,7 +421,6 @@ public:
     }
     return true;
   }
-  static u8* loadGlobe(EGG::Heap* globeHeap);
   bool loadGlobeAsync(void* arg);
   void clear();
   void process();

@@ -1,5 +1,5 @@
 ##
-# Imports symbols.txt from mkw
+# Imports symbols.yml from mkw
 # @author Richard Patel <me@terorie.dev>
 # @category Data
 #

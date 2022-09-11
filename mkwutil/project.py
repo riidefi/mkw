@@ -39,7 +39,7 @@ def load_rel_binary_blob_slices(dir: Path):
 def read_symbol_map(symbols_path):
     symbols = SymbolsList()
     with open(symbols_path, "r") as file:
-        symbols.read_from(file)
+        symbols.read_from_yaml(file)
         return symbols
     raise RuntimeError("Cannot find symbols")
 

@@ -480,7 +480,7 @@ out/eggAudioArcPlayerMgr.o
 out/dol/text_80211058_80214e68.o
 out/dol/data_802a268c_802a2a08.o
 out/dol/bss_803832e4_80383500.o
-out/dol/sbss_80386d84_80386dc8.o
+out/dol/sbss_80386d81_80386dc8.o
 out/eggCntFile.o
 out/dol/text_80215168_802156ac.o
 out/eggCompress.o
@@ -492,7 +492,7 @@ out/eggDisplay.o
 out/eggDisposer.o
 out/dol/text_8021a1b8_8022231c.o
 out/dol/data_802a2b54_802a2da0.o
-out/dol/bss_80383510_80384190.o
+out/dol/bss_8038350c_80384190.o
 out/dol/sbss_80386e0c_80386e18.o
 out/eggDvdFile.o
 out/eggDvdRipper.o
@@ -510,7 +510,7 @@ out/dol/rodata_8025771a_80257740.o
 out/dol/data_802a3024_802a30b0.o
 out/dol/bss_803841a0_80384320.o
 out/dol/sdata_80385f89_80385fc0.o
-out/dol/sbss_80386e28_80386e90.o
+out/dol/sbss_80386e24_80386e90.o
 out/eggGraphicsFifo.o
 out/dol/data_802a30bc_802a30c0.o
 out/dol/sbss_80386e99_80386ea0.o

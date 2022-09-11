@@ -8,10 +8,37 @@
 #include <egg/core/eggDvdRipper.hpp>
 #include <game/RKScene.hpp>
 
+// --- EXTERN DECLARATIONS BEGIN ---
+
+extern "C" {
+
+// Extern function references.
+// PAL: 0x801aa824
+extern UNKNOWN_FUNCTION(OSSuspendThread);
+// PAL: 0x8000b26c
+extern UNKNOWN_FUNCTION(unk_8000b26c);
+// PAL: 0x80008e74
+extern UNKNOWN_FUNCTION(unk_80008e74);
+// PAL: 0x80242c98
+extern UNKNOWN_FUNCTION(isTaskExist__Q23EGG10TaskThreadCFv);
+// PAL: 0x80008e20
+extern UNKNOWN_FUNCTION(unk_80008e20);
+// PAL: 0x801bab2c
+extern UNKNOWN_FUNCTION(VISetBlack);
+// PAL: 0x80386000
+extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
+// PAL: 0x80385fc8
+extern UNKNOWN_DATA(lbl_80385fc8);
+// PAL: 0x80385fc0
+extern UNKNOWN_DATA(lbl_80385fc0);
+extern UNKNOWN_DATA(spInstance__Q26System9InitScene);
+}
+
+// --- EXTERN DECLARATIONS END ---
+
 #pragma dont_reuse_strings on
 #pragma legacy_struct_alignment off
 
-extern RKScene* scenePtr;
 extern void ArcResourceLink_set(void* arcResource, void* archiveStart,
                                 const char* dirname);
 extern void ArcResourceAccessor_attach(void* arcResourceAccessor,
@@ -182,32 +209,34 @@ extern UNKNOWN_FUNCTION(rip__Q26System15MultiDvdArchiveFPCcPQ23EGG4Heap);
 extern UNKNOWN_FUNCTION(clear__Q26System15MultiDvdArchiveFv);
 // PAL: 0x8052ae08
 extern UNKNOWN_FUNCTION(rippedArchiveCount__Q26System15MultiDvdArchiveFv);
-// PAL: 0x80552d90
-// extern UNKNOWN_FUNCTION(getSlotForCourseId);
 // PAL: 0x805553b0
 extern UNKNOWN_FUNCTION(unk_805553b0);
 }
 
 namespace System {
 
+// .bss
+ResourceManager::ResMgrInstance ResourceManager::spInstance;
+
 volatile ResourceManager* ResourceManager::createInstance() {
-  if (!spInstance) {
-    spInstance = new ResourceManager();
+  if (!spInstance.vol) {
+    spInstance.vol = new ResourceManager();
   }
 
-  return spInstance;
+  return spInstance.vol;
 }
 
 void ResourceManager::destroyInstance() {
-  if (spInstance) {
-    delete spInstance;
+  if (spInstance.vol) {
+    delete spInstance.vol;
   }
-  spInstance = nullptr;
+  spInstance.vol = nullptr;
 }
 
 ResourceManager::ResourceManager() {
   foo();
-  mpTaskThread = EGG::TaskThread::create(14, 24, 0xC800, scenePtr->getA());
+  mpTaskThread =
+      EGG::TaskThread::create(14, 24, 0xC800, InitScene::spInstance->getA());
   mpTaskThread->mTaskEndMessageQueue = &System::SystemManager::sInstance->_B8;
   mppSceneArchives = new MultiDvdArchive*[9];
   for (u16 i = 0; i < 9; ++i) {
@@ -222,7 +251,8 @@ System::ResourceManager::~ResourceManager() {
 }
 
 void ResourceManager::doLoadTask(void* jobContext) {
-  JobContext* context = (JobContext*)&spInstance->mJobContexts[(s32)jobContext];
+  JobContext* context =
+      (JobContext*)&spInstance.vol->mJobContexts[(s32)jobContext];
 
   switch ((s32)jobContext) {
   case 6:
@@ -244,102 +274,101 @@ void ResourceManager::doLoadTask(void* jobContext) {
 
 // Symbol: process__Q26System15ResourceManagerFv
 // PAL: 0x805400a0..0x805401ec
-// Notes: we cannot decompile this without DiscCheckThread
 MARK_BINARY_BLOB(process__Q26System15ResourceManagerFv, 0x805400a0, 0x805401ec);
 asm UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv) {
   // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stmw r27, 0xc(r1);
-  mr r27, r3;
-  li r28, 0;
-  lis r31, 0;
-  lis r29, 0;
-  lis r30, 0;
-  b lbl_805401c8;
-lbl_805400c8:
-  lwz r3, 0(r29);
-  lwz r3, 0x4c(r3);
-  lwz r12, 4(r3);
-  lwz r12, 0x14(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, 0(r29);
-  lwz r3, 0x4c(r3);
-  lwz r12, 4(r3);
-  lwz r12, 8(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, 0(r31);
-  lbz r0, 0x51(r3);
-  cmpwi r0, 0;
-  beq lbl_80540134;
-  cmpwi r28, 0;
-  bne lbl_80540124;
-  li r3, 0;
-  bl unk_805553b0;
-  lwz r3, 0x584(r27);
-  lwz r3, 8(r3);
-  bl unk_805553b0;
-lbl_80540124:
-  lwz r3, 0(r31);
-  li r28, 1;
-  bl unk_805553b0;
-  b lbl_80540164;
-lbl_80540134:
-  cmpwi r28, 0;
-  beq lbl_80540148;
-  lwz r3, 0x584(r27);
-  lwz r3, 8(r3);
-  bl unk_805553b0;
-lbl_80540148:
-  lwz r3, 0(r29);
-  li r28, 0;
-  lwz r3, 0x54(r3);
-  lwz r12, 0(r3);
-  lwz r12, 0x24(r12);
-  mtctr r12;
-  bctrl;
-lbl_80540164:
-  lwz r3, 0(r30);
-  bl unk_805553b0;
-  lwz r3, 0(r29);
-  lwz r3, 0x4c(r3);
-  lwz r12, 4(r3);
-  lwz r12, 0xc(r12);
-  mtctr r12;
-  bctrl;
-  cmpwi r28, 0;
-  beq lbl_80540198;
-  lwz r3, 0(r31);
-  bl unk_805553b0;
-  b lbl_805401b0;
-lbl_80540198:
-  lwz r3, 0(r29);
-  lwz r3, 0x54(r3);
-  lwz r12, 0(r3);
-  lwz r12, 0x28(r12);
-  mtctr r12;
-  bctrl;
-lbl_805401b0:
-  lwz r3, 0(r29);
-  lwz r3, 0x4c(r3);
-  lwz r12, 4(r3);
-  lwz r12, 0x10(r12);
-  mtctr r12;
-  bctrl;
-lbl_805401c8:
-  lwz r3, 0x584(r27);
-  bl unk_805553b0;
-  cmpwi r3, 0;
-  bne lbl_805400c8;
-  lmw r27, 0xc(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
+  nofralloc
+  /* 805400A0 9421FFE0 */ stwu        r1, -0x20(r1)
+  /* 805400A4 7C0802A6 */ mflr        r0
+  /* 805400A8 90010024 */ stw         r0, 0x24(r1)
+  /* 805400AC BF61000C */ stmw        r27, 0xc(r1)
+  /* 805400B0 7C7B1B78 */ mr          r27, r3
+  /* 805400B4 3B800000 */ li          r28, 0x0
+  /* 805400B8 3FE08038 */ lis         r31, lbl_80385fc0@ha
+  /* 805400BC 3FA08038 */ lis         r29, lbl_80385fc8@ha
+  /* 805400C0 3FC08038 */ lis         r30, sInstance__Q26System13SystemManager@ha
+  /* 805400C4 48000104 */ b           lbl_805401c8
+  lbl_805400c8:
+  /* 805400C8 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 805400CC 8063004C */ lwz         r3, 0x4c(r3)
+  /* 805400D0 81830004 */ lwz         r12, 4(r3)
+  /* 805400D4 818C0014 */ lwz         r12, 0x14(r12)
+  /* 805400D8 7D8903A6 */ mtctr       r12
+  /* 805400DC 4E800421 */ bctrl
+  /* 805400E0 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 805400E4 8063004C */ lwz         r3, 0x4c(r3)
+  /* 805400E8 81830004 */ lwz         r12, 4(r3)
+  /* 805400EC 818C0008 */ lwz         r12, 8(r12)
+  /* 805400F0 7D8903A6 */ mtctr       r12
+  /* 805400F4 4E800421 */ bctrl
+  /* 805400F8 807F5FC0 */ lwz         r3, lbl_80385fc0@l(r31)
+  /* 805400FC 88030051 */ lbz         r0, 0x51(r3)
+  /* 80540100 2C000000 */ cmpwi       r0, 0x0
+  /* 80540104 41820030 */ beq-        lbl_80540134
+  /* 80540108 2C1C0000 */ cmpwi       r28, 0x0
+  /* 8054010C 40820018 */ bne-        lbl_80540124
+  /* 80540110 38600000 */ li          r3, 0x0
+  /* 80540114 4BC7AA19 */ bl          VISetBlack
+  /* 80540118 807B0584 */ lwz         r3, 0x584(r27)
+  /* 8054011C 80630008 */ lwz         r3, 8(r3)
+  /* 80540120 4BC6A705 */ bl          OSSuspendThread
+  lbl_80540124:
+  /* 80540124 807F5FC0 */ lwz         r3, lbl_80385fc0@l(r31)
+  /* 80540128 3B800001 */ li          r28, 0x1
+  /* 8054012C 4BAC8CF5 */ bl          unk_80008e20
+  /* 80540130 48000034 */ b           lbl_80540164
+  lbl_80540134:
+  /* 80540134 2C1C0000 */ cmpwi       r28, 0x0
+  /* 80540138 41820010 */ beq-        lbl_80540148
+  /* 8054013C 807B0584 */ lwz         r3, 0x584(r27)
+  /* 80540140 80630008 */ lwz         r3, 8(r3)
+  /* 80540144 4BC6A449 */ bl          OSResumeThread
+  lbl_80540148:
+  /* 80540148 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 8054014C 3B800000 */ li          r28, 0x0
+  /* 80540150 80630054 */ lwz         r3, 0x54(r3)
+  /* 80540154 81830000 */ lwz         r12, 0(r3)
+  /* 80540158 818C0024 */ lwz         r12, 0x24(r12)
+  /* 8054015C 7D8903A6 */ mtctr       r12
+  /* 80540160 4E800421 */ bctrl
+  lbl_80540164:
+  /* 80540164 807E6000 */ lwz         r3, sInstance__Q26System13SystemManager@l(r30)
+  /* 80540168 4BACB105 */ bl          unk_8000b26c
+  /* 8054016C 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 80540170 8063004C */ lwz         r3, 0x4c(r3)
+  /* 80540174 81830004 */ lwz         r12, 4(r3)
+  /* 80540178 818C000C */ lwz         r12, 0xc(r12)
+  /* 8054017C 7D8903A6 */ mtctr       r12
+  /* 80540180 4E800421 */ bctrl
+  /* 80540184 2C1C0000 */ cmpwi       r28, 0x0
+  /* 80540188 41820010 */ beq-        lbl_80540198
+  /* 8054018C 807F5FC0 */ lwz         r3, lbl_80385fc0@l(r31)
+  /* 80540190 4BAC8CE5 */ bl          unk_80008e74
+  /* 80540194 4800001C */ b           lbl_805401b0
+  lbl_80540198:
+  /* 80540198 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 8054019C 80630054 */ lwz         r3, 0x54(r3)
+  /* 805401A0 81830000 */ lwz         r12, 0(r3)
+  /* 805401A4 818C0028 */ lwz         r12, 0x28(r12)
+  /* 805401A8 7D8903A6 */ mtctr       r12
+  /* 805401AC 4E800421 */ bctrl
+  lbl_805401b0:
+  /* 805401B0 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 805401B4 8063004C */ lwz         r3, 0x4c(r3)
+  /* 805401B8 81830004 */ lwz         r12, 4(r3)
+  /* 805401BC 818C0010 */ lwz         r12, 0x10(r12)
+  /* 805401C0 7D8903A6 */ mtctr       r12
+  /* 805401C4 4E800421 */ bctrl
+  lbl_805401c8:
+  /* 805401C8 807B0584 */ lwz         r3, 0x584(r27)
+  /* 805401CC 4BD02ACD */ bl          isTaskExist__Q23EGG10TaskThreadCFv
+  /* 805401D0 2C030000 */ cmpwi       r3, 0x0
+  /* 805401D4 4082FEF4 */ bne+        lbl_805400c8
+  /* 805401D8 BB61000C */ lmw         r27, 0xc(r1)
+  /* 805401DC 80010024 */ lwz         r0, 0x24(r1)
+  /* 805401E0 7C0803A6 */ mtlr        r0
+  /* 805401E4 38210020 */ addi        r1, r1, 0x20
+  /* 805401E8 4E800020 */ blr
   // clang-format on
 }
 
@@ -829,7 +858,8 @@ void ResourceManager::attatchLayoutDir(void* accessor, const char* dirname,
 #pragma dont_inline on
 #endif
 void preloadCourseTask(void* courseId) {
-  ((ResourceManager*)ResourceManager::spInstance)
+  // programming
+  ((ResourceManager*)ResourceManager::spInstance.vol)
       ->mCourseCache.load((CourseId)courseId);
 }
 #ifdef __CWCC__
@@ -923,109 +953,109 @@ bool ResourceManager::requestTask(EGG::TaskThread::TFunction fun, void* arg,
 
 } // namespace System
 
-// Symbol: unk_80541ce0
+// Symbol: flush__Q26System15ResourceManagerFv
 // PAL: 0x80541ce0..0x80541e44
 MARK_BINARY_BLOB(flush__Q26System15ResourceManagerFv, 0x80541ce0, 0x80541e44);
 asm UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv) {
   // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  li r0, 0;
-  stmw r27, 0xc(r1);
-  mr r27, r3;
-  li r28, 0;
-  lis r31, 0;
-  lis r29, 0;
-  lis r30, 0;
-  stb r0, 0x619(r3);
-  b lbl_80541e10;
-lbl_80541d10:
-  lwz r3, 0(r29);
-  lwz r3, 0x4c(r3);
-  lwz r12, 4(r3);
-  lwz r12, 0x14(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, 0(r29);
-  lwz r3, 0x4c(r3);
-  lwz r12, 4(r3);
-  lwz r12, 8(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, 0(r31);
-  lbz r0, 0x51(r3);
-  cmpwi r0, 0;
-  beq lbl_80541d7c;
-  cmpwi r28, 0;
-  bne lbl_80541d6c;
-  li r3, 0;
-  bl unk_805553b0;
-  lwz r3, 0x584(r27);
-  lwz r3, 8(r3);
-  bl unk_805553b0;
-lbl_80541d6c:
-  lwz r3, 0(r31);
-  li r28, 1;
-  bl unk_805553b0;
-  b lbl_80541dac;
-lbl_80541d7c:
-  cmpwi r28, 0;
-  beq lbl_80541d90;
-  lwz r3, 0x584(r27);
-  lwz r3, 8(r3);
-  bl unk_805553b0;
-lbl_80541d90:
-  lwz r3, 0(r29);
-  li r28, 0;
-  lwz r3, 0x54(r3);
-  lwz r12, 0(r3);
-  lwz r12, 0x24(r12);
-  mtctr r12;
-  bctrl;
-lbl_80541dac:
-  lwz r3, 0(r30);
-  bl unk_805553b0;
-  lwz r3, 0(r29);
-  lwz r3, 0x4c(r3);
-  lwz r12, 4(r3);
-  lwz r12, 0xc(r12);
-  mtctr r12;
-  bctrl;
-  cmpwi r28, 0;
-  beq lbl_80541de0;
-  lwz r3, 0(r31);
-  bl unk_805553b0;
-  b lbl_80541df8;
-lbl_80541de0:
-  lwz r3, 0(r29);
-  lwz r3, 0x54(r3);
-  lwz r12, 0(r3);
-  lwz r12, 0x28(r12);
-  mtctr r12;
-  bctrl;
-lbl_80541df8:
-  lwz r3, 0(r29);
-  lwz r3, 0x4c(r3);
-  lwz r12, 4(r3);
-  lwz r12, 0x10(r12);
-  mtctr r12;
-  bctrl;
-lbl_80541e10:
-  lwz r3, 0x584(r27);
-  bl unk_805553b0;
-  cmpwi r3, 0;
-  bne lbl_80541d10;
-  li r0, 1;
-  stb r0, 0x619(r27);
-  li r0, 0;
-  stb r0, 0x618(r27);
-  lmw r27, 0xc(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
+  nofralloc
+  /* 80541CE0 9421FFE0 */ stwu        r1, -0x20(r1)
+  /* 80541CE4 7C0802A6 */ mflr        r0
+  /* 80541CE8 90010024 */ stw         r0, 0x24(r1)
+  /* 80541CEC 38000000 */ li          r0, 0x0
+  /* 80541CF0 BF61000C */ stmw        r27, 0xc(r1)
+  /* 80541CF4 7C7B1B78 */ mr          r27, r3
+  /* 80541CF8 3B800000 */ li          r28, 0x0
+  /* 80541CFC 3FE08038 */ lis         r31, lbl_80385fc0@ha
+  /* 80541D00 3FA08038 */ lis         r29, lbl_80385fc8@ha
+  /* 80541D04 3FC08038 */ lis         r30, sInstance__Q26System13SystemManager@ha
+  /* 80541D08 98030619 */ stb         r0, 0x619(r3)
+  /* 80541D0C 48000104 */ b           lbl_80541e10
+  lbl_80541d10:
+  /* 80541D10 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 80541D14 8063004C */ lwz         r3, 0x4c(r3)
+  /* 80541D18 81830004 */ lwz         r12, 4(r3)
+  /* 80541D1C 818C0014 */ lwz         r12, 0x14(r12)
+  /* 80541D20 7D8903A6 */ mtctr       r12
+  /* 80541D24 4E800421 */ bctrl
+  /* 80541D28 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 80541D2C 8063004C */ lwz         r3, 0x4c(r3)
+  /* 80541D30 81830004 */ lwz         r12, 4(r3)
+  /* 80541D34 818C0008 */ lwz         r12, 8(r12)
+  /* 80541D38 7D8903A6 */ mtctr       r12
+  /* 80541D3C 4E800421 */ bctrl
+  /* 80541D40 807F5FC0 */ lwz         r3, lbl_80385fc0@l(r31)
+  /* 80541D44 88030051 */ lbz         r0, 0x51(r3)
+  /* 80541D48 2C000000 */ cmpwi       r0, 0x0
+  /* 80541D4C 41820030 */ beq-        lbl_80541d7c
+  /* 80541D50 2C1C0000 */ cmpwi       r28, 0x0
+  /* 80541D54 40820018 */ bne-        lbl_80541d6c
+  /* 80541D58 38600000 */ li          r3, 0x0
+  /* 80541D5C 4BC78DD1 */ bl          VISetBlack
+  /* 80541D60 807B0584 */ lwz         r3, 0x584(r27)
+  /* 80541D64 80630008 */ lwz         r3, 8(r3)
+  /* 80541D68 4BC68ABD */ bl          OSSuspendThread
+  lbl_80541d6c:
+  /* 80541D6C 807F5FC0 */ lwz         r3, lbl_80385fc0@l(r31)
+  /* 80541D70 3B800001 */ li          r28, 0x1
+  /* 80541D74 4BAC70AD */ bl          unk_80008e20
+  /* 80541D78 48000034 */ b           lbl_80541dac
+  lbl_80541d7c:
+  /* 80541D7C 2C1C0000 */ cmpwi       r28, 0x0
+  /* 80541D80 41820010 */ beq-        lbl_80541d90
+  /* 80541D84 807B0584 */ lwz         r3, 0x584(r27)
+  /* 80541D88 80630008 */ lwz         r3, 8(r3)
+  /* 80541D8C 4BC68801 */ bl          OSResumeThread
+  lbl_80541d90:
+  /* 80541D90 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 80541D94 3B800000 */ li          r28, 0x0
+  /* 80541D98 80630054 */ lwz         r3, 0x54(r3)
+  /* 80541D9C 81830000 */ lwz         r12, 0(r3)
+  /* 80541DA0 818C0024 */ lwz         r12, 0x24(r12)
+  /* 80541DA4 7D8903A6 */ mtctr       r12
+  /* 80541DA8 4E800421 */ bctrl
+  lbl_80541dac:
+  /* 80541DAC 807E6000 */ lwz         r3, sInstance__Q26System13SystemManager@l(r30)
+  /* 80541DB0 4BAC94BD */ bl          unk_8000b26c
+  /* 80541DB4 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 80541DB8 8063004C */ lwz         r3, 0x4c(r3)
+  /* 80541DBC 81830004 */ lwz         r12, 4(r3)
+  /* 80541DC0 818C000C */ lwz         r12, 0xc(r12)
+  /* 80541DC4 7D8903A6 */ mtctr       r12
+  /* 80541DC8 4E800421 */ bctrl
+  /* 80541DCC 2C1C0000 */ cmpwi       r28, 0x0
+  /* 80541DD0 41820010 */ beq-        lbl_80541de0
+  /* 80541DD4 807F5FC0 */ lwz         r3, lbl_80385fc0@l(r31)
+  /* 80541DD8 4BAC709D */ bl          unk_80008e74
+  /* 80541DDC 4800001C */ b           lbl_80541df8
+  lbl_80541de0:
+  /* 80541DE0 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 80541DE4 80630054 */ lwz         r3, 0x54(r3)
+  /* 80541DE8 81830000 */ lwz         r12, 0(r3)
+  /* 80541DEC 818C0028 */ lwz         r12, 0x28(r12)
+  /* 80541DF0 7D8903A6 */ mtctr       r12
+  /* 80541DF4 4E800421 */ bctrl
+  lbl_80541df8:
+  /* 80541DF8 807D5FC8 */ lwz         r3, lbl_80385fc8@l(r29)
+  /* 80541DFC 8063004C */ lwz         r3, 0x4c(r3)
+  /* 80541E00 81830004 */ lwz         r12, 4(r3)
+  /* 80541E04 818C0010 */ lwz         r12, 0x10(r12)
+  /* 80541E08 7D8903A6 */ mtctr       r12
+  /* 80541E0C 4E800421 */ bctrl
+  lbl_80541e10:
+  /* 80541E10 807B0584 */ lwz         r3, 0x584(r27)
+  /* 80541E14 4BD00E85 */ bl          isTaskExist__Q23EGG10TaskThreadCFv
+  /* 80541E18 2C030000 */ cmpwi       r3, 0x0
+  /* 80541E1C 4082FEF4 */ bne+        lbl_80541d10
+  /* 80541E20 38000001 */ li          r0, 0x1
+  /* 80541E24 981B0619 */ stb         r0, 0x619(r27)
+  /* 80541E28 38000000 */ li          r0, 0x0
+  /* 80541E2C 981B0618 */ stb         r0, 0x618(r27)
+  /* 80541E30 BB61000C */ lmw         r27, 0xc(r1)
+  /* 80541E34 80010024 */ lwz         r0, 0x24(r1)
+  /* 80541E38 7C0803A6 */ mtlr        r0
+  /* 80541E3C 38210020 */ addi        r1, r1, 0x20
+  /* 80541E40 4E800020 */ blr
   // clang-format on
 }
 
@@ -1058,7 +1088,7 @@ void RloadMenuKartModel(MultiDvdArchive* m, MenuCharacterManager* c) {
 } // namespace
 
 void ResourceManager::doLoadCharacterKartModel(void* idxs) {
-  ResourceManager* resMgr = ResourceManager::spInstance_REAL;
+  ResourceManager* resMgr = ResourceManager::spInstance.nonvol;
   const u8 idx = (const u8)idxs;
   if (resMgr->mKartArchives[idx].isLoaded()) {
     resMgr->mKartArchives[idx].unmount();
@@ -1156,11 +1186,11 @@ void ResourceManager::clear() {
 MARK_BINARY_BLOB(unk_8054247c, 0x8054247c, 0x8054248c);
 asm UNKNOWN_FUNCTION(unk_8054247c) {
   // clang-format off
-  nofralloc;
-  mulli r0, r4, 0x18;
-  add r3, r3, r0;
-  lwz r3, 0x5b0(r3);
-  blr;
+  nofralloc
+  /* 8054247C 1C040018 */ mulli       r0, r4, 0x18
+  /* 80542480 7C630214 */ add         r3, r3, r0
+  /* 80542484 806305B0 */ lwz         r3, 0x5b0(r3)
+  /* 80542488 4E800020 */ blr
   // clang-format on
 }
 
@@ -1192,9 +1222,6 @@ void ResourceManager::initGlobeHeap(size_t size, EGG::Heap* heap) {
   }
   mpGlobeHeap = EGG::ExpHeap::create(size + 0x2041fU & 0xffffffe0, heap, 0);
 }
-} // namespace System
-
-namespace System {
 
 void ResourceManager::deinitGlobeHeap() {
   flush();
@@ -1203,7 +1230,8 @@ void ResourceManager::deinitGlobeHeap() {
 }
 
 void ResourceManager::doLoadGlobe(void* globeBlob) {
-  ResourceManager::spInstance->doLoadGlobeImpl((u8**)globeBlob);
+  volatile ResourceManager* inst = ResourceManager::spInstance.vol;
+  inst->doLoadGlobeImpl((u8**)globeBlob);
 }
 
 void ResourceManager::doLoadGlobeImpl(u8** globeBlob) volatile {
@@ -1241,10 +1269,10 @@ void ResourceManager::loadStaffGhostAsync(
 MARK_BINARY_BLOB(unk_80542868, 0x80542868, 0x80542878);
 asm UNKNOWN_FUNCTION(unk_80542868) {
   // clang-format off
-  nofralloc;
-  stw r4, 4(r3);
-  stw r5, 8(r3);
-  li r3, 1;
-  blr;
+  nofralloc
+  /* 80542868 90830004 */ stw         r4, 4(r3)
+  /* 8054286C 90A30008 */ stw         r5, 8(r3)
+  /* 80542870 38600001 */ li          r3, 0x1
+  /* 80542874 4E800020 */ blr
   // clang-format on
 }

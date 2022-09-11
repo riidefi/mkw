@@ -97,7 +97,7 @@ def main():
     args = parser.parse_args()
 
     dol = read_dol(Path("./artifacts/orig/pal/main.dol"))
-    symbols = read_symbol_map(Path("./pack/symbols.txt"))
+    symbols = read_symbol_map(Path("./pack/symbols.yml"))
     text_segment = dol.segments[DolSegment.NAMES.index("text")]
 
     scanner = TextPaddingScanner(text_segment, symbols)

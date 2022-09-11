@@ -12,6 +12,8 @@ from .lib.rel import Rel
 from .lib.verify_binary import *
 from .sections import REL_SECTIONS, REL_SECTION_IDX
 
+from ppcdis import diff_relocs, load_binary_yml
+
 # https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
@@ -45,11 +47,13 @@ def verify_rel(reference: Path, target: Path):
     with open(target, "rb") as file:
         bad = Rel(file)
 
+    section_match = True
     for i, idx in enumerate(REL_SECTION_IDX):
         good_section = good.section_info[idx]
         bad_section = bad.section_info[idx]
         info = REL_SECTIONS[idx - 1]
         match = good_section.data == bad_section.data
+        section_match = section_match and match
         tag = "OK" if match else "FAIL"
         if good_section.length != bad_section.length:
             tag = "SIZE"
@@ -74,6 +78,12 @@ def verify_rel(reference: Path, target: Path):
                     continue
                 print("%x: Good=%x Bad=%x" % (vaddr, struct.unpack(">I", good_bytes)[0], struct.unpack(">I", bad_bytes)[0]))
                 amount_printed += 1
+
+    if section_match:
+        orig_yaml = str(Path("mkwutil/ppcdis_adapter/rel.yaml"))
+        good = load_binary_yml(orig_yaml)
+        test = good.load_other(target)
+        diff_relocs(good, test)
 
     print(
         Fore.RED + Style.BRIGHT + "[REL] Oof: Output doesn't match." + Style.RESET_ALL

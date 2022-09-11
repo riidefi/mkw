@@ -16,7 +16,7 @@ def apply(config: dict, args):
         config["mapfile"] = "artifacts/target/pal/main.map"
         config["myimg"] = "artifacts/target/pal/main.dol"
         config["baseimg"] = "artifacts/orig/pal/main.dol"
-    config["symbols_txt"] = "pack/symbols.txt"
+    config["symbols_yml"] = "pack/symbols.yml"
     config["make_command"] = [executable, "build.py", "--diff_py"]
     config["makeflags"] = []
     config["source_directories"] = ["source"]

@@ -21,3 +21,5 @@ repos:
         types: [file]
         pass_filenames: true
         files: 'symbols\.txt'
+
+exclude: '.*\.j2$'

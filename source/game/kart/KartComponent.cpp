@@ -1,6 +1,10 @@
 #include "KartComponent.hpp"
 #include <cstddef>
 
+nw4r::ut::List Kart::KartComponent::sList;
+extern u32 bss_809c190c;
+u32 bss_809c190c;
+
 namespace Kart {
 
 void KartComponent::initList() {
