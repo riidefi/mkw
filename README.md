@@ -22,8 +22,9 @@ While the original game was written and compiled as C++03, several modern C++ fe
 Every fully understood piece of reverse engineered data has been documented in a consistent doxygen style.
 
 ## Dependencies
-- DevKitPro (for the ppc-eabi assembler)
+- DevKitPro (for the ppc-eabi assembler, and gcc dependency files)
 - CodeWarrior compilers (in `tools`)
+- Ninja
 - Python 3
 - Place a copy of Mario Kart Wii's PAL binaries:
   - `artifacts/orig/pal/main.dol`

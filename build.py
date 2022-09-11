@@ -106,6 +106,7 @@ if DEVKITPPC is None:
 
 
 GAS = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
+GCC = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-gcc"))
 
 MWLD = os.path.join("tools", "mwldeppc.exe")
 
@@ -242,69 +243,6 @@ def __assert_command_success(returncode, command):
     assert returncode == 0, f"{command} exited with returncode {returncode}"
 
 
-def compile_source_impl(src, dst, version="default", additional="-ipa file"):
-    """Compiles a source file."""
-    # Compile ELF object file.
-    command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
-    lines, returncode = run_windows_cmd(command)
-    with print_mutex:
-        print(f'{colored("CC", "green")} {src}')
-        if VERBOSE:
-            print(command)
-        for line in lines:
-            print("   " + line.strip())
-    __assert_command_success(returncode, command)
-
-
-gSourceQueue = []
-
-
-def compile_queued_sources(concurrency):
-    """Dispatches multiple threads to compile all queued sources."""
-    print(colored(f"max_hw_concurrency={concurrency}", color="yellow"))
-
-    if not len(gSourceQueue):
-        print(colored("No sources to compile", color="red"))
-        return
-
-    pool = ThreadPool(min(concurrency, len(gSourceQueue)))
-
-    pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
-
-    pool.close()
-    pool.join()
-
-    #
-    # colorama doesn't seem to work with multithreading
-    #
-    stripped_files, dol_object_slices, rel_object_slices = get_strip_info_and_slices()
-    for (src, dst, _, _) in gSourceQueue:
-        if src.stem in stripped_files:
-            continue
-        # Verify ELF file section sizes.
-        obj_slices = dol_object_slices.get(src.stem) or rel_object_slices.get(src.stem)
-
-        if obj_slices:
-            verify_object_file(dst, src, obj_slices)
-        else:
-            print(colored(f"Skipping slices verification on {src}", color="yellow"))
-
-    gSourceQueue.clear()
-
-
-# Queued
-def queue_compile_source(src, version="default", additional="-ipa file"):
-    """Queues a C/C++ file for compilation."""
-    dst = (Path("out") / src.parts[-1]).with_suffix(".o")
-    gSourceQueue.append((src, dst, version, additional))
-
-
-def assemble(dst: Path, src: Path) -> None:
-    """Assembles a .s file."""
-    print(f'{colored("AS", "green")} {src}')
-    subprocess.run([GAS, src, "-mgekko", "-Iasm", "-o", dst], check=True, text=True)
-
-
 def link(
     dst: Path, objs: list[Path], lcf: Path, map_path: Path, partial: bool = False
 ) -> bool:
@@ -352,6 +290,7 @@ def compile_sources(args):
         n = Writer(ninjafile)
         n.variable("outdir", OUTDIR)
         n.variable("as", GAS)
+        n.variable("gcc", GCC)
         n.variable("asflags", "-mgekko -Iasm")
 
         n.rule(
@@ -360,13 +299,13 @@ def compile_sources(args):
             description = "AS $in"
         )
 
-        # Due to CW dumbness with .d output location, $outstem must be defined without the .o
+        ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
         n.rule(
             "cc",
-            command = f"$cc $cflags -MD -gccdep -o $out $in",
+            command = ALLOW_CHAIN + f"$gcc -Isource -Isource/** -MM -MF $out.d $in && $cc $cflags -o $out $in",
             description = "CC $in",
             deps = "gcc",
-            depfile = "$outstem.d"
+            depfile = "$out.d"
         )
 
         for src in chain(SOURCES_DOL, SOURCES_REL):
@@ -379,7 +318,6 @@ def compile_sources(args):
                     compat = "wine"
                 ccCmd = f"{compat} {ccCmd}"
             o_path = str((Path("out") / srcPath.parts[-1]).with_suffix(".o"))
-            o_stem = o_path[:-2]
 
             n.build(
                 o_path,
@@ -388,10 +326,8 @@ def compile_sources(args):
                 variables = {
                     "cc" : ccCmd,
                     "cflags" : CWCC_OPT + ' ' + src.opts,
-                    "outstem" : o_stem
                 }
             )
-            queue_compile_source(Path(src.src), src.cc, src.opts)
 
         for asm in asm_files:
             out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
@@ -402,46 +338,6 @@ def compile_sources(args):
             )
 
     subprocess.run(["ninja"], check=True, text=True)
-
-
-def compile_sources2(args):
-    """Compiles all C/C++ and ASM files."""
-    out_dir = Path("out")
-    out_dir.mkdir(exist_ok=True)
-
-    for src in chain(SOURCES_DOL, SOURCES_REL):
-        queue_compile_source(Path(src.src), src.cc, src.opts)
-
-    if args.match or args.diff_py:
-        if args.match:
-            match = args.match
-        else:
-            # (Will still match a .cpp with the same name)
-            match = args.diff_py[len("out/"):-len(".o")] + ".c"
-        print(
-            colored('[NOTE] Only compiling sources matching "%s".' % match, "red")
-        )
-        global gSourceQueue
-        gSourceQueue = list(filter(lambda x: match in str(x[0]), gSourceQueue))
-    if args.link_only:
-        gSourceQueue = []
-
-    compile_queued_sources(args.concurrency)
-
-    asm_files = [
-        x.relative_to(os.getcwd())
-        for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")
-    ]
-
-    (out_dir / "dol").mkdir(exist_ok=True)
-    (out_dir / "rel").mkdir(exist_ok=True)
-
-    for asm in asm_files:
-        out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
-        # Optimization: Do not assemble ASM files if the target object already exists.
-        if not args.regen_asm and out_o.exists():
-            continue
-        assemble(out_o, asm)
 
 
 def link_dol(o_files: list[Path]):
