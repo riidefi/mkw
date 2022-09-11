@@ -19,6 +19,8 @@ import multiprocessing
 import colorama
 from termcolor import colored
 
+from ninja_syntax import Writer
+
 from sources import SOURCES_DOL, SOURCES_REL
 from mkwutil.lib.slices import SliceTable
 from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS
@@ -334,6 +336,75 @@ def link(
 
 
 def compile_sources(args):
+    ninjapath = 'build.ninja'
+    OUTDIR = 'out'
+    out_dir = Path(OUTDIR)
+    out_dir.mkdir(exist_ok=True)
+    (out_dir / "dol").mkdir(exist_ok=True)
+    (out_dir / "rel").mkdir(exist_ok=True)
+
+    asm_files = [
+        x.relative_to(os.getcwd())
+        for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")
+    ]
+
+    with open(ninjapath, 'w') as ninjafile:
+        n = Writer(ninjafile)
+        n.variable("outdir", OUTDIR)
+        n.variable("as", GAS)
+        n.variable("asflags", "-mgekko -Iasm")
+
+        n.rule(
+            "as",
+            command = f"$as $in $asflags -o $out",
+            description = "AS $in"
+        )
+
+        # Due to CW dumbness with .d output location, $outstem must be defined without the .o
+        n.rule(
+            "cc",
+            command = f"$cc $cflags -MD -gccdep -o $out $in",
+            description = "CC $in",
+            deps = "gcc",
+            depfile = "$outstem.d"
+        )
+
+        for src in chain(SOURCES_DOL, SOURCES_REL):
+            srcPath = Path(src.src)
+            ccCmd = CWCC_PATHS[src.cc]
+            if not (sys.platform == "win32" or sys.platform == "msys"):
+                if sys.platform == "darwin":
+                    compat = os.path.abspath("./mkwutil/tools/crossover.sh")
+                else:
+                    compat = "wine"
+                ccCmd = f"{compat} {ccCmd}"
+            o_path = str((Path("out") / srcPath.parts[-1]).with_suffix(".o"))
+            o_stem = o_path[:-2]
+
+            n.build(
+                o_path,
+                rule = "cc",
+                inputs = src.src,
+                variables = {
+                    "cc" : ccCmd,
+                    "cflags" : CWCC_OPT + ' ' + src.opts,
+                    "outstem" : o_stem
+                }
+            )
+            queue_compile_source(Path(src.src), src.cc, src.opts)
+
+        for asm in asm_files:
+            out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
+            n.build(
+                str(out_o),
+                rule = "as",
+                inputs = str(asm)
+            )
+
+    subprocess.run(["ninja"], check=True, text=True)
+
+
+def compile_sources2(args):
     """Compiles all C/C++ and ASM files."""
     out_dir = Path("out")
     out_dir.mkdir(exist_ok=True)
