@@ -1,0 +1,13 @@
+forced_types:
+  0x80098270: FUNCTION
+  0x8011fd98: FUNCTION
+  0x801670b4: FUNCTION
+  0x801ef648: FUNCTION
+
+blocked_pointer_ranges:
+  - [0x802531a0, 0x80257418]
+
+blocked_targets:
+  - 0x80010138
+  - 0x80020800
+  - 0x80004000

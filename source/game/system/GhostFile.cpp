@@ -12,11 +12,16 @@
 // PAL: 0x8052758c
 extern "C" UNKNOWN_FUNCTION(unk_8052758c);
 // PAL: 0x805336a4
-extern "C" u8 unk_805336a4();
+extern "C" u8 getLapCount();
 // PAL: 0x8053572c
-extern "C" UNKNOWN_FUNCTION(unk_8053572c);
+extern "C" UNKNOWN_FUNCTION(RaceinfoPlayer_getLapSplit);
 // PAL: 0x8054a9b8
-extern "C" UNKNOWN_FUNCTION(unk_8054a9b8);
+extern "C" UNKNOWN_FUNCTION(SaveManager_getLocation);
+extern "C" UNKNOWN_DATA(lbl_809bd730);
+extern "C" UNKNOWN_DATA(__vt__Q26System4Time);
+extern "C" UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
+extern "C" UNKNOWN_DATA(lbl_809bd70c);
+extern "C" UNKNOWN_DATA(lbl_809bd748);
 
 namespace System {
 
@@ -389,7 +394,7 @@ bool GhostFile::writeUncompressed(RawGhostFile& raw) const {
 
 #if 0
 void GhostFile::init(u8 playerId) {
-  mLapCount = unk_805336a4();
+  mLapCount = getLapCount();
   Time raceTime = Time();
   raceTime.set(0, 0, 0, false);
 }
@@ -398,239 +403,239 @@ MARK_BINARY_BLOB(init__Q26System9GhostFileFUc, 0x8051cb1c, 0x8051ce7c);
 asm void GhostFile::init(u8 playerId) {
   // clang-format off
   nofralloc;
-  stwu r1, -0x70(r1);
-  mflr r0;
-  stw r0, 0x74(r1);
-  stmw r27, 0x5c(r1);
-  lis r31, 0;
-  mr r29, r3;
-  mr r30, r4;
-  lwz r3, 0(r31);
-  bl unk_805336a4;
-  stb r3, 0x64(r29);
-  li r0, 0;
-  lis r4, 0;
-  lis r3, 0;
-  addi r4, r4, 0;
-  stw r4, 0x18(r1);
-  lwz r3, 0(r3);
-  stb r0, 0x22(r1);
-  sth r0, 0x1c(r1);
-  stb r0, 0x1e(r1);
-  sth r0, 0x20(r1);
-  lwz r0, 0xb90(r3);
-  rlwinm. r0, r0, 0, 0x1d, 0x1d;
-  bne lbl_8051cbe0;
-  rlwinm r28, r30, 2, 0x16, 0x1d;
-  li r27, 0;
-  b lbl_8051cbd0;
+/* 8051CB1C 9421FF90 */ stwu        r1, -0x70(r1)
+/* 8051CB20 7C0802A6 */ mflr        r0
+/* 8051CB24 90010074 */ stw         r0, 0x74(r1)
+/* 8051CB28 BF61005C */ stmw        r27, 0x5c(r1)
+/* 8051CB2C 3FE0809C */ lis         r31, lbl_809bd730@ha
+/* 8051CB30 7C7D1B78 */ mr          r29, r3
+/* 8051CB34 7C9E2378 */ mr          r30, r4
+/* 8051CB38 807FD730 */ lwz         r3, lbl_809bd730@l(r31)
+/* 8051CB3C 48016B69 */ bl          getLapCount
+/* 8051CB40 987D0064 */ stb         r3, 0x64(r29)
+/* 8051CB44 38000000 */ li          r0, 0x0
+/* 8051CB48 3C80808B */ lis         r4, __vt__Q26System4Time@ha
+/* 8051CB4C 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
+/* 8051CB50 38842D44 */ addi        r4, r4, __vt__Q26System4Time@l
+/* 8051CB54 90810018 */ stw         r4, 0x18(r1)
+/* 8051CB58 8063D728 */ lwz         r3, spInstance__Q26System10RaceConfig@l(r3)
+/* 8051CB5C 98010022 */ stb         r0, 0x22(r1)
+/* 8051CB60 B001001C */ sth         r0, 0x1c(r1)
+/* 8051CB64 9801001E */ stb         r0, 0x1e(r1)
+/* 8051CB68 B0010020 */ sth         r0, 0x20(r1)
+/* 8051CB6C 80030B90 */ lwz         r0, 0xb90(r3)
+/* 8051CB70 5400077B */ rlwinm.     r0, r0, 0, 0x1d, 0x1d
+/* 8051CB74 4082006C */ bne-        lbl_8051cbe0
+/* 8051CB78 57DC15BA */ rlwinm      r28, r30, 2, 0x16, 0x1d
+/* 8051CB7C 3B600000 */ li          r27, 0x0
+/* 8051CB80 48000050 */ b           lbl_8051cbd0
 lbl_8051cb84:
-  lwz r3, 0(r31);
-  addi r0, r27, 1;
-  clrlwi r4, r0, 0x18;
-  addi r5, r1, 0x18;
-  lwz r0, 0xc(r3);
-  lwzx r3, r28, r0;
-  bl unk_8053572c;
-  clrlwi r3, r27, 0x18;
-  lhz r0, 0x1c(r1);
-  mulli r3, r3, 0xc;
-  addi r27, r27, 1;
-  add r3, r29, r3;
-  sth r0, 0x6c(r3);
-  lbz r0, 0x1e(r1);
-  stb r0, 0x6e(r3);
-  lhz r0, 0x20(r1);
-  sth r0, 0x70(r3);
-  lbz r0, 0x22(r1);
-  stb r0, 0x72(r3);
+/* 8051CB84 807FD730 */ lwz         r3, lbl_809bd730@l(r31)
+/* 8051CB88 381B0001 */ addi        r0, r27, 0x1
+/* 8051CB8C 5404063E */ clrlwi      r4, r0, 0x18
+/* 8051CB90 38A10018 */ addi        r5, r1, 0x18
+/* 8051CB94 8003000C */ lwz         r0, 0xc(r3)
+/* 8051CB98 7C7C002E */ lwzx        r3, r28, r0
+/* 8051CB9C 48018B91 */ bl          RaceinfoPlayer_getLapSplit
+/* 8051CBA0 5763063E */ clrlwi      r3, r27, 0x18
+/* 8051CBA4 A001001C */ lhz         r0, 0x1c(r1)
+/* 8051CBA8 1C63000C */ mulli       r3, r3, 0xc
+/* 8051CBAC 3B7B0001 */ addi        r27, r27, 0x1
+/* 8051CBB0 7C7D1A14 */ add         r3, r29, r3
+/* 8051CBB4 B003006C */ sth         r0, 0x6c(r3)
+/* 8051CBB8 8801001E */ lbz         r0, 0x1e(r1)
+/* 8051CBBC 9803006E */ stb         r0, 0x6e(r3)
+/* 8051CBC0 A0010020 */ lhz         r0, 0x20(r1)
+/* 8051CBC4 B0030070 */ sth         r0, 0x70(r3)
+/* 8051CBC8 88010022 */ lbz         r0, 0x22(r1)
+/* 8051CBCC 98030072 */ stb         r0, 0x72(r3)
 lbl_8051cbd0:
-  lbz r0, 0x64(r29);
-  clrlwi r3, r27, 0x18;
-  cmplw r3, r0;
-  blt lbl_8051cb84;
+/* 8051CBD0 881D0064 */ lbz         r0, 0x64(r29)
+/* 8051CBD4 5763063E */ clrlwi      r3, r27, 0x18
+/* 8051CBD8 7C030040 */ cmplw       r3, r0
+/* 8051CBDC 4180FFA8 */ blt+        lbl_8051cb84
 lbl_8051cbe0:
-  lis r3, 0;
-  rlwinm r0, r30, 2, 0x16, 0x1d;
-  lwz r3, 0(r3);
-  mulli r31, r30, 0xf0;
-  lis r5, 0;
-  lwz r4, 0xc(r3);
-  lis r3, 0;
-  lwzx r4, r4, r0;
-  lwz r6, 0x40(r4);
-  lhz r4, 4(r6);
-  sth r4, 0x1c(r1);
-  lbz r0, 6(r6);
-  stb r0, 0x1e(r1);
-  lhz r0, 8(r6);
-  sth r0, 0x20(r1);
-  lbz r0, 0xa(r6);
-  stb r0, 0x22(r1);
-  sth r4, 0xa8(r29);
-  lbz r0, 0x1e(r1);
-  stb r0, 0xaa(r29);
-  lhz r0, 0x20(r1);
-  sth r0, 0xac(r29);
-  lbz r0, 0x22(r1);
-  stb r0, 0xae(r29);
-  lwz r0, 0(r5);
-  add r4, r0, r31;
-  lwz r0, 0x34(r4);
-  stw r0, 0xb0(r29);
-  lwz r0, 0(r5);
-  add r4, r0, r31;
-  lwz r0, 0x30(r4);
-  stw r0, 0xb4(r29);
-  lwz r4, 0(r5);
-  lwz r0, 0xb68(r4);
-  stw r0, 0xb8(r29);
-  lwz r3, 0(r3);
-  lwz r3, 8(r3);
-  cmpwi r3, 0;
-  beq lbl_8051cc90;
-  lwz r12, 0(r3);
-  lwz r12, 0x10(r12);
-  mtctr r12;
-  bctrl;
-  b lbl_8051cc94;
+/* 8051CBE0 3C60809C */ lis         r3, lbl_809bd730@ha
+/* 8051CBE4 57C015BA */ rlwinm      r0, r30, 2, 0x16, 0x1d
+/* 8051CBE8 8063D730 */ lwz         r3, lbl_809bd730@l(r3)
+/* 8051CBEC 1FFE00F0 */ mulli       r31, r30, 0xf0
+/* 8051CBF0 3CA0809C */ lis         r5, spInstance__Q26System10RaceConfig@ha
+/* 8051CBF4 8083000C */ lwz         r4, 0xc(r3)
+/* 8051CBF8 3C60809C */ lis         r3, lbl_809bd70c@ha
+/* 8051CBFC 7C84002E */ lwzx        r4, r4, r0
+/* 8051CC00 80C40040 */ lwz         r6, 0x40(r4)
+/* 8051CC04 A0860004 */ lhz         r4, 4(r6)
+/* 8051CC08 B081001C */ sth         r4, 0x1c(r1)
+/* 8051CC0C 88060006 */ lbz         r0, 6(r6)
+/* 8051CC10 9801001E */ stb         r0, 0x1e(r1)
+/* 8051CC14 A0060008 */ lhz         r0, 8(r6)
+/* 8051CC18 B0010020 */ sth         r0, 0x20(r1)
+/* 8051CC1C 8806000A */ lbz         r0, 0xa(r6)
+/* 8051CC20 98010022 */ stb         r0, 0x22(r1)
+/* 8051CC24 B09D00A8 */ sth         r4, 0xa8(r29)
+/* 8051CC28 8801001E */ lbz         r0, 0x1e(r1)
+/* 8051CC2C 981D00AA */ stb         r0, 0xaa(r29)
+/* 8051CC30 A0010020 */ lhz         r0, 0x20(r1)
+/* 8051CC34 B01D00AC */ sth         r0, 0xac(r29)
+/* 8051CC38 88010022 */ lbz         r0, 0x22(r1)
+/* 8051CC3C 981D00AE */ stb         r0, 0xae(r29)
+/* 8051CC40 8005D728 */ lwz         r0, spInstance__Q26System10RaceConfig@l(r5)
+/* 8051CC44 7C80FA14 */ add         r4, r0, r31
+/* 8051CC48 80040034 */ lwz         r0, 0x34(r4)
+/* 8051CC4C 901D00B0 */ stw         r0, 0xb0(r29)
+/* 8051CC50 8005D728 */ lwz         r0, spInstance__Q26System10RaceConfig@l(r5)
+/* 8051CC54 7C80FA14 */ add         r4, r0, r31
+/* 8051CC58 80040030 */ lwz         r0, 0x30(r4)
+/* 8051CC5C 901D00B4 */ stw         r0, 0xb4(r29)
+/* 8051CC60 8085D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r5)
+/* 8051CC64 80040B68 */ lwz         r0, 0xb68(r4)
+/* 8051CC68 901D00B8 */ stw         r0, 0xb8(r29)
+/* 8051CC6C 8063D70C */ lwz         r3, lbl_809bd70c@l(r3)
+/* 8051CC70 80630008 */ lwz         r3, 8(r3)
+/* 8051CC74 2C030000 */ cmpwi       r3, 0x0
+/* 8051CC78 41820018 */ beq-        lbl_8051cc90
+/* 8051CC7C 81830000 */ lwz         r12, 0(r3)
+/* 8051CC80 818C0010 */ lwz         r12, 0x10(r12)
+/* 8051CC84 7D8903A6 */ mtctr       r12
+/* 8051CC88 4E800421 */ bctrl
+/* 8051CC8C 48000008 */ b           lbl_8051cc94
 lbl_8051cc90:
-  li r3, -1;
+/* 8051CC90 3860FFFF */ li          r3, -0x1
 lbl_8051cc94:
-  stw r3, 0xbc(r29);
-  lis r3, 0;
-  lwz r3, 0(r3);
-  lwz r3, 8(r3);
-  cmpwi r3, 0;
-  beq lbl_8051ccb4;
-  lbz r3, 0x51(r3);
-  b lbl_8051ccb8;
+/* 8051CC94 907D00BC */ stw         r3, 0xbc(r29)
+/* 8051CC98 3C60809C */ lis         r3, lbl_809bd70c@ha
+/* 8051CC9C 8063D70C */ lwz         r3, lbl_809bd70c@l(r3)
+/* 8051CCA0 80630008 */ lwz         r3, 8(r3)
+/* 8051CCA4 2C030000 */ cmpwi       r3, 0x0
+/* 8051CCA8 4182000C */ beq-        lbl_8051ccb4
+/* 8051CCAC 88630051 */ lbz         r3, 0x51(r3)
+/* 8051CCB0 48000008 */ b           lbl_8051ccb8
 lbl_8051ccb4:
-  li r3, 0;
+/* 8051CCB4 38600000 */ li          r3, 0x0
 lbl_8051ccb8:
-  li r0, 1;
-  stb r3, 0xc8(r29);
-  stw r0, 0xc4(r29);
-  bl OSGetTime;
-  addi r5, r1, 0x28;
-  bl OSTicksToCalendarTime;
-  lwz r3, 0x3c(r1);
-  cmpwi r3, 0x7d0;
-  bge lbl_8051cce8;
-  li r0, 0x7d0;
-  stw r0, 0x3c(r1);
-  b lbl_8051ccf0;
+/* 8051CCB8 38000001 */ li          r0, 0x1
+/* 8051CCBC 987D00C8 */ stb         r3, 0xc8(r29)
+/* 8051CCC0 901D00C4 */ stw         r0, 0xc4(r29)
+/* 8051CCC4 4BC8E099 */ bl          OSGetTime
+/* 8051CCC8 38A10028 */ addi        r5, r1, 0x28
+/* 8051CCCC 4BC8E2DD */ bl          OSTicksToCalendarTime
+/* 8051CCD0 8061003C */ lwz         r3, 0x3c(r1)
+/* 8051CCD4 2C0307D0 */ cmpwi       r3, 0x7d0
+/* 8051CCD8 40800010 */ bge-        lbl_8051cce8
+/* 8051CCDC 380007D0 */ li          r0, 0x7d0
+/* 8051CCE0 9001003C */ stw         r0, 0x3c(r1)
+/* 8051CCE4 4800000C */ b           lbl_8051ccf0
 lbl_8051cce8:
-  addi r0, r3, -2000;
-  stw r0, 0x3c(r1);
+/* 8051CCE8 3803F830 */ addi        r0, r3, -0x7d0
+/* 8051CCEC 9001003C */ stw         r0, 0x3c(r1)
 lbl_8051ccf0:
-  lwz r0, 0x3c(r1);
-  cmpwi r0, 0x63;
-  ble lbl_8051cd04;
-  li r0, 0x63;
-  stw r0, 0x3c(r1);
+/* 8051CCF0 8001003C */ lwz         r0, 0x3c(r1)
+/* 8051CCF4 2C000063 */ cmpwi       r0, 0x63
+/* 8051CCF8 4081000C */ ble-        lbl_8051cd04
+/* 8051CCFC 38000063 */ li          r0, 0x63
+/* 8051CD00 9001003C */ stw         r0, 0x3c(r1)
 lbl_8051cd04:
-  lbz r0, 0xc0(r29);
-  li r3, 1;
-  lwz r5, 0x34(r1);
-  lwz r4, 0x38(r1);
-  cmplwi r0, 0x63;
-  lwz r0, 0x3c(r1);
-  clrlwi r5, r5, 0x18;
-  addi r4, r4, 1;
-  stb r3, 0xc3(r29);
-  clrlwi r6, r4, 0x18;
-  clrlwi r3, r0, 0x18;
-  ble lbl_8051cd3c;
-  li r0, 0x63;
-  stb r0, 0xc0(r29);
+/* 8051CD04 881D00C0 */ lbz         r0, 0xc0(r29)
+/* 8051CD08 38600001 */ li          r3, 0x1
+/* 8051CD0C 80A10034 */ lwz         r5, 0x34(r1)
+/* 8051CD10 80810038 */ lwz         r4, 0x38(r1)
+/* 8051CD14 28000063 */ cmplwi      r0, 0x63
+/* 8051CD18 8001003C */ lwz         r0, 0x3c(r1)
+/* 8051CD1C 54A5063E */ clrlwi      r5, r5, 0x18
+/* 8051CD20 38840001 */ addi        r4, r4, 0x1
+/* 8051CD24 987D00C3 */ stb         r3, 0xc3(r29)
+/* 8051CD28 5486063E */ clrlwi      r6, r4, 0x18
+/* 8051CD2C 5403063E */ clrlwi      r3, r0, 0x18
+/* 8051CD30 4081000C */ ble-        lbl_8051cd3c
+/* 8051CD34 38000063 */ li          r0, 0x63
+/* 8051CD38 981D00C0 */ stb         r0, 0xc0(r29)
 lbl_8051cd3c:
-  lbz r0, 0xc1(r29);
-  cmplwi r0, 0xc;
-  ble lbl_8051cd50;
-  li r0, 0xc;
-  stb r0, 0xc1(r29);
+/* 8051CD3C 881D00C1 */ lbz         r0, 0xc1(r29)
+/* 8051CD40 2800000C */ cmplwi      r0, 0xc
+/* 8051CD44 4081000C */ ble-        lbl_8051cd50
+/* 8051CD48 3800000C */ li          r0, 0xc
+/* 8051CD4C 981D00C1 */ stb         r0, 0xc1(r29)
 lbl_8051cd50:
-  lbz r0, 0xc2(r29);
-  cmplwi r0, 0x1f;
-  ble lbl_8051cd64;
-  li r0, 0x1f;
-  stb r0, 0xc2(r29);
+/* 8051CD50 881D00C2 */ lbz         r0, 0xc2(r29)
+/* 8051CD54 2800001F */ cmplwi      r0, 0x1f
+/* 8051CD58 4081000C */ ble-        lbl_8051cd64
+/* 8051CD5C 3800001F */ li          r0, 0x1f
+/* 8051CD60 981D00C2 */ stb         r0, 0xc2(r29)
 lbl_8051cd64:
-  stb r3, 0xc0(r29);
-  lis r3, 0;
-  addi r4, r1, 8;
-  stb r6, 0xc1(r29);
-  stb r5, 0xc2(r29);
-  lwz r3, 0(r3);
-  bl unk_8054a9b8;
-  lwz r0, 8(r1);
-  lis r3, 0;
-  stw r0, 0xcc(r29);
-  lwz r0, 0(r3);
-  add r4, r0, r31;
-  lbz r0, 0xcd0(r4);
-  cmpwi r0, 0;
-  beq lbl_8051cde8;
-  lbz r3, 0xcc0(r4);
-  li r5, 1;
-  lbz r0, 0xcc1(r4);
-  stb r0, 0x11(r1);
-  stb r3, 0x10(r1);
-  lbz r3, 0xcc2(r4);
-  lbz r0, 0xcc3(r4);
-  stb r0, 0x13(r1);
-  stb r3, 0x12(r1);
-  lbz r3, 0xcc4(r4);
-  lbz r0, 0xcc5(r4);
-  stb r0, 0x15(r1);
-  stb r3, 0x14(r1);
-  lbz r3, 0xcc6(r4);
-  lbz r0, 0xcc7(r4);
-  stb r0, 0x17(r1);
-  stb r3, 0x16(r1);
-  b lbl_8051cdec;
+/* 8051CD64 987D00C0 */ stb         r3, 0xc0(r29)
+/* 8051CD68 3C60809C */ lis         r3, lbl_809bd748@ha
+/* 8051CD6C 38810008 */ addi        r4, r1, 0x8
+/* 8051CD70 98DD00C1 */ stb         r6, 0xc1(r29)
+/* 8051CD74 98BD00C2 */ stb         r5, 0xc2(r29)
+/* 8051CD78 8063D748 */ lwz         r3, lbl_809bd748@l(r3)
+/* 8051CD7C 4802DC3D */ bl          SaveManager_getLocation
+/* 8051CD80 80010008 */ lwz         r0, 8(r1)
+/* 8051CD84 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
+/* 8051CD88 901D00CC */ stw         r0, 0xcc(r29)
+/* 8051CD8C 8003D728 */ lwz         r0, spInstance__Q26System10RaceConfig@l(r3)
+/* 8051CD90 7C80FA14 */ add         r4, r0, r31
+/* 8051CD94 88040CD0 */ lbz         r0, 0xcd0(r4)
+/* 8051CD98 2C000000 */ cmpwi       r0, 0x0
+/* 8051CD9C 4182004C */ beq-        lbl_8051cde8
+/* 8051CDA0 88640CC0 */ lbz         r3, 0xcc0(r4)
+/* 8051CDA4 38A00001 */ li          r5, 0x1
+/* 8051CDA8 88040CC1 */ lbz         r0, 0xcc1(r4)
+/* 8051CDAC 98010011 */ stb         r0, 0x11(r1)
+/* 8051CDB0 98610010 */ stb         r3, 0x10(r1)
+/* 8051CDB4 88640CC2 */ lbz         r3, 0xcc2(r4)
+/* 8051CDB8 88040CC3 */ lbz         r0, 0xcc3(r4)
+/* 8051CDBC 98010013 */ stb         r0, 0x13(r1)
+/* 8051CDC0 98610012 */ stb         r3, 0x12(r1)
+/* 8051CDC4 88640CC4 */ lbz         r3, 0xcc4(r4)
+/* 8051CDC8 88040CC5 */ lbz         r0, 0xcc5(r4)
+/* 8051CDCC 98010015 */ stb         r0, 0x15(r1)
+/* 8051CDD0 98610014 */ stb         r3, 0x14(r1)
+/* 8051CDD4 88640CC6 */ lbz         r3, 0xcc6(r4)
+/* 8051CDD8 88040CC7 */ lbz         r0, 0xcc7(r4)
+/* 8051CDDC 98010017 */ stb         r0, 0x17(r1)
+/* 8051CDE0 98610016 */ stb         r3, 0x16(r1)
+/* 8051CDE4 48000008 */ b           lbl_8051cdec
 lbl_8051cde8:
-  li r5, 0;
+/* 8051CDE8 38A00000 */ li          r5, 0x0
 lbl_8051cdec:
-  cmpwi r5, 0;
-  beq lbl_8051ce00;
-  addi r3, r29, 0x18;
-  addi r4, r1, 0x10;
-  bl unk_8052758c;
+/* 8051CDEC 2C050000 */ cmpwi       r5, 0x0
+/* 8051CDF0 41820010 */ beq-        lbl_8051ce00
+/* 8051CDF4 387D0018 */ addi        r3, r29, 0x18
+/* 8051CDF8 38810010 */ addi        r4, r1, 0x10
+/* 8051CDFC 4800A791 */ bl          unk_8052758c
 lbl_8051ce00:
-  lis r3, 0;
-  lwz r0, 0(r3);
-  add r3, r0, r31;
-  lbz r0, 0x2e(r3);
-  extsb. r0, r0;
-  blt lbl_8051ce60;
-  clrlwi r0, r0, 0x18;
-  lis r3, 0;
-  mulli r0, r0, 0xec;
-  lwz r3, 0(r3);
-  add r3, r3, r0;
-  addi r30, r3, 4;
-  lwz r12, 0(r30);
-  mr r3, r30;
-  lwz r12, 0x18(r12);
-  mtctr r12;
-  bctrl;
-  stw r3, 0xd4(r29);
-  mr r3, r30;
-  lwz r12, 0(r30);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  stw r3, 0xd0(r29);
+/* 8051CE00 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
+/* 8051CE04 8003D728 */ lwz         r0, spInstance__Q26System10RaceConfig@l(r3)
+/* 8051CE08 7C60FA14 */ add         r3, r0, r31
+/* 8051CE0C 8803002E */ lbz         r0, 0x2e(r3)
+/* 8051CE10 7C000775 */ extsb.      r0, r0
+/* 8051CE14 4180004C */ blt-        lbl_8051ce60
+/* 8051CE18 5400063E */ clrlwi      r0, r0, 0x18
+/* 8051CE1C 3C60809C */ lis         r3, lbl_809bd70c@ha
+/* 8051CE20 1C0000EC */ mulli       r0, r0, 0xec
+/* 8051CE24 8063D70C */ lwz         r3, lbl_809bd70c@l(r3)
+/* 8051CE28 7C630214 */ add         r3, r3, r0
+/* 8051CE2C 3BC30004 */ addi        r30, r3, 0x4
+/* 8051CE30 819E0000 */ lwz         r12, 0(r30)
+/* 8051CE34 7FC3F378 */ mr          r3, r30
+/* 8051CE38 818C0018 */ lwz         r12, 0x18(r12)
+/* 8051CE3C 7D8903A6 */ mtctr       r12
+/* 8051CE40 4E800421 */ bctrl
+/* 8051CE44 907D00D4 */ stw         r3, 0xd4(r29)
+/* 8051CE48 7FC3F378 */ mr          r3, r30
+/* 8051CE4C 819E0000 */ lwz         r12, 0(r30)
+/* 8051CE50 818C001C */ lwz         r12, 0x1c(r12)
+/* 8051CE54 7D8903A6 */ mtctr       r12
+/* 8051CE58 4E800421 */ bctrl
+/* 8051CE5C 907D00D0 */ stw         r3, 0xd0(r29)
 lbl_8051ce60:
-  li r0, 1;
-  stb r0, 0(r29);
-  lmw r27, 0x5c(r1);
-  lwz r0, 0x74(r1);
-  mtlr r0;
-  addi r1, r1, 0x70;
-  blr;
+/* 8051CE60 38000001 */ li          r0, 0x1
+/* 8051CE64 981D0000 */ stb         r0, 0(r29)
+/* 8051CE68 BB61005C */ lmw         r27, 0x5c(r1)
+/* 8051CE6C 80010074 */ lwz         r0, 0x74(r1)
+/* 8051CE70 7C0803A6 */ mtlr        r0
+/* 8051CE74 38210070 */ addi        r1, r1, 0x70
+/* 8051CE78 4E800020 */ blr
   // clang-format on
 }
 #endif
@@ -638,34 +643,34 @@ lbl_8051ce60:
 // Symbol: Controller_vf10
 // PAL: 0x8051ce7c..0x8051ce84
 MARK_BINARY_BLOB(Controller_vf10, 0x8051ce7c, 0x8051ce84);
-asm UNKNOWN_FUNCTION(Controller_vf10) {
-  // clang-format off
-  nofralloc;
-  li r3, -1;
-  blr;
-  // clang-format on
+asm UNKNOWN_FUNCTION(Controller_vf10){
+    // clang-format off
+  nofralloc
+  /* 8051CE7C 3860FFFF */ li          r3, -0x1
+  /* 8051CE80 4E800020 */ blr
+    // clang-format on
 }
 
 // Symbol: Input_vf18
 // PAL: 0x8051ce84..0x8051ce8c
 MARK_BINARY_BLOB(Input_vf18, 0x8051ce84, 0x8051ce8c);
-asm UNKNOWN_FUNCTION(Input_vf18) {
-  // clang-format off
-  nofralloc;
-  li r3, 0;
-  blr;
-  // clang-format on
+asm UNKNOWN_FUNCTION(Input_vf18){
+    // clang-format off
+  nofralloc
+  /* 8051CE84 38600000 */ li          r3, 0x0
+  /* 8051CE88 4E800020 */ blr
+    // clang-format on
 }
 
 // Symbol: Input_vf1c
 // PAL: 0x8051ce8c..0x8051ce94
 MARK_BINARY_BLOB(Input_vf1c, 0x8051ce8c, 0x8051ce94);
-asm UNKNOWN_FUNCTION(Input_vf1c) {
-  // clang-format off
-  nofralloc;
-  li r3, 0;
-  blr;
-  // clang-format on
+asm UNKNOWN_FUNCTION(Input_vf1c){
+    // clang-format off
+  nofralloc
+  /* 8051CE8C 38600000 */ li          r3, 0x0
+  /* 8051CE90 4E800020 */ blr
+    // clang-format on
 }
 
 GhostFileGroup::GhostFileGroup(EGG::Heap* heap, s32 type) {

@@ -3,6 +3,11 @@
 from bisect import bisect_left
 import sys
 import csv
+import yaml
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
 
 
 class Symbol:
@@ -112,6 +117,14 @@ class SymbolsList:
             assert name != ""
             self[addr] = name
 
+    def read_from_yaml(self, file):
+        """Reads a symbol list from a YAML file."""
+        symsyaml = yaml.load(file.read(), Loader)
+        for addr, name in symsyaml['global'].items():
+            assert 0 <= addr <= 0xFFFFFFFF
+            self[addr] = name
+
+
     def write_to(self, file):
         """Writes a symbol list to a file."""
         if sys.platform == "win32" or sys.platform == "msys":
@@ -121,6 +134,13 @@ class SymbolsList:
         writer = csv.writer(file, delimiter=" ", lineterminator=lineterm)
         for sym in self:
             writer.writerow(["0x%08x" % (sym.addr), sym.name])
+
+    def write_to_yaml(self, file):
+        """Writes a symbol list to a file in YAML format."""
+        file.write('global:\n')
+
+        for sym in self:
+            file.write("    0x%08x: %r\n" % (sym.addr, sym.name))
 
     def derive_sizes(self, stop):
         """Fills in sizes of each symbol."""

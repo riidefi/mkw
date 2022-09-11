@@ -7,7 +7,7 @@ on commit e7d0aaf06ce7f73acc2870bbc0f6ef66c76cb46a
 
 Edits:
     Dol & rel ram-rom conversion added using mkwutil
-    Check symbols.txt (pack/symbols.txt) for symbol name and size definitions
+    Check symbols.yml (pack/symbols.yml) for symbol name and size definitions
     Convert runtime VMAs of REL and DOL to offsets in binary file if start or end > 0x8000000
 """
 
@@ -388,7 +388,7 @@ class ProjectSettings:
     build_command: List[str]
     map_format: str
     mw_build_dir: str
-    symbols_txt: str
+    symbols_yml: str
     baseimg: Optional[str]
     myimg: Optional[str]
     mapfile: Optional[str]
@@ -447,7 +447,7 @@ def create_project_settings(settings: Dict[str, Any]) -> ProjectSettings:
         baseimg=settings.get("baseimg"),
         myimg=settings.get("myimg"),
         mapfile=settings.get("mapfile"),
-        symbols_txt=settings.get("symbols_txt"),
+        symbols_yml=settings.get("symbols_yml"),
         build_command=settings.get(
             "make_command", ["make", *settings.get("makeflags", [])]
         ),
@@ -1383,12 +1383,12 @@ def dump_objfile(
     )
 
 
-def search_symbols_txt(start, start_addr, project, config):
+def search_symbols_yml(start, start_addr, project, config):
     from mkwutil.lib.symbols import SymbolsList
 
     symbols = SymbolsList()
-    with open(project.symbols_txt, "r") as f:
-        symbols.read_from(f)
+    with open(project.symbols_yml, "r") as f:
+        symbols.read_from_yaml(f)
     symbols.derive_sizes(0x8100_0000)
 
     if start_addr is not None:
@@ -1415,9 +1415,9 @@ def dump_binary(
         run_make(project.myimg, project)
     start_addr = maybe_eval_int(start)
 
-    start_addr, end_addr = search_symbols_txt(start, start_addr, project, config)
+    start_addr, end_addr = search_symbols_yml(start, start_addr, project, config)
 
-    if start_addr is None: # if symbol not found in symbols.txt AND start arg not an int, search map file
+    if start_addr is None: # if symbol not found in symbols.yml AND start arg not an int, search map file
         _, start_addr = search_map_file(start, project, config)
         if start_addr is None:
             fail("Not able to find function in map file.")

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MessageGroup.hpp"
+#include "game/system/ResourceManager.hpp"
 
 #include <stdio.h>
 
@@ -12,8 +13,7 @@ MessageGroup::MessageGroup()
 
 MessageGroup::~MessageGroup() {}
 
-extern "C" const void* ResourceManager_getFile(void*, u32, const char*, u32*);
-extern void* sResourceManager;
+// extern System::ResourceManager* sResourceManager;
 
 void MessageGroup::load(const char* filename) {
   char path[0x60];
@@ -21,7 +21,7 @@ void MessageGroup::load(const char* filename) {
   path[sizeof(path) - 1] = '\0'; // Redundant
 
   const void* file =
-      ResourceManager_getFile(sResourceManager, 2, path, nullptr);
+      System::ResourceManager::spInstance.nonvol->getFile(2, path, nullptr);
 
   load(file);
 }
