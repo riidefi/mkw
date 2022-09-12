@@ -33,7 +33,7 @@ jobs:
 
       - name: Extract tooling
         env:
-          TOOLS_URL: 'https://drive.google.com/file/d/1-TF65oWonvyO9V0qU_u0inH_7nCkyeP0/view?usp=sharing'
+          TOOLS_URL: 'https://www.dropbox.com/s/4b0hwciadfk8yuo/tools.zip?dl=1'
         run: |
           # Download tooling
           Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.zip

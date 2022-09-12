@@ -23,7 +23,7 @@ RUN dpkg --add-architecture i386 \
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
 
 WORKDIR /blobs
-ARG TOOLS_URL="https://drive.google.com/file/d/1-TF65oWonvyO9V0qU_u0inH_7nCkyeP0/view?usp=sharing"
+ARG TOOLS_URL="https://www.dropbox.com/s/4b0hwciadfk8yuo/tools.zip?dl=1"
 ADD ${TOOLS_URL} ./tools.zip
 RUN mkdir -p ./artifacts/orig/pal \
     && echo "3AB596ABBAE360ECABD3105E220159A9A54DAECF1B414A51EE1CD5D5A64191BF tools.zip" | sha256sum --check --status \
