@@ -26,12 +26,12 @@ WORKDIR /blobs
 ARG TOOLS_URL="https://www.dropbox.com/s/4b0hwciadfk8yuo/tools.zip?dl=1"
 ADD ${TOOLS_URL} ./tools.zip
 RUN mkdir -p ./artifacts/orig/pal \
-    && echo "3AB596ABBAE360ECABD3105E220159A9A54DAECF1B414A51EE1CD5D5A64191BF tools.zip" | sha256sum --check --status \
+    && echo "40cbee5ce207d8ca71b6611f8f7560e6f135562c25e8fa303f916011e99517ca tools.zip" | sha256sum --check --status \
     && unzip -o tools.zip \
     && rm tools.zip \
     && chmod +x ./tools/devkitppc/bin/powerpc-eabi-as \
     && chmod +x ./tools/devkitppc/bin/powerpc-eabi-gcc \
-    && mv ./tools/blobs/* ./artifacts/orig/pal
+    && mv ./tools/blobs/* ./artifacts/orig/pal \
 
 ARG NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip"
 ADD ${NINJA_URL} ./ninja.zip

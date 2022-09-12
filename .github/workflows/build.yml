@@ -38,7 +38,7 @@ jobs:
           # Download tooling
           Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.zip
           $hash = (Get-FileHash '.\tools.zip').Hash
-          if ($hash -ne '3AB596ABBAE360ECABD3105E220159A9A54DAECF1B414A51EE1CD5D5A64191BF')
+          if ($hash -ne '40cbee5ce207d8ca71b6611f8f7560e6f135562c25e8fa303f916011e99517ca')
           {
             echo "Invalid hash: $hash"
             exit 1
