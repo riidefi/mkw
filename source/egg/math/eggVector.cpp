@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <EGG/math/eggVector.hpp>
+#include <egg/math/eggVector.hpp>
 #include <float.h>
 
 namespace EGG {

@@ -295,7 +295,7 @@ def add_compile_rules(args, n: Writer):
     ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
     n.rule(
         "cc",
-        command = ALLOW_CHAIN + f"$gcc -Isource -Isource/platform -MM -MF $out.d $in && $cc $cflags -o $out $in",
+        command = ALLOW_CHAIN + f"$gcc -Isource -Isource/platform -nostdinc -M -MF $out.d $in && $cc $cflags -o $out $in",
         description = "CC $in",
         deps = "gcc",
         depfile = "$out.d"
