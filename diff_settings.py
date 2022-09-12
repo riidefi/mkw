@@ -17,7 +17,7 @@ def apply(config: dict, args):
         config["myimg"] = "artifacts/target/pal/main.dol"
         config["baseimg"] = "artifacts/orig/pal/main.dol"
     config["symbols_yml"] = "pack/symbols.yml"
-    config["make_command"] = [executable, "build.py", "--diff_py"]
+    config["make_command"] = "ninja"
     config["makeflags"] = []
     config["source_directories"] = ["source"]
     config["arch"] = "ppc"

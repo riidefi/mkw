@@ -23,11 +23,18 @@ RUN dpkg --add-architecture i386 \
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
 
 WORKDIR /blobs
-ARG TOOLS_URL="https://cdn.discordapp.com/attachments/767477506861170710/870608469558980649/tools.zip"
+ARG TOOLS_URL="https://drive.google.com/file/d/1-TF65oWonvyO9V0qU_u0inH_7nCkyeP0/view?usp=sharing"
 ADD ${TOOLS_URL} ./tools.zip
 RUN mkdir -p ./artifacts/orig/pal \
-    && echo "2D78EEB2B90A2E57DB4B5DC55F37468B115B344498B8875D2EC8ADDE5AB8B243 tools.zip" | sha256sum --check --status \
+    && echo "3AB596ABBAE360ECABD3105E220159A9A54DAECF1B414A51EE1CD5D5A64191BF tools.zip" | sha256sum --check --status \
     && unzip -o tools.zip \
     && rm tools.zip \
     && chmod +x ./tools/devkitppc/bin/powerpc-eabi-as \
+    && chmod +x ./tools/devkitppc/bin/powerpc-eabi-gcc \
     && mv ./tools/blobs/* ./artifacts/orig/pal
+
+ARG NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip"
+ADD ${NINJA_URL} ./ninja.zip
+RUN unzip -o ninja.zip \
+    && rm ninja.zip
+    && chmod +x ./ninja.exe
