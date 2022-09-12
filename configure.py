@@ -351,9 +351,10 @@ def link_dol(dol_objects_path: Path, n: Writer):
     link(elf_path, dol_objects, dst_lcf_path, map_path, n)
     # Convert ELF to DOL.
     dol_path = dest_dir / "main.dol"
+    ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
     n.rule(
         "pack_dol",
-        command = f"python mkwutil/mkw_binary_patch.py $in && python mkwutil/pack_main_dol.py -o $out $in",
+        command = ALLOW_CHAIN + f"python mkwutil/mkw_binary_patch.py $in && python mkwutil/pack_main_dol.py -o $out $in",
         description = "PACK $out"
     )
     n.build(
