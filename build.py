@@ -226,21 +226,25 @@ def __run_windows_cmd_wine(cmd: str) -> tuple[list[str], int]:
         return stdout.readlines(), process.returncode
 
 
+def get_compat_cmd(cmd: str) -> str:
+    if not (sys.platform == "win32" or sys.platform == "msys"):
+        if sys.platform == "darwin":
+            compat = os.path.abspath("./mkwutil/tools/crossover.sh")
+        else:
+            compat = "wine"
+        cmd = f"{compat} {cmd}"
+    return cmd
+
+
 def __assert_command_success(returncode, command):
     assert returncode == 0, f"{command} exited with returncode {returncode}"
 
 
 def link(
-    dst: Path, objs: list[Path], lcf: Path, map_path: Path, partial: bool = False
+    dst: Path, objs: list[Path], lcf: Path, map_path: Path, n: Writer, partial: bool = False
 ) -> bool:
     """Links an ELF."""
-    print(f'{colored("LD", "green")} {dst}')
-    cmd = (
-        [MWLD]
-        + objs
-        + [
-            "-o",
-            dst,
+    ldflagslist = [
             "-lcf",
             lcf,
             "-fp",
@@ -250,18 +254,21 @@ def link(
             "-map",
             map_path,
         ]
-    )
     if partial:
-        cmd.append("-r1")
-    command = " ".join(map(str, cmd))
-    lines, returncode = run_windows_cmd(command)
-    for line in lines:
-        print(line)
-    __assert_command_success(returncode, command)
+        ldflagslist.append("-r1")
+    ldflags = " ".join(map(str, ldflagslist))
+
+    n.build(
+        str(dst),
+        rule = "ld",
+        inputs = list(map(str, objs)),
+        variables = {
+            "ldflags" : ldflags
+        }
+    )
 
 
-def compile_sources(args):
-    ninjapath = 'build.ninja'
+def add_compile_rules(args, n: Writer):
     OUTDIR = 'out'
     out_dir = Path(OUTDIR)
     out_dir.mkdir(exist_ok=True)
@@ -273,61 +280,50 @@ def compile_sources(args):
         for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")
     ]
 
-    with open(ninjapath, 'w') as ninjafile:
-        n = Writer(ninjafile)
-        n.variable("outdir", OUTDIR)
-        n.variable("as", GAS)
-        n.variable("gcc", GCC)
-        n.variable("asflags", "-mgekko -Iasm")
+    n.variable("outdir", OUTDIR)
+    n.variable("as", GAS)
+    n.variable("gcc", GCC)
+    n.variable("asflags", "-mgekko -Iasm")
 
-        n.rule(
-            "as",
-            command = f"$as $in $asflags -o $out",
-            description = "AS $in"
+    n.rule(
+        "as",
+        command = f"$as $in $asflags -o $out",
+        description = "AS $in"
+    )
+
+    ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
+    n.rule(
+        "cc",
+        command = ALLOW_CHAIN + f"$gcc -Isource -Isource/** -MM -MF $out.d $in && $cc $cflags -o $out $in",
+        description = "CC $in",
+        deps = "gcc",
+        depfile = "$out.d"
+    )
+
+    for src in chain(SOURCES_DOL, SOURCES_REL):
+        srcPath = Path(src.src)
+        o_path = str((Path("out") / srcPath.parts[-1]).with_suffix(".o"))
+
+        n.build(
+            o_path,
+            rule = "cc",
+            inputs = src.src,
+            variables = {
+                "cc" : get_compat_cmd(CWCC_PATHS[src.cc]),
+                "cflags" : CWCC_OPT + ' ' + src.opts,
+            }
         )
 
-        ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
-        n.rule(
-            "cc",
-            command = ALLOW_CHAIN + f"$gcc -Isource -Isource/** -MM -MF $out.d $in && $cc $cflags -o $out $in",
-            description = "CC $in",
-            deps = "gcc",
-            depfile = "$out.d"
+    for asm in asm_files:
+        out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
+        n.build(
+            str(out_o),
+            rule = "as",
+            inputs = str(asm)
         )
 
-        for src in chain(SOURCES_DOL, SOURCES_REL):
-            srcPath = Path(src.src)
-            ccCmd = CWCC_PATHS[src.cc]
-            if not (sys.platform == "win32" or sys.platform == "msys"):
-                if sys.platform == "darwin":
-                    compat = os.path.abspath("./mkwutil/tools/crossover.sh")
-                else:
-                    compat = "wine"
-                ccCmd = f"{compat} {ccCmd}"
-            o_path = str((Path("out") / srcPath.parts[-1]).with_suffix(".o"))
 
-            n.build(
-                o_path,
-                rule = "cc",
-                inputs = src.src,
-                variables = {
-                    "cc" : ccCmd,
-                    "cflags" : CWCC_OPT + ' ' + src.opts,
-                }
-            )
-
-        for asm in asm_files:
-            out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
-            n.build(
-                str(out_o),
-                rule = "as",
-                inputs = str(asm)
-            )
-
-    subprocess.run(["ninja"], check=True, text=True)
-
-
-def link_dol(o_files: list[Path]):
+def link_dol(o_files: list[Path], n: Writer):
     """Links main.dol."""
     # Generate LCF.
     src_lcf_path = Path("pack", "dol.lcf.j2")
@@ -340,7 +336,7 @@ def link_dol(o_files: list[Path]):
     # Link ELF.
     elf_path = dest_dir / "main.elf"
     map_path = dest_dir / "main.map"
-    link(elf_path, o_files, dst_lcf_path, map_path)
+    link(elf_path, o_files, dst_lcf_path, map_path, n)
     # Execute patches.
     with open(elf_path, "rb+") as elf_file:
         patch_elf(elf_file)
@@ -350,7 +346,7 @@ def link_dol(o_files: list[Path]):
     return dol_path
 
 
-def link_rel(o_files: list[Path]):
+def link_rel(o_files: list[Path], n: Writer):
     """Links StaticR.rel."""
     # Generate LCF.
     src_lcf_path = Path("pack", "rel.lcf.j2")
@@ -363,7 +359,7 @@ def link_rel(o_files: list[Path]):
     # Link ELF.
     elf_path = dest_dir / "StaticR.elf"
     map_path = dest_dir / "StaticR.map"
-    link(elf_path, o_files, dst_lcf_path, map_path, partial=True)
+    link(elf_path, o_files, dst_lcf_path, map_path, n, partial=True)
     # Convert ELF to REL.
     dol_elf_path = dest_dir / "main.elf"
     rel_path = dest_dir / "StaticR.rel"
@@ -387,12 +383,23 @@ def build(args):
     rel_objects = open(rel_objects_path, "r").readlines()
     rel_objects = [Path(x.strip()) for x in rel_objects]
 
-    compile_sources(args)
+    ninjapath = 'build.ninja'
+    with open(ninjapath, 'w') as ninjafile:
+        n = Writer(ninjafile)
+        add_compile_rules(args, n)
 
-    orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
-    orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
-    target_dol_path = link_dol(dol_objects)
-    target_rel_path = link_rel(rel_objects)
+        orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
+        orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
+
+        n.variable("ld", get_compat_cmd(MWLD))
+        n.rule(
+            "ld",
+            command = f"$ld $in $ldflags -o $out",
+            description = "LD $out"
+        )
+        target_dol_path = link_dol(dol_objects, n)
+        target_rel_path = link_rel(rel_objects, n)
+    subprocess.run(["ninja"], check=True, text=True)
 
     verify_dol(orig_dol_path, target_dol_path)
     verify_rel(orig_rel_path, target_rel_path)
