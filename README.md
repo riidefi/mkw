@@ -31,7 +31,7 @@ Every fully understood piece of reverse engineered data has been documented in a
   - `artifacts/orig/pal/StaticR.rel`
 
 ## Python Workspace
-
+This build system assumes that a `python` command is available that points to a compatibly python 3 interpreter
 ### venv
 
 It is recommended to setup a Python virtual environment to simplify workspace setup.
@@ -64,7 +64,7 @@ Run `pip install -e .` to do that.
 
 ## Building
 
-Run `python3 ./build.py` to build the game and verify build authenticity. Final results:
+Run `python ./configure.py` to create a build script and `ninja` to build the project. You may need to rerun `configure` after editing the slices. Final results:
   - `artifacts/target/pal/main.dol`
   - `artifacts/target/pal/StaticR.rel`
 
@@ -92,7 +92,7 @@ The dead-stripping feature can be re-enabled by:
   - [pack/rel_slices.csv](./pack/rel_slices.csv)
 - Entries must be sorted in the spreadsheet (current limitation).
 - Add your new build target to `mkwutil/sources.py`.
-- Run `build.py`.
+- Run `configure.py` and `ninja`
 
 ### pre-commit
 

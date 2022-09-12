@@ -262,6 +262,7 @@ def link(
         str(dst),
         rule = "ld",
         inputs = list(map(str, objs)),
+        implicit = str(lcf),
         variables = {
             "ldflags" : ldflags
         }
@@ -323,53 +324,95 @@ def add_compile_rules(args, n: Writer):
         )
 
 
-def link_dol(o_files: list[Path], n: Writer):
+def link_dol(dol_objects_path: Path, n: Writer):
     """Links main.dol."""
+    dol_objects = open(dol_objects_path, "r").readlines()
+    dol_objects = [Path(x.strip()) for x in dol_objects]
     # Generate LCF.
     src_lcf_path = Path("pack", "dol.lcf.j2")
     dst_lcf_path = Path("pack", "dol.lcf")
     slices_path = Path("pack", "dol_slices.csv")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
+    n.build(
+        str(dst_lcf_path),
+        rule = "lcfgen",
+        inputs = str(dol_objects_path),
+        implicit= [str(src_lcf_path), str(slices_path)],
+        variables = {
+            "base" : str(src_lcf_path),
+            "slices" : str(slices_path),
+        }
+    )
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "main.elf"
     map_path = dest_dir / "main.map"
-    link(elf_path, o_files, dst_lcf_path, map_path, n)
-    # Execute patches.
-    with open(elf_path, "rb+") as elf_file:
-        patch_elf(elf_file)
+    link(elf_path, dol_objects, dst_lcf_path, map_path, n)
     # Convert ELF to DOL.
     dol_path = dest_dir / "main.dol"
-    pack_main_dol(elf_path, dol_path)
+    n.rule(
+        "pack_dol",
+        command = f"python mkwutil/mkw_binary_patch.py $in && python mkwutil/pack_main_dol.py -o $out $in",
+        description = "PACK $out"
+    )
+    n.build(
+        str(dol_path),
+        rule = "pack_dol",
+        inputs = str(elf_path)
+    )
     return dol_path
 
 
-def link_rel(o_files: list[Path], n: Writer):
+def link_rel(rel_objects_path: Path, n: Writer):
+    rel_objects = open(rel_objects_path, "r").readlines()
+    rel_objects = [Path(x.strip()) for x in rel_objects]
     """Links StaticR.rel."""
     # Generate LCF.
     src_lcf_path = Path("pack", "rel.lcf.j2")
     dst_lcf_path = Path("pack", "rel.lcf")
     slices_path = Path("pack", "rel_slices.csv")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
+    n.build(
+        str(dst_lcf_path),
+        rule = "lcfgen",
+        inputs = str(rel_objects_path),
+        implicit= [str(src_lcf_path), str(slices_path)],
+        variables = {
+            "base" : str(src_lcf_path),
+            "slices" : str(slices_path),
+        }
+    )
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "StaticR.elf"
     map_path = dest_dir / "StaticR.map"
-    link(elf_path, o_files, dst_lcf_path, map_path, n, partial=True)
+    link(elf_path, rel_objects, dst_lcf_path, map_path, n, partial=True)
     # Convert ELF to REL.
     dol_elf_path = dest_dir / "main.elf"
     rel_path = dest_dir / "StaticR.rel"
     orig_dir = Path("artifacts", "orig")
     orig_rel_yml_path = Path("mkwutil", "ppcdis_adapter", "rel.yaml")
-    pack_staticr_rel(elf_path, rel_path, orig_rel_yml_path, dol_elf_path)
+    n.rule(
+        "pack_rel",
+        command = f"python mkwutil/pack_staticr_rel.py --base-rel $baserel --dol-elf $dolelf -o $out $in",
+        description = "PACK $out"
+    )
+    n.build(
+        str(rel_path),
+        rule = "pack_rel",
+        inputs = str(elf_path),
+        implicit = [str(dol_elf_path),str(orig_rel_yml_path)],
+        variables = {
+            "baserel" : str(orig_rel_yml_path),
+            "dolelf" : str(dol_elf_path),
+        }
+    )
     return rel_path
 
 
-def build(args):
+def configure(args):
     analyse_bins(args.force_analyse)
     gen_asm(args.regen_asm)
 
@@ -378,10 +421,6 @@ def build(args):
 
     dol_objects_path = Path("pack/dol_objects.txt")
     rel_objects_path = Path("pack/rel_objects.txt")
-    dol_objects = open(dol_objects_path, "r").readlines()
-    dol_objects = [Path(x.strip()) for x in dol_objects]
-    rel_objects = open(rel_objects_path, "r").readlines()
-    rel_objects = [Path(x.strip()) for x in rel_objects]
 
     ninjapath = 'build.ninja'
     with open(ninjapath, 'w') as ninjafile:
@@ -391,22 +430,52 @@ def build(args):
         orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
         orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
 
+        slices_path = Path("pack", "rel_slices.csv")
+        n.variable("slices", str(slices_path))
+        n.rule(
+            "lcfgen",
+            command = f"python mkwutil/gen_lcf.py --base $base --out $out --objs $in --slices $slices",
+            description = "LCFGEN $out"
+        )
         n.variable("ld", get_compat_cmd(MWLD))
         n.rule(
             "ld",
             command = f"$ld $in $ldflags -o $out",
             description = "LD $out"
         )
-        target_dol_path = link_dol(dol_objects, n)
-        target_rel_path = link_rel(rel_objects, n)
-    subprocess.run(["ninja"], check=True, text=True)
+        target_dol_path = link_dol(dol_objects_path, n)
+        target_rel_path = link_rel(rel_objects_path, n)
 
-    verify_dol(orig_dol_path, target_dol_path)
-    verify_rel(orig_rel_path, target_rel_path)
+        n.rule(
+            "verify",
+            command = f"python $verifyscript --reference $ref --target $in",
+            description = "VERIFY $in"
+        )
+        dol_ok = "." + str(orig_dol_path)+".ok"
+        n.build(
+            dol_ok,
+            rule = "verify",
+            inputs = str(target_dol_path),
+            variables = {
+                "verifyscript" : "mkwutil/verify_main_dol.py",
+                "ref" : str(orig_dol_path),
+            }
+        )
+        rel_ok = "." + str(orig_rel_path)+".ok"
+        n.build(
+            rel_ok,
+            rule = "verify",
+            inputs = str(target_rel_path),
+            variables = {
+                "verifyscript" : "mkwutil/verify_staticr_rel.py",
+                "ref" : str(orig_rel_path),
+            }
+        )
 
-    build_stats(Path()).print()
+        n.rule("stats", command = f"python mkwutil/progress/percent_decompiled.py", description = "STATS")
+        n.build("phony", rule="stats", inputs=[rel_ok, dol_ok], implicit=[dol_ok, rel_ok])
 
 
 if __name__ == "__main__":
     args = parse_args()
-    build(args)
+    configure(args)

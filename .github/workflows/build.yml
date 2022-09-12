@@ -55,9 +55,13 @@ jobs:
           Remove-Item '.\tools.zip'
           Remove-Item -LiteralPath 'tools2' -Force -Recurse
 
+      - name: Configure mkw
+        shell: bash
+        run: python configure.py --regen_asm
+
       - name: Build mkw
         shell: bash
-        run: python build.py --regen_asm
+        run: ninja
 
       - name: Get DOL progress
         run: python -m mkwutil.progress.percent_decompiled --short --part DOL > badge_dol_progress.txt
