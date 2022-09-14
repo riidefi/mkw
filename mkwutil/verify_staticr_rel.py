@@ -8,9 +8,9 @@ from pathlib import Path
 import struct
 import sys
 
-from .lib.rel import Rel
-from .lib.verify_binary import *
-from .sections import REL_SECTIONS, REL_SECTION_IDX
+from mkwutil.lib.rel import Rel
+from mkwutil.lib.verify_binary import *
+from mkwutil.sections import REL_SECTIONS, REL_SECTION_IDX
 
 from ppcdis import diff_relocs, load_binary_yml
 
@@ -102,4 +102,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    verify_rel(args.target)
+    verify_rel(args.reference, args.target)

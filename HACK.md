@@ -12,7 +12,7 @@ Contains the reference artifacts from the original game, and the generated final
 - `./artifacts/target/pal/main.dol`: Ouptut main executable.
 - `./artifacts/target/pal/StaticR.rel`: Output library.
 
-### `./build.py`: Main build script
+### `./configure.py`: Ninja build script generator
 
 Uses `mkwutil` to rebuild MKW from decompiled sources and verifies the result.
 
