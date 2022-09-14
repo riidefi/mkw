@@ -19,6 +19,8 @@ import multiprocessing
 import colorama
 from termcolor import colored
 
+from ninja_syntax import Writer
+
 from sources import SOURCES_DOL, SOURCES_REL
 from mkwutil.lib.slices import SliceTable
 from mkwutil.sections import DOL_SECTIONS, REL_SECTIONS
@@ -39,19 +41,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
     parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
     parser.add_argument("--force_analyse", action="store_true", help="Force run original binary analysis")
-    parser.add_argument(
-        "-j",
-        "--concurrency",
-        type=int,
-        default=multiprocessing.cpu_count(),
-        help="Compile concurrency",
-    )
-    parser.add_argument(
-        "--match", type=str, default=None, help="Only compile sources matching pattern"
-    )
-    parser.add_argument(
-        "--diff_py", type=str, default=None, help="Recompile a .o file for diff.py"
-    )
     parser.add_argument("--link_only", action="store_true", help="Link only, don't build")
     args = parser.parse_args()
     return args
@@ -104,6 +93,7 @@ if DEVKITPPC is None:
 
 
 GAS = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
+GCC = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-gcc"))
 
 MWLD = os.path.join("tools", "mwldeppc.exe")
 
@@ -236,84 +226,25 @@ def __run_windows_cmd_wine(cmd: str) -> tuple[list[str], int]:
         return stdout.readlines(), process.returncode
 
 
+def get_compat_cmd(cmd: str) -> str:
+    if not (sys.platform == "win32" or sys.platform == "msys"):
+        if sys.platform == "darwin":
+            compat = os.path.abspath("./mkwutil/tools/crossover.sh")
+        else:
+            compat = "wine"
+        cmd = f"{compat} {cmd}"
+    return cmd
+
+
 def __assert_command_success(returncode, command):
     assert returncode == 0, f"{command} exited with returncode {returncode}"
 
 
-def compile_source_impl(src, dst, version="default", additional="-ipa file"):
-    """Compiles a source file."""
-    # Compile ELF object file.
-    command = f"{CWCC_PATHS[version]} {CWCC_OPT + ' ' + additional} {src} -o {dst}"
-    lines, returncode = run_windows_cmd(command)
-    with print_mutex:
-        print(f'{colored("CC", "green")} {src}')
-        if VERBOSE:
-            print(command)
-        for line in lines:
-            print("   " + line.strip())
-    __assert_command_success(returncode, command)
-
-
-gSourceQueue = []
-
-
-def compile_queued_sources(concurrency):
-    """Dispatches multiple threads to compile all queued sources."""
-    print(colored(f"max_hw_concurrency={concurrency}", color="yellow"))
-
-    if not len(gSourceQueue):
-        print(colored("No sources to compile", color="red"))
-        return
-
-    pool = ThreadPool(min(concurrency, len(gSourceQueue)))
-
-    pool.map(lambda s: compile_source_impl(*s), gSourceQueue)
-
-    pool.close()
-    pool.join()
-
-    #
-    # colorama doesn't seem to work with multithreading
-    #
-    stripped_files, dol_object_slices, rel_object_slices = get_strip_info_and_slices()
-    for (src, dst, _, _) in gSourceQueue:
-        if src.stem in stripped_files:
-            continue
-        # Verify ELF file section sizes.
-        obj_slices = dol_object_slices.get(src.stem) or rel_object_slices.get(src.stem)
-
-        if obj_slices:
-            verify_object_file(dst, src, obj_slices)
-        else:
-            print(colored(f"Skipping slices verification on {src}", color="yellow"))
-
-    gSourceQueue.clear()
-
-
-# Queued
-def queue_compile_source(src, version="default", additional="-ipa file"):
-    """Queues a C/C++ file for compilation."""
-    dst = (Path("out") / src.parts[-1]).with_suffix(".o")
-    gSourceQueue.append((src, dst, version, additional))
-
-
-def assemble(dst: Path, src: Path) -> None:
-    """Assembles a .s file."""
-    print(f'{colored("AS", "green")} {src}')
-    subprocess.run([GAS, src, "-mgekko", "-Iasm", "-o", dst], check=True, text=True)
-
-
 def link(
-    dst: Path, objs: list[Path], lcf: Path, map_path: Path, partial: bool = False
+    dst: Path, objs: list[Path], lcf: Path, map_path: Path, n: Writer, partial: bool = False
 ) -> bool:
     """Links an ELF."""
-    print(f'{colored("LD", "green")} {dst}')
-    cmd = (
-        [MWLD]
-        + objs
-        + [
-            "-o",
-            dst,
+    ldflagslist = [
             "-lcf",
             lcf,
             "-fp",
@@ -323,103 +254,166 @@ def link(
             "-map",
             map_path,
         ]
-    )
     if partial:
-        cmd.append("-r1")
-    command = " ".join(map(str, cmd))
-    lines, returncode = run_windows_cmd(command)
-    for line in lines:
-        print(line)
-    __assert_command_success(returncode, command)
+        ldflagslist.append("-r1")
+    ldflags = " ".join(map(str, ldflagslist))
+
+    n.build(
+        str(dst),
+        rule = "ld",
+        inputs = list(map(str, objs)),
+        implicit = str(lcf),
+        variables = {
+            "ldflags" : ldflags
+        }
+    )
 
 
-def compile_sources(args):
-    """Compiles all C/C++ and ASM files."""
-    out_dir = Path("out")
+def add_compile_rules(args, n: Writer):
+    OUTDIR = 'out'
+    out_dir = Path(OUTDIR)
     out_dir.mkdir(exist_ok=True)
-
-    for src in chain(SOURCES_DOL, SOURCES_REL):
-        queue_compile_source(Path(src.src), src.cc, src.opts)
-
-    if args.match or args.diff_py:
-        if args.match:
-            match = args.match
-        else:
-            # (Will still match a .cpp with the same name)
-            match = args.diff_py[len("out/"):-len(".o")] + ".c"
-        print(
-            colored('[NOTE] Only compiling sources matching "%s".' % match, "red")
-        )
-        global gSourceQueue
-        gSourceQueue = list(filter(lambda x: match in str(x[0]), gSourceQueue))
-    if args.link_only:
-        gSourceQueue = []
-
-    compile_queued_sources(args.concurrency)
+    (out_dir / "dol").mkdir(exist_ok=True)
+    (out_dir / "rel").mkdir(exist_ok=True)
 
     asm_files = [
         x.relative_to(os.getcwd())
         for x in Path(os.path.join(os.getcwd(), "asm")).glob("**/*.s")
     ]
 
-    (out_dir / "dol").mkdir(exist_ok=True)
-    (out_dir / "rel").mkdir(exist_ok=True)
+    n.variable("outdir", OUTDIR)
+    n.variable("as", GAS)
+    n.variable("gcc", GCC)
+    n.variable("asflags", "-mgekko -Iasm")
+
+    n.rule(
+        "as",
+        command = f"$as $in $asflags -o $out",
+        description = "AS $in"
+    )
+
+    ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
+    n.rule(
+        "cc",
+        command = ALLOW_CHAIN + f"$gcc -Isource -Isource/platform -nostdinc -M -MF $out.d $in && $cc $cflags -o $out $in",
+        description = "CC $in",
+        deps = "gcc",
+        depfile = "$out.d"
+    )
+
+    for src in chain(SOURCES_DOL, SOURCES_REL):
+        srcPath = Path(src.src)
+        o_path = str((Path("out") / srcPath.parts[-1]).with_suffix(".o"))
+
+        n.build(
+            o_path,
+            rule = "cc",
+            inputs = src.src,
+            variables = {
+                "cc" : get_compat_cmd(CWCC_PATHS[src.cc]),
+                "cflags" : CWCC_OPT + ' ' + src.opts,
+            }
+        )
 
     for asm in asm_files:
         out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
-        # Optimization: Do not assemble ASM files if the target object already exists.
-        if not args.regen_asm and out_o.exists():
-            continue
-        assemble(out_o, asm)
+        n.build(
+            str(out_o),
+            rule = "as",
+            inputs = str(asm)
+        )
 
 
-def link_dol(o_files: list[Path]):
+def link_dol(dol_objects_path: Path, n: Writer):
     """Links main.dol."""
+    dol_objects = open(dol_objects_path, "r").readlines()
+    dol_objects = [Path(x.strip()) for x in dol_objects]
     # Generate LCF.
     src_lcf_path = Path("pack", "dol.lcf.j2")
     dst_lcf_path = Path("pack", "dol.lcf")
     slices_path = Path("pack", "dol_slices.csv")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
+    n.build(
+        str(dst_lcf_path),
+        rule = "lcfgen",
+        inputs = str(dol_objects_path),
+        implicit= [str(src_lcf_path), str(slices_path)],
+        variables = {
+            "base" : str(src_lcf_path),
+            "slices" : str(slices_path),
+        }
+    )
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "main.elf"
     map_path = dest_dir / "main.map"
-    link(elf_path, o_files, dst_lcf_path, map_path)
-    # Execute patches.
-    with open(elf_path, "rb+") as elf_file:
-        patch_elf(elf_file)
+    link(elf_path, dol_objects, dst_lcf_path, map_path, n)
     # Convert ELF to DOL.
     dol_path = dest_dir / "main.dol"
-    pack_main_dol(elf_path, dol_path)
+    ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
+    n.rule(
+        "pack_dol",
+        command = ALLOW_CHAIN + f"python mkwutil/mkw_binary_patch.py $in && python mkwutil/pack_main_dol.py -o $out $in",
+        description = "PACK $out"
+    )
+    n.build(
+        str(dol_path),
+        rule = "pack_dol",
+        inputs = str(elf_path)
+    )
     return dol_path
 
 
-def link_rel(o_files: list[Path]):
+def link_rel(rel_objects_path: Path, n: Writer):
+    rel_objects = open(rel_objects_path, "r").readlines()
+    rel_objects = [Path(x.strip()) for x in rel_objects]
     """Links StaticR.rel."""
     # Generate LCF.
     src_lcf_path = Path("pack", "rel.lcf.j2")
     dst_lcf_path = Path("pack", "rel.lcf")
     slices_path = Path("pack", "rel_slices.csv")
-    gen_lcf(src_lcf_path, dst_lcf_path, o_files, slices_path)
+    n.build(
+        str(dst_lcf_path),
+        rule = "lcfgen",
+        inputs = str(rel_objects_path),
+        implicit= [str(src_lcf_path), str(slices_path)],
+        variables = {
+            "base" : str(src_lcf_path),
+            "slices" : str(slices_path),
+        }
+    )
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "StaticR.elf"
     map_path = dest_dir / "StaticR.map"
-    link(elf_path, o_files, dst_lcf_path, map_path, partial=True)
+    link(elf_path, rel_objects, dst_lcf_path, map_path, n, partial=True)
     # Convert ELF to REL.
     dol_elf_path = dest_dir / "main.elf"
     rel_path = dest_dir / "StaticR.rel"
     orig_dir = Path("artifacts", "orig")
     orig_rel_yml_path = Path("mkwutil", "ppcdis_adapter", "rel.yaml")
-    pack_staticr_rel(elf_path, rel_path, orig_rel_yml_path, dol_elf_path)
+    n.rule(
+        "pack_rel",
+        command = f"python mkwutil/pack_staticr_rel.py --base-rel $baserel --dol-elf $dolelf -o $out $in",
+        description = "PACK $out"
+    )
+    n.build(
+        str(rel_path),
+        rule = "pack_rel",
+        inputs = str(elf_path),
+        implicit = [str(dol_elf_path),str(orig_rel_yml_path)],
+        variables = {
+            "baserel" : str(orig_rel_yml_path),
+            "dolelf" : str(dol_elf_path),
+        }
+    )
     return rel_path
 
 
-def build(args):
+def configure(args):
     analyse_bins(args.force_analyse)
     gen_asm(args.regen_asm)
 
@@ -428,27 +422,61 @@ def build(args):
 
     dol_objects_path = Path("pack/dol_objects.txt")
     rel_objects_path = Path("pack/rel_objects.txt")
-    dol_objects = open(dol_objects_path, "r").readlines()
-    dol_objects = [Path(x.strip()) for x in dol_objects]
-    rel_objects = open(rel_objects_path, "r").readlines()
-    rel_objects = [Path(x.strip()) for x in rel_objects]
 
-    compile_sources(args)
+    ninjapath = 'build.ninja'
+    with open(ninjapath, 'w') as ninjafile:
+        n = Writer(ninjafile)
+        add_compile_rules(args, n)
 
-    if args.diff_py:
-        return
+        orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
+        orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
 
-    orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
-    orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
-    target_dol_path = link_dol(dol_objects)
-    target_rel_path = link_rel(rel_objects)
+        slices_path = Path("pack", "rel_slices.csv")
+        n.variable("slices", str(slices_path))
+        n.rule(
+            "lcfgen",
+            command = f"python mkwutil/gen_lcf.py --base $base --out $out --objs $in --slices $slices",
+            description = "LCFGEN $out"
+        )
+        n.variable("ld", get_compat_cmd(MWLD))
+        n.rule(
+            "ld",
+            command = f"$ld $in $ldflags -o $out",
+            description = "LD $out"
+        )
+        target_dol_path = link_dol(dol_objects_path, n)
+        target_rel_path = link_rel(rel_objects_path, n)
 
-    verify_dol(orig_dol_path, target_dol_path)
-    verify_rel(orig_rel_path, target_rel_path)
+        n.rule(
+            "verify",
+            command = f"python $verifyscript --reference $ref --target $in",
+            description = "VERIFY $in"
+        )
+        dol_ok = "." + str(orig_dol_path)+".ok"
+        n.build(
+            dol_ok,
+            rule = "verify",
+            inputs = str(target_dol_path),
+            variables = {
+                "verifyscript" : "mkwutil/verify_main_dol.py",
+                "ref" : str(orig_dol_path),
+            }
+        )
+        rel_ok = "." + str(orig_rel_path)+".ok"
+        n.build(
+            rel_ok,
+            rule = "verify",
+            inputs = str(target_rel_path),
+            variables = {
+                "verifyscript" : "mkwutil/verify_staticr_rel.py",
+                "ref" : str(orig_rel_path),
+            }
+        )
 
-    build_stats(Path()).print()
+        n.rule("stats", command = f"python mkwutil/progress/percent_decompiled.py", description = "STATS")
+        n.build("phony", rule="stats", inputs=[rel_ok, dol_ok], implicit=[dol_ok, rel_ok])
 
 
 if __name__ == "__main__":
     args = parse_args()
-    build(args)
+    configure(args)

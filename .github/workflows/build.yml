@@ -33,12 +33,12 @@ jobs:
 
       - name: Extract tooling
         env:
-          TOOLS_URL: 'https://cdn.discordapp.com/attachments/767477506861170710/870608469558980649/tools.zip'
+          TOOLS_URL: 'https://www.dropbox.com/s/4b0hwciadfk8yuo/tools.zip?dl=1'
         run: |
           # Download tooling
           Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.zip
           $hash = (Get-FileHash '.\tools.zip').Hash
-          if ($hash -ne '2D78EEB2B90A2E57DB4B5DC55F37468B115B344498B8875D2EC8ADDE5AB8B243')
+          if ($hash -ne '40cbee5ce207d8ca71b6611f8f7560e6f135562c25e8fa303f916011e99517ca')
           {
             echo "Invalid hash: $hash"
             exit 1
@@ -55,9 +55,13 @@ jobs:
           Remove-Item '.\tools.zip'
           Remove-Item -LiteralPath 'tools2' -Force -Recurse
 
+      - name: Configure mkw
+        shell: bash
+        run: python configure.py --regen_asm
+
       - name: Build mkw
         shell: bash
-        run: python build.py --regen_asm
+        run: ninja
 
       - name: Get DOL progress
         run: python -m mkwutil.progress.percent_decompiled --short --part DOL > badge_dol_progress.txt

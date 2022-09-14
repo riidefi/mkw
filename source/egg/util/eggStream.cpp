@@ -1,4 +1,4 @@
-#include <EGG/util/eggStream.hpp>
+#include <egg/util/eggStream.hpp>
 #include <stdio.h>
 
 #include <decomp.h>

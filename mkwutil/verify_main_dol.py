@@ -7,10 +7,10 @@ from colorama import Fore, Style
 from pathlib import Path
 import sys
 
-from .lib.dol import DolBinary
-from .lib.verify_binary import *
+from mkwutil.lib.dol import DolBinary
+from mkwutil.lib.verify_binary import *
 
-from .sections import DOL_SECTIONS
+from mkwutil.sections import DOL_SECTIONS
 
 # https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
 def chunks(lst, n):

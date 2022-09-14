@@ -75,3 +75,8 @@ doxygen
 
 # diff.py expected
 expected
+
+# ninja
+build.ninja
+.ninja_deps
+.ninja_log
