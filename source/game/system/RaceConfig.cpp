@@ -234,35 +234,7 @@ RaceConfigScenario::RaceConfigScenario(RawGhostFile* ghost)
   mGhost = ghost;
 }
 
-} // namespace System
-
-// Symbol: __dt__Q26System16RaceConfigPlayerFv
-// PAL: 0x8052dc68..0x8052dca8
-MARK_BINARY_BLOB(__dt__Q26System16RaceConfigPlayerFv, 0x8052dc68, 0x8052dca8);
-asm UNKNOWN_FUNCTION(__dt__Q26System16RaceConfigPlayerFv) {
-  // clang-format off
-  nofralloc
-  /* 8052DC68 9421FFF0 */ stwu        r1, -0x10(r1)
-  /* 8052DC6C 7C0802A6 */ mflr        r0
-  /* 8052DC70 2C030000 */ cmpwi       r3, 0x0
-  /* 8052DC74 90010014 */ stw         r0, 0x14(r1)
-  /* 8052DC78 93E1000C */ stw         r31, 0xc(r1)
-  /* 8052DC7C 7C7F1B78 */ mr          r31, r3
-  /* 8052DC80 41820010 */ beq-        lbl_8052dc90
-  /* 8052DC84 2C040000 */ cmpwi       r4, 0x0
-  /* 8052DC88 40810008 */ ble-        lbl_8052dc90
-  /* 8052DC8C 4BCFC189 */ bl          __dl__FPv
-  lbl_8052dc90:
-  /* 8052DC90 7FE3FB78 */ mr          r3, r31
-  /* 8052DC94 83E1000C */ lwz         r31, 0xc(r1)
-  /* 8052DC98 80010014 */ lwz         r0, 0x14(r1)
-  /* 8052DC9C 7C0803A6 */ mtlr        r0
-  /* 8052DCA0 38210010 */ addi        r1, r1, 0x10
-  /* 8052DCA4 4E800020 */ blr
-  // clang-format on
-}
-
-namespace System {
+RaceConfigPlayer::~RaceConfigPlayer() {}
 
 BattleTeam RaceScenario::computeWinningTeam() {
   u16 results[] = {0, 0};
@@ -2345,6 +2317,12 @@ asm UNKNOWN_FUNCTION(Racedata_destroyStaticInstance) {
   // clang-format on
 }
 
+/*
+namespace System {
+RaceConfig::~RaceConfig() {}
+}*/
+
+//#if 0
 // Symbol: Racedata_destroy
 // PAL: 0x80530038..0x805300f4
 MARK_BINARY_BLOB(Racedata_destroy, 0x80530038, 0x805300f4);
@@ -2404,52 +2382,13 @@ asm UNKNOWN_FUNCTION(Racedata_destroy) {
   /* 805300F0 4E800020 */ blr
   // clang-format on
 }
+//#endif
 
-// Requires RaceConfigPlayer vtable
-#ifdef NON_MATCHING
 namespace System {
 
 RaceConfigScenario::~RaceConfigScenario() {}
 
 } // namespace System
-#else
-// Symbol: RacedataScenario_destroy
-// PAL: 0x805300f4..0x8053015c
-MARK_BINARY_BLOB(RacedataScenario_destroy, 0x805300f4, 0x8053015c);
-asm UNKNOWN_FUNCTION(RacedataScenario_destroy) {
-  // clang-format off
-  nofralloc
-  /* 805300F4 9421FFF0 */ stwu        r1, -0x10(r1)
-  /* 805300F8 7C0802A6 */ mflr        r0
-  /* 805300FC 2C030000 */ cmpwi       r3, 0x0
-  /* 80530100 90010014 */ stw         r0, 0x14(r1)
-  /* 80530104 93E1000C */ stw         r31, 0xc(r1)
-  /* 80530108 7C9F2378 */ mr          r31, r4
-  /* 8053010C 93C10008 */ stw         r30, 8(r1)
-  /* 80530110 7C7E1B78 */ mr          r30, r3
-  /* 80530114 4182002C */ beq-        lbl_80530140
-  /* 80530118 3C808053 */ lis         r4, __dt__Q26System16RaceConfigPlayerFv@ha
-  /* 8053011C 38A000F0 */ li          r5, 0xf0
-  /* 80530120 3884DC68 */ addi        r4, r4, __dt__Q26System16RaceConfigPlayerFv@l
-  /* 80530124 38C0000C */ li          r6, 0xc
-  /* 80530128 38630008 */ addi        r3, r3, 0x8
-  /* 8053012C 4BAF0FC1 */ bl          __destroy_arr
-  /* 80530130 2C1F0000 */ cmpwi       r31, 0x0
-  /* 80530134 4081000C */ ble-        lbl_80530140
-  /* 80530138 7FC3F378 */ mr          r3, r30
-  /* 8053013C 4BCF9CD9 */ bl          __dl__FPv
-  lbl_80530140:
-  /* 80530140 7FC3F378 */ mr          r3, r30
-  /* 80530144 83E1000C */ lwz         r31, 0xc(r1)
-  /* 80530148 83C10008 */ lwz         r30, 8(r1)
-  /* 8053014C 80010014 */ lwz         r0, 0x14(r1)
-  /* 80530150 7C0803A6 */ mtlr        r0
-  /* 80530154 38210010 */ addi        r1, r1, 0x10
-  /* 80530158 4E800020 */ blr
-  // clang-format on
-}
-
-#endif
 
 // Requires rodata from unk_8052e870 and unk_8052fa0c first
 // Also may be a complete non-match
