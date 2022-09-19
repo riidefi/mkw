@@ -108,9 +108,9 @@ struct RawGhostFile {
   friend class GhostFile;
 
 public:
-  RawGhostFile() { reset(); }
+  // RawGhostFile() { reset(); }
 
-  ~RawGhostFile() {}
+  //~RawGhostFile() {}
 
   void reset();
 

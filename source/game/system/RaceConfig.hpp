@@ -143,6 +143,8 @@ UNKNOWN_FUNCTION(unk_8053207c);
 }
 #endif
 
+#define MAX_PLAYER_COUNT 12
+
 namespace System {
 // NOTE: anything marked u8, u16, or u32 could be signed
 class RaceConfig;
@@ -230,6 +232,7 @@ class RaceConfigScenario {
 public:
   RaceConfigScenario(RawGhostFile* ghost);
   RaceConfigScenario& copy(const RaceConfigScenario& other);
+  // RaceConfigScenario& operator=(const RaceConfigScenario& other);
   virtual ~RaceConfigScenario();
   void reset();
   u8 update();
@@ -260,7 +263,7 @@ public:
   u8 mHudCount;
   u8 mLocalPlayerCount;
   u8 mHudCount2; // ?
-  RaceConfigPlayer mPlayers[12];
+  RaceConfigPlayer mPlayers[MAX_PLAYER_COUNT];
   RaceConfigSettings mSettings;
   unk32 _b7c[(0xbec - 0xb7c) / 4];
   RawGhostFile* mGhost;

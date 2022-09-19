@@ -2401,9 +2401,25 @@ RaceConfigScenario::~RaceConfigScenario() {}
 #ifdef NON_MATCHING
 namespace System {
 
+extern const u8 rodata_808900e8[0x80890124 - 0x808900e8];
+const u8 rodata_808900e8[0x80890124 - 0x808900e8] = {
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x08,
+    0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00, 0x0b, 0xff, 0xff, 0xff, 0xff,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x01,
+    0x00, 0x00, 0x00, 0x02, 0x0c, 0x03, 0x00, 0x05, 0x00, 0x04, 0x00, 0x00};
+extern const char rodata_124[];
+const char rodata_124[] = "/boot/menuset.prm";
+
 RaceConfig::RaceConfig()
     : ParameterFile("/boot/menuset.prm", 0), mRaceScenario(&mGhosts[0]),
-      mMenuScenario(&mGhosts[1]), mAwardsScenario(nullptr) {}
+      mMenuScenario(&mGhosts[1]), mAwardsScenario(nullptr) {
+  RawGhostFile* it = mGhosts;
+  do {
+    it->reset();
+    it++;
+  } while (it < mGhosts + 2);
+}
 
 } // namespace System
 #else
@@ -2520,14 +2536,31 @@ void RaceConfig::initRace() {
 
 #ifdef EQUIVALENT
 // regswap r5, r6
+#pragma push
 #pragma legacy_struct_alignment on
 namespace System {
 RaceConfigScenario& RaceConfigScenario::copy(const RaceConfigScenario& other) {
   *this = other;
   return *this;
 }
+/*
+RaceConfigScenario& RaceConfigScenario::operator=(const RaceConfigScenario&
+other) { this->mPlayerCount = other.mPlayerCount; this->mHudCount =
+other.mHudCount; this->mLocalPlayerCount = other.mLocalPlayerCount;
+  this->mHudCount2 = other.mHudCount2;
+  for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
+    mPlayers[i] = other.mPlayers[i];
+  }
+  mSettings = other.mSettings;
+  for (int i = 0; i < sizeof(_b7c)/sizeof(unk32); i++) {
+    _b7c[i] = other._b7c[i];
+  }
+  mGhost = other.mGhost;
+  return *this;
+}
+*/
 } // namespace System
-#pragma legacy_struct_alignment off
+#pragma pop
 #else
 // Symbol: RacedataScenario_copy
 // PAL: 0x805305ac..0x80530864
