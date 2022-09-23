@@ -101,7 +101,7 @@ UNKNOWN_FUNCTION(RacedataScenario_copy);
 // PAL: 0x80530864..0x80530f0c
 UNKNOWN_FUNCTION(Racedata_initAwards);
 // PAL: 0x80530f0c..0x80530f18
-UNKNOWN_FUNCTION(getModeFlag__Q26System18RaceConfigScenarioFv);
+UNKNOWN_FUNCTION(isTeamMode__Q26System18RaceConfigScenarioFv);
 // PAL: 0x80530f18..0x80530f20
 UNKNOWN_FUNCTION(getUnkPos__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80530f20..0x80530f28
@@ -127,7 +127,7 @@ UNKNOWN_FUNCTION(Racedata_getHudPlayerId);
 // PAL: 0x80531f80..0x80531fc8
 UNKNOWN_FUNCTION(unk_80531f80);
 // PAL: 0x80531fc8..0x80532030
-UNKNOWN_FUNCTION(unk_80531fc8);
+UNKNOWN_FUNCTION(isLiveView__Q26System10RaceConfigFUc);
 // PAL: 0x80532030..0x80532070
 UNKNOWN_FUNCTION(Racedata_isTimeAttackReplay);
 // PAL: 0x80532070..0x80532074
@@ -242,12 +242,13 @@ public:
   s32 getGametype();
   void postInitControllers(RaceConfigScenario* raceScenario);
   bool initGhost(u8 playerIdx, u8 playerInputIdx);
-  void computePlayerCounts(u8* playerCount, u8* hudCount, u8* localPlayerCount);
+  void initPlayers(u8 playerCount);
+  void computePlayerCounts(u8& playerCount, u8& hudCount, u8& localPlayerCount);
   void initRng();
   void copyPrevPositions();
   void initControllers(u8 controllerCount);
   void initRace(RaceConfigScenario* raceScenario);
-  u32 getModeFlag();
+  bool isTeamMode();
   BattleTeam computeWinningTeam();
 
   // This is required for some RaceConfigScenario methods
@@ -294,7 +295,7 @@ public:
   void setGhost(RawGhostFile* ghost);
   s8 getHudPlayerId(u8 playerIdx);
   void loadNextCourse();
-  bool unk_80531fc8(u8 hudPlayerIdx);
+  bool isLiveView(u8 hudPlayerIdx);
   bool isTimeAttackReplay();
   void initRace();
 
