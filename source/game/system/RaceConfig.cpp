@@ -1841,11 +1841,6 @@ void RaceConfigScenario::computePlayerCounts(u8& playerCount, u8& hudCount,
   localPlayerCount = localPlayerCount_;
 }
 
-} // namespace System
-
-#if 1
-namespace System {
-
 void RaceConfigScenario::initRng() {
   u32 seed;
   u32 mask;
@@ -1892,81 +1887,6 @@ void RaceConfigScenario::initRng() {
 }
 
 } // namespace System
-#else
-// Symbol: initRng__Q26System12MenuScenarioFv
-// PAL: 0x8052f924..0x8052fa0c
-MARK_BINARY_BLOB(initRng__Q26System18RaceConfigScenarioFv, 0x8052f924,
-                 0x8052fa0c);
-asm UNKNOWN_FUNCTION(initRng__Q26System18RaceConfigScenarioFv) {
-  // clang-format off
-  nofralloc
-  /* 8052F924 9421FFF0 */ stwu        r1, -0x10(r1)
-  /* 8052F928 7C0802A6 */ mflr        r0
-  /* 8052F92C 90010014 */ stw         r0, 0x14(r1)
-  /* 8052F930 93E1000C */ stw         r31, 0xc(r1)
-  /* 8052F934 7C7F1B78 */ mr          r31, r3
-  /* 8052F938 80830B50 */ lwz         r4, 0xb50(r3)
-  /* 8052F93C 2C040004 */ cmpwi       r4, 0x4
-  /* 8052F940 4180000C */ blt-        lbl_8052f94c
-  /* 8052F944 2C040005 */ cmpwi       r4, 0x5
-  /* 8052F948 4081000C */ ble-        lbl_8052f954
-  lbl_8052f94c:
-  /* 8052F94C 2C040002 */ cmpwi       r4, 0x2
-  /* 8052F950 40820024 */ bne-        lbl_8052f974
-  lbl_8052f954:
-  /* 8052F954 3C8074A2 */ lis         r4, 0x74a2
-  /* 8052F958 3804B095 */ addi        r0, r4, -0x4f6b
-  /* 8052F95C 90030B74 */ stw         r0, 0xb74(r3)
-  /* 8052F960 4BC7B415 */ bl          OSGetTick
-  /* 8052F964 5460E8DE */ rlwinm      r0, r3, 0x1d, 3, 0xf
-  /* 8052F968 50602EFE */ rlwimi      r0, r3, 5, 0x1b, 0x1f
-  /* 8052F96C 901F0B78 */ stw         r0, 0xb78(r31)
-  /* 8052F970 48000088 */ b           lbl_8052f9f8
-  lbl_8052f974:
-  /* 8052F974 80030B70 */ lwz         r0, 0xb70(r3)
-  /* 8052F978 5400077B */ rlwinm.     r0, r0, 0, 0x1d, 0x1d
-  /* 8052F97C 41820024 */ beq-        lbl_8052f9a0
-  /* 8052F980 3C8092BC */ lis         r4, 0x92bc
-  /* 8052F984 38047D03 */ addi        r0, r4, 0x7d03
-  /* 8052F988 90030B74 */ stw         r0, 0xb74(r3)
-  /* 8052F98C 4BC7B3E9 */ bl          OSGetTick
-  /* 8052F990 5460E8DE */ rlwinm      r0, r3, 0x1d, 3, 0xf
-  /* 8052F994 50602EFE */ rlwimi      r0, r3, 5, 0x1b, 0x1f
-  /* 8052F998 901F0B78 */ stw         r0, 0xb78(r31)
-  /* 8052F99C 4800005C */ b           lbl_8052f9f8
-  lbl_8052f9a0:
-  /* 8052F9A0 80030B54 */ lwz         r0, 0xb54(r3)
-  /* 8052F9A4 2C000001 */ cmpwi       r0, 0x1
-  /* 8052F9A8 41820050 */ beq-        lbl_8052f9f8
-  /* 8052F9AC 2C040007 */ cmpwi       r4, 0x7
-  /* 8052F9B0 38000000 */ li          r0, 0x0
-  /* 8052F9B4 41800010 */ blt-        lbl_8052f9c4
-  /* 8052F9B8 2C04000A */ cmpwi       r4, 0xa
-  /* 8052F9BC 41810008 */ bgt-        lbl_8052f9c4
-  /* 8052F9C0 38000001 */ li          r0, 0x1
-  lbl_8052f9c4:
-  /* 8052F9C4 2C000000 */ cmpwi       r0, 0x0
-  /* 8052F9C8 40820030 */ bne-        lbl_8052f9f8
-  /* 8052F9CC 4BC7B3A9 */ bl          OSGetTick
-  /* 8052F9D0 5460653E */ srwi        r0, r3, 0x14
-  /* 8052F9D4 5465C9CE */ rlwinm      r5, r3, 0x19, 7, 7
-  /* 8052F9D8 5464663E */ rlwinm      r4, r3, 0xc, 0x18, 0x1f
-  /* 8052F9DC 5466C03E */ rotlwi      r6, r3, 0x18
-  /* 8052F9E0 5400021E */ rlwinm      r0, r0, 0, 8, 0xf
-  /* 8052F9E4 5065CC2E */ rlwimi      r5, r3, 0x19, 0x10, 0x17
-  /* 8052F9E8 7C800378 */ or          r0, r4, r0
-  /* 8052F9EC 90DF0B74 */ stw         r6, 0xb74(r31)
-  /* 8052F9F0 7CA00378 */ or          r0, r5, r0
-  /* 8052F9F4 901F0B78 */ stw         r0, 0xb78(r31)
-  lbl_8052f9f8:
-  /* 8052F9F8 80010014 */ lwz         r0, 0x14(r1)
-  /* 8052F9FC 83E1000C */ lwz         r31, 0xc(r1)
-  /* 8052FA00 7C0803A6 */ mtlr        r0
-  /* 8052FA04 38210010 */ addi        r1, r1, 0x10
-  /* 8052FA08 4E800020 */ blr
-  // clang-format on
-}
-#endif
 
 // Symbol: unk_8052fa0c
 // PAL: 0x8052fa0c..0x8052fb90
