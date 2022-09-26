@@ -117,7 +117,8 @@ UNKNOWN_FUNCTION(Racedata_initCredits);
 // PAL: 0x80531ce4..0x80531de4
 UNKNOWN_FUNCTION(Racedata_updateEndOfRace);
 // PAL: 0x80531de4..0x80531f18
-UNKNOWN_FUNCTION(unk_80531de4);
+UNKNOWN_FUNCTION(
+    appendParamFile__Q26System18RaceConfigScenarioFPQ26System10RaceConfig);
 // PAL: 0x80531f18..0x80531f2c
 UNKNOWN_FUNCTION(getLocalPlayerCount__Q26System10RaceConfigFUc);
 // PAL: 0x80531f2c..0x80531f70
@@ -237,6 +238,7 @@ public:
   void reset();
   u8 update();
   void resetPlayers();
+  void appendParamFile(RaceConfig* raceConfig);
   const RaceConfigPlayer& getPlayer(u8 idx) const;
   RaceConfigPlayer& getPlayer(u8 idx);
   s32 getGametype();
@@ -251,12 +253,16 @@ public:
   bool isTeamMode();
   BattleTeam computeWinningTeam();
 
-  // This is required for some RaceConfigScenario methods
-  // We're basically tricking the compiler into doing two comparisons
-  inline bool isOnlineLower(s32 mode) { return mode >= 7; }
-  inline bool isOnlineHigher(s32 mode) { return mode <= 10; }
   inline bool isOnline(s32 mode) {
-    return !isOnlineLower(mode) || !isOnlineHigher(mode) ? false : true;
+    bool ret = false;
+    switch ((s32)(u32)mode) {
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+      ret = true;
+    }
+    return ret;
   }
 
   // private:

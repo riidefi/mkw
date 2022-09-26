@@ -1350,7 +1350,9 @@ void RaceConfigScenario::resetPlayers() {
 }
 
 void RaceConfigScenario::initPlayers(u8 playerCount) {
-  if (isOnline(mSettings.mGameMode)) { return; }
+  if (isOnline(mSettings.mGameMode)) {
+    return;
+  }
   for (u8 i = 0; i < playerCount; i++) {
     RaceConfigPlayer& player = getPlayer(i);
     player.mPreviousScore = 0;
@@ -1841,11 +1843,61 @@ void RaceConfigScenario::computePlayerCounts(u8& playerCount, u8& hudCount,
 
 } // namespace System
 
-// Symbol: initRng__Q26System18RaceConfigScenarioFv
+#if 1
+namespace System {
+
+void RaceConfigScenario::initRng() {
+  u32 seed;
+  u32 mask;
+  u32 mask1;
+  u32 mask2;
+  u32 mask3;
+
+  switch ((s32)(u32)mSettings.mGameMode) {
+  case 2:
+  case 4:
+  case 5:
+    mSettings.mSeed1 = 0x74a1b095;
+    seed = OSGetTick();
+    mask = (seed >> 27) & 0xFFFF;
+    mask |= (seed >> 3) & 0x1FFF0000;
+    mSettings.mSeed2 = mask;
+    return;
+  }
+
+  if (mSettings.mModeFlags & 0x4) {
+    mSettings.mSeed1 = 0x92bc7d03;
+    seed = OSGetTick();
+    mask = ((seed >> 27) & 0xFFFF);
+    mask |= ((seed >> 3) & 0x1fff0000);
+    mSettings.mSeed2 = mask;
+    return;
+  }
+
+  if (mSettings.mGameType == 1) {
+    return;
+  }
+  if (isOnline(mSettings.mGameMode)) {
+    return;
+  }
+
+  seed = OSGetTick();
+  mask = (seed >> 7) & 0xff000000;
+  mask1 = (seed >> 20) & 0xff;
+  mask2 = (seed >> 20) & 0x00ff0000;
+  mask3 = (seed >> 7) & 0xff00;
+
+  mSettings.mSeed1 = (seed >> 8) | (seed << 24);
+  mSettings.mSeed2 = mask1 | mask2 | mask | mask3;
+}
+
+} // namespace System
+#else
+// Symbol: initRng__Q26System12MenuScenarioFv
 // PAL: 0x8052f924..0x8052fa0c
 MARK_BINARY_BLOB(initRng__Q26System18RaceConfigScenarioFv, 0x8052f924,
                  0x8052fa0c);
-asm UNKNOWN_FUNCTION(initRng__Q26System18RaceConfigScenarioFv){
+asm UNKNOWN_FUNCTION(initRng__Q26System18RaceConfigScenarioFv) {
   // clang-format off
   nofralloc
   /* 8052F924 9421FFF0 */ stwu        r1, -0x10(r1)
@@ -1914,6 +1966,7 @@ asm UNKNOWN_FUNCTION(initRng__Q26System18RaceConfigScenarioFv){
   /* 8052FA08 4E800020 */ blr
   // clang-format on
 }
+#endif
 
 // Symbol: unk_8052fa0c
 // PAL: 0x8052fa0c..0x8052fb90
@@ -4076,96 +4129,31 @@ namespace System {
 
 u8 RaceConfig::update() { return mMenuScenario.update(); }
 
-} // namespace System
+void RaceConfigScenario::appendParamFile(RaceConfig* raceConfig) {
+  raceConfig->append(mSettings.mCourseId,
+                     InitScene::spInstance->mHeapCollection
+                         .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->append(mSettings.mEngineClass,
+                     InitScene::spInstance->mHeapCollection
+                         .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->append(mSettings.mGameMode,
+                     InitScene::spInstance->mHeapCollection
+                         .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->append(mPlayerCount, InitScene::spInstance->mHeapCollection
+                                       .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
+  raceConfig->append(mLocalPlayerCount,
+                     InitScene::spInstance->mHeapCollection
+                         .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
 
-// Symbol: unk_80531de4
-// PAL: 0x80531de4..0x80531f18
-MARK_BINARY_BLOB(unk_80531de4, 0x80531de4, 0x80531f18);
-asm UNKNOWN_FUNCTION(unk_80531de4) {
-  // clang-format off
-  nofralloc
-  /* 80531DE4 9421FFE0 */ stwu        r1, -0x20(r1)
-  /* 80531DE8 7C0802A6 */ mflr        r0
-  /* 80531DEC 90010024 */ stw         r0, 0x24(r1)
-  /* 80531DF0 BF61000C */ stmw        r27, 0xc(r1)
-  /* 80531DF4 3FE0809C */ lis         r31, spInstance__Q26System9InitScene@ha
-  /* 80531DF8 7C7B1B78 */ mr          r27, r3
-  /* 80531DFC 7C9C2378 */ mr          r28, r4
-  /* 80531E00 7F83E378 */ mr          r3, r28
-  /* 80531E04 389B0B48 */ addi        r4, r27, 0xb48
-  /* 80531E08 80BFD740 */ lwz         r5, spInstance__Q26System9InitScene@l(r31)
-  /* 80531E0C 80C50034 */ lwz         r6, 0x34(r5)
-  /* 80531E10 38A00004 */ li          r5, 0x4
-  /* 80531E14 4BAD7F59 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531E18 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
-  /* 80531E1C 7F83E378 */ mr          r3, r28
-  /* 80531E20 389B0B4C */ addi        r4, r27, 0xb4c
-  /* 80531E24 38A00004 */ li          r5, 0x4
-  /* 80531E28 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E2C 4BAD7F41 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531E30 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
-  /* 80531E34 7F83E378 */ mr          r3, r28
-  /* 80531E38 389B0B50 */ addi        r4, r27, 0xb50
-  /* 80531E3C 38A00004 */ li          r5, 0x4
-  /* 80531E40 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E44 4BAD7F29 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531E48 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
-  /* 80531E4C 7F83E378 */ mr          r3, r28
-  /* 80531E50 389B0004 */ addi        r4, r27, 0x4
-  /* 80531E54 38A00001 */ li          r5, 0x1
-  /* 80531E58 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E5C 4BAD7F11 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531E60 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
-  /* 80531E64 7F83E378 */ mr          r3, r28
-  /* 80531E68 389B0006 */ addi        r4, r27, 0x6
-  /* 80531E6C 38A00001 */ li          r5, 0x1
-  /* 80531E70 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E74 4BAD7EF9 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531E78 3BDB0008 */ addi        r30, r27, 0x8
-  /* 80531E7C 3BA00000 */ li          r29, 0x0
-  lbl_80531e80:
-  /* 80531E80 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
-  /* 80531E84 7F83E378 */ mr          r3, r28
-  /* 80531E88 389E0008 */ addi        r4, r30, 0x8
-  /* 80531E8C 38A00004 */ li          r5, 0x4
-  /* 80531E90 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531E94 4BAD7ED9 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531E98 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
-  /* 80531E9C 7F83E378 */ mr          r3, r28
-  /* 80531EA0 389E000C */ addi        r4, r30, 0xc
-  /* 80531EA4 38A00004 */ li          r5, 0x4
-  /* 80531EA8 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531EAC 4BAD7EC1 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531EB0 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
-  /* 80531EB4 7F83E378 */ mr          r3, r28
-  /* 80531EB8 389E0010 */ addi        r4, r30, 0x10
-  /* 80531EBC 38A00004 */ li          r5, 0x4
-  /* 80531EC0 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531EC4 4BAD7EA9 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531EC8 80DFD740 */ lwz         r6, spInstance__Q26System9InitScene@l(r31)
-  /* 80531ECC 7F83E378 */ mr          r3, r28
-  /* 80531ED0 389E00CC */ addi        r4, r30, 0xcc
-  /* 80531ED4 38A00004 */ li          r5, 0x4
-  /* 80531ED8 80C60034 */ lwz         r6, 0x34(r6)
-  /* 80531EDC 4BAD7E91 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531EE0 3BBD0001 */ addi        r29, r29, 0x1
-  /* 80531EE4 3BDE00F0 */ addi        r30, r30, 0xf0
-  /* 80531EE8 2C1D000C */ cmpwi       r29, 0xc
-  /* 80531EEC 4180FF94 */ blt+        lbl_80531e80
-  /* 80531EF0 7F83E378 */ mr          r3, r28
-  /* 80531EF4 389B0B70 */ addi        r4, r27, 0xb70
-  /* 80531EF8 38A00004 */ li          r5, 0x4
-  /* 80531EFC 38C00000 */ li          r6, 0x0
-  /* 80531F00 4BAD7E6D */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 80531F04 BB61000C */ lmw         r27, 0xc(r1)
-  /* 80531F08 80010024 */ lwz         r0, 0x24(r1)
-  /* 80531F0C 7C0803A6 */ mtlr        r0
-  /* 80531F10 38210020 */ addi        r1, r1, 0x20
-  /* 80531F14 4E800020 */ blr
-  // clang-format on
+  // Couldn't have just done getPlayer(i)?
+  RaceConfigPlayer* player = mPlayers;
+  for (s8 _ = 0; _ < 12; _++) {
+    player->appendParamFile(raceConfig);
+    player++;
+  }
+
+  raceConfig->append(mSettings.mModeFlags, nullptr);
 }
-
-namespace System {
 
 // This is so stupid, Nintendo just HAD to use r0
 s32 RaceConfig::getLocalPlayerCount(u8 playerIdx) {

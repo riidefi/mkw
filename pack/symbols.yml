@@ -10099,7 +10099,7 @@ global:
     0x80531068: 'getMii__Q26System16RaceConfigPlayerFv'
     0x80531070: 'Racedata_initCredits'
     0x80531ce4: 'update__Q26System10RaceConfigFv'
-    0x80531de4: 'unk_80531de4'
+    0x80531de4: 'appendParamFile__Q26System18RaceConfigScenarioFPQ26System10RaceConfig'
     0x80531f18: 'getLocalPlayerCount__Q26System10RaceConfigFUc'
     0x80531f2c: 'setGhost__Q26System10RaceConfigFPQ26System12RawGhostFile'
     0x80531f70: 'getHudPlayerId__Q26System10RaceConfigFUc'
