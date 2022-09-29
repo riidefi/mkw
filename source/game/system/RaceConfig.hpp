@@ -368,14 +368,10 @@ class RaceConfigEx2 {
 public:
   inline RaceConfigEx2() {}
 };
-
-class RaceConfig : public RaceConfigEx2, public ParameterFile, RaceConfigEx {
+class RaceConfig : public RaceConfigEx, public ParameterFile {
 public:
   RaceConfig();
   virtual ~RaceConfig();
-  virtual void vf10();
-  virtual void vf14();
-  virtual void vf18();
   void reset();
   static const u8 getRacePlayerCount();
   s16 updateRating(u8 playerIdx);

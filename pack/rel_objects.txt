@@ -21,11 +21,11 @@ out/LocalizedArchive.o
 out/MultiDvdArchive.o
 out/rel/text_8052ae5c_8052d96c.o
 out/rel/rodata_8088fe28_8088ffa8.o
-out/rel/data_808b31e8_808b3288.o
+out/rel/data_808b31e8_808b3260.o
 out/rel/bss_809bd6ec_809bd728.o
 out/RaceConfig.o
 out/rel/text_80532084_8053fc4c.o
-out/rel/rodata_80890136_80890490.o
+out/rel/rodata_80890148_80890490.o
 out/rel/data_808b32ac_808b3960.o
 out/rel/bss_809bd72c_809bd738.o
 out/ResourceManager.o
