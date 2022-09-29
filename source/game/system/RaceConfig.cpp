@@ -135,12 +135,6 @@ REL_SYMBOL_AT(lbl_808900e0, 0x808900e0)
 #else
 static const f64 lbl_808900e0 = 5.444520466883445e+39;
 #endif
-#ifndef SHIFTABLE
-extern const char lbl_80890124[][0x12];
-REL_SYMBOL_AT(lbl_80890124, 0x80890124)
-#else
-const char lbl_80890124[][0x12] = {"/boot/menuset.prm", "/boot/menuset.prm"};
-#endif
 }
 
 namespace System {
@@ -1895,7 +1889,6 @@ void RaceConfigScenario::initRng() {
 
 const s32 lbl_808900e8[15] = {-1, -1, -1, 5, 6, 8,         9,      11,
                               -1, -1, -1, 1, 2, 0xc030005, 0x40000};
-const char lbl_80890124[2][0x12] = {"/boot/menuset.prm", "/boot/menuset.prm"};
 
 void RaceConfigScenario::initCompetitionSettings() {
   CompetitionSettings settings; // 0x28-0x98
@@ -1989,157 +1982,29 @@ void RaceConfigScenario::initRace(RaceConfigScenario* raceScenario) {
   mLocalPlayerCount = localPlayerCount;
 }
 
-} // namespace System
+#pragma dont_reuse_strings on
+RaceConfig* RaceConfig::createInstance() {
+  if (!spInstance) {
+    spInstance = new RaceConfig();
+  }
 
-// Symbol: Racedata_initStaticInstance
-// PAL: 0x8052fe58..0x8052ffe8
-MARK_BINARY_BLOB(Racedata_initStaticInstance, 0x8052fe58, 0x8052ffe8);
-asm UNKNOWN_FUNCTION(Racedata_initStaticInstance) {
-  // clang-format off
-  nofralloc
-  /* 8052FE58 9421FFE0 */ stwu        r1, -0x20(r1)
-  /* 8052FE5C 7C0802A6 */ mflr        r0
-  /* 8052FE60 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
-  /* 8052FE64 90010024 */ stw         r0, 0x24(r1)
-  /* 8052FE68 BF410008 */ stmw        r26, 8(r1)
-  /* 8052FE6C 8003D728 */ lwz         r0, spInstance__Q26System10RaceConfig@l(r3)
-  /* 8052FE70 2C000000 */ cmpwi       r0, 0x0
-  /* 8052FE74 40820158 */ bne-        lbl_8052ffcc
-  /* 8052FE78 386073F0 */ li          r3, 0x73f0
-  /* 8052FE7C 4BCF9F51 */ bl          __nw__FUl
-  /* 8052FE80 2C030000 */ cmpwi       r3, 0x0
-  /* 8052FE84 7C7A1B78 */ mr          r26, r3
-  /* 8052FE88 4182013C */ beq-        lbl_8052ffc4
-  /* 8052FE8C 3C808089 */ lis         r4, lbl_80890124@ha
-  /* 8052FE90 38A00000 */ li          r5, 0x0
-  /* 8052FE94 38840124 */ addi        r4, r4, lbl_80890124@l
-  /* 8052FE98 4BAD9DF5 */ bl          __ct__Q26System13ParameterFileFPCcUl
-  /* 8052FE9C 3C60808B */ lis         r3, __vt__Q26System10RaceConfig@ha
-  /* 8052FEA0 3F60808B */ lis         r27, __vt__Q26System18RaceConfigScenario@ha
-  /* 8052FEA4 38633260 */ addi        r3, r3, __vt__Q26System10RaceConfig@l
-  /* 8052FEA8 907A001C */ stw         r3, 0x1c(r26)
-  /* 8052FEAC 38030008 */ addi        r0, r3, 0x8
-  /* 8052FEB0 3FA08053 */ lis         r29, __ct__Q26System16RaceConfigPlayerFv@ha
-  /* 8052FEB4 901A0000 */ stw         r0, 0(r26)
-  /* 8052FEB8 3B7B3288 */ addi        r27, r27, __vt__Q26System18RaceConfigScenario@l
-  /* 8052FEBC 3FC08053 */ lis         r30, __dt__Q26System16RaceConfigPlayerFv@ha
-  /* 8052FEC0 3B800000 */ li          r28, 0x0
-  /* 8052FEC4 937A0020 */ stw         r27, 0x20(r26)
-  /* 8052FEC8 387A0028 */ addi        r3, r26, 0x28
-  /* 8052FECC 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
-  /* 8052FED0 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
-  /* 8052FED4 9B9A0024 */ stb         r28, 0x24(r26)
-  /* 8052FED8 38C000F0 */ li          r6, 0xf0
-  /* 8052FEDC 38E0000C */ li          r7, 0xc
-  /* 8052FEE0 9B9A0025 */ stb         r28, 0x25(r26)
-  /* 8052FEE4 4BAF1111 */ bl          __construct_array
-  /* 8052FEE8 3BE00011 */ li          r31, 0x11
-  /* 8052FEEC 93FA0B68 */ stw         r31, 0xb68(r26)
-  /* 8052FEF0 387A0B9C */ addi        r3, r26, 0xb9c
-  /* 8052FEF4 38800000 */ li          r4, 0x0
-  /* 8052FEF8 939A0B70 */ stw         r28, 0xb70(r26)
-  /* 8052FEFC 38A00070 */ li          r5, 0x70
-  /* 8052FF00 939A0B74 */ stw         r28, 0xb74(r26)
-  /* 8052FF04 939A0B88 */ stw         r28, 0xb88(r26)
-  /* 8052FF08 4BAD6131 */ bl          memset
-  /* 8052FF0C 381A23F0 */ addi        r0, r26, 0x23f0
-  /* 8052FF10 901A0C0C */ stw         r0, 0xc0c(r26)
-  /* 8052FF14 387A0C18 */ addi        r3, r26, 0xc18
-  /* 8052FF18 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
-  /* 8052FF1C 937A0C10 */ stw         r27, 0xc10(r26)
-  /* 8052FF20 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
-  /* 8052FF24 38C000F0 */ li          r6, 0xf0
-  /* 8052FF28 38E0000C */ li          r7, 0xc
-  /* 8052FF2C 9B9A0C14 */ stb         r28, 0xc14(r26)
-  /* 8052FF30 9B9A0C15 */ stb         r28, 0xc15(r26)
-  /* 8052FF34 4BAF10C1 */ bl          __construct_array
-  /* 8052FF38 93FA1758 */ stw         r31, 0x1758(r26)
-  /* 8052FF3C 387A178C */ addi        r3, r26, 0x178c
-  /* 8052FF40 38800000 */ li          r4, 0x0
-  /* 8052FF44 38A00070 */ li          r5, 0x70
-  /* 8052FF48 939A1760 */ stw         r28, 0x1760(r26)
-  /* 8052FF4C 939A1764 */ stw         r28, 0x1764(r26)
-  /* 8052FF50 939A1778 */ stw         r28, 0x1778(r26)
-  /* 8052FF54 4BAD60E5 */ bl          memset
-  /* 8052FF58 381A4BF0 */ addi        r0, r26, 0x4bf0
-  /* 8052FF5C 901A17FC */ stw         r0, 0x17fc(r26)
-  /* 8052FF60 387A1808 */ addi        r3, r26, 0x1808
-  /* 8052FF64 389DD96C */ addi        r4, r29, __ct__Q26System16RaceConfigPlayerFv@l
-  /* 8052FF68 937A1800 */ stw         r27, 0x1800(r26)
-  /* 8052FF6C 38BEDC68 */ addi        r5, r30, __dt__Q26System16RaceConfigPlayerFv@l
-  /* 8052FF70 38C000F0 */ li          r6, 0xf0
-  /* 8052FF74 38E0000C */ li          r7, 0xc
-  /* 8052FF78 9B9A1804 */ stb         r28, 0x1804(r26)
-  /* 8052FF7C 9B9A1805 */ stb         r28, 0x1805(r26)
-  /* 8052FF80 4BAF1075 */ bl          __construct_array
-  /* 8052FF84 93FA2348 */ stw         r31, 0x2348(r26)
-  /* 8052FF88 387A237C */ addi        r3, r26, 0x237c
-  /* 8052FF8C 38800000 */ li          r4, 0x0
-  /* 8052FF90 38A00070 */ li          r5, 0x70
-  /* 8052FF94 939A2350 */ stw         r28, 0x2350(r26)
-  /* 8052FF98 939A2354 */ stw         r28, 0x2354(r26)
-  /* 8052FF9C 939A2368 */ stw         r28, 0x2368(r26)
-  /* 8052FFA0 4BAD6099 */ bl          memset
-  /* 8052FFA4 939A23EC */ stw         r28, 0x23ec(r26)
-  /* 8052FFA8 3B7A23F0 */ addi        r27, r26, 0x23f0
-  /* 8052FFAC 3BFA73F0 */ addi        r31, r26, 0x73f0
-  lbl_8052ffb0:
-  /* 8052FFB0 7F63DB78 */ mr          r3, r27
-  /* 8052FFB4 4BFEC0D5 */ bl          reset__Q26System12RawGhostFileFv
-  /* 8052FFB8 3B7B2800 */ addi        r27, r27, 0x2800
-  /* 8052FFBC 7C1BF840 */ cmplw       r27, r31
-  /* 8052FFC0 4180FFF0 */ blt+        lbl_8052ffb0
-  lbl_8052ffc4:
-  /* 8052FFC4 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
-  /* 8052FFC8 9343D728 */ stw         r26, spInstance__Q26System10RaceConfig@l(r3)
-  lbl_8052ffcc:
-  /* 8052FFCC BB410008 */ lmw         r26, 8(r1)
-  /* 8052FFD0 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
-  /* 8052FFD4 80010024 */ lwz         r0, 0x24(r1)
-  /* 8052FFD8 8063D728 */ lwz         r3, spInstance__Q26System10RaceConfig@l(r3)
-  /* 8052FFDC 7C0803A6 */ mtlr        r0
-  /* 8052FFE0 38210020 */ addi        r1, r1, 0x20
-  /* 8052FFE4 4E800020 */ blr
-  // clang-format on
+  return spInstance;
 }
 
-// Symbol: Racedata_destroyStaticInstance
-// PAL: 0x8052ffe8..0x80530038
-MARK_BINARY_BLOB(Racedata_destroyStaticInstance, 0x8052ffe8, 0x80530038);
-asm UNKNOWN_FUNCTION(Racedata_destroyStaticInstance) {
-  // clang-format off
-  nofralloc
-  /* 8052FFE8 9421FFF0 */ stwu        r1, -0x10(r1)
-  /* 8052FFEC 7C0802A6 */ mflr        r0
-  /* 8052FFF0 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
-  /* 8052FFF4 90010014 */ stw         r0, 0x14(r1)
-  /* 8052FFF8 8063D728 */ lwz         r3, spInstance__Q26System10RaceConfig@l(r3)
-  /* 8052FFFC 2C030000 */ cmpwi       r3, 0x0
-  /* 80530000 4182001C */ beq-        lbl_8053001c
-  /* 80530004 41820018 */ beq-        lbl_8053001c
-  /* 80530008 8183001C */ lwz         r12, 0x1c(r3)
-  /* 8053000C 38800001 */ li          r4, 0x1
-  /* 80530010 818C0024 */ lwz         r12, 0x24(r12)
-  /* 80530014 7D8903A6 */ mtctr       r12
-  /* 80530018 4E800421 */ bctrl
-  lbl_8053001c:
-  /* 8053001C 3C60809C */ lis         r3, spInstance__Q26System10RaceConfig@ha
-  /* 80530020 38000000 */ li          r0, 0x0
-  /* 80530024 9003D728 */ stw         r0, spInstance__Q26System10RaceConfig@l(r3)
-  /* 80530028 80010014 */ lwz         r0, 0x14(r1)
-  /* 8053002C 7C0803A6 */ mtlr        r0
-  /* 80530030 38210010 */ addi        r1, r1, 0x10
-  /* 80530034 4E800020 */ blr
-  // clang-format on
+void RaceConfig::destroyInstance() {
+  if (spInstance) {
+    delete spInstance;
+  }
+
+  spInstance = nullptr;
 }
 
-namespace System {
 RaceConfig::~RaceConfig() {}
 
 RaceConfigScenario::~RaceConfigScenario() {}
 
 RaceConfig::RaceConfig()
-    : ParameterFile(lbl_80890124[1], 0), mRaceScenario(&mGhosts[0]),
+    : ParameterFile("/boot/menuset.prm", 0), mRaceScenario(&mGhosts[0]),
       mMenuScenario(&mGhosts[1]), mAwardsScenario(nullptr) {
   RawGhostFile* it = mGhosts;
   do {

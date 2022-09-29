@@ -384,6 +384,9 @@ public:
   bool isTimeAttackReplay();
   void initRace();
 
+  static RaceConfig* createInstance();
+  static void destroyInstance();
+
   static RaceConfig* spInstance;
 
   RaceConfigScenario mRaceScenario;
