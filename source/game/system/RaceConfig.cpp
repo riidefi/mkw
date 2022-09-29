@@ -41,7 +41,7 @@ extern UNKNOWN_FUNCTION(read__Q26System9GhostFileFRCQ26System12RawGhostFile);
 // PAL: 0x8051c270
 extern UNKNOWN_FUNCTION(__ct__Q26System9GhostFileFv);
 // PAL: 0x8066c8d8
-extern UNKNOWN_FUNCTION(unk_8066c8d8);
+// extern UNKNOWN_FUNCTION(unk_8066c8d8);
 // PAL: 0x8051c088
 extern UNKNOWN_FUNCTION(reset__Q26System12RawGhostFileFv);
 // PAL: 0x8052d96c
@@ -110,16 +110,13 @@ extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 extern UNKNOWN_DATA(lbl_809bd70c);
 // PAL: 0x8088ffb0
 extern UNKNOWN_DATA(COURSE_ORDER__6System);
-// PAL: 0x808900e8
-extern UNKNOWN_DATA(lbl_808900e8);
 // PAL: 0x809c2144
-extern UNKNOWN_DATA(lbl_809c2144);
+// extern UNKNOWN_DATA(lbl_809c2144);
+extern void* lbl_809c2144;
 // PAL: 0x808b3260
 extern UNKNOWN_DATA(lbl_808b3260);
 // PAL: 0x808b3288
 extern UNKNOWN_DATA(__vt__Q26System18RaceConfigScenario);
-// PAL: 0x80890124
-extern UNKNOWN_DATA(lbl_80890124);
 }
 
 // --- EXTERN DECLARATIONS END ---
@@ -138,6 +135,12 @@ REL_SYMBOL_AT(lbl_808900e0, 0x808900e0)
 #else
 static const f64 lbl_808900e0 = 5.444520466883445e+39;
 #endif
+#ifndef SHIFTABLE
+extern const char lbl_80890124[];
+REL_SYMBOL_AT(lbl_80890124, 0x80890124)
+#else
+const char lbl_80890124[] = "/boot/menuset.prm";
+#endif
 }
 
 namespace System {
@@ -146,6 +149,8 @@ extern const CourseId COURSE_ORDER[8][4];
 extern const u8 VS_POINT_DISTRIBUTION[12][12];
 extern const s32 RANK_SCORES[5];
 extern const u16 SCORES[4];
+extern const s32 lbl_808900e8[15];
+extern const char lbl_80890124[];
 
 const f32 ZERO_FLOAT = 0;
 const CourseId COURSE_ORDER[8][4] = {
@@ -180,6 +185,8 @@ const u16 SCORES[] = {60, 52, 40, 20};
 
 // bss
 RaceConfig* RaceConfig::spInstance;
+
+extern "C" void getCompetitionWrapper(void*, CompetitionWrapper*);
 
 RaceConfigPlayer::RaceConfigPlayer()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
@@ -229,7 +236,7 @@ RaceConfigScenario::RaceConfigScenario(RawGhostFile* ghost)
   mSettings.mCupId = 0;
 
   // seems dubious
-  memset(&this->_b7c, 0, 0x70);
+  memset(&this->mCompetitionSettings, 0, sizeof(CompetitionSettings));
 
   mGhost = ghost;
 }
@@ -1886,122 +1893,51 @@ void RaceConfigScenario::initRng() {
   mSettings.mSeed2 = mask1 | mask2 | mask | mask3;
 }
 
-} // namespace System
+const s32 lbl_808900e8[15] = {-1, -1, -1, 5, 6, 8,         9,      11,
+                              -1, -1, -1, 1, 2, 0xc030005, 0x40000};
+const char lbl_80890124[] = "/boot/menuset.prm";
 
-// Symbol: unk_8052fa0c
-// PAL: 0x8052fa0c..0x8052fb90
-MARK_BINARY_BLOB(unk_8052fa0c, 0x8052fa0c, 0x8052fb90);
-asm UNKNOWN_FUNCTION(unk_8052fa0c) {
-  // clang-format off
-  nofralloc
-  /* 8052FA0C 9421FF60 */ stwu        r1, -0xa0(r1)
-  /* 8052FA10 7C0802A6 */ mflr        r0
-  /* 8052FA14 38800000 */ li          r4, 0x0
-  /* 8052FA18 38A00070 */ li          r5, 0x70
-  /* 8052FA1C 900100A4 */ stw         r0, 0xa4(r1)
-  /* 8052FA20 93E1009C */ stw         r31, 0x9c(r1)
-  /* 8052FA24 7C7F1B78 */ mr          r31, r3
-  /* 8052FA28 38610028 */ addi        r3, r1, 0x28
-  /* 8052FA2C 4BAD660D */ bl          memset
-  /* 8052FA30 3C60809C */ lis         r3, lbl_809c2144@ha
-  /* 8052FA34 38000000 */ li          r0, 0x0
-  /* 8052FA38 98010008 */ stb         r0, 8(r1)
-  /* 8052FA3C 38810008 */ addi        r4, r1, 0x8
-  /* 8052FA40 80632144 */ lwz         r3, lbl_809c2144@l(r3)
-  /* 8052FA44 9001000C */ stw         r0, 0xc(r1)
-  /* 8052FA48 4813CE91 */ bl          unk_8066c8d8
-  /* 8052FA4C 80A1000C */ lwz         r5, 0xc(r1)
-  /* 8052FA50 A0050014 */ lhz         r0, 0x14(r5)
-  /* 8052FA54 2C000000 */ cmpwi       r0, 0x0
-  /* 8052FA58 41820124 */ beq-        lbl_8052fb7c
-  /* 8052FA5C 2C000001 */ cmpwi       r0, 0x1
-  /* 8052FA60 40820008 */ bne-        lbl_8052fa68
-  /* 8052FA64 48000118 */ b           lbl_8052fb7c
-  lbl_8052fa68:
-  /* 8052FA68 3C608089 */ lis         r3, lbl_808900e8@ha
-  /* 8052FA6C 540413BA */ rlwinm      r4, r0, 2, 0xe, 0x1d
-  /* 8052FA70 386300E8 */ addi        r3, r3, lbl_808900e8@l
-  /* 8052FA74 3800000B */ li          r0, 0xb
-  /* 8052FA78 7C63202E */ lwzx        r3, r3, r4
-  /* 8052FA7C B061002A */ sth         r3, 0x2a(r1)
-  /* 8052FA80 88650016 */ lbz         r3, 0x16(r5)
-  /* 8052FA84 9861002C */ stb         r3, 0x2c(r1)
-  /* 8052FA88 88650017 */ lbz         r3, 0x17(r5)
-  /* 8052FA8C 9861002F */ stb         r3, 0x2f(r1)
-  /* 8052FA90 8865003E */ lbz         r3, 0x3e(r5)
-  /* 8052FA94 98610057 */ stb         r3, 0x57(r1)
-  /* 8052FA98 A0650042 */ lhz         r3, 0x42(r5)
-  /* 8052FA9C 90610058 */ stw         r3, 0x58(r1)
-  /* 8052FAA0 A0650042 */ lhz         r3, 0x42(r5)
-  /* 8052FAA4 9061005C */ stw         r3, 0x5c(r1)
-  /* 8052FAA8 A0650042 */ lhz         r3, 0x42(r5)
-  /* 8052FAAC 90610060 */ stw         r3, 0x60(r1)
-  /* 8052FAB0 A0650042 */ lhz         r3, 0x42(r5)
-  /* 8052FAB4 90610064 */ stw         r3, 0x64(r1)
-  /* 8052FAB8 A0650042 */ lhz         r3, 0x42(r5)
-  /* 8052FABC 90610068 */ stw         r3, 0x68(r1)
-  /* 8052FAC0 A0650042 */ lhz         r3, 0x42(r5)
-  /* 8052FAC4 9061006C */ stw         r3, 0x6c(r1)
-  /* 8052FAC8 A065001C */ lhz         r3, 0x1c(r5)
-  /* 8052FACC B0610070 */ sth         r3, 0x70(r1)
-  /* 8052FAD0 A065001E */ lhz         r3, 0x1e(r5)
-  /* 8052FAD4 B0610072 */ sth         r3, 0x72(r1)
-  /* 8052FAD8 A0650020 */ lhz         r3, 0x20(r5)
-  /* 8052FADC B0610074 */ sth         r3, 0x74(r1)
-  /* 8052FAE0 A0650022 */ lhz         r3, 0x22(r5)
-  /* 8052FAE4 B0610076 */ sth         r3, 0x76(r1)
-  /* 8052FAE8 A0650024 */ lhz         r3, 0x24(r5)
-  /* 8052FAEC B0610078 */ sth         r3, 0x78(r1)
-  /* 8052FAF0 A0650026 */ lhz         r3, 0x26(r5)
-  /* 8052FAF4 2803000B */ cmplwi      r3, 0xb
-  /* 8052FAF8 40800008 */ bge-        lbl_8052fb00
-  /* 8052FAFC 7C601B78 */ mr          r0, r3
-  lbl_8052fb00:
-  /* 8052FB00 B0010080 */ sth         r0, 0x80(r1)
-  /* 8052FB04 38C00000 */ li          r6, 0x0
-  /* 8052FB08 8081000C */ lwz         r4, 0xc(r1)
-  /* 8052FB0C 48000028 */ b           lbl_8052fb34
-  lbl_8052fb10:
-  /* 8052FB10 54C00DFC */ rlwinm      r0, r6, 1, 0x17, 0x1e
-  /* 8052FB14 38A10028 */ addi        r5, r1, 0x28
-  /* 8052FB18 7C640214 */ add         r3, r4, r0
-  /* 8052FB1C 38C60001 */ addi        r6, r6, 0x1
-  /* 8052FB20 7CA50214 */ add         r5, r5, r0
-  /* 8052FB24 88030028 */ lbz         r0, 0x28(r3)
-  /* 8052FB28 9805005A */ stb         r0, 0x5a(r5)
-  /* 8052FB2C 88030029 */ lbz         r0, 0x29(r3)
-  /* 8052FB30 9805005B */ stb         r0, 0x5b(r5)
-  lbl_8052fb34:
-  /* 8052FB34 A0A40026 */ lhz         r5, 0x26(r4)
-  /* 8052FB38 54C3063E */ clrlwi      r3, r6, 0x18
-  /* 8052FB3C 3800000B */ li          r0, 0xb
-  /* 8052FB40 2805000B */ cmplwi      r5, 0xb
-  /* 8052FB44 40800008 */ bge-        lbl_8052fb4c
-  /* 8052FB48 7CA02B78 */ mr          r0, r5
-  lbl_8052fb4c:
-  /* 8052FB4C 5400043E */ clrlwi      r0, r0, 0x10
-  /* 8052FB50 7C030000 */ cmpw        r3, r0
-  /* 8052FB54 4180FFBC */ blt+        lbl_8052fb10
-  /* 8052FB58 3800000E */ li          r0, 0xe
-  /* 8052FB5C 38BF0B78 */ addi        r5, r31, 0xb78
-  /* 8052FB60 38810024 */ addi        r4, r1, 0x24
-  /* 8052FB64 7C0903A6 */ mtctr       r0
-  lbl_8052fb68:
-  /* 8052FB68 80640004 */ lwz         r3, 4(r4)
-  /* 8052FB6C 84040008 */ lwzu        r0, 8(r4)
-  /* 8052FB70 90650004 */ stw         r3, 4(r5)
-  /* 8052FB74 94050008 */ stwu        r0, 8(r5)
-  /* 8052FB78 4200FFF0 */ bdnz        lbl_8052fb68
-  lbl_8052fb7c:
-  /* 8052FB7C 800100A4 */ lwz         r0, 0xa4(r1)
-  /* 8052FB80 83E1009C */ lwz         r31, 0x9c(r1)
-  /* 8052FB84 7C0803A6 */ mtlr        r0
-  /* 8052FB88 382100A0 */ addi        r1, r1, 0xa0
-  /* 8052FB8C 4E800020 */ blr
-  // clang-format on
+void RaceConfigScenario::initCompetitionSettings() {
+  CompetitionSettings settings; // 0x28-0x98
+  memset(&settings, 0, sizeof(CompetitionSettings));
+  CompetitionWrapper wrapper; // 0x8-0x24
+  wrapper.isValid = false;
+  wrapper.fileRaw = (u32) nullptr;
+  // lbl_809c2144 is ptrNwc24Manager
+  getCompetitionWrapper(lbl_809c2144, &wrapper);
+  RawCompetitionFile* file = wrapper.fileRaw;
+
+  // TODO: enum of competition type
+  if (!((s32)file->competitionType != 0 && (s32)file->competitionType != 1)) {
+    // there might have been a debug log here or something?/
+    return;
+  } else {
+    settings.field1_0x2 = lbl_808900e8[file->competitionType];
+    settings.courseId = file->courseId;
+    settings.engineClass = file->engineClass;
+    settings.controllerRestriction = file->controllerRestriction;
+    settings.field7_0x30[0] = file->score;
+    settings.field7_0x30[1] = file->score;
+    settings.field7_0x30[2] = file->score;
+    settings.field7_0x30[3] = file->score;
+    settings.field7_0x30[4] = file->score;
+    settings.field7_0x30[5] = file->score;
+    settings.cameraAngle = file->cameraAngle;
+    settings.minimapObject = file->minimapObject;
+    settings.field10_0x4c = file->field13_0x20;
+    settings.field11_0x4e = file->field14_0x22;
+    settings.cannonFlag = file->cannonFlag;
+    settings.cpuCount = file->getSize();
+
+    settings.cpuCombosFromWrapper(wrapper);
+
+#ifdef __CWCC__
+    __memcpy(&mCompetitionSettings, &settings, sizeof(settings));
+#else
+    memcpy(&mCompetitionSettings, &settings, sizeof(settings));
+#endif
+  }
 }
-
-namespace System {
 
 void RaceConfigScenario::initRace(RaceConfigScenario* raceScenario) {
   u8 playerCount = 0;
@@ -2009,7 +1945,7 @@ void RaceConfigScenario::initRace(RaceConfigScenario* raceScenario) {
   u8 localPlayerCount = 0;
 
   if (mSettings.mModeFlags & 4) {
-    unk_8052fa0c();
+    this->initCompetitionSettings();
   }
 
   copyPrevPositions();
@@ -2273,16 +2209,6 @@ RaceConfigScenario::~RaceConfigScenario() {}
 // Requires rodata from unk_8052e870 and unk_8052fa0c first
 #ifdef NON_MATCHING
 namespace System {
-
-extern const u8 rodata_808900e8[0x80890124 - 0x808900e8];
-const u8 rodata_808900e8[0x80890124 - 0x808900e8] = {
-    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-    0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x08,
-    0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00, 0x0b, 0xff, 0xff, 0xff, 0xff,
-    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x01,
-    0x00, 0x00, 0x00, 0x02, 0x0c, 0x03, 0x00, 0x05, 0x00, 0x04, 0x00, 0x00};
-extern const char rodata_124[];
-const char rodata_124[] = "/boot/menuset.prm";
 
 RaceConfig::RaceConfig()
     : ParameterFile("/boot/menuset.prm", 0), mRaceScenario(&mGhosts[0]),
