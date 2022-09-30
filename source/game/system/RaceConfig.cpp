@@ -2010,7 +2010,7 @@ RaceConfig::RaceConfig()
   do {
     it->reset();
     it++;
-  } while (it < mGhosts + 2);
+  } while (it < mGhosts + ARRAY_SIZE(mGhosts));
 }
 
 #pragma legacy_struct_alignment on
@@ -2237,6 +2237,7 @@ asm UNKNOWN_FUNCTION(RacedataScenario_copy) {
 #endif
 
 // Requires some inline-related pragma to be implemented correctly
+// Scratch link: https://decomp.me/scratch/4L7ac
 #ifdef EQUIVALENT
 namespace System {
 
@@ -3679,7 +3680,7 @@ void RaceConfigScenario::appendParamFile(RaceConfig* raceConfig) {
 
   // Couldn't have just done getPlayer(i)?
   RaceConfigPlayer* player = mPlayers;
-  for (s8 _ = 0; _ < 12; _++) {
+  for (s8 _ = 0; _ < (s8)ARRAY_SIZE(mPlayers); _++) {
     player->appendParamFile(raceConfig);
     player++;
   }
