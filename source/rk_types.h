@@ -102,6 +102,7 @@ typedef volatile f64 vf64;
 
 #define ROUND_UP(x, n) (((u32)(x) + n - 1) & ~(n - 1))
 #define ROUND_DOWN(x, n) (((u32)(x)) & ~(n - 1))
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
 
 #ifdef __cplusplus
 #define restrict
