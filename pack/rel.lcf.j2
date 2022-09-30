@@ -12,9 +12,3 @@ GROUP:{
 .bss ALIGN(0x20):{}
 } > text
 }
-
-FORCEFILES {
-{% for name in force_files -%}
-{{ name }}
-{% endfor -%}
-}

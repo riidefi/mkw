@@ -17,9 +17,10 @@ public:
   virtual ~ParameterFile();
 
   virtual void read(EGG::Heap* heap);
-  virtual void emptySub1() {}
-  virtual void emptySub2() {}
-  virtual void emptySub3() {}
+  s32 emptySub0();
+  virtual void emptySub1();
+  virtual void emptySub2();
+  virtual void emptySub3();
 
   void appendData(char* str, u32 str_size, EGG::Heap* heap);
 
