@@ -50,4 +50,6 @@ public:
   u32 _B4;
 };
 
+inline Mii::~Mii() {}
+
 } // namespace System

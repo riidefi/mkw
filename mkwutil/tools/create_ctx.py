@@ -3,7 +3,7 @@ from itertools import chain
 import argparse
 
 from sources import SOURCES_DOL, SOURCES_REL
-from build import CWCC_PATHS, run_windows_cmd
+from configure import CWCC_PATHS, run_windows_cmd
 
 CW_ARGS = [
     # "-I-",
