@@ -11,7 +11,7 @@ extern "C" {
 extern UNKNOWN_FUNCTION(appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap);
 // PAL: 0x8052fb90
 extern UNKNOWN_FUNCTION(
-    initRace__Q26System18RaceConfigScenarioFPQ26System18RaceConfigScenario);
+    initRace__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario);
 // PAL: 0x8052d270
 extern UNKNOWN_FUNCTION(unk_8052d270);
 // PAL: 0x805368f8
@@ -44,58 +44,54 @@ extern UNKNOWN_FUNCTION(__ct__Q26System9GhostFileFv);
 // extern UNKNOWN_FUNCTION(unk_8066c8d8);
 // PAL: 0x8051c088
 extern UNKNOWN_FUNCTION(reset__Q26System12RawGhostFileFv);
-// PAL: 0x8052d96c
-extern UNKNOWN_FUNCTION(__ct__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80229dcc
 extern UNKNOWN_FUNCTION(__nw__FUl);
 // PAL: 0x80009c8c
 extern UNKNOWN_FUNCTION(__ct__Q26System13ParameterFileFPCcUl);
 // PAL: 0x80020ff4
 extern UNKNOWN_FUNCTION(__construct_array);
-// PAL: 0x8052dc68
-extern UNKNOWN_FUNCTION(__dt__Q26System16RaceConfigPlayerFv);
 // PAL: 0x80009ce0
 extern UNKNOWN_FUNCTION(__dt__Q26System13ParameterFileFv);
 // PAL: 0x8052ed20
-extern UNKNOWN_FUNCTION(getPlayerType__Q26System16RaceConfigPlayerFv);
+extern UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x8052e660
-extern UNKNOWN_FUNCTION(setUnkPos__Q26System16RaceConfigPlayerFSc);
+extern UNKNOWN_FUNCTION(setUnkPos__Q36System10RaceConfig6PlayerFSc);
 // PAL: 0x8052dd30
 extern UNKNOWN_FUNCTION(getRacePlayerCount__Q26System10RaceConfigFv);
 // PAL: 0x8052e44c
-extern UNKNOWN_FUNCTION(setPlayerType__Q26System16RaceConfigPlayerFl);
+extern UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFl);
 // PAL: 0x8052ed18
-extern UNKNOWN_FUNCTION(getGametype__Q26System18RaceConfigScenarioFv);
+extern UNKNOWN_FUNCTION(getGametype__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x80530f20
-extern UNKNOWN_FUNCTION(getCharacter__Q26System16RaceConfigPlayerFv);
+extern UNKNOWN_FUNCTION(getCharacter__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x8052e444
 extern UNKNOWN_FUNCTION(
-    setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId);
+    setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId);
 // PAL: 0x80531068
-extern UNKNOWN_FUNCTION(getMii__Q26System16RaceConfigPlayerFv);
+extern UNKNOWN_FUNCTION(getMii__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x8052dd18
-extern UNKNOWN_FUNCTION(getTeam__Q26System16RaceConfigPlayerFv);
+extern UNKNOWN_FUNCTION(getTeam__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x80530f30
-extern UNKNOWN_FUNCTION(setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii);
+extern UNKNOWN_FUNCTION(setMii__Q36System10RaceConfig6PlayerFRCQ26System3Mii);
 // PAL: 0x80530f18
-extern UNKNOWN_FUNCTION(getUnkPos__Q26System16RaceConfigPlayerFv);
+extern UNKNOWN_FUNCTION(getUnkPos__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x80530f28
-extern UNKNOWN_FUNCTION(getVehicle__Q26System16RaceConfigPlayerFv);
+extern UNKNOWN_FUNCTION(getVehicle__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x805302c4
 extern UNKNOWN_FUNCTION(initRace__Q26System10RaceConfigFv);
 // PAL: 0x8052e658
-extern UNKNOWN_FUNCTION(setPrevFinishPos__Q26System16RaceConfigPlayerFSc);
+extern UNKNOWN_FUNCTION(setPrevFinishPos__Q36System10RaceConfig6PlayerFSc);
 // PAL: 0x8052dd20
-extern UNKNOWN_FUNCTION(getPlayer__Q26System18RaceConfigScenarioCFUc);
+extern UNKNOWN_FUNCTION(getPlayer__Q36System10RaceConfig8ScenarioCFUc);
 // PAL: 0x8052e434
-extern UNKNOWN_FUNCTION(getPlayer__Q26System18RaceConfigScenarioFUc);
+extern UNKNOWN_FUNCTION(getPlayer__Q36System10RaceConfig8ScenarioFUc);
 // PAL: 0x80530f0c
-extern UNKNOWN_FUNCTION(isTeamMode__Q26System18RaceConfigScenarioFv);
+extern UNKNOWN_FUNCTION(isTeamMode__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x8052dca8
-extern UNKNOWN_FUNCTION(computeWinningTeam__Q26System18RaceConfigScenarioFv);
+extern UNKNOWN_FUNCTION(computeWinningTeam__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x8052e42c
 extern UNKNOWN_FUNCTION(
-    setCharacter__Q26System16RaceConfigPlayerFQ26System11CharacterId);
+    setCharacter__Q36System10RaceConfig6PlayerFQ26System11CharacterId);
 // PAL: 0x805305ac
 extern UNKNOWN_FUNCTION(RacedataScenario_copy);
 // PAL: 0x809bd740
@@ -182,12 +178,12 @@ RaceConfig* RaceConfig::spInstance;
 
 extern "C" void getCompetitionWrapper(void*, CompetitionWrapper*);
 
-RaceConfigPlayer::RaceConfigPlayer()
+RaceConfig::Player::Player()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
       mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(0), mMii(7),
       mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
 
-void RaceConfigPlayer::appendParamFile(RaceConfig* raceConfig) {
+void RaceConfig::Player::appendParamFile(RaceConfig* raceConfig) {
   raceConfig->append(mVehicleId, InitScene::spInstance->mHeapCollection
                                      .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
   raceConfig->append(mCharacterId, InitScene::spInstance->mHeapCollection
@@ -198,7 +194,7 @@ void RaceConfigPlayer::appendParamFile(RaceConfig* raceConfig) {
                                 .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
 }
 
-s32 RaceConfigPlayer::computeGpRank() const {
+s32 RaceConfig::Player::computeGpRank() const {
   s8 weightedRankScore = 5;
   for (u8 i = 0; i < sizeof(RANK_SCORES) / 4; i++) {
     if (mGpRankScore >= RANK_SCORES[i]) {
@@ -222,7 +218,7 @@ s32 RaceConfigPlayer::computeGpRank() const {
   return weightedRankScore + weightedScore;
 }
 
-RaceConfigScenario::RaceConfigScenario(RawGhostFile* ghost)
+RaceConfig::Scenario::Scenario(RawGhostFile* ghost)
     : mPlayerCount(0), mHudCount(0), mPlayers() {
   mSettings.mCourseId = GCN_MARIO_CIRCUIT;
   mSettings.mGameMode = 0;
@@ -235,22 +231,22 @@ RaceConfigScenario::RaceConfigScenario(RawGhostFile* ghost)
   mGhost = ghost;
 }
 
-RaceConfigPlayer::~RaceConfigPlayer() {}
+RaceConfig::Player::~Player() {}
 
-BattleTeam RaceConfigScenario::computeWinningTeam() {
+BattleTeam RaceConfig::Scenario::computeWinningTeam() {
   u16 results[] = {0, 0};
 
   for (u8 i = 0; i < RaceConfig::spInstance->mRaceScenario.mPlayerCount; i++) {
-    const BattleTeam team = mPlayers[i].mTeam;
+    const BattleTeam team = mPlayers[i].getTeam();
     results[team] += mPlayers[i].mPreviousScore;
   }
 
   return (results[0] < results[1]) ? BATTLE_TEAM_BLUE : BATTLE_TEAM_RED;
 }
 
-BattleTeam RaceConfigPlayer::getTeam() { return mTeam; }
+BattleTeam RaceConfig::Player::getTeam() { return mTeam; }
 
-const RaceConfigPlayer& RaceConfigScenario::getPlayer(u8 idx) const {
+const RaceConfig::Player& RaceConfig::Scenario::getPlayer(u8 idx) const {
   return mPlayers[idx];
 }
 
@@ -534,7 +530,7 @@ asm UNKNOWN_FUNCTION(Racedata_init) {
   /* 8052E154 4E800421 */ bctrl
   /* 8052E158 387F0C10 */ addi        r3, r31, 0xc10
   /* 8052E15C 389F0020 */ addi        r4, r31, 0x20
-  /* 8052E160 48001A31 */ bl          initRace__Q26System18RaceConfigScenarioFPQ26System18RaceConfigScenario
+  /* 8052E160 48001A31 */ bl          initRace__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario
   /* 8052E164 893F0C14 */ lbz         r9, 0xc14(r31)
   /* 8052E168 387F0028 */ addi        r3, r31, 0x28
   /* 8052E16C 891F0C15 */ lbz         r8, 0xc15(r31)
@@ -721,37 +717,37 @@ asm UNKNOWN_FUNCTION(Racedata_init) {
 
 namespace System {
 
-void RaceConfigPlayer::setCharacter(CharacterId character) {
+void RaceConfig::Player::setCharacter(CharacterId character) {
   mCharacterId = character;
 }
 
-RaceConfigPlayer& RaceConfigScenario::getPlayer(u8 idx) {
+RaceConfig::Player& RaceConfig::Scenario::getPlayer(u8 idx) {
   return mPlayers[idx];
 }
 
-void RaceConfigPlayer::setVehicle(VehicleId vehicle) { mVehicleId = vehicle; }
+void RaceConfig::Player::setVehicle(VehicleId vehicle) { mVehicleId = vehicle; }
 
-void RaceConfigPlayer::setPlayerType(s32 playerType) {
+void RaceConfig::Player::setPlayerType(s32 playerType) {
   mPlayerType = playerType;
 }
 
-void RaceConfig::reset() {
-  mMenuScenario.reset();
-  mAwardsScenario.reset();
+void RaceConfig::clear() {
+  mMenuScenario.clear();
+  mAwardsScenario.clear();
 }
 
-void RaceConfigPlayer::reset(s8 pos) {
+void RaceConfig::Player::reset(s8 pos) {
   mPreviousScore = 0;
   mGpRankScore = 0;
   mPrevFinishPos = pos;
   this->_e0 = pos;
 }
 
-void RaceConfigPlayer::setPrevFinishPos(s8 pos) { mPrevFinishPos = pos; }
+void RaceConfig::Player::setPrevFinishPos(s8 pos) { mPrevFinishPos = pos; }
 
-void RaceConfigPlayer::setUnkPos(s8 pos) { this->_e0 = pos; }
+void RaceConfig::Player::setUnkPos(s8 pos) { this->_e0 = pos; }
 
-void RaceConfigScenario::reset() {
+void RaceConfig::Scenario::clear() {
   mSettings.mItemMode = 0;
   mSettings.mCpuMode = 1;
   mSettings.mLapCount = 3;
@@ -771,7 +767,7 @@ void empty1() {}
 void empty2() {}
 void empty3() {}
 
-u8 RaceConfigScenario::update() {
+u8 RaceConfig::Scenario::update() {
   if (mSettings.mRaceNumber < 100) {
     mSettings.mRaceNumber++;
   } else {
@@ -779,7 +775,7 @@ u8 RaceConfigScenario::update() {
   }
 
   for (u8 i = 0; i < 12; i++) {
-    RaceConfigPlayer& player = getPlayer(i);
+    Player& player = getPlayer(i);
     player.mPrevFinishPos = player.mFinishPos;
     player.mPreviousScore = player.mGpScore;
   }
@@ -796,8 +792,7 @@ s16 RaceConfig::updateRating(u8 playerIdx) {
       continue;
     }
 
-    RaceConfigPlayer& player =
-        RaceConfig::spInstance->mRaceScenario.getPlayer(playerIdx);
+    Player& player = RaceConfig::spInstance->mRaceScenario.getPlayer(playerIdx);
     totalPoints += player.mRating.calcNegPoints(
         &RaceConfig::spInstance->mRaceScenario.getPlayer(i).mRating);
   }
@@ -1088,20 +1083,20 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
 
 namespace System {
 
-s32 RaceConfigScenario::getGametype() { return mSettings.mGameType; }
+s32 RaceConfig::Scenario::getGametype() { return mSettings.mGameType; }
 
-s32 RaceConfigPlayer::getPlayerType() { return mPlayerType; }
+s32 RaceConfig::Player::getPlayerType() { return mPlayerType; }
 
 } // namespace System
 
 // Symbol:
-// postInitControllers__Q26System18RaceConfigScenarioFPQ26System18RaceConfigScenario
+// postInitControllers__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario
 // PAL: 0x8052ed28..0x8052eef0
 MARK_BINARY_BLOB(
-    postInitControllers__Q26System18RaceConfigScenarioFPQ26System18RaceConfigScenario,
+    postInitControllers__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario,
     0x8052ed28, 0x8052eef0);
 asm UNKNOWN_FUNCTION(
-    postInitControllers__Q26System18RaceConfigScenarioFPQ26System18RaceConfigScenario) {
+    postInitControllers__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario) {
   // clang-format off
   nofralloc
   /* 8052ED28 9421FFE0 */ stwu        r1, -0x20(r1)
@@ -1238,7 +1233,7 @@ asm UNKNOWN_FUNCTION(
 #ifdef NON_MATCHING
 namespace System {
 
-bool RaceConfigScenario::initGhost(u8 playerIdx, u8 playerInputIdx) {
+bool RaceConfig::Scenario::initGhost(u8 playerIdx, u8 playerInputIdx) {
   if (!mGhost->isValid()) {
     return false;
   }
@@ -1338,9 +1333,9 @@ asm UNKNOWN_FUNCTION(unk_8052eef0) {
 
 namespace System {
 
-void RaceConfigScenario::resetPlayers() {
+void RaceConfig::Scenario::resetPlayers() {
   for (u8 i = 0; i < 12; i++) {
-    RaceConfigPlayer& player = getPlayer(i);
+    Player& player = getPlayer(i);
     player.mLocalPlayerNum = -1;
     player.mPlayerInputIdx = -1;
   }
@@ -1350,12 +1345,12 @@ void RaceConfigScenario::resetPlayers() {
   }
 }
 
-void RaceConfigScenario::initPlayers(u8 playerCount) {
+void RaceConfig::Scenario::initPlayers(u8 playerCount) {
   if (isOnline(mSettings.mGameMode)) {
     return;
   }
   for (u8 i = 0; i < playerCount; i++) {
-    RaceConfigPlayer& player = getPlayer(i);
+    Player& player = getPlayer(i);
     player.mPreviousScore = 0;
     player.mPrevFinishPos = playerCount - i;
     player._e0 = playerCount - i;
@@ -1364,11 +1359,11 @@ void RaceConfigScenario::initPlayers(u8 playerCount) {
 
 } // namespace System
 
-// Symbol: copyPrevPositions__Q26System18RaceConfigScenarioFv
+// Symbol: copyPrevPositions__Q36System10RaceConfig8ScenarioFv
 // PAL: 0x8052f1e0..0x8052f4e8
-MARK_BINARY_BLOB(copyPrevPositions__Q26System18RaceConfigScenarioFv, 0x8052f1e0,
+MARK_BINARY_BLOB(copyPrevPositions__Q36System10RaceConfig8ScenarioFv, 0x8052f1e0,
                  0x8052f4e8);
-asm UNKNOWN_FUNCTION(copyPrevPositions__Q26System18RaceConfigScenarioFv) {
+asm UNKNOWN_FUNCTION(copyPrevPositions__Q36System10RaceConfig8ScenarioFv) {
   // clang-format off
   nofralloc
   /* 8052F1E0 9421FFE0 */ stwu        r1, -0x20(r1)
@@ -1582,11 +1577,11 @@ asm UNKNOWN_FUNCTION(copyPrevPositions__Q26System18RaceConfigScenarioFv) {
   // clang-format on
 }
 
-// Symbol: initControllers__Q26System18RaceConfigScenarioFUc
+// Symbol: initControllers__Q36System10RaceConfig8ScenarioFUc
 // PAL: 0x8052f4e8..0x8052f788
-MARK_BINARY_BLOB(initControllers__Q26System18RaceConfigScenarioFUc, 0x8052f4e8,
+MARK_BINARY_BLOB(initControllers__Q36System10RaceConfig8ScenarioFUc, 0x8052f4e8,
                  0x8052f788);
-asm UNKNOWN_FUNCTION(initControllers__Q26System18RaceConfigScenarioFUc) {
+asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   // clang-format off
   nofralloc
   /* 8052F4E8 9421FEF0 */ stwu        r1, -0x110(r1)
@@ -1779,14 +1774,14 @@ asm UNKNOWN_FUNCTION(initControllers__Q26System18RaceConfigScenarioFUc) {
 
 namespace System {
 
-void RaceConfigScenario::computePlayerCounts(u8& playerCount, u8& hudCount,
-                                             u8& localPlayerCount) {
+void RaceConfig::Scenario::computePlayerCounts(u8& playerCount, u8& hudCount,
+                                               u8& localPlayerCount) {
   u8 playerCount_ = 0;
   u8 hudCount_ = 0;
   u8 localPlayerCount_ = 0;
 
   for (u8 i = 0; i < 12; i++) {
-    const s32 playerType = mPlayers[i].mPlayerType;
+    const s32 playerType = mPlayers[i].getPlayerType();
 
     // Check if player exists
     if (playerType == 5) {
@@ -1842,7 +1837,7 @@ void RaceConfigScenario::computePlayerCounts(u8& playerCount, u8& hudCount,
   localPlayerCount = localPlayerCount_;
 }
 
-void RaceConfigScenario::initRng() {
+void RaceConfig::Scenario::initRng() {
   u32 seed;
   u32 mask;
   u32 mask1;
@@ -1890,7 +1885,7 @@ void RaceConfigScenario::initRng() {
 const s32 lbl_808900e8[15] = {-1, -1, -1, 5, 6, 8,         9,      11,
                               -1, -1, -1, 1, 2, 0xc030005, 0x40000};
 
-void RaceConfigScenario::initCompetitionSettings() {
+void RaceConfig::Scenario::initCompetitionSettings() {
   CompetitionSettings settings; // 0x28-0x98
   memset(&settings, 0, sizeof(CompetitionSettings));
   CompetitionWrapper wrapper; // 0x8-0x24
@@ -1932,7 +1927,7 @@ void RaceConfigScenario::initCompetitionSettings() {
   }
 }
 
-void RaceConfigScenario::initRace(RaceConfigScenario* raceScenario) {
+void RaceConfig::Scenario::initRace(Scenario* scenario) {
   u8 playerCount = 0;
   u8 hudCount = 0;
   u8 localPlayerCount = 0;
@@ -1944,7 +1939,7 @@ void RaceConfigScenario::initRace(RaceConfigScenario* raceScenario) {
   copyPrevPositions();
 
   for (u8 i = 0; i < 12; i++) {
-    RaceConfigPlayer& player = getPlayer(i);
+    Player& player = getPlayer(i);
     player.mLocalPlayerNum = -1;
     player.mPlayerInputIdx = -1;
   }
@@ -1964,16 +1959,16 @@ void RaceConfigScenario::initRace(RaceConfigScenario* raceScenario) {
     u8 playerCount_ = playerCount;
     if (!isOnline(mSettings.mGameMode)) {
       for (u8 i = 0; i < playerCount_; i++) {
-        RaceConfigPlayer& player = getPlayer(i);
+        Player& player = getPlayer(i);
         player.mPreviousScore = 0;
-        player.mPrevFinishPos = playerCount_ - i;
-        player._e0 = playerCount_ - i;
+        player.setPrevFinishPos(playerCount_ - i);
+        player.setUnkPos(playerCount_ - i);
       }
     }
   }
 
   initControllers(hudCount);
-  postInitControllers(raceScenario);
+  postInitControllers(scenario);
   initRng();
 
   mPlayerCount = playerCount;
@@ -2001,7 +1996,7 @@ void RaceConfig::destroyInstance() {
 
 RaceConfig::~RaceConfig() {}
 
-RaceConfigScenario::~RaceConfigScenario() {}
+RaceConfig::Scenario::~Scenario() {}
 
 RaceConfig::RaceConfig()
     : ParameterFile("/boot/menuset.prm", 0), mRaceScenario(&mGhosts[0]),
@@ -2026,7 +2021,7 @@ void RaceConfig::initRace() {
 #pragma push
 #pragma legacy_struct_alignment on
 namespace System {
-RaceConfigScenario& RaceConfigScenario::copy(const RaceConfigScenario& other) {
+RaceConfig::Scenario& RaceConfig::Scenario::copy(const Scenario& other) {
   *this = other;
   return *this;
 }
@@ -2378,35 +2373,35 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   lbl_8053088c:
   /* 8053088C 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530890 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 80530894 4BFFDBA1 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530894 4BFFDBA1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530898 38800005 */ li          r4, 0x5
-  /* 8053089C 4BFFDBB1 */ bl          setPlayerType__Q26System16RaceConfigPlayerFl
+  /* 8053089C 4BFFDBB1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
   /* 805308A0 57C4063E */ clrlwi      r4, r30, 0x18
   /* 805308A4 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308A8 3BA40001 */ addi        r29, r4, 0x1
-  /* 805308AC 4BFFDB89 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 805308AC 4BFFDB89 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805308B0 57A4063E */ clrlwi      r4, r29, 0x18
-  /* 805308B4 4BFFDDA5 */ bl          setPrevFinishPos__Q26System16RaceConfigPlayerFSc
+  /* 805308B4 4BFFDDA5 */ bl          setPrevFinishPos__Q36System10RaceConfig6PlayerFSc
   /* 805308B8 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308BC 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 805308C0 4BFFDB75 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 805308C0 4BFFDB75 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805308C4 57A4063E */ clrlwi      r4, r29, 0x18
-  /* 805308C8 4BFFDD99 */ bl          setUnkPos__Q26System16RaceConfigPlayerFSc
+  /* 805308C8 4BFFDD99 */ bl          setUnkPos__Q36System10RaceConfig6PlayerFSc
   /* 805308CC 3BDE0001 */ addi        r30, r30, 0x1
   /* 805308D0 281E000C */ cmplwi      r30, 0xc
   /* 805308D4 4180FFB8 */ blt+        lbl_8053088c
   /* 805308D8 387F0C10 */ addi        r3, r31, 0xc10
-  /* 805308DC 4BFFE43D */ bl          getGametype__Q26System18RaceConfigScenarioFv
+  /* 805308DC 4BFFE43D */ bl          getGametype__Q36System10RaceConfig8ScenarioFv
   /* 805308E0 3803FFF9 */ addi        r0, r3, -0x7
   /* 805308E4 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308E8 7C000034 */ cntlzw      r0, r0
   /* 805308EC 541DD97E */ srwi        r29, r0, 5
-  /* 805308F0 4BFFE429 */ bl          getGametype__Q26System18RaceConfigScenarioFv
+  /* 805308F0 4BFFE429 */ bl          getGametype__Q36System10RaceConfig8ScenarioFv
   /* 805308F4 3803FFF4 */ addi        r0, r3, -0xc
   /* 805308F8 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308FC 7C000034 */ cntlzw      r0, r0
   /* 80530900 541ED97E */ srwi        r30, r0, 5
-  /* 80530904 48000609 */ bl          isTeamMode__Q26System18RaceConfigScenarioFv
+  /* 80530904 48000609 */ bl          isTeamMode__Q36System10RaceConfig8ScenarioFv
   /* 80530908 2C1D0000 */ cmpwi       r29, 0x0
   /* 8053090C 41820120 */ beq-        lbl_80530a2c
   /* 80530910 3BC00001 */ li          r30, 0x1
@@ -2416,64 +2411,64 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   lbl_8053091c:
   /* 8053091C 387F0020 */ addi        r3, r31, 0x20
   /* 80530920 5784063E */ clrlwi      r4, r28, 0x18
-  /* 80530924 4BFFD3FD */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530928 480005F1 */ bl          getUnkPos__Q26System16RaceConfigPlayerFv
+  /* 80530924 4BFFD3FD */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530928 480005F1 */ bl          getUnkPos__Q36System10RaceConfig6PlayerFv
   /* 8053092C 5460063E */ clrlwi      r0, r3, 0x18
   /* 80530930 7C1D0040 */ cmplw       r29, r0
   /* 80530934 408200DC */ bne-        lbl_80530a10
   /* 80530938 387F0020 */ addi        r3, r31, 0x20
   /* 8053093C 5784063E */ clrlwi      r4, r28, 0x18
-  /* 80530940 4BFFD3E1 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530944 4BFFE3DD */ bl          getPlayerType__Q26System16RaceConfigPlayerFv
+  /* 80530940 4BFFD3E1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530944 4BFFE3DD */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
   /* 80530948 2C030005 */ cmpwi       r3, 0x5
   /* 8053094C 418200C4 */ beq-        lbl_80530a10
   /* 80530950 381EFFFF */ addi        r0, r30, -0x1
   /* 80530954 387F0020 */ addi        r3, r31, 0x20
   /* 80530958 541B063E */ clrlwi      r27, r0, 0x18
   /* 8053095C 5784063E */ clrlwi      r4, r28, 0x18
-  /* 80530960 4BFFD3C1 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530964 480005BD */ bl          getCharacter__Q26System16RaceConfigPlayerFv
+  /* 80530960 4BFFD3C1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530964 480005BD */ bl          getCharacter__Q36System10RaceConfig6PlayerFv
   /* 80530968 7C7D1B78 */ mr          r29, r3
   /* 8053096C 7F64DB78 */ mr          r4, r27
   /* 80530970 387F0C10 */ addi        r3, r31, 0xc10
-  /* 80530974 4BFFDAC1 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530974 4BFFDAC1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530978 7FA4EB78 */ mr          r4, r29
-  /* 8053097C 4BFFDAB1 */ bl          setCharacter__Q26System16RaceConfigPlayerFQ26System11CharacterId
+  /* 8053097C 4BFFDAB1 */ bl          setCharacter__Q36System10RaceConfig6PlayerFQ26System11CharacterId
   /* 80530980 387F0020 */ addi        r3, r31, 0x20
   /* 80530984 5784063E */ clrlwi      r4, r28, 0x18
-  /* 80530988 4BFFD399 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 8053098C 4800059D */ bl          getVehicle__Q26System16RaceConfigPlayerFv
+  /* 80530988 4BFFD399 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 8053098C 4800059D */ bl          getVehicle__Q36System10RaceConfig6PlayerFv
   /* 80530990 7C7D1B78 */ mr          r29, r3
   /* 80530994 7F64DB78 */ mr          r4, r27
   /* 80530998 387F0C10 */ addi        r3, r31, 0xc10
-  /* 8053099C 4BFFDA99 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 8053099C 4BFFDA99 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805309A0 7FA4EB78 */ mr          r4, r29
-  /* 805309A4 4BFFDAA1 */ bl          setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId
+  /* 805309A4 4BFFDAA1 */ bl          setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId
   /* 805309A8 7F64DB78 */ mr          r4, r27
   /* 805309AC 387F0C10 */ addi        r3, r31, 0xc10
-  /* 805309B0 4BFFDA85 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 805309B0 4BFFDA85 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805309B4 38800001 */ li          r4, 0x1
-  /* 805309B8 4BFFDA95 */ bl          setPlayerType__Q26System16RaceConfigPlayerFl
+  /* 805309B8 4BFFDA95 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
   /* 805309BC 7F64DB78 */ mr          r4, r27
   /* 805309C0 387F0C10 */ addi        r3, r31, 0xc10
-  /* 805309C4 4BFFDA71 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 805309C4 4BFFDA71 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805309C8 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 805309CC 4BFFDC8D */ bl          setPrevFinishPos__Q26System16RaceConfigPlayerFSc
+  /* 805309CC 4BFFDC8D */ bl          setPrevFinishPos__Q36System10RaceConfig6PlayerFSc
   /* 805309D0 7F64DB78 */ mr          r4, r27
   /* 805309D4 387F0C10 */ addi        r3, r31, 0xc10
-  /* 805309D8 4BFFDA5D */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 805309D8 4BFFDA5D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805309DC 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 805309E0 4BFFDC81 */ bl          setUnkPos__Q26System16RaceConfigPlayerFSc
+  /* 805309E0 4BFFDC81 */ bl          setUnkPos__Q36System10RaceConfig6PlayerFSc
   /* 805309E4 387F0020 */ addi        r3, r31, 0x20
   /* 805309E8 5784063E */ clrlwi      r4, r28, 0x18
-  /* 805309EC 4BFFD335 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 805309F0 48000679 */ bl          getMii__Q26System16RaceConfigPlayerFv
+  /* 805309EC 4BFFD335 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 805309F0 48000679 */ bl          getMii__Q36System10RaceConfig6PlayerFv
   /* 805309F4 7C7D1B78 */ mr          r29, r3
   /* 805309F8 7F64DB78 */ mr          r4, r27
   /* 805309FC 387F0C10 */ addi        r3, r31, 0xc10
-  /* 80530A00 4BFFDA35 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530A00 4BFFDA35 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530A04 7FA4EB78 */ mr          r4, r29
-  /* 80530A08 48000529 */ bl          setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii
+  /* 80530A08 48000529 */ bl          setMii__Q36System10RaceConfig6PlayerFRCQ26System3Mii
   /* 80530A0C 48000010 */ b           lbl_80530a1c
   lbl_80530a10:
   /* 80530A10 3B9C0001 */ addi        r28, r28, 0x1
@@ -2488,7 +2483,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530A2C 2C030000 */ cmpwi       r3, 0x0
   /* 80530A30 418202E8 */ beq-        lbl_80530d18
   /* 80530A34 387F0020 */ addi        r3, r31, 0x20
-  /* 80530A38 4BFFD271 */ bl          computeWinningTeam__Q26System18RaceConfigScenarioFv
+  /* 80530A38 4BFFD271 */ bl          computeWinningTeam__Q36System10RaceConfig8ScenarioFv
   /* 80530A3C 7C600034 */ cntlzw      r0, r3
   /* 80530A40 7C7B1B78 */ mr          r27, r3
   /* 80530A44 541CD97E */ srwi        r28, r0, 5
@@ -2497,14 +2492,14 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   lbl_80530a50:
   /* 80530A50 387F0020 */ addi        r3, r31, 0x20
   /* 80530A54 57A4063E */ clrlwi      r4, r29, 0x18
-  /* 80530A58 4BFFD2C9 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530A5C 4BFFE2C5 */ bl          getPlayerType__Q26System16RaceConfigPlayerFv
+  /* 80530A58 4BFFD2C9 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530A5C 4BFFE2C5 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
   /* 80530A60 2C030000 */ cmpwi       r3, 0x0
   /* 80530A64 40820024 */ bne-        lbl_80530a88
   /* 80530A68 387F0020 */ addi        r3, r31, 0x20
   /* 80530A6C 57A4063E */ clrlwi      r4, r29, 0x18
-  /* 80530A70 4BFFD2B1 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530A74 4BFFD2A5 */ bl          getTeam__Q26System16RaceConfigPlayerFv
+  /* 80530A70 4BFFD2B1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530A74 4BFFD2A5 */ bl          getTeam__Q36System10RaceConfig6PlayerFv
   /* 80530A78 7C1B1800 */ cmpw        r27, r3
   /* 80530A7C 4082000C */ bne-        lbl_80530a88
   /* 80530A80 7F7CDB78 */ mr          r28, r27
@@ -2526,69 +2521,69 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   lbl_80530ab0:
   /* 80530AB0 387F0020 */ addi        r3, r31, 0x20
   /* 80530AB4 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530AB8 4BFFD269 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530ABC 4800045D */ bl          getUnkPos__Q26System16RaceConfigPlayerFv
+  /* 80530AB8 4BFFD269 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530ABC 4800045D */ bl          getUnkPos__Q36System10RaceConfig6PlayerFv
   /* 80530AC0 5460063E */ clrlwi      r0, r3, 0x18
   /* 80530AC4 7C1E0040 */ cmplw       r30, r0
   /* 80530AC8 408200F0 */ bne-        lbl_80530bb8
   /* 80530ACC 387F0020 */ addi        r3, r31, 0x20
   /* 80530AD0 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530AD4 4BFFD24D */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530AD8 4BFFE249 */ bl          getPlayerType__Q26System16RaceConfigPlayerFv
+  /* 80530AD4 4BFFD24D */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530AD8 4BFFE249 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
   /* 80530ADC 2C030000 */ cmpwi       r3, 0x0
   /* 80530AE0 408200D8 */ bne-        lbl_80530bb8
   /* 80530AE4 387F0020 */ addi        r3, r31, 0x20
   /* 80530AE8 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530AEC 4BFFD235 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530AF0 4BFFD229 */ bl          getTeam__Q26System16RaceConfigPlayerFv
+  /* 80530AEC 4BFFD235 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530AF0 4BFFD229 */ bl          getTeam__Q36System10RaceConfig6PlayerFv
   /* 80530AF4 7C1C1800 */ cmpw        r28, r3
   /* 80530AF8 408200C0 */ bne-        lbl_80530bb8
   /* 80530AFC 387F0020 */ addi        r3, r31, 0x20
   /* 80530B00 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530B04 4BFFD21D */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530B08 48000419 */ bl          getCharacter__Q26System16RaceConfigPlayerFv
+  /* 80530B04 4BFFD21D */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530B08 48000419 */ bl          getCharacter__Q36System10RaceConfig6PlayerFv
   /* 80530B0C 7C7D1B78 */ mr          r29, r3
   /* 80530B10 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530B14 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530B18 4BFFD91D */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530B18 4BFFD91D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530B1C 7FA4EB78 */ mr          r4, r29
-  /* 80530B20 4BFFD90D */ bl          setCharacter__Q26System16RaceConfigPlayerFQ26System11CharacterId
+  /* 80530B20 4BFFD90D */ bl          setCharacter__Q36System10RaceConfig6PlayerFQ26System11CharacterId
   /* 80530B24 387F0020 */ addi        r3, r31, 0x20
   /* 80530B28 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530B2C 4BFFD1F5 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530B30 480003F9 */ bl          getVehicle__Q26System16RaceConfigPlayerFv
+  /* 80530B2C 4BFFD1F5 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530B30 480003F9 */ bl          getVehicle__Q36System10RaceConfig6PlayerFv
   /* 80530B34 7C7D1B78 */ mr          r29, r3
   /* 80530B38 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530B3C 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530B40 4BFFD8F5 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530B40 4BFFD8F5 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530B44 7FA4EB78 */ mr          r4, r29
-  /* 80530B48 4BFFD8FD */ bl          setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId
+  /* 80530B48 4BFFD8FD */ bl          setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId
   /* 80530B4C 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530B50 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530B54 4BFFD8E1 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530B54 4BFFD8E1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530B58 38800001 */ li          r4, 0x1
-  /* 80530B5C 4BFFD8F1 */ bl          setPlayerType__Q26System16RaceConfigPlayerFl
+  /* 80530B5C 4BFFD8F1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
   /* 80530B60 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530B64 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530B68 3BA40001 */ addi        r29, r4, 0x1
-  /* 80530B6C 4BFFD8C9 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530B6C 4BFFD8C9 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530B70 57A4063E */ clrlwi      r4, r29, 0x18
-  /* 80530B74 4BFFDAE5 */ bl          setPrevFinishPos__Q26System16RaceConfigPlayerFSc
+  /* 80530B74 4BFFDAE5 */ bl          setPrevFinishPos__Q36System10RaceConfig6PlayerFSc
   /* 80530B78 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530B7C 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530B80 4BFFD8B5 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530B80 4BFFD8B5 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530B84 57A4063E */ clrlwi      r4, r29, 0x18
-  /* 80530B88 4BFFDAD9 */ bl          setUnkPos__Q26System16RaceConfigPlayerFSc
+  /* 80530B88 4BFFDAD9 */ bl          setUnkPos__Q36System10RaceConfig6PlayerFSc
   /* 80530B8C 387F0020 */ addi        r3, r31, 0x20
   /* 80530B90 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530B94 4BFFD18D */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530B98 480004D1 */ bl          getMii__Q26System16RaceConfigPlayerFv
+  /* 80530B94 4BFFD18D */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530B98 480004D1 */ bl          getMii__Q36System10RaceConfig6PlayerFv
   /* 80530B9C 7C7D1B78 */ mr          r29, r3
   /* 80530BA0 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530BA4 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530BA8 4BFFD88D */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530BA8 4BFFD88D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530BAC 7FA4EB78 */ mr          r4, r29
-  /* 80530BB0 48000381 */ bl          setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii
+  /* 80530BB0 48000381 */ bl          setMii__Q36System10RaceConfig6PlayerFRCQ26System3Mii
   /* 80530BB4 3B7B0001 */ addi        r27, r27, 0x1
   lbl_80530bb8:
   /* 80530BB8 3B390001 */ addi        r25, r25, 0x1
@@ -2604,75 +2599,75 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   lbl_80530bdc:
   /* 80530BDC 387F0020 */ addi        r3, r31, 0x20
   /* 80530BE0 5744063E */ clrlwi      r4, r26, 0x18
-  /* 80530BE4 4BFFD13D */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530BE8 48000331 */ bl          getUnkPos__Q26System16RaceConfigPlayerFv
+  /* 80530BE4 4BFFD13D */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530BE8 48000331 */ bl          getUnkPos__Q36System10RaceConfig6PlayerFv
   /* 80530BEC 5460063E */ clrlwi      r0, r3, 0x18
   /* 80530BF0 7C1E0040 */ cmplw       r30, r0
   /* 80530BF4 40820108 */ bne-        lbl_80530cfc
   /* 80530BF8 387F0020 */ addi        r3, r31, 0x20
   /* 80530BFC 5744063E */ clrlwi      r4, r26, 0x18
-  /* 80530C00 4BFFD121 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530C04 4BFFE11D */ bl          getPlayerType__Q26System16RaceConfigPlayerFv
+  /* 80530C00 4BFFD121 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530C04 4BFFE11D */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
   /* 80530C08 2C030005 */ cmpwi       r3, 0x5
   /* 80530C0C 418200F0 */ beq-        lbl_80530cfc
   /* 80530C10 387F0020 */ addi        r3, r31, 0x20
   /* 80530C14 5744063E */ clrlwi      r4, r26, 0x18
-  /* 80530C18 4BFFD109 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530C1C 4BFFE105 */ bl          getPlayerType__Q26System16RaceConfigPlayerFv
+  /* 80530C18 4BFFD109 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530C1C 4BFFE105 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
   /* 80530C20 2C030000 */ cmpwi       r3, 0x0
   /* 80530C24 418200D8 */ beq-        lbl_80530cfc
   /* 80530C28 387F0020 */ addi        r3, r31, 0x20
   /* 80530C2C 5744063E */ clrlwi      r4, r26, 0x18
-  /* 80530C30 4BFFD0F1 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530C34 4BFFD0E5 */ bl          getTeam__Q26System16RaceConfigPlayerFv
+  /* 80530C30 4BFFD0F1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530C34 4BFFD0E5 */ bl          getTeam__Q36System10RaceConfig6PlayerFv
   /* 80530C38 7C1C1800 */ cmpw        r28, r3
   /* 80530C3C 408200C0 */ bne-        lbl_80530cfc
   /* 80530C40 387F0020 */ addi        r3, r31, 0x20
   /* 80530C44 5744063E */ clrlwi      r4, r26, 0x18
-  /* 80530C48 4BFFD0D9 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530C4C 480002D5 */ bl          getCharacter__Q26System16RaceConfigPlayerFv
+  /* 80530C48 4BFFD0D9 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530C4C 480002D5 */ bl          getCharacter__Q36System10RaceConfig6PlayerFv
   /* 80530C50 7C7D1B78 */ mr          r29, r3
   /* 80530C54 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530C58 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530C5C 4BFFD7D9 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530C5C 4BFFD7D9 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530C60 7FA4EB78 */ mr          r4, r29
-  /* 80530C64 4BFFD7C9 */ bl          setCharacter__Q26System16RaceConfigPlayerFQ26System11CharacterId
+  /* 80530C64 4BFFD7C9 */ bl          setCharacter__Q36System10RaceConfig6PlayerFQ26System11CharacterId
   /* 80530C68 387F0020 */ addi        r3, r31, 0x20
   /* 80530C6C 5744063E */ clrlwi      r4, r26, 0x18
-  /* 80530C70 4BFFD0B1 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530C74 480002B5 */ bl          getVehicle__Q26System16RaceConfigPlayerFv
+  /* 80530C70 4BFFD0B1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530C74 480002B5 */ bl          getVehicle__Q36System10RaceConfig6PlayerFv
   /* 80530C78 7C7D1B78 */ mr          r29, r3
   /* 80530C7C 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530C80 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530C84 4BFFD7B1 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530C84 4BFFD7B1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530C88 7FA4EB78 */ mr          r4, r29
-  /* 80530C8C 4BFFD7B9 */ bl          setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId
+  /* 80530C8C 4BFFD7B9 */ bl          setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId
   /* 80530C90 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530C94 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530C98 4BFFD79D */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530C98 4BFFD79D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530C9C 38800001 */ li          r4, 0x1
-  /* 80530CA0 4BFFD7AD */ bl          setPlayerType__Q26System16RaceConfigPlayerFl
+  /* 80530CA0 4BFFD7AD */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
   /* 80530CA4 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530CA8 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530CAC 3BA40001 */ addi        r29, r4, 0x1
-  /* 80530CB0 4BFFD785 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530CB0 4BFFD785 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530CB4 57A4063E */ clrlwi      r4, r29, 0x18
-  /* 80530CB8 4BFFD9A1 */ bl          setPrevFinishPos__Q26System16RaceConfigPlayerFSc
+  /* 80530CB8 4BFFD9A1 */ bl          setPrevFinishPos__Q36System10RaceConfig6PlayerFSc
   /* 80530CBC 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530CC0 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530CC4 4BFFD771 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530CC4 4BFFD771 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530CC8 57A4063E */ clrlwi      r4, r29, 0x18
-  /* 80530CCC 4BFFD995 */ bl          setUnkPos__Q26System16RaceConfigPlayerFSc
+  /* 80530CCC 4BFFD995 */ bl          setUnkPos__Q36System10RaceConfig6PlayerFSc
   /* 80530CD0 387F0020 */ addi        r3, r31, 0x20
   /* 80530CD4 5744063E */ clrlwi      r4, r26, 0x18
-  /* 80530CD8 4BFFD049 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530CDC 4800038D */ bl          getMii__Q26System16RaceConfigPlayerFv
+  /* 80530CD8 4BFFD049 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530CDC 4800038D */ bl          getMii__Q36System10RaceConfig6PlayerFv
   /* 80530CE0 7C7D1B78 */ mr          r29, r3
   /* 80530CE4 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530CE8 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530CEC 4BFFD749 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530CEC 4BFFD749 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530CF0 7FA4EB78 */ mr          r4, r29
-  /* 80530CF4 4800023D */ bl          setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii
+  /* 80530CF4 4800023D */ bl          setMii__Q36System10RaceConfig6PlayerFRCQ26System3Mii
   /* 80530CF8 3B7B0001 */ addi        r27, r27, 0x1
   lbl_80530cfc:
   /* 80530CFC 3B5A0001 */ addi        r26, r26, 0x1
@@ -2693,63 +2688,63 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   lbl_80530d30:
   /* 80530D30 387F0020 */ addi        r3, r31, 0x20
   /* 80530D34 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530D38 4BFFCFE9 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530D3C 480001DD */ bl          getUnkPos__Q26System16RaceConfigPlayerFv
+  /* 80530D38 4BFFCFE9 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530D3C 480001DD */ bl          getUnkPos__Q36System10RaceConfig6PlayerFv
   /* 80530D40 5460063E */ clrlwi      r0, r3, 0x18
   /* 80530D44 7C1D0040 */ cmplw       r29, r0
   /* 80530D48 408200D8 */ bne-        lbl_80530e20
   /* 80530D4C 387F0020 */ addi        r3, r31, 0x20
   /* 80530D50 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530D54 4BFFCFCD */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530D58 4BFFDFC9 */ bl          getPlayerType__Q26System16RaceConfigPlayerFv
+  /* 80530D54 4BFFCFCD */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530D58 4BFFDFC9 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
   /* 80530D5C 2C030000 */ cmpwi       r3, 0x0
   /* 80530D60 408200C0 */ bne-        lbl_80530e20
   /* 80530D64 387F0020 */ addi        r3, r31, 0x20
   /* 80530D68 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530D6C 4BFFCFB5 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530D70 480001B1 */ bl          getCharacter__Q26System16RaceConfigPlayerFv
+  /* 80530D6C 4BFFCFB5 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530D70 480001B1 */ bl          getCharacter__Q36System10RaceConfig6PlayerFv
   /* 80530D74 7C7E1B78 */ mr          r30, r3
   /* 80530D78 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530D7C 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530D80 4BFFD6B5 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530D80 4BFFD6B5 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530D84 7FC4F378 */ mr          r4, r30
-  /* 80530D88 4BFFD6A5 */ bl          setCharacter__Q26System16RaceConfigPlayerFQ26System11CharacterId
+  /* 80530D88 4BFFD6A5 */ bl          setCharacter__Q36System10RaceConfig6PlayerFQ26System11CharacterId
   /* 80530D8C 387F0020 */ addi        r3, r31, 0x20
   /* 80530D90 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530D94 4BFFCF8D */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530D98 48000191 */ bl          getVehicle__Q26System16RaceConfigPlayerFv
+  /* 80530D94 4BFFCF8D */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530D98 48000191 */ bl          getVehicle__Q36System10RaceConfig6PlayerFv
   /* 80530D9C 7C7E1B78 */ mr          r30, r3
   /* 80530DA0 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530DA4 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530DA8 4BFFD68D */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530DA8 4BFFD68D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530DAC 7FC4F378 */ mr          r4, r30
-  /* 80530DB0 4BFFD695 */ bl          setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId
+  /* 80530DB0 4BFFD695 */ bl          setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId
   /* 80530DB4 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530DB8 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530DBC 4BFFD679 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530DBC 4BFFD679 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530DC0 38800001 */ li          r4, 0x1
-  /* 80530DC4 4BFFD689 */ bl          setPlayerType__Q26System16RaceConfigPlayerFl
+  /* 80530DC4 4BFFD689 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
   /* 80530DC8 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530DCC 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530DD0 3BC40001 */ addi        r30, r4, 0x1
-  /* 80530DD4 4BFFD661 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530DD4 4BFFD661 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530DD8 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 80530DDC 4BFFD87D */ bl          setPrevFinishPos__Q26System16RaceConfigPlayerFSc
+  /* 80530DDC 4BFFD87D */ bl          setPrevFinishPos__Q36System10RaceConfig6PlayerFSc
   /* 80530DE0 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530DE4 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530DE8 4BFFD64D */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530DE8 4BFFD64D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530DEC 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 80530DF0 4BFFD871 */ bl          setUnkPos__Q26System16RaceConfigPlayerFSc
+  /* 80530DF0 4BFFD871 */ bl          setUnkPos__Q36System10RaceConfig6PlayerFSc
   /* 80530DF4 387F0020 */ addi        r3, r31, 0x20
   /* 80530DF8 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80530DFC 4BFFCF25 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530E00 48000269 */ bl          getMii__Q26System16RaceConfigPlayerFv
+  /* 80530DFC 4BFFCF25 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530E00 48000269 */ bl          getMii__Q36System10RaceConfig6PlayerFv
   /* 80530E04 7C7E1B78 */ mr          r30, r3
   /* 80530E08 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530E0C 5724063E */ clrlwi      r4, r25, 0x18
-  /* 80530E10 4BFFD625 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530E10 4BFFD625 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530E14 7FC4F378 */ mr          r4, r30
-  /* 80530E18 48000119 */ bl          setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii
+  /* 80530E18 48000119 */ bl          setMii__Q36System10RaceConfig6PlayerFRCQ26System3Mii
   /* 80530E1C 3B390001 */ addi        r25, r25, 0x1
   lbl_80530e20:
   /* 80530E20 3B7B0001 */ addi        r27, r27, 0x1
@@ -2762,49 +2757,49 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   lbl_80530e3c:
   /* 80530E3C 387F0020 */ addi        r3, r31, 0x20
   /* 80530E40 38800000 */ li          r4, 0x0
-  /* 80530E44 4BFFCEDD */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530E48 480000D9 */ bl          getCharacter__Q26System16RaceConfigPlayerFv
+  /* 80530E44 4BFFCEDD */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530E48 480000D9 */ bl          getCharacter__Q36System10RaceConfig6PlayerFv
   /* 80530E4C 7C7E1B78 */ mr          r30, r3
   /* 80530E50 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530E54 38800000 */ li          r4, 0x0
-  /* 80530E58 4BFFD5DD */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530E58 4BFFD5DD */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530E5C 7FC4F378 */ mr          r4, r30
-  /* 80530E60 4BFFD5CD */ bl          setCharacter__Q26System16RaceConfigPlayerFQ26System11CharacterId
+  /* 80530E60 4BFFD5CD */ bl          setCharacter__Q36System10RaceConfig6PlayerFQ26System11CharacterId
   /* 80530E64 387F0020 */ addi        r3, r31, 0x20
   /* 80530E68 38800000 */ li          r4, 0x0
-  /* 80530E6C 4BFFCEB5 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530E70 480000B9 */ bl          getVehicle__Q26System16RaceConfigPlayerFv
+  /* 80530E6C 4BFFCEB5 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530E70 480000B9 */ bl          getVehicle__Q36System10RaceConfig6PlayerFv
   /* 80530E74 7C7E1B78 */ mr          r30, r3
   /* 80530E78 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530E7C 38800000 */ li          r4, 0x0
-  /* 80530E80 4BFFD5B5 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530E80 4BFFD5B5 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530E84 7FC4F378 */ mr          r4, r30
-  /* 80530E88 4BFFD5BD */ bl          setVehicle__Q26System16RaceConfigPlayerFQ26System9VehicleId
+  /* 80530E88 4BFFD5BD */ bl          setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId
   /* 80530E8C 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530E90 38800000 */ li          r4, 0x0
-  /* 80530E94 4BFFD5A1 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530E94 4BFFD5A1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530E98 38800001 */ li          r4, 0x1
-  /* 80530E9C 4BFFD5B1 */ bl          setPlayerType__Q26System16RaceConfigPlayerFl
+  /* 80530E9C 4BFFD5B1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
   /* 80530EA0 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530EA4 38800000 */ li          r4, 0x0
-  /* 80530EA8 4BFFD58D */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530EA8 4BFFD58D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530EAC 38800001 */ li          r4, 0x1
-  /* 80530EB0 4BFFD7A9 */ bl          setPrevFinishPos__Q26System16RaceConfigPlayerFSc
+  /* 80530EB0 4BFFD7A9 */ bl          setPrevFinishPos__Q36System10RaceConfig6PlayerFSc
   /* 80530EB4 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530EB8 38800000 */ li          r4, 0x0
-  /* 80530EBC 4BFFD579 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530EBC 4BFFD579 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530EC0 38800001 */ li          r4, 0x1
-  /* 80530EC4 4BFFD79D */ bl          setUnkPos__Q26System16RaceConfigPlayerFSc
+  /* 80530EC4 4BFFD79D */ bl          setUnkPos__Q36System10RaceConfig6PlayerFSc
   /* 80530EC8 387F0020 */ addi        r3, r31, 0x20
   /* 80530ECC 38800000 */ li          r4, 0x0
-  /* 80530ED0 4BFFCE51 */ bl          getPlayer__Q26System18RaceConfigScenarioCFUc
-  /* 80530ED4 48000195 */ bl          getMii__Q26System16RaceConfigPlayerFv
+  /* 80530ED0 4BFFCE51 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
+  /* 80530ED4 48000195 */ bl          getMii__Q36System10RaceConfig6PlayerFv
   /* 80530ED8 7C7E1B78 */ mr          r30, r3
   /* 80530EDC 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530EE0 38800000 */ li          r4, 0x0
-  /* 80530EE4 4BFFD551 */ bl          getPlayer__Q26System18RaceConfigScenarioFUc
+  /* 80530EE4 4BFFD551 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530EE8 7FC4F378 */ mr          r4, r30
-  /* 80530EEC 48000045 */ bl          setMii__Q26System16RaceConfigPlayerFRCQ26System3Mii
+  /* 80530EEC 48000045 */ bl          setMii__Q36System10RaceConfig6PlayerFRCQ26System3Mii
   lbl_80530ef0:
   /* 80530EF0 7FE3FB78 */ mr          r3, r31
   /* 80530EF4 4BFFF3D1 */ bl          initRace__Q26System10RaceConfigFv
@@ -2819,19 +2814,21 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
 
 namespace System {
 
-bool RaceConfigScenario::isTeamMode() { return mSettings.mModeFlags >> 1 & 1; }
+bool RaceConfig::Scenario::isTeamMode() {
+  return mSettings.mModeFlags >> 1 & 1;
+}
 
-u8 RaceConfigPlayer::getUnkPos() { return this->_e0; }
+u8 RaceConfig::Player::getUnkPos() { return this->_e0; }
 
-CharacterId RaceConfigPlayer::getCharacter() { return mCharacterId; }
+CharacterId RaceConfig::Player::getCharacter() { return mCharacterId; }
 
-VehicleId RaceConfigPlayer::getVehicle() { return mVehicleId; }
+VehicleId RaceConfig::Player::getVehicle() { return mVehicleId; }
 
 #pragma legacy_struct_alignment on
-void RaceConfigPlayer::setMii(const Mii& mii) { mMii = mii; }
+void RaceConfig::Player::setMii(const Mii& mii) { mMii = mii; }
 #pragma legacy_struct_alignment off
 
-Mii* RaceConfigPlayer::getMii() { return &mMii; }
+Mii& RaceConfig::Player::getMii() { return mMii; }
 
 } // namespace System
 
@@ -3024,7 +3021,7 @@ asm UNKNOWN_FUNCTION(Racedata_initCredits) {
   /* 80531334 389F0020 */ addi        r4, r31, 0x20
   /* 80531338 900317FC */ stw         r0, 0x17fc(r3)
   /* 8053133C 38630C10 */ addi        r3, r3, 0xc10
-  /* 80531340 4BFFE851 */ bl          initRace__Q26System18RaceConfigScenarioFPQ26System18RaceConfigScenario
+  /* 80531340 4BFFE851 */ bl          initRace__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario
   /* 80531344 893F0C14 */ lbz         r9, 0xc14(r31)
   /* 80531348 387F0028 */ addi        r3, r31, 0x28
   /* 8053134C 891F0C15 */ lbz         r8, 0xc15(r31)
@@ -3473,7 +3470,7 @@ asm UNKNOWN_FUNCTION(Racedata_initCredits) {
   /* 80531A0C 4081FE58 */ ble+        lbl_80531864
   /* 80531A10 387F0C10 */ addi        r3, r31, 0xc10
   /* 80531A14 389F0020 */ addi        r4, r31, 0x20
-  /* 80531A18 4BFFE179 */ bl          initRace__Q26System18RaceConfigScenarioFPQ26System18RaceConfigScenario
+  /* 80531A18 4BFFE179 */ bl          initRace__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario
   /* 80531A1C 893F0C14 */ lbz         r9, 0xc14(r31)
   /* 80531A20 387F0028 */ addi        r3, r31, 0x28
   /* 80531A24 891F0C15 */ lbz         r8, 0xc15(r31)
@@ -3662,7 +3659,7 @@ namespace System {
 
 u8 RaceConfig::update() { return mMenuScenario.update(); }
 
-void RaceConfigScenario::appendParamFile(RaceConfig* raceConfig) {
+void RaceConfig::Scenario::appendParamFile(RaceConfig* raceConfig) {
   raceConfig->append(mSettings.mCourseId,
                      InitScene::spInstance->mHeapCollection
                          .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
@@ -3679,7 +3676,7 @@ void RaceConfigScenario::appendParamFile(RaceConfig* raceConfig) {
                          .mpHeaps[HeapCollection::HEAP_ID_MEM2]);
 
   // Couldn't have just done getPlayer(i)?
-  RaceConfigPlayer* player = mPlayers;
+  Player* player = mPlayers;
   for (s8 _ = 0; _ < (s8)ARRAY_SIZE(mPlayers); _++) {
     player->appendParamFile(raceConfig);
     player++;
