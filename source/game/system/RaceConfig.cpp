@@ -1361,8 +1361,8 @@ void RaceConfig::Scenario::initPlayers(u8 playerCount) {
 
 // Symbol: copyPrevPositions__Q36System10RaceConfig8ScenarioFv
 // PAL: 0x8052f1e0..0x8052f4e8
-MARK_BINARY_BLOB(copyPrevPositions__Q36System10RaceConfig8ScenarioFv, 0x8052f1e0,
-                 0x8052f4e8);
+MARK_BINARY_BLOB(copyPrevPositions__Q36System10RaceConfig8ScenarioFv,
+                 0x8052f1e0, 0x8052f4e8);
 asm UNKNOWN_FUNCTION(copyPrevPositions__Q36System10RaceConfig8ScenarioFv) {
   // clang-format off
   nofralloc

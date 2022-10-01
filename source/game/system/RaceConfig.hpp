@@ -128,7 +128,6 @@ public:
 class RaceConfig : public RaceConfigEx, public ParameterFile {
 public:
   class Player {
-  friend class Scenario;
   public:
     Player();
     virtual ~Player();
