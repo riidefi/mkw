@@ -10,8 +10,6 @@ struct CharacterVehicleChoice {
   s8 vehicleId;
 };
 
-inline u32 min16(u32 a, u32 b) { return a <= b ? a : b; }
-
 struct RawCompetitionFile {
   char rkctMagic[4];
   s32 dataLength;
@@ -40,7 +38,7 @@ struct RawCompetitionFile {
   u16 field24_0x46;
   u16 field25_0x48;
   u16 field26_0x4a;
-  inline u16 getSize() { return min16(11, cpuCount); }
+  inline u16 getSize() { return min32(11, cpuCount); }
 };
 
 struct CompetitionWrapper {
