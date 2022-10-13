@@ -113,7 +113,7 @@ jobs:
       - uses: mattnotmitt/doxygen-action@v1
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           branch: gh-pages
           folder: out/website
