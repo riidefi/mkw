@@ -20,16 +20,19 @@ CW_ARGS = [
     "-func_align 4",
     "-stderr",
     "-E",
+    "-ppopt space",
 ]
 CWCC_OPT = " ".join(CW_ARGS)
 
 
-def get_ctx(match: str, out: Path):
+def get_ctx(match: str, out: Path, verbose=True):
     source = next(x for x in chain(SOURCES_DOL, SOURCES_REL) if match in x.src)
     source_header = Path(source.src).with_suffix(".hpp")
-    print(f"Generating context for {source_header} at {out}")
+    if verbose:
+        print(f"Generating context for {source_header} at {out}")
     command = f"{CWCC_PATHS[source.cc]} {CWCC_OPT} {source_header} -o {out}"
     lines, retcode = run_windows_cmd(command)
+    return source
 
 
 if __name__ == "__main__":
