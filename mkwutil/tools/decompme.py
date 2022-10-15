@@ -13,6 +13,7 @@ import requests
 from mkwutil.tools.create_ctx import get_ctx
 from mkwutil.project import read_symbol_map
 from mkwutil.ppcdis_adapter.ppcdis_disas import get_dol_disaser, get_rel_disaser
+from configure import CWCC_OPT
 from ast import literal_eval
 
 # Get arguments
@@ -54,7 +55,7 @@ asm, _ = disaser.function_to_text_with_referenced(fn_start_vma, inline=False, ex
 # Get context
 tmpfile = Path("ctx.hpp")
 source = get_ctx(args.match, tmpfile, verbose=False)
-flags = source.opts
+flags = CWCC_OPT + ' ' + source.opts
 with open(tmpfile, 'r') as file:
     ctx = file.read()
 os.unlink(tmpfile)
