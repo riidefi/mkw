@@ -173,7 +173,7 @@ CW_ARGS = [
     "-inline auto",
     "-w notinlined -W noimplicitconv -w nounwanted",
     "-nostdinc",
-    "-msgstyle gcc -lang=c99 -DREVOKART",
+    "-msgstyle gcc -DREVOKART",
     "-func_align 4",
     #"-sym dwarf-2",
 ]
