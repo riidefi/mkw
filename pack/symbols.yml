@@ -10089,7 +10089,7 @@ global:
     0x805300f4: '__dt__Q36System10RaceConfig8ScenarioFv'
     0x8053015c: '__ct__Q26System10RaceConfigFv'
     0x805302c4: 'initRace__Q26System10RaceConfigFv'
-    0x805305ac: 'RacedataScenario_copy'
+    0x805305ac: 'copy__Q36System10RaceConfig8ScenarioFRCQ36System10RaceConfig8Scenario'
     0x80530864: 'Racedata_initAwards'
     0x80530f0c: 'isTeamMode__Q36System10RaceConfig8ScenarioFv'
     0x80530f18: 'getUnkPos__Q36System10RaceConfig6PlayerFv'
