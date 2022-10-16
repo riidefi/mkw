@@ -1,3 +1,45 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
-setup(name="mkwutil", packages=find_packages())
+setup(
+    name='mkwutil',
+    version='0.0.1',
+    install_requires=[
+        'ansiwrap',
+        'atomicwrites',
+        'attrs',
+        'capstone',
+        'chardet',
+        'colorama',
+        'cxxfilt',
+        'DataProperty',
+        'dominate',
+        'flameprof',
+        'iniconfig',
+        'Jinja2',
+        'MarkupSafe',
+        'mbstrdecoder',
+        'ninja-syntax',
+        'packaging',
+        'pathvalidate',
+        'pluggy',
+        'ppcdis @ git+https://github.com/SeekyCt/ppcdis.git@1c3a68ab6b1a4566ca3263633cc596e33486c9dd',
+        'pre-commit',
+        'py',
+        'pyelftools',
+        'pyparsing',
+        'pytablewriter',
+        'pytest',
+        'python-dateutil',
+        'python-Levenshtein',
+        'pytz',
+        'six',
+        'tabledata',
+        'tcolorpy',
+        'termcolor',
+        'textwrap3',
+        'toml',
+        'typepy',
+        'watchdog',
+    ],
+)
+
