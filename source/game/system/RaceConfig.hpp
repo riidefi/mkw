@@ -215,7 +215,6 @@ public:
     virtual ~Scenario();
 
     Scenario& copy(const Scenario& other);
-    // Scenario& operator=(const Scenario& other);
 
     void appendParamFile(RaceConfig* raceConfig);
     void clear();

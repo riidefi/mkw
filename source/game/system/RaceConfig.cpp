@@ -93,7 +93,8 @@ extern UNKNOWN_FUNCTION(computeWinningTeam__Q36System10RaceConfig8ScenarioFv);
 extern UNKNOWN_FUNCTION(
     setCharacter__Q36System10RaceConfig6PlayerFQ26System11CharacterId);
 // PAL: 0x805305ac
-extern UNKNOWN_FUNCTION(RacedataScenario_copy);
+extern UNKNOWN_FUNCTION(
+    copy__Q36System10RaceConfig8ScenarioFRCQ36System10RaceConfig8Scenario);
 // PAL: 0x809bd740
 extern UNKNOWN_DATA(spInstance__Q26System9InitScene);
 // PAL: 0x80890030
@@ -2014,222 +2015,34 @@ void RaceConfig::initRace() {
   mRaceScenario = mMenuScenario;
 }
 
-} // namespace System
-
-#ifdef EQUIVALENT
-// regswap r5, r6
-#pragma push
-#pragma legacy_struct_alignment on
-namespace System {
-RaceConfig::Scenario& RaceConfig::Scenario::copy(const Scenario& other) {
-  *this = other;
-  return *this;
-}
-/*
-RaceConfigScenario& RaceConfigScenario::operator=(const RaceConfigScenario&
-other) { this->mPlayerCount = other.mPlayerCount; this->mHudCount =
-other.mHudCount; this->mLocalPlayerCount = other.mLocalPlayerCount;
+RaceConfig::Scenario&
+RaceConfig::Scenario::copy(const RaceConfig::Scenario& other) {
+  this->mPlayerCount = other.mPlayerCount;
+  this->mHudCount = other.mHudCount;
+  this->mLocalPlayerCount = other.mLocalPlayerCount;
   this->mHudCount2 = other.mHudCount2;
-  for (int i = 0; i < MAX_PLAYER_COUNT; i++) {
-    mPlayers[i] = other.mPlayers[i];
-  }
+
+  RaceConfig::Player* thisPlayer = mPlayers;
+  const RaceConfig::Player* otherPlayer = other.mPlayers;
+  RaceConfig::Player* end = mPlayers + MAX_PLAYER_COUNT;
+  do {
+    *thisPlayer = *otherPlayer;
+    thisPlayer++;
+    otherPlayer++;
+  } while (thisPlayer < end);
+
   mSettings = other.mSettings;
-  for (int i = 0; i < sizeof(_b7c)/sizeof(unk32); i++) {
-    _b7c[i] = other._b7c[i];
-  }
+#ifdef __CWCC__
+  __memcpy(&mCompetitionSettings, &other.mCompetitionSettings,
+           sizeof(CompetitionSettings));
+#else
+  memcpy(&mCompetitionSettings, &other.mCompetitionSettings,
+         sizeof(CompetitionSettings));
+#endif
   mGhost = other.mGhost;
   return *this;
 }
-*/
 } // namespace System
-#pragma pop
-#else
-// Symbol: RacedataScenario_copy
-// PAL: 0x805305ac..0x80530864
-MARK_BINARY_BLOB(RacedataScenario_copy, 0x805305ac, 0x80530864);
-asm UNKNOWN_FUNCTION(RacedataScenario_copy) {
-  // clang-format off
-  nofralloc
-  /* 805305AC 88040004 */ lbz         r0, 4(r4)
-  /* 805305B0 38A30008 */ addi        r5, r3, 0x8
-  /* 805305B4 98030004 */ stb         r0, 4(r3)
-  /* 805305B8 38C40008 */ addi        r6, r4, 0x8
-  /* 805305BC 38E30B48 */ addi        r7, r3, 0xb48
-  /* 805305C0 38000026 */ li          r0, 0x26
-  /* 805305C4 89040005 */ lbz         r8, 5(r4)
-  /* 805305C8 99030005 */ stb         r8, 5(r3)
-  /* 805305CC 89040006 */ lbz         r8, 6(r4)
-  /* 805305D0 99030006 */ stb         r8, 6(r3)
-  /* 805305D4 89040007 */ lbz         r8, 7(r4)
-  /* 805305D8 99030007 */ stb         r8, 7(r3)
-  lbl_805305dc:
-  /* 805305DC 89060004 */ lbz         r8, 4(r6)
-  /* 805305E0 39650023 */ addi        r11, r5, 0x23
-  /* 805305E4 99050004 */ stb         r8, 4(r5)
-  /* 805305E8 39460023 */ addi        r10, r6, 0x23
-  /* 805305EC 89060005 */ lbz         r8, 5(r6)
-  /* 805305F0 99050005 */ stb         r8, 5(r5)
-  /* 805305F4 89060006 */ lbz         r8, 6(r6)
-  /* 805305F8 99050006 */ stb         r8, 6(r5)
-  /* 805305FC 81060008 */ lwz         r8, 8(r6)
-  /* 80530600 91050008 */ stw         r8, 8(r5)
-  /* 80530604 8106000C */ lwz         r8, 0xc(r6)
-  /* 80530608 9105000C */ stw         r8, 0xc(r5)
-  /* 8053060C 81060010 */ lwz         r8, 0x10(r6)
-  /* 80530610 91050010 */ stw         r8, 0x10(r5)
-  /* 80530614 81060018 */ lwz         r8, 0x18(r6)
-  /* 80530618 91050018 */ stw         r8, 0x18(r5)
-  /* 8053061C 8906001C */ lbz         r8, 0x1c(r6)
-  /* 80530620 9905001C */ stb         r8, 0x1c(r5)
-  /* 80530624 8906001D */ lbz         r8, 0x1d(r6)
-  /* 80530628 9905001D */ stb         r8, 0x1d(r5)
-  /* 8053062C 81060020 */ lwz         r8, 0x20(r6)
-  /* 80530630 91050020 */ stw         r8, 0x20(r5)
-  /* 80530634 7C0903A6 */ mtctr       r0
-  lbl_80530638:
-  /* 80530638 892A0001 */ lbz         r9, 1(r10)
-  /* 8053063C 8D0A0002 */ lbzu        r8, 2(r10)
-  /* 80530640 992B0001 */ stb         r9, 1(r11)
-  /* 80530644 9D0B0002 */ stbu        r8, 2(r11)
-  /* 80530648 4200FFF0 */ bdnz        lbl_80530638
-  /* 8053064C 81060070 */ lwz         r8, 0x70(r6)
-  /* 80530650 91050070 */ stw         r8, 0x70(r5)
-  /* 80530654 89060074 */ lbz         r8, 0x74(r6)
-  /* 80530658 99050074 */ stb         r8, 0x74(r5)
-  /* 8053065C 89060075 */ lbz         r8, 0x75(r6)
-  /* 80530660 99050075 */ stb         r8, 0x75(r5)
-  /* 80530664 89060076 */ lbz         r8, 0x76(r6)
-  /* 80530668 99050076 */ stb         r8, 0x76(r5)
-  /* 8053066C 89060077 */ lbz         r8, 0x77(r6)
-  /* 80530670 99050077 */ stb         r8, 0x77(r5)
-  /* 80530674 81060078 */ lwz         r8, 0x78(r6)
-  /* 80530678 91050078 */ stw         r8, 0x78(r5)
-  /* 8053067C 81060080 */ lwz         r8, 0x80(r6)
-  /* 80530680 8126007C */ lwz         r9, 0x7c(r6)
-  /* 80530684 9125007C */ stw         r9, 0x7c(r5)
-  /* 80530688 91050080 */ stw         r8, 0x80(r5)
-  /* 8053068C 81060088 */ lwz         r8, 0x88(r6)
-  /* 80530690 81260084 */ lwz         r9, 0x84(r6)
-  /* 80530694 91250084 */ stw         r9, 0x84(r5)
-  /* 80530698 91050088 */ stw         r8, 0x88(r5)
-  /* 8053069C 81060090 */ lwz         r8, 0x90(r6)
-  /* 805306A0 8126008C */ lwz         r9, 0x8c(r6)
-  /* 805306A4 9125008C */ stw         r9, 0x8c(r5)
-  /* 805306A8 91050090 */ stw         r8, 0x90(r5)
-  /* 805306AC 81060098 */ lwz         r8, 0x98(r6)
-  /* 805306B0 81260094 */ lwz         r9, 0x94(r6)
-  /* 805306B4 91250094 */ stw         r9, 0x94(r5)
-  /* 805306B8 91050098 */ stw         r8, 0x98(r5)
-  /* 805306BC 810600A0 */ lwz         r8, 0xa0(r6)
-  /* 805306C0 8126009C */ lwz         r9, 0x9c(r6)
-  /* 805306C4 9125009C */ stw         r9, 0x9c(r5)
-  /* 805306C8 910500A0 */ stw         r8, 0xa0(r5)
-  /* 805306CC 810600A8 */ lwz         r8, 0xa8(r6)
-  /* 805306D0 812600A4 */ lwz         r9, 0xa4(r6)
-  /* 805306D4 912500A4 */ stw         r9, 0xa4(r5)
-  /* 805306D8 910500A8 */ stw         r8, 0xa8(r5)
-  /* 805306DC 810600B0 */ lwz         r8, 0xb0(r6)
-  /* 805306E0 812600AC */ lwz         r9, 0xac(r6)
-  /* 805306E4 912500AC */ stw         r9, 0xac(r5)
-  /* 805306E8 910500B0 */ stw         r8, 0xb0(r5)
-  /* 805306EC 810600B4 */ lwz         r8, 0xb4(r6)
-  /* 805306F0 910500B4 */ stw         r8, 0xb4(r5)
-  /* 805306F4 890600B8 */ lbz         r8, 0xb8(r6)
-  /* 805306F8 990500B8 */ stb         r8, 0xb8(r5)
-  /* 805306FC 890600B9 */ lbz         r8, 0xb9(r6)
-  /* 80530700 990500B9 */ stb         r8, 0xb9(r5)
-  /* 80530704 890600BA */ lbz         r8, 0xba(r6)
-  /* 80530708 990500BA */ stb         r8, 0xba(r5)
-  /* 8053070C 810600BC */ lwz         r8, 0xbc(r6)
-  /* 80530710 910500BC */ stw         r8, 0xbc(r5)
-  /* 80530714 890600C0 */ lbz         r8, 0xc0(r6)
-  /* 80530718 990500C0 */ stb         r8, 0xc0(r5)
-  /* 8053071C 890600C1 */ lbz         r8, 0xc1(r6)
-  /* 80530720 990500C1 */ stb         r8, 0xc1(r5)
-  /* 80530724 890600C2 */ lbz         r8, 0xc2(r6)
-  /* 80530728 990500C2 */ stb         r8, 0xc2(r5)
-  /* 8053072C 810600C4 */ lwz         r8, 0xc4(r6)
-  /* 80530730 910500C4 */ stw         r8, 0xc4(r5)
-  /* 80530734 810600C8 */ lwz         r8, 0xc8(r6)
-  /* 80530738 910500C8 */ stw         r8, 0xc8(r5)
-  /* 8053073C 810600CC */ lwz         r8, 0xcc(r6)
-  /* 80530740 910500CC */ stw         r8, 0xcc(r5)
-  /* 80530744 810600D0 */ lwz         r8, 0xd0(r6)
-  /* 80530748 910500D0 */ stw         r8, 0xd0(r5)
-  /* 8053074C 810600D4 */ lwz         r8, 0xd4(r6)
-  /* 80530750 910500D4 */ stw         r8, 0xd4(r5)
-  /* 80530754 A10600D8 */ lhz         r8, 0xd8(r6)
-  /* 80530758 B10500D8 */ sth         r8, 0xd8(r5)
-  /* 8053075C A10600DA */ lhz         r8, 0xda(r6)
-  /* 80530760 B10500DA */ sth         r8, 0xda(r5)
-  /* 80530764 A10600DC */ lhz         r8, 0xdc(r6)
-  /* 80530768 B10500DC */ sth         r8, 0xdc(r5)
-  /* 8053076C A90600DE */ lha         r8, 0xde(r6)
-  /* 80530770 B10500DE */ sth         r8, 0xde(r5)
-  /* 80530774 890600E0 */ lbz         r8, 0xe0(r6)
-  /* 80530778 990500E0 */ stb         r8, 0xe0(r5)
-  /* 8053077C 890600E1 */ lbz         r8, 0xe1(r6)
-  /* 80530780 990500E1 */ stb         r8, 0xe1(r5)
-  /* 80530784 890600E2 */ lbz         r8, 0xe2(r6)
-  /* 80530788 990500E2 */ stb         r8, 0xe2(r5)
-  /* 8053078C A10600E8 */ lhz         r8, 0xe8(r6)
-  /* 80530790 B10500E8 */ sth         r8, 0xe8(r5)
-  /* 80530794 890600EC */ lbz         r8, 0xec(r6)
-  /* 80530798 38C600F0 */ addi        r6, r6, 0xf0
-  /* 8053079C 990500EC */ stb         r8, 0xec(r5)
-  /* 805307A0 38A500F0 */ addi        r5, r5, 0xf0
-  /* 805307A4 7C053840 */ cmplw       r5, r7
-  /* 805307A8 4180FE34 */ blt+        lbl_805305dc
-  /* 805307AC 80A40B48 */ lwz         r5, 0xb48(r4)
-  /* 805307B0 3800000E */ li          r0, 0xe
-  /* 805307B4 90A30B48 */ stw         r5, 0xb48(r3)
-  /* 805307B8 38E30B78 */ addi        r7, r3, 0xb78
-  /* 805307BC 38C40B78 */ addi        r6, r4, 0xb78
-  /* 805307C0 80A40B4C */ lwz         r5, 0xb4c(r4)
-  /* 805307C4 90A30B4C */ stw         r5, 0xb4c(r3)
-  /* 805307C8 80A40B50 */ lwz         r5, 0xb50(r4)
-  /* 805307CC 90A30B50 */ stw         r5, 0xb50(r3)
-  /* 805307D0 80A40B54 */ lwz         r5, 0xb54(r4)
-  /* 805307D4 90A30B54 */ stw         r5, 0xb54(r3)
-  /* 805307D8 80A40B58 */ lwz         r5, 0xb58(r4)
-  /* 805307DC 90A30B58 */ stw         r5, 0xb58(r3)
-  /* 805307E0 80A40B5C */ lwz         r5, 0xb5c(r4)
-  /* 805307E4 90A30B5C */ stw         r5, 0xb5c(r3)
-  /* 805307E8 80A40B60 */ lwz         r5, 0xb60(r4)
-  /* 805307EC 90A30B60 */ stw         r5, 0xb60(r3)
-  /* 805307F0 88A40B64 */ lbz         r5, 0xb64(r4)
-  /* 805307F4 98A30B64 */ stb         r5, 0xb64(r3)
-  /* 805307F8 88A40B65 */ lbz         r5, 0xb65(r4)
-  /* 805307FC 98A30B65 */ stb         r5, 0xb65(r3)
-  /* 80530800 88A40B66 */ lbz         r5, 0xb66(r4)
-  /* 80530804 98A30B66 */ stb         r5, 0xb66(r3)
-  /* 80530808 88A40B67 */ lbz         r5, 0xb67(r4)
-  /* 8053080C 98A30B67 */ stb         r5, 0xb67(r3)
-  /* 80530810 80A40B68 */ lwz         r5, 0xb68(r4)
-  /* 80530814 90A30B68 */ stw         r5, 0xb68(r3)
-  /* 80530818 88A40B6C */ lbz         r5, 0xb6c(r4)
-  /* 8053081C 98A30B6C */ stb         r5, 0xb6c(r3)
-  /* 80530820 88A40B6D */ lbz         r5, 0xb6d(r4)
-  /* 80530824 98A30B6D */ stb         r5, 0xb6d(r3)
-  /* 80530828 80A40B70 */ lwz         r5, 0xb70(r4)
-  /* 8053082C 90A30B70 */ stw         r5, 0xb70(r3)
-  /* 80530830 80A40B74 */ lwz         r5, 0xb74(r4)
-  /* 80530834 90A30B74 */ stw         r5, 0xb74(r3)
-  /* 80530838 80A40B78 */ lwz         r5, 0xb78(r4)
-  /* 8053083C 90A30B78 */ stw         r5, 0xb78(r3)
-  /* 80530840 7C0903A6 */ mtctr       r0
-  lbl_80530844:
-  /* 80530844 80A60004 */ lwz         r5, 4(r6)
-  /* 80530848 84060008 */ lwzu        r0, 8(r6)
-  /* 8053084C 90A70004 */ stw         r5, 4(r7)
-  /* 80530850 94070008 */ stwu        r0, 8(r7)
-  /* 80530854 4200FFF0 */ bdnz        lbl_80530844
-  /* 80530858 80040BEC */ lwz         r0, 0xbec(r4)
-  /* 8053085C 90030BEC */ stw         r0, 0xbec(r3)
-  /* 80530860 4E800020 */ blr
-  // clang-format on
-}
-#endif
 
 // Requires some inline-related pragma to be implemented correctly
 // Scratch link: https://decomp.me/scratch/4L7ac
@@ -2238,7 +2051,7 @@ namespace System {
 
 void RaceConfig::initAwards() {
   initRace();
-  mAwardsScenario.copy(&mRaceScenario);
+  mAwardsScenario = mRaceScenario;
 
   for (u8 i = 0; i < 12; i++) {
     mMenuScenario.getPlayer(i)->setPlayerType(PLAYER_TYPE_NONE);
@@ -2368,7 +2181,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530878 4BFFFA4D */ bl          initRace__Q26System10RaceConfigFv
   /* 8053087C 387F1800 */ addi        r3, r31, 0x1800
   /* 80530880 389F0020 */ addi        r4, r31, 0x20
-  /* 80530884 4BFFFD29 */ bl          RacedataScenario_copy
+  /* 80530884 4BFFFD29 */ bl          copy__Q36System10RaceConfig8ScenarioFRCQ36System10RaceConfig8Scenario
   /* 80530888 3BC00000 */ li          r30, 0x0
   lbl_8053088c:
   /* 8053088C 387F0C10 */ addi        r3, r31, 0xc10
