@@ -49,7 +49,7 @@ else:
 # Disassemble function
 fn_start_vma = addr
 fn_end_vma = fn_start_vma + sym.size
-asm, _ = disaser.function_to_text_with_referenced(fn_start_vma, inline=False, extra=True,
+asm = disaser.function_to_text(fn_start_vma, inline=False, extra=True,
             hashable=False, declare_mangled=False)
 
 # Get context
