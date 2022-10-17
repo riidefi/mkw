@@ -273,6 +273,7 @@ public:
   ~RaceConfig() override;
 
   void clear();
+  void init();
   void initRace();
   bool isLiveView(u8 hudPlayerIdx);
   bool isTimeAttackReplay();

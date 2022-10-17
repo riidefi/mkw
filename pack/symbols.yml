@@ -10055,7 +10055,7 @@ global:
     0x8052dd18: 'getTeam__Q36System10RaceConfig6PlayerFv'
     0x8052dd20: 'getPlayer__Q36System10RaceConfig8ScenarioCFUc'
     0x8052dd30: 'getRacePlayerCount__Q26System10RaceConfigFv'
-    0x8052dd40: 'Racedata_init'
+    0x8052dd40: 'init__Q26System10RaceConfigFv'
     0x8052e42c: 'setCharacter__Q36System10RaceConfig6PlayerFQ26System11CharacterId'
     0x8052e434: 'getPlayer__Q36System10RaceConfig8ScenarioFUc'
     0x8052e444: 'setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId'
