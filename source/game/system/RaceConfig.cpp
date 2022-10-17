@@ -181,7 +181,7 @@ extern "C" void getCompetitionWrapper(void*, CompetitionWrapper*);
 
 RaceConfig::Player::Player()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
-      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(0), mMii(7),
+      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(TYPE_REAL_LOCAL), mMii(7),
       mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
 
 void RaceConfig::Player::appendParamFile(RaceConfig* raceConfig) {
@@ -222,9 +222,9 @@ s32 RaceConfig::Player::computeGpRank() const {
 RaceConfig::Scenario::Scenario(RawGhostFile* ghost)
     : mPlayerCount(0), mHudCount(0), mPlayers() {
   mSettings.mCourseId = GCN_MARIO_CIRCUIT;
-  mSettings.mGameMode = 0;
-  mSettings.mGameType = 0;
-  mSettings.mCupId = 0;
+  mSettings.mGameMode = Settings::GAMEMODE_GRAND_PRIX;
+  mSettings.mGameType = Settings::GAMETYPE_TIME_ATTACK;
+  mSettings.mCupId = MUSHROOM_CUP;
 
   // seems dubious
   memset(&this->mCompetitionSettings, 0, sizeof(CompetitionSettings));
@@ -728,7 +728,7 @@ RaceConfig::Player& RaceConfig::Scenario::getPlayer(u8 idx) {
 
 void RaceConfig::Player::setVehicle(VehicleId vehicle) { mVehicleId = vehicle; }
 
-void RaceConfig::Player::setPlayerType(s32 playerType) {
+void RaceConfig::Player::setPlayerType(Type playerType) {
   mPlayerType = playerType;
 }
 
@@ -753,7 +753,7 @@ void RaceConfig::Scenario::clear() {
   mSettings.mCpuMode = 1;
   mSettings.mLapCount = 3;
   mSettings.mEngineClass = 1;
-  mSettings.mModeFlags = mSettings.mModeFlags & 0xFFFFFFF8;
+  mSettings.mModeFlags = (Settings::ModeFlags)(mSettings.mModeFlags & 0xFFFFFFF8);
 
   for (u8 i = 0; i < 12; i++) {
     getPlayer(i).reset(i + 1);
@@ -1086,7 +1086,7 @@ namespace System {
 
 s32 RaceConfig::Scenario::getGametype() { return mSettings.mGameType; }
 
-s32 RaceConfig::Player::getPlayerType() { return mPlayerType; }
+RaceConfig::Player::Type RaceConfig::Player::getPlayerType() { return mPlayerType; }
 
 } // namespace System
 
@@ -1782,16 +1782,16 @@ void RaceConfig::Scenario::computePlayerCounts(u8& playerCount, u8& hudCount,
   u8 localPlayerCount_ = 0;
 
   for (u8 i = 0; i < 12; i++) {
-    const s32 playerType = mPlayers[i].getPlayerType();
+    const Player::Type playerType = mPlayers[i].getPlayerType();
 
     // Check if player exists
-    if (playerType == 5) {
+    if (playerType == Player::TYPE_NONE) {
       continue;
     }
     playerCount_++;
 
     // Check if player is local
-    if (playerType != 0) {
+    if (playerType != Player::TYPE_REAL_LOCAL) {
       continue;
     }
 
@@ -3544,8 +3544,8 @@ bool RaceConfig::isLiveView(u8 hudPlayerIdx) {
 
   s32 playerId = mRaceScenario.mSettings.mHudPlayerIds[hudPlayerIdx];
   if (playerId >= 0) {
-    s32 playerType = mRaceScenario.mPlayers[(u8)playerId].mPlayerType;
-    if (playerType != 0 && playerType != 3) {
+    Player::Type playerType = mRaceScenario.mPlayers[(u8)playerId].mPlayerType;
+    if (playerType != Player::TYPE_REAL_LOCAL && playerType != Player::TYPE_GHOST) {
       return true;
     }
   }
@@ -3558,7 +3558,7 @@ bool RaceConfig::isTimeAttackReplay() {
 
   return ((gameMode == 2 || gameMode == 5) &&
           spInstance->mRaceScenario.mPlayerCount != 0 &&
-          spInstance->mRaceScenario.mPlayers[0].mPlayerType == 3)
+          spInstance->mRaceScenario.mPlayers[0].mPlayerType == Player::TYPE_GHOST)
              ? true
              : false;
 }

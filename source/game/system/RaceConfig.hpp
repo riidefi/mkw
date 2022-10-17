@@ -120,6 +120,17 @@ UNKNOWN_FUNCTION(Racedata_isTimeAttackReplay);
 
 namespace System {
 
+enum CupId {
+  MUSHROOM_CUP,
+  FLOWER_CUP,
+  STAR_CUP,
+  SPECIAL_CUP,
+  SHELL_CUP,
+  BANANA_CUP,
+  LEAF_CUP,
+  LIGHTNING_CUP,
+};
+
 class RaceConfigEx {
 public:
   inline RaceConfigEx() {}
@@ -129,6 +140,15 @@ class RaceConfig : public RaceConfigEx, public ParameterFile {
 public:
   class Player {
   public:
+    enum Type {
+      TYPE_REAL_LOCAL,
+      TYPE_CPU,
+      TYPE_UNUSED,
+      TYPE_GHOST,
+      TYPE_REAL_ONLINE,
+      TYPE_NONE,
+    };
+
     Player();
     virtual ~Player();
 
@@ -138,14 +158,14 @@ public:
 
     CharacterId getCharacter();
     Mii& getMii();
-    s32 getPlayerType();
+    Type getPlayerType();
     BattleTeam getTeam();
     u8 getUnkPos();
     VehicleId getVehicle();
 
     void setCharacter(CharacterId character);
     void setMii(const Mii& mii);
-    void setPlayerType(s32 playerType);
+    void setPlayerType(Type playerType);
     void setPrevFinishPos(s8 pos);
     void setUnkPos(s8 pos);
     void setVehicle(VehicleId vehicle);
@@ -155,7 +175,7 @@ public:
     s8 mPlayerInputIdx;
     VehicleId mVehicleId;
     CharacterId mCharacterId;
-    s32 mPlayerType; // TODO: create enum
+    Type mPlayerType;
     Mii mMii;
     BattleTeam mTeam;
     u32 mControllerId;
@@ -172,6 +192,46 @@ public:
   };
 
   struct Settings {
+    enum GameMode {
+      GAMEMODE_GRAND_PRIX,
+      GAMEMODE_VS_RACE,
+      GAMEMODE_TIME_TRIAL,
+      GAMEMODE_BATTLE,
+      GAMEMODE_MISSION_TOURNAMENT,
+      GAMEMODE_GHOST_RACE,
+      GAMEMODE_UNKNOWN,
+      GAMEMODE_PRIVATE_VS,
+      GAMEMODE_PUBLIC_VS,
+      GAMEMODE_PUBLIC_BATTLE,
+      GAMEMODE_PRIVATE_BATTLE,
+      GAMEMODE_AWARDS,
+      GAMEMODE_CREDITS,
+    };
+
+    // In reality it's camera type
+    // More refactoring to be done
+    enum GameType {
+      GAMETYPE_TIME_ATTACK,
+      GAMETYPE_REPLAY,
+      GAMETYPE_UNK_2,
+      GAMETYPE_UNK_3,
+      GAMETYPE_UNK_4,
+      GAMETYPE_GAMEPLAY,
+      GAMETYPE_LIVE_VIEW,
+      GAMETYPE_GRAND_PRIX_WIN,
+      GAMETYPE_SOLO_VS_WIN,
+      GAMETYPE_TEAM_VS_WIN,
+      GAMETYPE_BATTLE_WIN,
+      GAMETYPE_UNK_11,
+      GAMETYPE_LOSS,
+    };
+
+    enum ModeFlags {
+      MODE_FLAG_MIRROR = 1,
+      MODE_FLAG_TEAMS = 2,
+      MODE_FLAG_COMPETITION = 4,
+    };
+
     inline Settings& operator=(const Settings& other) {
       mCourseId = other.mCourseId;
       mEngineClass = other.mEngineClass;
@@ -195,16 +255,16 @@ public:
 
     CourseId mCourseId;
     u32 mEngineClass; // probably an enum
-    s32 mGameMode;    // TODO: create enum
-    s32 mGameType;    // TODO: create enum
+    GameMode mGameMode;
+    GameType mGameType;
     u32 mBattleType;
     u32 mCpuMode;
     u32 mItemMode;
     s8 mHudPlayerIds[4];
-    s32 mCupId; // TODO: create enum
+    CupId mCupId;
     u8 mRaceNumber;
     u8 mLapCount;
-    s32 mModeFlags; // TODO: create enum
+    ModeFlags mModeFlags;
     u32 mSeed1;
     u32 mSeed2;
   };
