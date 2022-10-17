@@ -5,7 +5,7 @@ enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataSta
 1,source/game/system/Mii.cpp,0x80525f88,0x80525ff4,,,,,0x8088fd60,0x8088fd64,,,,
 1,source/game/system/LocalizedArchive.cpp,0x8052a098,0x8052a538,,,,,0x8088fdc0,0x8088fe00,0x808b3188,0x808b31d8,,
 1,source/game/system/MultiDvdArchive.cpp,0x8052a538,0x8052ae5c,,,,,0x8088fe00,0x8088fe28,0x808b31d8,0x808b31e8,,
-1,source/game/system/NandUtil.cpp,0x8052AE5C,0x8052BD5C,,,,,,,,,,
+1,source/game/system/NandUtil.cpp,0x8052AE5C,0x8052BD5C,,,,,,,0x808B31E8,0x808B3228,,
 1,source/game/system/RaceConfig.cpp,0x8052d96c,0x80532084,,,,,0x8088ffa8,0x80890148,0x808b3260,0x808b32ac,0x809bd728,0x809bd72c
 1,source/game/system/ResourceManager.cpp,0x8053FC4C,0x80542878,,,,,0x80890490,0x80890d0c,0x808b3960,0x808b3c2c,809bd738,809bd73c
 1,source/game/util/Random.cpp,0x80555464,0x8055572c,,,,,0x80891370,0x80891380,0x808b42e0,0x808b42ec,,

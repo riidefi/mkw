@@ -1,381 +1,153 @@
 #include "NandUtil.hpp"
 
-#include <rvl/nand/nand.h>
-#include <rvl/os/os.h>
-#include <rvl/os/osThread.h>
+int NandUtil_safeOpen(const char* a1, NANDFileInfo* a2, u8 a3, void* a4,
+                      u32 a5) {
+  int v5;  // r28
+  int v8;  // r25
+  int v11; // r30
+  int v12; // r29
 
-// --- EXTERN DECLARATIONS BEGIN ---
-
-extern "C" {
-
-// PAL: 0x8052aedc
-extern UNKNOWN_FUNCTION(jump_8052aedc);
-// PAL: 0x8052aee4
-extern UNKNOWN_FUNCTION(jump_8052aee4);
-// PAL: 0x8052aef4
-// PAL: 0x8052aefc
-extern UNKNOWN_FUNCTION(jump_8052aefc);
-// PAL: 0x8052af04
-extern UNKNOWN_FUNCTION(jump_8052af04);
-// PAL: 0x8052af0c
-extern UNKNOWN_FUNCTION(jump_8052af0c);
-// PAL: 0x8052af14
-extern UNKNOWN_FUNCTION(jump_8052af14);
-// PAL: 0x8052bc3c
-extern UNKNOWN_FUNCTION(NandUtil_getStatus);
-// Extern data references.
-// PAL: 0x808b31e8
-extern UNKNOWN_DATA(jtbl_808b31e8);
+  v5 = 0;
+  v8 = a3;
+  v11 = 1;
+  v12 = 8;
+  for (int v5 = 0; v5 < 3; ++v5) {
+    switch (NANDSafeOpen(a1, a2, v8, a4, a5)) {
+    case 0:
+      v12 = 0;
+      break;
+    case -3:
+    case -2:
+      if (v5 >= 3)
+        v12 = 2; // not reached
+      else
+        v11 = 0;
+      break;
+    case -4:
+      v12 = 6;
+      break;
+    case -15:
+    case -5:
+    case -1:
+      v12 = 3;
+      break;
+    case -12:
+      v12 = 4;
+      break;
+    default:
+      v12 = 8;
+      break;
+    }
+    if (v11)
+      break;
+    OSSleepTicks(OSMillisecondsToTicks(100ll));
+  }
+  return v12;
 }
+int NandUtil_open(const char* a1, NANDFileInfo* a2, u8 a3) {
+  int v7; // r27
+  int v8; // r26
 
-// --- EXTERN DECLARATIONS END ---
-
-// Symbol: NandUtil_safeOpen
-// PAL: 0x8052ae5c..0x8052af64
-MARK_BINARY_BLOB(NandUtil_safeOpen, 0x8052ae5c, 0x8052af64);
-asm UNKNOWN_FUNCTION(NandUtil_safeOpen) {
-  // clang-format off
-  //ppcdis: .section .text
-
-  nofralloc
-  /* 8052AE5C 9421FFC0 */ stwu        r1, -0x40(r1)
-  /* 8052AE60 7C0802A6 */ mflr        r0
-  /* 8052AE64 3D001062 */ lis         r8, 0x1062
-  /* 8052AE68 90010044 */ stw         r0, 0x44(r1)
-  /* 8052AE6C BE61000C */ stmw        r19, 0xc(r1)
-  /* 8052AE70 3B800000 */ li          r28, 0x0
-  /* 8052AE74 3AA00064 */ li          r21, 0x64
-  /* 8052AE78 7C771B78 */ mr          r23, r3
-  /* 8052AE7C 7EDCA9D6 */ mullw       r22, r28, r21
-  /* 8052AE80 7C982378 */ mr          r24, r4
-  /* 8052AE84 7CB92B78 */ mr          r25, r5
-  /* 8052AE88 7CDA3378 */ mr          r26, r6
-  /* 8052AE8C 7CFB3B78 */ mr          r27, r7
-  /* 8052AE90 3A684DD3 */ addi        r19, r8, 0x4dd3
-  /* 8052AE94 3BC00001 */ li          r30, 0x1
-  /* 8052AE98 3BA00008 */ li          r29, 0x8
-  /* 8052AE9C 3FE0808B */ lis         r31, jtbl_808b31e8@ha
-  /* 8052AEA0 3E808000 */ lis         r20, 0x8000
-  lbl_8052aea4:
-  /* 8052AEA4 7EE3BB78 */ mr          r3, r23
-  /* 8052AEA8 7F04C378 */ mr          r4, r24
-  /* 8052AEAC 7F25CB78 */ mr          r5, r25
-  /* 8052AEB0 7F46D378 */ mr          r6, r26
-  /* 8052AEB4 7F67DB78 */ mr          r7, r27
-  /* 8052AEB8 4BC71CBD */ bl          NANDSafeOpen
-  /* 8052AEBC 3803000F */ addi        r0, r3, 0xf
-  /* 8052AEC0 2800000F */ cmplwi      r0, 0xf
-  /* 8052AEC4 41810050 */ bgt-        lbl_8052af14
-  /* 8052AEC8 387F31E8 */ addi        r3, r31, jtbl_808b31e8@l
-  /* 8052AECC 5400103A */ slwi        r0, r0, 2
-  /* 8052AED0 7C63002E */ lwzx        r3, r3, r0
-  /* 8052AED4 7C6903A6 */ mtctr       r3
-  /* 8052AED8 4E800420 */ bctr
-  lbl_8052aedc:
-  entry jump_8052aedc
-  /* 8052AEDC 3BA00000 */ li          r29, 0x0
-  /* 8052AEE0 48000038 */ b           lbl_8052af18
-  lbl_8052aee4:
-  entry jump_8052aee4
-  /* 8052AEE4 2C1C0003 */ cmpwi       r28, 0x3
-  /* 8052AEE8 4180000C */ blt-        lbl_8052aef4
-  /* 8052AEEC 3BA00002 */ li          r29, 0x2
-  /* 8052AEF0 48000028 */ b           lbl_8052af18
-  lbl_8052aef4:
-  /* 8052AEF4 3BC00000 */ li          r30, 0x0
-  /* 8052AEF8 48000020 */ b           lbl_8052af18
-  lbl_8052aefc:
-  entry jump_8052aefc
-  /* 8052AEFC 3BA00006 */ li          r29, 0x6
-  /* 8052AF00 48000018 */ b           lbl_8052af18
-  lbl_8052af04:
-  entry jump_8052af04
-  /* 8052AF04 3BA00003 */ li          r29, 0x3
-  /* 8052AF08 48000010 */ b           lbl_8052af18
-  lbl_8052af0c:
-  entry jump_8052af0c
-  /* 8052AF0C 3BA00004 */ li          r29, 0x4
-  /* 8052AF10 48000008 */ b           lbl_8052af18
-  lbl_8052af14:
-  entry jump_8052af14
-  /* 8052AF14 3BA00008 */ li          r29, 0x8
-  lbl_8052af18:
-  /* 8052AF18 2C1E0000 */ cmpwi       r30, 0x0
-  /* 8052AF1C 40820030 */ bne-        lbl_8052af4c
-  /* 8052AF20 801400F8 */ lwz         r0, 0xf8(r20)
-  /* 8052AF24 5400F0BE */ srwi        r0, r0, 2
-  /* 8052AF28 7C130016 */ mulhwu      r0, r19, r0
-  /* 8052AF2C 5403D1BE */ srwi        r3, r0, 6
-  /* 8052AF30 7C03A816 */ mulhwu      r0, r3, r21
-  /* 8052AF34 1C830064 */ mulli       r4, r3, 0x64
-  /* 8052AF38 7C60B214 */ add         r3, r0, r22
-  /* 8052AF3C 4BC7FD6D */ bl          OSSleepTicks
-  /* 8052AF40 3B9C0001 */ addi        r28, r28, 0x1
-  /* 8052AF44 2C1C0003 */ cmpwi       r28, 0x3
-  /* 8052AF48 4180FF5C */ blt+        lbl_8052aea4
-  lbl_8052af4c:
-  /* 8052AF4C 7FA3EB78 */ mr          r3, r29
-  /* 8052AF50 BA61000C */ lmw         r19, 0xc(r1)
-  /* 8052AF54 80010044 */ lwz         r0, 0x44(r1)
-  /* 8052AF58 7C0803A6 */ mtlr        r0
-  /* 8052AF5C 38210040 */ addi        r1, r1, 0x40
-  /* 8052AF60 4E800020 */ blr
-
-  //ppcdis: .section .data
-  #if 0
-  .global jtbl_808b31e8
-  jtbl_808b31e8:
-      .4byte jump_8052af04
-      .4byte jump_8052af14
-      .4byte jump_8052af14
-      .4byte jump_8052af0c
-      .4byte jump_8052af14
-      .4byte jump_8052af14
-      .4byte jump_8052af14
-      .4byte jump_8052af14
-      .4byte jump_8052af14
-      .4byte jump_8052af14
-      .4byte jump_8052af04
-      .4byte jump_8052aefc
-      .4byte jump_8052aee4
-      .4byte jump_8052aee4
-      .4byte jump_8052af04
-      .4byte jump_8052aedc
-      #endif
-  // clang-format on
+  v7 = 1;
+  v8 = 8;
+  for (int v3 = 0; v3 < 3; ++v3) {
+    switch (NANDOpen(a1, a2, a3)) {
+    case 0:
+      v8 = 0;
+      break;
+    case -3:
+    case -2:
+      if (v3 >= 3)
+        v8 = 2; // not reached
+      else
+        v7 = 0;
+      break;
+    case -1:
+      v8 = 3;
+      break;
+    case -12:
+      v8 = 4;
+      break;
+    default:
+      v8 = 8;
+      break;
+    }
+    if (v7)
+      break;
+    OSSleepTicks(OSMillisecondsToTicks(100ll));
+  }
+  return v8;
 }
+int NandUtil_safeClose(NANDFileInfo* a1) {
+  int v3; // r27
+  int v4; // r26
 
-// Symbol: NandUtil_open
-// PAL: 0x8052af64..0x8052b058
-MARK_BINARY_BLOB(NandUtil_open, 0x8052af64, 0x8052b058);
-asm UNKNOWN_FUNCTION(NandUtil_open){
-  // clang-format off
-  nofralloc
-  /* 8052AF64 9421FFD0 */ stwu        r1, -0x30(r1)
-  /* 8052AF68 7C0802A6 */ mflr        r0
-  /* 8052AF6C 3CC01062 */ lis         r6, 0x1062
-  /* 8052AF70 90010034 */ stw         r0, 0x34(r1)
-  /* 8052AF74 BEC10008 */ stmw        r22, 8(r1)
-  /* 8052AF78 3B200000 */ li          r25, 0x0
-  /* 8052AF7C 3BC00064 */ li          r30, 0x64
-  /* 8052AF80 7C761B78 */ mr          r22, r3
-  /* 8052AF84 7FF9F1D6 */ mullw       r31, r25, r30
-  /* 8052AF88 7C972378 */ mr          r23, r4
-  /* 8052AF8C 7CB82B78 */ mr          r24, r5
-  /* 8052AF90 3B864DD3 */ addi        r28, r6, 0x4dd3
-  /* 8052AF94 3B600001 */ li          r27, 0x1
-  /* 8052AF98 3B400008 */ li          r26, 0x8
-  /* 8052AF9C 3FA08000 */ lis         r29, 0x8000
-  lbl_8052afa0:
-  /* 8052AFA0 7EC3B378 */ mr          r3, r22
-  /* 8052AFA4 7EE4BB78 */ mr          r4, r23
-  /* 8052AFA8 7F05C378 */ mr          r5, r24
-  /* 8052AFAC 4BC71855 */ bl          NANDOpen
-  /* 8052AFB0 38030003 */ addi        r0, r3, 0x3
-  /* 8052AFB4 28000001 */ cmplwi      r0, 1
-  /* 8052AFB8 40810028 */ ble-        lbl_8052afe0
-  /* 8052AFBC 2C030000 */ cmpwi       r3, 0x0
-  /* 8052AFC0 41820018 */ beq-        lbl_8052afd8
-  /* 8052AFC4 2C03FFFF */ cmpwi       r3, -0x1
-  /* 8052AFC8 41820030 */ beq-        lbl_8052aff8
-  /* 8052AFCC 2C03FFF4 */ cmpwi       r3, -0xc
-  /* 8052AFD0 41820030 */ beq-        lbl_8052b000
-  /* 8052AFD4 48000034 */ b           lbl_8052b008
-  lbl_8052afd8:
-  /* 8052AFD8 3B400000 */ li          r26, 0x0
-  /* 8052AFDC 48000030 */ b           lbl_8052b00c
-  lbl_8052afe0:
-  /* 8052AFE0 2C190003 */ cmpwi       r25, 0x3
-  /* 8052AFE4 4180000C */ blt-        lbl_8052aff0
-  /* 8052AFE8 3B400002 */ li          r26, 0x2
-  /* 8052AFEC 48000020 */ b           lbl_8052b00c
-  lbl_8052aff0:
-  /* 8052AFF0 3B600000 */ li          r27, 0x0
-  /* 8052AFF4 48000018 */ b           lbl_8052b00c
-  lbl_8052aff8:
-  /* 8052AFF8 3B400003 */ li          r26, 0x3
-  /* 8052AFFC 48000010 */ b           lbl_8052b00c
-  lbl_8052b000:
-  /* 8052B000 3B400004 */ li          r26, 0x4
-  /* 8052B004 48000008 */ b           lbl_8052b00c
-  lbl_8052b008:
-  /* 8052B008 3B400008 */ li          r26, 0x8
-  lbl_8052b00c:
-  /* 8052B00C 2C1B0000 */ cmpwi       r27, 0x0
-  /* 8052B010 40820030 */ bne-        lbl_8052b040
-  /* 8052B014 801D00F8 */ lwz         r0, 0xf8(r29)
-  /* 8052B018 5400F0BE */ srwi        r0, r0, 2
-  /* 8052B01C 7C1C0016 */ mulhwu      r0, r28, r0
-  /* 8052B020 5403D1BE */ srwi        r3, r0, 6
-  /* 8052B024 7C03F016 */ mulhwu      r0, r3, r30
-  /* 8052B028 1C830064 */ mulli       r4, r3, 0x64
-  /* 8052B02C 7C60FA14 */ add         r3, r0, r31
-  /* 8052B030 4BC7FC79 */ bl          OSSleepTicks
-  /* 8052B034 3B390001 */ addi        r25, r25, 0x1
-  /* 8052B038 2C190003 */ cmpwi       r25, 0x3
-  /* 8052B03C 4180FF64 */ blt+        lbl_8052afa0
-  lbl_8052b040:
-  /* 8052B040 7F43D378 */ mr          r3, r26
-  /* 8052B044 BAC10008 */ lmw         r22, 8(r1)
-  /* 8052B048 80010034 */ lwz         r0, 0x34(r1)
-  /* 8052B04C 7C0803A6 */ mtlr        r0
-  /* 8052B050 38210030 */ addi        r1, r1, 0x30
-  /* 8052B054 4E800020 */ blr
-  // clang-format on
+  v3 = 1;
+  v4 = 8;
+  for (int v1 = 0; v1 < 3; ++v1) {
+    switch (NANDSafeClose(a1)) {
+    case 0:
+      v4 = 0;
+      break;
+    case -3:
+    case -2:
+      if (v1 >= 3)
+        v4 = 2; // not reached
+      else
+        v3 = 0;
+      break;
+    case -4:
+      v4 = 6;
+      break;
+    case -1:
+    case -14:
+      v4 = 3;
+      break;
+    default:
+      v4 = 8;
+      break;
+    }
+    if (v3)
+      break;
+    OSSleepTicks(OSMillisecondsToTicks(100ll));
+  }
+  return v4;
 }
+int NandUtil_close(NANDFileInfo* a1) {
+  int v3; // r27
+  int v4; // r26
 
-// Symbol: NandUtil_safeClose
-// PAL: 0x8052b058..0x8052b144
-MARK_BINARY_BLOB(NandUtil_safeClose, 0x8052b058, 0x8052b144);
-asm UNKNOWN_FUNCTION(NandUtil_safeClose){
-  // clang-format off
-  nofralloc
-  /* 8052B058 9421FFD0 */ stwu        r1, -0x30(r1)
-  /* 8052B05C 7C0802A6 */ mflr        r0
-  /* 8052B060 3C801062 */ lis         r4, 0x1062
-  /* 8052B064 90010034 */ stw         r0, 0x34(r1)
-  /* 8052B068 BF010010 */ stmw        r24, 0x10(r1)
-  /* 8052B06C 3B200000 */ li          r25, 0x0
-  /* 8052B070 3BC00064 */ li          r30, 0x64
-  /* 8052B074 7C781B78 */ mr          r24, r3
-  /* 8052B078 7FF9F1D6 */ mullw       r31, r25, r30
-  /* 8052B07C 3B844DD3 */ addi        r28, r4, 0x4dd3
-  /* 8052B080 3B600001 */ li          r27, 0x1
-  /* 8052B084 3B400008 */ li          r26, 0x8
-  /* 8052B088 3FA08000 */ lis         r29, 0x8000
-  lbl_8052b08c:
-  /* 8052B08C 7F03C378 */ mr          r3, r24
-  /* 8052B090 4BC71E99 */ bl          NANDSafeClose
-  /* 8052B094 38030003 */ addi        r0, r3, 0x3
-  /* 8052B098 28000001 */ cmplwi      r0, 1
-  /* 8052B09C 40810030 */ ble-        lbl_8052b0cc
-  /* 8052B0A0 2C030000 */ cmpwi       r3, 0x0
-  /* 8052B0A4 41820020 */ beq-        lbl_8052b0c4
-  /* 8052B0A8 2C03FFFC */ cmpwi       r3, -0x4
-  /* 8052B0AC 41820038 */ beq-        lbl_8052b0e4
-  /* 8052B0B0 2C03FFFF */ cmpwi       r3, -0x1
-  /* 8052B0B4 41820038 */ beq-        lbl_8052b0ec
-  /* 8052B0B8 2C03FFF2 */ cmpwi       r3, -0xe
-  /* 8052B0BC 41820030 */ beq-        lbl_8052b0ec
-  /* 8052B0C0 48000034 */ b           lbl_8052b0f4
-  lbl_8052b0c4:
-  /* 8052B0C4 3B400000 */ li          r26, 0x0
-  /* 8052B0C8 48000030 */ b           lbl_8052b0f8
-  lbl_8052b0cc:
-  /* 8052B0CC 2C190003 */ cmpwi       r25, 0x3
-  /* 8052B0D0 4180000C */ blt-        lbl_8052b0dc
-  /* 8052B0D4 3B400002 */ li          r26, 0x2
-  /* 8052B0D8 48000020 */ b           lbl_8052b0f8
-  lbl_8052b0dc:
-  /* 8052B0DC 3B600000 */ li          r27, 0x0
-  /* 8052B0E0 48000018 */ b           lbl_8052b0f8
-  lbl_8052b0e4:
-  /* 8052B0E4 3B400006 */ li          r26, 0x6
-  /* 8052B0E8 48000010 */ b           lbl_8052b0f8
-  lbl_8052b0ec:
-  /* 8052B0EC 3B400003 */ li          r26, 0x3
-  /* 8052B0F0 48000008 */ b           lbl_8052b0f8
-  lbl_8052b0f4:
-  /* 8052B0F4 3B400008 */ li          r26, 0x8
-  lbl_8052b0f8:
-  /* 8052B0F8 2C1B0000 */ cmpwi       r27, 0x0
-  /* 8052B0FC 40820030 */ bne-        lbl_8052b12c
-  /* 8052B100 801D00F8 */ lwz         r0, 0xf8(r29)
-  /* 8052B104 5400F0BE */ srwi        r0, r0, 2
-  /* 8052B108 7C1C0016 */ mulhwu      r0, r28, r0
-  /* 8052B10C 5403D1BE */ srwi        r3, r0, 6
-  /* 8052B110 7C03F016 */ mulhwu      r0, r3, r30
-  /* 8052B114 1C830064 */ mulli       r4, r3, 0x64
-  /* 8052B118 7C60FA14 */ add         r3, r0, r31
-  /* 8052B11C 4BC7FB8D */ bl          OSSleepTicks
-  /* 8052B120 3B390001 */ addi        r25, r25, 0x1
-  /* 8052B124 2C190003 */ cmpwi       r25, 0x3
-  /* 8052B128 4180FF64 */ blt+        lbl_8052b08c
-  lbl_8052b12c:
-  /* 8052B12C 7F43D378 */ mr          r3, r26
-  /* 8052B130 BB010010 */ lmw         r24, 0x10(r1)
-  /* 8052B134 80010034 */ lwz         r0, 0x34(r1)
-  /* 8052B138 7C0803A6 */ mtlr        r0
-  /* 8052B13C 38210030 */ addi        r1, r1, 0x30
-  /* 8052B140 4E800020 */ blr
-  // clang-format on
+  v3 = 1;
+  v4 = 8;
+
+  for (int v1 = 0; v1 < 3; ++v1) {
+    switch (NANDClose(a1)) {
+    case 0:
+      v4 = 0;
+      break;
+    case -3:
+    case -2:
+      if (v1 >= 3)
+        v4 = 2; // not reached
+      else
+        v3 = 0;
+      break;
+    case -4:
+      v4 = 6;
+      break;
+    case -1:
+      v4 = 3;
+      break;
+    default:
+      v4 = 8;
+      break;
+    }
+    if (v3)
+      break;
+    OSSleepTicks(OSMillisecondsToTicks(100ll));
+  }
+  return v4;
 }
-
-// Symbol: NandUtil_close
-// PAL: 0x8052b144..0x8052b228
-MARK_BINARY_BLOB(NandUtil_close, 0x8052b144, 0x8052b228);
-asm UNKNOWN_FUNCTION(NandUtil_close){
-  // clang-format off
-  nofralloc
-  /* 8052B144 9421FFD0 */ stwu        r1, -0x30(r1)
-  /* 8052B148 7C0802A6 */ mflr        r0
-  /* 8052B14C 3C801062 */ lis         r4, 0x1062
-  /* 8052B150 90010034 */ stw         r0, 0x34(r1)
-  /* 8052B154 BF010010 */ stmw        r24, 0x10(r1)
-  /* 8052B158 3B200000 */ li          r25, 0x0
-  /* 8052B15C 3BC00064 */ li          r30, 0x64
-  /* 8052B160 7C781B78 */ mr          r24, r3
-  /* 8052B164 7FF9F1D6 */ mullw       r31, r25, r30
-  /* 8052B168 3B844DD3 */ addi        r28, r4, 0x4dd3
-  /* 8052B16C 3B600001 */ li          r27, 0x1
-  /* 8052B170 3B400008 */ li          r26, 0x8
-  /* 8052B174 3FA08000 */ lis         r29, 0x8000
-  lbl_8052b178:
-  /* 8052B178 7F03C378 */ mr          r3, r24
-  /* 8052B17C 4BC71905 */ bl          NANDClose
-  /* 8052B180 38030003 */ addi        r0, r3, 0x3
-  /* 8052B184 28000001 */ cmplwi      r0, 1
-  /* 8052B188 40810028 */ ble-        lbl_8052b1b0
-  /* 8052B18C 2C030000 */ cmpwi       r3, 0x0
-  /* 8052B190 41820018 */ beq-        lbl_8052b1a8
-  /* 8052B194 2C03FFFC */ cmpwi       r3, -0x4
-  /* 8052B198 41820030 */ beq-        lbl_8052b1c8
-  /* 8052B19C 2C03FFFF */ cmpwi       r3, -0x1
-  /* 8052B1A0 41820030 */ beq-        lbl_8052b1d0
-  /* 8052B1A4 48000034 */ b           lbl_8052b1d8
-  lbl_8052b1a8:
-  /* 8052B1A8 3B400000 */ li          r26, 0x0
-  /* 8052B1AC 48000030 */ b           lbl_8052b1dc
-  lbl_8052b1b0:
-  /* 8052B1B0 2C190003 */ cmpwi       r25, 0x3
-  /* 8052B1B4 4180000C */ blt-        lbl_8052b1c0
-  /* 8052B1B8 3B400002 */ li          r26, 0x2
-  /* 8052B1BC 48000020 */ b           lbl_8052b1dc
-  lbl_8052b1c0:
-  /* 8052B1C0 3B600000 */ li          r27, 0x0
-  /* 8052B1C4 48000018 */ b           lbl_8052b1dc
-  lbl_8052b1c8:
-  /* 8052B1C8 3B400006 */ li          r26, 0x6
-  /* 8052B1CC 48000010 */ b           lbl_8052b1dc
-  lbl_8052b1d0:
-  /* 8052B1D0 3B400003 */ li          r26, 0x3
-  /* 8052B1D4 48000008 */ b           lbl_8052b1dc
-  lbl_8052b1d8:
-  /* 8052B1D8 3B400008 */ li          r26, 0x8
-  lbl_8052b1dc:
-  /* 8052B1DC 2C1B0000 */ cmpwi       r27, 0x0
-  /* 8052B1E0 40820030 */ bne-        lbl_8052b210
-  /* 8052B1E4 801D00F8 */ lwz         r0, 0xf8(r29)
-  /* 8052B1E8 5400F0BE */ srwi        r0, r0, 2
-  /* 8052B1EC 7C1C0016 */ mulhwu      r0, r28, r0
-  /* 8052B1F0 5403D1BE */ srwi        r3, r0, 6
-  /* 8052B1F4 7C03F016 */ mulhwu      r0, r3, r30
-  /* 8052B1F8 1C830064 */ mulli       r4, r3, 0x64
-  /* 8052B1FC 7C60FA14 */ add         r3, r0, r31
-  /* 8052B200 4BC7FAA9 */ bl          OSSleepTicks
-  /* 8052B204 3B390001 */ addi        r25, r25, 0x1
-  /* 8052B208 2C190003 */ cmpwi       r25, 0x3
-  /* 8052B20C 4180FF6C */ blt+        lbl_8052b178
-  lbl_8052b210:
-  /* 8052B210 7F43D378 */ mr          r3, r26
-  /* 8052B214 BB010010 */ lmw         r24, 0x10(r1)
-  /* 8052B218 80010034 */ lwz         r0, 0x34(r1)
-  /* 8052B21C 7C0803A6 */ mtlr        r0
-  /* 8052B220 38210030 */ addi        r1, r1, 0x30
-  /* 8052B224 4E800020 */ blr
-  // clang-format on
-}
-
 // Symbol: NandUtil_read
 // PAL: 0x8052b228..0x8052b3f8
 MARK_BINARY_BLOB(NandUtil_read, 0x8052b228, 0x8052b3f8);
@@ -1205,7 +977,7 @@ asm UNKNOWN_FUNCTION(NandUtil_setStatus){
 // Symbol: NandUtil_getStatus
 // PAL: 0x8052bc3c..0x8052bd38
 MARK_BINARY_BLOB(NandUtil_getStatus, 0x8052bc3c, 0x8052bd38);
-asm UNKNOWN_FUNCTION(NandUtil_getStatus){
+asm int NandUtil_getStatus(void*, void*) {
   // clang-format off
   nofralloc
   /* 8052BC3C 9421FFD0 */ stwu        r1, -0x30(r1)
@@ -1284,20 +1056,7 @@ asm UNKNOWN_FUNCTION(NandUtil_getStatus){
   // clang-format on
 }
 
-// Symbol: unk_8052bd38
-// PAL: 0x8052bd38..0x8052bd5c
-MARK_BINARY_BLOB(unk_8052bd38, 0x8052bd38, 0x8052bd5c);
-asm UNKNOWN_FUNCTION(unk_8052bd38) {
-  // clang-format off
-  nofralloc
-  /* 8052BD38 9421FFF0 */ stwu        r1, -0x10(r1)
-  /* 8052BD3C 7C0802A6 */ mflr        r0
-  /* 8052BD40 90010014 */ stw         r0, 0x14(r1)
-  /* 8052BD44 38810008 */ addi        r4, r1, 0x8
-  /* 8052BD48 4BFFFEF5 */ bl          NandUtil_getStatus
-  /* 8052BD4C 80010014 */ lwz         r0, 0x14(r1)
-  /* 8052BD50 7C0803A6 */ mtlr        r0
-  /* 8052BD54 38210010 */ addi        r1, r1, 0x10
-  /* 8052BD58 4E800020 */ blr
-  // clang-format on
+void unk_8052bd38(void* first) {
+  u16 tmp[4];
+  NandUtil_getStatus(first, &tmp[0]);
 }
