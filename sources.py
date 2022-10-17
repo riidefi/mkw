@@ -462,6 +462,7 @@ SOURCES_REL = [
     Source(src="source/game/system/Mii.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/LocalizedArchive.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/MultiDvdArchive.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/system/NandUtil.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/RaceConfig.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/ResourceManager.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/util/Random.cpp", cc='4201_127', opts=REL_OPTS),

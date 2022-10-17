@@ -19,7 +19,8 @@ out/rel/rodata_8088fd64_8088fdc0.o
 out/rel/data_808b2d50_808b3188.o
 out/LocalizedArchive.o
 out/MultiDvdArchive.o
-out/rel/text_8052ae5c_8052d96c.o
+out/NandUtil.o
+out/rel/text_8052bd5c_8052d96c.o
 out/rel/rodata_8088fe28_8088ffa8.o
 out/rel/data_808b31e8_808b3260.o
 out/rel/bss_809bd6ec_809bd728.o
