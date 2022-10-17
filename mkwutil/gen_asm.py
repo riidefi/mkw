@@ -237,8 +237,8 @@ class CAsmGenerator:
             header=Path(self.out_h.name).name,
             cpp=self.cpp_mode,
             functions=functions,
-            extern_functions=self.extern_functions,
-            extern_data=self.extern_data,
+            extern_functions=list({"name": a[1], "addr": a[0]} for a in self.extern_functions),
+            extern_data=list({"name": a[1], "addr": a[0]} for a in self.extern_data),
         ).dump(self.out_c)
         # Write out to H file.
         template = jinja_env.get_template("source.h.j2")
@@ -257,13 +257,19 @@ class CAsmGenerator:
 
 
     def disassemble_function(self, sym):
-        data_start = sym.addr
-        data_stop = data_start + sym.size
+        fn_start_vma = sym.addr
+        fn_end_vma = fn_start_vma + sym.size
         inline_asm, refs = self.disaser.function_to_text_with_referenced(fn_start_vma, inline=True, extra=True,
-            hashable=False, declare_mangled=False, end_addr=fn_end_vma)
+            hashable=False, declare_mangled=False)
         for (addr, name) in refs:
             if addr not in self.extern_addrs:
                 self.extern_addrs.add(addr)
+
+                # TODO: This is probably not where this should go
+                if addr in self.symbols:
+                    self.extern_functions.append((addr, self.symbols[addr]))
+                    continue
+
                 if is_text_addr(addr):
                     self.extern_functions.append((addr, name))
                 else:
