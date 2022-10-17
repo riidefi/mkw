@@ -22,7 +22,7 @@ out/MultiDvdArchive.o
 out/NandUtil.o
 out/rel/text_8052bd5c_8052d96c.o
 out/rel/rodata_8088fe28_8088ffa8.o
-out/rel/data_808b31e8_808b3260.o
+out/rel/data_808b3228_808b3260.o
 out/rel/bss_809bd6ec_809bd728.o
 out/RaceConfig.o
 out/rel/text_80532084_8053fc4c.o
