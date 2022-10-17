@@ -35,7 +35,7 @@ extern UNKNOWN_FUNCTION(__destroy_arr);
 // PAL: 0x8051c334
 extern UNKNOWN_FUNCTION(__dt__Q26System4TimeFv);
 // PAL: 0x8052453c
-extern UNKNOWN_FUNCTION(InputMgr_setGhostController);
+extern UNKNOWN_FUNCTION(setGhostController__Q26System12InputManagerFUcPvb);
 // PAL: 0x8051c790
 extern UNKNOWN_FUNCTION(read__Q26System9GhostFileFRCQ26System12RawGhostFile);
 // PAL: 0x8051c270
@@ -53,13 +53,14 @@ extern UNKNOWN_FUNCTION(__construct_array);
 // PAL: 0x80009ce0
 extern UNKNOWN_FUNCTION(__dt__Q26System13ParameterFileFv);
 // PAL: 0x8052ed20
-extern UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerFv);
+extern UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerCFv);
 // PAL: 0x8052e660
 extern UNKNOWN_FUNCTION(setUnkPos__Q36System10RaceConfig6PlayerFSc);
 // PAL: 0x8052dd30
 extern UNKNOWN_FUNCTION(getRacePlayerCount__Q26System10RaceConfigFv);
 // PAL: 0x8052e44c
-extern UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFl);
+extern UNKNOWN_FUNCTION(
+    setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType);
 // PAL: 0x8052ed18
 extern UNKNOWN_FUNCTION(getGametype__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x80530f20
@@ -104,7 +105,7 @@ extern UNKNOWN_DATA(lbl_809bd730);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd70c
-extern UNKNOWN_DATA(lbl_809bd70c);
+extern UNKNOWN_DATA(spInstance__Q26System12InputManager);
 // PAL: 0x8088ffb0
 extern UNKNOWN_DATA(COURSE_ORDER__6System);
 // PAL: 0x809c2144
@@ -181,8 +182,8 @@ extern "C" void getCompetitionWrapper(void*, CompetitionWrapper*);
 
 RaceConfig::Player::Player()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
-      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(0), mMii(7),
-      mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
+      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(REAL_LOCAL),
+      mMii(7), mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
 
 void RaceConfig::Player::appendParamFile(RaceConfig* raceConfig) {
   raceConfig->append(mVehicleId, InitScene::spInstance->mHeapCollection
@@ -728,7 +729,7 @@ RaceConfig::Player& RaceConfig::Scenario::getPlayer(u8 idx) {
 
 void RaceConfig::Player::setVehicle(VehicleId vehicle) { mVehicleId = vehicle; }
 
-void RaceConfig::Player::setPlayerType(s32 playerType) {
+void RaceConfig::Player::setPlayerType(PlayerType playerType) {
   mPlayerType = playerType;
 }
 
@@ -1086,7 +1087,9 @@ namespace System {
 
 s32 RaceConfig::Scenario::getGametype() { return mSettings.mGameType; }
 
-s32 RaceConfig::Player::getPlayerType() { return mPlayerType; }
+const PlayerType RaceConfig::Player::getPlayerType() const {
+  return mPlayerType;
+}
 
 } // namespace System
 
@@ -1117,7 +1120,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052ED60 48000174 */ b           lbl_8052eed4
   lbl_8052ed64:
   /* 8052ED64 3BA00000 */ li          r29, 0x0
-  /* 8052ED68 3FC0809C */ lis         r30, lbl_809bd70c@ha
+  /* 8052ED68 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
   lbl_8052ed6c:
   /* 8052ED6C 57A0063E */ clrlwi      r0, r29, 0x18
   /* 8052ED70 1C0000F0 */ mulli       r0, r0, 0xf0
@@ -1128,7 +1131,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052ED84 8803000E */ lbz         r0, 0xe(r3)
   /* 8052ED88 7C000775 */ extsb.      r0, r0
   /* 8052ED8C 41800010 */ blt-        lbl_8052ed9c
-  /* 8052ED90 807ED70C */ lwz         r3, lbl_809bd70c@l(r30)
+  /* 8052ED90 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
   /* 8052ED94 5404063E */ clrlwi      r4, r0, 0x18
   /* 8052ED98 4BFF57C1 */ bl          unk_80524558
   lbl_8052ed9c:
@@ -1139,7 +1142,7 @@ asm UNKNOWN_FUNCTION(
   lbl_8052edac:
   /* 8052EDAC 38000004 */ li          r0, 0x4
   /* 8052EDB0 38C00000 */ li          r6, 0x0
-  /* 8052EDB4 3CA0809C */ lis         r5, lbl_809bd70c@ha
+  /* 8052EDB4 3CA0809C */ lis         r5, spInstance__Q26System12InputManager@ha
   /* 8052EDB8 7C0903A6 */ mtctr       r0
   lbl_8052edbc:
   /* 8052EDBC 54C0063E */ clrlwi      r0, r6, 0x18
@@ -1152,7 +1155,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EDD8 7C000775 */ extsb.      r0, r0
   /* 8052EDDC 4180001C */ blt-        lbl_8052edf8
   /* 8052EDE0 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EDE4 8085D70C */ lwz         r4, lbl_809bd70c@l(r5)
+  /* 8052EDE4 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
   /* 8052EDE8 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EDEC 7C840214 */ add         r4, r4, r0
   /* 8052EDF0 80040010 */ lwz         r0, 0x10(r4)
@@ -1169,7 +1172,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE18 7C000775 */ extsb.      r0, r0
   /* 8052EE1C 4180001C */ blt-        lbl_8052ee38
   /* 8052EE20 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EE24 8085D70C */ lwz         r4, lbl_809bd70c@l(r5)
+  /* 8052EE24 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
   /* 8052EE28 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EE2C 7C840214 */ add         r4, r4, r0
   /* 8052EE30 80040010 */ lwz         r0, 0x10(r4)
@@ -1186,7 +1189,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE58 7C000775 */ extsb.      r0, r0
   /* 8052EE5C 4180001C */ blt-        lbl_8052ee78
   /* 8052EE60 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EE64 8085D70C */ lwz         r4, lbl_809bd70c@l(r5)
+  /* 8052EE64 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
   /* 8052EE68 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EE6C 7C840214 */ add         r4, r4, r0
   /* 8052EE70 80040010 */ lwz         r0, 0x10(r4)
@@ -1200,7 +1203,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE88 2C000000 */ cmpwi       r0, 0x0
   /* 8052EE8C 40820048 */ bne-        lbl_8052eed4
   /* 8052EE90 3BA00000 */ li          r29, 0x0
-  /* 8052EE94 3FC0809C */ lis         r30, lbl_809bd70c@ha
+  /* 8052EE94 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
   lbl_8052ee98:
   /* 8052EE98 57A0063E */ clrlwi      r0, r29, 0x18
   /* 8052EE9C 1C0000F0 */ mulli       r0, r0, 0xf0
@@ -1211,7 +1214,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EEB0 8803000E */ lbz         r0, 0xe(r3)
   /* 8052EEB4 7C000775 */ extsb.      r0, r0
   /* 8052EEB8 41800010 */ blt-        lbl_8052eec8
-  /* 8052EEBC 807ED70C */ lwz         r3, lbl_809bd70c@l(r30)
+  /* 8052EEBC 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
   /* 8052EEC0 5404063E */ clrlwi      r4, r0, 0x18
   /* 8052EEC4 4BFF563D */ bl          unk_80524500
   lbl_8052eec8:
@@ -1229,110 +1232,30 @@ asm UNKNOWN_FUNCTION(
   // clang-format on
 }
 
-// This has never built due to GhostFile access problems
-// This should give a rough idea of how the function works
-#ifdef NON_MATCHING
 namespace System {
+bool RaceConfig::Scenario::initGhost(u8 playerIdx, s8 playerInputIdx) {
+  bool ret = false;
+  if (mGhost->isValid()) {
 
-bool RaceConfig::Scenario::initGhost(u8 playerIdx, u8 playerInputIdx) {
-  if (!mGhost->isValid()) {
-    return false;
+    GhostFile ghost;
+    ghost.read(*mGhost);
+
+    if (ghost.mCourseId == mSettings.mCourseId) {
+      if (playerInputIdx >= 0) {
+        InputManager::spInstance->setGhostController(
+            playerInputIdx, (void*)ghost.mInputs, ghost.mDriftIsAuto);
+      }
+
+      mPlayers[playerIdx].mCharacterId = (CharacterId)ghost.mCharacterId;
+      mPlayers[playerIdx].mVehicleId = (VehicleId)ghost.mVehicleId;
+      mPlayers[playerIdx].mPlayerInputIdx = playerInputIdx;
+      mPlayers[playerIdx].mControllerId = ghost.mControllerId;
+      ret = true;
+    }
   }
 
-  GhostFile ghost;
-  ghost.read(*mGhost);
-
-  if (!ghost.mCourseId == mCourseId) {
-    return false;
-  }
-
-  if (-1 < playerInputIdx) {
-    InputManager::setGhostController(InputManager::spInstance, playerInputIdx,
-                                     ghost.mInputs, ghost.mDriftIsAuto);
-  }
-
-  mPlayers[playerIdx].mCharacterId = ghost.mCharacterId;
-  mPlayers[playerIdx].mVehicleId = ghost.mVehicleId;
-  mPlayers[playerIdx].mPlayerInputIdx = playerInputIdx;
-  mPlayers[playerIdx].mControllerId = ghost.mControllerId;
-
-  return true;
+  return ret;
 }
-
-} // namespace System
-#else
-// Symbol: unk_8052eef0
-// PAL: 0x8052eef0..0x8052efd4
-MARK_BINARY_BLOB(unk_8052eef0, 0x8052eef0, 0x8052efd4);
-asm UNKNOWN_FUNCTION(unk_8052eef0) {
-  // clang-format off
-  nofralloc
-  /* 8052EEF0 9421FF10 */ stwu        r1, -0xf0(r1)
-  /* 8052EEF4 7C0802A6 */ mflr        r0
-  /* 8052EEF8 900100F4 */ stw         r0, 0xf4(r1)
-  /* 8052EEFC 93E100EC */ stw         r31, 0xec(r1)
-  /* 8052EF00 3BE00000 */ li          r31, 0x0
-  /* 8052EF04 93C100E8 */ stw         r30, 0xe8(r1)
-  /* 8052EF08 7CBE2B78 */ mr          r30, r5
-  /* 8052EF0C 93A100E4 */ stw         r29, 0xe4(r1)
-  /* 8052EF10 7C9D2378 */ mr          r29, r4
-  /* 8052EF14 938100E0 */ stw         r28, 0xe0(r1)
-  /* 8052EF18 7C7C1B78 */ mr          r28, r3
-  /* 8052EF1C 80630BEC */ lwz         r3, 0xbec(r3)
-  /* 8052EF20 4BFED201 */ bl          isValid__Q26System12RawGhostFileCFv
-  /* 8052EF24 2C030000 */ cmpwi       r3, 0x0
-  /* 8052EF28 41820088 */ beq-        lbl_8052efb0
-  /* 8052EF2C 38610008 */ addi        r3, r1, 0x8
-  /* 8052EF30 4BFED341 */ bl          __ct__Q26System9GhostFileFv
-  /* 8052EF34 809C0BEC */ lwz         r4, 0xbec(r28)
-  /* 8052EF38 38610008 */ addi        r3, r1, 0x8
-  /* 8052EF3C 4BFED855 */ bl          read__Q26System9GhostFileFRCQ26System12RawGhostFile
-  /* 8052EF40 806100C0 */ lwz         r3, 0xc0(r1)
-  /* 8052EF44 801C0B48 */ lwz         r0, 0xb48(r28)
-  /* 8052EF48 7C030000 */ cmpw        r3, r0
-  /* 8052EF4C 4082004C */ bne-        lbl_8052ef98
-  /* 8052EF50 7FC00775 */ extsb.      r0, r30
-  /* 8052EF54 4180001C */ blt-        lbl_8052ef70
-  /* 8052EF58 3C60809C */ lis         r3, lbl_809bd70c@ha
-  /* 8052EF5C 80A100DC */ lwz         r5, 0xdc(r1)
-  /* 8052EF60 8063D70C */ lwz         r3, lbl_809bd70c@l(r3)
-  /* 8052EF64 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 8052EF68 88C100D0 */ lbz         r6, 0xd0(r1)
-  /* 8052EF6C 4BFF55D1 */ bl          InputMgr_setGhostController
-  lbl_8052ef70:
-  /* 8052EF70 1C7D00F0 */ mulli       r3, r29, 0xf0
-  /* 8052EF74 800100B8 */ lwz         r0, 0xb8(r1)
-  /* 8052EF78 3BE00001 */ li          r31, 0x1
-  /* 8052EF7C 7C7C1A14 */ add         r3, r28, r3
-  /* 8052EF80 90030014 */ stw         r0, 0x14(r3)
-  /* 8052EF84 800100BC */ lwz         r0, 0xbc(r1)
-  /* 8052EF88 90030010 */ stw         r0, 0x10(r3)
-  /* 8052EF8C 9BC3000E */ stb         r30, 0xe(r3)
-  /* 8052EF90 800100C4 */ lwz         r0, 0xc4(r1)
-  /* 8052EF94 900300D8 */ stw         r0, 0xd8(r3)
-  lbl_8052ef98:
-  /* 8052EF98 3C808052 */ lis         r4, __dt__Q26System4TimeFv@ha
-  /* 8052EF9C 38610070 */ addi        r3, r1, 0x70
-  /* 8052EFA0 3884C334 */ addi        r4, r4, __dt__Q26System4TimeFv@l
-  /* 8052EFA4 38A0000C */ li          r5, 0xc
-  /* 8052EFA8 38C00005 */ li          r6, 0x5
-  /* 8052EFAC 4BAF2141 */ bl          __destroy_arr
-  lbl_8052efb0:
-  /* 8052EFB0 7FE3FB78 */ mr          r3, r31
-  /* 8052EFB4 83E100EC */ lwz         r31, 0xec(r1)
-  /* 8052EFB8 83C100E8 */ lwz         r30, 0xe8(r1)
-  /* 8052EFBC 83A100E4 */ lwz         r29, 0xe4(r1)
-  /* 8052EFC0 838100E0 */ lwz         r28, 0xe0(r1)
-  /* 8052EFC4 800100F4 */ lwz         r0, 0xf4(r1)
-  /* 8052EFC8 7C0803A6 */ mtlr        r0
-  /* 8052EFCC 382100F0 */ addi        r1, r1, 0xf0
-  /* 8052EFD0 4E800020 */ blr
-  // clang-format on
-}
-
-#endif
-
-namespace System {
 
 void RaceConfig::Scenario::resetPlayers() {
   for (u8 i = 0; i < 12; i++) {
@@ -1578,6 +1501,65 @@ asm UNKNOWN_FUNCTION(copyPrevPositions__Q36System10RaceConfig8ScenarioFv) {
   // clang-format on
 }
 
+#ifdef NON_MATCHING
+namespace System {
+void RaceConfig::Scenario::initControllers(u8 controllerCount) {
+  Controller* controller;
+  s32 controllerId;
+  u8 localPlayerNum = 0;
+  u8 playerInputIdx = 0;
+
+  mSettings.mHudPlayerIds[0] = -1;
+  mSettings.mHudPlayerIds[1] = -1;
+  mSettings.mHudPlayerIds[2] = -1;
+  mSettings.mHudPlayerIds[3] = -1;
+
+  for (s32 i = 0; i < MAX_PLAYER_COUNT; i++) {
+    switch (mPlayers[i].getPlayerType()) {
+    case REAL_LOCAL:
+      mPlayers[i].mLocalPlayerNum = localPlayerNum;
+      mPlayers[i].mPlayerInputIdx = playerInputIdx;
+      controller =
+          InputManager::spInstance->playerInputs[playerInputIdx].controller;
+      if (controller == nullptr) {
+        controllerId = -1;
+      } else {
+        controllerId = controller->getControllerId();
+      }
+      mPlayers[i].mControllerId = controllerId;
+      if (mSettings.mHudPlayerIds[localPlayerNum] == -1) {
+        mSettings.mHudPlayerIds[localPlayerNum] = i;
+      }
+      localPlayerNum++;
+      playerInputIdx++;
+      break;
+    case GHOST:
+      if (initGhost(i, playerInputIdx)) {
+        playerInputIdx++;
+      } else {
+        mPlayers[i].mPlayerType = NONE;
+        mPlayers[i].mControllerId = -1;
+      }
+      break;
+    case CPU:
+      mPlayers[i].mControllerId = -1;
+    }
+  }
+
+  // For spectating?
+  for (s32 i = 0; i < MAX_PLAYER_COUNT; i++) {
+    if (mPlayers[i].mPlayerType != NONE && mPlayers[i].mLocalPlayerNum == -1) {
+      s32 hudIdx = localPlayerNum;
+      mPlayers[i].mLocalPlayerNum = localPlayerNum;
+      localPlayerNum++;
+      mSettings.mHudPlayerIds[hudIdx] = i;
+      if (localPlayerNum >= controllerCount)
+        break;
+    }
+  }
+}
+} // namespace System
+#else
 // Symbol: initControllers__Q36System10RaceConfig8ScenarioFUc
 // PAL: 0x8052f4e8..0x8052f788
 MARK_BINARY_BLOB(initControllers__Q36System10RaceConfig8ScenarioFUc, 0x8052f4e8,
@@ -1595,7 +1577,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F504 3B800000 */ li          r28, 0x0
   /* 8052F508 3B600000 */ li          r27, 0x0
   /* 8052F50C 3B400000 */ li          r26, 0x0
-  /* 8052F510 3FE0809C */ lis         r31, lbl_809bd70c@ha
+  /* 8052F510 3FE0809C */ lis         r31, spInstance__Q26System12InputManager@ha
   /* 8052F514 3EC08052 */ lis         r22, __dt__Q26System4TimeFv@ha
   /* 8052F518 3AE00005 */ li          r23, 0x5
   /* 8052F51C 9BA30B64 */ stb         r29, 0xb64(r3)
@@ -1619,7 +1601,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F55C 5760063E */ clrlwi      r0, r27, 0x18
   /* 8052F560 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052F564 9B7E000E */ stb         r27, 0xe(r30)
-  /* 8052F568 807FD70C */ lwz         r3, lbl_809bd70c@l(r31)
+  /* 8052F568 807FD70C */ lwz         r3, spInstance__Q26System12InputManager@l(r31)
   /* 8052F56C 7C630214 */ add         r3, r3, r0
   /* 8052F570 80630008 */ lwz         r3, 8(r3)
   /* 8052F574 2C030000 */ cmpwi       r3, 0x0
@@ -1661,11 +1643,11 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F5F4 40820040 */ bne-        lbl_8052f634
   /* 8052F5F8 7F600775 */ extsb.      r0, r27
   /* 8052F5FC 41800018 */ blt-        lbl_8052f614
-  /* 8052F600 807FD70C */ lwz         r3, lbl_809bd70c@l(r31)
+  /* 8052F600 807FD70C */ lwz         r3, spInstance__Q26System12InputManager@l(r31)
   /* 8052F604 5764063E */ clrlwi      r4, r27, 0x18
   /* 8052F608 80A100DC */ lwz         r5, 0xdc(r1)
   /* 8052F60C 88C100D0 */ lbz         r6, 0xd0(r1)
-  /* 8052F610 4BFF4F2D */ bl          InputMgr_setGhostController
+  /* 8052F610 4BFF4F2D */ bl          setGhostController__Q26System12InputManagerFUcPvb
   lbl_8052f614:
   /* 8052F614 800100B8 */ lwz         r0, 0xb8(r1)
   /* 8052F618 3AA00001 */ li          r21, 0x1
@@ -1772,6 +1754,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F784 4E800020 */ blr
   // clang-format on
 }
+#endif
 
 namespace System {
 
@@ -2188,7 +2171,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530890 57C4063E */ clrlwi      r4, r30, 0x18
   /* 80530894 4BFFDBA1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530898 38800005 */ li          r4, 0x5
-  /* 8053089C 4BFFDBB1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 8053089C 4BFFDBB1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
   /* 805308A0 57C4063E */ clrlwi      r4, r30, 0x18
   /* 805308A4 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308A8 3BA40001 */ addi        r29, r4, 0x1
@@ -2232,7 +2215,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530938 387F0020 */ addi        r3, r31, 0x20
   /* 8053093C 5784063E */ clrlwi      r4, r28, 0x18
   /* 80530940 4BFFD3E1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530944 4BFFE3DD */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530944 4BFFE3DD */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530948 2C030005 */ cmpwi       r3, 0x5
   /* 8053094C 418200C4 */ beq-        lbl_80530a10
   /* 80530950 381EFFFF */ addi        r0, r30, -0x1
@@ -2261,7 +2244,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 805309AC 387F0C10 */ addi        r3, r31, 0xc10
   /* 805309B0 4BFFDA85 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805309B4 38800001 */ li          r4, 0x1
-  /* 805309B8 4BFFDA95 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 805309B8 4BFFDA95 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
   /* 805309BC 7F64DB78 */ mr          r4, r27
   /* 805309C0 387F0C10 */ addi        r3, r31, 0xc10
   /* 805309C4 4BFFDA71 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
@@ -2306,7 +2289,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530A50 387F0020 */ addi        r3, r31, 0x20
   /* 80530A54 57A4063E */ clrlwi      r4, r29, 0x18
   /* 80530A58 4BFFD2C9 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530A5C 4BFFE2C5 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530A5C 4BFFE2C5 */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530A60 2C030000 */ cmpwi       r3, 0x0
   /* 80530A64 40820024 */ bne-        lbl_80530a88
   /* 80530A68 387F0020 */ addi        r3, r31, 0x20
@@ -2342,7 +2325,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530ACC 387F0020 */ addi        r3, r31, 0x20
   /* 80530AD0 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530AD4 4BFFD24D */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530AD8 4BFFE249 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530AD8 4BFFE249 */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530ADC 2C030000 */ cmpwi       r3, 0x0
   /* 80530AE0 408200D8 */ bne-        lbl_80530bb8
   /* 80530AE4 387F0020 */ addi        r3, r31, 0x20
@@ -2375,7 +2358,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530B50 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530B54 4BFFD8E1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530B58 38800001 */ li          r4, 0x1
-  /* 80530B5C 4BFFD8F1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 80530B5C 4BFFD8F1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
   /* 80530B60 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530B64 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530B68 3BA40001 */ addi        r29, r4, 0x1
@@ -2420,13 +2403,13 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530BF8 387F0020 */ addi        r3, r31, 0x20
   /* 80530BFC 5744063E */ clrlwi      r4, r26, 0x18
   /* 80530C00 4BFFD121 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530C04 4BFFE11D */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530C04 4BFFE11D */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530C08 2C030005 */ cmpwi       r3, 0x5
   /* 80530C0C 418200F0 */ beq-        lbl_80530cfc
   /* 80530C10 387F0020 */ addi        r3, r31, 0x20
   /* 80530C14 5744063E */ clrlwi      r4, r26, 0x18
   /* 80530C18 4BFFD109 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530C1C 4BFFE105 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530C1C 4BFFE105 */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530C20 2C030000 */ cmpwi       r3, 0x0
   /* 80530C24 418200D8 */ beq-        lbl_80530cfc
   /* 80530C28 387F0020 */ addi        r3, r31, 0x20
@@ -2459,7 +2442,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530C94 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530C98 4BFFD79D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530C9C 38800001 */ li          r4, 0x1
-  /* 80530CA0 4BFFD7AD */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 80530CA0 4BFFD7AD */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
   /* 80530CA4 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530CA8 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530CAC 3BA40001 */ addi        r29, r4, 0x1
@@ -2509,7 +2492,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530D4C 387F0020 */ addi        r3, r31, 0x20
   /* 80530D50 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530D54 4BFFCFCD */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530D58 4BFFDFC9 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530D58 4BFFDFC9 */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530D5C 2C030000 */ cmpwi       r3, 0x0
   /* 80530D60 408200C0 */ bne-        lbl_80530e20
   /* 80530D64 387F0020 */ addi        r3, r31, 0x20
@@ -2536,7 +2519,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530DB8 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530DBC 4BFFD679 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530DC0 38800001 */ li          r4, 0x1
-  /* 80530DC4 4BFFD689 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 80530DC4 4BFFD689 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
   /* 80530DC8 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530DCC 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530DD0 3BC40001 */ addi        r30, r4, 0x1
@@ -2592,7 +2575,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530E90 38800000 */ li          r4, 0x0
   /* 80530E94 4BFFD5A1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530E98 38800001 */ li          r4, 0x1
-  /* 80530E9C 4BFFD5B1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 80530E9C 4BFFD5B1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
   /* 80530EA0 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530EA4 38800000 */ li          r4, 0x0
   /* 80530EA8 4BFFD58D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc

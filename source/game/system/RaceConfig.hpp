@@ -5,6 +5,7 @@
 #include <game/system/GhostFile.hpp>
 #include <game/system/Mii.hpp>
 #include <game/system/ResourceManager.hpp>
+#include <game/system/InputManager.hpp>
 #include <game/system/InitScene.hpp>
 #include <game/system/SaveManager.hpp>
 
@@ -125,6 +126,15 @@ public:
   inline RaceConfigEx() {}
 };
 
+enum PlayerType {
+  REAL_LOCAL = 0,
+  CPU = 1,
+  UNKNOWN = 2,
+  GHOST = 3,
+  REAL_ONLINE = 4,
+  NONE = 5
+};
+
 class RaceConfig : public RaceConfigEx, public ParameterFile {
 public:
   class Player {
@@ -138,14 +148,14 @@ public:
 
     CharacterId getCharacter();
     Mii& getMii();
-    s32 getPlayerType();
+    const PlayerType getPlayerType() const;
     BattleTeam getTeam();
     u8 getUnkPos();
     VehicleId getVehicle();
 
     void setCharacter(CharacterId character);
     void setMii(const Mii& mii);
-    void setPlayerType(s32 playerType);
+    void setPlayerType(PlayerType playerType);
     void setPrevFinishPos(s8 pos);
     void setUnkPos(s8 pos);
     void setVehicle(VehicleId vehicle);
@@ -155,10 +165,10 @@ public:
     s8 mPlayerInputIdx;
     VehicleId mVehicleId;
     CharacterId mCharacterId;
-    s32 mPlayerType; // TODO: create enum
+    PlayerType mPlayerType;
     Mii mMii;
     BattleTeam mTeam;
-    u32 mControllerId;
+    s32 mControllerId;
     unk32 _d4;
     u16 mPreviousScore;
     u16 mGpScore;
@@ -224,7 +234,7 @@ public:
     void copyPrevPositions();
     void initCompetitionSettings();
     void initControllers(u8 controllerCount);
-    bool initGhost(u8 playerIdx, u8 playerInputIdx);
+    bool initGhost(u8 playerIdx, s8 playerInputIdx);
     void initPlayers(u8 playerCount);
     void initRace(Scenario* scenario);
     void initRng();

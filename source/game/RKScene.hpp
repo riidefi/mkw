@@ -39,7 +39,7 @@ enum RKHeapTag {
   RK_HEAP_TAG_RES = 0xA,
   RK_HEAP_TAG_HBM = 0xB,
   RK_HEAP_TAG_12 = 0xC,
-  RK_HEAP_TAG_NETWORKING = 0xD,
+  RK_HEAP_TAG_NETWORKING = 0xD
 };
 
 struct HeapCollection {

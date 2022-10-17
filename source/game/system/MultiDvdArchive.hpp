@@ -19,7 +19,7 @@ enum ResourceChannelID {
   RES_CHAN_DEMO,     //!< [7] Cutscenes
   RES_CHAN_UI_MODEL, //!< [8] BackModel et al
 
-  RES_CHAN_NUM,
+  RES_CHAN_NUM
 };
 
 enum EResourceKind {
@@ -29,7 +29,7 @@ enum EResourceKind {
   RES_KIND_3,                  // unseen
   RES_KIND_4,                  // _Dif loader
 
-  RES_KIND_DEFAULT = RES_KIND_FILE_DOUBLE_FORMAT,
+  RES_KIND_DEFAULT = RES_KIND_FILE_DOUBLE_FORMAT
 };
 
 class MultiDvdArchive {
@@ -58,9 +58,7 @@ protected:
   void* getEarliestResBufInMem();
   void* getFarthestResBufInMem();
 
-  enum {
-    SUFFIX_SIZE = 128,
-  };
+  enum { SUFFIX_SIZE = 128 };
   DvdArchive* archives;
   u16 archiveCount;
   u32* fileSizes;
