@@ -59,7 +59,8 @@ extern UNKNOWN_FUNCTION(setUnkPos__Q36System10RaceConfig6PlayerFSc);
 // PAL: 0x8052dd30
 extern UNKNOWN_FUNCTION(getRacePlayerCount__Q26System10RaceConfigFv);
 // PAL: 0x8052e44c
-extern UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
+extern UNKNOWN_FUNCTION(
+    setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
 // PAL: 0x8052ed18
 extern UNKNOWN_FUNCTION(getCameraMode__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x80530f20
@@ -264,26 +265,26 @@ inline void as_scenarios(RaceConfig::Scenario& s1, RaceConfig::Scenario& s2) {
 void RaceConfig::init() {
   Player* player;
   mMenuScenario.mSettings.mCourseId = GCN_MARIO_CIRCUIT;
-  mMenuScenario.mSettings.mGameMode = 0;
-  mMenuScenario.mSettings.mGameType = 0;
-  mMenuScenario.mSettings.mCupId = 0;
+  mMenuScenario.mSettings.mGameMode = Settings::GAMEMODE_GRAND_PRIX;
+  mMenuScenario.mSettings.mCameraMode = Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO;
+  mMenuScenario.mSettings.mCupId = MUSHROOM_CUP;
   mMenuScenario.mSettings.mEngineClass = 2;
   mMenuScenario.mSettings.mCpuMode = 1;
-  mMenuScenario.mSettings.mModeFlags &= 0xfffffff8;
+  mMenuScenario.mSettings.mModeFlags =
+      (Settings::ModeFlags)(mMenuScenario.mSettings.mModeFlags & 0xfffffff8);
 
   for (u8 i = 0; i < MAX_PLAYER_COUNT; i++) {
     player = &mMenuScenario.getPlayer(i);
     player->mCharacterId = MARIO;
     player->mVehicleId = STANDARD_KART_M;
-    player->mPlayerType = i != 0 ? CPU : REAL_LOCAL;
+    player->mPlayerType = i != 0 ? Player::TYPE_CPU : Player::TYPE_REAL_LOCAL;
     player->mTeam = BATTLE_TEAM_NONE;
   }
 
-  this->clear();
+  clear();
   mMenuScenario.appendParamFile(this);
-  this->read(
-      InitScene::spInstance->mHeapCollection
-          .mpHeaps[HeapCollection::HEAP_ID_MEM2]); // ParamFile base function
+  read(InitScene::spInstance->mHeapCollection
+           .mpHeaps[HeapCollection::HEAP_ID_MEM2]); // ParamFile base function
   mMenuScenario.initRace(&mRaceScenario);
   as_scenarios(mRaceScenario, mMenuScenario);
   // mRaceScenario = mMenuScenario;
@@ -806,10 +807,10 @@ asm UNKNOWN_FUNCTION(
 }
 
 namespace System {
+
 bool RaceConfig::Scenario::initGhost(u8 playerIdx, s8 playerInputIdx) {
   bool ret = false;
   if (mGhost->isValid()) {
-
     GhostFile ghost;
     ghost.read(*mGhost);
 
@@ -1490,7 +1491,7 @@ void RaceConfig::Scenario::initRace(Scenario* scenario) {
   u8 localPlayerCount = 0;
 
   if (mSettings.mModeFlags & 4) {
-    this->initCompetitionSettings();
+    initCompetitionSettings();
   }
 
   copyPrevPositions();
@@ -1573,10 +1574,10 @@ void RaceConfig::initRace() {
 
 RaceConfig::Scenario&
 RaceConfig::Scenario::copy(const RaceConfig::Scenario& other) {
-  this->mPlayerCount = other.mPlayerCount;
-  this->mHudCount = other.mHudCount;
-  this->mLocalPlayerCount = other.mLocalPlayerCount;
-  this->mHudCount2 = other.mHudCount2;
+  mPlayerCount = other.mPlayerCount;
+  mHudCount = other.mHudCount;
+  mLocalPlayerCount = other.mLocalPlayerCount;
+  mHudCount2 = other.mHudCount2;
 
   RaceConfig::Player* thisPlayer = mPlayers;
   const RaceConfig::Player* otherPlayer = other.mPlayers;
@@ -1598,6 +1599,7 @@ RaceConfig::Scenario::copy(const RaceConfig::Scenario& other) {
   mGhost = other.mGhost;
   return *this;
 }
+
 } // namespace System
 
 // Requires some inline-related pragma to be implemented correctly
