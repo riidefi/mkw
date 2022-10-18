@@ -47,7 +47,7 @@ UNKNOWN_FUNCTION(getPlayer__Q36System10RaceConfig8ScenarioFUc);
 // PAL: 0x8052e444..0x8052e44c
 UNKNOWN_FUNCTION(setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId);
 // PAL: 0x8052e44c..0x8052e454
-UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFl);
+UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
 // PAL: 0x8052e454..0x8052e658
 UNKNOWN_FUNCTION(Racedata_resetSomeStuff);
 // PAL: 0x8052e658..0x8052e660
@@ -61,7 +61,7 @@ UNKNOWN_FUNCTION(unk_8052e870);
 // PAL: 0x8052e950..0x8052ed18
 UNKNOWN_FUNCTION(unk_8052e950);
 // PAL: 0x8052ed18..0x8052ed20
-UNKNOWN_FUNCTION(getGametype__Q36System10RaceConfig8ScenarioFv);
+UNKNOWN_FUNCTION(getCameraMode__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x8052ed20..0x8052ed28
 UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x8052ed28..0x8052eef0
@@ -121,24 +121,35 @@ UNKNOWN_FUNCTION(Racedata_isTimeAttackReplay);
 
 namespace System {
 
+enum CupId {
+  MUSHROOM_CUP,
+  FLOWER_CUP,
+  STAR_CUP,
+  SPECIAL_CUP,
+  SHELL_CUP,
+  BANANA_CUP,
+  LEAF_CUP,
+  LIGHTNING_CUP,
+};
+
 class RaceConfigEx {
 public:
   inline RaceConfigEx() {}
-};
-
-enum PlayerType {
-  REAL_LOCAL = 0,
-  CPU = 1,
-  UNKNOWN = 2,
-  GHOST = 3,
-  REAL_ONLINE = 4,
-  NONE = 5
 };
 
 class RaceConfig : public RaceConfigEx, public ParameterFile {
 public:
   class Player {
   public:
+    enum Type {
+      TYPE_REAL_LOCAL,
+      TYPE_CPU,
+      TYPE_UNUSED,
+      TYPE_GHOST,
+      TYPE_REAL_ONLINE,
+      TYPE_NONE,
+    };
+
     Player();
     virtual ~Player();
 
@@ -148,14 +159,14 @@ public:
 
     CharacterId getCharacter();
     Mii& getMii();
-    const PlayerType getPlayerType() const;
+    const Type getPlayerType() const;
     BattleTeam getTeam();
     u8 getUnkPos();
     VehicleId getVehicle();
 
     void setCharacter(CharacterId character);
     void setMii(const Mii& mii);
-    void setPlayerType(PlayerType playerType);
+    void setPlayerType(Type playerType);
     void setPrevFinishPos(s8 pos);
     void setUnkPos(s8 pos);
     void setVehicle(VehicleId vehicle);
@@ -165,7 +176,7 @@ public:
     s8 mPlayerInputIdx;
     VehicleId mVehicleId;
     CharacterId mCharacterId;
-    PlayerType mPlayerType;
+    Type mPlayerType;
     Mii mMii;
     BattleTeam mTeam;
     s32 mControllerId;
@@ -182,11 +193,49 @@ public:
   };
 
   struct Settings {
+    enum GameMode {
+      GAMEMODE_GRAND_PRIX,
+      GAMEMODE_VS_RACE,
+      GAMEMODE_TIME_TRIAL,
+      GAMEMODE_BATTLE,
+      GAMEMODE_MISSION_TOURNAMENT,
+      GAMEMODE_GHOST_RACE,
+      GAMEMODE_UNKNOWN,
+      GAMEMODE_PRIVATE_VS,
+      GAMEMODE_PUBLIC_VS,
+      GAMEMODE_PUBLIC_BATTLE,
+      GAMEMODE_PRIVATE_BATTLE,
+      GAMEMODE_AWARDS,
+      GAMEMODE_CREDITS,
+    };
+
+    enum CameraMode {
+      CAMERA_MODE_GAMEPLAY_NO_INTRO,
+      CAMERA_MODE_REPLAY,
+      CAMERA_MODE_TITLE_ONE_PLAYER,
+      CAMERA_MODE_TITLE_TWO_PLAYER,
+      CAMERA_MODE_TITLE_FOUR_PLAYER,
+      CAMERA_MODE_GAMEPLAY_INTRO,
+      CAMERA_MODE_LIVE_VIEW,
+      CAMERA_MODE_GRAND_PRIX_WIN,
+      CAMERA_MODE_SOLO_VS_WIN,
+      CAMERA_MODE_TEAM_VS_WIN,
+      CAMERA_MODE_BATTLE_WIN,
+      CAMERA_MODE_UNK_11,
+      CAMERA_MODE_LOSS,
+    };
+
+    enum ModeFlags {
+      MODE_FLAG_MIRROR = 1,
+      MODE_FLAG_TEAMS = 2,
+      MODE_FLAG_COMPETITION = 4,
+    };
+
     inline Settings& operator=(const Settings& other) {
       mCourseId = other.mCourseId;
       mEngineClass = other.mEngineClass;
       mGameMode = other.mGameMode;
-      mGameType = other.mGameType;
+      mCameraMode = other.mCameraMode;
       mBattleType = other.mBattleType;
       mCpuMode = other.mCpuMode;
       mItemMode = other.mItemMode;
@@ -205,16 +254,16 @@ public:
 
     CourseId mCourseId;
     u32 mEngineClass; // probably an enum
-    s32 mGameMode;    // TODO: create enum
-    s32 mGameType;    // TODO: create enum
+    GameMode mGameMode;
+    CameraMode mCameraMode;
     u32 mBattleType;
     u32 mCpuMode;
     u32 mItemMode;
     s8 mHudPlayerIds[4];
-    s32 mCupId; // TODO: create enum
+    CupId mCupId;
     u8 mRaceNumber;
     u8 mLapCount;
-    s32 mModeFlags; // TODO: create enum
+    ModeFlags mModeFlags;
     u32 mSeed1;
     u32 mSeed2;
   };
@@ -243,7 +292,7 @@ public:
     void resetPlayers();
     u8 update();
 
-    s32 getGametype();
+    Settings::CameraMode getCameraMode();
     const Player& getPlayer(u8 idx) const;
     Player& getPlayer(u8 idx);
 

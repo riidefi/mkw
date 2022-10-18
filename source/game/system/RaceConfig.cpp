@@ -59,10 +59,9 @@ extern UNKNOWN_FUNCTION(setUnkPos__Q36System10RaceConfig6PlayerFSc);
 // PAL: 0x8052dd30
 extern UNKNOWN_FUNCTION(getRacePlayerCount__Q26System10RaceConfigFv);
 // PAL: 0x8052e44c
-extern UNKNOWN_FUNCTION(
-    setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType);
+extern UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
 // PAL: 0x8052ed18
-extern UNKNOWN_FUNCTION(getGametype__Q36System10RaceConfig8ScenarioFv);
+extern UNKNOWN_FUNCTION(getCameraMode__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x80530f20
 extern UNKNOWN_FUNCTION(getCharacter__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x8052e444
@@ -182,8 +181,9 @@ extern "C" void getCompetitionWrapper(void*, CompetitionWrapper*);
 
 RaceConfig::Player::Player()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
-      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(REAL_LOCAL),
-      mMii(7), mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
+      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO),
+      mPlayerType(TYPE_REAL_LOCAL), mMii(7), mControllerId(-1), _d4(8),
+      mRating(), _ec(_ec & ~0x80) {}
 
 void RaceConfig::Player::appendParamFile(RaceConfig* raceConfig) {
   raceConfig->append(mVehicleId, InitScene::spInstance->mHeapCollection
@@ -223,9 +223,9 @@ s32 RaceConfig::Player::computeGpRank() const {
 RaceConfig::Scenario::Scenario(RawGhostFile* ghost)
     : mPlayerCount(0), mHudCount(0), mPlayers() {
   mSettings.mCourseId = GCN_MARIO_CIRCUIT;
-  mSettings.mGameMode = 0;
-  mSettings.mGameType = 0;
-  mSettings.mCupId = 0;
+  mSettings.mGameMode = Settings::GAMEMODE_GRAND_PRIX;
+  mSettings.mCameraMode = Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO;
+  mSettings.mCupId = MUSHROOM_CUP;
 
   // seems dubious
   memset(&this->mCompetitionSettings, 0, sizeof(CompetitionSettings));
@@ -299,7 +299,7 @@ RaceConfig::Player& RaceConfig::Scenario::getPlayer(u8 idx) {
 
 void RaceConfig::Player::setVehicle(VehicleId vehicle) { mVehicleId = vehicle; }
 
-void RaceConfig::Player::setPlayerType(PlayerType playerType) {
+void RaceConfig::Player::setPlayerType(Type playerType) {
   mPlayerType = playerType;
 }
 
@@ -324,7 +324,8 @@ void RaceConfig::Scenario::clear() {
   mSettings.mCpuMode = 1;
   mSettings.mLapCount = 3;
   mSettings.mEngineClass = 1;
-  mSettings.mModeFlags = mSettings.mModeFlags & 0xFFFFFFF8;
+  mSettings.mModeFlags =
+      (Settings::ModeFlags)(mSettings.mModeFlags & 0xFFFFFFF8);
 
   for (u8 i = 0; i < 12; i++) {
     getPlayer(i).reset(i + 1);
@@ -655,9 +656,11 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
 
 namespace System {
 
-s32 RaceConfig::Scenario::getGametype() { return mSettings.mGameType; }
+RaceConfig::Settings::CameraMode RaceConfig::Scenario::getCameraMode() {
+  return mSettings.mCameraMode;
+}
 
-const PlayerType RaceConfig::Player::getPlayerType() const {
+const RaceConfig::Player::Type RaceConfig::Player::getPlayerType() const {
   return mPlayerType;
 }
 
@@ -1335,16 +1338,16 @@ void RaceConfig::Scenario::computePlayerCounts(u8& playerCount, u8& hudCount,
   u8 localPlayerCount_ = 0;
 
   for (u8 i = 0; i < 12; i++) {
-    const s32 playerType = mPlayers[i].getPlayerType();
+    const Player::Type playerType = mPlayers[i].getPlayerType();
 
     // Check if player exists
-    if (playerType == 5) {
+    if (playerType == Player::TYPE_NONE) {
       continue;
     }
     playerCount_++;
 
     // Check if player is local
-    if (playerType != 0) {
+    if (playerType != Player::TYPE_REAL_LOCAL) {
       continue;
     }
 
@@ -1364,19 +1367,19 @@ void RaceConfig::Scenario::computePlayerCounts(u8& playerCount, u8& hudCount,
     hudCount_ = 4;
   }
 
-  // Set HUD count based on menu game type
-  const s32 gameType = mSettings.mGameType;
-  if (gameType == 2) {
+  // Set title screen HUD count
+  const Settings::CameraMode cameraMode = mSettings.mCameraMode;
+  if (cameraMode == Settings::CAMERA_MODE_TITLE_ONE_PLAYER) {
     hudCount_ = 1;
-  } else if (gameType == 3) {
+  } else if (cameraMode == Settings::CAMERA_MODE_TITLE_TWO_PLAYER) {
     hudCount_ = 2;
-  } else if (gameType == 4) {
+  } else if (cameraMode == Settings::CAMERA_MODE_TITLE_FOUR_PLAYER) {
     hudCount_ = 4;
   }
 
   // Cap player count on awards
   if (mSettings.mGameMode == 11) {
-    if (gameType == 7) {
+    if (cameraMode == Settings::CAMERA_MODE_GRAND_PRIX_WIN) {
       // Cap player count on GP win
       if (3 < playerCount_) {
         playerCount_ = 3;
@@ -1419,7 +1422,7 @@ void RaceConfig::Scenario::initRng() {
     return;
   }
 
-  if (mSettings.mGameType == 1) {
+  if (mSettings.mCameraMode == Settings::CAMERA_MODE_REPLAY) {
     return;
   }
   if (isOnline(mSettings.mGameMode)) {
@@ -1505,7 +1508,7 @@ void RaceConfig::Scenario::initRace(Scenario* scenario) {
   computePlayerCounts(playerCount, hudCount, localPlayerCount);
 
   u8 hudCount_ = hudCount;
-  if (mSettings.mGameType == 5) {
+  if (mSettings.mCameraMode == Settings::CAMERA_MODE_GAMEPLAY_INTRO) {
     hudCount = 1;
   }
 
@@ -1741,7 +1744,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530890 57C4063E */ clrlwi      r4, r30, 0x18
   /* 80530894 4BFFDBA1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530898 38800005 */ li          r4, 0x5
-  /* 8053089C 4BFFDBB1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
+  /* 8053089C 4BFFDBB1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 805308A0 57C4063E */ clrlwi      r4, r30, 0x18
   /* 805308A4 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308A8 3BA40001 */ addi        r29, r4, 0x1
@@ -1757,12 +1760,12 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 805308D0 281E000C */ cmplwi      r30, 0xc
   /* 805308D4 4180FFB8 */ blt+        lbl_8053088c
   /* 805308D8 387F0C10 */ addi        r3, r31, 0xc10
-  /* 805308DC 4BFFE43D */ bl          getGametype__Q36System10RaceConfig8ScenarioFv
+  /* 805308DC 4BFFE43D */ bl          getCameraMode__Q36System10RaceConfig8ScenarioFv
   /* 805308E0 3803FFF9 */ addi        r0, r3, -0x7
   /* 805308E4 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308E8 7C000034 */ cntlzw      r0, r0
   /* 805308EC 541DD97E */ srwi        r29, r0, 5
-  /* 805308F0 4BFFE429 */ bl          getGametype__Q36System10RaceConfig8ScenarioFv
+  /* 805308F0 4BFFE429 */ bl          getCameraMode__Q36System10RaceConfig8ScenarioFv
   /* 805308F4 3803FFF4 */ addi        r0, r3, -0xc
   /* 805308F8 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308FC 7C000034 */ cntlzw      r0, r0
@@ -1814,7 +1817,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 805309AC 387F0C10 */ addi        r3, r31, 0xc10
   /* 805309B0 4BFFDA85 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805309B4 38800001 */ li          r4, 0x1
-  /* 805309B8 4BFFDA95 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
+  /* 805309B8 4BFFDA95 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 805309BC 7F64DB78 */ mr          r4, r27
   /* 805309C0 387F0C10 */ addi        r3, r31, 0xc10
   /* 805309C4 4BFFDA71 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
@@ -1928,7 +1931,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530B50 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530B54 4BFFD8E1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530B58 38800001 */ li          r4, 0x1
-  /* 80530B5C 4BFFD8F1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
+  /* 80530B5C 4BFFD8F1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 80530B60 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530B64 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530B68 3BA40001 */ addi        r29, r4, 0x1
@@ -2012,7 +2015,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530C94 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530C98 4BFFD79D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530C9C 38800001 */ li          r4, 0x1
-  /* 80530CA0 4BFFD7AD */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
+  /* 80530CA0 4BFFD7AD */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 80530CA4 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530CA8 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530CAC 3BA40001 */ addi        r29, r4, 0x1
@@ -2089,7 +2092,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530DB8 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530DBC 4BFFD679 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530DC0 38800001 */ li          r4, 0x1
-  /* 80530DC4 4BFFD689 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
+  /* 80530DC4 4BFFD689 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 80530DC8 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530DCC 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530DD0 3BC40001 */ addi        r30, r4, 0x1
@@ -2145,7 +2148,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530E90 38800000 */ li          r4, 0x0
   /* 80530E94 4BFFD5A1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530E98 38800001 */ li          r4, 0x1
-  /* 80530E9C 4BFFD5B1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ26System10PlayerType
+  /* 80530E9C 4BFFD5B1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 80530EA0 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530EA4 38800000 */ li          r4, 0x0
   /* 80530EA8 4BFFD58D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
@@ -3086,19 +3089,21 @@ void RaceConfig::loadNextCourse() {
 }
 
 bool RaceConfig::isLiveView(u8 hudPlayerIdx) {
-  s32 gameType = mRaceScenario.mSettings.mGameType;
-  if (gameType > 1 && gameType < 5) {
+  Settings::CameraMode cameraMode = mRaceScenario.mSettings.mCameraMode;
+  if (cameraMode > (Settings::CameraMode)1 &&
+      cameraMode < (Settings::CameraMode)5) {
     return true;
   }
 
-  if (gameType == 1) {
+  if (cameraMode == Settings::CAMERA_MODE_REPLAY) {
     return true;
   }
 
   s32 playerId = mRaceScenario.mSettings.mHudPlayerIds[hudPlayerIdx];
   if (playerId >= 0) {
-    s32 playerType = mRaceScenario.mPlayers[(u8)playerId].mPlayerType;
-    if (playerType != 0 && playerType != 3) {
+    Player::Type playerType = mRaceScenario.mPlayers[(u8)playerId].mPlayerType;
+    if (playerType != Player::TYPE_REAL_LOCAL &&
+        playerType != Player::TYPE_GHOST) {
       return true;
     }
   }
@@ -3111,7 +3116,8 @@ bool RaceConfig::isTimeAttackReplay() {
 
   return ((gameMode == 2 || gameMode == 5) &&
           spInstance->mRaceScenario.mPlayerCount != 0 &&
-          spInstance->mRaceScenario.mPlayers[0].mPlayerType == 3)
+          spInstance->mRaceScenario.mPlayers[0].mPlayerType ==
+              Player::TYPE_GHOST)
              ? true
              : false;
 }
