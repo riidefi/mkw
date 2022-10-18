@@ -5,6 +5,7 @@
 #include <game/system/GhostFile.hpp>
 #include <game/system/Mii.hpp>
 #include <game/system/ResourceManager.hpp>
+#include <game/system/InputManager.hpp>
 #include <game/system/InitScene.hpp>
 #include <game/system/SaveManager.hpp>
 
@@ -158,7 +159,7 @@ public:
 
     CharacterId getCharacter();
     Mii& getMii();
-    Type getPlayerType();
+    const Type getPlayerType() const;
     BattleTeam getTeam();
     u8 getUnkPos();
     VehicleId getVehicle();
@@ -178,7 +179,7 @@ public:
     Type mPlayerType;
     Mii mMii;
     BattleTeam mTeam;
-    u32 mControllerId;
+    s32 mControllerId;
     unk32 _d4;
     u16 mPreviousScore;
     u16 mGpScore;
@@ -282,7 +283,7 @@ public:
     void copyPrevPositions();
     void initCompetitionSettings();
     void initControllers(u8 controllerCount);
-    bool initGhost(u8 playerIdx, u8 playerInputIdx);
+    bool initGhost(u8 playerIdx, s8 playerInputIdx);
     void initPlayers(u8 playerCount);
     void initRace(Scenario* scenario);
     void initRng();
@@ -321,6 +322,7 @@ public:
   ~RaceConfig() override;
 
   void clear();
+  void init();
   void initRace();
   bool isLiveView(u8 hudPlayerIdx);
   bool isTimeAttackReplay();

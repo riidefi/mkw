@@ -35,7 +35,7 @@ extern UNKNOWN_FUNCTION(__destroy_arr);
 // PAL: 0x8051c334
 extern UNKNOWN_FUNCTION(__dt__Q26System4TimeFv);
 // PAL: 0x8052453c
-extern UNKNOWN_FUNCTION(InputMgr_setGhostController);
+extern UNKNOWN_FUNCTION(setGhostController__Q26System12InputManagerFUcPvb);
 // PAL: 0x8051c790
 extern UNKNOWN_FUNCTION(read__Q26System9GhostFileFRCQ26System12RawGhostFile);
 // PAL: 0x8051c270
@@ -53,13 +53,14 @@ extern UNKNOWN_FUNCTION(__construct_array);
 // PAL: 0x80009ce0
 extern UNKNOWN_FUNCTION(__dt__Q26System13ParameterFileFv);
 // PAL: 0x8052ed20
-extern UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerFv);
+extern UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerCFv);
 // PAL: 0x8052e660
 extern UNKNOWN_FUNCTION(setUnkPos__Q36System10RaceConfig6PlayerFSc);
 // PAL: 0x8052dd30
 extern UNKNOWN_FUNCTION(getRacePlayerCount__Q26System10RaceConfigFv);
 // PAL: 0x8052e44c
-extern UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
+extern UNKNOWN_FUNCTION(
+    setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
 // PAL: 0x8052ed18
 extern UNKNOWN_FUNCTION(getCameraMode__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x80530f20
@@ -104,7 +105,7 @@ extern UNKNOWN_DATA(lbl_809bd730);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd70c
-extern UNKNOWN_DATA(lbl_809bd70c);
+extern UNKNOWN_DATA(spInstance__Q26System12InputManager);
 // PAL: 0x8088ffb0
 extern UNKNOWN_DATA(COURSE_ORDER__6System);
 // PAL: 0x809c2144
@@ -256,468 +257,38 @@ const u8 RaceConfig::getRacePlayerCount() {
   return RaceConfig::spInstance->mRaceScenario.mPlayerCount;
 }
 
-} // namespace System
-
-// Symbol: Racedata_init
-// PAL: 0x8052dd40..0x8052e42c
-MARK_BINARY_BLOB(Racedata_init, 0x8052dd40, 0x8052e42c);
-asm UNKNOWN_FUNCTION(Racedata_init) {
-  // clang-format off
-  nofralloc
-  /* 8052DD40 9421FFD0 */ stwu        r1, -0x30(r1)
-  /* 8052DD44 7C0802A6 */ mflr        r0
-  /* 8052DD48 39400000 */ li          r10, 0x0
-  /* 8052DD4C 38A00011 */ li          r5, 0x11
-  /* 8052DD50 90010034 */ stw         r0, 0x34(r1)
-  /* 8052DD54 38000003 */ li          r0, 0x3
-  /* 8052DD58 39200002 */ li          r9, 0x2
-  /* 8052DD5C 39000001 */ li          r8, 0x1
-  /* 8052DD60 BEC10008 */ stmw        r22, 8(r1)
-  /* 8052DD64 7C7F1B78 */ mr          r31, r3
-  /* 8052DD68 39600000 */ li          r11, 0x0
-  /* 8052DD6C 80831780 */ lwz         r4, 0x1780(r3)
-  /* 8052DD70 90A31758 */ stw         r5, 0x1758(r3)
-  /* 8052DD74 54840038 */ rlwinm      r4, r4, 0, 0, 0x1c
-  /* 8052DD78 91431760 */ stw         r10, 0x1760(r3)
-  /* 8052DD7C 91431764 */ stw         r10, 0x1764(r3)
-  /* 8052DD80 91431778 */ stw         r10, 0x1778(r3)
-  /* 8052DD84 9123175C */ stw         r9, 0x175c(r3)
-  /* 8052DD88 9103176C */ stw         r8, 0x176c(r3)
-  /* 8052DD8C 90831780 */ stw         r4, 0x1780(r3)
-  /* 8052DD90 7C0903A6 */ mtctr       r0
-  lbl_8052dd94:
-  /* 8052DD94 5564063E */ clrlwi      r4, r11, 0x18
-  /* 8052DD98 396B0001 */ addi        r11, r11, 0x1
-  /* 8052DD9C 1CE400F0 */ mulli       r7, r4, 0xf0
-  /* 8052DDA0 7CA400D0 */ neg         r5, r4
-  /* 8052DDA4 5560063E */ clrlwi      r0, r11, 0x18
-  /* 8052DDA8 7CC33A14 */ add         r6, r3, r7
-  /* 8052DDAC 7CA52378 */ or          r5, r5, r4
-  /* 8052DDB0 91460C24 */ stw         r10, 0xc24(r6)
-  /* 8052DDB4 54A40FFE */ srwi        r4, r5, 0x1f
-  /* 8052DDB8 7CA000D0 */ neg         r5, r0
-  /* 8052DDBC 396B0001 */ addi        r11, r11, 0x1
-  /* 8052DDC0 91060C20 */ stw         r8, 0xc20(r6)
-  /* 8052DDC4 1CE000F0 */ mulli       r7, r0, 0xf0
-  /* 8052DDC8 7CA50378 */ or          r5, r5, r0
-  /* 8052DDCC 90860C28 */ stw         r4, 0xc28(r6)
-  /* 8052DDD0 5560063E */ clrlwi      r0, r11, 0x18
-  /* 8052DDD4 54A40FFE */ srwi        r4, r5, 0x1f
-  /* 8052DDD8 396B0001 */ addi        r11, r11, 0x1
-  /* 8052DDDC 91260CE4 */ stw         r9, 0xce4(r6)
-  /* 8052DDE0 7CC33A14 */ add         r6, r3, r7
-  /* 8052DDE4 7CA000D0 */ neg         r5, r0
-  /* 8052DDE8 91460C24 */ stw         r10, 0xc24(r6)
-  /* 8052DDEC 1CE000F0 */ mulli       r7, r0, 0xf0
-  /* 8052DDF0 7CA50378 */ or          r5, r5, r0
-  /* 8052DDF4 91060C20 */ stw         r8, 0xc20(r6)
-  /* 8052DDF8 5560063E */ clrlwi      r0, r11, 0x18
-  /* 8052DDFC 396B0001 */ addi        r11, r11, 0x1
-  /* 8052DE00 90860C28 */ stw         r4, 0xc28(r6)
-  /* 8052DE04 54A40FFE */ srwi        r4, r5, 0x1f
-  /* 8052DE08 7CA000D0 */ neg         r5, r0
-  /* 8052DE0C 91260CE4 */ stw         r9, 0xce4(r6)
-  /* 8052DE10 7CC33A14 */ add         r6, r3, r7
-  /* 8052DE14 1CE000F0 */ mulli       r7, r0, 0xf0
-  /* 8052DE18 7CA50378 */ or          r5, r5, r0
-  /* 8052DE1C 91460C24 */ stw         r10, 0xc24(r6)
-  /* 8052DE20 91060C20 */ stw         r8, 0xc20(r6)
-  /* 8052DE24 90860C28 */ stw         r4, 0xc28(r6)
-  /* 8052DE28 54A40FFE */ srwi        r4, r5, 0x1f
-  /* 8052DE2C 91260CE4 */ stw         r9, 0xce4(r6)
-  /* 8052DE30 7CC33A14 */ add         r6, r3, r7
-  /* 8052DE34 91460C24 */ stw         r10, 0xc24(r6)
-  /* 8052DE38 91060C20 */ stw         r8, 0xc20(r6)
-  /* 8052DE3C 90860C28 */ stw         r4, 0xc28(r6)
-  /* 8052DE40 91260CE4 */ stw         r9, 0xce4(r6)
-  /* 8052DE44 4200FF50 */ bdnz        lbl_8052dd94
-  /* 8052DE48 80831780 */ lwz         r4, 0x1780(r3)
-  /* 8052DE4C 38C00001 */ li          r6, 0x1
-  /* 8052DE50 38000002 */ li          r0, 0x2
-  /* 8052DE54 39600000 */ li          r11, 0x0
-  /* 8052DE58 54840038 */ rlwinm      r4, r4, 0, 0, 0x1c
-  /* 8052DE5C 38A00003 */ li          r5, 0x3
-  /* 8052DE60 91631770 */ stw         r11, 0x1770(r3)
-  /* 8052DE64 39800000 */ li          r12, 0x0
-  /* 8052DE68 90C3176C */ stw         r6, 0x176c(r3)
-  /* 8052DE6C 98A3177D */ stb         r5, 0x177d(r3)
-  /* 8052DE70 90C3175C */ stw         r6, 0x175c(r3)
-  /* 8052DE74 90831780 */ stw         r4, 0x1780(r3)
-  /* 8052DE78 7C0903A6 */ mtctr       r0
-  lbl_8052de7c:
-  /* 8052DE7C 558A063E */ clrlwi      r10, r12, 0x18
-  /* 8052DE80 380C0002 */ addi        r0, r12, 0x2
-  /* 8052DE84 1CAA00F0 */ mulli       r5, r10, 0xf0
-  /* 8052DE88 388C0001 */ addi        r4, r12, 0x1
-  /* 8052DE8C 5407063E */ clrlwi      r7, r0, 0x18
-  /* 8052DE90 380C0003 */ addi        r0, r12, 0x3
-  /* 8052DE94 7D232A14 */ add         r9, r3, r5
-  /* 8052DE98 5488063E */ clrlwi      r8, r4, 0x18
-  /* 8052DE9C B1690CF0 */ sth         r11, 0xcf0(r9)
-  /* 8052DEA0 5406063E */ clrlwi      r6, r0, 0x18
-  /* 8052DEA4 388C0004 */ addi        r4, r12, 0x4
-  /* 8052DEA8 380C0005 */ addi        r0, r12, 0x5
-  /* 8052DEAC B1690CF6 */ sth         r11, 0xcf6(r9)
-  /* 8052DEB0 5485063E */ clrlwi      r5, r4, 0x18
-  /* 8052DEB4 394A0001 */ addi        r10, r10, 0x1
-  /* 8052DEB8 5404063E */ clrlwi      r4, r0, 0x18
-  /* 8052DEBC 99490CF9 */ stb         r10, 0xcf9(r9)
-  /* 8052DEC0 38080001 */ addi        r0, r8, 0x1
-  /* 8052DEC4 38E70001 */ addi        r7, r7, 0x1
-  /* 8052DEC8 38C60001 */ addi        r6, r6, 0x1
-  /* 8052DECC 99490CF8 */ stb         r10, 0xcf8(r9)
-  /* 8052DED0 38A50001 */ addi        r5, r5, 0x1
-  /* 8052DED4 38840001 */ addi        r4, r4, 0x1
-  /* 8052DED8 398C0006 */ addi        r12, r12, 0x6
-  /* 8052DEDC B1690DE0 */ sth         r11, 0xde0(r9)
-  /* 8052DEE0 B1690DE6 */ sth         r11, 0xde6(r9)
-  /* 8052DEE4 98090DE9 */ stb         r0, 0xde9(r9)
-  /* 8052DEE8 98090DE8 */ stb         r0, 0xde8(r9)
-  /* 8052DEEC B1690ED0 */ sth         r11, 0xed0(r9)
-  /* 8052DEF0 B1690ED6 */ sth         r11, 0xed6(r9)
-  /* 8052DEF4 98E90ED9 */ stb         r7, 0xed9(r9)
-  /* 8052DEF8 98E90ED8 */ stb         r7, 0xed8(r9)
-  /* 8052DEFC B1690FC0 */ sth         r11, 0xfc0(r9)
-  /* 8052DF00 B1690FC6 */ sth         r11, 0xfc6(r9)
-  /* 8052DF04 98C90FC9 */ stb         r6, 0xfc9(r9)
-  /* 8052DF08 98C90FC8 */ stb         r6, 0xfc8(r9)
-  /* 8052DF0C B16910B0 */ sth         r11, 0x10b0(r9)
-  /* 8052DF10 B16910B6 */ sth         r11, 0x10b6(r9)
-  /* 8052DF14 98A910B9 */ stb         r5, 0x10b9(r9)
-  /* 8052DF18 98A910B8 */ stb         r5, 0x10b8(r9)
-  /* 8052DF1C B16911A0 */ sth         r11, 0x11a0(r9)
-  /* 8052DF20 B16911A6 */ sth         r11, 0x11a6(r9)
-  /* 8052DF24 988911A9 */ stb         r4, 0x11a9(r9)
-  /* 8052DF28 988911A8 */ stb         r4, 0x11a8(r9)
-  /* 8052DF2C 4200FF50 */ bdnz        lbl_8052de7c
-  /* 8052DF30 80832370 */ lwz         r4, 0x2370(r3)
-  /* 8052DF34 39600000 */ li          r11, 0x0
-  /* 8052DF38 38000002 */ li          r0, 0x2
-  /* 8052DF3C 38C00003 */ li          r6, 0x3
-  /* 8052DF40 38A00001 */ li          r5, 0x1
-  /* 8052DF44 54840038 */ rlwinm      r4, r4, 0, 0, 0x1c
-  /* 8052DF48 9963177C */ stb         r11, 0x177c(r3)
-  /* 8052DF4C 39800000 */ li          r12, 0x0
-  /* 8052DF50 98C3177D */ stb         r6, 0x177d(r3)
-  /* 8052DF54 91632360 */ stw         r11, 0x2360(r3)
-  /* 8052DF58 90A3235C */ stw         r5, 0x235c(r3)
-  /* 8052DF5C 98C3236D */ stb         r6, 0x236d(r3)
-  /* 8052DF60 90A3234C */ stw         r5, 0x234c(r3)
-  /* 8052DF64 90832370 */ stw         r4, 0x2370(r3)
-  /* 8052DF68 7C0903A6 */ mtctr       r0
-  lbl_8052df6c:
-  /* 8052DF6C 558A063E */ clrlwi      r10, r12, 0x18
-  /* 8052DF70 380C0002 */ addi        r0, r12, 0x2
-  /* 8052DF74 1CAA00F0 */ mulli       r5, r10, 0xf0
-  /* 8052DF78 388C0001 */ addi        r4, r12, 0x1
-  /* 8052DF7C 5407063E */ clrlwi      r7, r0, 0x18
-  /* 8052DF80 380C0003 */ addi        r0, r12, 0x3
-  /* 8052DF84 7D232A14 */ add         r9, r3, r5
-  /* 8052DF88 5488063E */ clrlwi      r8, r4, 0x18
-  /* 8052DF8C B16918E0 */ sth         r11, 0x18e0(r9)
-  /* 8052DF90 5406063E */ clrlwi      r6, r0, 0x18
-  /* 8052DF94 388C0004 */ addi        r4, r12, 0x4
-  /* 8052DF98 380C0005 */ addi        r0, r12, 0x5
-  /* 8052DF9C B16918E6 */ sth         r11, 0x18e6(r9)
-  /* 8052DFA0 5485063E */ clrlwi      r5, r4, 0x18
-  /* 8052DFA4 394A0001 */ addi        r10, r10, 0x1
-  /* 8052DFA8 5404063E */ clrlwi      r4, r0, 0x18
-  /* 8052DFAC 994918E9 */ stb         r10, 0x18e9(r9)
-  /* 8052DFB0 38080001 */ addi        r0, r8, 0x1
-  /* 8052DFB4 38E70001 */ addi        r7, r7, 0x1
-  /* 8052DFB8 38C60001 */ addi        r6, r6, 0x1
-  /* 8052DFBC 994918E8 */ stb         r10, 0x18e8(r9)
-  /* 8052DFC0 38A50001 */ addi        r5, r5, 0x1
-  /* 8052DFC4 38840001 */ addi        r4, r4, 0x1
-  /* 8052DFC8 398C0006 */ addi        r12, r12, 0x6
-  /* 8052DFCC B16919D0 */ sth         r11, 0x19d0(r9)
-  /* 8052DFD0 B16919D6 */ sth         r11, 0x19d6(r9)
-  /* 8052DFD4 980919D9 */ stb         r0, 0x19d9(r9)
-  /* 8052DFD8 980919D8 */ stb         r0, 0x19d8(r9)
-  /* 8052DFDC B1691AC0 */ sth         r11, 0x1ac0(r9)
-  /* 8052DFE0 B1691AC6 */ sth         r11, 0x1ac6(r9)
-  /* 8052DFE4 98E91AC9 */ stb         r7, 0x1ac9(r9)
-  /* 8052DFE8 98E91AC8 */ stb         r7, 0x1ac8(r9)
-  /* 8052DFEC B1691BB0 */ sth         r11, 0x1bb0(r9)
-  /* 8052DFF0 B1691BB6 */ sth         r11, 0x1bb6(r9)
-  /* 8052DFF4 98C91BB9 */ stb         r6, 0x1bb9(r9)
-  /* 8052DFF8 98C91BB8 */ stb         r6, 0x1bb8(r9)
-  /* 8052DFFC B1691CA0 */ sth         r11, 0x1ca0(r9)
-  /* 8052E000 B1691CA6 */ sth         r11, 0x1ca6(r9)
-  /* 8052E004 98A91CA9 */ stb         r5, 0x1ca9(r9)
-  /* 8052E008 98A91CA8 */ stb         r5, 0x1ca8(r9)
-  /* 8052E00C B1691D90 */ sth         r11, 0x1d90(r9)
-  /* 8052E010 B1691D96 */ sth         r11, 0x1d96(r9)
-  /* 8052E014 98891D99 */ stb         r4, 0x1d99(r9)
-  /* 8052E018 98891D98 */ stb         r4, 0x1d98(r9)
-  /* 8052E01C 4200FF50 */ bdnz        lbl_8052df6c
-  /* 8052E020 38800000 */ li          r4, 0x0
-  /* 8052E024 38000003 */ li          r0, 0x3
-  /* 8052E028 9883236C */ stb         r4, 0x236c(r3)
-  /* 8052E02C 3EC0809C */ lis         r22, spInstance__Q26System9InitScene@ha
-  /* 8052E030 389F1758 */ addi        r4, r31, 0x1758
-  /* 8052E034 38A00004 */ li          r5, 0x4
-  /* 8052E038 9803236D */ stb         r0, 0x236d(r3)
-  /* 8052E03C 7FE3FB78 */ mr          r3, r31
-  /* 8052E040 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E044 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E048 4BADBD25 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E04C 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E050 7FE3FB78 */ mr          r3, r31
-  /* 8052E054 389F175C */ addi        r4, r31, 0x175c
-  /* 8052E058 38A00004 */ li          r5, 0x4
-  /* 8052E05C 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E060 4BADBD0D */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E064 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E068 7FE3FB78 */ mr          r3, r31
-  /* 8052E06C 389F1760 */ addi        r4, r31, 0x1760
-  /* 8052E070 38A00004 */ li          r5, 0x4
-  /* 8052E074 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E078 4BADBCF5 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E07C 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E080 7FE3FB78 */ mr          r3, r31
-  /* 8052E084 389F0C14 */ addi        r4, r31, 0xc14
-  /* 8052E088 38A00001 */ li          r5, 0x1
-  /* 8052E08C 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E090 4BADBCDD */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E094 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E098 7FE3FB78 */ mr          r3, r31
-  /* 8052E09C 389F0C16 */ addi        r4, r31, 0xc16
-  /* 8052E0A0 38A00001 */ li          r5, 0x1
-  /* 8052E0A4 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E0A8 4BADBCC5 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E0AC 3B1F0C18 */ addi        r24, r31, 0xc18
-  /* 8052E0B0 3AE00000 */ li          r23, 0x0
-  lbl_8052e0b4:
-  /* 8052E0B4 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E0B8 7FE3FB78 */ mr          r3, r31
-  /* 8052E0BC 38980008 */ addi        r4, r24, 0x8
-  /* 8052E0C0 38A00004 */ li          r5, 0x4
-  /* 8052E0C4 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E0C8 4BADBCA5 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E0CC 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E0D0 7FE3FB78 */ mr          r3, r31
-  /* 8052E0D4 3898000C */ addi        r4, r24, 0xc
-  /* 8052E0D8 38A00004 */ li          r5, 0x4
-  /* 8052E0DC 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E0E0 4BADBC8D */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E0E4 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E0E8 7FE3FB78 */ mr          r3, r31
-  /* 8052E0EC 38980010 */ addi        r4, r24, 0x10
-  /* 8052E0F0 38A00004 */ li          r5, 0x4
-  /* 8052E0F4 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E0F8 4BADBC75 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E0FC 80D6D740 */ lwz         r6, spInstance__Q26System9InitScene@l(r22)
-  /* 8052E100 7FE3FB78 */ mr          r3, r31
-  /* 8052E104 389800CC */ addi        r4, r24, 0xcc
-  /* 8052E108 38A00004 */ li          r5, 0x4
-  /* 8052E10C 80C60034 */ lwz         r6, 0x34(r6)
-  /* 8052E110 4BADBC5D */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E114 3AF70001 */ addi        r23, r23, 0x1
-  /* 8052E118 3B1800F0 */ addi        r24, r24, 0xf0
-  /* 8052E11C 2C17000C */ cmpwi       r23, 0xc
-  /* 8052E120 4180FF94 */ blt+        lbl_8052e0b4
-  /* 8052E124 7FE3FB78 */ mr          r3, r31
-  /* 8052E128 389F1780 */ addi        r4, r31, 0x1780
-  /* 8052E12C 38A00004 */ li          r5, 0x4
-  /* 8052E130 38C00000 */ li          r6, 0x0
-  /* 8052E134 4BADBC39 */ bl          appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap
-  /* 8052E138 819F0000 */ lwz         r12, 0(r31)
-  /* 8052E13C 3C80809C */ lis         r4, spInstance__Q26System9InitScene@ha
-  /* 8052E140 8084D740 */ lwz         r4, spInstance__Q26System9InitScene@l(r4)
-  /* 8052E144 7FE3FB78 */ mr          r3, r31
-  /* 8052E148 818C000C */ lwz         r12, 0xc(r12)
-  /* 8052E14C 80840034 */ lwz         r4, 0x34(r4)
-  /* 8052E150 7D8903A6 */ mtctr       r12
-  /* 8052E154 4E800421 */ bctrl
-  /* 8052E158 387F0C10 */ addi        r3, r31, 0xc10
-  /* 8052E15C 389F0020 */ addi        r4, r31, 0x20
-  /* 8052E160 48001A31 */ bl          initRace__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario
-  /* 8052E164 893F0C14 */ lbz         r9, 0xc14(r31)
-  /* 8052E168 387F0028 */ addi        r3, r31, 0x28
-  /* 8052E16C 891F0C15 */ lbz         r8, 0xc15(r31)
-  /* 8052E170 389F0C18 */ addi        r4, r31, 0xc18
-  /* 8052E174 88FF0C16 */ lbz         r7, 0xc16(r31)
-  /* 8052E178 38BF0B68 */ addi        r5, r31, 0xb68
-  /* 8052E17C 88DF0C17 */ lbz         r6, 0xc17(r31)
-  /* 8052E180 38000026 */ li          r0, 0x26
-  /* 8052E184 993F0024 */ stb         r9, 0x24(r31)
-  /* 8052E188 991F0025 */ stb         r8, 0x25(r31)
-  /* 8052E18C 98FF0026 */ stb         r7, 0x26(r31)
-  /* 8052E190 98DF0027 */ stb         r6, 0x27(r31)
-  lbl_8052e194:
-  /* 8052E194 88C40004 */ lbz         r6, 4(r4)
-  /* 8052E198 39230023 */ addi        r9, r3, 0x23
-  /* 8052E19C 98C30004 */ stb         r6, 4(r3)
-  /* 8052E1A0 39040023 */ addi        r8, r4, 0x23
-  /* 8052E1A4 88C40005 */ lbz         r6, 5(r4)
-  /* 8052E1A8 98C30005 */ stb         r6, 5(r3)
-  /* 8052E1AC 88C40006 */ lbz         r6, 6(r4)
-  /* 8052E1B0 98C30006 */ stb         r6, 6(r3)
-  /* 8052E1B4 80C40008 */ lwz         r6, 8(r4)
-  /* 8052E1B8 90C30008 */ stw         r6, 8(r3)
-  /* 8052E1BC 80C4000C */ lwz         r6, 0xc(r4)
-  /* 8052E1C0 90C3000C */ stw         r6, 0xc(r3)
-  /* 8052E1C4 80C40010 */ lwz         r6, 0x10(r4)
-  /* 8052E1C8 90C30010 */ stw         r6, 0x10(r3)
-  /* 8052E1CC 80C40018 */ lwz         r6, 0x18(r4)
-  /* 8052E1D0 90C30018 */ stw         r6, 0x18(r3)
-  /* 8052E1D4 88C4001C */ lbz         r6, 0x1c(r4)
-  /* 8052E1D8 98C3001C */ stb         r6, 0x1c(r3)
-  /* 8052E1DC 88C4001D */ lbz         r6, 0x1d(r4)
-  /* 8052E1E0 98C3001D */ stb         r6, 0x1d(r3)
-  /* 8052E1E4 80C40020 */ lwz         r6, 0x20(r4)
-  /* 8052E1E8 90C30020 */ stw         r6, 0x20(r3)
-  /* 8052E1EC 7C0903A6 */ mtctr       r0
-  lbl_8052e1f0:
-  /* 8052E1F0 88E80001 */ lbz         r7, 1(r8)
-  /* 8052E1F4 8CC80002 */ lbzu        r6, 2(r8)
-  /* 8052E1F8 98E90001 */ stb         r7, 1(r9)
-  /* 8052E1FC 9CC90002 */ stbu        r6, 2(r9)
-  /* 8052E200 4200FFF0 */ bdnz        lbl_8052e1f0
-  /* 8052E204 80C40070 */ lwz         r6, 0x70(r4)
-  /* 8052E208 90C30070 */ stw         r6, 0x70(r3)
-  /* 8052E20C 88C40074 */ lbz         r6, 0x74(r4)
-  /* 8052E210 98C30074 */ stb         r6, 0x74(r3)
-  /* 8052E214 88C40075 */ lbz         r6, 0x75(r4)
-  /* 8052E218 98C30075 */ stb         r6, 0x75(r3)
-  /* 8052E21C 88C40076 */ lbz         r6, 0x76(r4)
-  /* 8052E220 98C30076 */ stb         r6, 0x76(r3)
-  /* 8052E224 88C40077 */ lbz         r6, 0x77(r4)
-  /* 8052E228 98C30077 */ stb         r6, 0x77(r3)
-  /* 8052E22C 80C40078 */ lwz         r6, 0x78(r4)
-  /* 8052E230 90C30078 */ stw         r6, 0x78(r3)
-  /* 8052E234 80C40080 */ lwz         r6, 0x80(r4)
-  /* 8052E238 80E4007C */ lwz         r7, 0x7c(r4)
-  /* 8052E23C 90E3007C */ stw         r7, 0x7c(r3)
-  /* 8052E240 90C30080 */ stw         r6, 0x80(r3)
-  /* 8052E244 80C40088 */ lwz         r6, 0x88(r4)
-  /* 8052E248 80E40084 */ lwz         r7, 0x84(r4)
-  /* 8052E24C 90E30084 */ stw         r7, 0x84(r3)
-  /* 8052E250 90C30088 */ stw         r6, 0x88(r3)
-  /* 8052E254 80C40090 */ lwz         r6, 0x90(r4)
-  /* 8052E258 80E4008C */ lwz         r7, 0x8c(r4)
-  /* 8052E25C 90E3008C */ stw         r7, 0x8c(r3)
-  /* 8052E260 90C30090 */ stw         r6, 0x90(r3)
-  /* 8052E264 80C40098 */ lwz         r6, 0x98(r4)
-  /* 8052E268 80E40094 */ lwz         r7, 0x94(r4)
-  /* 8052E26C 90E30094 */ stw         r7, 0x94(r3)
-  /* 8052E270 90C30098 */ stw         r6, 0x98(r3)
-  /* 8052E274 80C400A0 */ lwz         r6, 0xa0(r4)
-  /* 8052E278 80E4009C */ lwz         r7, 0x9c(r4)
-  /* 8052E27C 90E3009C */ stw         r7, 0x9c(r3)
-  /* 8052E280 90C300A0 */ stw         r6, 0xa0(r3)
-  /* 8052E284 80C400A8 */ lwz         r6, 0xa8(r4)
-  /* 8052E288 80E400A4 */ lwz         r7, 0xa4(r4)
-  /* 8052E28C 90E300A4 */ stw         r7, 0xa4(r3)
-  /* 8052E290 90C300A8 */ stw         r6, 0xa8(r3)
-  /* 8052E294 80C400B0 */ lwz         r6, 0xb0(r4)
-  /* 8052E298 80E400AC */ lwz         r7, 0xac(r4)
-  /* 8052E29C 90E300AC */ stw         r7, 0xac(r3)
-  /* 8052E2A0 90C300B0 */ stw         r6, 0xb0(r3)
-  /* 8052E2A4 80C400B4 */ lwz         r6, 0xb4(r4)
-  /* 8052E2A8 90C300B4 */ stw         r6, 0xb4(r3)
-  /* 8052E2AC 88C400B8 */ lbz         r6, 0xb8(r4)
-  /* 8052E2B0 98C300B8 */ stb         r6, 0xb8(r3)
-  /* 8052E2B4 88C400B9 */ lbz         r6, 0xb9(r4)
-  /* 8052E2B8 98C300B9 */ stb         r6, 0xb9(r3)
-  /* 8052E2BC 88C400BA */ lbz         r6, 0xba(r4)
-  /* 8052E2C0 98C300BA */ stb         r6, 0xba(r3)
-  /* 8052E2C4 80C400BC */ lwz         r6, 0xbc(r4)
-  /* 8052E2C8 90C300BC */ stw         r6, 0xbc(r3)
-  /* 8052E2CC 88C400C0 */ lbz         r6, 0xc0(r4)
-  /* 8052E2D0 98C300C0 */ stb         r6, 0xc0(r3)
-  /* 8052E2D4 88C400C1 */ lbz         r6, 0xc1(r4)
-  /* 8052E2D8 98C300C1 */ stb         r6, 0xc1(r3)
-  /* 8052E2DC 88C400C2 */ lbz         r6, 0xc2(r4)
-  /* 8052E2E0 98C300C2 */ stb         r6, 0xc2(r3)
-  /* 8052E2E4 80C400C4 */ lwz         r6, 0xc4(r4)
-  /* 8052E2E8 90C300C4 */ stw         r6, 0xc4(r3)
-  /* 8052E2EC 80C400C8 */ lwz         r6, 0xc8(r4)
-  /* 8052E2F0 90C300C8 */ stw         r6, 0xc8(r3)
-  /* 8052E2F4 80C400CC */ lwz         r6, 0xcc(r4)
-  /* 8052E2F8 90C300CC */ stw         r6, 0xcc(r3)
-  /* 8052E2FC 80C400D0 */ lwz         r6, 0xd0(r4)
-  /* 8052E300 90C300D0 */ stw         r6, 0xd0(r3)
-  /* 8052E304 80C400D4 */ lwz         r6, 0xd4(r4)
-  /* 8052E308 90C300D4 */ stw         r6, 0xd4(r3)
-  /* 8052E30C A0C400D8 */ lhz         r6, 0xd8(r4)
-  /* 8052E310 B0C300D8 */ sth         r6, 0xd8(r3)
-  /* 8052E314 A0C400DA */ lhz         r6, 0xda(r4)
-  /* 8052E318 B0C300DA */ sth         r6, 0xda(r3)
-  /* 8052E31C A0C400DC */ lhz         r6, 0xdc(r4)
-  /* 8052E320 B0C300DC */ sth         r6, 0xdc(r3)
-  /* 8052E324 A8C400DE */ lha         r6, 0xde(r4)
-  /* 8052E328 B0C300DE */ sth         r6, 0xde(r3)
-  /* 8052E32C 88C400E0 */ lbz         r6, 0xe0(r4)
-  /* 8052E330 98C300E0 */ stb         r6, 0xe0(r3)
-  /* 8052E334 88C400E1 */ lbz         r6, 0xe1(r4)
-  /* 8052E338 98C300E1 */ stb         r6, 0xe1(r3)
-  /* 8052E33C 88C400E2 */ lbz         r6, 0xe2(r4)
-  /* 8052E340 98C300E2 */ stb         r6, 0xe2(r3)
-  /* 8052E344 A0C400E8 */ lhz         r6, 0xe8(r4)
-  /* 8052E348 B0C300E8 */ sth         r6, 0xe8(r3)
-  /* 8052E34C 88C400EC */ lbz         r6, 0xec(r4)
-  /* 8052E350 388400F0 */ addi        r4, r4, 0xf0
-  /* 8052E354 98C300EC */ stb         r6, 0xec(r3)
-  /* 8052E358 386300F0 */ addi        r3, r3, 0xf0
-  /* 8052E35C 7C032840 */ cmplw       r3, r5
-  /* 8052E360 4180FE34 */ blt+        lbl_8052e194
-  /* 8052E364 82DF1758 */ lwz         r22, 0x1758(r31)
-  /* 8052E368 3800000E */ li          r0, 0xe
-  /* 8052E36C 82FF175C */ lwz         r23, 0x175c(r31)
-  /* 8052E370 38BF0B98 */ addi        r5, r31, 0xb98
-  /* 8052E374 831F1760 */ lwz         r24, 0x1760(r31)
-  /* 8052E378 389F1788 */ addi        r4, r31, 0x1788
-  /* 8052E37C 833F1764 */ lwz         r25, 0x1764(r31)
-  /* 8052E380 835F1768 */ lwz         r26, 0x1768(r31)
-  /* 8052E384 837F176C */ lwz         r27, 0x176c(r31)
-  /* 8052E388 839F1770 */ lwz         r28, 0x1770(r31)
-  /* 8052E38C 8BBF1774 */ lbz         r29, 0x1774(r31)
-  /* 8052E390 8BDF1775 */ lbz         r30, 0x1775(r31)
-  /* 8052E394 899F1776 */ lbz         r12, 0x1776(r31)
-  /* 8052E398 897F1777 */ lbz         r11, 0x1777(r31)
-  /* 8052E39C 815F1778 */ lwz         r10, 0x1778(r31)
-  /* 8052E3A0 893F177C */ lbz         r9, 0x177c(r31)
-  /* 8052E3A4 891F177D */ lbz         r8, 0x177d(r31)
-  /* 8052E3A8 80FF1780 */ lwz         r7, 0x1780(r31)
-  /* 8052E3AC 80DF1784 */ lwz         r6, 0x1784(r31)
-  /* 8052E3B0 807F1788 */ lwz         r3, 0x1788(r31)
-  /* 8052E3B4 92DF0B68 */ stw         r22, 0xb68(r31)
-  /* 8052E3B8 92FF0B6C */ stw         r23, 0xb6c(r31)
-  /* 8052E3BC 931F0B70 */ stw         r24, 0xb70(r31)
-  /* 8052E3C0 933F0B74 */ stw         r25, 0xb74(r31)
-  /* 8052E3C4 935F0B78 */ stw         r26, 0xb78(r31)
-  /* 8052E3C8 937F0B7C */ stw         r27, 0xb7c(r31)
-  /* 8052E3CC 939F0B80 */ stw         r28, 0xb80(r31)
-  /* 8052E3D0 9BBF0B84 */ stb         r29, 0xb84(r31)
-  /* 8052E3D4 9BDF0B85 */ stb         r30, 0xb85(r31)
-  /* 8052E3D8 999F0B86 */ stb         r12, 0xb86(r31)
-  /* 8052E3DC 997F0B87 */ stb         r11, 0xb87(r31)
-  /* 8052E3E0 915F0B88 */ stw         r10, 0xb88(r31)
-  /* 8052E3E4 993F0B8C */ stb         r9, 0xb8c(r31)
-  /* 8052E3E8 991F0B8D */ stb         r8, 0xb8d(r31)
-  /* 8052E3EC 90FF0B90 */ stw         r7, 0xb90(r31)
-  /* 8052E3F0 90DF0B94 */ stw         r6, 0xb94(r31)
-  /* 8052E3F4 907F0B98 */ stw         r3, 0xb98(r31)
-  /* 8052E3F8 7C0903A6 */ mtctr       r0
-  lbl_8052e3fc:
-  /* 8052E3FC 80640004 */ lwz         r3, 4(r4)
-  /* 8052E400 84040008 */ lwzu        r0, 8(r4)
-  /* 8052E404 90650004 */ stw         r3, 4(r5)
-  /* 8052E408 94050008 */ stwu        r0, 8(r5)
-  /* 8052E40C 4200FFF0 */ bdnz        lbl_8052e3fc
-  /* 8052E410 801F17FC */ lwz         r0, 0x17fc(r31)
-  /* 8052E414 901F0C0C */ stw         r0, 0xc0c(r31)
-  /* 8052E418 BAC10008 */ lmw         r22, 8(r1)
-  /* 8052E41C 80010034 */ lwz         r0, 0x34(r1)
-  /* 8052E420 7C0803A6 */ mtlr        r0
-  /* 8052E424 38210030 */ addi        r1, r1, 0x30
-  /* 8052E428 4E800020 */ blr
-  // clang-format on
+#pragma legacy_struct_alignment on
+inline void as_scenarios(RaceConfig::Scenario& s1, RaceConfig::Scenario& s2) {
+  s1 = s2;
 }
 
-namespace System {
+void RaceConfig::init() {
+  Player* player;
+  mMenuScenario.mSettings.mCourseId = GCN_MARIO_CIRCUIT;
+  mMenuScenario.mSettings.mGameMode = Settings::GAMEMODE_GRAND_PRIX;
+  mMenuScenario.mSettings.mCameraMode = Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO;
+  mMenuScenario.mSettings.mCupId = MUSHROOM_CUP;
+  mMenuScenario.mSettings.mEngineClass = 2;
+  mMenuScenario.mSettings.mCpuMode = 1;
+  mMenuScenario.mSettings.mModeFlags =
+      (Settings::ModeFlags)(mMenuScenario.mSettings.mModeFlags & 0xfffffff8);
+
+  for (u8 i = 0; i < MAX_PLAYER_COUNT; i++) {
+    player = &mMenuScenario.getPlayer(i);
+    player->mCharacterId = MARIO;
+    player->mVehicleId = STANDARD_KART_M;
+    player->mPlayerType = i != 0 ? Player::TYPE_CPU : Player::TYPE_REAL_LOCAL;
+    player->mTeam = BATTLE_TEAM_NONE;
+  }
+
+  clear();
+  mMenuScenario.appendParamFile(this);
+  read(InitScene::spInstance->mHeapCollection
+           .mpHeaps[HeapCollection::HEAP_ID_MEM2]); // ParamFile base function
+  mMenuScenario.initRace(&mRaceScenario);
+  as_scenarios(mRaceScenario, mMenuScenario);
+  // mRaceScenario = mMenuScenario;
+}
 
 void RaceConfig::Player::setCharacter(CharacterId character) {
   mCharacterId = character;
@@ -1090,7 +661,7 @@ RaceConfig::Settings::CameraMode RaceConfig::Scenario::getCameraMode() {
   return mSettings.mCameraMode;
 }
 
-RaceConfig::Player::Type RaceConfig::Player::getPlayerType() {
+const RaceConfig::Player::Type RaceConfig::Player::getPlayerType() const {
   return mPlayerType;
 }
 
@@ -1123,7 +694,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052ED60 48000174 */ b           lbl_8052eed4
   lbl_8052ed64:
   /* 8052ED64 3BA00000 */ li          r29, 0x0
-  /* 8052ED68 3FC0809C */ lis         r30, lbl_809bd70c@ha
+  /* 8052ED68 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
   lbl_8052ed6c:
   /* 8052ED6C 57A0063E */ clrlwi      r0, r29, 0x18
   /* 8052ED70 1C0000F0 */ mulli       r0, r0, 0xf0
@@ -1134,7 +705,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052ED84 8803000E */ lbz         r0, 0xe(r3)
   /* 8052ED88 7C000775 */ extsb.      r0, r0
   /* 8052ED8C 41800010 */ blt-        lbl_8052ed9c
-  /* 8052ED90 807ED70C */ lwz         r3, lbl_809bd70c@l(r30)
+  /* 8052ED90 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
   /* 8052ED94 5404063E */ clrlwi      r4, r0, 0x18
   /* 8052ED98 4BFF57C1 */ bl          unk_80524558
   lbl_8052ed9c:
@@ -1145,7 +716,7 @@ asm UNKNOWN_FUNCTION(
   lbl_8052edac:
   /* 8052EDAC 38000004 */ li          r0, 0x4
   /* 8052EDB0 38C00000 */ li          r6, 0x0
-  /* 8052EDB4 3CA0809C */ lis         r5, lbl_809bd70c@ha
+  /* 8052EDB4 3CA0809C */ lis         r5, spInstance__Q26System12InputManager@ha
   /* 8052EDB8 7C0903A6 */ mtctr       r0
   lbl_8052edbc:
   /* 8052EDBC 54C0063E */ clrlwi      r0, r6, 0x18
@@ -1158,7 +729,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EDD8 7C000775 */ extsb.      r0, r0
   /* 8052EDDC 4180001C */ blt-        lbl_8052edf8
   /* 8052EDE0 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EDE4 8085D70C */ lwz         r4, lbl_809bd70c@l(r5)
+  /* 8052EDE4 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
   /* 8052EDE8 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EDEC 7C840214 */ add         r4, r4, r0
   /* 8052EDF0 80040010 */ lwz         r0, 0x10(r4)
@@ -1175,7 +746,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE18 7C000775 */ extsb.      r0, r0
   /* 8052EE1C 4180001C */ blt-        lbl_8052ee38
   /* 8052EE20 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EE24 8085D70C */ lwz         r4, lbl_809bd70c@l(r5)
+  /* 8052EE24 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
   /* 8052EE28 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EE2C 7C840214 */ add         r4, r4, r0
   /* 8052EE30 80040010 */ lwz         r0, 0x10(r4)
@@ -1192,7 +763,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE58 7C000775 */ extsb.      r0, r0
   /* 8052EE5C 4180001C */ blt-        lbl_8052ee78
   /* 8052EE60 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EE64 8085D70C */ lwz         r4, lbl_809bd70c@l(r5)
+  /* 8052EE64 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
   /* 8052EE68 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EE6C 7C840214 */ add         r4, r4, r0
   /* 8052EE70 80040010 */ lwz         r0, 0x10(r4)
@@ -1206,7 +777,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE88 2C000000 */ cmpwi       r0, 0x0
   /* 8052EE8C 40820048 */ bne-        lbl_8052eed4
   /* 8052EE90 3BA00000 */ li          r29, 0x0
-  /* 8052EE94 3FC0809C */ lis         r30, lbl_809bd70c@ha
+  /* 8052EE94 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
   lbl_8052ee98:
   /* 8052EE98 57A0063E */ clrlwi      r0, r29, 0x18
   /* 8052EE9C 1C0000F0 */ mulli       r0, r0, 0xf0
@@ -1217,7 +788,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EEB0 8803000E */ lbz         r0, 0xe(r3)
   /* 8052EEB4 7C000775 */ extsb.      r0, r0
   /* 8052EEB8 41800010 */ blt-        lbl_8052eec8
-  /* 8052EEBC 807ED70C */ lwz         r3, lbl_809bd70c@l(r30)
+  /* 8052EEBC 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
   /* 8052EEC0 5404063E */ clrlwi      r4, r0, 0x18
   /* 8052EEC4 4BFF563D */ bl          unk_80524500
   lbl_8052eec8:
@@ -1235,110 +806,30 @@ asm UNKNOWN_FUNCTION(
   // clang-format on
 }
 
-// This has never built due to GhostFile access problems
-// This should give a rough idea of how the function works
-#ifdef NON_MATCHING
 namespace System {
 
-bool RaceConfig::Scenario::initGhost(u8 playerIdx, u8 playerInputIdx) {
-  if (!mGhost->isValid()) {
-    return false;
+bool RaceConfig::Scenario::initGhost(u8 playerIdx, s8 playerInputIdx) {
+  bool ret = false;
+  if (mGhost->isValid()) {
+    GhostFile ghost;
+    ghost.read(*mGhost);
+
+    if (ghost.mCourseId == mSettings.mCourseId) {
+      if (playerInputIdx >= 0) {
+        InputManager::spInstance->setGhostController(
+            playerInputIdx, (void*)ghost.mInputs, ghost.mDriftIsAuto);
+      }
+
+      mPlayers[playerIdx].mCharacterId = (CharacterId)ghost.mCharacterId;
+      mPlayers[playerIdx].mVehicleId = (VehicleId)ghost.mVehicleId;
+      mPlayers[playerIdx].mPlayerInputIdx = playerInputIdx;
+      mPlayers[playerIdx].mControllerId = ghost.mControllerId;
+      ret = true;
+    }
   }
 
-  GhostFile ghost;
-  ghost.read(*mGhost);
-
-  if (!ghost.mCourseId == mCourseId) {
-    return false;
-  }
-
-  if (-1 < playerInputIdx) {
-    InputManager::setGhostController(InputManager::spInstance, playerInputIdx,
-                                     ghost.mInputs, ghost.mDriftIsAuto);
-  }
-
-  mPlayers[playerIdx].mCharacterId = ghost.mCharacterId;
-  mPlayers[playerIdx].mVehicleId = ghost.mVehicleId;
-  mPlayers[playerIdx].mPlayerInputIdx = playerInputIdx;
-  mPlayers[playerIdx].mControllerId = ghost.mControllerId;
-
-  return true;
+  return ret;
 }
-
-} // namespace System
-#else
-// Symbol: unk_8052eef0
-// PAL: 0x8052eef0..0x8052efd4
-MARK_BINARY_BLOB(unk_8052eef0, 0x8052eef0, 0x8052efd4);
-asm UNKNOWN_FUNCTION(unk_8052eef0) {
-  // clang-format off
-  nofralloc
-  /* 8052EEF0 9421FF10 */ stwu        r1, -0xf0(r1)
-  /* 8052EEF4 7C0802A6 */ mflr        r0
-  /* 8052EEF8 900100F4 */ stw         r0, 0xf4(r1)
-  /* 8052EEFC 93E100EC */ stw         r31, 0xec(r1)
-  /* 8052EF00 3BE00000 */ li          r31, 0x0
-  /* 8052EF04 93C100E8 */ stw         r30, 0xe8(r1)
-  /* 8052EF08 7CBE2B78 */ mr          r30, r5
-  /* 8052EF0C 93A100E4 */ stw         r29, 0xe4(r1)
-  /* 8052EF10 7C9D2378 */ mr          r29, r4
-  /* 8052EF14 938100E0 */ stw         r28, 0xe0(r1)
-  /* 8052EF18 7C7C1B78 */ mr          r28, r3
-  /* 8052EF1C 80630BEC */ lwz         r3, 0xbec(r3)
-  /* 8052EF20 4BFED201 */ bl          isValid__Q26System12RawGhostFileCFv
-  /* 8052EF24 2C030000 */ cmpwi       r3, 0x0
-  /* 8052EF28 41820088 */ beq-        lbl_8052efb0
-  /* 8052EF2C 38610008 */ addi        r3, r1, 0x8
-  /* 8052EF30 4BFED341 */ bl          __ct__Q26System9GhostFileFv
-  /* 8052EF34 809C0BEC */ lwz         r4, 0xbec(r28)
-  /* 8052EF38 38610008 */ addi        r3, r1, 0x8
-  /* 8052EF3C 4BFED855 */ bl          read__Q26System9GhostFileFRCQ26System12RawGhostFile
-  /* 8052EF40 806100C0 */ lwz         r3, 0xc0(r1)
-  /* 8052EF44 801C0B48 */ lwz         r0, 0xb48(r28)
-  /* 8052EF48 7C030000 */ cmpw        r3, r0
-  /* 8052EF4C 4082004C */ bne-        lbl_8052ef98
-  /* 8052EF50 7FC00775 */ extsb.      r0, r30
-  /* 8052EF54 4180001C */ blt-        lbl_8052ef70
-  /* 8052EF58 3C60809C */ lis         r3, lbl_809bd70c@ha
-  /* 8052EF5C 80A100DC */ lwz         r5, 0xdc(r1)
-  /* 8052EF60 8063D70C */ lwz         r3, lbl_809bd70c@l(r3)
-  /* 8052EF64 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 8052EF68 88C100D0 */ lbz         r6, 0xd0(r1)
-  /* 8052EF6C 4BFF55D1 */ bl          InputMgr_setGhostController
-  lbl_8052ef70:
-  /* 8052EF70 1C7D00F0 */ mulli       r3, r29, 0xf0
-  /* 8052EF74 800100B8 */ lwz         r0, 0xb8(r1)
-  /* 8052EF78 3BE00001 */ li          r31, 0x1
-  /* 8052EF7C 7C7C1A14 */ add         r3, r28, r3
-  /* 8052EF80 90030014 */ stw         r0, 0x14(r3)
-  /* 8052EF84 800100BC */ lwz         r0, 0xbc(r1)
-  /* 8052EF88 90030010 */ stw         r0, 0x10(r3)
-  /* 8052EF8C 9BC3000E */ stb         r30, 0xe(r3)
-  /* 8052EF90 800100C4 */ lwz         r0, 0xc4(r1)
-  /* 8052EF94 900300D8 */ stw         r0, 0xd8(r3)
-  lbl_8052ef98:
-  /* 8052EF98 3C808052 */ lis         r4, __dt__Q26System4TimeFv@ha
-  /* 8052EF9C 38610070 */ addi        r3, r1, 0x70
-  /* 8052EFA0 3884C334 */ addi        r4, r4, __dt__Q26System4TimeFv@l
-  /* 8052EFA4 38A0000C */ li          r5, 0xc
-  /* 8052EFA8 38C00005 */ li          r6, 0x5
-  /* 8052EFAC 4BAF2141 */ bl          __destroy_arr
-  lbl_8052efb0:
-  /* 8052EFB0 7FE3FB78 */ mr          r3, r31
-  /* 8052EFB4 83E100EC */ lwz         r31, 0xec(r1)
-  /* 8052EFB8 83C100E8 */ lwz         r30, 0xe8(r1)
-  /* 8052EFBC 83A100E4 */ lwz         r29, 0xe4(r1)
-  /* 8052EFC0 838100E0 */ lwz         r28, 0xe0(r1)
-  /* 8052EFC4 800100F4 */ lwz         r0, 0xf4(r1)
-  /* 8052EFC8 7C0803A6 */ mtlr        r0
-  /* 8052EFCC 382100F0 */ addi        r1, r1, 0xf0
-  /* 8052EFD0 4E800020 */ blr
-  // clang-format on
-}
-
-#endif
-
-namespace System {
 
 void RaceConfig::Scenario::resetPlayers() {
   for (u8 i = 0; i < 12; i++) {
@@ -1584,6 +1075,65 @@ asm UNKNOWN_FUNCTION(copyPrevPositions__Q36System10RaceConfig8ScenarioFv) {
   // clang-format on
 }
 
+#ifdef NON_MATCHING
+namespace System {
+void RaceConfig::Scenario::initControllers(u8 controllerCount) {
+  Controller* controller;
+  s32 controllerId;
+  u8 localPlayerNum = 0;
+  u8 playerInputIdx = 0;
+
+  mSettings.mHudPlayerIds[0] = -1;
+  mSettings.mHudPlayerIds[1] = -1;
+  mSettings.mHudPlayerIds[2] = -1;
+  mSettings.mHudPlayerIds[3] = -1;
+
+  for (s32 i = 0; i < MAX_PLAYER_COUNT; i++) {
+    switch (mPlayers[i].getPlayerType()) {
+    case REAL_LOCAL:
+      mPlayers[i].mLocalPlayerNum = localPlayerNum;
+      mPlayers[i].mPlayerInputIdx = playerInputIdx;
+      controller =
+          InputManager::spInstance->playerInputs[playerInputIdx].controller;
+      if (controller == nullptr) {
+        controllerId = -1;
+      } else {
+        controllerId = controller->getControllerId();
+      }
+      mPlayers[i].mControllerId = controllerId;
+      if (mSettings.mHudPlayerIds[localPlayerNum] == -1) {
+        mSettings.mHudPlayerIds[localPlayerNum] = i;
+      }
+      localPlayerNum++;
+      playerInputIdx++;
+      break;
+    case GHOST:
+      if (initGhost(i, playerInputIdx)) {
+        playerInputIdx++;
+      } else {
+        mPlayers[i].mPlayerType = NONE;
+        mPlayers[i].mControllerId = -1;
+      }
+      break;
+    case CPU:
+      mPlayers[i].mControllerId = -1;
+    }
+  }
+
+  // For spectating?
+  for (s32 i = 0; i < MAX_PLAYER_COUNT; i++) {
+    if (mPlayers[i].mPlayerType != NONE && mPlayers[i].mLocalPlayerNum == -1) {
+      s32 hudIdx = localPlayerNum;
+      mPlayers[i].mLocalPlayerNum = localPlayerNum;
+      localPlayerNum++;
+      mSettings.mHudPlayerIds[hudIdx] = i;
+      if (localPlayerNum >= controllerCount)
+        break;
+    }
+  }
+}
+} // namespace System
+#else
 // Symbol: initControllers__Q36System10RaceConfig8ScenarioFUc
 // PAL: 0x8052f4e8..0x8052f788
 MARK_BINARY_BLOB(initControllers__Q36System10RaceConfig8ScenarioFUc, 0x8052f4e8,
@@ -1601,7 +1151,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F504 3B800000 */ li          r28, 0x0
   /* 8052F508 3B600000 */ li          r27, 0x0
   /* 8052F50C 3B400000 */ li          r26, 0x0
-  /* 8052F510 3FE0809C */ lis         r31, lbl_809bd70c@ha
+  /* 8052F510 3FE0809C */ lis         r31, spInstance__Q26System12InputManager@ha
   /* 8052F514 3EC08052 */ lis         r22, __dt__Q26System4TimeFv@ha
   /* 8052F518 3AE00005 */ li          r23, 0x5
   /* 8052F51C 9BA30B64 */ stb         r29, 0xb64(r3)
@@ -1625,7 +1175,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F55C 5760063E */ clrlwi      r0, r27, 0x18
   /* 8052F560 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052F564 9B7E000E */ stb         r27, 0xe(r30)
-  /* 8052F568 807FD70C */ lwz         r3, lbl_809bd70c@l(r31)
+  /* 8052F568 807FD70C */ lwz         r3, spInstance__Q26System12InputManager@l(r31)
   /* 8052F56C 7C630214 */ add         r3, r3, r0
   /* 8052F570 80630008 */ lwz         r3, 8(r3)
   /* 8052F574 2C030000 */ cmpwi       r3, 0x0
@@ -1667,11 +1217,11 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F5F4 40820040 */ bne-        lbl_8052f634
   /* 8052F5F8 7F600775 */ extsb.      r0, r27
   /* 8052F5FC 41800018 */ blt-        lbl_8052f614
-  /* 8052F600 807FD70C */ lwz         r3, lbl_809bd70c@l(r31)
+  /* 8052F600 807FD70C */ lwz         r3, spInstance__Q26System12InputManager@l(r31)
   /* 8052F604 5764063E */ clrlwi      r4, r27, 0x18
   /* 8052F608 80A100DC */ lwz         r5, 0xdc(r1)
   /* 8052F60C 88C100D0 */ lbz         r6, 0xd0(r1)
-  /* 8052F610 4BFF4F2D */ bl          InputMgr_setGhostController
+  /* 8052F610 4BFF4F2D */ bl          setGhostController__Q26System12InputManagerFUcPvb
   lbl_8052f614:
   /* 8052F614 800100B8 */ lwz         r0, 0xb8(r1)
   /* 8052F618 3AA00001 */ li          r21, 0x1
@@ -1778,6 +1328,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F784 4E800020 */ blr
   // clang-format on
 }
+#endif
 
 namespace System {
 
@@ -1940,7 +1491,7 @@ void RaceConfig::Scenario::initRace(Scenario* scenario) {
   u8 localPlayerCount = 0;
 
   if (mSettings.mModeFlags & 4) {
-    this->initCompetitionSettings();
+    initCompetitionSettings();
   }
 
   copyPrevPositions();
@@ -2023,10 +1574,10 @@ void RaceConfig::initRace() {
 
 RaceConfig::Scenario&
 RaceConfig::Scenario::copy(const RaceConfig::Scenario& other) {
-  this->mPlayerCount = other.mPlayerCount;
-  this->mHudCount = other.mHudCount;
-  this->mLocalPlayerCount = other.mLocalPlayerCount;
-  this->mHudCount2 = other.mHudCount2;
+  mPlayerCount = other.mPlayerCount;
+  mHudCount = other.mHudCount;
+  mLocalPlayerCount = other.mLocalPlayerCount;
+  mHudCount2 = other.mHudCount2;
 
   RaceConfig::Player* thisPlayer = mPlayers;
   const RaceConfig::Player* otherPlayer = other.mPlayers;
@@ -2048,6 +1599,7 @@ RaceConfig::Scenario::copy(const RaceConfig::Scenario& other) {
   mGhost = other.mGhost;
   return *this;
 }
+
 } // namespace System
 
 // Requires some inline-related pragma to be implemented correctly
@@ -2238,7 +1790,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530938 387F0020 */ addi        r3, r31, 0x20
   /* 8053093C 5784063E */ clrlwi      r4, r28, 0x18
   /* 80530940 4BFFD3E1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530944 4BFFE3DD */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530944 4BFFE3DD */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530948 2C030005 */ cmpwi       r3, 0x5
   /* 8053094C 418200C4 */ beq-        lbl_80530a10
   /* 80530950 381EFFFF */ addi        r0, r30, -0x1
@@ -2312,7 +1864,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530A50 387F0020 */ addi        r3, r31, 0x20
   /* 80530A54 57A4063E */ clrlwi      r4, r29, 0x18
   /* 80530A58 4BFFD2C9 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530A5C 4BFFE2C5 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530A5C 4BFFE2C5 */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530A60 2C030000 */ cmpwi       r3, 0x0
   /* 80530A64 40820024 */ bne-        lbl_80530a88
   /* 80530A68 387F0020 */ addi        r3, r31, 0x20
@@ -2348,7 +1900,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530ACC 387F0020 */ addi        r3, r31, 0x20
   /* 80530AD0 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530AD4 4BFFD24D */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530AD8 4BFFE249 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530AD8 4BFFE249 */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530ADC 2C030000 */ cmpwi       r3, 0x0
   /* 80530AE0 408200D8 */ bne-        lbl_80530bb8
   /* 80530AE4 387F0020 */ addi        r3, r31, 0x20
@@ -2426,13 +1978,13 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530BF8 387F0020 */ addi        r3, r31, 0x20
   /* 80530BFC 5744063E */ clrlwi      r4, r26, 0x18
   /* 80530C00 4BFFD121 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530C04 4BFFE11D */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530C04 4BFFE11D */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530C08 2C030005 */ cmpwi       r3, 0x5
   /* 80530C0C 418200F0 */ beq-        lbl_80530cfc
   /* 80530C10 387F0020 */ addi        r3, r31, 0x20
   /* 80530C14 5744063E */ clrlwi      r4, r26, 0x18
   /* 80530C18 4BFFD109 */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530C1C 4BFFE105 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530C1C 4BFFE105 */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530C20 2C030000 */ cmpwi       r3, 0x0
   /* 80530C24 418200D8 */ beq-        lbl_80530cfc
   /* 80530C28 387F0020 */ addi        r3, r31, 0x20
@@ -2515,7 +2067,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530D4C 387F0020 */ addi        r3, r31, 0x20
   /* 80530D50 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530D54 4BFFCFCD */ bl          getPlayer__Q36System10RaceConfig8ScenarioCFUc
-  /* 80530D58 4BFFDFC9 */ bl          getPlayerType__Q36System10RaceConfig6PlayerFv
+  /* 80530D58 4BFFDFC9 */ bl          getPlayerType__Q36System10RaceConfig6PlayerCFv
   /* 80530D5C 2C030000 */ cmpwi       r3, 0x0
   /* 80530D60 408200C0 */ bne-        lbl_80530e20
   /* 80530D64 387F0020 */ addi        r3, r31, 0x20
