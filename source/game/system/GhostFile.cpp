@@ -20,7 +20,7 @@ extern "C" UNKNOWN_FUNCTION(SaveManager_getLocation);
 extern "C" UNKNOWN_DATA(lbl_809bd730);
 extern "C" UNKNOWN_DATA(__vt__Q26System4Time);
 extern "C" UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
-extern "C" UNKNOWN_DATA(lbl_809bd70c);
+extern "C" UNKNOWN_DATA(spInstance__Q26System12InputManager);
 extern "C" UNKNOWN_DATA(lbl_809bd748);
 
 namespace System {
@@ -80,8 +80,6 @@ void RawGhostFile::updateCrc32Uncompressed() {
 }
 
 GhostFile::GhostFile() { reset(); }
-
-Time::~Time() {}
 
 Time::Time() : mIsValid(false) {
   mMinutes = 0;
@@ -461,7 +459,7 @@ lbl_8051cbe0:
 /* 8051CBEC 1FFE00F0 */ mulli       r31, r30, 0xf0
 /* 8051CBF0 3CA0809C */ lis         r5, spInstance__Q26System10RaceConfig@ha
 /* 8051CBF4 8083000C */ lwz         r4, 0xc(r3)
-/* 8051CBF8 3C60809C */ lis         r3, lbl_809bd70c@ha
+/* 8051CBF8 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
 /* 8051CBFC 7C84002E */ lwzx        r4, r4, r0
 /* 8051CC00 80C40040 */ lwz         r6, 0x40(r4)
 /* 8051CC04 A0860004 */ lhz         r4, 4(r6)
@@ -490,7 +488,7 @@ lbl_8051cbe0:
 /* 8051CC60 8085D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r5)
 /* 8051CC64 80040B68 */ lwz         r0, 0xb68(r4)
 /* 8051CC68 901D00B8 */ stw         r0, 0xb8(r29)
-/* 8051CC6C 8063D70C */ lwz         r3, lbl_809bd70c@l(r3)
+/* 8051CC6C 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
 /* 8051CC70 80630008 */ lwz         r3, 8(r3)
 /* 8051CC74 2C030000 */ cmpwi       r3, 0x0
 /* 8051CC78 41820018 */ beq-        lbl_8051cc90
@@ -503,8 +501,8 @@ lbl_8051cc90:
 /* 8051CC90 3860FFFF */ li          r3, -0x1
 lbl_8051cc94:
 /* 8051CC94 907D00BC */ stw         r3, 0xbc(r29)
-/* 8051CC98 3C60809C */ lis         r3, lbl_809bd70c@ha
-/* 8051CC9C 8063D70C */ lwz         r3, lbl_809bd70c@l(r3)
+/* 8051CC98 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+/* 8051CC9C 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
 /* 8051CCA0 80630008 */ lwz         r3, 8(r3)
 /* 8051CCA4 2C030000 */ cmpwi       r3, 0x0
 /* 8051CCA8 4182000C */ beq-        lbl_8051ccb4
@@ -611,9 +609,9 @@ lbl_8051ce00:
 /* 8051CE10 7C000775 */ extsb.      r0, r0
 /* 8051CE14 4180004C */ blt-        lbl_8051ce60
 /* 8051CE18 5400063E */ clrlwi      r0, r0, 0x18
-/* 8051CE1C 3C60809C */ lis         r3, lbl_809bd70c@ha
+/* 8051CE1C 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
 /* 8051CE20 1C0000EC */ mulli       r0, r0, 0xec
-/* 8051CE24 8063D70C */ lwz         r3, lbl_809bd70c@l(r3)
+/* 8051CE24 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
 /* 8051CE28 7C630214 */ add         r3, r3, r0
 /* 8051CE2C 3BC30004 */ addi        r30, r3, 0x4
 /* 8051CE30 819E0000 */ lwz         r12, 0(r30)
