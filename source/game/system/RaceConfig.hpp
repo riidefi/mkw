@@ -47,7 +47,8 @@ UNKNOWN_FUNCTION(getPlayer__Q36System10RaceConfig8ScenarioFUc);
 // PAL: 0x8052e444..0x8052e44c
 UNKNOWN_FUNCTION(setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId);
 // PAL: 0x8052e44c..0x8052e454
-UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
+UNKNOWN_FUNCTION(
+    setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
 // PAL: 0x8052e454..0x8052e658
 UNKNOWN_FUNCTION(Racedata_resetSomeStuff);
 // PAL: 0x8052e658..0x8052e660
@@ -296,13 +297,13 @@ public:
     const Player& getPlayer(u8 idx) const;
     Player& getPlayer(u8 idx);
 
-    inline bool isOnline(s32 mode) {
+    inline bool isOnline(Settings::GameMode mode) {
       bool ret = false;
-      switch ((s32)(u32)mode) {
-      case 7:
-      case 8:
-      case 9:
-      case 10:
+      switch ((Settings::GameMode)(u32)mode) {
+      case Settings::GAMEMODE_PRIVATE_VS:
+      case Settings::GAMEMODE_PUBLIC_VS:
+      case Settings::GAMEMODE_PUBLIC_BATTLE:
+      case Settings::GAMEMODE_PRIVATE_BATTLE:
         ret = true;
       }
       return ret;

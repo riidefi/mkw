@@ -844,7 +844,8 @@ void RaceConfig::Scenario::resetPlayers() {
 }
 
 void RaceConfig::Scenario::initPlayers(u8 playerCount) {
-  if (isOnline(mSettings.mGameMode)) {
+  u32 gamemode = mSettings.mGameMode;
+  if (isOnline((Settings::GameMode)gamemode)) {
     return;
   }
   for (u8 i = 0; i < playerCount; i++) {
@@ -1077,6 +1078,7 @@ asm UNKNOWN_FUNCTION(copyPrevPositions__Q36System10RaceConfig8ScenarioFv) {
 
 #ifdef NON_MATCHING
 namespace System {
+
 void RaceConfig::Scenario::initControllers(u8 controllerCount) {
   Controller* controller;
   s32 controllerId;
@@ -1090,7 +1092,7 @@ void RaceConfig::Scenario::initControllers(u8 controllerCount) {
 
   for (s32 i = 0; i < MAX_PLAYER_COUNT; i++) {
     switch (mPlayers[i].getPlayerType()) {
-    case REAL_LOCAL:
+    case Player::TYPE_REAL_LOCAL:
       mPlayers[i].mLocalPlayerNum = localPlayerNum;
       mPlayers[i].mPlayerInputIdx = playerInputIdx;
       controller =
@@ -1107,22 +1109,23 @@ void RaceConfig::Scenario::initControllers(u8 controllerCount) {
       localPlayerNum++;
       playerInputIdx++;
       break;
-    case GHOST:
+    case Player::TYPE_GHOST:
       if (initGhost(i, playerInputIdx)) {
         playerInputIdx++;
       } else {
-        mPlayers[i].mPlayerType = NONE;
+        mPlayers[i].mPlayerType = Player::TYPE_NONE;
         mPlayers[i].mControllerId = -1;
       }
       break;
-    case CPU:
+    case Player::TYPE_CPU:
       mPlayers[i].mControllerId = -1;
     }
   }
 
   // For spectating?
   for (s32 i = 0; i < MAX_PLAYER_COUNT; i++) {
-    if (mPlayers[i].mPlayerType != NONE && mPlayers[i].mLocalPlayerNum == -1) {
+    if (mPlayers[i].mPlayerType != Player::TYPE_NONE &&
+        mPlayers[i].mLocalPlayerNum == -1) {
       s32 hudIdx = localPlayerNum;
       mPlayers[i].mLocalPlayerNum = localPlayerNum;
       localPlayerNum++;
@@ -1132,6 +1135,7 @@ void RaceConfig::Scenario::initControllers(u8 controllerCount) {
     }
   }
 }
+
 } // namespace System
 #else
 // Symbol: initControllers__Q36System10RaceConfig8ScenarioFUc
@@ -1379,7 +1383,7 @@ void RaceConfig::Scenario::computePlayerCounts(u8& playerCount, u8& hudCount,
   }
 
   // Cap player count on awards
-  if (mSettings.mGameMode == 11) {
+  if (mSettings.mGameMode == Settings::GAMEMODE_AWARDS) {
     if (cameraMode == Settings::CAMERA_MODE_GRAND_PRIX_WIN) {
       // Cap player count on GP win
       if (3 < playerCount_) {
@@ -1401,11 +1405,12 @@ void RaceConfig::Scenario::initRng() {
   u32 mask1;
   u32 mask2;
   u32 mask3;
+  u32 gamemode = mSettings.mGameMode;
 
-  switch ((s32)(u32)mSettings.mGameMode) {
-  case 2:
-  case 4:
-  case 5:
+  switch ((Settings::GameMode)gamemode) {
+  case Settings::GAMEMODE_TIME_TRIAL:
+  case Settings::GAMEMODE_MISSION_TOURNAMENT:
+  case Settings::GAMEMODE_GHOST_RACE:
     mSettings.mSeed1 = 0x74a1b095;
     seed = OSGetTick();
     mask = (seed >> 27) & 0xFFFF;
@@ -1414,7 +1419,7 @@ void RaceConfig::Scenario::initRng() {
     return;
   }
 
-  if (mSettings.mModeFlags & 0x4) {
+  if (mSettings.mModeFlags & Settings::MODE_FLAG_COMPETITION) {
     mSettings.mSeed1 = 0x92bc7d03;
     seed = OSGetTick();
     mask = ((seed >> 27) & 0xFFFF);
@@ -1426,7 +1431,7 @@ void RaceConfig::Scenario::initRng() {
   if (mSettings.mCameraMode == Settings::CAMERA_MODE_REPLAY) {
     return;
   }
-  if (isOnline(mSettings.mGameMode)) {
+  if (isOnline((Settings::GameMode)gamemode)) {
     return;
   }
 
@@ -1490,7 +1495,7 @@ void RaceConfig::Scenario::initRace(Scenario* scenario) {
   u8 hudCount = 0;
   u8 localPlayerCount = 0;
 
-  if (mSettings.mModeFlags & 4) {
+  if (mSettings.mModeFlags & Settings::MODE_FLAG_COMPETITION) {
     initCompetitionSettings();
   }
 
@@ -1515,7 +1520,8 @@ void RaceConfig::Scenario::initRace(Scenario* scenario) {
 
   if (mSettings.mRaceNumber == 0) {
     u8 playerCount_ = playerCount;
-    if (!isOnline(mSettings.mGameMode)) {
+    u32 gamemode = mSettings.mGameMode;
+    if (!isOnline((Settings::GameMode)gamemode)) {
       for (u8 i = 0; i < playerCount_; i++) {
         Player& player = getPlayer(i);
         player.mPreviousScore = 0;
@@ -3077,7 +3083,7 @@ s8 RaceConfig::getHudPlayerId(u8 playerIdx) {
 }
 
 void RaceConfig::loadNextCourse() {
-  if (mRaceScenario.mSettings.mGameMode != 0) {
+  if (mRaceScenario.mSettings.mGameMode != Settings::GAMEMODE_GRAND_PRIX) {
     return;
   }
 
@@ -3114,9 +3120,10 @@ bool RaceConfig::isLiveView(u8 hudPlayerIdx) {
 }
 
 bool RaceConfig::isTimeAttackReplay() {
-  const s32 gameMode = mRaceScenario.mSettings.mGameMode;
+  const Settings::GameMode gameMode = mRaceScenario.mSettings.mGameMode;
 
-  return ((gameMode == 2 || gameMode == 5) &&
+  return ((gameMode == Settings::GAMEMODE_TIME_TRIAL ||
+           gameMode == Settings::GAMEMODE_GHOST_RACE) &&
           spInstance->mRaceScenario.mPlayerCount != 0 &&
           spInstance->mRaceScenario.mPlayers[0].mPlayerType ==
               Player::TYPE_GHOST)
