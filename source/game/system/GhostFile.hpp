@@ -12,7 +12,9 @@ class Time {
 public:
   Time();
 
-  virtual ~Time();
+#pragma warn_unusedvar on
+  virtual ~Time() { u8 i; } // Trust me bro
+#pragma warn_unusedvar off
 
   u16 getClampedMinutes() const {
     if (mMinutes > 99) {
@@ -199,6 +201,7 @@ private:
 
   void writeHeader(RawGhostFile& raw) const;
 
+public:
   bool mHeaderIsValid;
   wchar_t mUserData[11];
   RawMii mMii;
@@ -207,7 +210,7 @@ private:
   Time mRaceTime;
   u32 mCharacterId;
   u32 mVehicleId;
-  u32 mCourseId;
+  s32 mCourseId;
   u32 mControllerId;
   Date mDate;
   u32 mType;
@@ -225,7 +228,7 @@ public:
     GHOST_GROUP_TYPE_SLOW_STAFF = 0x2,
     GHOST_GROUP_TYPE_FAST_STAFF = 0x3,
     GHOST_GROUP_TYPE_GHOST_RACE = 0x4,
-    GHOST_GROUP_TYPE_COMPETITION = 0x5,
+    GHOST_GROUP_TYPE_COMPETITION = 0x5
   };
 
   GhostFileGroup(EGG::Heap* heap, s32 type);

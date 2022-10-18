@@ -894,7 +894,7 @@ CourseCache::~CourseCache() {
   mpArchive->clear();
   if (mpHeap) {
     mpHeap->destroy();
-    delete[](mpBuffer);
+    delete[]((u8*)mpBuffer);
   }
 }
 
@@ -1087,6 +1087,7 @@ void RloadMenuKartModel(MultiDvdArchive* m, MenuCharacterManager* c) {
 
 } // namespace
 
+#pragma warn_ptr_int_conv off
 void ResourceManager::doLoadCharacterKartModel(void* idxs) {
   ResourceManager* resMgr = ResourceManager::spInstance.nonvol;
   const u8 idx = (const u8)idxs;
@@ -1107,6 +1108,7 @@ void ResourceManager::doLoadCharacterKartModel(void* idxs) {
     resMgr->mMenuManagers[idx].mState = MENU_CHARACTER_MANAGER_STATE_CLEARED;
   }
 }
+#pragma warn_ptr_int_conv on
 
 void ResourceManager::doLoadCharacterKartModelPriv(s32 idx) {
   if (mKartArchives[idx].isLoaded()) {
