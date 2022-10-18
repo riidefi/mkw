@@ -59,9 +59,9 @@ extern UNKNOWN_FUNCTION(setUnkPos__Q36System10RaceConfig6PlayerFSc);
 // PAL: 0x8052dd30
 extern UNKNOWN_FUNCTION(getRacePlayerCount__Q26System10RaceConfigFv);
 // PAL: 0x8052e44c
-extern UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFl);
+extern UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
 // PAL: 0x8052ed18
-extern UNKNOWN_FUNCTION(getGametype__Q36System10RaceConfig8ScenarioFv);
+extern UNKNOWN_FUNCTION(getCameraMode__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x80530f20
 extern UNKNOWN_FUNCTION(getCharacter__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x8052e444
@@ -2194,7 +2194,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530890 57C4063E */ clrlwi      r4, r30, 0x18
   /* 80530894 4BFFDBA1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530898 38800005 */ li          r4, 0x5
-  /* 8053089C 4BFFDBB1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 8053089C 4BFFDBB1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 805308A0 57C4063E */ clrlwi      r4, r30, 0x18
   /* 805308A4 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308A8 3BA40001 */ addi        r29, r4, 0x1
@@ -2210,12 +2210,12 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 805308D0 281E000C */ cmplwi      r30, 0xc
   /* 805308D4 4180FFB8 */ blt+        lbl_8053088c
   /* 805308D8 387F0C10 */ addi        r3, r31, 0xc10
-  /* 805308DC 4BFFE43D */ bl          getGametype__Q36System10RaceConfig8ScenarioFv
+  /* 805308DC 4BFFE43D */ bl          getCameraMode__Q36System10RaceConfig8ScenarioFv
   /* 805308E0 3803FFF9 */ addi        r0, r3, -0x7
   /* 805308E4 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308E8 7C000034 */ cntlzw      r0, r0
   /* 805308EC 541DD97E */ srwi        r29, r0, 5
-  /* 805308F0 4BFFE429 */ bl          getGametype__Q36System10RaceConfig8ScenarioFv
+  /* 805308F0 4BFFE429 */ bl          getCameraMode__Q36System10RaceConfig8ScenarioFv
   /* 805308F4 3803FFF4 */ addi        r0, r3, -0xc
   /* 805308F8 387F0C10 */ addi        r3, r31, 0xc10
   /* 805308FC 7C000034 */ cntlzw      r0, r0
@@ -2267,7 +2267,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 805309AC 387F0C10 */ addi        r3, r31, 0xc10
   /* 805309B0 4BFFDA85 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 805309B4 38800001 */ li          r4, 0x1
-  /* 805309B8 4BFFDA95 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 805309B8 4BFFDA95 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 805309BC 7F64DB78 */ mr          r4, r27
   /* 805309C0 387F0C10 */ addi        r3, r31, 0xc10
   /* 805309C4 4BFFDA71 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
@@ -2381,7 +2381,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530B50 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530B54 4BFFD8E1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530B58 38800001 */ li          r4, 0x1
-  /* 80530B5C 4BFFD8F1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 80530B5C 4BFFD8F1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 80530B60 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530B64 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530B68 3BA40001 */ addi        r29, r4, 0x1
@@ -2465,7 +2465,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530C94 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530C98 4BFFD79D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530C9C 38800001 */ li          r4, 0x1
-  /* 80530CA0 4BFFD7AD */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 80530CA0 4BFFD7AD */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 80530CA4 5764063E */ clrlwi      r4, r27, 0x18
   /* 80530CA8 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530CAC 3BA40001 */ addi        r29, r4, 0x1
@@ -2542,7 +2542,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530DB8 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530DBC 4BFFD679 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530DC0 38800001 */ li          r4, 0x1
-  /* 80530DC4 4BFFD689 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 80530DC4 4BFFD689 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 80530DC8 5724063E */ clrlwi      r4, r25, 0x18
   /* 80530DCC 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530DD0 3BC40001 */ addi        r30, r4, 0x1
@@ -2598,7 +2598,7 @@ asm UNKNOWN_FUNCTION(Racedata_initAwards) {
   /* 80530E90 38800000 */ li          r4, 0x0
   /* 80530E94 4BFFD5A1 */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc
   /* 80530E98 38800001 */ li          r4, 0x1
-  /* 80530E9C 4BFFD5B1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFl
+  /* 80530E9C 4BFFD5B1 */ bl          setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type
   /* 80530EA0 387F0C10 */ addi        r3, r31, 0xc10
   /* 80530EA4 38800000 */ li          r4, 0x0
   /* 80530EA8 4BFFD58D */ bl          getPlayer__Q36System10RaceConfig8ScenarioFUc

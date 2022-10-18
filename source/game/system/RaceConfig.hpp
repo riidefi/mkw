@@ -46,7 +46,7 @@ UNKNOWN_FUNCTION(getPlayer__Q36System10RaceConfig8ScenarioFUc);
 // PAL: 0x8052e444..0x8052e44c
 UNKNOWN_FUNCTION(setVehicle__Q36System10RaceConfig6PlayerFQ26System9VehicleId);
 // PAL: 0x8052e44c..0x8052e454
-UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFl);
+UNKNOWN_FUNCTION(setPlayerType__Q36System10RaceConfig6PlayerFQ46System10RaceConfig6Player4Type);
 // PAL: 0x8052e454..0x8052e658
 UNKNOWN_FUNCTION(Racedata_resetSomeStuff);
 // PAL: 0x8052e658..0x8052e660
@@ -60,7 +60,7 @@ UNKNOWN_FUNCTION(unk_8052e870);
 // PAL: 0x8052e950..0x8052ed18
 UNKNOWN_FUNCTION(unk_8052e950);
 // PAL: 0x8052ed18..0x8052ed20
-UNKNOWN_FUNCTION(getGametype__Q36System10RaceConfig8ScenarioFv);
+UNKNOWN_FUNCTION(getCameraMode__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x8052ed20..0x8052ed28
 UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerFv);
 // PAL: 0x8052ed28..0x8052eef0
