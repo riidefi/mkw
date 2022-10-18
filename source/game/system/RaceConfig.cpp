@@ -181,8 +181,9 @@ extern "C" void getCompetitionWrapper(void*, CompetitionWrapper*);
 
 RaceConfig::Player::Player()
     : _04(0), mLocalPlayerNum(-1), mPlayerInputIdx(-1),
-      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO), mPlayerType(TYPE_REAL_LOCAL), mMii(7),
-      mControllerId(-1), _d4(8), mRating(), _ec(_ec & ~0x80) {}
+      mVehicleId(STANDARD_KART_M), mCharacterId(MARIO),
+      mPlayerType(TYPE_REAL_LOCAL), mMii(7), mControllerId(-1), _d4(8),
+      mRating(), _ec(_ec & ~0x80) {}
 
 void RaceConfig::Player::appendParamFile(RaceConfig* raceConfig) {
   raceConfig->append(mVehicleId, InitScene::spInstance->mHeapCollection
@@ -223,7 +224,7 @@ RaceConfig::Scenario::Scenario(RawGhostFile* ghost)
     : mPlayerCount(0), mHudCount(0), mPlayers() {
   mSettings.mCourseId = GCN_MARIO_CIRCUIT;
   mSettings.mGameMode = Settings::GAMEMODE_GRAND_PRIX;
-  mSettings.mGameType = Settings::GAMETYPE_TIME_ATTACK;
+  mSettings.mCameraMode = Settings::CAMERA_MODE_GAMEPLAY_NO_INTRO;
   mSettings.mCupId = MUSHROOM_CUP;
 
   // seems dubious
@@ -753,7 +754,8 @@ void RaceConfig::Scenario::clear() {
   mSettings.mCpuMode = 1;
   mSettings.mLapCount = 3;
   mSettings.mEngineClass = 1;
-  mSettings.mModeFlags = (Settings::ModeFlags)(mSettings.mModeFlags & 0xFFFFFFF8);
+  mSettings.mModeFlags =
+      (Settings::ModeFlags)(mSettings.mModeFlags & 0xFFFFFFF8);
 
   for (u8 i = 0; i < 12; i++) {
     getPlayer(i).reset(i + 1);
@@ -1084,9 +1086,13 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
 
 namespace System {
 
-s32 RaceConfig::Scenario::getGametype() { return mSettings.mGameType; }
+RaceConfig::Settings::CameraMode RaceConfig::Scenario::getCameraMode() {
+  return mSettings.mCameraMode;
+}
 
-RaceConfig::Player::Type RaceConfig::Player::getPlayerType() { return mPlayerType; }
+RaceConfig::Player::Type RaceConfig::Player::getPlayerType() {
+  return mPlayerType;
+}
 
 } // namespace System
 
@@ -1811,19 +1817,19 @@ void RaceConfig::Scenario::computePlayerCounts(u8& playerCount, u8& hudCount,
     hudCount_ = 4;
   }
 
-  // Set HUD count based on menu game type
-  const s32 gameType = mSettings.mGameType;
-  if (gameType == 2) {
+  // Set title screen HUD count
+  const Settings::CameraMode cameraMode = mSettings.mCameraMode;
+  if (cameraMode == Settings::CAMERA_MODE_TITLE_ONE_PLAYER) {
     hudCount_ = 1;
-  } else if (gameType == 3) {
+  } else if (cameraMode == Settings::CAMERA_MODE_TITLE_TWO_PLAYER) {
     hudCount_ = 2;
-  } else if (gameType == 4) {
+  } else if (cameraMode == Settings::CAMERA_MODE_TITLE_FOUR_PLAYER) {
     hudCount_ = 4;
   }
 
   // Cap player count on awards
   if (mSettings.mGameMode == 11) {
-    if (gameType == 7) {
+    if (cameraMode == Settings::CAMERA_MODE_GRAND_PRIX_WIN) {
       // Cap player count on GP win
       if (3 < playerCount_) {
         playerCount_ = 3;
@@ -1866,7 +1872,7 @@ void RaceConfig::Scenario::initRng() {
     return;
   }
 
-  if (mSettings.mGameType == 1) {
+  if (mSettings.mCameraMode == Settings::CAMERA_MODE_REPLAY) {
     return;
   }
   if (isOnline(mSettings.mGameMode)) {
@@ -1952,7 +1958,7 @@ void RaceConfig::Scenario::initRace(Scenario* scenario) {
   computePlayerCounts(playerCount, hudCount, localPlayerCount);
 
   u8 hudCount_ = hudCount;
-  if (mSettings.mGameType == 5) {
+  if (mSettings.mCameraMode == Settings::CAMERA_MODE_GAMEPLAY_INTRO) {
     hudCount = 1;
   }
 
@@ -3533,19 +3539,21 @@ void RaceConfig::loadNextCourse() {
 }
 
 bool RaceConfig::isLiveView(u8 hudPlayerIdx) {
-  s32 gameType = mRaceScenario.mSettings.mGameType;
-  if (gameType > 1 && gameType < 5) {
+  Settings::CameraMode cameraMode = mRaceScenario.mSettings.mCameraMode;
+  if (cameraMode > (Settings::CameraMode)1 &&
+      cameraMode < (Settings::CameraMode)5) {
     return true;
   }
 
-  if (gameType == 1) {
+  if (cameraMode == Settings::CAMERA_MODE_REPLAY) {
     return true;
   }
 
   s32 playerId = mRaceScenario.mSettings.mHudPlayerIds[hudPlayerIdx];
   if (playerId >= 0) {
     Player::Type playerType = mRaceScenario.mPlayers[(u8)playerId].mPlayerType;
-    if (playerType != Player::TYPE_REAL_LOCAL && playerType != Player::TYPE_GHOST) {
+    if (playerType != Player::TYPE_REAL_LOCAL &&
+        playerType != Player::TYPE_GHOST) {
       return true;
     }
   }
@@ -3558,7 +3566,8 @@ bool RaceConfig::isTimeAttackReplay() {
 
   return ((gameMode == 2 || gameMode == 5) &&
           spInstance->mRaceScenario.mPlayerCount != 0 &&
-          spInstance->mRaceScenario.mPlayers[0].mPlayerType == Player::TYPE_GHOST)
+          spInstance->mRaceScenario.mPlayers[0].mPlayerType ==
+              Player::TYPE_GHOST)
              ? true
              : false;
 }

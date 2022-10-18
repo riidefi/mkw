@@ -208,22 +208,20 @@ public:
       GAMEMODE_CREDITS,
     };
 
-    // In reality it's camera type
-    // More refactoring to be done
-    enum GameType {
-      GAMETYPE_TIME_ATTACK,
-      GAMETYPE_REPLAY,
-      GAMETYPE_UNK_2,
-      GAMETYPE_UNK_3,
-      GAMETYPE_UNK_4,
-      GAMETYPE_GAMEPLAY,
-      GAMETYPE_LIVE_VIEW,
-      GAMETYPE_GRAND_PRIX_WIN,
-      GAMETYPE_SOLO_VS_WIN,
-      GAMETYPE_TEAM_VS_WIN,
-      GAMETYPE_BATTLE_WIN,
-      GAMETYPE_UNK_11,
-      GAMETYPE_LOSS,
+    enum CameraMode {
+      CAMERA_MODE_GAMEPLAY_NO_INTRO,
+      CAMERA_MODE_REPLAY,
+      CAMERA_MODE_TITLE_ONE_PLAYER,
+      CAMERA_MODE_TITLE_TWO_PLAYER,
+      CAMERA_MODE_TITLE_FOUR_PLAYER,
+      CAMERA_MODE_GAMEPLAY_INTRO,
+      CAMERA_MODE_LIVE_VIEW,
+      CAMERA_MODE_GRAND_PRIX_WIN,
+      CAMERA_MODE_SOLO_VS_WIN,
+      CAMERA_MODE_TEAM_VS_WIN,
+      CAMERA_MODE_BATTLE_WIN,
+      CAMERA_MODE_UNK_11,
+      CAMERA_MODE_LOSS,
     };
 
     enum ModeFlags {
@@ -236,7 +234,7 @@ public:
       mCourseId = other.mCourseId;
       mEngineClass = other.mEngineClass;
       mGameMode = other.mGameMode;
-      mGameType = other.mGameType;
+      mCameraMode = other.mCameraMode;
       mBattleType = other.mBattleType;
       mCpuMode = other.mCpuMode;
       mItemMode = other.mItemMode;
@@ -256,7 +254,7 @@ public:
     CourseId mCourseId;
     u32 mEngineClass; // probably an enum
     GameMode mGameMode;
-    GameType mGameType;
+    CameraMode mCameraMode;
     u32 mBattleType;
     u32 mCpuMode;
     u32 mItemMode;
@@ -293,7 +291,7 @@ public:
     void resetPlayers();
     u8 update();
 
-    s32 getGametype();
+    Settings::CameraMode getCameraMode();
     const Player& getPlayer(u8 idx) const;
     Player& getPlayer(u8 idx);
 
