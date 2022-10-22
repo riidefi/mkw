@@ -17,7 +17,7 @@ ninja-syntax==1.7.2
 packaging==21.3
 pathvalidate==2.4.1
 pluggy==0.13.1
-ppcdis @ git+https://github.com/em-eight/ppcdis.git@849620a49796174c9ee41ca89776a89d9730a98c
+ppcdis @ git+https://github.com/em-eight/ppcdis.git@5b886b5260e4d7f75a63cf193b8e34c9817ad694
 pre-commit==2.19.0
 py==1.10.0
 pyelftools==0.28
