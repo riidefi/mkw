@@ -22,7 +22,7 @@ setup(
         'packaging',
         'pathvalidate',
         'pluggy',
-        'ppcdis @ git+https://github.com/SeekyCt/ppcdis.git@1c3a68ab6b1a4566ca3263633cc596e33486c9dd',
+        'ppcdis @ git+https://github.com/em-eight/ppcdis.git@849620a49796174c9ee41ca89776a89d9730a98c',
         'pre-commit',
         'py',
         'pyelftools',
@@ -42,4 +42,3 @@ setup(
         'watchdog',
     ],
 )
-

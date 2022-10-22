@@ -265,11 +265,6 @@ class CAsmGenerator:
             if addr not in self.extern_addrs:
                 self.extern_addrs.add(addr)
 
-                # TODO: This is probably not where this should go
-                if addr in self.symbols:
-                    self.extern_functions.append((addr, self.symbols[addr]))
-                    continue
-
                 if is_text_addr(addr):
                     self.extern_functions.append((addr, name))
                 else:
