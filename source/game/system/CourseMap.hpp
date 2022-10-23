@@ -249,7 +249,7 @@ UNKNOWN_FUNCTION(Enemypoint_destroy);
 }
 #endif
 
-namespace Field {
+namespace System {
 
 class CourseMap {
 public:
@@ -288,4 +288,4 @@ private:
   unk _50;
 };
 
-} // namespace Field
+} // namespace System

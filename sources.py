@@ -456,7 +456,7 @@ SOURCES_REL = [
     Source(src="source/game/ui/MessageGroup.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/ui/ControlGroup.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/ui/UIControl.cpp", cc='4201_127', opts=REL_OPTS),
-    Source(src="source/game/jmap/CourseMap.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/system/CourseMap.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/DvdArchive.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/GhostFile.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/Mii.cpp", cc='4201_127', opts=REL_OPTS),

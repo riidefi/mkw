@@ -189,7 +189,7 @@ extern UNKNOWN_DATA(lbl_8088fa90);
 // PAL: 0x808b2c20
 extern UNKNOWN_DATA(lbl_808b2c20);
 // PAL: 0x808b2c30
-extern UNKNOWN_DATA(_0x808b3268_vt__Q25Field9CourseMap);
+extern UNKNOWN_DATA(__vt__Q26System9CourseMap);
 // PAL: 0x808b2c3c
 extern UNKNOWN_DATA(lbl_808b2c3c);
 // PAL: 0x808b2c48
@@ -201,7 +201,7 @@ extern UNKNOWN_DATA(lbl_808b2c60);
 // PAL: 0x808b2c6c
 extern UNKNOWN_DATA(lbl_808b2c6c);
 // PAL: 0x809bd6e8
-extern UNKNOWN_DATA(spInstance__Q25Field9CourseMap);
+extern UNKNOWN_DATA(spInstance__Q26System9CourseMap);
 // PAL: 0x809bd6ec
 extern UNKNOWN_DATA(lbl_809bd6ec);
 // PAL: 0x809bd728
@@ -212,7 +212,7 @@ extern UNKNOWN_DATA(spInstance__Q26System15ResourceManager);
 
 // --- EXTERN DECLARATIONS END ---
 
-namespace Field {
+namespace System {
 
 // .bss
 CourseMap* CourseMap::spInstance;
@@ -240,7 +240,7 @@ CourseMap::CourseMap()
 
 CourseMap::~CourseMap() {}
 
-} // namespace Field
+} // namespace System
 
 // Symbol: CourseMap_init
 // PAL: 0x805127ec..0x80512c10
@@ -2226,10 +2226,10 @@ asm UNKNOWN_FUNCTION(KmpHolder_parseKartpoints) {
   /* 80513FE0 418200D8 */ beq-        lbl_805140b8
   /* 80513FE4 3BC00000 */ li          r30, 0x0
   /* 80513FE8 93C30000 */ stw         r30, 0(r3)
-  /* 80513FEC 3C80809C */ lis         r4, spInstance__Q25Field9CourseMap@ha
+  /* 80513FEC 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
   /* 80513FF0 B3C30004 */ sth         r30, 4(r3)
   /* 80513FF4 93A30008 */ stw         r29, 8(r3)
-  /* 80513FF8 8084D6E8 */ lwz         r4, spInstance__Q25Field9CourseMap@l(r4)
+  /* 80513FF8 8084D6E8 */ lwz         r4, spInstance__Q26System9CourseMap@l(r4)
   /* 80513FFC 80840004 */ lwz         r4, 4(r4)
   /* 80514000 80040008 */ lwz         r0, 8(r4)
   /* 80514004 28000726 */ cmplwi      r0, 0x726
@@ -2398,9 +2398,9 @@ asm UNKNOWN_FUNCTION(unk_80514194) {
   /* 805141A4 38600000 */ li          r3, 0x0
   /* 805141A8 4E800020 */ blr
   lbl_805141ac:
-  /* 805141AC 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
+  /* 805141AC 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 805141B0 5404043E */ clrlwi      r4, r0, 0x10
-  /* 805141B4 80A3D6E8 */ lwz         r5, spInstance__Q25Field9CourseMap@l(r3)
+  /* 805141B4 80A3D6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r3)
   /* 805141B8 80650024 */ lwz         r3, 0x24(r5)
   /* 805141BC 2C030000 */ cmpwi       r3, 0x0
   /* 805141C0 4182000C */ beq-        lbl_805141cc
@@ -2468,7 +2468,7 @@ asm UNKNOWN_FUNCTION(unk_80514258) {
   nofralloc
   /* 80514258 9421FFE0 */ stwu        r1, -0x20(r1)
   /* 8051425C 7C0802A6 */ mflr        r0
-  /* 80514260 3CA0809C */ lis         r5, spInstance__Q25Field9CourseMap@ha
+  /* 80514260 3CA0809C */ lis         r5, spInstance__Q26System9CourseMap@ha
   /* 80514264 90010024 */ stw         r0, 0x24(r1)
   /* 80514268 93E1001C */ stw         r31, 0x1c(r1)
   /* 8051426C 7C7F1B78 */ mr          r31, r3
@@ -2479,7 +2479,7 @@ asm UNKNOWN_FUNCTION(unk_80514258) {
   /* 80514280 93C30000 */ stw         r30, 0(r3)
   /* 80514284 B3C30004 */ sth         r30, 4(r3)
   /* 80514288 90830008 */ stw         r4, 8(r3)
-  /* 8051428C 80A5D6E8 */ lwz         r5, spInstance__Q25Field9CourseMap@l(r5)
+  /* 8051428C 80A5D6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r5)
   /* 80514290 80A50004 */ lwz         r5, 4(r5)
   /* 80514294 80050008 */ lwz         r0, 8(r5)
   /* 80514298 28000726 */ cmplwi      r0, 0x726
@@ -2606,12 +2606,12 @@ asm UNKNOWN_FUNCTION(unk_80514368) {
   /* 8051443C 38A10098 */ addi        r5, r1, 0x98
   /* 80514440 480003BD */ bl          VEC3_fromQuaternionRotated
   /* 80514444 C041008C */ lfs         f2, 0x8c(r1)
-  /* 80514448 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
+  /* 80514448 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 8051444C C0210090 */ lfs         f1, 0x90(r1)
   /* 80514450 3B600001 */ li          r27, 0x1
   /* 80514454 C0010094 */ lfs         f0, 0x94(r1)
   /* 80514458 D04100E0 */ stfs        f2, 0xe0(r1)
-  /* 8051445C 80A3D6E8 */ lwz         r5, spInstance__Q25Field9CourseMap@l(r3)
+  /* 8051445C 80A3D6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r3)
   /* 80514460 D02100E4 */ stfs        f1, 0xe4(r1)
   /* 80514464 D00100E8 */ stfs        f0, 0xe8(r1)
   /* 80514468 8085003C */ lwz         r4, 0x3c(r5)
@@ -3002,8 +3002,8 @@ asm UNKNOWN_FUNCTION(unk_805148a0) {
   /* 80514948 C03E017C */ lfs         f1, 0x17c(r30)
   /* 8051494C 4BB707C5 */ bl          SinFIdx__Q24nw4r4mathFf
   /* 80514950 EC01F824 */ fdivs       f0, f1, f31
-  /* 80514954 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
-  /* 80514958 80E3D6E8 */ lwz         r7, spInstance__Q25Field9CourseMap@l(r3)
+  /* 80514954 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
+  /* 80514958 80E3D6E8 */ lwz         r7, spInstance__Q26System9CourseMap@l(r3)
   /* 8051495C 390000FF */ li          r8, 0xff
   /* 80514960 C03E0180 */ lfs         f1, 0x180(r30)
   /* 80514964 39200000 */ li          r9, 0x0
@@ -3260,14 +3260,14 @@ asm UNKNOWN_FUNCTION(unk_80514c30) {
   /* 80514C38 C005FA6C */ lfs         f0, lbl_8088fa6c@l(r5)
   /* 80514C3C 3C808089 */ lis         r4, lbl_8088fa3c@ha
   /* 80514C40 D0030004 */ stfs        f0, 4(r3)
-  /* 80514C44 3CC0809C */ lis         r6, spInstance__Q25Field9CourseMap@ha
+  /* 80514C44 3CC0809C */ lis         r6, spInstance__Q26System9CourseMap@ha
   /* 80514C48 80A30000 */ lwz         r5, 0(r3)
   /* 80514C4C D0030008 */ stfs        f0, 8(r3)
   /* 80514C50 C044FA3C */ lfs         f2, lbl_8088fa3c@l(r4)
   /* 80514C54 89050000 */ lbz         r8, 0(r5)
   /* 80514C58 480000B8 */ b           lbl_80514d10
   lbl_80514c5c:
-  /* 80514C5C 80E6D6E8 */ lwz         r7, spInstance__Q25Field9CourseMap@l(r6)
+  /* 80514C5C 80E6D6E8 */ lwz         r7, spInstance__Q26System9CourseMap@l(r6)
   /* 80514C60 5505043E */ clrlwi      r5, r8, 0x10
   /* 80514C64 80870010 */ lwz         r4, 0x10(r7)
   /* 80514C68 2C040000 */ cmpwi       r4, 0x0
@@ -3963,8 +3963,8 @@ asm UNKNOWN_FUNCTION(CheckpointHolder_init) {
   /* 805154AC A09F0004 */ lhz         r4, 4(r31)
   /* 805154B0 7C1C2000 */ cmpw        r28, r4
   /* 805154B4 4180FEAC */ blt+        lbl_80515360
-  /* 805154B8 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
-  /* 805154BC 8063D6E8 */ lwz         r3, spInstance__Q25Field9CourseMap@l(r3)
+  /* 805154B8 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
+  /* 805154BC 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
   /* 805154C0 4BFFC941 */ bl          unk_80511e00
   /* 805154C4 7F23CB78 */ mr          r3, r25
   /* 805154C8 4BFFCEA9 */ bl          CheckpointHolder_computeMeanTotalDistance
@@ -4107,9 +4107,9 @@ asm UNKNOWN_FUNCTION(unk_80515624) {
   /* 80515654 88E60012 */ lbz         r7, 0x12(r6)
   /* 80515658 280700FF */ cmplwi      r7, 0xff
   /* 8051565C 40820170 */ bne-        lbl_805157cc
-  /* 80515660 3CC0809C */ lis         r6, spInstance__Q25Field9CourseMap@ha
+  /* 80515660 3CC0809C */ lis         r6, spInstance__Q26System9CourseMap@ha
   /* 80515664 39000000 */ li          r8, 0x0
-  /* 80515668 80C6D6E8 */ lwz         r6, spInstance__Q25Field9CourseMap@l(r6)
+  /* 80515668 80C6D6E8 */ lwz         r6, spInstance__Q26System9CourseMap@l(r6)
   /* 8051566C 8126001C */ lwz         r9, 0x1c(r6)
   /* 80515670 A1690004 */ lhz         r11, 4(r9)
   /* 80515674 48000064 */ b           lbl_805156d8
@@ -4154,7 +4154,7 @@ asm UNKNOWN_FUNCTION(unk_80515624) {
   /* 805156F4 38E00000 */ li          r7, 0x0
   /* 805156F8 B0E30006 */ sth         r7, 6(r3)
   /* 805156FC 38E00000 */ li          r7, 0x0
-  /* 80515700 3D40809C */ lis         r10, spInstance__Q25Field9CourseMap@ha
+  /* 80515700 3D40809C */ lis         r10, spInstance__Q26System9CourseMap@ha
   /* 80515704 7C0903A6 */ mtctr       r0
   lbl_80515708:
   /* 80515708 80060000 */ lwz         r0, 0(r6)
@@ -4162,7 +4162,7 @@ asm UNKNOWN_FUNCTION(unk_80515624) {
   /* 80515710 89280002 */ lbz         r9, 2(r8)
   /* 80515714 280900FF */ cmplwi      r9, 0xff
   /* 80515718 418200A8 */ beq-        lbl_805157c0
-  /* 8051571C 816AD6E8 */ lwz         r11, spInstance__Q25Field9CourseMap@l(r10)
+  /* 8051571C 816AD6E8 */ lwz         r11, spInstance__Q26System9CourseMap@l(r10)
   /* 80515720 810B001C */ lwz         r8, 0x1c(r11)
   /* 80515724 2C080000 */ cmpwi       r8, 0x0
   /* 80515728 4182000C */ beq-        lbl_80515734
@@ -4233,9 +4233,9 @@ asm UNKNOWN_FUNCTION(unk_80515624) {
   /* 805157FC 88C60013 */ lbz         r6, 0x13(r6)
   /* 80515800 280600FF */ cmplwi      r6, 0xff
   /* 80515804 40820160 */ bne-        lbl_80515964
-  /* 80515808 3CC0809C */ lis         r6, spInstance__Q25Field9CourseMap@ha
+  /* 80515808 3CC0809C */ lis         r6, spInstance__Q26System9CourseMap@ha
   /* 8051580C 39000000 */ li          r8, 0x0
-  /* 80515810 80C6D6E8 */ lwz         r6, spInstance__Q25Field9CourseMap@l(r6)
+  /* 80515810 80C6D6E8 */ lwz         r6, spInstance__Q26System9CourseMap@l(r6)
   /* 80515814 8126001C */ lwz         r9, 0x1c(r6)
   /* 80515818 A1690004 */ lhz         r11, 4(r9)
   /* 8051581C 48000064 */ b           lbl_80515880
@@ -4280,7 +4280,7 @@ asm UNKNOWN_FUNCTION(unk_80515624) {
   /* 8051589C 38A00000 */ li          r5, 0x0
   /* 805158A0 B0A30004 */ sth         r5, 4(r3)
   /* 805158A4 38A00000 */ li          r5, 0x0
-  /* 805158A8 3D20809C */ lis         r9, spInstance__Q25Field9CourseMap@ha
+  /* 805158A8 3D20809C */ lis         r9, spInstance__Q26System9CourseMap@ha
   /* 805158AC 7C0903A6 */ mtctr       r0
   lbl_805158b0:
   /* 805158B0 80060000 */ lwz         r0, 0(r6)
@@ -4288,7 +4288,7 @@ asm UNKNOWN_FUNCTION(unk_80515624) {
   /* 805158B8 89070008 */ lbz         r8, 8(r7)
   /* 805158BC 280800FF */ cmplwi      r8, 0xff
   /* 805158C0 41820098 */ beq-        lbl_80515958
-  /* 805158C4 8149D6E8 */ lwz         r10, spInstance__Q25Field9CourseMap@l(r9)
+  /* 805158C4 8149D6E8 */ lwz         r10, spInstance__Q26System9CourseMap@l(r9)
   /* 805158C8 80EA001C */ lwz         r7, 0x1c(r10)
   /* 805158CC 2C070000 */ cmpwi       r7, 0x0
   /* 805158D0 4182000C */ beq-        lbl_805158dc
@@ -4792,10 +4792,10 @@ asm UNKNOWN_FUNCTION(AreaHolder_construct) {
   /* 80515E9C 907C0000 */ stw         r3, 0(r28)
   lbl_80515ea0:
   /* 80515EA0 3BA00000 */ li          r29, 0x0
-  /* 80515EA4 3FE0809C */ lis         r31, spInstance__Q25Field9CourseMap@ha
+  /* 80515EA4 3FE0809C */ lis         r31, spInstance__Q26System9CourseMap@ha
   /* 80515EA8 480000B4 */ b           lbl_80515f5c
   lbl_80515eac:
-  /* 80515EAC 807FD6E8 */ lwz         r3, spInstance__Q25Field9CourseMap@l(r31)
+  /* 80515EAC 807FD6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r31)
   /* 80515EB0 80630004 */ lwz         r3, 4(r3)
   /* 80515EB4 80030008 */ lwz         r0, 8(r3)
   /* 80515EB8 28000898 */ cmplwi      r0, 0x898
@@ -5013,8 +5013,8 @@ MARK_BINARY_BLOB(unk_80516138, 0x80516138, 0x80516168);
 asm UNKNOWN_FUNCTION(unk_80516138) {
   // clang-format off
   nofralloc
-  /* 80516138 3C80809C */ lis         r4, spInstance__Q25Field9CourseMap@ha
-  /* 8051613C 8084D6E8 */ lwz         r4, spInstance__Q25Field9CourseMap@l(r4)
+  /* 80516138 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
+  /* 8051613C 8084D6E8 */ lwz         r4, spInstance__Q26System9CourseMap@l(r4)
   /* 80516140 80840004 */ lwz         r4, 4(r4)
   /* 80516144 80040008 */ lwz         r0, 8(r4)
   /* 80516148 28000898 */ cmplwi      r0, 0x898
@@ -5035,8 +5035,8 @@ MARK_BINARY_BLOB(unk_80516168, 0x80516168, 0x80516220);
 asm UNKNOWN_FUNCTION(unk_80516168) {
   // clang-format off
   nofralloc
-  /* 80516168 3C80809C */ lis         r4, spInstance__Q25Field9CourseMap@ha
-  /* 8051616C 8084D6E8 */ lwz         r4, spInstance__Q25Field9CourseMap@l(r4)
+  /* 80516168 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
+  /* 8051616C 8084D6E8 */ lwz         r4, spInstance__Q26System9CourseMap@l(r4)
   /* 80516170 80840004 */ lwz         r4, 4(r4)
   /* 80516174 80A40008 */ lwz         r5, 8(r4)
   /* 80516178 28050898 */ cmplwi      r5, 0x898
@@ -5062,9 +5062,9 @@ asm UNKNOWN_FUNCTION(unk_80516168) {
   lbl_805161bc:
   /* 805161BC 38A0FFFF */ li          r5, -0x1
   lbl_805161c0:
-  /* 805161C0 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
+  /* 805161C0 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 805161C4 54A4043E */ clrlwi      r4, r5, 0x10
-  /* 805161C8 80C3D6E8 */ lwz         r6, spInstance__Q25Field9CourseMap@l(r3)
+  /* 805161C8 80C3D6E8 */ lwz         r6, spInstance__Q26System9CourseMap@l(r3)
   /* 805161CC 80660024 */ lwz         r3, 0x24(r6)
   /* 805161D0 2C030000 */ cmpwi       r3, 0x0
   /* 805161D4 4182000C */ beq-        lbl_805161e0
@@ -5957,9 +5957,9 @@ asm UNKNOWN_FUNCTION(unk_80516cd4) {
   /* 80516CE4 38600000 */ li          r3, 0x0
   /* 80516CE8 4E800020 */ blr
   lbl_80516cec:
-  /* 80516CEC 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
+  /* 80516CEC 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 80516CF0 54A4043E */ clrlwi      r4, r5, 0x10
-  /* 80516CF4 80C3D6E8 */ lwz         r6, spInstance__Q25Field9CourseMap@l(r3)
+  /* 80516CF4 80C3D6E8 */ lwz         r6, spInstance__Q26System9CourseMap@l(r3)
   /* 80516CF8 80660030 */ lwz         r3, 0x30(r6)
   /* 80516CFC 2C030000 */ cmpwi       r3, 0x0
   /* 80516D00 4182000C */ beq-        lbl_80516d0c
@@ -6034,7 +6034,7 @@ asm UNKNOWN_FUNCTION(unk_80516d74) {
   /* 80516DBC 3BA00000 */ li          r29, 0x0
   lbl_80516dc0:
   /* 80516DC0 38C00000 */ li          r6, 0x0
-  /* 80516DC4 3D00809C */ lis         r8, spInstance__Q25Field9CourseMap@ha
+  /* 80516DC4 3D00809C */ lis         r8, spInstance__Q26System9CourseMap@ha
   /* 80516DC8 38000002 */ li          r0, 0x2
   /* 80516DCC 4800025C */ b           lbl_80517028
   lbl_80516dd0:
@@ -6210,7 +6210,7 @@ asm UNKNOWN_FUNCTION(unk_80516d74) {
   lbl_80517024:
   /* 80517024 38C60001 */ addi        r6, r6, 0x1
   lbl_80517028:
-  /* 80517028 8148D6E8 */ lwz         r10, spInstance__Q25Field9CourseMap@l(r8)
+  /* 80517028 8148D6E8 */ lwz         r10, spInstance__Q26System9CourseMap@l(r8)
   /* 8051702C 38E00000 */ li          r7, 0x0
   /* 80517030 812A000C */ lwz         r9, 0xc(r10)
   /* 80517034 2C090000 */ cmpwi       r9, 0x0
@@ -6281,7 +6281,7 @@ asm UNKNOWN_FUNCTION(unk_80516d74) {
   /* 80517114 39200000 */ li          r9, 0x0
   /* 80517118 39400000 */ li          r10, 0x0
   /* 8051711C 39600000 */ li          r11, 0x0
-  /* 80517120 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
+  /* 80517120 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 80517124 38000001 */ li          r0, 0x1
   /* 80517128 4800040C */ b           lbl_80517534
   lbl_8051712c:
@@ -6353,7 +6353,7 @@ asm UNKNOWN_FUNCTION(unk_80516d74) {
   /* 8051720C 408100D0 */ ble-        lbl_805172dc
   /* 80517210 281A00FF */ cmplwi      r26, 0xff
   /* 80517214 418200C8 */ beq-        lbl_805172dc
-  /* 80517218 82E3D6E8 */ lwz         r23, spInstance__Q25Field9CourseMap@l(r3)
+  /* 80517218 82E3D6E8 */ lwz         r23, spInstance__Q26System9CourseMap@l(r3)
   /* 8051721C 3B200000 */ li          r25, 0x0
   /* 80517220 8317000C */ lwz         r24, 0xc(r23)
   /* 80517224 2C180000 */ cmpwi       r24, 0x0
@@ -6438,7 +6438,7 @@ asm UNKNOWN_FUNCTION(unk_80516d74) {
   /* 8051732C 8B2C0002 */ lbz         r25, 2(r12)
   /* 80517330 281900FF */ cmplwi      r25, 0xff
   /* 80517334 41820098 */ beq-        lbl_805173cc
-  /* 80517338 82E3D6E8 */ lwz         r23, spInstance__Q25Field9CourseMap@l(r3)
+  /* 80517338 82E3D6E8 */ lwz         r23, spInstance__Q26System9CourseMap@l(r3)
   /* 8051733C 3B000000 */ li          r24, 0x0
   /* 80517340 8197000C */ lwz         r12, 0xc(r23)
   /* 80517344 2C0C0000 */ cmpwi       r12, 0x0
@@ -6513,7 +6513,7 @@ asm UNKNOWN_FUNCTION(unk_80516d74) {
   /* 8051742C 8B580008 */ lbz         r26, 8(r24)
   /* 80517430 281A00FF */ cmplwi      r26, 0xff
   /* 80517434 418200CC */ beq-        lbl_80517500
-  /* 80517438 82E3D6E8 */ lwz         r23, spInstance__Q25Field9CourseMap@l(r3)
+  /* 80517438 82E3D6E8 */ lwz         r23, spInstance__Q26System9CourseMap@l(r3)
   /* 8051743C 3B200000 */ li          r25, 0x0
   /* 80517440 8317000C */ lwz         r24, 0xc(r23)
   /* 80517444 2C180000 */ cmpwi       r24, 0x0
@@ -6589,7 +6589,7 @@ asm UNKNOWN_FUNCTION(unk_80516d74) {
   lbl_80517530:
   /* 80517530 396B0001 */ addi        r11, r11, 0x1
   lbl_80517534:
-  /* 80517534 8303D6E8 */ lwz         r24, spInstance__Q25Field9CourseMap@l(r3)
+  /* 80517534 8303D6E8 */ lwz         r24, spInstance__Q26System9CourseMap@l(r3)
   /* 80517538 38E00000 */ li          r7, 0x0
   /* 8051753C 8198000C */ lwz         r12, 0xc(r24)
   /* 80517540 2C0C0000 */ cmpwi       r12, 0x0
@@ -6886,14 +6886,14 @@ asm UNKNOWN_FUNCTION(unk_80517858) {
   nofralloc
   /* 80517858 9421FFD0 */ stwu        r1, -0x30(r1)
   /* 8051785C 7C0802A6 */ mflr        r0
-  /* 80517860 3CC0809C */ lis         r6, spInstance__Q25Field9CourseMap@ha
+  /* 80517860 3CC0809C */ lis         r6, spInstance__Q26System9CourseMap@ha
   /* 80517864 90010034 */ stw         r0, 0x34(r1)
   /* 80517868 BF010010 */ stmw        r24, 0x10(r1)
   /* 8051786C 7C781B78 */ mr          r24, r3
   /* 80517870 7CBA2B78 */ mr          r26, r5
   /* 80517874 7C992378 */ mr          r25, r4
   /* 80517878 38600000 */ li          r3, 0x0
-  /* 8051787C 80C6D6E8 */ lwz         r6, spInstance__Q25Field9CourseMap@l(r6)
+  /* 8051787C 80C6D6E8 */ lwz         r6, spInstance__Q26System9CourseMap@l(r6)
   /* 80517880 80A6000C */ lwz         r5, 0xc(r6)
   /* 80517884 2C050000 */ cmpwi       r5, 0x0
   /* 80517888 41820014 */ beq-        lbl_8051789c
@@ -6963,7 +6963,7 @@ asm UNKNOWN_FUNCTION(unk_80517858) {
   lbl_8051795c:
   /* 8051795C 80830000 */ lwz         r4, 0(r3)
   /* 80517960 3B600000 */ li          r27, 0x0
-  /* 80517964 3FE0809C */ lis         r31, spInstance__Q25Field9CourseMap@ha
+  /* 80517964 3FE0809C */ lis         r31, spInstance__Q26System9CourseMap@ha
   /* 80517968 3FC0809C */ lis         r30, spInstance__Q26System10RaceConfig@ha
   /* 8051796C 88640001 */ lbz         r3, 1(r4)
   /* 80517970 88040000 */ lbz         r0, 0(r4)
@@ -6989,7 +6989,7 @@ asm UNKNOWN_FUNCTION(unk_80517858) {
   lbl_805179bc:
   /* 805179BC 2C000000 */ cmpwi       r0, 0x0
   /* 805179C0 418200AC */ beq-        lbl_80517a6c
-  /* 805179C4 80BFD6E8 */ lwz         r5, spInstance__Q25Field9CourseMap@l(r31)
+  /* 805179C4 80BFD6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r31)
   /* 805179C8 88840000 */ lbz         r4, 0(r4)
   /* 805179CC 80650010 */ lwz         r3, 0x10(r5)
   /* 805179D0 2C030000 */ cmpwi       r3, 0x0
@@ -7039,7 +7039,7 @@ asm UNKNOWN_FUNCTION(unk_80517858) {
   /* 80517A64 98040011 */ stb         r0, 0x11(r4)
   /* 80517A68 48000108 */ b           lbl_80517b70
   lbl_80517a6c:
-  /* 80517A6C 80BFD6E8 */ lwz         r5, spInstance__Q25Field9CourseMap@l(r31)
+  /* 80517A6C 80BFD6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r31)
   /* 80517A70 88840000 */ lbz         r4, 0(r4)
   /* 80517A74 80650010 */ lwz         r3, 0x10(r5)
   /* 80517A78 2C030000 */ cmpwi       r3, 0x0
@@ -7089,7 +7089,7 @@ asm UNKNOWN_FUNCTION(unk_80517858) {
   /* 80517B0C 98040010 */ stb         r0, 0x10(r4)
   /* 80517B10 48000060 */ b           lbl_80517b70
   lbl_80517b14:
-  /* 80517B14 80BFD6E8 */ lwz         r5, spInstance__Q25Field9CourseMap@l(r31)
+  /* 80517B14 80BFD6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r31)
   /* 80517B18 88840000 */ lbz         r4, 0(r4)
   /* 80517B1C 80650010 */ lwz         r3, 0x10(r5)
   /* 80517B20 2C030000 */ cmpwi       r3, 0x0
@@ -7122,7 +7122,7 @@ asm UNKNOWN_FUNCTION(unk_80517858) {
   /* 80517B74 2C1B0006 */ cmpwi       r27, 0x6
   /* 80517B78 4180FE08 */ blt+        lbl_80517980
   /* 80517B7C 3B600000 */ li          r27, 0x0
-  /* 80517B80 3FE0809C */ lis         r31, spInstance__Q25Field9CourseMap@ha
+  /* 80517B80 3FE0809C */ lis         r31, spInstance__Q26System9CourseMap@ha
   lbl_80517b84:
   /* 80517B84 80B80000 */ lwz         r5, 0(r24)
   /* 80517B88 7C65DA14 */ add         r3, r5, r27
@@ -7131,7 +7131,7 @@ asm UNKNOWN_FUNCTION(unk_80517858) {
   /* 80517B94 40820130 */ bne-        lbl_80517cc4
   /* 80517B98 2C1A0000 */ cmpwi       r26, 0x0
   /* 80517B9C 418200BC */ beq-        lbl_80517c58
-  /* 80517BA0 80DFD6E8 */ lwz         r6, spInstance__Q25Field9CourseMap@l(r31)
+  /* 80517BA0 80DFD6E8 */ lwz         r6, spInstance__Q26System9CourseMap@l(r31)
   /* 80517BA4 88850001 */ lbz         r4, 1(r5)
   /* 80517BA8 88050000 */ lbz         r0, 0(r5)
   /* 80517BAC 80660010 */ lwz         r3, 0x10(r6)
@@ -7185,7 +7185,7 @@ asm UNKNOWN_FUNCTION(unk_80517858) {
   /* 80517C50 98040011 */ stb         r0, 0x11(r4)
   /* 80517C54 48000070 */ b           lbl_80517cc4
   lbl_80517c58:
-  /* 80517C58 80DFD6E8 */ lwz         r6, spInstance__Q25Field9CourseMap@l(r31)
+  /* 80517C58 80DFD6E8 */ lwz         r6, spInstance__Q26System9CourseMap@l(r31)
   /* 80517C5C 88850001 */ lbz         r4, 1(r5)
   /* 80517C60 88050000 */ lbz         r0, 0(r5)
   /* 80517C64 80660010 */ lwz         r3, 0x10(r6)
@@ -7394,7 +7394,7 @@ asm UNKNOWN_FUNCTION(unk_80517e88) {
   /* 80517EB0 93A10014 */ stw         r29, 0x14(r1)
   /* 80517EB4 98A30011 */ stb         r5, 0x11(r3)
   /* 80517EB8 98A30010 */ stb         r5, 0x10(r3)
-  /* 80517EBC 3CA0809C */ lis         r5, spInstance__Q25Field9CourseMap@ha
+  /* 80517EBC 3CA0809C */ lis         r5, spInstance__Q26System9CourseMap@ha
   /* 80517EC0 98C30004 */ stb         r6, 4(r3)
   /* 80517EC4 98C30005 */ stb         r6, 5(r3)
   /* 80517EC8 98C30006 */ stb         r6, 6(r3)
@@ -7472,7 +7472,7 @@ asm UNKNOWN_FUNCTION(unk_80517e88) {
   /* 80517FC0 8BEC0002 */ lbz         r31, 2(r12)
   /* 80517FC4 281F00FF */ cmplwi      r31, 0xff
   /* 80517FC8 418200A0 */ beq-        lbl_80518068
-  /* 80517FCC 83A5D6E8 */ lwz         r29, spInstance__Q25Field9CourseMap@l(r5)
+  /* 80517FCC 83A5D6E8 */ lwz         r29, spInstance__Q26System9CourseMap@l(r5)
   /* 80517FD0 3BC00000 */ li          r30, 0x0
   /* 80517FD4 819D0014 */ lwz         r12, 0x14(r29)
   /* 80517FD8 2C0C0000 */ cmpwi       r12, 0x0
@@ -7548,7 +7548,7 @@ asm UNKNOWN_FUNCTION(unk_80517e88) {
   /* 805180C8 8BCC0008 */ lbz         r30, 8(r12)
   /* 805180CC 281E00FF */ cmplwi      r30, 0xff
   /* 805180D0 41820094 */ beq-        lbl_80518164
-  /* 805180D4 83A5D6E8 */ lwz         r29, spInstance__Q25Field9CourseMap@l(r5)
+  /* 805180D4 83A5D6E8 */ lwz         r29, spInstance__Q26System9CourseMap@l(r5)
   /* 805180D8 3BE00000 */ li          r31, 0x0
   /* 805180DC 819D0014 */ lwz         r12, 0x14(r29)
   /* 805180E0 2C0C0000 */ cmpwi       r12, 0x0
@@ -7606,7 +7606,7 @@ asm UNKNOWN_FUNCTION(unk_80517e88) {
   lbl_80518190:
   /* 80518190 39080001 */ addi        r8, r8, 0x1
   lbl_80518194:
-  /* 80518194 83C5D6E8 */ lwz         r30, spInstance__Q25Field9CourseMap@l(r5)
+  /* 80518194 83C5D6E8 */ lwz         r30, spInstance__Q26System9CourseMap@l(r5)
   /* 80518198 39200000 */ li          r9, 0x0
   /* 8051819C 819E0014 */ lwz         r12, 0x14(r30)
   /* 805181A0 2C0C0000 */ cmpwi       r12, 0x0
@@ -7955,8 +7955,8 @@ asm UNKNOWN_FUNCTION(unk_805184fc) {
   /* 805185A4 C03F0194 */ lfs         f1, 0x194(r31)
   /* 805185A8 4BB6CB69 */ bl          SinFIdx__Q24nw4r4mathFf
   /* 805185AC EC21F824 */ fdivs       f1, f1, f31
-  /* 805185B0 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
-  /* 805185B4 80E3D6E8 */ lwz         r7, spInstance__Q25Field9CourseMap@l(r3)
+  /* 805185B0 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
+  /* 805185B4 80E3D6E8 */ lwz         r7, spInstance__Q26System9CourseMap@l(r3)
   /* 805185B8 390000FF */ li          r8, 0xff
   /* 805185BC C01F0198 */ lfs         f0, 0x198(r31)
   /* 805185C0 39200000 */ li          r9, 0x0
@@ -8071,10 +8071,10 @@ asm UNKNOWN_FUNCTION(unk_805184fc) {
   /* 80518748 39000000 */ li          r8, 0x0
   lbl_8051874c:
   /* 8051874C 991E0028 */ stb         r8, 0x28(r30)
-  /* 80518750 3C60809C */ lis         r3, spInstance__Q25Field9CourseMap@ha
+  /* 80518750 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 80518754 C01F0198 */ lfs         f0, 0x198(r31)
   /* 80518758 390000FF */ li          r8, 0xff
-  /* 8051875C 80E3D6E8 */ lwz         r7, spInstance__Q25Field9CourseMap@l(r3)
+  /* 8051875C 80E3D6E8 */ lwz         r7, spInstance__Q26System9CourseMap@l(r3)
   /* 80518760 39200000 */ li          r9, 0x0
   /* 80518764 C1810058 */ lfs         f12, 0x58(r1)
   /* 80518768 80C70018 */ lwz         r6, 0x18(r7)
@@ -8444,8 +8444,8 @@ MARK_BINARY_BLOB(unk_80518bb0, 0x80518bb0, 0x80518bdc);
 asm UNKNOWN_FUNCTION(unk_80518bb0) {
   // clang-format off
   nofralloc
-  /* 80518BB0 3C80809C */ lis         r4, spInstance__Q25Field9CourseMap@ha
-  /* 80518BB4 8084D6E8 */ lwz         r4, spInstance__Q25Field9CourseMap@l(r4)
+  /* 80518BB0 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
+  /* 80518BB4 8084D6E8 */ lwz         r4, spInstance__Q26System9CourseMap@l(r4)
   /* 80518BB8 80840004 */ lwz         r4, 4(r4)
   /* 80518BBC 80040008 */ lwz         r0, 8(r4)
   /* 80518BC0 28000910 */ cmplwi      r0, 0x910

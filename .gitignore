@@ -59,8 +59,6 @@ __pycache__/
 tmp
 *.rel
 /artifacts/orig/pal/rel/*.bin
-!/artifacts/orig/pal/rel/dol_rel.bin
-!/artifacts/orig/pal/rel/rel_abs.bin
 *.map
 out.html
 tools.zip
