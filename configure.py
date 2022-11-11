@@ -286,16 +286,16 @@ def add_compile_rules(args, n: Writer):
     n.variable("gcc", GCC)
     n.variable("asflags", "-mgekko -Iasm")
 
+    ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
     n.rule(
         "as",
-        command = f"$as $in $asflags -o $out",
+        command = ALLOW_CHAIN + f"$as $in $asflags -o $out && python mkwutil/postprocess.py -fno-ctor_realign -fsymbol-fixup -fprologue-fixup=none $out",
         description = "AS $in"
     )
 
-    ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
     n.rule(
         "cc",
-        command = ALLOW_CHAIN + f"$gcc -Isource -Isource/platform -nostdinc -M -MF $out.d $in && $cc $cflags -o $out $in",
+        command = ALLOW_CHAIN + f"$gcc -Isource -Isource/platform -nostdinc -M -MF $out.d $in && $cc $cflags -o $out $in && python mkwutil/postprocess.py -fno-ctor_realign -fsymbol-fixup -fprologue-fixup=none $out",
         description = "CC $in",
         deps = "gcc",
         depfile = "$out.d"
@@ -316,9 +316,9 @@ def add_compile_rules(args, n: Writer):
         )
 
     for asm in asm_files:
-        out_o = Path("out") / asm.relative_to("asm").with_suffix(".o")
+        out_o = str(Path("out") / asm.relative_to("asm").with_suffix(".o"))
         n.build(
-            str(out_o),
+            out_o,
             rule = "as",
             inputs = str(asm)
         )

@@ -94,7 +94,8 @@ extern UNKNOWN_FUNCTION(AreaHolder_get);
 // PAL: 0x80514100
 extern UNKNOWN_FUNCTION(unk_80514100);
 // PAL: 0x80514124
-extern UNKNOWN_FUNCTION(KartpointHolder_getKartpoint);
+extern UNKNOWN_FUNCTION(
+    get__Q26System84MapdataAccessorBase$0Q26System17MapdataStartPoint$4Q36System17MapdataStartPoint5SData$1FUs);
 // PAL: 0x80514368
 extern UNKNOWN_FUNCTION(unk_80514368);
 // PAL: 0x805147d4
@@ -473,7 +474,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   lbl_80512b1c:
   /* 80512B1C 807D0008 */ lwz         r3, 8(r29)
   /* 80512B20 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80512B24 48001601 */ bl          KartpointHolder_getKartpoint
+  /* 80512B24 48001601 */ bl          get__Q26System84MapdataAccessorBase$0Q26System17MapdataStartPoint$4Q36System17MapdataStartPoint5SData$1FUs
   /* 80512B28 48001D79 */ bl          unk_805148a0
   /* 80512B2C 3B7B0001 */ addi        r27, r27, 0x1
   lbl_80512b30:
@@ -2318,7 +2319,7 @@ asm UNKNOWN_FUNCTION(AreaHolder_get){
 // Symbol: unk_80514100
 // PAL: 0x80514100..0x80514124
 MARK_BINARY_BLOB(unk_80514100, 0x80514100, 0x80514124);
-asm UNKNOWN_FUNCTION(unk_80514100){
+asm UNKNOWN_FUNCTION(unk_80514100) {
   // clang-format off
   nofralloc
   /* 80514100 A0030004 */ lhz         r0, 4(r3)
@@ -2334,24 +2335,14 @@ asm UNKNOWN_FUNCTION(unk_80514100){
   // clang-format on
 }
 
-// Symbol: KartpointHolder_getKartpoint
-// PAL: 0x80514124..0x80514148
-MARK_BINARY_BLOB(KartpointHolder_getKartpoint, 0x80514124, 0x80514148);
-asm UNKNOWN_FUNCTION(KartpointHolder_getKartpoint){
-  // clang-format off
-  nofralloc
-  /* 80514124 A0030004 */ lhz         r0, 4(r3)
-  /* 80514128 7C040040 */ cmplw       r4, r0
-  /* 8051412C 40800014 */ bge-        lbl_80514140
-  /* 80514130 80630000 */ lwz         r3, 0(r3)
-  /* 80514134 548013BA */ rlwinm      r0, r4, 2, 0xe, 0x1d
-  /* 80514138 7C63002E */ lwzx        r3, r3, r0
-  /* 8051413C 4E800020 */ blr
-  lbl_80514140:
-  /* 80514140 38600000 */ li          r3, 0x0
-  /* 80514144 4E800020 */ blr
-  // clang-format on
+namespace System {
+template <> MapdataStartPoint* MapdataStartPointAccessor::get(u16 i) {
+  if (i < this->numEntries) {
+    return this->entries[i];
+  }
+  return nullptr;
 }
+} // namespace System
 
 // Symbol: KmpHolder_getGlobalObj
 // PAL: 0x80514148..0x80514194
