@@ -278,12 +278,15 @@ public:
   struct SData {
     EGG::Vector3f position; // 00
     EGG::Vector3f rotation; // 0c
-                            // --- Pre Revision 1830: End of structure
+    // --- Pre Revision 1830: End of structure
+    s16 playerIndex; // 18
+    u16 _;           // 1a - 1c
   };
-  s16 playerIndex; // 18
-  u16 _;           // 1a - 1c
-public:
+
   MapdataStartPoint(const SData* data);
+
+private:
+  SData* m_data;
 };
 
 typedef MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>
