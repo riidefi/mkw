@@ -105,3 +105,6 @@ typedef struct {
 #else
 #define MARK_BINARY_BLOB
 #endif
+
+// for postprocess.py
+#pragma dollar_identifiers on
