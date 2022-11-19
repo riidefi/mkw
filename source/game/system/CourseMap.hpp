@@ -9,9 +9,9 @@ extern "C" {
 #endif
 
 // PAL: 0x80512694..0x8051271c
-UNKNOWN_FUNCTION(initStaticInstance__Q25Field9CourseMapFv);
+UNKNOWN_FUNCTION(createInstance__Q26System9CourseMapFv);
 // PAL: 0x8051271c..0x8051276c
-UNKNOWN_FUNCTION(destroyStaticInstance__Q25Field9CourseMapFv);
+UNKNOWN_FUNCTION(destroyInstance__Q26System9CourseMapFv);
 // PAL: 0x8051276c..0x805127ac
 UNKNOWN_FUNCTION(__ct__Q25Field9CourseMapFv);
 // PAL: 0x805127ac..0x805127ec
@@ -19,7 +19,7 @@ UNKNOWN_FUNCTION(__dt__Q25Field9CourseMapFv);
 // PAL: 0x805127ec..0x80512c10
 UNKNOWN_FUNCTION(CourseMap_init);
 // PAL: 0x80512c10..0x80512c2c
-UNKNOWN_FUNCTION(CourseMap_loadFile);
+UNKNOWN_FUNCTION(loadFile__Q26System9CourseMapFlPc);
 // PAL: 0x80512c2c..0x80512c6c
 UNKNOWN_FUNCTION(CourseMapHeader_ct);
 // PAL: 0x80512c6c..0x80512c78
@@ -294,8 +294,10 @@ typedef MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>
 
 class CourseMap {
 public:
-  static CourseMap* initStaticInstance();
-  static void destroyStaticInstance();
+  static CourseMap* createInstance();
+  static void destroyInstance();
+
+  static void* loadFile(s32 archiveIdx, char* filename);
 
   static inline CourseMap* instance() { return spInstance; }
 

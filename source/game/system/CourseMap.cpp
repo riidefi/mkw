@@ -1,5 +1,7 @@
 #include "CourseMap.hpp"
 
+#include "game/system/ResourceManager.hpp"
+
 // --- EXTERN DECLARATIONS BEGIN ---
 
 extern "C" {
@@ -30,7 +32,7 @@ extern UNKNOWN_FUNCTION(VEC2_sub);
 // PAL: 0x80512370
 extern UNKNOWN_FUNCTION(CheckpointHolder_computeMeanTotalDistance);
 // PAL: 0x80512c10
-extern UNKNOWN_FUNCTION(CourseMap_loadFile);
+extern UNKNOWN_FUNCTION(loadFile__Q26System9CourseMapFlPc);
 // PAL: 0x80512c2c
 extern UNKNOWN_FUNCTION(CourseMapHeader_ct);
 // PAL: 0x80512c6c
@@ -218,7 +220,7 @@ namespace System {
 // .bss
 CourseMap* CourseMap::spInstance;
 
-CourseMap* CourseMap::initStaticInstance() {
+CourseMap* CourseMap::createInstance() {
   if (spInstance == nullptr) {
     spInstance = new CourseMap();
   }
@@ -226,7 +228,7 @@ CourseMap* CourseMap::initStaticInstance() {
   return spInstance;
 }
 
-void CourseMap::destroyStaticInstance() {
+void CourseMap::destroyInstance() {
   if (spInstance != nullptr) {
     delete spInstance;
     spInstance = nullptr;
@@ -262,7 +264,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512814 3BFF2C20 */ addi        r31, r31, lbl_808b2c20@l
   /* 80512818 3884FA90 */ addi        r4, r4, lbl_8088fa90@l
   /* 8051281C 38600001 */ li          r3, 0x1
-  /* 80512820 480003F1 */ bl          CourseMap_loadFile
+  /* 80512820 480003F1 */ bl          loadFile__Q26System9CourseMapFlPc
   /* 80512824 7C7C1B78 */ mr          r28, r3
   /* 80512828 38600010 */ li          r3, 0x10
   /* 8051282C 4BD175A1 */ bl          __nw__FUl
@@ -539,21 +541,14 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   // clang-format on
 }
 
-// Symbol: CourseMap_loadFile
-// PAL: 0x80512c10..0x80512c2c
-MARK_BINARY_BLOB(CourseMap_loadFile, 0x80512c10, 0x80512c2c);
-asm UNKNOWN_FUNCTION(CourseMap_loadFile) {
-  // clang-format off
-  nofralloc
-  /* 80512C10 3CA0809C */ lis         r5, spInstance__Q26System15ResourceManager@ha
-  /* 80512C14 7C601B78 */ mr          r0, r3
-  /* 80512C18 8065D738 */ lwz         r3, spInstance__Q26System15ResourceManager@l(r5)
-  /* 80512C1C 7C852378 */ mr          r5, r4
-  /* 80512C20 7C040378 */ mr          r4, r0
-  /* 80512C24 38C00000 */ li          r6, 0x0
-  /* 80512C28 4802E5D4 */ b           getFile__Q26System15ResourceManagerFlPCcPUl
-  // clang-format on
+namespace System {
+
+void* CourseMap::loadFile(s32 archiveIdx, char* filename) {
+  return ResourceManager::spInstance.nonvol->getFile(archiveIdx, filename,
+                                                     nullptr);
 }
+
+} // namespace System
 
 // Symbol: CourseMapHeader_ct
 // PAL: 0x80512c2c..0x80512c6c
