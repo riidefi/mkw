@@ -116,6 +116,8 @@ public:
 private:
   inline NonCopyable(const NonCopyable&) {}
 };
+
+#define static_assert(cond) __static_assert(cond, #cond)
 #endif // __cplusplus
 
 #define INLINE_ELSEWHERE(x)
