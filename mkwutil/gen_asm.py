@@ -259,7 +259,7 @@ class CAsmGenerator:
     def disassemble_function(self, sym):
         fn_start_vma = sym.addr
         fn_end_vma = fn_start_vma + sym.size
-        inline_asm, refs = self.disaser.function_to_text_with_referenced(fn_start_vma, inline=True, extra=True,
+        inline_asm, refs = self.disaser.function_to_text_with_referenced(fn_start_vma, inline=True, extra=False,
             hashable=False, declare_mangled=False)
         for (addr, name) in refs:
             if addr not in self.extern_addrs:
