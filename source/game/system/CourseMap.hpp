@@ -19,7 +19,7 @@ UNKNOWN_FUNCTION(__dt__Q25Field9CourseMapFv);
 // PAL: 0x805127ec..0x80512c10
 UNKNOWN_FUNCTION(CourseMap_init);
 // PAL: 0x80512c10..0x80512c2c
-UNKNOWN_FUNCTION(loadFile__Q26System9CourseMapFlPc);
+UNKNOWN_FUNCTION(loadFile__Q26System9CourseMapFlPCc);
 // PAL: 0x80512c2c..0x80512c6c
 UNKNOWN_FUNCTION(CourseMapHeader_ct);
 // PAL: 0x80512c6c..0x80512c78
@@ -272,22 +272,366 @@ template <typename T, typename TData> struct MapdataAccessorBase {
   }*/
   T* get(u16 i);
 };
+// The template will always be the same size
+static_assert(sizeof(MapdataAccessorBase<unk, unk>) == 0xc);
+
+class MapdataAreaBase {
+public:
+  struct SData {
+    u8 shape;
+    u8 type;
+    s8 cameraIdx;
+    u8 priority;
+    EGG::Vector3f position;
+    EGG::Vector3f rotation;
+    EGG::Vector3f scale;
+    u16 parameters[2];
+    // Pre Revision 2200: End of structure
+    u8 railID;
+    u8 eneLinkID;
+  };
+
+  MapdataAreaBase(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const = 0;
+
+private:
+  SData* mpData;
+  u8 _08[0x48 - 0x08];
+};
+static_assert(sizeof(MapdataAreaBase) == 0x48);
+
+class MapdataAreaBox : public MapdataAreaBase {
+public:
+  MapdataAreaBox(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
+};
+
+class MapdataAreaCylinder : public MapdataAreaBase {
+public:
+  MapdataAreaCylinder(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
+};
+
+class MapdataCamera {
+public:
+  struct SData {
+    u8 cameraType;
+    u8 cameraNext;
+    u8 cameraShake;
+    u8 pathID;
+    u16 pathSpeed;
+    u16 fovYSpeed;
+    u16 viewSpeed;
+    u8 startFlag;
+    u8 movieFlag;
+    EGG::Vector3f position;
+    EGG::Vector3f rotation;
+    f32 fovYStart;
+    f32 fovVYEnd;
+
+    EGG::Vector3f viewStart;
+    EGG::Vector3f viewEnd;
+
+    float time;
+  };
+
+  MapdataCamera(const SData* data);
+
+private:
+  SData* mpData;
+};
+static_assert(sizeof(MapdataCamera) == 0x4);
+
+class MapdataCannonPoint {
+public:
+  struct SData {
+    EGG::Vector3f position;
+    EGG::Vector3f rotation;
+    u16 id;
+    u16 shootEffect;
+  };
+
+  MapdataCannonPoint(const SData* data);
+
+private:
+  SData* mpData;
+};
+static_assert(sizeof(MapdataCannonPoint) == 0x4);
+
+class MapdataCheckPath {
+public:
+  struct SData {
+    u8 start;
+    u8 size;
+
+    u8 last[6];
+    u8 next[6];
+  };
+
+  MapdataCheckPath(const SData* data);
+
+private:
+  SData* mpData;
+  u8 _04[0x0c - 0x04];
+};
+static_assert(sizeof(MapdataCheckPath) == 0xc);
+
+class MapdataCheckPoint {
+public:
+  struct SData {
+    EGG::Vector2f left;
+    EGG::Vector2f right;
+    u8 jugemIndex;
+    u8 lapCheck;
+    u8 prevPt;
+    u8 nextPt;
+  };
+
+  MapdataCheckPoint(const SData* data);
+
+private:
+  SData* mpData;
+  u8 _04[0xc8 - 0x04];
+};
+static_assert(sizeof(MapdataCheckPoint) == 0xc8);
+
+class MapdataEnemyPath {
+public:
+  struct SData {
+    u8 start;
+    u8 size;
+    u8 last[6];
+    u8 next[6];
+    u8 battle_params[2];
+  };
+
+  MapdataEnemyPath(const SData* data);
+
+private:
+  SData* mpData;
+  u8 _04[0x08 - 0x04];
+};
+static_assert(sizeof(MapdataEnemyPath) == 0x8);
+
+class MapdataEnemyPoint {
+public:
+  struct SData {
+    EGG::Vector3f position;
+    f32 deviation;
+    u8 parameters[4];
+  };
+
+  MapdataEnemyPoint(const SData* data);
+
+private:
+  SData* mpData;
+  u8 _04[0x18 - 0x04];
+};
+static_assert(sizeof(MapdataEnemyPoint) == 0x18);
+
+class MapdataFileAccessor {
+public:
+  struct SData {
+    u32 magic;
+    u32 fileSize;
+    u16 numSections;
+    u16 headerSize;
+    u32 revision;
+    s32 offsets[];
+  };
+
+  MapdataFileAccessor(const SData* data);
+
+private:
+  SData* mpData;
+  void* mpSectionDef;
+  u32 mVersion;
+  u32 mSectionDefOffset;
+};
+static_assert(sizeof(MapdataFileAccessor) == 0x10);
+
+class MapdataGeoObj {
+public:
+  struct SData {
+    u16 id;
+    EGG::Vector3f translation;
+    EGG::Vector3f rotation;
+    EGG::Vector3f scale;
+    s16 pathId;
+    u16 settings[8];
+    u16 presenceFlag;
+  };
+
+  MapdataGeoObj(const SData* data);
+
+private:
+  SData* mpData;
+};
+static_assert(sizeof(MapdataGeoObj) == 0x4);
+
+class MapdataItemPath {
+public:
+  struct SData {
+    u8 start;
+    u8 size;
+
+    u8 last[6];
+    u8 next[6];
+  };
+
+  MapdataItemPath(const SData* data);
+
+private:
+  SData* mpData;
+};
+static_assert(sizeof(MapdataItemPath) == 0x4);
+
+class MapdataItemPoint {
+public:
+  struct SData {
+    EGG::Vector3f position;
+    f32 deviation;
+    u16 parameters[2];
+  };
+
+  MapdataItemPoint(const SData* data);
+
+private:
+  SData* mpData;
+  u8 _04[0x10 - 0x04];
+};
+static_assert(sizeof(MapdataItemPoint) == 0x10);
+
+class MapdataJugemPoint {
+public:
+  struct SData {
+    EGG::Vector3f position;
+    EGG::Vector3f rotation;
+    u16 id;
+    s16 range;
+  };
+
+  MapdataJugemPoint(const SData* data);
+  virtual ~MapdataJugemPoint();
+
+private:
+  SData* mpData;
+  u8 _08[0x30 - 0x08];
+};
+static_assert(sizeof(MapdataJugemPoint) == 0x30);
+
+class MapdataMissionPoint {
+public:
+  struct SData {
+    EGG::Vector3f position;
+    EGG::Vector3f rotation;
+    u16 id;
+  };
+
+  MapdataMissionPoint(const SData* data);
+
+private:
+  SData* mpData;
+};
+static_assert(sizeof(MapdataMissionPoint) == 0x4);
+
+class MapdataPointInfo {
+public:
+  struct SData {
+    // TODO: decomp
+  };
+
+  MapdataPointInfo(const SData* data);
+
+private:
+  SData* mpData;
+};
+static_assert(sizeof(MapdataPointInfo) == 0x4);
+
+class MapdataStage {
+public:
+  struct SData {
+    u8 mLapCount;      // unused
+    u8 mPolePosition;  // should only be 0 and 1, but is not a bool
+    u8 mStartPosition; // should only be 0 and 1, but is not a bool
+    bool mFlareToggle;
+    u32 mFlareColor; // RGB format
+    // Pre Revision 2321: End of structure
+    u8 mFlareAlpha;
+  };
+
+  MapdataStage(const SData* data);
+
+private:
+  SData* mpData;
+};
+static_assert(sizeof(MapdataStage) == 0x4);
 
 class MapdataStartPoint {
 public:
   struct SData {
-    EGG::Vector3f position; // 00
-    EGG::Vector3f rotation; // 0c
-    // --- Pre Revision 1830: End of structure
-    s16 playerIndex; // 18
-    u16 _;           // 1a - 1c
+    EGG::Vector3f position;
+    EGG::Vector3f rotation;
+    // Pre Revision 1830: End of structure
+    s16 playerIndex;
   };
 
   MapdataStartPoint(const SData* data);
 
 private:
-  SData* m_data;
+  SData* mpData;
+  s8 mEnemyPoint;
 };
+static_assert(sizeof(MapdataStartPoint) == 0x8);
+
+// TODO: MapdataAreaAccessor
+
+typedef MapdataAccessorBase<MapdataCamera, MapdataCamera::SData>
+    MapdataCameraAccessor;
+
+typedef MapdataAccessorBase<MapdataCannonPoint, MapdataCannonPoint::SData>
+    MapdataCannonPointAccessor;
+
+class MapdataCheckPathAccessor
+    : public MapdataAccessorBase<MapdataCheckPath, MapdataCheckPath::SData> {
+private:
+  f32 _0c;
+};
+static_assert(sizeof(MapdataCheckPathAccessor) == 0x10);
+
+class MapdataCheckPointAccessor
+    : public MapdataAccessorBase<MapdataCheckPoint, MapdataCheckPoint::SData> {
+private:
+  u8 _0c[0x14 - 0x0c];
+};
+static_assert(sizeof(MapdataCheckPointAccessor) == 0x14);
+
+typedef MapdataAccessorBase<MapdataEnemyPath, MapdataEnemyPath::SData>
+    MapdataEnemyPathAccessor;
+
+typedef MapdataAccessorBase<MapdataEnemyPoint, MapdataEnemyPoint::SData>
+    MapdataEnemyPointAccessor;
+
+typedef MapdataAccessorBase<MapdataGeoObj, MapdataGeoObj::SData>
+    MapdataGeoObjAccessor;
+
+typedef MapdataAccessorBase<MapdataItemPoint, MapdataItemPoint::SData>
+    MapdataItemPointAccessor;
+
+typedef MapdataAccessorBase<MapdataItemPath, MapdataItemPath::SData>
+    MapdataItemPathAccessor;
+
+typedef MapdataAccessorBase<MapdataJugemPoint, MapdataJugemPoint::SData>
+    MapdataJugemPointAccessor;
+
+typedef MapdataAccessorBase<MapdataMissionPoint, MapdataMissionPoint::SData>
+    MapdataMissionPointAccessor;
+
+typedef MapdataAccessorBase<MapdataPointInfo, MapdataPointInfo::SData>
+    MapdataPointInfoAccessor;
+
+typedef MapdataAccessorBase<MapdataStage, MapdataStage::SData>
+    MapdataStageAccessor;
 
 typedef MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>
     MapdataStartPointAccessor;
@@ -297,7 +641,7 @@ public:
   static CourseMap* createInstance();
   static void destroyInstance();
 
-  static void* loadFile(s32 archiveIdx, char* filename);
+  static void* loadFile(s32 archiveIdx, const char* filename);
 
   static inline CourseMap* instance() { return spInstance; }
 
@@ -307,27 +651,27 @@ private:
 
   static CourseMap* spInstance;
 
-  void* mpCourse;
+  MapdataFileAccessor* mpCourse;
 
-  void* mpKartPoint;
-  void* mpEnemyPath;
-  void* mpEnemyPoint;
-  void* mpItemPath;
-  void* mpItemPoint;
-  void* mpCheckPath;
-  void* mpCheckPoint;
-  void* mpPointInfo;
-  void* mpGeoObj;
+  MapdataStartPointAccessor* mpKartPoint;
+  MapdataEnemyPathAccessor* mpEnemyPath;
+  MapdataEnemyPointAccessor* mpEnemyPoint;
+  MapdataItemPathAccessor* mpItemPath;
+  MapdataItemPointAccessor* mpItemPoint;
+  MapdataCheckPathAccessor* mpCheckPath;
+  MapdataCheckPointAccessor* mpCheckPoint;
+  MapdataPointInfoAccessor* mpPointInfo;
+  MapdataGeoObjAccessor* mpGeoObj;
   void* mpArea;
-  void* mpCamera;
-  void* mpJugemPoint;
-  void* mpCannonPoint;
-  void* mpStageInfo;
-  void* mpMissionPoint;
+  MapdataCameraAccessor* mpCamera;
+  MapdataJugemPointAccessor* mpJugemPoint;
+  MapdataCannonPointAccessor* mpCannonPoint;
+  MapdataStageAccessor* mpStageInfo;
+  MapdataMissionPointAccessor* mpMissionPoint;
 
-  void* mGoalCamera;
-  void* mType9Camera;
-  void* mOpeningPanCamera;
+  void* mpGoalCamera;
+  void* mpType9Camera;
+  void* mpOpeningPanCamera;
   unk _50;
 };
 
