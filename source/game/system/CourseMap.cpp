@@ -32,7 +32,7 @@ extern UNKNOWN_FUNCTION(VEC2_sub);
 // PAL: 0x80512370
 extern UNKNOWN_FUNCTION(CheckpointHolder_computeMeanTotalDistance);
 // PAL: 0x80512c10
-extern UNKNOWN_FUNCTION(loadFile__Q26System9CourseMapFlPc);
+extern UNKNOWN_FUNCTION(loadFile__Q26System9CourseMapFlPCc);
 // PAL: 0x80512c2c
 extern UNKNOWN_FUNCTION(CourseMapHeader_ct);
 // PAL: 0x80512c6c
@@ -238,8 +238,8 @@ void CourseMap::destroyInstance() {
 CourseMap::CourseMap()
     : mpKartPoint(nullptr), mpEnemyPath(nullptr), mpCheckPath(nullptr),
       mpCheckPoint(nullptr), mpGeoObj(nullptr), mpPointInfo(nullptr),
-      mpArea(nullptr), mpCamera(nullptr), mGoalCamera(nullptr),
-      mOpeningPanCamera(nullptr), _50(0) {}
+      mpArea(nullptr), mpCamera(nullptr), mpGoalCamera(nullptr),
+      mpOpeningPanCamera(nullptr), _50(0) {}
 
 CourseMap::~CourseMap() {}
 
@@ -264,7 +264,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512814 3BFF2C20 */ addi        r31, r31, lbl_808b2c20@l
   /* 80512818 3884FA90 */ addi        r4, r4, lbl_8088fa90@l
   /* 8051281C 38600001 */ li          r3, 0x1
-  /* 80512820 480003F1 */ bl          loadFile__Q26System9CourseMapFlPc
+  /* 80512820 480003F1 */ bl          loadFile__Q26System9CourseMapFlPCc
   /* 80512824 7C7C1B78 */ mr          r28, r3
   /* 80512828 38600010 */ li          r3, 0x10
   /* 8051282C 4BD175A1 */ bl          __nw__FUl
@@ -543,7 +543,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
 
 namespace System {
 
-void* CourseMap::loadFile(s32 archiveIdx, char* filename) {
+void* CourseMap::loadFile(s32 archiveIdx, const char* filename) {
   return ResourceManager::spInstance.nonvol->getFile(archiveIdx, filename,
                                                      nullptr);
 }

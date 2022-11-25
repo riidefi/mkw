@@ -9454,7 +9454,7 @@ global:
     0x8051276c: '__ct__Q26System9CourseMapFv'
     0x805127ac: '__dt__Q26System9CourseMapFv'
     0x805127ec: 'CourseMap_init'
-    0x80512c10: 'loadFile__Q26System9CourseMapFlPc'
+    0x80512c10: 'loadFile__Q26System9CourseMapFlPCc'
     0x80512c2c: 'CourseMapHeader_ct'
     0x80512c6c: 'unk_80512c6c'
     0x80512c78: 'unk_80512c78'
