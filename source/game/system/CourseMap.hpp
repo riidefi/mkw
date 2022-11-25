@@ -336,6 +336,7 @@ public:
   };
 
   MapdataCamera(const SData* data);
+  u8 getCameraType();
 
 private:
   SData* mpData;
@@ -428,27 +429,6 @@ private:
   u8 _04[0x18 - 0x04];
 };
 static_assert(sizeof(MapdataEnemyPoint) == 0x18);
-
-class MapdataFileAccessor {
-public:
-  struct SData {
-    u32 magic;
-    u32 fileSize;
-    u16 numSections;
-    u16 headerSize;
-    u32 revision;
-    s32 offsets[];
-  };
-
-  MapdataFileAccessor(const SData* data);
-
-private:
-  SData* mpData;
-  void* mpSectionDef;
-  u32 mVersion;
-  u32 mSectionDefOffset;
-};
-static_assert(sizeof(MapdataFileAccessor) == 0x10);
 
 class MapdataGeoObj {
 public:
@@ -636,14 +616,36 @@ typedef MapdataAccessorBase<MapdataStage, MapdataStage::SData>
 typedef MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>
     MapdataStartPointAccessor;
 
+class MapdataFileAccessor {
+public:
+  struct SData {
+    u32 magic;
+    u32 fileSize;
+    u16 numSections;
+    u16 headerSize;
+    u32 revision;
+    s32 offsets[];
+  };
+
+  MapdataFileAccessor(const SData* data);
+  u32 getVersion();
+
+private:
+  const SData* mpData;
+  void* mpSectionDef;
+  u32 mVersion;
+  u32 mSectionDefOffset;
+};
+static_assert(sizeof(MapdataFileAccessor) == 0x10);
+
 class CourseMap {
 public:
   static CourseMap* createInstance();
   static void destroyInstance();
-
-  static void* loadFile(s32 archiveIdx, const char* filename);
-
   static inline CourseMap* instance() { return spInstance; }
+  static void* loadFile(s32 archiveIdx, const char* filename);
+  MapdataGeoObj* getGeoObj(u16 i);
+  u16 getCameraCount();
 
 private:
   CourseMap();
