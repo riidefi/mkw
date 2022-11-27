@@ -256,7 +256,7 @@ namespace System {
 struct KmpSectionHeader {
   s32 sectionMagic;
   u16 entryCount;
-  s16 extraValue;
+  const s8 extraValue;
 };
 
 template <typename T, typename TData> struct MapdataAccessorBase {
@@ -271,6 +271,7 @@ template <typename T, typename TData> struct MapdataAccessorBase {
       return entryAccessors[i]->m_data;
   }*/
   T* get(u16 i);
+  s8 getExtraValue() const;
 };
 // The template will always be the same size
 static_assert(sizeof(MapdataAccessorBase<unk, unk>) == 0xc);
@@ -531,9 +532,9 @@ static_assert(sizeof(MapdataPointInfo) == 0x4);
 class MapdataStage {
 public:
   struct SData {
-    u8 mLapCount;      // unused
-    u8 mPolePosition;  // should only be 0 and 1, but is not a bool
-    u8 mStartPosition; // should only be 0 and 1, but is not a bool
+    u8 mLapCount;     // unused
+    u8 mPolePosition; // should only be 0 and 1, but is not a bool
+    u8 mStartConfig;  // start position player packing 0: normal, 1: tight
     bool mFlareToggle;
     u32 mFlareColor; // RGB format
     // Pre Revision 2321: End of structure
@@ -541,6 +542,9 @@ public:
   };
 
   MapdataStage(const SData* data);
+  u8 getStartConfig() const;
+  u32 getFlareColor() const;
+  bool flareToggleEnabled() const;
 
 private:
   SData* mpData;
@@ -646,6 +650,10 @@ public:
   static void* loadFile(s32 archiveIdx, const char* filename);
   MapdataGeoObj* getGeoObj(u16 i);
   u16 getCameraCount();
+  u16 getEnemyPointCount() const;
+  u16 getItemPointCount() const;
+  u16 getJugemPointCount() const;
+  u16 getStartPointCount() const;
 
 private:
   CourseMap();
@@ -655,7 +663,7 @@ private:
 
   MapdataFileAccessor* mpCourse;
 
-  MapdataStartPointAccessor* mpKartPoint;
+  MapdataStartPointAccessor* mpStartPoint;
   MapdataEnemyPathAccessor* mpEnemyPath;
   MapdataEnemyPointAccessor* mpEnemyPoint;
   MapdataItemPathAccessor* mpItemPath;
