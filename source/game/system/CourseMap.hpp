@@ -256,7 +256,7 @@ namespace System {
 struct KmpSectionHeader {
   s32 sectionMagic;
   u16 entryCount;
-  s16 extraValue;
+  const s8 extraValue;
 };
 
 template <typename T, typename TData> struct MapdataAccessorBase {
@@ -271,6 +271,7 @@ template <typename T, typename TData> struct MapdataAccessorBase {
       return entryAccessors[i]->m_data;
   }*/
   T* get(u16 i);
+  s8 getExtraValue() const;
 };
 // The template will always be the same size
 static_assert(sizeof(MapdataAccessorBase<unk, unk>) == 0xc);
@@ -336,6 +337,7 @@ public:
   };
 
   MapdataCamera(const SData* data);
+  u8 getCameraType();
 
 private:
   SData* mpData;
@@ -428,27 +430,6 @@ private:
   u8 _04[0x18 - 0x04];
 };
 static_assert(sizeof(MapdataEnemyPoint) == 0x18);
-
-class MapdataFileAccessor {
-public:
-  struct SData {
-    u32 magic;
-    u32 fileSize;
-    u16 numSections;
-    u16 headerSize;
-    u32 revision;
-    s32 offsets[];
-  };
-
-  MapdataFileAccessor(const SData* data);
-
-private:
-  SData* mpData;
-  void* mpSectionDef;
-  u32 mVersion;
-  u32 mSectionDefOffset;
-};
-static_assert(sizeof(MapdataFileAccessor) == 0x10);
 
 class MapdataGeoObj {
 public:
@@ -551,9 +532,9 @@ static_assert(sizeof(MapdataPointInfo) == 0x4);
 class MapdataStage {
 public:
   struct SData {
-    u8 mLapCount;      // unused
-    u8 mPolePosition;  // should only be 0 and 1, but is not a bool
-    u8 mStartPosition; // should only be 0 and 1, but is not a bool
+    u8 mLapCount;     // unused
+    u8 mPolePosition; // should only be 0 and 1, but is not a bool
+    u8 mStartConfig;  // start position player packing 0: normal, 1: tight
     bool mFlareToggle;
     u32 mFlareColor; // RGB format
     // Pre Revision 2321: End of structure
@@ -561,6 +542,9 @@ public:
   };
 
   MapdataStage(const SData* data);
+  u8 getStartConfig() const;
+  u32 getFlareColor() const;
+  bool flareToggleEnabled() const;
 
 private:
   SData* mpData;
@@ -636,14 +620,40 @@ typedef MapdataAccessorBase<MapdataStage, MapdataStage::SData>
 typedef MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>
     MapdataStartPointAccessor;
 
+class MapdataFileAccessor {
+public:
+  struct SData {
+    u32 magic;
+    u32 fileSize;
+    u16 numSections;
+    u16 headerSize;
+    u32 revision;
+    s32 offsets[];
+  };
+
+  MapdataFileAccessor(const SData* data);
+  u32 getVersion();
+
+private:
+  const SData* mpData;
+  void* mpSectionDef;
+  u32 mVersion;
+  u32 mSectionDefOffset;
+};
+static_assert(sizeof(MapdataFileAccessor) == 0x10);
+
 class CourseMap {
 public:
   static CourseMap* createInstance();
   static void destroyInstance();
-
-  static void* loadFile(s32 archiveIdx, const char* filename);
-
   static inline CourseMap* instance() { return spInstance; }
+  static void* loadFile(s32 archiveIdx, const char* filename);
+  MapdataGeoObj* getGeoObj(u16 i);
+  u16 getCameraCount();
+  u16 getEnemyPointCount() const;
+  u16 getItemPointCount() const;
+  u16 getJugemPointCount() const;
+  u16 getStartPointCount() const;
 
 private:
   CourseMap();
@@ -653,7 +663,7 @@ private:
 
   MapdataFileAccessor* mpCourse;
 
-  MapdataStartPointAccessor* mpKartPoint;
+  MapdataStartPointAccessor* mpStartPoint;
   MapdataEnemyPathAccessor* mpEnemyPath;
   MapdataEnemyPointAccessor* mpEnemyPoint;
   MapdataItemPathAccessor* mpItemPath;
