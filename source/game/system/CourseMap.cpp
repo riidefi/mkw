@@ -34,33 +34,35 @@ extern UNKNOWN_FUNCTION(CheckpointHolder_computeMeanTotalDistance);
 // PAL: 0x80512c10
 extern UNKNOWN_FUNCTION(loadFile__Q26System9CourseMapFlPCc);
 // PAL: 0x80512c2c
-extern UNKNOWN_FUNCTION(CourseMapHeader_ct);
+extern UNKNOWN_FUNCTION(
+    __ct__Q26System19MapdataFileAccessorFPCQ36System19MapdataFileAccessor5SData);
 // PAL: 0x80512c6c
-extern UNKNOWN_FUNCTION(unk_80512c6c);
+extern UNKNOWN_FUNCTION(getCameraType__Q26System13MapdataCameraFv);
 // PAL: 0x80512c78
-extern UNKNOWN_FUNCTION(unk_80512c78);
+extern UNKNOWN_FUNCTION(getCameraCount__Q26System9CourseMapFv);
 // PAL: 0x80512c94
-extern UNKNOWN_FUNCTION(unk_80512c94);
+extern UNKNOWN_FUNCTION(getVersion__Q26System19MapdataFileAccessorFv);
 // PAL: 0x80512c9c
-extern UNKNOWN_FUNCTION(unk_80512c9c);
+extern UNKNOWN_FUNCTION(
+    getExtraValue__Q26System76MapdataAccessorBase$0Q26System13MapdataCamera$4Q36System13MapdataCamera5SData$1CFv);
 // PAL: 0x80512cac
 extern UNKNOWN_FUNCTION(unk_80512cac);
 // PAL: 0x80512cb4
 extern UNKNOWN_FUNCTION(unk_80512cb4);
 // PAL: 0x80512cd0
-extern UNKNOWN_FUNCTION(unk_80512cd0);
+extern UNKNOWN_FUNCTION(getEnemyPointCount__Q26System9CourseMapCFv);
 // PAL: 0x80512cec
-extern UNKNOWN_FUNCTION(unk_80512cec);
+extern UNKNOWN_FUNCTION(getItemPointCount__Q26System9CourseMapCFv);
 // PAL: 0x80512d08
-extern UNKNOWN_FUNCTION(unk_80512d08);
+extern UNKNOWN_FUNCTION(getJugemPointCount__Q26System9CourseMapCFv);
 // PAL: 0x80512d24
-extern UNKNOWN_FUNCTION(unk_80512d24);
+extern UNKNOWN_FUNCTION(getStartPointCount__Q26System9CourseMapCFv);
 // PAL: 0x80512d40
-extern UNKNOWN_FUNCTION(Stageinfo_isNarrowMode);
+extern UNKNOWN_FUNCTION(getStartConfig__Q26System12MapdataStageCFv);
 // PAL: 0x80512d4c
-extern UNKNOWN_FUNCTION(unk_80512d4c);
+extern UNKNOWN_FUNCTION(getFlareColor__Q26System12MapdataStageCFv);
 // PAL: 0x80512d58
-extern UNKNOWN_FUNCTION(unk_80512d58);
+extern UNKNOWN_FUNCTION(flareToggleEnabled__Q26System12MapdataStageCFv);
 // PAL: 0x80512d64
 extern UNKNOWN_FUNCTION(KmpHolder_parseStageinfo);
 // PAL: 0x80512e84
@@ -94,7 +96,8 @@ extern UNKNOWN_FUNCTION(KmpHolder_parseKartpoints);
 // PAL: 0x805140dc
 extern UNKNOWN_FUNCTION(AreaHolder_get);
 // PAL: 0x80514100
-extern UNKNOWN_FUNCTION(unk_80514100);
+extern UNKNOWN_FUNCTION(
+    get__Q26System84MapdataAccessorBase$0Q26System17MapdataJugemPoint$4Q36System17MapdataJugemPoint5SData$1FUs);
 // PAL: 0x80514124
 extern UNKNOWN_FUNCTION(
     get__Q26System84MapdataAccessorBase$0Q26System17MapdataStartPoint$4Q36System17MapdataStartPoint5SData$1FUs);
@@ -236,7 +239,7 @@ void CourseMap::destroyInstance() {
 }
 
 CourseMap::CourseMap()
-    : mpKartPoint(nullptr), mpEnemyPath(nullptr), mpCheckPath(nullptr),
+    : mpStartPoint(nullptr), mpEnemyPath(nullptr), mpCheckPath(nullptr),
       mpCheckPoint(nullptr), mpGeoObj(nullptr), mpPointInfo(nullptr),
       mpArea(nullptr), mpCamera(nullptr), mpGoalCamera(nullptr),
       mpOpeningPanCamera(nullptr), _50(0) {}
@@ -271,7 +274,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512830 2C030000 */ cmpwi       r3, 0x0
   /* 80512834 4182000C */ beq-        lbl_80512840
   /* 80512838 7F84E378 */ mr          r4, r28
-  /* 8051283C 480003F1 */ bl          CourseMapHeader_ct
+  /* 8051283C 480003F1 */ bl          __ct__Q26System19MapdataFileAccessorFPCQ36System19MapdataFileAccessor5SData
   lbl_80512840:
   /* 80512840 3C804B54 */ lis         r4, 0x4b54
   /* 80512844 907D0004 */ stw         r3, 4(r29)
@@ -353,7 +356,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512970 5784063E */ clrlwi      r4, r28, 0x18
   /* 80512974 4800423D */ bl          unk_80516bb0
   /* 80512978 7C7B1B78 */ mr          r27, r3
-  /* 8051297C 480002F1 */ bl          unk_80512c6c
+  /* 8051297C 480002F1 */ bl          getCameraType__Q26System13MapdataCameraFv
   /* 80512980 2C030000 */ cmpwi       r3, 0x0
   /* 80512984 4082000C */ bne-        lbl_80512990
   /* 80512988 937D0044 */ stw         r27, 0x44(r29)
@@ -362,7 +365,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512990 3B9C0001 */ addi        r28, r28, 0x1
   lbl_80512994:
   /* 80512994 7FA3EB78 */ mr          r3, r29
-  /* 80512998 480002E1 */ bl          unk_80512c78
+  /* 80512998 480002E1 */ bl          getCameraCount__Q26System9CourseMapFv
   /* 8051299C 5463043E */ clrlwi      r3, r3, 0x10
   /* 805129A0 5780063E */ clrlwi      r0, r28, 0x18
   /* 805129A4 7C001800 */ cmpw        r0, r3
@@ -375,7 +378,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 805129B8 5764063E */ clrlwi      r4, r27, 0x18
   /* 805129BC 480041F5 */ bl          unk_80516bb0
   /* 805129C0 7C7C1B78 */ mr          r28, r3
-  /* 805129C4 480002A9 */ bl          unk_80512c6c
+  /* 805129C4 480002A9 */ bl          getCameraType__Q26System13MapdataCameraFv
   /* 805129C8 2C030009 */ cmpwi       r3, 0x9
   /* 805129CC 4082000C */ bne-        lbl_805129d8
   /* 805129D0 939D0048 */ stw         r28, 0x48(r29)
@@ -384,22 +387,22 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 805129D8 3B7B0001 */ addi        r27, r27, 0x1
   lbl_805129dc:
   /* 805129DC 7FA3EB78 */ mr          r3, r29
-  /* 805129E0 48000299 */ bl          unk_80512c78
+  /* 805129E0 48000299 */ bl          getCameraCount__Q26System9CourseMapFv
   /* 805129E4 5463043E */ clrlwi      r3, r3, 0x10
   /* 805129E8 5760063E */ clrlwi      r0, r27, 0x18
   /* 805129EC 7C001800 */ cmpw        r0, r3
   /* 805129F0 4180FFC4 */ blt+        lbl_805129b4
   lbl_805129f4:
   /* 805129F4 807D0004 */ lwz         r3, 4(r29)
-  /* 805129F8 4800029D */ bl          unk_80512c94
+  /* 805129F8 4800029D */ bl          getVersion__Q26System19MapdataFileAccessorFv
   /* 805129FC 28030780 */ cmplwi      r3, 0x780
   /* 80512A00 41800030 */ blt-        lbl_80512a30
   /* 80512A04 807D0030 */ lwz         r3, 0x30(r29)
-  /* 80512A08 48000295 */ bl          unk_80512c9c
+  /* 80512A08 48000295 */ bl          getExtraValue__Q26System76MapdataAccessorBase$0Q26System13MapdataCamera$4Q36System13MapdataCamera5SData$1CFv
   /* 80512A0C 7C600775 */ extsb.      r0, r3
   /* 80512A10 41800020 */ blt-        lbl_80512a30
   /* 80512A14 807D0030 */ lwz         r3, 0x30(r29)
-  /* 80512A18 48000285 */ bl          unk_80512c9c
+  /* 80512A18 48000285 */ bl          getExtraValue__Q26System76MapdataAccessorBase$0Q26System13MapdataCamera$4Q36System13MapdataCamera5SData$1CFv
   /* 80512A1C 7C601B78 */ mr          r0, r3
   /* 80512A20 7FA3EB78 */ mr          r3, r29
   /* 80512A24 5404063E */ clrlwi      r4, r0, 0x18
@@ -435,7 +438,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512A8C 3B7B0001 */ addi        r27, r27, 0x1
   lbl_80512a90:
   /* 80512A90 7FA3EB78 */ mr          r3, r29
-  /* 80512A94 4800023D */ bl          unk_80512cd0
+  /* 80512A94 4800023D */ bl          getEnemyPointCount__Q26System9CourseMapCFv
   /* 80512A98 5463043E */ clrlwi      r3, r3, 0x10
   /* 80512A9C 5760063E */ clrlwi      r0, r27, 0x18
   /* 80512AA0 7C001800 */ cmpw        r0, r3
@@ -451,7 +454,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512AC4 3B7B0001 */ addi        r27, r27, 0x1
   lbl_80512ac8:
   /* 80512AC8 7FA3EB78 */ mr          r3, r29
-  /* 80512ACC 48000221 */ bl          unk_80512cec
+  /* 80512ACC 48000221 */ bl          getItemPointCount__Q26System9CourseMapCFv
   /* 80512AD0 5463043E */ clrlwi      r3, r3, 0x10
   /* 80512AD4 5760063E */ clrlwi      r0, r27, 0x18
   /* 80512AD8 7C001800 */ cmpw        r0, r3
@@ -461,12 +464,12 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   lbl_80512ae8:
   /* 80512AE8 807D0034 */ lwz         r3, 0x34(r29)
   /* 80512AEC 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80512AF0 48001611 */ bl          unk_80514100
+  /* 80512AF0 48001611 */ bl          get__Q26System84MapdataAccessorBase$0Q26System17MapdataJugemPoint$4Q36System17MapdataJugemPoint5SData$1FUs
   /* 80512AF4 48005A09 */ bl          unk_805184fc
   /* 80512AF8 3B7B0001 */ addi        r27, r27, 0x1
   lbl_80512afc:
   /* 80512AFC 7FA3EB78 */ mr          r3, r29
-  /* 80512B00 48000209 */ bl          unk_80512d08
+  /* 80512B00 48000209 */ bl          getJugemPointCount__Q26System9CourseMapCFv
   /* 80512B04 5463043E */ clrlwi      r3, r3, 0x10
   /* 80512B08 5760063E */ clrlwi      r0, r27, 0x18
   /* 80512B0C 7C001800 */ cmpw        r0, r3
@@ -481,7 +484,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512B2C 3B7B0001 */ addi        r27, r27, 0x1
   lbl_80512b30:
   /* 80512B30 7FA3EB78 */ mr          r3, r29
-  /* 80512B34 480001F1 */ bl          unk_80512d24
+  /* 80512B34 480001F1 */ bl          getStartPointCount__Q26System9CourseMapCFv
   /* 80512B38 5463043E */ clrlwi      r3, r3, 0x10
   /* 80512B3C 5760063E */ clrlwi      r0, r27, 0x18
   /* 80512B40 7C001800 */ cmpw        r0, r3
@@ -503,7 +506,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512B80 41820078 */ beq-        lbl_80512bf8
   /* 80512B84 7FA3EB78 */ mr          r3, r29
   /* 80512B88 48005FF1 */ bl          KmpHolder_getStageinfo
-  /* 80512B8C 480001B5 */ bl          Stageinfo_isNarrowMode
+  /* 80512B8C 480001B5 */ bl          getStartConfig__Q26System12MapdataStageCFv
   /* 80512B90 2C030001 */ cmpwi       r3, 0x1
   /* 80512B94 4082002C */ bne-        lbl_80512bc0
   /* 80512B98 C09E013C */ lfs         f4, 0x13c(r30)
@@ -523,11 +526,11 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512BCC 7C7F1B78 */ mr          r31, r3
   /* 80512BD0 7FA3EB78 */ mr          r3, r29
   /* 80512BD4 48005FA5 */ bl          KmpHolder_getStageinfo
-  /* 80512BD8 48000181 */ bl          unk_80512d58
+  /* 80512BD8 48000181 */ bl          flareToggleEnabled__Q26System12MapdataStageCFv
   /* 80512BDC 7C7E1B78 */ mr          r30, r3
   /* 80512BE0 7FA3EB78 */ mr          r3, r29
   /* 80512BE4 48005F95 */ bl          KmpHolder_getStageinfo
-  /* 80512BE8 48000165 */ bl          unk_80512d4c
+  /* 80512BE8 48000165 */ bl          getFlareColor__Q26System12MapdataStageCFv
   /* 80512BEC 57C4063E */ clrlwi      r4, r30, 0x18
   /* 80512BF0 57E5063E */ clrlwi      r5, r31, 0x18
   /* 80512BF4 4803A521 */ bl          unk_8054d114
@@ -548,86 +551,30 @@ void* CourseMap::loadFile(s32 archiveIdx, const char* filename) {
                                                      nullptr);
 }
 
+MapdataFileAccessor::MapdataFileAccessor(const MapdataFileAccessor::SData* data)
+    : mpData(data) {
+  u32 offset = data->headerSize - data->numSections * 4;
+  mSectionDefOffset = offset;
+  mpSectionDef = (u8*)mpData + offset;
+  if (offset > 12) {
+    mVersion = *((u32*)mpSectionDef - 1);
+  } else {
+    mVersion = 0;
+  }
+}
+
+u8 MapdataCamera::getCameraType() { return mpData->cameraType; }
+
+u16 CourseMap::getCameraCount() {
+  return mpCamera != nullptr ? mpCamera->numEntries : 0;
+}
+
+u32 MapdataFileAccessor::getVersion() { return mVersion; }
+
+template <> s8 MapdataCameraAccessor::getExtraValue() const {
+  return sectionHeader->extraValue;
+}
 } // namespace System
-
-// Symbol: CourseMapHeader_ct
-// PAL: 0x80512c2c..0x80512c6c
-MARK_BINARY_BLOB(CourseMapHeader_ct, 0x80512c2c, 0x80512c6c);
-asm UNKNOWN_FUNCTION(CourseMapHeader_ct){
-  // clang-format off
-  nofralloc
-  /* 80512C2C 90830000 */ stw         r4, 0(r3)
-  /* 80512C30 A0A40008 */ lhz         r5, 8(r4)
-  /* 80512C34 A004000A */ lhz         r0, 0xa(r4)
-  /* 80512C38 54A5103A */ slwi        r5, r5, 2
-  /* 80512C3C 7C050050 */ subf        r0, r5, r0
-  /* 80512C40 9003000C */ stw         r0, 0xc(r3)
-  /* 80512C44 2800000C */ cmplwi      r0, 0xc
-  /* 80512C48 7C840214 */ add         r4, r4, r0
-  /* 80512C4C 90830004 */ stw         r4, 4(r3)
-  /* 80512C50 40810010 */ ble-        lbl_80512c60
-  /* 80512C54 8004FFFC */ lwz         r0, -4(r4)
-  /* 80512C58 90030008 */ stw         r0, 8(r3)
-  /* 80512C5C 4E800020 */ blr
-  lbl_80512c60:
-  /* 80512C60 38000000 */ li          r0, 0x0
-  /* 80512C64 90030008 */ stw         r0, 8(r3)
-  /* 80512C68 4E800020 */ blr
-  // clang-format on
-}
-
-// Symbol: unk_80512c6c
-// PAL: 0x80512c6c..0x80512c78
-MARK_BINARY_BLOB(unk_80512c6c, 0x80512c6c, 0x80512c78);
-asm UNKNOWN_FUNCTION(unk_80512c6c){
-    // clang-format off
-  nofralloc
-  /* 80512C6C 80630000 */ lwz         r3, 0(r3)
-  /* 80512C70 88630000 */ lbz         r3, 0(r3)
-  /* 80512C74 4E800020 */ blr
-    // clang-format on
-}
-
-// Symbol: unk_80512c78
-// PAL: 0x80512c78..0x80512c94
-MARK_BINARY_BLOB(unk_80512c78, 0x80512c78, 0x80512c94);
-asm UNKNOWN_FUNCTION(unk_80512c78){
-  // clang-format off
-  nofralloc
-  /* 80512C78 80630030 */ lwz         r3, 0x30(r3)
-  /* 80512C7C 2C030000 */ cmpwi       r3, 0x0
-  /* 80512C80 4182000C */ beq-        lbl_80512c8c
-  /* 80512C84 A0630004 */ lhz         r3, 4(r3)
-  /* 80512C88 4E800020 */ blr
-  lbl_80512c8c:
-  /* 80512C8C 38600000 */ li          r3, 0x0
-  /* 80512C90 4E800020 */ blr
-  // clang-format on
-}
-
-// Symbol: unk_80512c94
-// PAL: 0x80512c94..0x80512c9c
-MARK_BINARY_BLOB(unk_80512c94, 0x80512c94, 0x80512c9c);
-asm UNKNOWN_FUNCTION(unk_80512c94){
-    // clang-format off
-  nofralloc
-  /* 80512C94 80630008 */ lwz         r3, 8(r3)
-  /* 80512C98 4E800020 */ blr
-    // clang-format on
-}
-
-// Symbol: unk_80512c9c
-// PAL: 0x80512c9c..0x80512cac
-MARK_BINARY_BLOB(unk_80512c9c, 0x80512c9c, 0x80512cac);
-asm UNKNOWN_FUNCTION(unk_80512c9c){
-    // clang-format off
-  nofralloc
-  /* 80512C9C 80630008 */ lwz         r3, 8(r3)
-  /* 80512CA0 88030006 */ lbz         r0, 6(r3)
-  /* 80512CA4 7C030774 */ extsb       r3, r0
-  /* 80512CA8 4E800020 */ blr
-    // clang-format on
-}
 
 // Symbol: unk_80512cac
 // PAL: 0x80512cac..0x80512cb4
@@ -643,7 +590,7 @@ asm UNKNOWN_FUNCTION(unk_80512cac){
 // Symbol: unk_80512cb4
 // PAL: 0x80512cb4..0x80512cd0
 MARK_BINARY_BLOB(unk_80512cb4, 0x80512cb4, 0x80512cd0);
-asm UNKNOWN_FUNCTION(unk_80512cb4){
+asm UNKNOWN_FUNCTION(unk_80512cb4) {
   // clang-format off
   nofralloc
   /* 80512CB4 8063002C */ lwz         r3, 0x2c(r3)
@@ -657,109 +604,29 @@ asm UNKNOWN_FUNCTION(unk_80512cb4){
   // clang-format on
 }
 
-// Symbol: unk_80512cd0
-// PAL: 0x80512cd0..0x80512cec
-MARK_BINARY_BLOB(unk_80512cd0, 0x80512cd0, 0x80512cec);
-asm UNKNOWN_FUNCTION(unk_80512cd0){
-  // clang-format off
-  nofralloc
-  /* 80512CD0 80630010 */ lwz         r3, 0x10(r3)
-  /* 80512CD4 2C030000 */ cmpwi       r3, 0x0
-  /* 80512CD8 4182000C */ beq-        lbl_80512ce4
-  /* 80512CDC A0630004 */ lhz         r3, 4(r3)
-  /* 80512CE0 4E800020 */ blr
-  lbl_80512ce4:
-  /* 80512CE4 38600000 */ li          r3, 0x0
-  /* 80512CE8 4E800020 */ blr
-  // clang-format on
+namespace System {
+u16 CourseMap::getEnemyPointCount() const {
+  return mpEnemyPoint != nullptr ? mpEnemyPoint->numEntries : 0;
 }
 
-// Symbol: unk_80512cec
-// PAL: 0x80512cec..0x80512d08
-MARK_BINARY_BLOB(unk_80512cec, 0x80512cec, 0x80512d08);
-asm UNKNOWN_FUNCTION(unk_80512cec){
-  // clang-format off
-  nofralloc
-  /* 80512CEC 80630018 */ lwz         r3, 0x18(r3)
-  /* 80512CF0 2C030000 */ cmpwi       r3, 0x0
-  /* 80512CF4 4182000C */ beq-        lbl_80512d00
-  /* 80512CF8 A0630004 */ lhz         r3, 4(r3)
-  /* 80512CFC 4E800020 */ blr
-  lbl_80512d00:
-  /* 80512D00 38600000 */ li          r3, 0x0
-  /* 80512D04 4E800020 */ blr
-  // clang-format on
+u16 CourseMap::getItemPointCount() const {
+  return mpItemPoint != nullptr ? mpItemPoint->numEntries : 0;
 }
 
-// Symbol: unk_80512d08
-// PAL: 0x80512d08..0x80512d24
-MARK_BINARY_BLOB(unk_80512d08, 0x80512d08, 0x80512d24);
-asm UNKNOWN_FUNCTION(unk_80512d08){
-  // clang-format off
-  nofralloc
-  /* 80512D08 80630034 */ lwz         r3, 0x34(r3)
-  /* 80512D0C 2C030000 */ cmpwi       r3, 0x0
-  /* 80512D10 4182000C */ beq-        lbl_80512d1c
-  /* 80512D14 A0630004 */ lhz         r3, 4(r3)
-  /* 80512D18 4E800020 */ blr
-  lbl_80512d1c:
-  /* 80512D1C 38600000 */ li          r3, 0x0
-  /* 80512D20 4E800020 */ blr
-  // clang-format on
+u16 CourseMap::getJugemPointCount() const {
+  return mpJugemPoint != nullptr ? mpJugemPoint->numEntries : 0;
 }
 
-// Symbol: unk_80512d24
-// PAL: 0x80512d24..0x80512d40
-MARK_BINARY_BLOB(unk_80512d24, 0x80512d24, 0x80512d40);
-asm UNKNOWN_FUNCTION(unk_80512d24){
-  // clang-format off
-  nofralloc
-  /* 80512D24 80630008 */ lwz         r3, 8(r3)
-  /* 80512D28 2C030000 */ cmpwi       r3, 0x0
-  /* 80512D2C 4182000C */ beq-        lbl_80512d38
-  /* 80512D30 A0630004 */ lhz         r3, 4(r3)
-  /* 80512D34 4E800020 */ blr
-  lbl_80512d38:
-  /* 80512D38 38600000 */ li          r3, 0x0
-  /* 80512D3C 4E800020 */ blr
-  // clang-format on
+u16 CourseMap::getStartPointCount() const {
+  return mpStartPoint != nullptr ? mpStartPoint->numEntries : 0;
 }
 
-// Symbol: Stageinfo_isNarrowMode
-// PAL: 0x80512d40..0x80512d4c
-MARK_BINARY_BLOB(Stageinfo_isNarrowMode, 0x80512d40, 0x80512d4c);
-asm UNKNOWN_FUNCTION(Stageinfo_isNarrowMode){
-    // clang-format off
-  nofralloc
-  /* 80512D40 80630000 */ lwz         r3, 0(r3)
-  /* 80512D44 88630002 */ lbz         r3, 2(r3)
-  /* 80512D48 4E800020 */ blr
-    // clang-format on
-}
+u8 MapdataStage::getStartConfig() const { return mpData->mStartConfig; }
 
-// Symbol: unk_80512d4c
-// PAL: 0x80512d4c..0x80512d58
-MARK_BINARY_BLOB(unk_80512d4c, 0x80512d4c, 0x80512d58);
-asm UNKNOWN_FUNCTION(unk_80512d4c){
-    // clang-format off
-  nofralloc
-  /* 80512D4C 80630000 */ lwz         r3, 0(r3)
-  /* 80512D50 80630004 */ lwz         r3, 4(r3)
-  /* 80512D54 4E800020 */ blr
-    // clang-format on
-}
+u32 MapdataStage::getFlareColor() const { return mpData->mFlareColor; }
 
-// Symbol: unk_80512d58
-// PAL: 0x80512d58..0x80512d64
-MARK_BINARY_BLOB(unk_80512d58, 0x80512d58, 0x80512d64);
-asm UNKNOWN_FUNCTION(unk_80512d58){
-    // clang-format off
-  nofralloc
-  /* 80512D58 80630000 */ lwz         r3, 0(r3)
-  /* 80512D5C 88630003 */ lbz         r3, 3(r3)
-  /* 80512D60 4E800020 */ blr
-    // clang-format on
-}
+bool MapdataStage::flareToggleEnabled() const { return mpData->mFlareToggle; }
+} // namespace System
 
 // Symbol: KmpHolder_parseStageinfo
 // PAL: 0x80512d64..0x80512e84
@@ -2295,7 +2162,7 @@ asm UNKNOWN_FUNCTION(KmpHolder_parseKartpoints) {
 // Symbol: AreaHolder_get
 // PAL: 0x805140dc..0x80514100
 MARK_BINARY_BLOB(AreaHolder_get, 0x805140dc, 0x80514100);
-asm UNKNOWN_FUNCTION(AreaHolder_get){
+asm UNKNOWN_FUNCTION(AreaHolder_get) {
   // clang-format off
   nofralloc
   /* 805140DC A0030004 */ lhz         r0, 4(r3)
@@ -2311,65 +2178,37 @@ asm UNKNOWN_FUNCTION(AreaHolder_get){
   // clang-format on
 }
 
-// Symbol: unk_80514100
-// PAL: 0x80514100..0x80514124
-MARK_BINARY_BLOB(unk_80514100, 0x80514100, 0x80514124);
-asm UNKNOWN_FUNCTION(unk_80514100) {
-  // clang-format off
-  nofralloc
-  /* 80514100 A0030004 */ lhz         r0, 4(r3)
-  /* 80514104 7C040040 */ cmplw       r4, r0
-  /* 80514108 40800014 */ bge-        lbl_8051411c
-  /* 8051410C 80630000 */ lwz         r3, 0(r3)
-  /* 80514110 548013BA */ rlwinm      r0, r4, 2, 0xe, 0x1d
-  /* 80514114 7C63002E */ lwzx        r3, r3, r0
-  /* 80514118 4E800020 */ blr
-  lbl_8051411c:
-  /* 8051411C 38600000 */ li          r3, 0x0
-  /* 80514120 4E800020 */ blr
-  // clang-format on
+namespace System {
+template <> MapdataJugemPoint* MapdataJugemPointAccessor::get(u16 i) {
+  if (i < this->numEntries) {
+    return this->entries[i];
+  }
+  return nullptr;
 }
 
-namespace System {
 template <> MapdataStartPoint* MapdataStartPointAccessor::get(u16 i) {
   if (i < this->numEntries) {
     return this->entries[i];
   }
   return nullptr;
 }
-} // namespace System
 
-// Symbol: KmpHolder_getGlobalObj
-// PAL: 0x80514148..0x80514194
-MARK_BINARY_BLOB(KmpHolder_getGlobalObj, 0x80514148, 0x80514194);
-asm UNKNOWN_FUNCTION(KmpHolder_getGlobalObj){
-  // clang-format off
-  nofralloc
-  /* 80514148 80630028 */ lwz         r3, 0x28(r3)
-  /* 8051414C 2C030000 */ cmpwi       r3, 0x0
-  /* 80514150 4182000C */ beq-        lbl_8051415c
-  /* 80514154 A0030004 */ lhz         r0, 4(r3)
-  /* 80514158 48000008 */ b           lbl_80514160
-  lbl_8051415c:
-  /* 8051415C 38000000 */ li          r0, 0x0
-  lbl_80514160:
-  /* 80514160 7C040040 */ cmplw       r4, r0
-  /* 80514164 40800028 */ bge-        lbl_8051418c
-  /* 80514168 A0030004 */ lhz         r0, 4(r3)
-  /* 8051416C 7C040040 */ cmplw       r4, r0
-  /* 80514170 40800014 */ bge-        lbl_80514184
-  /* 80514174 80630000 */ lwz         r3, 0(r3)
-  /* 80514178 548013BA */ rlwinm      r0, r4, 2, 0xe, 0x1d
-  /* 8051417C 7C63002E */ lwzx        r3, r3, r0
-  /* 80514180 4E800020 */ blr
-  lbl_80514184:
-  /* 80514184 38600000 */ li          r3, 0x0
-  /* 80514188 4E800020 */ blr
-  lbl_8051418c:
-  /* 8051418C 38600000 */ li          r3, 0x0
-  /* 80514190 4E800020 */ blr
-  // clang-format on
+MapdataGeoObj* CourseMap::getGeoObj(u16 i) {
+  u16 count;
+  if (!mpGeoObj)
+    count = 0;
+  else
+    count = mpGeoObj->numEntries;
+
+  if (i < count) {
+    // certainly inline of a header defined function
+    if (i < mpGeoObj->numEntries)
+      return mpGeoObj->entries[i];
+    return nullptr;
+  }
+  return nullptr;
 }
+} // namespace System
 
 // Symbol: unk_80514194
 // PAL: 0x80514194..0x80514208
