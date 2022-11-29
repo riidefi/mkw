@@ -259,10 +259,11 @@ struct KmpSectionHeader {
   const s8 extraValue;
 };
 
-template <typename T, typename TData> struct MapdataAccessorBase {
-  T** entries;                     //!< [+0x00]
-  u16 numEntries;                  //!< [+0x04]
-  KmpSectionHeader* sectionHeader; //!< [+0x08]
+template <typename T, typename TData> class MapdataAccessorBase {
+public:
+  T** entries;                           //!< [+0x00]
+  u16 numEntries;                        //!< [+0x04]
+  const KmpSectionHeader* sectionHeader; //!< [+0x08]
 
   /*const TData *cdata(size_t i) const {
       if (i < 0 || i > numEntries) {
@@ -270,48 +271,13 @@ template <typename T, typename TData> struct MapdataAccessorBase {
       }
       return entryAccessors[i]->m_data;
   }*/
+  MapdataAccessorBase(const KmpSectionHeader* header)
+      : entries(0), numEntries(0), sectionHeader(header) {}
   T* get(u16 i);
   s8 getExtraValue() const;
 };
 // The template will always be the same size
 static_assert(sizeof(MapdataAccessorBase<unk, unk>) == 0xc);
-
-class MapdataAreaBase {
-public:
-  struct SData {
-    u8 shape;
-    u8 type;
-    s8 cameraIdx;
-    u8 priority;
-    EGG::Vector3f position;
-    EGG::Vector3f rotation;
-    EGG::Vector3f scale;
-    u16 parameters[2];
-    // Pre Revision 2200: End of structure
-    u8 railID;
-    u8 eneLinkID;
-  };
-
-  MapdataAreaBase(const SData* data);
-  virtual bool isInsideShape(const EGG::Vector3f& pos) const = 0;
-
-private:
-  SData* mpData;
-  u8 _08[0x48 - 0x08];
-};
-static_assert(sizeof(MapdataAreaBase) == 0x48);
-
-class MapdataAreaBox : public MapdataAreaBase {
-public:
-  MapdataAreaBox(const SData* data);
-  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
-};
-
-class MapdataAreaCylinder : public MapdataAreaBase {
-public:
-  MapdataAreaCylinder(const SData* data);
-  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
-};
 
 class MapdataCamera {
 public:
@@ -560,15 +526,62 @@ public:
     s16 playerIndex;
   };
 
-  MapdataStartPoint(const SData* data);
+  MapdataStartPoint(const SData* data) : mpData(data) {}
 
 private:
-  SData* mpData;
+  const SData* mpData;
   s8 mEnemyPoint;
 };
 static_assert(sizeof(MapdataStartPoint) == 0x8);
 
-// TODO: MapdataAreaAccessor
+class MapdataArea {
+public:
+  struct SData {
+    u8 shape;
+    u8 type;
+    s8 cameraIdx;
+    u8 priority;
+    EGG::Vector3f position;
+    EGG::Vector3f rotation;
+    EGG::Vector3f scale;
+    u16 parameters[2];
+    // Pre Revision 2200: End of structure
+    u8 railID;
+    u8 eneLinkID;
+  };
+
+  MapdataArea(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const = 0;
+
+private:
+  SData* mpData;
+  // AREA orientation axis
+  EGG::Vector3f xaxis;
+  EGG::Vector3f yaxis;
+  EGG::Vector3f zaxis;
+
+  EGG::Vector3f dims;
+  // AreaCylinder only
+  float ellipseXradiusSq;
+  float ellipseAspectRatio;
+  // Sphere enclosing area for more efficient check if point in area
+  float boundingSphereRadiusSq;
+  // index in AreaHolder array
+  s16 index;
+};
+static_assert(sizeof(MapdataArea) == 0x48);
+
+class MapdataAreaBox : public MapdataArea {
+public:
+  MapdataAreaBox(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
+};
+
+class MapdataAreaCylinder : public MapdataArea {
+public:
+  MapdataAreaCylinder(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
+};
 
 typedef MapdataAccessorBase<MapdataCamera, MapdataCamera::SData>
     MapdataCameraAccessor;
@@ -617,8 +630,17 @@ typedef MapdataAccessorBase<MapdataPointInfo, MapdataPointInfo::SData>
 typedef MapdataAccessorBase<MapdataStage, MapdataStage::SData>
     MapdataStageAccessor;
 
-typedef MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>
-    MapdataStartPointAccessor;
+class MapdataStartPointAccessor;
+
+class MapdataAreaAccessor {
+public:
+  MapdataArea** entries;
+  u16 numEntries;
+  virtual ~MapdataAreaAccessor();
+  KmpSectionHeader* sectionHeader; //!< [+0xc]
+  MapdataArea** byPriority;
+};
+static_assert(sizeof(MapdataAreaAccessor) == 0x14);
 
 class MapdataFileAccessor {
 public:
@@ -633,10 +655,11 @@ public:
 
   MapdataFileAccessor(const SData* data);
   u32 getVersion();
+  const KmpSectionHeader* findSection(u32 sectionName) const;
 
 private:
   const SData* mpData;
-  void* mpSectionDef;
+  u32* mpSectionDef;
   u32 mVersion;
   u32 mSectionDefOffset;
 };
@@ -654,6 +677,8 @@ public:
   u16 getItemPointCount() const;
   u16 getJugemPointCount() const;
   u16 getStartPointCount() const;
+  inline u32 version() const { return mpCourse->getVersion(); }
+  MapdataStartPointAccessor* parseKartpoints(u32 sectionName);
 
 private:
   CourseMap();
@@ -683,6 +708,36 @@ private:
   void* mpType9Camera;
   void* mpOpeningPanCamera;
   unk _50;
+};
+
+class MapdataStartPointAccessor
+    : public MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData> {
+public:
+  // MapdataSMtartPointAccessor(const KmpSectionHeader* header);
+  MapdataStartPointAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>(
+            header) {
+    if (CourseMap::instance()->version() > 1830) {
+      const MapdataStartPoint::SData* data =
+          (const MapdataStartPoint::SData*)(sectionHeader + 1);
+      init(data, sectionHeader->entryCount);
+    } else {
+      const MapdataStartPoint::SData* data =
+          (const MapdataStartPoint::SData*)((u8*)sectionHeader + 4);
+      init(data, 1);
+    }
+  }
+
+  MapdataStartPoint* get(u16 i);
+  inline void init(const MapdataStartPoint::SData* start, u16 count) {
+    if (count != 0) {
+      numEntries = count;
+      entries = new MapdataStartPoint*[count];
+    }
+    for (u16 i = 0; i < count; i++) {
+      entries[i] = new MapdataStartPoint(&start[i]);
+    }
+  }
 };
 
 } // namespace System
