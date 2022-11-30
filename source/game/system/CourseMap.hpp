@@ -310,7 +310,17 @@ public:
 
 private:
   SData* mpData;
-  u8 _08[0x48 - 0x08];
+  EGG::Vector3f mXAxis;
+  EGG::Vector3f mYAxis;
+  EGG::Vector3f mZAxis;
+  EGG::Vector3f mDims;
+  // Only used in MapdataAreaCylinder
+  f32 mEllipseXRadiusSq;
+  f32 mEllipseAspectRatio;
+  // Sphere enclosing area for more efficient check if point in area
+  f32 mBoundingSphereRadiusSq;
+  // Index in MapdataAreaAccessor array
+  s16 index;
 };
 static_assert(sizeof(MapdataAreaBase) == 0x48);
 
@@ -581,7 +591,17 @@ private:
 };
 static_assert(sizeof(MapdataStartPoint) == 0x8);
 
-// TODO: MapdataAreaAccessor
+class MapdataAreaAccessor {
+public:
+  MapdataAreaBase** entries;
+  u16 numEntries;
+  virtual ~MapdataAreaAccessor();
+  const KmpSectionHeader* sectionHeader;
+private:
+  MapdataAreaBase** byPriority;
+};
+static_assert(sizeof(MapdataAreaAccessor) == 0x14);
+// static_assert(offsetof(MapdataAreaAccessor, numEntries) == 0x4);
 
 typedef MapdataAccessorBase<MapdataCamera, MapdataCamera::SData>
     MapdataCameraAccessor;
