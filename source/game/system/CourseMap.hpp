@@ -65,7 +65,7 @@ UNKNOWN_FUNCTION(KmpHolder_parseAreas);
 // PAL: 0x80513398..0x805134c8
 UNKNOWN_FUNCTION(unk_80513398);
 // PAL: 0x805134c8..0x80513600
-UNKNOWN_FUNCTION(KmpHolder_parseGlobalobjs);
+UNKNOWN_FUNCTION(parseGeoObjs__Q26System9CourseMapFUl);
 // PAL: 0x80513600..0x80513640
 UNKNOWN_FUNCTION(unk_80513600);
 // PAL: 0x80513640..0x8051377c
@@ -468,10 +468,21 @@ public:
     u16 presenceFlag;
   };
 
-  MapdataGeoObj(const SData* data);
+  // NOTE: We cannot modify eggVector.hpp without the build failing
+  // The dtor is causing a mismatch so this will have to do for now
+  struct Vec3 {
+    f32 x, y, z;
+
+    inline Vec3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+  };
+
+  MapdataGeoObj(const SData* data) : mpData(data) {
+    // Writes to stack and does nothing
+    Vec3 _(mpData->translation.x, mpData->translation.y, mpData->translation.z);
+  }
 
 private:
-  SData* mpData;
+  const SData* mpData;
 };
 static_assert(sizeof(MapdataGeoObj) == 0x4);
 
@@ -634,8 +645,17 @@ typedef MapdataAccessorBase<MapdataEnemyPath, MapdataEnemyPath::SData>
 typedef MapdataAccessorBase<MapdataEnemyPoint, MapdataEnemyPoint::SData>
     MapdataEnemyPointAccessor;
 
-typedef MapdataAccessorBase<MapdataGeoObj, MapdataGeoObj::SData>
-    MapdataGeoObjAccessor;
+class MapdataGeoObjAccessor
+    : public MapdataAccessorBase<MapdataGeoObj, MapdataGeoObj::SData> {
+public:
+  MapdataGeoObjAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataGeoObj, MapdataGeoObj::SData>(header) {
+    init((const MapdataGeoObj::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+
+  MapdataGeoObj* get(u16 i);
+};
 
 typedef MapdataAccessorBase<MapdataItemPoint, MapdataItemPoint::SData>
     MapdataItemPointAccessor;
@@ -701,6 +721,7 @@ public:
   inline u32 getVersion() const { return mpCourse->getVersion(); }
   /*template <typename T, typename TAccessor>
   TAccessor* parse(u32 sectionName);*/
+  MapdataGeoObjAccessor* parseGeoObjs(u32 sectionName);
   MapdataStartPointAccessor* parseKartpoints(u32 sectionName);
 
 private:
