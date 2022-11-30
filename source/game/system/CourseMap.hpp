@@ -79,7 +79,7 @@ UNKNOWN_FUNCTION(KmpHolder_parseEnemyPoint);
 // PAL: 0x80513e40..0x80513f5c
 UNKNOWN_FUNCTION(KmpHolder_parseEnemyPath);
 // PAL: 0x80513f5c..0x805140dc
-UNKNOWN_FUNCTION(KmpHolder_parseKartpoints);
+UNKNOWN_FUNCTION(parseKartpoints__Q26System9CourseMapFUl);
 // PAL: 0x805140dc..0x80514100
 UNKNOWN_FUNCTION(AreaHolder_get);
 // PAL: 0x80514100..0x80514124
@@ -259,10 +259,11 @@ struct KmpSectionHeader {
   const s8 extraValue;
 };
 
-template <typename T, typename TData> struct MapdataAccessorBase {
-  T** entries;                     //!< [+0x00]
-  u16 numEntries;                  //!< [+0x04]
-  KmpSectionHeader* sectionHeader; //!< [+0x08]
+template <typename T, typename TData> class MapdataAccessorBase {
+public:
+  T** entries;                           //!< [+0x00]
+  u16 numEntries;                        //!< [+0x04]
+  const KmpSectionHeader* sectionHeader; //!< [+0x08]
 
   /*const TData *cdata(size_t i) const {
       if (i < 0 || i > numEntries) {
@@ -270,8 +271,20 @@ template <typename T, typename TData> struct MapdataAccessorBase {
       }
       return entryAccessors[i]->m_data;
   }*/
+  MapdataAccessorBase(const KmpSectionHeader* header)
+      : entries(nullptr), numEntries(0), sectionHeader(header) {}
   T* get(u16 i);
   s8 getExtraValue() const;
+
+  inline void init(const TData* start, u16 count) {
+    if (count != 0) {
+      numEntries = count;
+      entries = new T*[count];
+    }
+    for (u16 i = 0; i < count; i++) {
+      entries[i] = new T(&start[i]);
+    }
+  }
 };
 // The template will always be the same size
 static_assert(sizeof(MapdataAccessorBase<unk, unk>) == 0xc);
@@ -560,10 +573,10 @@ public:
     s16 playerIndex;
   };
 
-  MapdataStartPoint(const SData* data);
+  MapdataStartPoint(const SData* data) : mpData(data) {}
 
 private:
-  SData* mpData;
+  const SData* mpData;
   s8 mEnemyPoint;
 };
 static_assert(sizeof(MapdataStartPoint) == 0x8);
@@ -617,8 +630,13 @@ typedef MapdataAccessorBase<MapdataPointInfo, MapdataPointInfo::SData>
 typedef MapdataAccessorBase<MapdataStage, MapdataStage::SData>
     MapdataStageAccessor;
 
-typedef MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>
-    MapdataStartPointAccessor;
+class MapdataStartPointAccessor
+    : public MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData> {
+public:
+  MapdataStartPointAccessor(const KmpSectionHeader* header);
+
+  MapdataStartPoint* get(u16 i);
+};
 
 class MapdataFileAccessor {
 public:
@@ -633,10 +651,11 @@ public:
 
   MapdataFileAccessor(const SData* data);
   u32 getVersion();
+  const KmpSectionHeader* findSection(u32 sectionName) const;
 
 private:
   const SData* mpData;
-  void* mpSectionDef;
+  u32* mpSectionDef;
   u32 mVersion;
   u32 mSectionDefOffset;
 };
@@ -654,6 +673,10 @@ public:
   u16 getItemPointCount() const;
   u16 getJugemPointCount() const;
   u16 getStartPointCount() const;
+  inline u32 getVersion() const { return mpCourse->getVersion(); }
+  /*template <typename T, typename TAccessor>
+  TAccessor* parse(u32 sectionName);*/
+  MapdataStartPointAccessor* parseKartpoints(u32 sectionName);
 
 private:
   CourseMap();
