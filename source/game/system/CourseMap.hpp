@@ -665,6 +665,28 @@ private:
 };
 static_assert(sizeof(MapdataFileAccessor) == 0x10);
 
+class MapdataFileAccessor {
+public:
+  struct SData {
+    u32 magic;
+    u32 fileSize;
+    u16 numSections;
+    u16 headerSize;
+    u32 revision;
+    s32 offsets[];
+  };
+
+  MapdataFileAccessor(const SData* data);
+  u32 getVersion();
+
+private:
+  const SData* mpData;
+  void* mpSectionDef;
+  u32 mVersion;
+  u32 mSectionDefOffset;
+};
+static_assert(sizeof(MapdataFileAccessor) == 0x10);
+
 class CourseMap {
 public:
   static CourseMap* createInstance();
