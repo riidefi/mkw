@@ -4,6 +4,8 @@
 
 #include <decomp.h>
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -597,11 +599,14 @@ public:
   u16 numEntries;
   virtual ~MapdataAreaAccessor();
   const KmpSectionHeader* sectionHeader;
+
 private:
   MapdataAreaBase** byPriority;
 };
 static_assert(sizeof(MapdataAreaAccessor) == 0x14);
-// static_assert(offsetof(MapdataAreaAccessor, numEntries) == 0x4);
+// Ensure the vtable does not exist at offset 0x0
+// (It should exist at offset 0x8)
+static_assert(offsetof(MapdataAreaAccessor, entries) == 0x0);
 
 typedef MapdataAccessorBase<MapdataCamera, MapdataCamera::SData>
     MapdataCameraAccessor;
