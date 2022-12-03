@@ -8,6 +8,9 @@
 
 #include <rk_types.h>
 
+#define DEG2RAD(X) 0.017453292f * X
+//#define RAD2DEG(X) 57.2957795131f * X
+
 namespace EGG {
 
 #if 0

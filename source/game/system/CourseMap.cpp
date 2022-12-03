@@ -2435,10 +2435,12 @@ asm UNKNOWN_FUNCTION(VEC3_fromNeg){
     // clang-format on
 }
 
+// TODO: inlined from eggVector.hpp
 // Symbol: VEC3_fromQuaternionRotated
 // PAL: 0x805147fc..0x80514810
 MARK_BINARY_BLOB(VEC3_fromQuaternionRotated, 0x805147fc, 0x80514810);
-asm UNKNOWN_FUNCTION(VEC3_fromQuaternionRotated){
+asm void VEC3_fromQuaternionRotated(EGG::Vector3f& dst, const EGG::Quatf& q,
+                                    const EGG::Vector3f& src){
     // clang-format off
   nofralloc
   /* 805147FC 7C601B78 */ mr          r0, r3
@@ -4426,7 +4428,7 @@ asm UNKNOWN_FUNCTION(AreaHolder_construct) {
 // Symbol: unk_80515f8c
 // PAL: 0x80515f8c..0x80516050
 MARK_BINARY_BLOB(unk_80515f8c, 0x80515f8c, 0x80516050);
-asm UNKNOWN_FUNCTION(unk_80515f8c){
+asm UNKNOWN_FUNCTION(unk_80515f8c) {
   // clang-format off
   nofralloc
   /* 80515F8C 38C00000 */ li          r6, 0x0
@@ -4490,6 +4492,28 @@ asm UNKNOWN_FUNCTION(unk_80515f8c){
   // clang-format on
 }
 
+namespace System {
+MapdataAreaBase::MapdataAreaBase(const SData* data) : mIndex(-1) {
+  mpData = data;
+  mBoundingSphereRadiusSq = 0.0f;
+  mEllipseAspectRatio = 0.0f;
+  mEllipseXRadiusSq = 0.0f;
+  mDims.z = 0.0f;
+  mDims.y = 0.0f;
+  mDims.x = 0.0f;
+  mXAxis.z = 0.0f;
+  mXAxis.y = 0.0f;
+  mXAxis.x = 0.0f;
+  mYAxis.z = 0.0f;
+  mYAxis.y = 0.0f;
+  mYAxis.x = 0.0f;
+  mZAxis.z = 0.0f;
+  mZAxis.y = 0.0f;
+  mZAxis.x = 0.0f;
+}
+} // namespace System
+
+#if 0
 // Symbol: unk_80516050
 // PAL: 0x80516050..0x805160b0
 MARK_BINARY_BLOB(unk_80516050, 0x80516050, 0x805160b0);
@@ -4522,6 +4546,7 @@ asm UNKNOWN_FUNCTION(unk_80516050) {
   /* 805160AC 4E800020 */ blr
   // clang-format on
 }
+#endif
 
 // Symbol: unk_805160b0
 // PAL: 0x805160b0..0x80516138
@@ -4654,6 +4679,33 @@ asm UNKNOWN_FUNCTION(unk_80516168) {
   // clang-format on
 }
 
+namespace System {
+MapdataAreaBox::MapdataAreaBox(const SData* data) : MapdataAreaBase(data) {
+  mDims.x = 0.5f * 10000.0f * data->scale.x;
+  mDims.y = 0.5f * 10000.0f * data->scale.y;
+  mDims.z = 0.5f * 10000.0f * data->scale.z;
+
+  mEllipseAspectRatio = 0.0f;
+  mEllipseXRadiusSq = 0.0f;
+  mBoundingSphereRadiusSq = data->scale.x * data->scale.x +
+                            data->scale.y * data->scale.y +
+                            data->scale.z * data->scale.z;
+
+  EGG::Quatf areaRot;
+  areaRot.setRPY(DEG2RAD(data->rotation.x), DEG2RAD(data->rotation.y),
+                 DEG2RAD(data->rotation.z));
+
+  EGG::Vector3f areaX, areaY, areaZ;
+  VEC3_fromQuaternionRotated(areaX, areaRot, EGG::Vector3f::ex);
+  mXAxis = areaX;
+  VEC3_fromQuaternionRotated(areaY, areaRot, EGG::Vector3f::ey);
+  mYAxis = areaY;
+  VEC3_fromQuaternionRotated(areaZ, areaRot, EGG::Vector3f::ez);
+  mZAxis = areaZ;
+}
+} // namespace System
+
+#if 0
 // Symbol: AreaBox_construct
 // PAL: 0x80516220..0x805163b4
 MARK_BINARY_BLOB(AreaBox_construct, 0x80516220, 0x805163b4);
@@ -4763,6 +4815,7 @@ asm UNKNOWN_FUNCTION(AreaBox_construct) {
   /* 805163B0 4E800020 */ blr
   // clang-format on
 }
+#endif
 
 // Symbol: unk_805163b4
 // PAL: 0x805163b4..0x805163f4

@@ -252,6 +252,7 @@ UNKNOWN_FUNCTION(Enemypoint_destroy);
 #endif
 
 #include <egg/math/eggVector.hpp>
+#include <egg/math/eggQuat.hpp>
 
 namespace System {
 
@@ -310,8 +311,8 @@ public:
   MapdataAreaBase(const SData* data);
   virtual bool isInsideShape(const EGG::Vector3f& pos) const = 0;
 
-private:
-  SData* mpData;
+protected:
+  const SData* mpData;
   EGG::Vector3f mXAxis;
   EGG::Vector3f mYAxis;
   EGG::Vector3f mZAxis;
@@ -322,7 +323,7 @@ private:
   // Sphere enclosing area for more efficient check if point in area
   f32 mBoundingSphereRadiusSq;
   // Index in MapdataAreaAccessor array
-  s16 index;
+  s16 mIndex;
 };
 static_assert(sizeof(MapdataAreaBase) == 0x48);
 

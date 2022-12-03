@@ -1,5 +1,5 @@
 enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataStart,rodataEnd,dataStart,dataEnd,bssStart,bssEnd
-1,source/game/system/CourseMap.cpp,0x80512694,0x80518cc0,,,,,,,0x808B2C30,0x808B2C3C,0x809BD6E8,0x809BD6EC
+1,source/game/system/CourseMap.cpp,0x80512694,0x80518cc0,,,,,0x8088fa3c,0x8088fa40,0x808B2C30,0x808b2c6c,0x809BD6E8,0x809BD6EC
 1,source/game/system/DvdArchive.cpp,0x80518CC0,0x80519670,,,,,0x8088FAA0,0x8088FAB7,0x808B2C78,0x808B2C84,,
 1,source/game/system/GhostFile.cpp,0x8051c088,0x8051d4d4,,,,,,,0x808b2d38,0x808b2d50,,
 1,source/game/system/Mii.cpp,0x80525f88,0x80525ff4,,,,,0x8088fd60,0x8088fd64,,,,
