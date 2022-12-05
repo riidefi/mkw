@@ -4,6 +4,8 @@
 
 #include <decomp.h>
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -63,7 +65,7 @@ UNKNOWN_FUNCTION(KmpHolder_parseAreas);
 // PAL: 0x80513398..0x805134c8
 UNKNOWN_FUNCTION(unk_80513398);
 // PAL: 0x805134c8..0x80513600
-UNKNOWN_FUNCTION(KmpHolder_parseGlobalobjs);
+UNKNOWN_FUNCTION(parseGeoObjs__Q26System9CourseMapFUl);
 // PAL: 0x80513600..0x80513640
 UNKNOWN_FUNCTION(unk_80513600);
 // PAL: 0x80513640..0x8051377c
@@ -79,7 +81,7 @@ UNKNOWN_FUNCTION(KmpHolder_parseEnemyPoint);
 // PAL: 0x80513e40..0x80513f5c
 UNKNOWN_FUNCTION(KmpHolder_parseEnemyPath);
 // PAL: 0x80513f5c..0x805140dc
-UNKNOWN_FUNCTION(KmpHolder_parseKartpoints);
+UNKNOWN_FUNCTION(parseKartpoints__Q26System9CourseMapFUl);
 // PAL: 0x805140dc..0x80514100
 UNKNOWN_FUNCTION(AreaHolder_get);
 // PAL: 0x80514100..0x80514124
@@ -250,6 +252,7 @@ UNKNOWN_FUNCTION(Enemypoint_destroy);
 #endif
 
 #include <egg/math/eggVector.hpp>
+#include <egg/math/eggQuat.hpp>
 
 namespace System {
 
@@ -259,10 +262,11 @@ struct KmpSectionHeader {
   const s8 extraValue;
 };
 
-template <typename T, typename TData> struct MapdataAccessorBase {
-  T** entries;                     //!< [+0x00]
-  u16 numEntries;                  //!< [+0x04]
-  KmpSectionHeader* sectionHeader; //!< [+0x08]
+template <typename T, typename TData> class MapdataAccessorBase {
+public:
+  T** entries;                           //!< [+0x00]
+  u16 numEntries;                        //!< [+0x04]
+  const KmpSectionHeader* sectionHeader; //!< [+0x08]
 
   /*const TData *cdata(size_t i) const {
       if (i < 0 || i > numEntries) {
@@ -270,8 +274,20 @@ template <typename T, typename TData> struct MapdataAccessorBase {
       }
       return entryAccessors[i]->m_data;
   }*/
+  MapdataAccessorBase(const KmpSectionHeader* header)
+      : entries(nullptr), numEntries(0), sectionHeader(header) {}
   T* get(u16 i);
   s8 getExtraValue() const;
+
+  inline void init(const TData* start, u16 count) {
+    if (count != 0) {
+      numEntries = count;
+      entries = new T*[count];
+    }
+    for (u16 i = 0; i < count; i++) {
+      entries[i] = new T(&start[i]);
+    }
+  }
 };
 // The template will always be the same size
 static_assert(sizeof(MapdataAccessorBase<unk, unk>) == 0xc);
@@ -295,9 +311,19 @@ public:
   MapdataAreaBase(const SData* data);
   virtual bool isInsideShape(const EGG::Vector3f& pos) const = 0;
 
-private:
-  SData* mpData;
-  u8 _08[0x48 - 0x08];
+protected:
+  const SData* mpData;
+  EGG::Vector3f mXAxis;
+  EGG::Vector3f mYAxis;
+  EGG::Vector3f mZAxis;
+  EGG::Vector3f mDims;
+  // Only used in MapdataAreaCylinder
+  f32 mEllipseXRadiusSq;
+  f32 mEllipseAspectRatio;
+  // Sphere enclosing area for more efficient check if point in area
+  f32 mBoundingSphereRadiusSq;
+  // Index in MapdataAreaAccessor array
+  s16 mIndex;
 };
 static_assert(sizeof(MapdataAreaBase) == 0x48);
 
@@ -443,10 +469,21 @@ public:
     u16 presenceFlag;
   };
 
-  MapdataGeoObj(const SData* data);
+  // NOTE: We cannot modify eggVector.hpp without the build failing
+  // The dtor is causing a mismatch so this will have to do for now
+  struct Vec3 {
+    f32 x, y, z;
+
+    inline Vec3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+  };
+
+  MapdataGeoObj(const SData* data) : mpData(data) {
+    // Writes to stack and does nothing
+    Vec3 _(mpData->translation.x, mpData->translation.y, mpData->translation.z);
+  }
 
 private:
-  SData* mpData;
+  const SData* mpData;
 };
 static_assert(sizeof(MapdataGeoObj) == 0x4);
 
@@ -560,15 +597,28 @@ public:
     s16 playerIndex;
   };
 
-  MapdataStartPoint(const SData* data);
+  MapdataStartPoint(const SData* data) : mpData(data) {}
 
 private:
-  SData* mpData;
+  const SData* mpData;
   s8 mEnemyPoint;
 };
 static_assert(sizeof(MapdataStartPoint) == 0x8);
 
-// TODO: MapdataAreaAccessor
+class MapdataAreaAccessor {
+public:
+  MapdataAreaBase** entries;
+  u16 numEntries;
+  virtual ~MapdataAreaAccessor();
+  const KmpSectionHeader* sectionHeader;
+
+private:
+  MapdataAreaBase** byPriority;
+};
+static_assert(sizeof(MapdataAreaAccessor) == 0x14);
+// Ensure the vtable does not exist at offset 0x0
+// (It should exist at offset 0x8)
+static_assert(offsetof(MapdataAreaAccessor, entries) == 0x0);
 
 typedef MapdataAccessorBase<MapdataCamera, MapdataCamera::SData>
     MapdataCameraAccessor;
@@ -596,8 +646,17 @@ typedef MapdataAccessorBase<MapdataEnemyPath, MapdataEnemyPath::SData>
 typedef MapdataAccessorBase<MapdataEnemyPoint, MapdataEnemyPoint::SData>
     MapdataEnemyPointAccessor;
 
-typedef MapdataAccessorBase<MapdataGeoObj, MapdataGeoObj::SData>
-    MapdataGeoObjAccessor;
+class MapdataGeoObjAccessor
+    : public MapdataAccessorBase<MapdataGeoObj, MapdataGeoObj::SData> {
+public:
+  MapdataGeoObjAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataGeoObj, MapdataGeoObj::SData>(header) {
+    init((const MapdataGeoObj::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+
+  MapdataGeoObj* get(u16 i);
+};
 
 typedef MapdataAccessorBase<MapdataItemPoint, MapdataItemPoint::SData>
     MapdataItemPointAccessor;
@@ -617,8 +676,13 @@ typedef MapdataAccessorBase<MapdataPointInfo, MapdataPointInfo::SData>
 typedef MapdataAccessorBase<MapdataStage, MapdataStage::SData>
     MapdataStageAccessor;
 
-typedef MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>
-    MapdataStartPointAccessor;
+class MapdataStartPointAccessor
+    : public MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData> {
+public:
+  MapdataStartPointAccessor(const KmpSectionHeader* header);
+
+  MapdataStartPoint* get(u16 i);
+};
 
 class MapdataFileAccessor {
 public:
@@ -633,10 +697,11 @@ public:
 
   MapdataFileAccessor(const SData* data);
   u32 getVersion();
+  const KmpSectionHeader* findSection(u32 sectionName) const;
 
 private:
   const SData* mpData;
-  void* mpSectionDef;
+  u32* mpSectionDef;
   u32 mVersion;
   u32 mSectionDefOffset;
 };
@@ -654,6 +719,11 @@ public:
   u16 getItemPointCount() const;
   u16 getJugemPointCount() const;
   u16 getStartPointCount() const;
+  inline u32 getVersion() const { return mpCourse->getVersion(); }
+  /*template <typename T, typename TAccessor>
+  TAccessor* parse(u32 sectionName);*/
+  MapdataGeoObjAccessor* parseGeoObjs(u32 sectionName);
+  MapdataStartPointAccessor* parseKartpoints(u32 sectionName);
 
 private:
   CourseMap();

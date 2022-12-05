@@ -78,7 +78,7 @@ extern UNKNOWN_FUNCTION(KmpHolder_parseAreas);
 // PAL: 0x80513398
 extern UNKNOWN_FUNCTION(unk_80513398);
 // PAL: 0x805134c8
-extern UNKNOWN_FUNCTION(KmpHolder_parseGlobalobjs);
+extern UNKNOWN_FUNCTION(parseGeoObjs__Q26System9CourseMapFUl);
 // PAL: 0x80513640
 extern UNKNOWN_FUNCTION(KmpHolder_parseCheckpoints);
 // PAL: 0x8051377c
@@ -92,21 +92,21 @@ extern UNKNOWN_FUNCTION(KmpHolder_parseEnemyPoint);
 // PAL: 0x80513e40
 extern UNKNOWN_FUNCTION(KmpHolder_parseEnemyPath);
 // PAL: 0x80513f5c
-extern UNKNOWN_FUNCTION(KmpHolder_parseKartpoints);
+extern UNKNOWN_FUNCTION(parseKartpoints__Q26System9CourseMapFUl);
 // PAL: 0x805140dc
 extern UNKNOWN_FUNCTION(AreaHolder_get);
 // PAL: 0x80514100
 extern UNKNOWN_FUNCTION(
     get__Q26System84MapdataAccessorBase$0Q26System17MapdataJugemPoint$4Q36System17MapdataJugemPoint5SData$1FUs);
 // PAL: 0x80514124
-extern UNKNOWN_FUNCTION(
-    get__Q26System84MapdataAccessorBase$0Q26System17MapdataStartPoint$4Q36System17MapdataStartPoint5SData$1FUs);
+extern UNKNOWN_FUNCTION(get__Q26System25MapdataStartPointAccessorFUs);
 // PAL: 0x80514368
 extern UNKNOWN_FUNCTION(unk_80514368);
 // PAL: 0x805147d4
 extern UNKNOWN_FUNCTION(VEC3_fromNeg);
 // PAL: 0x805147fc
-extern UNKNOWN_FUNCTION(VEC3_fromQuaternionRotated);
+extern UNKNOWN_FUNCTION(
+    VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f);
 // PAL: 0x80514810
 extern UNKNOWN_FUNCTION(Vec3_scale);
 // PAL: 0x80514838
@@ -174,8 +174,9 @@ extern UNKNOWN_DATA(lbl_802a4130);
 extern UNKNOWN_DATA(lbl_802a4148);
 // PAL: 0x8088f8e8
 extern UNKNOWN_DATA(lbl_8088f8e8);
-// PAL: 0x8088fa3c
-extern UNKNOWN_DATA(lbl_8088fa3c);
+// PAL: 0x8088fa38
+extern UNKNOWN_DATA(TWENTY_FIVE__6System);
+extern UNKNOWN_DATA(ZERO_FLOAT2__6System);
 // PAL: 0x8088fa44
 extern UNKNOWN_DATA(lbl_8088fa44);
 // PAL: 0x8088fa48
@@ -197,13 +198,13 @@ extern UNKNOWN_DATA(lbl_808b2c20);
 // PAL: 0x808b2c30
 extern UNKNOWN_DATA(__vt__Q26System9CourseMap);
 // PAL: 0x808b2c3c
-extern UNKNOWN_DATA(lbl_808b2c3c);
+extern UNKNOWN_DATA(__vt__Q26System19MapdataAreaAccessor);
 // PAL: 0x808b2c48
-extern UNKNOWN_DATA(lbl_808b2c48);
+extern UNKNOWN_DATA(__vt__Q26System19MapdataAreaCylinder);
 // PAL: 0x808b2c54
-extern UNKNOWN_DATA(lbl_808b2c54);
+extern UNKNOWN_DATA(__vt__Q26System14MapdataAreaBox);
 // PAL: 0x808b2c60
-extern UNKNOWN_DATA(lbl_808b2c60);
+extern UNKNOWN_DATA(__vt__Q26System15MapdataAreaBase);
 // PAL: 0x808b2c6c
 extern UNKNOWN_DATA(lbl_808b2c6c);
 // PAL: 0x809bd6e8
@@ -219,6 +220,17 @@ extern UNKNOWN_DATA(spInstance__Q26System15ResourceManager);
 // --- EXTERN DECLARATIONS END ---
 
 namespace System {
+
+// .rodata
+extern const f32 TWENTY_FIVE;
+const f32 TWENTY_FIVE = 25.0f;
+
+#ifndef SHIFTABLE
+extern f32 ZERO_FLOAT2;
+REL_SYMBOL_AT(ZERO_FLOAT2, 0x8088fa3c)
+#else
+static const f32 ZERO_FLOAT2 = 0.0f;
+#endif
 
 // .bss
 CourseMap* CourseMap::spInstance;
@@ -280,7 +292,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512844 907D0004 */ stw         r3, 4(r29)
   /* 80512848 7FA3EB78 */ mr          r3, r29
   /* 8051284C 38845054 */ addi        r4, r4, 0x5054
-  /* 80512850 4800170D */ bl          KmpHolder_parseKartpoints
+  /* 80512850 4800170D */ bl          parseKartpoints__Q26System9CourseMapFUl
   /* 80512854 907D0008 */ stw         r3, 8(r29)
   /* 80512858 3F80454E */ lis         r28, 0x454e
   /* 8051285C 7FA3EB78 */ mr          r3, r29
@@ -312,7 +324,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 805128C4 3C80474F */ lis         r4, 0x474f
   /* 805128C8 7FA3EB78 */ mr          r3, r29
   /* 805128CC 3884424A */ addi        r4, r4, 0x424a
-  /* 805128D0 48000BF9 */ bl          KmpHolder_parseGlobalobjs
+  /* 805128D0 48000BF9 */ bl          parseGeoObjs__Q26System9CourseMapFUl
   /* 805128D4 907D0028 */ stw         r3, 0x28(r29)
   /* 805128D8 3C80504F */ lis         r4, 0x504f
   /* 805128DC 7FA3EB78 */ mr          r3, r29
@@ -479,7 +491,7 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   lbl_80512b1c:
   /* 80512B1C 807D0008 */ lwz         r3, 8(r29)
   /* 80512B20 5764063E */ clrlwi      r4, r27, 0x18
-  /* 80512B24 48001601 */ bl          get__Q26System84MapdataAccessorBase$0Q26System17MapdataStartPoint$4Q36System17MapdataStartPoint5SData$1FUs
+  /* 80512B24 48001601 */ bl          get__Q26System25MapdataStartPointAccessorFUs
   /* 80512B28 48001D79 */ bl          unk_805148a0
   /* 80512B2C 3B7B0001 */ addi        r27, r27, 0x1
   lbl_80512b30:
@@ -555,7 +567,7 @@ MapdataFileAccessor::MapdataFileAccessor(const MapdataFileAccessor::SData* data)
     : mpData(data) {
   u32 offset = data->headerSize - data->numSections * 4;
   mSectionDefOffset = offset;
-  mpSectionDef = (u8*)mpData + offset;
+  mpSectionDef = (u32*)((u8*)mpData + offset);
   if (offset > 12) {
     mVersion = *((u32*)mpSectionDef - 1);
   } else {
@@ -1126,7 +1138,7 @@ asm UNKNOWN_FUNCTION(KmpHolder_parseAreas){
 // Symbol: unk_80513398
 // PAL: 0x80513398..0x805134c8
 MARK_BINARY_BLOB(unk_80513398, 0x80513398, 0x805134c8);
-asm UNKNOWN_FUNCTION(unk_80513398){
+asm UNKNOWN_FUNCTION(unk_80513398) {
   // clang-format off
   nofralloc
   /* 80513398 9421FFE0 */ stwu        r1, -0x20(r1)
@@ -1216,100 +1228,20 @@ asm UNKNOWN_FUNCTION(unk_80513398){
   // clang-format on
 }
 
-// Symbol: KmpHolder_parseGlobalobjs
-// PAL: 0x805134c8..0x80513600
-MARK_BINARY_BLOB(KmpHolder_parseGlobalobjs, 0x805134c8, 0x80513600);
-asm UNKNOWN_FUNCTION(KmpHolder_parseGlobalobjs){
-  // clang-format off
-  nofralloc
-  /* 805134C8 9421FFC0 */ stwu        r1, -0x40(r1)
-  /* 805134CC 7C0802A6 */ mflr        r0
-  /* 805134D0 38C00000 */ li          r6, 0x0
-  /* 805134D4 90010044 */ stw         r0, 0x44(r1)
-  /* 805134D8 93E1003C */ stw         r31, 0x3c(r1)
-  /* 805134DC 3BE00000 */ li          r31, 0x0
-  /* 805134E0 93C10038 */ stw         r30, 0x38(r1)
-  /* 805134E4 93A10034 */ stw         r29, 0x34(r1)
-  /* 805134E8 93810030 */ stw         r28, 0x30(r1)
-  /* 805134EC 80A30004 */ lwz         r5, 4(r3)
-  /* 805134F0 80E50000 */ lwz         r7, 0(r5)
-  /* 805134F4 A0070008 */ lhz         r0, 8(r7)
-  /* 805134F8 7C0903A6 */ mtctr       r0
-  /* 805134FC 28000000 */ cmplwi      r0, 0
-  /* 80513500 40810030 */ ble-        lbl_80513530
-  lbl_80513504:
-  /* 80513504 A007000A */ lhz         r0, 0xa(r7)
-  /* 80513508 80650004 */ lwz         r3, 4(r5)
-  /* 8051350C 7C070214 */ add         r0, r7, r0
-  /* 80513510 7C63302E */ lwzx        r3, r3, r6
-  /* 80513514 7C03006E */ lwzux       r0, r3, r0
-  /* 80513518 7C002040 */ cmplw       r0, r4
-  /* 8051351C 4082000C */ bne-        lbl_80513528
-  /* 80513520 7C7F1B78 */ mr          r31, r3
-  /* 80513524 4800000C */ b           lbl_80513530
-  lbl_80513528:
-  /* 80513528 38C60004 */ addi        r6, r6, 0x4
-  /* 8051352C 4200FFD8 */ bdnz        lbl_80513504
-  lbl_80513530:
-  /* 80513530 2C1F0000 */ cmpwi       r31, 0x0
-  /* 80513534 3B800000 */ li          r28, 0x0
-  /* 80513538 418200A4 */ beq-        lbl_805135dc
-  /* 8051353C 3860000C */ li          r3, 0xc
-  /* 80513540 4BD1688D */ bl          __nw__FUl
-  /* 80513544 2C030000 */ cmpwi       r3, 0x0
-  /* 80513548 7C7C1B78 */ mr          r28, r3
-  /* 8051354C 41820090 */ beq-        lbl_805135dc
-  /* 80513550 38000000 */ li          r0, 0x0
-  /* 80513554 90030000 */ stw         r0, 0(r3)
-  /* 80513558 3BBF0008 */ addi        r29, r31, 0x8
-  /* 8051355C B0030004 */ sth         r0, 4(r3)
-  /* 80513560 93E30008 */ stw         r31, 8(r3)
-  /* 80513564 A3DF0004 */ lhz         r30, 4(r31)
-  /* 80513568 2C1E0000 */ cmpwi       r30, 0x0
-  /* 8051356C 41820014 */ beq-        lbl_80513580
-  /* 80513570 B3C30004 */ sth         r30, 4(r3)
-  /* 80513574 57C313BA */ rlwinm      r3, r30, 2, 0xe, 0x1d
-  /* 80513578 4BD16879 */ bl          __nwa__FUl
-  /* 8051357C 907C0000 */ stw         r3, 0(r28)
-  lbl_80513580:
-  /* 80513580 3BE00000 */ li          r31, 0x0
-  /* 80513584 4800004C */ b           lbl_805135d0
-  lbl_80513588:
-  /* 80513588 38600004 */ li          r3, 0x4
-  /* 8051358C 4BD16841 */ bl          __nw__FUl
-  /* 80513590 2C030000 */ cmpwi       r3, 0x0
-  /* 80513594 4182002C */ beq-        lbl_805135c0
-  /* 80513598 57E0043E */ clrlwi      r0, r31, 0x10
-  /* 8051359C 1C00003C */ mulli       r0, r0, 0x3c
-  /* 805135A0 7C9D0214 */ add         r4, r29, r0
-  /* 805135A4 90830000 */ stw         r4, 0(r3)
-  /* 805135A8 C004000C */ lfs         f0, 0xc(r4)
-  /* 805135AC C0240008 */ lfs         f1, 8(r4)
-  /* 805135B0 C0440004 */ lfs         f2, 4(r4)
-  /* 805135B4 D0410020 */ stfs        f2, 0x20(r1)
-  /* 805135B8 D021000C */ stfs        f1, 0xc(r1)
-  /* 805135BC D001001C */ stfs        f0, 0x1c(r1)
-  lbl_805135c0:
-  /* 805135C0 809C0000 */ lwz         r4, 0(r28)
-  /* 805135C4 57E013BA */ rlwinm      r0, r31, 2, 0xe, 0x1d
-  /* 805135C8 3BFF0001 */ addi        r31, r31, 0x1
-  /* 805135CC 7C64012E */ stwx        r3, r4, r0
-  lbl_805135d0:
-  /* 805135D0 57E0043E */ clrlwi      r0, r31, 0x10
-  /* 805135D4 7C00F040 */ cmplw       r0, r30
-  /* 805135D8 4180FFB0 */ blt+        lbl_80513588
-  lbl_805135dc:
-  /* 805135DC 83E1003C */ lwz         r31, 0x3c(r1)
-  /* 805135E0 7F83E378 */ mr          r3, r28
-  /* 805135E4 83C10038 */ lwz         r30, 0x38(r1)
-  /* 805135E8 83A10034 */ lwz         r29, 0x34(r1)
-  /* 805135EC 83810030 */ lwz         r28, 0x30(r1)
-  /* 805135F0 80010044 */ lwz         r0, 0x44(r1)
-  /* 805135F4 7C0803A6 */ mtlr        r0
-  /* 805135F8 38210040 */ addi        r1, r1, 0x40
-  /* 805135FC 4E800020 */ blr
-  // clang-format on
+namespace System {
+
+MapdataGeoObjAccessor* CourseMap::parseGeoObjs(u32 sectionName) {
+  const KmpSectionHeader* sectionPtr = mpCourse->findSection(sectionName);
+
+  MapdataGeoObjAccessor* accessor = nullptr;
+  if (sectionPtr) {
+    accessor = new MapdataGeoObjAccessor(sectionPtr);
+  }
+
+  return accessor;
 }
+
+} // namespace System
 
 // Symbol: unk_80513600
 // PAL: 0x80513600..0x80513640
@@ -1959,7 +1891,7 @@ asm UNKNOWN_FUNCTION(KmpHolder_parseEnemyPoint) {
 // Symbol: KmpHolder_parseEnemyPath
 // PAL: 0x80513e40..0x80513f5c
 MARK_BINARY_BLOB(KmpHolder_parseEnemyPath, 0x80513e40, 0x80513f5c);
-asm UNKNOWN_FUNCTION(KmpHolder_parseEnemyPath){
+asm UNKNOWN_FUNCTION(KmpHolder_parseEnemyPath) {
   // clang-format off
   nofralloc
   /* 80513E40 9421FFE0 */ stwu        r1, -0x20(r1)
@@ -2044,120 +1976,20 @@ asm UNKNOWN_FUNCTION(KmpHolder_parseEnemyPath){
   // clang-format on
 }
 
-// Symbol: KmpHolder_parseKartpoints
-// PAL: 0x80513f5c..0x805140dc
-MARK_BINARY_BLOB(KmpHolder_parseKartpoints, 0x80513f5c, 0x805140dc);
-asm UNKNOWN_FUNCTION(KmpHolder_parseKartpoints) {
-  // clang-format off
-  nofralloc
-  /* 80513F5C 9421FFE0 */ stwu        r1, -0x20(r1)
-  /* 80513F60 7C0802A6 */ mflr        r0
-  /* 80513F64 38C00000 */ li          r6, 0x0
-  /* 80513F68 90010024 */ stw         r0, 0x24(r1)
-  /* 80513F6C 93E1001C */ stw         r31, 0x1c(r1)
-  /* 80513F70 93C10018 */ stw         r30, 0x18(r1)
-  /* 80513F74 93A10014 */ stw         r29, 0x14(r1)
-  /* 80513F78 3BA00000 */ li          r29, 0x0
-  /* 80513F7C 93810010 */ stw         r28, 0x10(r1)
-  /* 80513F80 80A30004 */ lwz         r5, 4(r3)
-  /* 80513F84 80E50000 */ lwz         r7, 0(r5)
-  /* 80513F88 A0070008 */ lhz         r0, 8(r7)
-  /* 80513F8C 7C0903A6 */ mtctr       r0
-  /* 80513F90 28000000 */ cmplwi      r0, 0
-  /* 80513F94 40810030 */ ble-        lbl_80513fc4
-  lbl_80513f98:
-  /* 80513F98 A007000A */ lhz         r0, 0xa(r7)
-  /* 80513F9C 80650004 */ lwz         r3, 4(r5)
-  /* 80513FA0 7C070214 */ add         r0, r7, r0
-  /* 80513FA4 7C63302E */ lwzx        r3, r3, r6
-  /* 80513FA8 7C03006E */ lwzux       r0, r3, r0
-  /* 80513FAC 7C002040 */ cmplw       r0, r4
-  /* 80513FB0 4082000C */ bne-        lbl_80513fbc
-  /* 80513FB4 7C7D1B78 */ mr          r29, r3
-  /* 80513FB8 4800000C */ b           lbl_80513fc4
-  lbl_80513fbc:
-  /* 80513FBC 38C60004 */ addi        r6, r6, 0x4
-  /* 80513FC0 4200FFD8 */ bdnz        lbl_80513f98
-  lbl_80513fc4:
-  /* 80513FC4 2C1D0000 */ cmpwi       r29, 0x0
-  /* 80513FC8 3BE00000 */ li          r31, 0x0
-  /* 80513FCC 418200EC */ beq-        lbl_805140b8
-  /* 80513FD0 3860000C */ li          r3, 0xc
-  /* 80513FD4 4BD15DF9 */ bl          __nw__FUl
-  /* 80513FD8 2C030000 */ cmpwi       r3, 0x0
-  /* 80513FDC 7C7F1B78 */ mr          r31, r3
-  /* 80513FE0 418200D8 */ beq-        lbl_805140b8
-  /* 80513FE4 3BC00000 */ li          r30, 0x0
-  /* 80513FE8 93C30000 */ stw         r30, 0(r3)
-  /* 80513FEC 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
-  /* 80513FF0 B3C30004 */ sth         r30, 4(r3)
-  /* 80513FF4 93A30008 */ stw         r29, 8(r3)
-  /* 80513FF8 8084D6E8 */ lwz         r4, spInstance__Q26System9CourseMap@l(r4)
-  /* 80513FFC 80840004 */ lwz         r4, 4(r4)
-  /* 80514000 80040008 */ lwz         r0, 8(r4)
-  /* 80514004 28000726 */ cmplwi      r0, 0x726
-  /* 80514008 40810070 */ ble-        lbl_80514078
-  /* 8051400C 80830008 */ lwz         r4, 8(r3)
-  /* 80514010 A3C40004 */ lhz         r30, 4(r4)
-  /* 80514014 3B840008 */ addi        r28, r4, 0x8
-  /* 80514018 2C1E0000 */ cmpwi       r30, 0x0
-  /* 8051401C 41820014 */ beq-        lbl_80514030
-  /* 80514020 B3C30004 */ sth         r30, 4(r3)
-  /* 80514024 57C313BA */ rlwinm      r3, r30, 2, 0xe, 0x1d
-  /* 80514028 4BD15DC9 */ bl          __nwa__FUl
-  /* 8051402C 907F0000 */ stw         r3, 0(r31)
-  lbl_80514030:
-  /* 80514030 3BA00000 */ li          r29, 0x0
-  /* 80514034 48000034 */ b           lbl_80514068
-  lbl_80514038:
-  /* 80514038 38600008 */ li          r3, 0x8
-  /* 8051403C 4BD15D91 */ bl          __nw__FUl
-  /* 80514040 2C030000 */ cmpwi       r3, 0x0
-  /* 80514044 41820014 */ beq-        lbl_80514058
-  /* 80514048 57A0043E */ clrlwi      r0, r29, 0x10
-  /* 8051404C 1C00001C */ mulli       r0, r0, 0x1c
-  /* 80514050 7C1C0214 */ add         r0, r28, r0
-  /* 80514054 90030000 */ stw         r0, 0(r3)
-  lbl_80514058:
-  /* 80514058 809F0000 */ lwz         r4, 0(r31)
-  /* 8051405C 57A013BA */ rlwinm      r0, r29, 2, 0xe, 0x1d
-  /* 80514060 3BBD0001 */ addi        r29, r29, 0x1
-  /* 80514064 7C64012E */ stwx        r3, r4, r0
-  lbl_80514068:
-  /* 80514068 57A0043E */ clrlwi      r0, r29, 0x10
-  /* 8051406C 7C00F040 */ cmplw       r0, r30
-  /* 80514070 4180FFC8 */ blt+        lbl_80514038
-  /* 80514074 48000044 */ b           lbl_805140b8
-  lbl_80514078:
-  /* 80514078 80830008 */ lwz         r4, 8(r3)
-  /* 8051407C 38000001 */ li          r0, 0x1
-  /* 80514080 B0030004 */ sth         r0, 4(r3)
-  /* 80514084 3BA40004 */ addi        r29, r4, 0x4
-  /* 80514088 38600004 */ li          r3, 0x4
-  /* 8051408C 4BD15D65 */ bl          __nwa__FUl
-  /* 80514090 907F0000 */ stw         r3, 0(r31)
-  /* 80514094 38600008 */ li          r3, 0x8
-  /* 80514098 4BD15D35 */ bl          __nw__FUl
-  /* 8051409C 2C030000 */ cmpwi       r3, 0x0
-  /* 805140A0 41820010 */ beq-        lbl_805140b0
-  /* 805140A4 1C1E001C */ mulli       r0, r30, 0x1c
-  /* 805140A8 7C1D0214 */ add         r0, r29, r0
-  /* 805140AC 90030000 */ stw         r0, 0(r3)
-  lbl_805140b0:
-  /* 805140B0 809F0000 */ lwz         r4, 0(r31)
-  /* 805140B4 90640000 */ stw         r3, 0(r4)
-  lbl_805140b8:
-  /* 805140B8 7FE3FB78 */ mr          r3, r31
-  /* 805140BC 83E1001C */ lwz         r31, 0x1c(r1)
-  /* 805140C0 83C10018 */ lwz         r30, 0x18(r1)
-  /* 805140C4 83A10014 */ lwz         r29, 0x14(r1)
-  /* 805140C8 83810010 */ lwz         r28, 0x10(r1)
-  /* 805140CC 80010024 */ lwz         r0, 0x24(r1)
-  /* 805140D0 7C0803A6 */ mtlr        r0
-  /* 805140D4 38210020 */ addi        r1, r1, 0x20
-  /* 805140D8 4E800020 */ blr
-  // clang-format on
+namespace System {
+
+MapdataStartPointAccessor* CourseMap::parseKartpoints(u32 sectionName) {
+  const KmpSectionHeader* sectionPtr = mpCourse->findSection(sectionName);
+
+  MapdataStartPointAccessor* accessor = nullptr;
+  if (sectionPtr) {
+    accessor = new MapdataStartPointAccessor(sectionPtr);
+  }
+
+  return accessor;
 }
+
+} // namespace System
 
 // Symbol: AreaHolder_get
 // PAL: 0x805140dc..0x80514100
@@ -2179,6 +2011,7 @@ asm UNKNOWN_FUNCTION(AreaHolder_get) {
 }
 
 namespace System {
+
 template <> MapdataJugemPoint* MapdataJugemPointAccessor::get(u16 i) {
   if (i < this->numEntries) {
     return this->entries[i];
@@ -2186,7 +2019,7 @@ template <> MapdataJugemPoint* MapdataJugemPointAccessor::get(u16 i) {
   return nullptr;
 }
 
-template <> MapdataStartPoint* MapdataStartPointAccessor::get(u16 i) {
+MapdataStartPoint* MapdataStartPointAccessor::get(u16 i) {
   if (i < this->numEntries) {
     return this->entries[i];
   }
@@ -2253,121 +2086,37 @@ asm UNKNOWN_FUNCTION(unk_80514194) {
   // clang-format on
 }
 
-// Symbol: unk_80514208
-// PAL: 0x80514208..0x80514258
-MARK_BINARY_BLOB(unk_80514208, 0x80514208, 0x80514258);
-asm UNKNOWN_FUNCTION(unk_80514208){
-  // clang-format off
-  nofralloc
-  /* 80514208 80E30000 */ lwz         r7, 0(r3)
-  /* 8051420C 39000000 */ li          r8, 0x0
-  /* 80514210 38C00000 */ li          r6, 0x0
-  /* 80514214 A0070008 */ lhz         r0, 8(r7)
-  /* 80514218 7C0903A6 */ mtctr       r0
-  /* 8051421C 28000000 */ cmplwi      r0, 0
-  /* 80514220 40810030 */ ble-        lbl_80514250
-  lbl_80514224:
-  /* 80514224 A007000A */ lhz         r0, 0xa(r7)
-  /* 80514228 80A30004 */ lwz         r5, 4(r3)
-  /* 8051422C 7C070214 */ add         r0, r7, r0
-  /* 80514230 7CA5302E */ lwzx        r5, r5, r6
-  /* 80514234 7C05006E */ lwzux       r0, r5, r0
-  /* 80514238 7C002040 */ cmplw       r0, r4
-  /* 8051423C 4082000C */ bne-        lbl_80514248
-  /* 80514240 7CA82B78 */ mr          r8, r5
-  /* 80514244 4800000C */ b           lbl_80514250
-  lbl_80514248:
-  /* 80514248 38C60004 */ addi        r6, r6, 0x4
-  /* 8051424C 4200FFD8 */ bdnz        lbl_80514224
-  lbl_80514250:
-  /* 80514250 7D034378 */ mr          r3, r8
-  /* 80514254 4E800020 */ blr
-  // clang-format on
+namespace System {
+
+const KmpSectionHeader*
+MapdataFileAccessor::findSection(u32 sectionName) const {
+  const KmpSectionHeader* sectionPtr = nullptr;
+
+  for (u32 i = 0; i < mpData->numSections; i++) {
+    const KmpSectionHeader* header =
+        (const KmpSectionHeader*)((u8*)mpData + mpData->headerSize +
+                                  mpSectionDef[i]);
+    if (header->sectionMagic == sectionName) {
+      sectionPtr = header;
+      break;
+    }
+  }
+
+  return sectionPtr;
 }
 
-// Symbol: unk_80514258
-// PAL: 0x80514258..0x80514368
-MARK_BINARY_BLOB(unk_80514258, 0x80514258, 0x80514368);
-asm UNKNOWN_FUNCTION(unk_80514258) {
-  // clang-format off
-  nofralloc
-  /* 80514258 9421FFE0 */ stwu        r1, -0x20(r1)
-  /* 8051425C 7C0802A6 */ mflr        r0
-  /* 80514260 3CA0809C */ lis         r5, spInstance__Q26System9CourseMap@ha
-  /* 80514264 90010024 */ stw         r0, 0x24(r1)
-  /* 80514268 93E1001C */ stw         r31, 0x1c(r1)
-  /* 8051426C 7C7F1B78 */ mr          r31, r3
-  /* 80514270 93C10018 */ stw         r30, 0x18(r1)
-  /* 80514274 3BC00000 */ li          r30, 0x0
-  /* 80514278 93A10014 */ stw         r29, 0x14(r1)
-  /* 8051427C 93810010 */ stw         r28, 0x10(r1)
-  /* 80514280 93C30000 */ stw         r30, 0(r3)
-  /* 80514284 B3C30004 */ sth         r30, 4(r3)
-  /* 80514288 90830008 */ stw         r4, 8(r3)
-  /* 8051428C 80A5D6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r5)
-  /* 80514290 80A50004 */ lwz         r5, 4(r5)
-  /* 80514294 80050008 */ lwz         r0, 8(r5)
-  /* 80514298 28000726 */ cmplwi      r0, 0x726
-  /* 8051429C 4081006C */ ble-        lbl_80514308
-  /* 805142A0 A3A40004 */ lhz         r29, 4(r4)
-  /* 805142A4 3BC40008 */ addi        r30, r4, 0x8
-  /* 805142A8 2C1D0000 */ cmpwi       r29, 0x0
-  /* 805142AC 41820014 */ beq-        lbl_805142c0
-  /* 805142B0 B3A30004 */ sth         r29, 4(r3)
-  /* 805142B4 57A313BA */ rlwinm      r3, r29, 2, 0xe, 0x1d
-  /* 805142B8 4BD15B39 */ bl          __nwa__FUl
-  /* 805142BC 907F0000 */ stw         r3, 0(r31)
-  lbl_805142c0:
-  /* 805142C0 3B800000 */ li          r28, 0x0
-  /* 805142C4 48000034 */ b           lbl_805142f8
-  lbl_805142c8:
-  /* 805142C8 38600008 */ li          r3, 0x8
-  /* 805142CC 4BD15B01 */ bl          __nw__FUl
-  /* 805142D0 2C030000 */ cmpwi       r3, 0x0
-  /* 805142D4 41820014 */ beq-        lbl_805142e8
-  /* 805142D8 5780043E */ clrlwi      r0, r28, 0x10
-  /* 805142DC 1C00001C */ mulli       r0, r0, 0x1c
-  /* 805142E0 7C1E0214 */ add         r0, r30, r0
-  /* 805142E4 90030000 */ stw         r0, 0(r3)
-  lbl_805142e8:
-  /* 805142E8 809F0000 */ lwz         r4, 0(r31)
-  /* 805142EC 578013BA */ rlwinm      r0, r28, 2, 0xe, 0x1d
-  /* 805142F0 3B9C0001 */ addi        r28, r28, 0x1
-  /* 805142F4 7C64012E */ stwx        r3, r4, r0
-  lbl_805142f8:
-  /* 805142F8 5780043E */ clrlwi      r0, r28, 0x10
-  /* 805142FC 7C00E840 */ cmplw       r0, r29
-  /* 80514300 4180FFC8 */ blt+        lbl_805142c8
-  /* 80514304 48000040 */ b           lbl_80514344
-  lbl_80514308:
-  /* 80514308 38000001 */ li          r0, 0x1
-  /* 8051430C B0030004 */ sth         r0, 4(r3)
-  /* 80514310 3B840004 */ addi        r28, r4, 0x4
-  /* 80514314 38600004 */ li          r3, 0x4
-  /* 80514318 4BD15AD9 */ bl          __nwa__FUl
-  /* 8051431C 907F0000 */ stw         r3, 0(r31)
-  /* 80514320 38600008 */ li          r3, 0x8
-  /* 80514324 4BD15AA9 */ bl          __nw__FUl
-  /* 80514328 2C030000 */ cmpwi       r3, 0x0
-  /* 8051432C 41820010 */ beq-        lbl_8051433c
-  /* 80514330 1C1E001C */ mulli       r0, r30, 0x1c
-  /* 80514334 7C1C0214 */ add         r0, r28, r0
-  /* 80514338 90030000 */ stw         r0, 0(r3)
-  lbl_8051433c:
-  /* 8051433C 809F0000 */ lwz         r4, 0(r31)
-  /* 80514340 90640000 */ stw         r3, 0(r4)
-  lbl_80514344:
-  /* 80514344 7FE3FB78 */ mr          r3, r31
-  /* 80514348 83E1001C */ lwz         r31, 0x1c(r1)
-  /* 8051434C 83C10018 */ lwz         r30, 0x18(r1)
-  /* 80514350 83A10014 */ lwz         r29, 0x14(r1)
-  /* 80514354 83810010 */ lwz         r28, 0x10(r1)
-  /* 80514358 80010024 */ lwz         r0, 0x24(r1)
-  /* 8051435C 7C0803A6 */ mtlr        r0
-  /* 80514360 38210020 */ addi        r1, r1, 0x20
-  /* 80514364 4E800020 */ blr
-  // clang-format on
+MapdataStartPointAccessor::MapdataStartPointAccessor(
+    const KmpSectionHeader* header)
+    : MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData>(header) {
+  if (CourseMap::instance()->getVersion() > 1830) {
+    init((const MapdataStartPoint::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  } else {
+    init((const MapdataStartPoint::SData*)((u8*)sectionHeader + 4), 1);
+  }
 }
+
+} // namespace System
 
 // Symbol: unk_80514368
 // PAL: 0x80514368..0x80514794
@@ -2415,7 +2164,7 @@ asm UNKNOWN_FUNCTION(unk_80514368) {
   /* 805143FC 386100A4 */ addi        r3, r1, 0xa4
   /* 80514400 388100F8 */ addi        r4, r1, 0xf8
   /* 80514404 38A100B0 */ addi        r5, r1, 0xb0
-  /* 80514408 480003F5 */ bl          VEC3_fromQuaternionRotated
+  /* 80514408 480003F5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051440C C04100A4 */ lfs         f2, 0xa4(r1)
   /* 80514410 3C80802A */ lis         r4, lbl_802a4118@ha
   /* 80514414 C02100A8 */ lfs         f1, 0xa8(r1)
@@ -2429,7 +2178,7 @@ asm UNKNOWN_FUNCTION(unk_80514368) {
   /* 80514434 3861008C */ addi        r3, r1, 0x8c
   /* 80514438 388100F8 */ addi        r4, r1, 0xf8
   /* 8051443C 38A10098 */ addi        r5, r1, 0x98
-  /* 80514440 480003BD */ bl          VEC3_fromQuaternionRotated
+  /* 80514440 480003BD */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80514444 C041008C */ lfs         f2, 0x8c(r1)
   /* 80514448 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 8051444C C0210090 */ lfs         f1, 0x90(r1)
@@ -2699,10 +2448,14 @@ asm UNKNOWN_FUNCTION(VEC3_fromNeg){
     // clang-format on
 }
 
+// TODO: inlined from eggVector.hpp
 // Symbol: VEC3_fromQuaternionRotated
 // PAL: 0x805147fc..0x80514810
-MARK_BINARY_BLOB(VEC3_fromQuaternionRotated, 0x805147fc, 0x80514810);
-asm UNKNOWN_FUNCTION(VEC3_fromQuaternionRotated){
+MARK_BINARY_BLOB(
+    VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f,
+    0x805147fc, 0x80514810);
+asm void VEC3_fromQuaternionRotated(EGG::Vector3f& dst, const EGG::Quatf& q,
+                                    const EGG::Vector3f& src){
     // clang-format off
   nofralloc
   /* 805147FC 7C601B78 */ mr          r0, r3
@@ -2810,17 +2563,17 @@ asm UNKNOWN_FUNCTION(unk_805148a0) {
   /* 80514904 38610038 */ addi        r3, r1, 0x38
   /* 80514908 38810048 */ addi        r4, r1, 0x48
   /* 8051490C 38A54148 */ addi        r5, r5, lbl_802a4148@l
-  /* 80514910 4BFFFEED */ bl          VEC3_fromQuaternionRotated
+  /* 80514910 4BFFFEED */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80514914 3CA0802A */ lis         r5, lbl_802a4118@ha
   /* 80514918 3861002C */ addi        r3, r1, 0x2c
   /* 8051491C 38810048 */ addi        r4, r1, 0x48
   /* 80514920 38A54118 */ addi        r5, r5, lbl_802a4118@l
-  /* 80514924 4BFFFED9 */ bl          VEC3_fromQuaternionRotated
+  /* 80514924 4BFFFED9 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80514928 3CA0802A */ lis         r5, lbl_802a4130@ha
   /* 8051492C 38610020 */ addi        r3, r1, 0x20
   /* 80514930 38810048 */ addi        r4, r1, 0x48
   /* 80514934 38A54130 */ addi        r5, r5, lbl_802a4130@l
-  /* 80514938 4BFFFEC5 */ bl          VEC3_fromQuaternionRotated
+  /* 80514938 4BFFFEC5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051493C C03E017C */ lfs         f1, 0x17c(r30)
   /* 80514940 4BB70841 */ bl          CosFIdx__Q24nw4r4mathFf
   /* 80514944 FFE00890 */ fmr         f31, f1
@@ -3083,12 +2836,12 @@ asm UNKNOWN_FUNCTION(unk_80514c30) {
   /* 80514C30 3CA08089 */ lis         r5, lbl_8088fa6c@ha
   /* 80514C34 9421FFE0 */ stwu        r1, -0x20(r1)
   /* 80514C38 C005FA6C */ lfs         f0, lbl_8088fa6c@l(r5)
-  /* 80514C3C 3C808089 */ lis         r4, lbl_8088fa3c@ha
+  /* 80514C3C 3C808089 */ lis         r4, ZERO_FLOAT2__6System@ha
   /* 80514C40 D0030004 */ stfs        f0, 4(r3)
   /* 80514C44 3CC0809C */ lis         r6, spInstance__Q26System9CourseMap@ha
   /* 80514C48 80A30000 */ lwz         r5, 0(r3)
   /* 80514C4C D0030008 */ stfs        f0, 8(r3)
-  /* 80514C50 C044FA3C */ lfs         f2, lbl_8088fa3c@l(r4)
+  /* 80514C50 C044FA3C */ lfs         f2, ZERO_FLOAT2__6System@l(r4)
   /* 80514C54 89050000 */ lbz         r8, 0(r5)
   /* 80514C58 480000B8 */ b           lbl_80514d10
   lbl_80514c5c:
@@ -4176,9 +3929,9 @@ asm UNKNOWN_FUNCTION(unk_80515624) {
   /* 80515988 90830038 */ stw         r4, 0x38(r3)
   /* 8051598C B0030004 */ sth         r0, 4(r3)
   lbl_80515990:
-  /* 80515990 3C608089 */ lis         r3, lbl_8088fa3c@ha
+  /* 80515990 3C608089 */ lis         r3, ZERO_FLOAT2__6System@ha
   /* 80515994 7FFEFB78 */ mr          r30, r31
-  /* 80515998 C3E3FA3C */ lfs         f31, lbl_8088fa3c@l(r3)
+  /* 80515998 C3E3FA3C */ lfs         f31, ZERO_FLOAT2__6System@l(r3)
   /* 8051599C 3BA00000 */ li          r29, 0x0
   lbl_805159a0:
   /* 805159A0 A01F0004 */ lhz         r0, 4(r31)
@@ -4597,10 +4350,10 @@ asm UNKNOWN_FUNCTION(AreaHolder_construct) {
   nofralloc
   /* 80515E50 9421FFE0 */ stwu        r1, -0x20(r1)
   /* 80515E54 7C0802A6 */ mflr        r0
-  /* 80515E58 3CA0808B */ lis         r5, lbl_808b2c3c@ha
+  /* 80515E58 3CA0808B */ lis         r5, __vt__Q26System19MapdataAreaAccessor@ha
   /* 80515E5C 90010024 */ stw         r0, 0x24(r1)
   /* 80515E60 38000000 */ li          r0, 0x0
-  /* 80515E64 38A52C3C */ addi        r5, r5, lbl_808b2c3c@l
+  /* 80515E64 38A52C3C */ addi        r5, r5, __vt__Q26System19MapdataAreaAccessor@l
   /* 80515E68 BF61000C */ stmw        r27, 0xc(r1)
   /* 80515E6C 7C7C1B78 */ mr          r28, r3
   /* 80515E70 90030000 */ stw         r0, 0(r3)
@@ -4690,7 +4443,7 @@ asm UNKNOWN_FUNCTION(AreaHolder_construct) {
 // Symbol: unk_80515f8c
 // PAL: 0x80515f8c..0x80516050
 MARK_BINARY_BLOB(unk_80515f8c, 0x80515f8c, 0x80516050);
-asm UNKNOWN_FUNCTION(unk_80515f8c){
+asm UNKNOWN_FUNCTION(unk_80515f8c) {
   // clang-format off
   nofralloc
   /* 80515F8C 38C00000 */ li          r6, 0x0
@@ -4754,16 +4507,38 @@ asm UNKNOWN_FUNCTION(unk_80515f8c){
   // clang-format on
 }
 
+#if 1
+namespace System {
+MapdataAreaBase::MapdataAreaBase(const SData* data) : mIndex(-1) {
+  mpData = data;
+  mBoundingSphereRadiusSq = 0.0f;
+  mEllipseAspectRatio = 0.0f;
+  mEllipseXRadiusSq = 0.0f;
+  mDims.z = 0.0f;
+  mDims.y = 0.0f;
+  mDims.x = 0.0f;
+  mXAxis.z = 0.0f;
+  mXAxis.y = 0.0f;
+  mXAxis.x = 0.0f;
+  mYAxis.z = 0.0f;
+  mYAxis.y = 0.0f;
+  mYAxis.x = 0.0f;
+  mZAxis.z = 0.0f;
+  mZAxis.y = 0.0f;
+  mZAxis.x = 0.0f;
+}
+} // namespace System
+#else
 // Symbol: unk_80516050
 // PAL: 0x80516050..0x805160b0
 MARK_BINARY_BLOB(unk_80516050, 0x80516050, 0x805160b0);
-asm UNKNOWN_FUNCTION(unk_80516050) {
+asm System::MapdataAreaBase::MapdataAreaBase(const SData* data) {
   // clang-format off
   nofralloc
-  /* 80516050 3CA08089 */ lis         r5, lbl_8088fa3c@ha
-  /* 80516054 3CC0808B */ lis         r6, lbl_808b2c60@ha
-  /* 80516058 C005FA3C */ lfs         f0, lbl_8088fa3c@l(r5)
-  /* 8051605C 38C62C60 */ addi        r6, r6, lbl_808b2c60@l
+  /* 80516050 3CA08089 */ lis         r5, ZERO_FLOAT2__6System@ha
+  /* 80516054 3CC0808B */ lis         r6, __vt__Q26System15MapdataAreaBase@ha
+  /* 80516058 C005FA3C */ lfs         f0, ZERO_FLOAT2__6System@l(r5)
+  /* 8051605C 38C62C60 */ addi        r6, r6, __vt__Q26System15MapdataAreaBase@l
   /* 80516060 3800FFFF */ li          r0, -0x1
   /* 80516064 90C30000 */ stw         r6, 0(r3)
   /* 80516068 B0030044 */ sth         r0, 0x44(r3)
@@ -4786,6 +4561,7 @@ asm UNKNOWN_FUNCTION(unk_80516050) {
   /* 805160AC 4E800020 */ blr
   // clang-format on
 }
+#endif
 
 // Symbol: unk_805160b0
 // PAL: 0x805160b0..0x80516138
@@ -4918,6 +4694,33 @@ asm UNKNOWN_FUNCTION(unk_80516168) {
   // clang-format on
 }
 
+#if 0
+namespace System {
+MapdataAreaBox::MapdataAreaBox(const SData* data) : MapdataAreaBase(data) {
+  mDims.x = 0.5f * 10000.0f * data->scale.x;
+  mDims.y = 0.5f * 10000.0f * data->scale.y;
+  mDims.z = 0.5f * 10000.0f * data->scale.z;
+
+  mEllipseAspectRatio = 0.0f;
+  mEllipseXRadiusSq = 0.0f;
+  mBoundingSphereRadiusSq = data->scale.x * data->scale.x +
+                            data->scale.y * data->scale.y +
+                            data->scale.z * data->scale.z;
+
+  EGG::Quatf areaRot;
+  areaRot.setRPY(DEG2RAD(data->rotation.x), DEG2RAD(data->rotation.y),
+                 DEG2RAD(data->rotation.z));
+
+  EGG::Vector3f areaX, areaY, areaZ;
+  VEC3_fromQuaternionRotated(areaX, areaRot, EGG::Vector3f::ex);
+  mXAxis = areaX;
+  VEC3_fromQuaternionRotated(areaY, areaRot, EGG::Vector3f::ey);
+  mYAxis = areaY;
+  VEC3_fromQuaternionRotated(areaZ, areaRot, EGG::Vector3f::ez);
+  mZAxis = areaZ;
+}
+} // namespace System
+#else
 // Symbol: AreaBox_construct
 // PAL: 0x80516220..0x805163b4
 MARK_BINARY_BLOB(AreaBox_construct, 0x80516220, 0x805163b4);
@@ -4927,15 +4730,15 @@ asm UNKNOWN_FUNCTION(AreaBox_construct) {
   /* 80516220 9421FFB0 */ stwu        r1, -0x50(r1)
   /* 80516224 7C0802A6 */ mflr        r0
   /* 80516228 3CE08089 */ lis         r7, lbl_8088f8e8@ha
-  /* 8051622C 3CC0808B */ lis         r6, lbl_808b2c60@ha
+  /* 8051622C 3CC0808B */ lis         r6, __vt__Q26System15MapdataAreaBase@ha
   /* 80516230 90010054 */ stw         r0, 0x54(r1)
   /* 80516234 38E7F8E8 */ addi        r7, r7, lbl_8088f8e8@l
-  /* 80516238 3CA0808B */ lis         r5, lbl_808b2c54@ha
-  /* 8051623C 38C62C60 */ addi        r6, r6, lbl_808b2c60@l
+  /* 80516238 3CA0808B */ lis         r5, __vt__Q26System14MapdataAreaBox@ha
+  /* 8051623C 38C62C60 */ addi        r6, r6, __vt__Q26System15MapdataAreaBase@l
   /* 80516240 93E1004C */ stw         r31, 0x4c(r1)
   /* 80516244 3800FFFF */ li          r0, -0x1
   /* 80516248 C0C70154 */ lfs         f6, 0x154(r7)
-  /* 8051624C 38A52C54 */ addi        r5, r5, lbl_808b2c54@l
+  /* 8051624C 38A52C54 */ addi        r5, r5, __vt__Q26System14MapdataAreaBox@l
   /* 80516250 90C30000 */ stw         r6, 0(r3)
   /* 80516254 7C7F1B78 */ mr          r31, r3
   /* 80516258 C0A7018C */ lfs         f5, 0x18c(r7)
@@ -4990,7 +4793,7 @@ asm UNKNOWN_FUNCTION(AreaBox_construct) {
   /* 8051631C 38610020 */ addi        r3, r1, 0x20
   /* 80516320 38810030 */ addi        r4, r1, 0x30
   /* 80516324 38A54118 */ addi        r5, r5, lbl_802a4118@l
-  /* 80516328 4BFFE4D5 */ bl          VEC3_fromQuaternionRotated
+  /* 80516328 4BFFE4D5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051632C C0010020 */ lfs         f0, 0x20(r1)
   /* 80516330 3CA0802A */ lis         r5, lbl_802a4130@ha
   /* 80516334 D01F0008 */ stfs        f0, 8(r31)
@@ -5001,7 +4804,7 @@ asm UNKNOWN_FUNCTION(AreaBox_construct) {
   /* 80516348 D01F000C */ stfs        f0, 0xc(r31)
   /* 8051634C C0010028 */ lfs         f0, 0x28(r1)
   /* 80516350 D01F0010 */ stfs        f0, 0x10(r31)
-  /* 80516354 4BFFE4A9 */ bl          VEC3_fromQuaternionRotated
+  /* 80516354 4BFFE4A9 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80516358 C0010014 */ lfs         f0, 0x14(r1)
   /* 8051635C 3CA0802A */ lis         r5, lbl_802a4148@ha
   /* 80516360 D01F0014 */ stfs        f0, 0x14(r31)
@@ -5012,7 +4815,7 @@ asm UNKNOWN_FUNCTION(AreaBox_construct) {
   /* 80516374 D01F0018 */ stfs        f0, 0x18(r31)
   /* 80516378 C001001C */ lfs         f0, 0x1c(r1)
   /* 8051637C D01F001C */ stfs        f0, 0x1c(r31)
-  /* 80516380 4BFFE47D */ bl          VEC3_fromQuaternionRotated
+  /* 80516380 4BFFE47D */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80516384 C0010008 */ lfs         f0, 8(r1)
   /* 80516388 7FE3FB78 */ mr          r3, r31
   /* 8051638C D01F0020 */ stfs        f0, 0x20(r31)
@@ -5027,6 +4830,7 @@ asm UNKNOWN_FUNCTION(AreaBox_construct) {
   /* 805163B0 4E800020 */ blr
   // clang-format on
 }
+#endif
 
 // Symbol: unk_805163b4
 // PAL: 0x805163b4..0x805163f4
@@ -5057,7 +4861,7 @@ asm UNKNOWN_FUNCTION(unk_805163b4){
 // Symbol: unk_805163f4
 // PAL: 0x805163f4..0x805164fc
 MARK_BINARY_BLOB(unk_805163f4, 0x805163f4, 0x805164fc);
-asm UNKNOWN_FUNCTION(unk_805163f4) {
+asm bool System::MapdataAreaBox::isInsideShape(const EGG::Vector3f& pos) const {
   // clang-format off
   nofralloc
   /* 805163F4 9421FFE0 */ stwu        r1, -0x20(r1)
@@ -5085,8 +4889,8 @@ asm UNKNOWN_FUNCTION(unk_805163f4) {
   /* 8051644C EC22082A */ fadds       f1, f2, f1
   /* 80516450 FC010040 */ opword      0xfc010040
   /* 80516454 41810014 */ bgt-        lbl_80516468
-  /* 80516458 3C808089 */ lis         r4, lbl_8088fa3c@ha
-  /* 8051645C C004FA3C */ lfs         f0, lbl_8088fa3c@l(r4)
+  /* 80516458 3C808089 */ lis         r4, ZERO_FLOAT2__6System@ha
+  /* 8051645C C004FA3C */ lfs         f0, ZERO_FLOAT2__6System@l(r4)
   /* 80516460 FC010040 */ opword      0xfc010040
   /* 80516464 4080000C */ bge-        lbl_80516470
   lbl_80516468:
@@ -5145,15 +4949,15 @@ asm UNKNOWN_FUNCTION(AreaCylinder_construct) {
   /* 805164FC 9421FFB0 */ stwu        r1, -0x50(r1)
   /* 80516500 7C0802A6 */ mflr        r0
   /* 80516504 3CE08089 */ lis         r7, lbl_8088f8e8@ha
-  /* 80516508 3CC0808B */ lis         r6, lbl_808b2c60@ha
+  /* 80516508 3CC0808B */ lis         r6, __vt__Q26System15MapdataAreaBase@ha
   /* 8051650C 90010054 */ stw         r0, 0x54(r1)
   /* 80516510 38E7F8E8 */ addi        r7, r7, lbl_8088f8e8@l
-  /* 80516514 3CA0808B */ lis         r5, lbl_808b2c48@ha
-  /* 80516518 38C62C60 */ addi        r6, r6, lbl_808b2c60@l
+  /* 80516514 3CA0808B */ lis         r5, __vt__Q26System19MapdataAreaCylinder@ha
+  /* 80516518 38C62C60 */ addi        r6, r6, __vt__Q26System15MapdataAreaBase@l
   /* 8051651C 93E1004C */ stw         r31, 0x4c(r1)
   /* 80516520 3800FFFF */ li          r0, -0x1
   /* 80516524 C0070154 */ lfs         f0, 0x154(r7)
-  /* 80516528 38A52C48 */ addi        r5, r5, lbl_808b2c48@l
+  /* 80516528 38A52C48 */ addi        r5, r5, __vt__Q26System19MapdataAreaCylinder@l
   /* 8051652C 90C30000 */ stw         r6, 0(r3)
   /* 80516530 7C7F1B78 */ mr          r31, r3
   /* 80516534 C0470190 */ lfs         f2, 0x190(r7)
@@ -5206,7 +5010,7 @@ asm UNKNOWN_FUNCTION(AreaCylinder_construct) {
   /* 805165F0 38610020 */ addi        r3, r1, 0x20
   /* 805165F4 38810030 */ addi        r4, r1, 0x30
   /* 805165F8 38A54118 */ addi        r5, r5, lbl_802a4118@l
-  /* 805165FC 4BFFE201 */ bl          VEC3_fromQuaternionRotated
+  /* 805165FC 4BFFE201 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80516600 C0010020 */ lfs         f0, 0x20(r1)
   /* 80516604 3CA0802A */ lis         r5, lbl_802a4130@ha
   /* 80516608 D01F0008 */ stfs        f0, 8(r31)
@@ -5217,7 +5021,7 @@ asm UNKNOWN_FUNCTION(AreaCylinder_construct) {
   /* 8051661C D01F000C */ stfs        f0, 0xc(r31)
   /* 80516620 C0010028 */ lfs         f0, 0x28(r1)
   /* 80516624 D01F0010 */ stfs        f0, 0x10(r31)
-  /* 80516628 4BFFE1D5 */ bl          VEC3_fromQuaternionRotated
+  /* 80516628 4BFFE1D5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051662C C0010014 */ lfs         f0, 0x14(r1)
   /* 80516630 3CA0802A */ lis         r5, lbl_802a4148@ha
   /* 80516634 D01F0014 */ stfs        f0, 0x14(r31)
@@ -5228,7 +5032,7 @@ asm UNKNOWN_FUNCTION(AreaCylinder_construct) {
   /* 80516648 D01F0018 */ stfs        f0, 0x18(r31)
   /* 8051664C C001001C */ lfs         f0, 0x1c(r1)
   /* 80516650 D01F001C */ stfs        f0, 0x1c(r31)
-  /* 80516654 4BFFE1A9 */ bl          VEC3_fromQuaternionRotated
+  /* 80516654 4BFFE1A9 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80516658 C0010008 */ lfs         f0, 8(r1)
   /* 8051665C 7FE3FB78 */ mr          r3, r31
   /* 80516660 D01F0020 */ stfs        f0, 0x20(r31)
@@ -5247,7 +5051,8 @@ asm UNKNOWN_FUNCTION(AreaCylinder_construct) {
 // Symbol: unk_80516688
 // PAL: 0x80516688..0x80516768
 MARK_BINARY_BLOB(unk_80516688, 0x80516688, 0x80516768);
-asm UNKNOWN_FUNCTION(unk_80516688){
+asm bool
+System::MapdataAreaCylinder::isInsideShape(const EGG::Vector3f& pos) const {
   // clang-format off
   nofralloc
   /* 80516688 9421FFE0 */ stwu        r1, -0x20(r1)
@@ -7664,7 +7469,7 @@ asm UNKNOWN_FUNCTION(unk_805183a8) {
   /* 80518404 38610020 */ addi        r3, r1, 0x20
   /* 80518408 38810038 */ addi        r4, r1, 0x38
   /* 8051840C 38A1002C */ addi        r5, r1, 0x2c
-  /* 80518410 4BFFC3ED */ bl          VEC3_fromQuaternionRotated
+  /* 80518410 4BFFC3ED */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80518414 C0010020 */ lfs         f0, 0x20(r1)
   /* 80518418 3C80802A */ lis         r4, lbl_802a4118@ha
   /* 8051841C D01F0010 */ stfs        f0, 0x10(r31)
@@ -7678,7 +7483,7 @@ asm UNKNOWN_FUNCTION(unk_805183a8) {
   /* 8051843C 38610008 */ addi        r3, r1, 0x8
   /* 80518440 38810038 */ addi        r4, r1, 0x38
   /* 80518444 38A10014 */ addi        r5, r1, 0x14
-  /* 80518448 4BFFC3B5 */ bl          VEC3_fromQuaternionRotated
+  /* 80518448 4BFFC3B5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051844C C0010008 */ lfs         f0, 8(r1)
   /* 80518450 D01F001C */ stfs        f0, 0x1c(r31)
   /* 80518454 807F0000 */ lwz         r3, 0(r31)
@@ -7763,17 +7568,17 @@ asm UNKNOWN_FUNCTION(unk_805184fc) {
   /* 80518560 38610050 */ addi        r3, r1, 0x50
   /* 80518564 38810060 */ addi        r4, r1, 0x60
   /* 80518568 38A54148 */ addi        r5, r5, lbl_802a4148@l
-  /* 8051856C 4BFFC291 */ bl          VEC3_fromQuaternionRotated
+  /* 8051856C 4BFFC291 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80518570 3CA0802A */ lis         r5, lbl_802a4118@ha
   /* 80518574 38610044 */ addi        r3, r1, 0x44
   /* 80518578 38810060 */ addi        r4, r1, 0x60
   /* 8051857C 38A54118 */ addi        r5, r5, lbl_802a4118@l
-  /* 80518580 4BFFC27D */ bl          VEC3_fromQuaternionRotated
+  /* 80518580 4BFFC27D */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80518584 3CA0802A */ lis         r5, lbl_802a4130@ha
   /* 80518588 38610038 */ addi        r3, r1, 0x38
   /* 8051858C 38810060 */ addi        r4, r1, 0x60
   /* 80518590 38A54130 */ addi        r5, r5, lbl_802a4130@l
-  /* 80518594 4BFFC269 */ bl          VEC3_fromQuaternionRotated
+  /* 80518594 4BFFC269 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80518598 C03F0194 */ lfs         f1, 0x194(r31)
   /* 8051859C 4BB6CBE5 */ bl          CosFIdx__Q24nw4r4mathFf
   /* 805185A0 FFE00890 */ fmr         f31, f1
@@ -8284,6 +8089,11 @@ asm UNKNOWN_FUNCTION(unk_80518bb0) {
   // clang-format on
 }
 
+#if 1
+namespace System {
+MapdataAreaAccessor::~MapdataAreaAccessor() { delete[] byPriority; }
+} // namespace System
+#else
 // Symbol: unk_80518bdc
 // PAL: 0x80518bdc..0x80518c40
 MARK_BINARY_BLOB(unk_80518bdc, 0x80518bdc, 0x80518c40);
@@ -8299,8 +8109,8 @@ asm UNKNOWN_FUNCTION(unk_80518bdc) {
   /* 80518BF4 93C10008 */ stw         r30, 8(r1)
   /* 80518BF8 7C7E1B78 */ mr          r30, r3
   /* 80518BFC 41820028 */ beq-        lbl_80518c24
-  /* 80518C00 3C80808B */ lis         r4, lbl_808b2c3c@ha
-  /* 80518C04 38842C3C */ addi        r4, r4, lbl_808b2c3c@l
+  /* 80518C00 3C80808B */ lis         r4, __vt__Q26System19MapdataAreaAccessor@ha
+  /* 80518C04 38842C3C */ addi        r4, r4, __vt__Q26System19MapdataAreaAccessor@l
   /* 80518C08 90830008 */ stw         r4, 8(r3)
   /* 80518C0C 80630010 */ lwz         r3, 0x10(r3)
   /* 80518C10 4BD112D1 */ bl          __dla__FPv
@@ -8318,6 +8128,7 @@ asm UNKNOWN_FUNCTION(unk_80518bdc) {
   /* 80518C3C 4E800020 */ blr
   // clang-format on
 }
+#endif
 
 // Symbol: Enemypoint_destroy
 // PAL: 0x80518c40..0x80518cc0
