@@ -64,7 +64,9 @@ struct Vector3f {
   }
 
   // for now
+#ifndef REL
   ~Vector3f();
+#endif
 };
 
 } // namespace EGG
