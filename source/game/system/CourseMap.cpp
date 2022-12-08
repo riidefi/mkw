@@ -1393,7 +1393,8 @@ MapdataEnemyPointAccessor* CourseMap::parseEnemyPoints(u32 sectionName) {
 #else
 // Symbol: parseEnemyPoints__Q26System9CourseMapFUl
 // PAL: 0x80513d18..0x80513e40
-MARK_BINARY_BLOB(parseEnemyPoints__Q26System9CourseMapFUl, 0x80513d18, 0x80513e40);
+MARK_BINARY_BLOB(parseEnemyPoints__Q26System9CourseMapFUl, 0x80513d18,
+                 0x80513e40);
 asm UNKNOWN_FUNCTION(parseEnemyPoints__Q26System9CourseMapFUl) {
   // clang-format off
   nofralloc
@@ -7651,6 +7652,18 @@ asm UNKNOWN_FUNCTION(unk_80518bdc) {
 }
 #endif
 
+#if 1
+namespace System {
+
+MapdataEnemyPoint::~MapdataEnemyPoint() {
+  if (_08)
+    delete[] _08;
+  if (_0c)
+    delete[] _0c;
+}
+
+} // namespace System
+#else
 // Symbol: Enemypoint_destroy
 // PAL: 0x80518c40..0x80518cc0
 MARK_BINARY_BLOB(Enemypoint_destroy, 0x80518c40, 0x80518cc0);
@@ -7694,3 +7707,4 @@ asm UNKNOWN_FUNCTION(Enemypoint_destroy) {
   /* 80518CBC 4E800020 */ blr
   // clang-format on
 }
+#endif

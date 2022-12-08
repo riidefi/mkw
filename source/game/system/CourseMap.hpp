@@ -457,8 +457,8 @@ public:
 
 private:
   const SData* mpData;
-  unk _08;
-  unk _0c;
+  unk* _08;
+  unk* _0c;
   u8 _10[0x10 - 0x0c];
   u8 _14;
 };
