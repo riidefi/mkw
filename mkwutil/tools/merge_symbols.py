@@ -32,5 +32,5 @@ for sym in new_syms:
 
 temp_filename = args.base.with_name("." + args.base.name + ".tmp")
 with open(temp_filename, "w", newline="") as f:
-    symbols.write_to(f)
+    symbols.write_to_yaml(f)
 os.replace(temp_filename, args.base)
