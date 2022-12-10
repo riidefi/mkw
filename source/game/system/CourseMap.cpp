@@ -159,7 +159,7 @@ extern UNKNOWN_FUNCTION(unk_805184fc);
 // PAL: 0x80518ab8
 extern UNKNOWN_FUNCTION(Vec3_fromScale);
 // PAL: 0x80518b78
-extern UNKNOWN_FUNCTION(KmpHolder_getStageinfo);
+extern UNKNOWN_FUNCTION(getStage__Q26System9CourseMapCFv);
 // PAL: 0x80518bb0
 extern UNKNOWN_FUNCTION(getFlareAlpha__Q26System12MapdataStageCFv);
 // PAL: 0x805411fc
@@ -514,11 +514,11 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512B6C D05F0008 */ stfs        f2, 8(r31)
   /* 80512B70 D03CD6EC */ stfs        f1, lbl_809bd6ec@l(r28)
   /* 80512B74 D01F000C */ stfs        f0, 0xc(r31)
-  /* 80512B78 48006001 */ bl          KmpHolder_getStageinfo
+  /* 80512B78 48006001 */ bl          getStage__Q26System9CourseMapCFv
   /* 80512B7C 2C030000 */ cmpwi       r3, 0x0
   /* 80512B80 41820078 */ beq-        lbl_80512bf8
   /* 80512B84 7FA3EB78 */ mr          r3, r29
-  /* 80512B88 48005FF1 */ bl          KmpHolder_getStageinfo
+  /* 80512B88 48005FF1 */ bl          getStage__Q26System9CourseMapCFv
   /* 80512B8C 480001B5 */ bl          getStartConfig__Q26System12MapdataStageCFv
   /* 80512B90 2C030001 */ cmpwi       r3, 0x1
   /* 80512B94 4082002C */ bne-        lbl_80512bc0
@@ -534,15 +534,15 @@ asm UNKNOWN_FUNCTION(CourseMap_init) {
   /* 80512BBC D01F000C */ stfs        f0, 0xc(r31)
   lbl_80512bc0:
   /* 80512BC0 7FA3EB78 */ mr          r3, r29
-  /* 80512BC4 48005FB5 */ bl          KmpHolder_getStageinfo
+  /* 80512BC4 48005FB5 */ bl          getStage__Q26System9CourseMapCFv
   /* 80512BC8 48005FE9 */ bl          getFlareAlpha__Q26System12MapdataStageCFv
   /* 80512BCC 7C7F1B78 */ mr          r31, r3
   /* 80512BD0 7FA3EB78 */ mr          r3, r29
-  /* 80512BD4 48005FA5 */ bl          KmpHolder_getStageinfo
+  /* 80512BD4 48005FA5 */ bl          getStage__Q26System9CourseMapCFv
   /* 80512BD8 48000181 */ bl          flareToggleEnabled__Q26System12MapdataStageCFv
   /* 80512BDC 7C7E1B78 */ mr          r30, r3
   /* 80512BE0 7FA3EB78 */ mr          r3, r29
-  /* 80512BE4 48005F95 */ bl          KmpHolder_getStageinfo
+  /* 80512BE4 48005F95 */ bl          getStage__Q26System9CourseMapCFv
   /* 80512BE8 48000165 */ bl          getFlareColor__Q26System12MapdataStageCFv
   /* 80512BEC 57C4063E */ clrlwi      r4, r30, 0x18
   /* 80512BF0 57E5063E */ clrlwi      r5, r31, 0x18
@@ -579,7 +579,7 @@ MapdataFileAccessor::MapdataFileAccessor(const MapdataFileAccessor::SData* data)
 u8 MapdataCamera::getCameraType() const { return mpData->cameraType; }
 
 u16 CourseMap::getCameraCount() const {
-  return mpCamera != nullptr ? mpCamera->numEntries : 0;
+  return mpCamera != nullptr ? mpCamera->size() : 0;
 }
 
 u32 MapdataFileAccessor::getVersion() const { return mVersion; }
@@ -591,23 +591,23 @@ s8 MapdataCameraAccessor::getExtraValue() const {
 void MapdataAreaBase::setIndex(u16 idx) { mIndex = idx; }
 
 u16 CourseMap::getAreaCount() const {
-  return mpArea != nullptr ? mpArea->numEntries : 0;
+  return mpArea != nullptr ? mpArea->size() : 0;
 }
 
 u16 CourseMap::getEnemyPointCount() const {
-  return mpEnemyPoint != nullptr ? mpEnemyPoint->numEntries : 0;
+  return mpEnemyPoint != nullptr ? mpEnemyPoint->size() : 0;
 }
 
 u16 CourseMap::getItemPointCount() const {
-  return mpItemPoint != nullptr ? mpItemPoint->numEntries : 0;
+  return mpItemPoint != nullptr ? mpItemPoint->size() : 0;
 }
 
 u16 CourseMap::getJugemPointCount() const {
-  return mpJugemPoint != nullptr ? mpJugemPoint->numEntries : 0;
+  return mpJugemPoint != nullptr ? mpJugemPoint->size() : 0;
 }
 
 u16 CourseMap::getStartPointCount() const {
-  return mpStartPoint != nullptr ? mpStartPoint->numEntries : 0;
+  return mpStartPoint != nullptr ? mpStartPoint->size() : 0;
 }
 
 u8 MapdataStage::getStartConfig() const { return mpData->mStartConfig; }
@@ -1141,19 +1141,19 @@ MapdataStartPointAccessor* CourseMap::parseKartpoints(u32 sectionName) {
 }
 
 MapdataAreaBase* MapdataAreaAccessor::get(u16 i) const {
-  return i < this->numEntries ? this->entries[i] : nullptr;
+  return i < this->size() ? this->entries[i] : nullptr;
 }
 
 MapdataJugemPoint* MapdataJugemPointAccessor::get(u16 i) const {
-  return i < this->numEntries ? this->entries[i] : nullptr;
+  return i < this->size() ? this->entries[i] : nullptr;
 }
 
 MapdataStartPoint* MapdataStartPointAccessor::get(u16 i) const {
-  return i < this->numEntries ? this->entries[i] : nullptr;
+  return i < this->size() ? this->entries[i] : nullptr;
 }
 
 MapdataGeoObj* CourseMap::getGeoObj(u16 i) const {
-  u16 count = mpGeoObj ? mpGeoObj->numEntries : 0;
+  u16 count = mpGeoObj ? mpGeoObj->size() : 0;
   return i < count ? mpGeoObj->get(i) : nullptr;
 }
 
@@ -1801,19 +1801,18 @@ asm UNKNOWN_FUNCTION(unk_80514b24) {
 namespace System {
 
 MapdataStartPoint* CourseMap::getStartPoint(u16 i) const {
-  u16 count = mpStartPoint ? mpStartPoint->numEntries : 0;
+  u16 count = mpStartPoint ? mpStartPoint->size() : 0;
   return i < count ? mpStartPoint->get(i) : nullptr;
 }
 
 MapdataEnemyPoint* CourseMap::getEnemyPoint(u16 i) const {
-  u16 count = mpEnemyPoint ? mpEnemyPoint->numEntries : 0;
+  u16 count = mpEnemyPoint ? mpEnemyPoint->size() : 0;
   return i < count ? mpEnemyPoint->get(i) : nullptr;
 }
 
 MapdataEnemyPath* CourseMap::getEnemyPath(u16 i) const {
-  u16 count = (mpEnemyPath && mpEnemyPath->numEntries != 0)
-                  ? mpEnemyPath->numEntries
-                  : 0;
+  u16 count =
+      (mpEnemyPath && mpEnemyPath->size() != 0) ? mpEnemyPath->size() : 0;
   return i < count ? mpEnemyPath->get(i) : nullptr;
 }
 
@@ -1909,13 +1908,12 @@ asm UNKNOWN_FUNCTION(unk_80514c30) {
 namespace System {
 
 MapdataItemPoint* CourseMap::getItemPoint(u16 i) const {
-  u16 count = mpItemPoint ? mpItemPoint->numEntries : 0;
+  u16 count = mpItemPoint ? mpItemPoint->size() : 0;
   return i < count ? mpItemPoint->get(i) : nullptr;
 }
 
 MapdataItemPath* CourseMap::getItemPath(u16 i) const {
-  u16 count =
-      (mpItemPath && mpItemPath->numEntries != 0) ? mpItemPath->numEntries : 0;
+  u16 count = (mpItemPath && mpItemPath->size() != 0) ? mpItemPath->size() : 0;
   return i < count ? mpItemPath->get(i) : nullptr;
 }
 
@@ -3074,12 +3072,12 @@ asm UNKNOWN_FUNCTION(unk_80515a6c) {
 namespace System {
 
 MapdataCheckPoint* CourseMap::getCheckPoint(u16 i) const {
-  u16 count = mpCheckPoint ? mpCheckPoint->numEntries : 0;
+  u16 count = mpCheckPoint ? mpCheckPoint->size() : 0;
   return i < count ? mpCheckPoint->get(i) : 0;
 }
 
 MapdataCheckPath* CourseMap::getCheckPath(u16 i) const {
-  u16 count = mpCheckPath ? mpCheckPath->numEntries : 0;
+  u16 count = mpCheckPath ? mpCheckPath->size() : 0;
   return i < count ? mpCheckPath->get(i) : 0;
 }
 
@@ -3207,7 +3205,7 @@ asm UNKNOWN_FUNCTION(unk_80515d3c) {
 namespace System {
 
 MapdataPointInfo* CourseMap::getPointInfo(u16 i) const {
-  u16 count = mpPointInfo ? mpPointInfo->numEntries : 0;
+  u16 count = mpPointInfo ? mpPointInfo->size() : 0;
   return i < count ? mpPointInfo->get(i) : 0;
 }
 
@@ -3977,12 +3975,12 @@ System::MapdataAreaCylinder::isInsideShape(const EGG::Vector3f& pos) const {
 namespace System {
 
 MapdataAreaBase* CourseMap::getArea(u16 i) const {
-  u16 count = mpArea ? mpArea->numEntries : 0;
+  u16 count = mpArea ? mpArea->size() : 0;
   return i < count ? mpArea->get(i) : 0;
 }
 
 MapdataAreaBase* CourseMap::getAreaByPriority(u16 i) const {
-  u16 count = mpArea ? mpArea->numEntries : 0;
+  u16 count = mpArea ? mpArea->size() : 0;
   return i < count ? mpArea->getByPriority(i) : 0;
 }
 
@@ -4275,7 +4273,7 @@ asm UNKNOWN_FUNCTION(unk_80516a60) {
 namespace System {
 
 MapdataCamera* CourseMap::getCamera(u16 i) const {
-  u16 count = mpCamera ? mpCamera->numEntries : 0;
+  u16 count = mpCamera ? mpCamera->size() : 0;
   return i < count ? mpCamera->get(i) : 0;
 }
 
@@ -6613,7 +6611,7 @@ asm UNKNOWN_FUNCTION(unk_805184fc) {
 namespace System {
 
 MapdataJugemPoint* CourseMap::getJugemPoint(u16 i) const {
-  u16 count = mpJugemPoint ? mpJugemPoint->numEntries : 0;
+  u16 count = mpJugemPoint ? mpJugemPoint->size() : 0;
   return i < count ? mpJugemPoint->get(i) : 0;
 }
 
@@ -6737,54 +6735,22 @@ asm UNKNOWN_FUNCTION(Vec3_fromScale) {
 namespace System {
 
 MapdataCannonPoint* CourseMap::getCannonPoint(u16 i) const {
-  u16 count = mpCannonPoint ? mpCannonPoint->numEntries : 0;
+  u16 count = mpCannonPoint ? mpCannonPoint->size() : 0;
   return i < count ? mpCannonPoint->get(i) : 0;
 }
 
 MapdataMissionPoint* CourseMap::getMissionPoint(u16 i) const {
-  u16 count = mpMissionPoint ? mpMissionPoint->numEntries : 0;
+  u16 count = mpMissionPoint ? mpMissionPoint->size() : 0;
   return i < count ? mpMissionPoint->get(i) : 0;
 }
 
-} // namespace System
-
-// Two "beq" instructions - https://decomp.me/scratch/iwYuA
-#ifdef NON_MATCHING
-namespace System {
-
 MapdataStage* CourseMap::getStage() const {
-  return mpStageInfo ? mpStageInfo->get(0) : nullptr;
-}
+  if (mpStageInfo && mpStageInfo->size() != 0) {
+    return mpStageInfo->get(0);
+  }
 
-} // namespace System
-#else
-// Symbol: KmpHolder_getStageinfo
-// PAL: 0x80518b78..0x80518bb0
-MARK_BINARY_BLOB(KmpHolder_getStageinfo, 0x80518b78, 0x80518bb0);
-asm UNKNOWN_FUNCTION(KmpHolder_getStageinfo) {
-  // clang-format off
-  nofralloc
-  /* 80518B78 8063003C */ lwz         r3, 0x3c(r3)
-  /* 80518B7C 2C030000 */ cmpwi       r3, 0x0
-  /* 80518B80 41820028 */ beq-        lbl_80518ba8
-  /* 80518B84 A0030004 */ lhz         r0, 4(r3)
-  /* 80518B88 2C000000 */ cmpwi       r0, 0x0
-  /* 80518B8C 4182001C */ beq-        lbl_80518ba8
-  /* 80518B90 41820010 */ beq-        lbl_80518ba0
-  /* 80518B94 80630000 */ lwz         r3, 0(r3)
-  /* 80518B98 80630000 */ lwz         r3, 0(r3)
-  /* 80518B9C 4E800020 */ blr
-  lbl_80518ba0:
-  /* 80518BA0 38600000 */ li          r3, 0x0
-  /* 80518BA4 4E800020 */ blr
-  lbl_80518ba8:
-  /* 80518BA8 38600000 */ li          r3, 0x0
-  /* 80518BAC 4E800020 */ blr
-  // clang-format on
+  return nullptr;
 }
-#endif
-
-namespace System {
 
 u8 MapdataStage::getFlareAlpha() const {
   return CourseMap::instance()->getVersion() > 2320 ? mpData->mFlareAlpha : 75;

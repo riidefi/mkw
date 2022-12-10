@@ -9563,7 +9563,7 @@ global:
     0x80518ab8: 'Vec3_fromScale'
     0x80518ae0: 'getCannonPoint__Q26System9CourseMapCFUs'
     0x80518b2c: 'getMissionPoint__Q26System9CourseMapCFUs'
-    0x80518b78: 'KmpHolder_getStageinfo'
+    0x80518b78: 'getStage__Q26System9CourseMapCFv'
     0x80518bb0: 'getFlareAlpha__Q26System12MapdataStageCFv'
     0x80518bdc: 'unk_80518bdc'
     0x80518c40: 'Enemypoint_destroy'

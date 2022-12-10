@@ -241,7 +241,7 @@ UNKNOWN_FUNCTION(getCannonPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80518b2c..0x80518b78
 UNKNOWN_FUNCTION(getMissionPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80518b78..0x80518bb0
-UNKNOWN_FUNCTION(KmpHolder_getStageinfo);
+UNKNOWN_FUNCTION(getStage__Q26System9CourseMapCFv);
 // PAL: 0x80518bb0..0x80518bdc
 UNKNOWN_FUNCTION(getFlareAlpha__Q26System12MapdataStageCFv);
 // PAL: 0x80518bdc..0x80518c40
@@ -264,6 +264,7 @@ struct KmpSectionHeader {
   const s8 extraValue;
 };
 
+// TODO: Cleanup
 template <typename T, typename TData> class MapdataAccessorBase {
 public:
   T** entries;                           //!< [+0x00]
@@ -282,6 +283,7 @@ public:
     return i < this->numEntries ? this->entries[i] : nullptr;
   }
   s8 getExtraValue() const;
+  u16 size() const { return numEntries; }
 
   inline void init(const TData* start, u16 count) {
     if (count != 0) {
@@ -641,6 +643,7 @@ public:
 class MapdataAreaAccessor {
 public:
   MapdataAreaAccessor(const KmpSectionHeader* header);
+  u16 size() const { return numEntries; }
 
   MapdataAreaBase* get(u16 i) const;
   MapdataAreaBase* getByPriority(u16 i) const {
