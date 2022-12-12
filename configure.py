@@ -369,27 +369,14 @@ def link_rel(rel_objects_path: Path, n: Writer):
     rel_objects = open(rel_objects_path, "r").readlines()
     rel_objects = [Path(x.strip()) for x in rel_objects]
     """Links StaticR.rel."""
-    # Generate LCF.
-    src_lcf_path = Path("pack", "rel.lcf.j2")
-    dst_lcf_path = Path("pack", "rel.lcf")
-    slices_path = Path("pack", "rel_slices.csv")
-    n.build(
-        str(dst_lcf_path),
-        rule = "lcfgen",
-        inputs = str(rel_objects_path),
-        implicit= [str(src_lcf_path), str(slices_path)],
-        variables = {
-            "base" : str(src_lcf_path),
-            "slices" : str(slices_path),
-        }
-    )
     # Create dest dir.
     dest_dir = Path("artifacts", "target", "pal")
     dest_dir.mkdir(parents=True, exist_ok=True)
     # Link ELF.
     elf_path = dest_dir / "StaticR.elf"
     map_path = dest_dir / "StaticR.map"
-    link(elf_path, rel_objects, dst_lcf_path, map_path, n, partial=True)
+    lcf_path = Path("pack", "rel.lcf")
+    link(elf_path, rel_objects, lcf_path, map_path, n, partial=True)
     # Convert ELF to REL.
     dol_elf_path = dest_dir / "main.elf"
     rel_path = dest_dir / "StaticR.rel"
