@@ -245,20 +245,8 @@ class CAsmGenerator:
         template.stream(functions=functions).dump(self.out_h)
 
 
-    def __name_addr(self, addr):
-        # If it's a known symbol, use its name.
-        if addr in self.symbols:
-            return self.symbols[addr]
-
-        # If the target address is unknown we still need to create a symbol.
-        ext_sym = Symbol(addr, "unk_%08x" % addr)
-        self.symbols.put(ext_sym)
-        return ext_sym
-
-
     def disassemble_function(self, sym):
         fn_start_vma = sym.addr
-        fn_end_vma = fn_start_vma + sym.size
         inline_asm, refs = self.disaser.function_to_text_with_referenced(fn_start_vma, inline=True, extra=False,
             hashable=False, declare_mangled=False)
         for (addr, name) in refs:
@@ -593,12 +581,17 @@ class RELSrcGenerator:
         self.regen_asm = regen_asm
         self.regen_inline = regen_inline
         self.rel_asm_sources = set()
-        self.rel_decomp_sources = set()
 
     def run(self):
         """Runs ASM generation for StaticR.rel"""
-        for section in REL_SECTIONS:
-            self.__process_section(section)
+        for c_source_name, sections in self.slices.object_slices():
+            self.__gen_c(c_source_name, sections)
+        for _slice in self.slices:
+            if _slice.section is None:
+                # ignore slices not belonging to sections
+                continue
+            if self.__slice_dest_asm(_slice):
+               self. __gen_asm(_slice)
         # Delete stale ASM files.
         for path in self.rel_asm_dir.iterdir():
             if path.suffix != ".s":
@@ -637,60 +630,31 @@ class RELSrcGenerator:
     def __slice_dest_c(self, _slice):
         return _slice.has_name()
 
-    def __process_slice(self, section: Section, _slice: Slice):
-        """Process a slice in slices.csv or a gap."""
-        # print(f"  {_slice}")
 
-        if self.__slice_dest_asm(_slice):
-            self.__gen_asm(section, _slice)
-            return
-
-        # TODO Ideally this would work on the notion of objects instead of slices.
-        if self.__slice_dest_c(_slice):
-            source_path = Path(_slice.name)
-            if source_path.stem not in self.rel_decomp_sources:
-                self.rel_decomp_sources.add(source_path.stem)
-            if section.type == "code":
-                self.__gen_c(_slice)
-
-
-    def __gen_c(self, _slice: Slice):
-        """Generates a C file with inline assembly if not exists."""
-        # Generate C inline assembly.
-        c_path = Path(_slice.name)
+    def __gen_c(self, c_source_name: str, _slices: list[Slice]):
+        c_path = Path(c_source_name)
         h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
-        if c_path.exists() or h_path.exists():
-            if self.regen_inline:
-                with open(c_path) as file:
-                    filestr = file.read()
-                    new_filestr, extern_functions, extern_data = replace_inline_asm(filestr, self.disaser, self.symbols)
-                    if len(extern_functions) != 0 or len(extern_data) != 0:
-                        cpp_mode = not str(c_path).endswith(".c")
-                        new_filestr = replace_source_extern_decls(new_filestr, extern_functions, extern_data, cpp_mode)
+        if not (c_path.exists() or h_path.exists()):
+            c_path.parent.mkdir(parents=True, exist_ok=True)
+            for _slice in _slices:
+                if _slice.section.type == "code":
+                    # print(f"    => {_slice.name}")
+                    data = self.rel.virtual_read(
+                        _slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX
+                    )
+                    with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
+                        gen = CAsmGenerator(
+                            data,
+                            self.disaser,
+                            _slice,
+                            self.symbols,
+                            h_file,
+                            c_file,
+                            not str(c_path).endswith(".c"),
+                        )
+                        gen.dump_slice()
 
-                with open(c_path, "w") as c_file:
-                    c_file.write(new_filestr)
-
-            return
-
-        c_path.parent.mkdir(parents=True, exist_ok=True)
-        # print(f"    => {_slice.name}")
-        data = self.rel.virtual_read(
-            _slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX
-        )
-        with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
-            gen = CAsmGenerator(
-                data,
-                self.disaser,
-                _slice,
-                self.symbols,
-                h_file,
-                c_file,
-                not str(c_path).endswith(".c"),
-            )
-            gen.dump_slice()
-
-    def __gen_asm(self, section: Section, _slice: Slice):
+    def __gen_asm(self, _slice: Slice):
         """Generates an ASM file."""
         asm_path = get_asm_path(self.rel_asm_dir, _slice)
         self.rel_asm_sources.add(asm_path.stem)
@@ -698,6 +662,7 @@ class RELSrcGenerator:
             return
         # print(f"    => {asm_path}")
         self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
+
 
 
 def gen_asm(regen_asm=False, regen_inline=False):
