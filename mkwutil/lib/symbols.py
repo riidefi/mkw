@@ -140,7 +140,7 @@ class SymbolsList:
         file.write('global:\n')
 
         for sym in self:
-            file.write("    0x%08x: %r\n" % (sym.addr, sym.name))
+            file.write(f"    0x{sym.addr:02x}: '{sym.name}'\n")
 
     def derive_sizes(self, stop):
         """Fills in sizes of each symbol."""
