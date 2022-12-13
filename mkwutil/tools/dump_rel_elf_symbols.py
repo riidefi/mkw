@@ -44,7 +44,7 @@ def process_symbol(sym: ELFSymbol, strtab: StringTableSection) -> Optional[Symbo
             return Symbol(addr, sym_name, size)
 
     # data symbol
-    elif sym_type == "STT_OBJECT" and sym_bind in ("STB_GLOBAL",):
+    elif sym_type == "STT_OBJECT" and sym_bind in ("STB_GLOBAL", "STB_WEAK"):
         if sym_shndx == STATICR_ELF_BSS_SECTION_IDX:
             addr = sym["st_value"] + STATICR_BSS_SECTION_VMA
             if not (0x800_0000 <= addr < 0x8100_0000):

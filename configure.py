@@ -42,6 +42,7 @@ def parse_args():
     parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
     parser.add_argument("--force_analyse", action="store_true", help="Force run original binary analysis")
     parser.add_argument("--link_only", action="store_true", help="Link only, don't build")
+    parser.add_argument("--full_errors", action="store_true", help="Show full error log")
     args = parser.parse_args()
     return args
 
@@ -305,13 +306,15 @@ def add_compile_rules(args, n: Writer):
         srcPath = Path(src.src)
         o_path = str((Path("out") / srcPath.parts[-1]).with_suffix(".o"))
 
+        error_cap = 0 if args.full_errors else 1
+
         n.build(
             o_path,
             rule = "cc",
             inputs = src.src,
             variables = {
                 "cc" : get_compat_cmd(CWCC_PATHS[src.cc]),
-                "cflags" : CWCC_OPT + ' ' + src.opts,
+                "cflags" : CWCC_OPT + f' -maxerrors {error_cap} ' + src.opts,
             }
         )
 

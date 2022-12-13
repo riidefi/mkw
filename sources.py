@@ -14,7 +14,7 @@ NW4R_OPTS = ' -lang=c99 -ipa file -inline auto -O4,p -pragma \"legacy_struct_ali
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 RFL_OPTS = RVL_OPTS + " -O4,p"
 EGG_OPTS = ' -lang=c99 -use_lmw_stmw=on -ipa function -rostr'
-REL_OPTS = HOSTSYS_OPTS + " -lang=c++ -use_lmw_stmw=on -pragma \"legacy_struct_alignment on\" "
+REL_OPTS = HOSTSYS_OPTS + " -lang=c++ -use_lmw_stmw=on -pragma \"legacy_struct_alignment on\" -DREL"
 
 
 @dataclass
