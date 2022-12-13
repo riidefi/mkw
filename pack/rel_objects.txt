@@ -6,7 +6,6 @@ out/rel/data_808b2bd0_808b2c30.o
 out/rel/bss_809bd6e0_809bd6e8.o
 out/CourseMap.o
 out/rel/rodata_8088fa40_8088faa0.o
-out/rel/data_808b2c6c_808b2c78.o
 out/DvdArchive.o
 out/rel/text_80519670_8051c088.o
 out/rel/rodata_8088fab7_8088fd60.o
