@@ -89,6 +89,9 @@ class ObjectSlices:
     def __len__(self) -> int:
         return self.objects.__len__()
 
+    def __iter__(self):
+        return iter(self.objects.items())
+
     def write_to(self, file, sections):
         writer = SlicesCSVWriter(file, sections)
         for name, slices in self.objects.items():
