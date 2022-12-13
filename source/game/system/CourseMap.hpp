@@ -33,9 +33,9 @@ UNKNOWN_FUNCTION(unk_80512c94);
 // PAL: 0x80512c9c..0x80512cac
 UNKNOWN_FUNCTION(unk_80512c9c);
 // PAL: 0x80512cac..0x80512cb4
-UNKNOWN_FUNCTION(unk_80512cac);
+UNKNOWN_FUNCTION(setIndex__Q26System15MapdataAreaBaseFUs);
 // PAL: 0x80512cb4..0x80512cd0
-UNKNOWN_FUNCTION(unk_80512cb4);
+UNKNOWN_FUNCTION(getAreaCount__Q26System9CourseMapCFv);
 // PAL: 0x80512cd0..0x80512cec
 UNKNOWN_FUNCTION(unk_80512cd0);
 // PAL: 0x80512cec..0x80512d08
@@ -51,19 +51,19 @@ UNKNOWN_FUNCTION(unk_80512d4c);
 // PAL: 0x80512d58..0x80512d64
 UNKNOWN_FUNCTION(unk_80512d58);
 // PAL: 0x80512d64..0x80512e84
-UNKNOWN_FUNCTION(KmpHolder_parseStageinfo);
+UNKNOWN_FUNCTION(parseStage__Q26System9CourseMapFUl);
 // PAL: 0x80512e84..0x80512fa4
-UNKNOWN_FUNCTION(unk_80512e84);
+UNKNOWN_FUNCTION(parseMissionPoints__Q26System9CourseMapFUl);
 // PAL: 0x80512fa4..0x805130c4
-UNKNOWN_FUNCTION(KmpHolder_parseCannonpoints);
+UNKNOWN_FUNCTION(parseCannonPoints__Q26System9CourseMapFUl);
 // PAL: 0x805130c4..0x805131e4
-UNKNOWN_FUNCTION(unk_805130c4);
+UNKNOWN_FUNCTION(parseJugemPoints__Q26System9CourseMapFUl);
 // PAL: 0x805131e4..0x80513304
-UNKNOWN_FUNCTION(unk_805131e4);
+UNKNOWN_FUNCTION(parseCameras__Q26System9CourseMapFUl);
 // PAL: 0x80513304..0x80513398
-UNKNOWN_FUNCTION(KmpHolder_parseAreas);
+UNKNOWN_FUNCTION(parseAreas__Q26System9CourseMapFUl);
 // PAL: 0x80513398..0x805134c8
-UNKNOWN_FUNCTION(unk_80513398);
+UNKNOWN_FUNCTION(parsePointInfo__Q26System9CourseMapFUl);
 // PAL: 0x805134c8..0x80513600
 UNKNOWN_FUNCTION(parseGeoObjs__Q26System9CourseMapFUl);
 // PAL: 0x80513600..0x80513640
@@ -73,17 +73,17 @@ UNKNOWN_FUNCTION(KmpHolder_parseCheckpoints);
 // PAL: 0x8051377c..0x80513adc
 UNKNOWN_FUNCTION(KmpHolder_parseCheckpaths);
 // PAL: 0x80513adc..0x80513bfc
-UNKNOWN_FUNCTION(unk_80513adc);
+UNKNOWN_FUNCTION(parseItemPoints__Q26System9CourseMapFUl);
 // PAL: 0x80513bfc..0x80513d18
-UNKNOWN_FUNCTION(unk_80513bfc);
+UNKNOWN_FUNCTION(parseItemPaths__Q26System9CourseMapFUl);
 // PAL: 0x80513d18..0x80513e40
-UNKNOWN_FUNCTION(KmpHolder_parseEnemyPoint);
+UNKNOWN_FUNCTION(parseEnemyPoints__Q26System9CourseMapFUl);
 // PAL: 0x80513e40..0x80513f5c
-UNKNOWN_FUNCTION(KmpHolder_parseEnemyPath);
+UNKNOWN_FUNCTION(parseEnemyPaths__Q26System9CourseMapFUl);
 // PAL: 0x80513f5c..0x805140dc
 UNKNOWN_FUNCTION(parseKartpoints__Q26System9CourseMapFUl);
 // PAL: 0x805140dc..0x80514100
-UNKNOWN_FUNCTION(AreaHolder_get);
+UNKNOWN_FUNCTION(get__Q26System19MapdataAreaAccessorCFUs);
 // PAL: 0x80514100..0x80514124
 UNKNOWN_FUNCTION(unk_80514100);
 // PAL: 0x80514124..0x80514148
@@ -91,7 +91,7 @@ UNKNOWN_FUNCTION(KartpointHolder_getKartpoint);
 // PAL: 0x80514148..0x80514194
 UNKNOWN_FUNCTION(KmpHolder_getGlobalObj);
 // PAL: 0x80514194..0x80514208
-UNKNOWN_FUNCTION(unk_80514194);
+UNKNOWN_FUNCTION(getPointInfo__Q26System13MapdataGeoObjCFv);
 // PAL: 0x80514208..0x80514258
 UNKNOWN_FUNCTION(unk_80514208);
 // PAL: 0x80514258..0x80514368
@@ -115,15 +115,15 @@ UNKNOWN_FUNCTION(unk_805148a0);
 // PAL: 0x80514b24..0x80514b30
 UNKNOWN_FUNCTION(unk_80514b24);
 // PAL: 0x80514b30..0x80514b7c
-UNKNOWN_FUNCTION(KmpHolder_getKartpoint);
+UNKNOWN_FUNCTION(getStartPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80514b7c..0x80514bc8
-UNKNOWN_FUNCTION(KmpHolder_getEnemypoint);
+UNKNOWN_FUNCTION(getEnemyPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80514bc8..0x80514c30
-UNKNOWN_FUNCTION(unk_80514bc8);
+UNKNOWN_FUNCTION(getEnemyPath__Q26System9CourseMapCFUs);
 // PAL: 0x80514c30..0x80514d3c
 UNKNOWN_FUNCTION(unk_80514c30);
 // PAL: 0x80514d3c..0x80514d88
-UNKNOWN_FUNCTION(KmpHolder_getItempath);
+UNKNOWN_FUNCTION(getItemPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80514d88..0x80514df0
 UNKNOWN_FUNCTION(unk_80514d88);
 // PAL: 0x80514df0..0x80515014
@@ -147,7 +147,7 @@ UNKNOWN_FUNCTION(unk_80515624);
 // PAL: 0x80515a6c..0x80515c24
 UNKNOWN_FUNCTION(unk_80515a6c);
 // PAL: 0x80515c24..0x80515c70
-UNKNOWN_FUNCTION(KmpHolder_getCheckpoint);
+UNKNOWN_FUNCTION(getCheckPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80515c70..0x80515cbc
 UNKNOWN_FUNCTION(unk_80515c70);
 // PAL: 0x80515cbc..0x80515d3c
@@ -155,15 +155,16 @@ UNKNOWN_FUNCTION(unk_80515cbc);
 // PAL: 0x80515d3c..0x80515e04
 UNKNOWN_FUNCTION(unk_80515d3c);
 // PAL: 0x80515e04..0x80515e50
-UNKNOWN_FUNCTION(unk_80515e04);
+UNKNOWN_FUNCTION(getPointInfo__Q26System9CourseMapCFUs);
 // PAL: 0x80515e50..0x80515f8c
-UNKNOWN_FUNCTION(AreaHolder_construct);
+UNKNOWN_FUNCTION(
+    __ct__Q26System19MapdataAreaAccessorFPCQ26System16KmpSectionHeader);
 // PAL: 0x80515f8c..0x80516050
 UNKNOWN_FUNCTION(unk_80515f8c);
 // PAL: 0x80516050..0x805160b0
 UNKNOWN_FUNCTION(unk_80516050);
 // PAL: 0x805160b0..0x80516138
-UNKNOWN_FUNCTION(unk_805160b0);
+UNKNOWN_FUNCTION(isInside__Q26System15MapdataAreaBaseCFRCQ23EGG8Vector3f);
 // PAL: 0x80516138..0x80516168
 UNKNOWN_FUNCTION(unk_80516138);
 // PAL: 0x80516168..0x80516220
@@ -179,15 +180,15 @@ UNKNOWN_FUNCTION(AreaCylinder_construct);
 // PAL: 0x80516688..0x80516768
 UNKNOWN_FUNCTION(unk_80516688);
 // PAL: 0x80516768..0x805167b4
-UNKNOWN_FUNCTION(KmpHolder_getArea);
+UNKNOWN_FUNCTION(getArea__Q26System9CourseMapCFUs);
 // PAL: 0x805167b4..0x80516808
-UNKNOWN_FUNCTION(unk_805167b4);
+UNKNOWN_FUNCTION(getAreaByPriority__Q26System9CourseMapCFUs);
 // PAL: 0x80516808..0x80516a60
 UNKNOWN_FUNCTION(unk_80516808);
 // PAL: 0x80516a60..0x80516bb0
 UNKNOWN_FUNCTION(unk_80516a60);
 // PAL: 0x80516bb0..0x80516bfc
-UNKNOWN_FUNCTION(unk_80516bb0);
+UNKNOWN_FUNCTION(getCamera__Q26System9CourseMapCFUs);
 // PAL: 0x80516bfc..0x80516cd4
 UNKNOWN_FUNCTION(unk_80516bfc);
 // PAL: 0x80516cd4..0x80516d4c
@@ -225,23 +226,24 @@ UNKNOWN_FUNCTION(unk_805182cc);
 // PAL: 0x80518344..0x805183a8
 UNKNOWN_FUNCTION(unk_80518344);
 // PAL: 0x805183a8..0x805184fc
-UNKNOWN_FUNCTION(unk_805183a8);
+UNKNOWN_FUNCTION(
+    __ct__Q26System17MapdataJugemPointFPCQ36System17MapdataJugemPoint5SData);
 // PAL: 0x805184fc..0x80518920
 UNKNOWN_FUNCTION(unk_805184fc);
 // PAL: 0x80518920..0x8051896c
-UNKNOWN_FUNCTION(unk_80518920);
+UNKNOWN_FUNCTION(getJugemPoint__Q26System9CourseMapCFUs);
 // PAL: 0x8051896c..0x80518ab8
 UNKNOWN_FUNCTION(unk_8051896c);
 // PAL: 0x80518ab8..0x80518ae0
 UNKNOWN_FUNCTION(Vec3_fromScale);
 // PAL: 0x80518ae0..0x80518b2c
-UNKNOWN_FUNCTION(KmpHolder_getCannonpoint);
+UNKNOWN_FUNCTION(getCannonPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80518b2c..0x80518b78
-UNKNOWN_FUNCTION(unk_80518b2c);
+UNKNOWN_FUNCTION(getMissionPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80518b78..0x80518bb0
-UNKNOWN_FUNCTION(KmpHolder_getStageinfo);
+UNKNOWN_FUNCTION(getStage__Q26System9CourseMapCFv);
 // PAL: 0x80518bb0..0x80518bdc
-UNKNOWN_FUNCTION(unk_80518bb0);
+UNKNOWN_FUNCTION(getFlareAlpha__Q26System12MapdataStageCFv);
 // PAL: 0x80518bdc..0x80518c40
 UNKNOWN_FUNCTION(unk_80518bdc);
 // PAL: 0x80518c40..0x80518cc0
@@ -262,6 +264,7 @@ struct KmpSectionHeader {
   const s8 extraValue;
 };
 
+// TODO: Cleanup
 template <typename T, typename TData> class MapdataAccessorBase {
 public:
   T** entries;                           //!< [+0x00]
@@ -276,8 +279,11 @@ public:
   }*/
   MapdataAccessorBase(const KmpSectionHeader* header)
       : entries(nullptr), numEntries(0), sectionHeader(header) {}
-  T* get(u16 i);
+  T* get(u16 i) const {
+    return i < this->numEntries ? this->entries[i] : nullptr;
+  }
   s8 getExtraValue() const;
+  u16 size() const { return numEntries; }
 
   inline void init(const TData* start, u16 count) {
     if (count != 0) {
@@ -292,52 +298,29 @@ public:
 // The template will always be the same size
 static_assert(sizeof(MapdataAccessorBase<unk, unk>) == 0xc);
 
-class MapdataAreaBase {
+// Despite the rest of the file being in alphabetical order, MapdataArea classes
+// have been moved just above the accessor classes due to vtable ordering
+
+// We also have to move MapdataPointInfo above MapdataGeoObj
+class MapdataPointInfo {
 public:
   struct SData {
-    u8 shape;
-    u8 type;
-    s8 cameraIdx;
-    u8 priority;
-    EGG::Vector3f position;
-    EGG::Vector3f rotation;
-    EGG::Vector3f scale;
-    u16 parameters[2];
-    // Pre Revision 2200: End of structure
-    u8 railID;
-    u8 eneLinkID;
+    struct Point {
+      EGG::Vector3f pos;
+      u16 settings[2];
+    };
+
+    u16 pointCount;
+    u8 settings[2];
+    Point points[];
   };
 
-  MapdataAreaBase(const SData* data);
-  virtual bool isInsideShape(const EGG::Vector3f& pos) const = 0;
+  MapdataPointInfo(const SData* data) : mpData(data) {}
 
-protected:
+private:
   const SData* mpData;
-  EGG::Vector3f mXAxis;
-  EGG::Vector3f mYAxis;
-  EGG::Vector3f mZAxis;
-  EGG::Vector3f mDims;
-  // Only used in MapdataAreaCylinder
-  f32 mEllipseXRadiusSq;
-  f32 mEllipseAspectRatio;
-  // Sphere enclosing area for more efficient check if point in area
-  f32 mBoundingSphereRadiusSq;
-  // Index in MapdataAreaAccessor array
-  s16 mIndex;
 };
-static_assert(sizeof(MapdataAreaBase) == 0x48);
-
-class MapdataAreaBox : public MapdataAreaBase {
-public:
-  MapdataAreaBox(const SData* data);
-  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
-};
-
-class MapdataAreaCylinder : public MapdataAreaBase {
-public:
-  MapdataAreaCylinder(const SData* data);
-  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
-};
+static_assert(sizeof(MapdataPointInfo) == 0x4);
 
 class MapdataCamera {
 public:
@@ -359,14 +342,14 @@ public:
     EGG::Vector3f viewStart;
     EGG::Vector3f viewEnd;
 
-    float time;
+    f32 time;
   };
 
-  MapdataCamera(const SData* data);
-  u8 getCameraType();
+  MapdataCamera(const SData* data) : mpData(data) {}
+  u8 getCameraType() const;
 
 private:
-  SData* mpData;
+  const SData* mpData;
 };
 static_assert(sizeof(MapdataCamera) == 0x4);
 
@@ -379,10 +362,10 @@ public:
     u16 shootEffect;
   };
 
-  MapdataCannonPoint(const SData* data);
+  MapdataCannonPoint(const SData* data) : mpData(data) {}
 
 private:
-  SData* mpData;
+  const SData* mpData;
 };
 static_assert(sizeof(MapdataCannonPoint) == 0x4);
 
@@ -433,13 +416,13 @@ public:
     u8 battle_params[2];
   };
 
-  MapdataEnemyPath(const SData* data);
+  MapdataEnemyPath(const SData* data) : mpData(data) {}
 
 private:
-  SData* mpData;
-  u8 _04[0x08 - 0x04];
+  const SData* mpData;
+  u8 _04[0x0c - 0x04];
 };
-static_assert(sizeof(MapdataEnemyPath) == 0x8);
+static_assert(sizeof(MapdataEnemyPath) == 0xc);
 
 class MapdataEnemyPoint {
 public:
@@ -449,11 +432,19 @@ public:
     u8 parameters[4];
   };
 
-  MapdataEnemyPoint(const SData* data);
+  MapdataEnemyPoint(const SData* data) : _08(nullptr), _0c(nullptr), _14(-1) {
+    mpData = data;
+  }
+  virtual ~MapdataEnemyPoint();
 
 private:
-  SData* mpData;
-  u8 _04[0x18 - 0x04];
+  static bool isNonPrivateBattle();
+
+  const SData* mpData;
+  unk* _08;
+  unk* _0c;
+  u8 _10[0x10 - 0x0c];
+  u8 _14;
 };
 static_assert(sizeof(MapdataEnemyPoint) == 0x18);
 
@@ -482,6 +473,8 @@ public:
     Vec3 _(mpData->translation.x, mpData->translation.y, mpData->translation.z);
   }
 
+  MapdataPointInfo* getPointInfo() const;
+
 private:
   const SData* mpData;
 };
@@ -495,12 +488,14 @@ public:
 
     u8 last[6];
     u8 next[6];
+
+    u16 _0e; // Required padding
   };
 
-  MapdataItemPath(const SData* data);
+  MapdataItemPath(const SData* data) : mpData(data) {}
 
 private:
-  SData* mpData;
+  const SData* mpData;
 };
 static_assert(sizeof(MapdataItemPath) == 0x4);
 
@@ -512,13 +507,13 @@ public:
     u16 parameters[2];
   };
 
-  MapdataItemPoint(const SData* data);
+  MapdataItemPoint(const SData* data) : mpData(data) {}
 
 private:
-  SData* mpData;
-  u8 _04[0x10 - 0x04];
+  const SData* mpData;
+  u8 _04[0x14 - 0x04];
 };
-static_assert(sizeof(MapdataItemPoint) == 0x10);
+static_assert(sizeof(MapdataItemPoint) == 0x14);
 
 class MapdataJugemPoint {
 public:
@@ -546,25 +541,12 @@ public:
     u16 id;
   };
 
-  MapdataMissionPoint(const SData* data);
+  MapdataMissionPoint(const SData* data) : mpData(data) {}
 
 private:
-  SData* mpData;
+  const SData* mpData;
 };
 static_assert(sizeof(MapdataMissionPoint) == 0x4);
-
-class MapdataPointInfo {
-public:
-  struct SData {
-    // TODO: decomp
-  };
-
-  MapdataPointInfo(const SData* data);
-
-private:
-  SData* mpData;
-};
-static_assert(sizeof(MapdataPointInfo) == 0x4);
 
 class MapdataStage {
 public:
@@ -578,13 +560,14 @@ public:
     u8 mFlareAlpha;
   };
 
-  MapdataStage(const SData* data);
+  MapdataStage(const SData* data) : mpData(data) {}
   u8 getStartConfig() const;
+  u8 getFlareAlpha() const;
   u32 getFlareColor() const;
   bool flareToggleEnabled() const;
 
 private:
-  SData* mpData;
+  const SData* mpData;
 };
 static_assert(sizeof(MapdataStage) == 0x4);
 
@@ -605,8 +588,71 @@ private:
 };
 static_assert(sizeof(MapdataStartPoint) == 0x8);
 
+class MapdataAreaBase {
+public:
+  struct SData {
+    u8 shape;
+    u8 type;
+    s8 cameraIdx;
+    u8 priority;
+    EGG::Vector3f position;
+    EGG::Vector3f rotation;
+    EGG::Vector3f scale;
+    u16 parameters[2];
+    // Pre Revision 2200: End of structure
+    u8 railID;
+    u8 eneLinkID;
+  };
+
+  MapdataAreaBase(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const = 0;
+
+  s32 getRouteId() const;
+  MapdataPointInfo* getPointInfo() const;
+  bool isInside(const EGG::Vector3f& pos) const;
+  void setIndex(u16 idx);
+
+protected:
+  const SData* mpData;
+  EGG::Vector3f mXAxis;
+  EGG::Vector3f mYAxis;
+  EGG::Vector3f mZAxis;
+  EGG::Vector3f mDims;
+  // Only used in MapdataAreaCylinder
+  f32 mEllipseXRadiusSq;
+  f32 mEllipseAspectRatio;
+  // Sphere enclosing area for more efficient check if point in area
+  f32 mBoundingSphereRadiusSq;
+  // Index in MapdataAreaAccessor array
+  s16 mIndex;
+};
+static_assert(sizeof(MapdataAreaBase) == 0x48);
+
+class MapdataAreaBox : public MapdataAreaBase {
+public:
+  MapdataAreaBox(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
+};
+
+class MapdataAreaCylinder : public MapdataAreaBase {
+public:
+  MapdataAreaCylinder(const SData* data);
+  virtual bool isInsideShape(const EGG::Vector3f& pos) const;
+};
+
 class MapdataAreaAccessor {
 public:
+  MapdataAreaAccessor(const KmpSectionHeader* header);
+  u16 size() const { return numEntries; }
+
+  MapdataAreaBase* get(u16 i) const;
+  MapdataAreaBase* getByPriority(u16 i) const {
+    if (i < numEntries && this->byPriority) {
+      return this->byPriority[i];
+    }
+    return nullptr;
+  }
+
   MapdataAreaBase** entries;
   u16 numEntries;
   virtual ~MapdataAreaAccessor();
@@ -620,11 +666,29 @@ static_assert(sizeof(MapdataAreaAccessor) == 0x14);
 // (It should exist at offset 0x8)
 static_assert(offsetof(MapdataAreaAccessor, entries) == 0x0);
 
-typedef MapdataAccessorBase<MapdataCamera, MapdataCamera::SData>
-    MapdataCameraAccessor;
+class MapdataCameraAccessor
+    : public MapdataAccessorBase<MapdataCamera, MapdataCamera::SData> {
+public:
+  MapdataCameraAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataCamera, MapdataCamera::SData>(header) {
+    init((const MapdataCamera::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
 
-typedef MapdataAccessorBase<MapdataCannonPoint, MapdataCannonPoint::SData>
-    MapdataCannonPointAccessor;
+  s8 getExtraValue() const;
+};
+
+class MapdataCannonPointAccessor
+    : public MapdataAccessorBase<MapdataCannonPoint,
+                                 MapdataCannonPoint::SData> {
+public:
+  MapdataCannonPointAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataCannonPoint, MapdataCannonPoint::SData>(
+            header) {
+    init((const MapdataCannonPoint::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+};
 
 class MapdataCheckPathAccessor
     : public MapdataAccessorBase<MapdataCheckPath, MapdataCheckPath::SData> {
@@ -640,11 +704,26 @@ private:
 };
 static_assert(sizeof(MapdataCheckPointAccessor) == 0x14);
 
-typedef MapdataAccessorBase<MapdataEnemyPath, MapdataEnemyPath::SData>
-    MapdataEnemyPathAccessor;
+class MapdataEnemyPathAccessor
+    : public MapdataAccessorBase<MapdataEnemyPath, MapdataEnemyPath::SData> {
+public:
+  MapdataEnemyPathAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataEnemyPath, MapdataEnemyPath::SData>(header) {
+    init((const MapdataEnemyPath::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+};
 
-typedef MapdataAccessorBase<MapdataEnemyPoint, MapdataEnemyPoint::SData>
-    MapdataEnemyPointAccessor;
+class MapdataEnemyPointAccessor
+    : public MapdataAccessorBase<MapdataEnemyPoint, MapdataEnemyPoint::SData> {
+public:
+  MapdataEnemyPointAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataEnemyPoint, MapdataEnemyPoint::SData>(
+            header) {
+    init((const MapdataEnemyPoint::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+};
 
 class MapdataGeoObjAccessor
     : public MapdataAccessorBase<MapdataGeoObj, MapdataGeoObj::SData> {
@@ -654,34 +733,96 @@ public:
     init((const MapdataGeoObj::SData*)(sectionHeader + 1),
          sectionHeader->entryCount);
   }
-
-  MapdataGeoObj* get(u16 i);
 };
 
-typedef MapdataAccessorBase<MapdataItemPoint, MapdataItemPoint::SData>
-    MapdataItemPointAccessor;
+class MapdataItemPathAccessor
+    : public MapdataAccessorBase<MapdataItemPath, MapdataItemPath::SData> {
+public:
+  MapdataItemPathAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataItemPath, MapdataItemPath::SData>(header) {
+    init((const MapdataItemPath::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+};
 
-typedef MapdataAccessorBase<MapdataItemPath, MapdataItemPath::SData>
-    MapdataItemPathAccessor;
+class MapdataItemPointAccessor
+    : public MapdataAccessorBase<MapdataItemPoint, MapdataItemPoint::SData> {
+public:
+  MapdataItemPointAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataItemPoint, MapdataItemPoint::SData>(header) {
+    init((const MapdataItemPoint::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+};
 
-typedef MapdataAccessorBase<MapdataJugemPoint, MapdataJugemPoint::SData>
-    MapdataJugemPointAccessor;
+class MapdataJugemPointAccessor
+    : public MapdataAccessorBase<MapdataJugemPoint, MapdataJugemPoint::SData> {
+public:
+  MapdataJugemPointAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataJugemPoint, MapdataJugemPoint::SData>(
+            header) {
+    init((const MapdataJugemPoint::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
 
-typedef MapdataAccessorBase<MapdataMissionPoint, MapdataMissionPoint::SData>
-    MapdataMissionPointAccessor;
+  MapdataJugemPoint* get(u16 i) const;
+};
 
-typedef MapdataAccessorBase<MapdataPointInfo, MapdataPointInfo::SData>
-    MapdataPointInfoAccessor;
+class MapdataMissionPointAccessor
+    : public MapdataAccessorBase<MapdataMissionPoint,
+                                 MapdataMissionPoint::SData> {
+public:
+  MapdataMissionPointAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataMissionPoint, MapdataMissionPoint::SData>(
+            header) {
+    init((const MapdataMissionPoint::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+};
 
-typedef MapdataAccessorBase<MapdataStage, MapdataStage::SData>
-    MapdataStageAccessor;
+class MapdataPointInfoAccessor
+    : public MapdataAccessorBase<MapdataPointInfo, MapdataPointInfo::SData> {
+public:
+  // We need the init function defined before the constructor
+  void init(u16 entryCount) {
+    if (entryCount != 0) {
+      numEntries = entryCount;
+      entries = new MapdataPointInfo*[entryCount];
+    }
+    if (numEntries != 0) {
+      u16 i = 0;
+      const MapdataPointInfo::SData* route =
+          (const MapdataPointInfo::SData*)sectionHeader + 2;
+      for (; i < numEntries; i++) {
+        entries[i] = new MapdataPointInfo(route);
+        route = route + route->pointCount * 4 + 1;
+      }
+    }
+  }
+
+  // TODO: scheduling conflicts in source
+  MapdataPointInfoAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataPointInfo, MapdataPointInfo::SData>(header) {
+    init(sectionHeader->entryCount);
+  }
+};
+
+class MapdataStageAccessor
+    : public MapdataAccessorBase<MapdataStage, MapdataStage::SData> {
+public:
+  MapdataStageAccessor(const KmpSectionHeader* header)
+      : MapdataAccessorBase<MapdataStage, MapdataStage::SData>(header) {
+    init((const MapdataStage::SData*)(sectionHeader + 1),
+         sectionHeader->entryCount);
+  }
+};
 
 class MapdataStartPointAccessor
     : public MapdataAccessorBase<MapdataStartPoint, MapdataStartPoint::SData> {
 public:
   MapdataStartPointAccessor(const KmpSectionHeader* header);
 
-  MapdataStartPoint* get(u16 i);
+  MapdataStartPoint* get(u16 i) const;
 };
 
 class MapdataFileAccessor {
@@ -696,7 +837,7 @@ public:
   };
 
   MapdataFileAccessor(const SData* data);
-  u32 getVersion();
+  u32 getVersion() const;
   const KmpSectionHeader* findSection(u32 sectionName) const;
 
 private:
@@ -713,17 +854,48 @@ public:
   static void destroyInstance();
   static inline CourseMap* instance() { return spInstance; }
   static void* loadFile(s32 archiveIdx, const char* filename);
-  MapdataGeoObj* getGeoObj(u16 i);
-  u16 getCameraCount();
+
+  inline u32 getVersion() const { return mpCourse->getVersion(); }
+
+  MapdataAreaBase* getArea(u16 i) const;
+  MapdataAreaBase* getAreaByPriority(u16 i) const;
+  MapdataCannonPoint* getCannonPoint(u16 i) const;
+  MapdataCamera* getCamera(u16 i) const;
+  MapdataCheckPoint* getCheckPoint(u16 i) const;
+  MapdataCheckPath* getCheckPath(u16 i) const;
+  MapdataEnemyPath* getEnemyPath(u16 i) const;
+  MapdataEnemyPoint* getEnemyPoint(u16 i) const;
+  MapdataGeoObj* getGeoObj(u16 i) const;
+  MapdataItemPoint* getItemPoint(u16 i) const;
+  MapdataItemPath* getItemPath(u16 i) const;
+  MapdataJugemPoint* getJugemPoint(u16 i) const;
+  MapdataMissionPoint* getMissionPoint(u16 i) const;
+  MapdataPointInfo* getPointInfo(u16 i) const;
+  MapdataStage* getStage() const;
+  MapdataStartPoint* getStartPoint(u16 i) const;
+
+  u16 getAreaCount() const;
+  u16 getCameraCount() const;
   u16 getEnemyPointCount() const;
   u16 getItemPointCount() const;
   u16 getJugemPointCount() const;
   u16 getStartPointCount() const;
-  inline u32 getVersion() const { return mpCourse->getVersion(); }
+
   /*template <typename T, typename TAccessor>
   TAccessor* parse(u32 sectionName);*/
+  MapdataAreaAccessor* parseAreas(u32 sectionName);
+  MapdataCameraAccessor* parseCameras(u32 sectionName);
+  MapdataCannonPointAccessor* parseCannonPoints(u32 sectionName);
+  MapdataEnemyPathAccessor* parseEnemyPaths(u32 sectionName);
+  MapdataEnemyPointAccessor* parseEnemyPoints(u32 sectionName);
   MapdataGeoObjAccessor* parseGeoObjs(u32 sectionName);
+  MapdataItemPathAccessor* parseItemPaths(u32 sectionName);
+  MapdataItemPointAccessor* parseItemPoints(u32 sectionName);
+  MapdataJugemPointAccessor* parseJugemPoints(u32 sectionName);
   MapdataStartPointAccessor* parseKartpoints(u32 sectionName);
+  MapdataMissionPointAccessor* parseMissionPoints(u32 sectionName);
+  MapdataPointInfoAccessor* parsePointInfo(u32 sectionName);
+  MapdataStageAccessor* parseStage(u32 sectionName);
 
 private:
   CourseMap();
@@ -742,7 +914,7 @@ private:
   MapdataCheckPointAccessor* mpCheckPoint;
   MapdataPointInfoAccessor* mpPointInfo;
   MapdataGeoObjAccessor* mpGeoObj;
-  void* mpArea;
+  MapdataAreaAccessor* mpArea;
   MapdataCameraAccessor* mpCamera;
   MapdataJugemPointAccessor* mpJugemPoint;
   MapdataCannonPointAccessor* mpCannonPoint;
