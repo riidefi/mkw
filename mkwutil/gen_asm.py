@@ -182,13 +182,10 @@ class AsmGenerator:
 class CAsmGenerator:
     """Generates C files with assembly functions."""
 
-    def __init__(self, data, disaser, _slice, symbols, out_h, out_c, cpp_mode):
-        self.data = data
+    def __init__(self, disaser, _slices, symbols, out_h, out_c, cpp_mode):
         self.disaser = disaser
-        self.slice = _slice
+        self.slices = _slices
         self.symbols = symbols
-        self.own_symbols = self.symbols.slice(self.slice.start, self.slice.stop)
-        self.own_symbols.derive_sizes(self.slice.stop)
         self.out_h = out_h
         self.out_c = out_c
         self.cpp_mode = cpp_mode
@@ -196,37 +193,58 @@ class CAsmGenerator:
         self.extern_addrs = set()
         self.extern_functions = []
         self.extern_data = []
+        # Output dirs
+        self.func_dir = Path("./source") / "func"
+        self.jtl_dir = Path("./source") / "jtl"
+        self.func_dir.mkdir(exist_ok=True)
+        self.jtl_dir.mkdir(exist_ok=True)
 
-    # Validated iterator of own_symbols
-    def __symbols(self, addr):
-        for sym in self.own_symbols:
-            assert (
-                sym.addr == addr
-            ), f"Currently at {hex(addr)} but next symbol is at {hex(sym.addr)}"
+    def lookup_sym(self, addr):
+        start, end = self.disaser._sym.get_containing_symbol(addr)
+        sym = self.symbols.get(addr)
+        if sym is not None:
+            sym.size = end-addr
+            return sym
+        else:
+            return Symbol(start, f"lbl_{addr:x}", end-addr)
 
-            yield sym
-            addr += sym.size
 
-        assert addr == self.slice.stop, (
-            f"Disassembled up to {hex(addr)} but slice goes to {hex(self.slice.stop)}.\n"
-            + "You're probably missing entries in symbols.yml"
-        )
-
-    def dump_slice(self):
+    def dump_source(self):
         """Writes the C file to output."""
-        addr = self.slice.start
         functions = []
+        rodata = []
+        data = []
+        bss = []
 
-        for sym in self.__symbols(addr):
-            func_body = self.disassemble_function(sym)
-            functions.append(
-                {
-                    "addr": sym.addr,
-                    "size": sym.size,
-                    "name": sym.name,
-                    "inline_asm": func_body,
-                }
-            )
+        for _slice in self.slices:
+            addr = _slice.start
+            while addr < _slice.stop:
+                sym = self.lookup_sym(addr)
+                if _slice.section == "text":
+                    func_body = self.disassemble_function(addr)
+                    functions.append(
+                        {
+                            "addr": sym.addr,
+                            "size": sym.size,
+                            "name": sym.name,
+                            "inline_asm": func_body,
+                        }
+                    )
+                elif _slice.section == "rodata":
+                    rodata_c = self.decompile_data(addr, const=True)
+                    rodata.append(rodata_c)
+                elif _slice.section == "data":
+                    data_c = self.decompile_data(addr, const=False)
+                    data.append(data_c)
+                elif _slice.section == "bss":
+                    # Remove duplicate extern declaration
+                    self.extern_data.remove((addr, sym.name))
+                    bss.append({
+                        "size": sym.size,
+                        "name": sym.name,
+                    })
+
+                addr += sym.size
 
         # Sort extern functions.
         self.extern_functions.sort(key=lambda ref: ref[0])
@@ -237,6 +255,9 @@ class CAsmGenerator:
             header=Path(self.out_h.name).name,
             cpp=self.cpp_mode,
             functions=functions,
+            rodata=rodata,
+            data=data,
+            bss=bss,
             extern_functions=list({"name": a[1], "addr": a[0]} for a in self.extern_functions),
             extern_data=list({"name": a[1], "addr": a[0]} for a in self.extern_data),
         ).dump(self.out_c)
@@ -245,10 +266,20 @@ class CAsmGenerator:
         template.stream(functions=functions).dump(self.out_h)
 
 
-    def disassemble_function(self, sym):
-        fn_start_vma = sym.addr
+    def disassemble_function(self, fn_start_vma):
         inline_asm, refs = self.disaser.function_to_text_with_referenced(fn_start_vma, inline=True, extra=False,
             hashable=False, declare_mangled=False)
+        self.collect_refs(refs)
+        return inline_asm.split("\n")
+
+    def decompile_data(self, addr, const):
+        txt, refs = self.disaser.data_to_text_with_referenced(addr, const=const)
+        self.collect_refs(refs)
+        # Remove duplicate extern declaration
+        self.extern_data.remove((addr, self.disaser._sym.get_name(addr)))
+        return txt
+
+    def collect_refs(self, refs):
         for (addr, name) in refs:
             if addr not in self.extern_addrs:
                 self.extern_addrs.add(addr)
@@ -257,7 +288,6 @@ class CAsmGenerator:
                     self.extern_functions.append((addr, name))
                 else:
                     self.extern_data.append((addr, name))
-        return inline_asm.split("\n")
 
 
 def get_asm_path(folder, _slice):
@@ -636,23 +666,16 @@ class RELSrcGenerator:
         h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
         if not (c_path.exists() or h_path.exists()):
             c_path.parent.mkdir(parents=True, exist_ok=True)
-            for _slice in _slices:
-                if _slice.section.type == "code":
-                    # print(f"    => {_slice.name}")
-                    data = self.rel.virtual_read(
-                        _slice.start, len(_slice), REL_SECTIONS, REL_SECTION_IDX
-                    )
-                    with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
-                        gen = CAsmGenerator(
-                            data,
-                            self.disaser,
-                            _slice,
-                            self.symbols,
-                            h_file,
-                            c_file,
-                            not str(c_path).endswith(".c"),
-                        )
-                        gen.dump_slice()
+            with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
+                gen = CAsmGenerator(
+                    self.disaser,
+                    _slices,
+                    self.symbols,
+                    h_file,
+                    c_file,
+                    not str(c_path).endswith(".c"),
+                )
+                gen.dump_source()
 
     def __gen_asm(self, _slice: Slice):
         """Generates an ASM file."""

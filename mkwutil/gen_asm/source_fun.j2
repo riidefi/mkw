@@ -5,7 +5,7 @@ asm UNKNOWN_FUNCTION({{ function.name }}) {
   // clang-format off
 {%- for line in function.inline_asm %}
   {{ line }}
-{%- endfor %}
+{%- endfor -%}
   // clang-format on
 }
 
