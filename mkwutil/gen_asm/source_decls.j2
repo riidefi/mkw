@@ -7,7 +7,7 @@ extern "C" {
 {%- for function in extern_functions %}
 // PAL: {{ function.addr | addr }}
 extern UNKNOWN_FUNCTION({{ function.name }});
-{%- endfor %}
+{%- endfor -%}
 {% endif -%}
 
 {% if extern_data | length > 0 -%}
@@ -15,7 +15,7 @@ extern UNKNOWN_FUNCTION({{ function.name }});
 {%- for data in extern_data %}
 // PAL: {{ data.addr | addr }}
 extern UNKNOWN_DATA({{ data.name }});
-{%- endfor %}
+{%- endfor -%}
 {% endif -%}
 {% if cpp %}
 }

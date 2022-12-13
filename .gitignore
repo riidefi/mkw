@@ -28,7 +28,6 @@
 
 # Auto-generated linker scripts
 /pack/dol.lcf
-/pack/rel.lcf
 
 # Auto-generated assembly
 /asm/dol/
