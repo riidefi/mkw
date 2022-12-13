@@ -9,6 +9,8 @@ extern "C" {
 extern UNKNOWN_FUNCTION(__construct_new_array);
 // PAL: 0x80020ff4
 extern UNKNOWN_FUNCTION(__construct_array);
+// PAL: 0x80021478
+// extern UNKNOWN_FUNCTION(__cvt_fp2unsigned);
 // PAL: 0x80021580
 extern UNKNOWN_FUNCTION(_savegpr_19);
 // PAL: 0x80021588
@@ -47,6 +49,8 @@ extern UNKNOWN_FUNCTION(OSGetTick);
 extern UNKNOWN_FUNCTION(__nw__FUl);
 // PAL: 0x80229df0
 extern UNKNOWN_FUNCTION(__nwa__FUl);
+// PAL: 0x80229e14
+// extern UNKNOWN_FUNCTION(__dl__FPv);
 // PAL: 0x80229ee0
 extern UNKNOWN_FUNCTION(__dla__FPv);
 // PAL: 0x8022f80c
@@ -127,8 +131,42 @@ extern UNKNOWN_FUNCTION(jump_80532444);
 extern UNKNOWN_FUNCTION(unk_80532488);
 // PAL: 0x805324ac
 extern UNKNOWN_FUNCTION(unk_805324ac);
+// PAL: 0x805324ec
+extern UNKNOWN_FUNCTION(unk_805324ec);
+// PAL: 0x8053252c
+extern UNKNOWN_FUNCTION(unk_8053252c);
+// PAL: 0x8053256c
+extern UNKNOWN_FUNCTION(unk_8053256c);
+// PAL: 0x805325ac
+extern UNKNOWN_FUNCTION(unk_805325ac);
+// PAL: 0x805325ec
+extern UNKNOWN_FUNCTION(unk_805325ec);
+// PAL: 0x8053262c
+extern UNKNOWN_FUNCTION(unk_8053262c);
+// PAL: 0x8053266c
+extern UNKNOWN_FUNCTION(unk_8053266c);
+// PAL: 0x805326ac
+extern UNKNOWN_FUNCTION(unk_805326ac);
 // PAL: 0x805327a0
 extern UNKNOWN_FUNCTION(Raceinfo_construct);
+// PAL: 0x80532d44
+extern UNKNOWN_FUNCTION(unk_80532d44);
+// PAL: 0x80532de0
+extern UNKNOWN_FUNCTION(unk_80532de0);
+// PAL: 0x80532e3c
+extern UNKNOWN_FUNCTION(unk_80532e3c);
+// PAL: 0x80532f48
+extern UNKNOWN_FUNCTION(RaceinfoPlayer_destroy);
+// PAL: 0x8053308c
+extern UNKNOWN_FUNCTION(unk_8053308c);
+// PAL: 0x805336a0
+extern UNKNOWN_FUNCTION(unk_805336a0);
+// PAL: 0x805336d8
+extern UNKNOWN_FUNCTION(unk_805336d8);
+// PAL: 0x80533be8
+extern UNKNOWN_FUNCTION(unk_80533be8);
+// PAL: 0x80533c34
+extern UNKNOWN_FUNCTION(unk_80533c34);
 // PAL: 0x80533c6c
 extern UNKNOWN_FUNCTION(unk_80533c6c);
 // PAL: 0x80533ed8
@@ -147,6 +185,24 @@ extern UNKNOWN_FUNCTION(RaceinfoPlayer_endLap);
 extern UNKNOWN_FUNCTION(RaceinfoPlayer_updateCheckpoint);
 // PAL: 0x80535304
 extern UNKNOWN_FUNCTION(RaceinfoPlayer_update);
+// PAL: 0x80535864
+extern UNKNOWN_FUNCTION(unk_80535864);
+// PAL: 0x80535904
+extern UNKNOWN_FUNCTION(unk_80535904);
+// PAL: 0x80535d14
+extern UNKNOWN_FUNCTION(TimeAttackGamemode_canEndRace);
+// PAL: 0x80535de8
+extern UNKNOWN_FUNCTION(unk_80535de8);
+// PAL: 0x80535e84
+extern UNKNOWN_FUNCTION(unk_80535e84);
+// PAL: 0x80535ef4
+extern UNKNOWN_FUNCTION(unk_80535ef4);
+// PAL: 0x80535f28
+extern UNKNOWN_FUNCTION(unk_80535f28);
+// PAL: 0x80535fe4
+extern UNKNOWN_FUNCTION(unk_80535fe4);
+// PAL: 0x80536054
+extern UNKNOWN_FUNCTION(unk_80536054);
 // PAL: 0x80536328
 extern UNKNOWN_FUNCTION(jump_80536328);
 // PAL: 0x80536450
@@ -173,6 +229,48 @@ extern UNKNOWN_FUNCTION(jump_805367e4);
 extern UNKNOWN_FUNCTION(jump_805367ec);
 // PAL: 0x805367f4
 extern UNKNOWN_FUNCTION(jump_805367f4);
+// PAL: 0x805371a4
+extern UNKNOWN_FUNCTION(unk_805371a4);
+// PAL: 0x805371a8
+extern UNKNOWN_FUNCTION(unk_805371a8);
+// PAL: 0x805371e8
+extern UNKNOWN_FUNCTION(unk_805371e8);
+// PAL: 0x8053724c
+extern UNKNOWN_FUNCTION(unk_8053724c);
+// PAL: 0x805372b4
+extern UNKNOWN_FUNCTION(unk_805372b4);
+// PAL: 0x805372bc
+extern UNKNOWN_FUNCTION(unk_805372bc);
+// PAL: 0x80537320
+extern UNKNOWN_FUNCTION(unk_80537320);
+// PAL: 0x80537388
+extern UNKNOWN_FUNCTION(unk_80537388);
+// PAL: 0x80537390
+extern UNKNOWN_FUNCTION(unk_80537390);
+// PAL: 0x805373f4
+extern UNKNOWN_FUNCTION(unk_805373f4);
+// PAL: 0x8053745c
+extern UNKNOWN_FUNCTION(unk_8053745c);
+// PAL: 0x80537464
+extern UNKNOWN_FUNCTION(unk_80537464);
+// PAL: 0x805374c8
+extern UNKNOWN_FUNCTION(unk_805374c8);
+// PAL: 0x80537530
+extern UNKNOWN_FUNCTION(unk_80537530);
+// PAL: 0x80537538
+extern UNKNOWN_FUNCTION(unk_80537538);
+// PAL: 0x8053759c
+extern UNKNOWN_FUNCTION(unk_8053759c);
+// PAL: 0x80537604
+extern UNKNOWN_FUNCTION(unk_80537604);
+// PAL: 0x8053760c
+extern UNKNOWN_FUNCTION(unk_8053760c);
+// PAL: 0x80537670
+extern UNKNOWN_FUNCTION(unk_80537670);
+// PAL: 0x805376d8
+extern UNKNOWN_FUNCTION(unk_805376d8);
+// PAL: 0x805376e0
+extern UNKNOWN_FUNCTION(unk_805376e0);
 // PAL: 0x80537830
 extern UNKNOWN_FUNCTION(VEC3_fromCross);
 // PAL: 0x80537b80
@@ -230,64 +328,11 @@ extern UNKNOWN_FUNCTION(unk_8082b3d4);
 // PAL: 0x8082b420
 extern UNKNOWN_FUNCTION(unk_8082b420);
 // PAL: 0x80860124
-extern UNKNOWN_FUNCTION(unk_80860124);
-// Extern data references.
+extern UNKNOWN_FUNCTION(unk_80860124); // Extern data references.
 // PAL: 0x80385fc8
 extern UNKNOWN_DATA(lbl_80385fc8);
 // PAL: 0x80386000
 extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
-// PAL: 0x80890150
-extern UNKNOWN_DATA(lbl_80890150);
-// PAL: 0x80890154
-extern UNKNOWN_DATA(lbl_80890154);
-// PAL: 0x80890158
-extern UNKNOWN_DATA(lbl_80890158);
-// PAL: 0x80890160
-extern UNKNOWN_DATA(lbl_80890160);
-// PAL: 0x80890168
-extern UNKNOWN_DATA(lbl_80890168);
-// PAL: 0x80890170
-extern UNKNOWN_DATA(lbl_80890170);
-// PAL: 0x80890178
-extern UNKNOWN_DATA(lbl_80890178);
-// PAL: 0x8089017c
-extern UNKNOWN_DATA(lbl_8089017c);
-// PAL: 0x80890180
-extern UNKNOWN_DATA(lbl_80890180);
-// PAL: 0x80890184
-extern UNKNOWN_DATA(lbl_80890184);
-// PAL: 0x80890188
-extern UNKNOWN_DATA(lbl_80890188);
-// PAL: 0x8089018c
-extern UNKNOWN_DATA(lbl_8089018c);
-// PAL: 0x80890190
-extern UNKNOWN_DATA(lbl_80890190);
-// PAL: 0x80890194
-extern UNKNOWN_DATA(lbl_80890194);
-// PAL: 0x80890198
-extern UNKNOWN_DATA(lbl_80890198);
-// PAL: 0x8089019c
-extern UNKNOWN_DATA(lbl_8089019c);
-// PAL: 0x808901a0
-extern UNKNOWN_DATA(lbl_808901a0);
-// PAL: 0x808901a8
-extern UNKNOWN_DATA(lbl_808901a8);
-// PAL: 0x808901ac
-extern UNKNOWN_DATA(lbl_808901ac);
-// PAL: 0x808901b0
-extern UNKNOWN_DATA(lbl_808901b0);
-// PAL: 0x808901b4
-extern UNKNOWN_DATA(lbl_808901b4);
-// PAL: 0x808901b8
-extern UNKNOWN_DATA(lbl_808901b8);
-// PAL: 0x808901bc
-extern UNKNOWN_DATA(lbl_808901bc);
-// PAL: 0x808901c0
-extern UNKNOWN_DATA(lbl_808901c0);
-// PAL: 0x808901c4
-extern UNKNOWN_DATA(lbl_808901c4);
-// PAL: 0x808901e8
-extern UNKNOWN_DATA(lbl_808901e8);
 // PAL: 0x80890218
 extern UNKNOWN_DATA(lbl_80890218);
 // PAL: 0x8089021c
@@ -298,46 +343,6 @@ extern UNKNOWN_DATA(lbl_80890220);
 extern UNKNOWN_DATA(lbl_80890238);
 // PAL: 0x808b2d44
 extern UNKNOWN_DATA(__vt__Q26System4Time);
-// PAL: 0x808b32b0
-extern UNKNOWN_DATA(lbl_808b32b0);
-// PAL: 0x808b32bc
-extern UNKNOWN_DATA(jtbl_808b32bc);
-// PAL: 0x808b32e8
-extern UNKNOWN_DATA(jtbl_808b32e8);
-// PAL: 0x808b331c
-extern UNKNOWN_DATA(jtbl_808b331c);
-// PAL: 0x808b3350
-extern UNKNOWN_DATA(lbl_808b3350);
-// PAL: 0x808b3360
-extern UNKNOWN_DATA(lbl_808b3360);
-// PAL: 0x808b3378
-extern UNKNOWN_DATA(lbl_808b3378);
-// PAL: 0x808b3390
-extern UNKNOWN_DATA(lbl_808b3390);
-// PAL: 0x808b33a8
-extern UNKNOWN_DATA(lbl_808b33a8);
-// PAL: 0x808b33c0
-extern UNKNOWN_DATA(lbl_808b33c0);
-// PAL: 0x808b33d8
-extern UNKNOWN_DATA(lbl_808b33d8);
-// PAL: 0x808b33f0
-extern UNKNOWN_DATA(lbl_808b33f0);
-// PAL: 0x808b3408
-extern UNKNOWN_DATA(lbl_808b3408);
-// PAL: 0x808b3420
-extern UNKNOWN_DATA(lbl_808b3420);
-// PAL: 0x808b344c
-extern UNKNOWN_DATA(lbl_808b344c);
-// PAL: 0x808b3478
-extern UNKNOWN_DATA(lbl_808b3478);
-// PAL: 0x808b34a4
-extern UNKNOWN_DATA(lbl_808b34a4);
-// PAL: 0x808b34b0
-extern UNKNOWN_DATA(lbl_808b34b0);
-// PAL: 0x808b34c4
-extern UNKNOWN_DATA(lbl_808b34c4);
-// PAL: 0x808b34d8
-extern UNKNOWN_DATA(lbl_808b34d8);
 // PAL: 0x808b3524
 extern UNKNOWN_DATA(lbl_808b3524);
 // PAL: 0x808b3698
@@ -352,8 +357,6 @@ extern UNKNOWN_DATA(spInstance__Q26System9CourseMap);
 extern UNKNOWN_DATA(spInstance__Q26System12InputManager);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
-// PAL: 0x809bd730
-extern UNKNOWN_DATA(lbl_809bd730);
 // PAL: 0x809bd738
 extern UNKNOWN_DATA(spInstance__Q26System15ResourceManager);
 // PAL: 0x809c18f8
@@ -373,6 +376,113 @@ extern UNKNOWN_DATA(lbl_809c4330);
 }
 
 // --- EXTERN DECLARATIONS END ---
+
+// .rodata
+extern const f32 unused_80890148;
+const f32 unused_80890148 = 5 / 3.0 * 1e-5;
+extern const f32 unused_8089014c;
+const f32 unused_8089014c = 0.001f;
+const u32 lbl_80890150[] = {0x00000000};
+const u32 lbl_80890154[] = {0xbf800000};
+const u32 lbl_80890158[] = {0x3f8ccccd, 0x00000000};
+const u32 lbl_80890160[] = {0x3f847ae1, 0x40000000};
+const u32 lbl_80890168[] = {0x4156e378, 0xc0000000};
+const u32 lbl_80890170[] = {0x43300000, 0x00000000};
+const u32 lbl_80890178[] = {0x3f7fffef};
+const u32 lbl_8089017c[] = {0x3f800000};
+const u32 lbl_80890180[] = {0x42c80000};
+const u32 lbl_80890184[] = {0x41880000};
+const u32 lbl_80890188[] = {0x378bcf65};
+const u32 lbl_8089018c[] = {0x3a83126f};
+const u32 lbl_80890190[] = {0xbf19999a};
+const u32 lbl_80890194[] = {0x3f19999a};
+const u32 lbl_80890198[] = {0x3f733333};
+const u32 lbl_8089019c[] = {0xbf733333};
+const u32 lbl_808901a0[] = {0x43300000, 0x80000000};
+const u32 lbl_808901a8[] = {0x3f7fff58};
+const u32 lbl_808901ac[] = {0xbf000000};
+const u32 lbl_808901b0[] = {0x3089705f};
+const u32 lbl_808901b4[] = {0x476a6000};
+const u32 lbl_808901b8[] = {0x447a0000};
+const u32 lbl_808901bc[] = {0x3f000000};
+const u32 lbl_808901c0[] = {0x3727c5ac};
+const u32 lbl_808901c4[] = {0x4e6e6b28, 0x3727c5ac, 0x00060000,
+                            0x3f7fff58, 0x00000000, 0x40590000,
+                            0x00000000, 0x3f847ae1, 0x40000000};
+const u32 lbl_808901e8[] = {0x2f72616e, 0x6b74696d, 0x6547502e, 0x6b727400,
+                            0x2f72616e, 0x6b74696d, 0x6547502e, 0x6b727400,
+                            0x2f6d696e, 0x6967616d, 0x652e6b6d, 0x67000000};
+
+// .data
+#pragma explicit_zero_data on
+u32 lbl_808b32b0[] = {0x00000000, 0x00000000, 0x00000000};
+void (*jtbl_808b32bc[])() = {
+    jump_805321cc, jump_80532220, jump_80532444, jump_80532254,
+    jump_80532248, jump_80532444, jump_80532444, jump_805322c8,
+    jump_805322c8, jump_805323e0, jump_805323e0,
+};
+
+void (*jtbl_808b32e8[])() = {
+    jump_80536540, jump_80536540, jump_80536494, jump_80536328, jump_805364a4,
+    jump_80536494, jump_80536540, jump_80536540, jump_80536540, jump_80536328,
+    jump_80536328, jump_80536450, jump_80536484,
+};
+
+void (*jtbl_808b331c[])() = {
+    jump_805367f4, jump_805367f4, jump_805367ec, jump_80536618, jump_80536738,
+    jump_805367ec, jump_805367f4, jump_805367f4, jump_805367f4, jump_80536618,
+    jump_80536618, jump_805367b8, jump_805367e4,
+};
+
+u32 lbl_808b3350[] = {0x00000000, 0x00000000, (u32)&unk_80532e3c, 0x00000000};
+u32 lbl_808b3360[] = {0x00000000,         0x00000000,
+                      (u32)&unk_8053266c, (u32)&unk_805371e8,
+                      (u32)&unk_8053724c, (u32)&unk_805372b4};
+u32 lbl_808b3378[] = {0x00000000,         0x00000000,
+                      (u32)&unk_8053262c, (u32)&unk_805372bc,
+                      (u32)&unk_80537320, (u32)&unk_80537388};
+u32 lbl_808b3390[] = {0x00000000,         0x00000000,
+                      (u32)&unk_805325ac, (u32)&unk_80537390,
+                      (u32)&unk_805373f4, (u32)&unk_8053745c};
+u32 lbl_808b33a8[] = {0x00000000,         0x00000000,
+                      (u32)&unk_8053256c, (u32)&unk_80537464,
+                      (u32)&unk_805374c8, (u32)&unk_80537530};
+u32 lbl_808b33c0[] = {0x00000000,         0x00000000,
+                      (u32)&unk_8053252c, (u32)&unk_80537538,
+                      (u32)&unk_8053759c, (u32)&unk_80537604};
+u32 lbl_808b33d8[] = {0x00000000, 0x00000000, (u32)&unk_805325ec,
+                      0x00000000, 0x00000000, 0x00000000};
+u32 lbl_808b33f0[] = {0x00000000,         0x00000000,
+                      (u32)&unk_805326ac, (u32)&unk_8053760c,
+                      (u32)&unk_80537670, (u32)&unk_805376d8};
+u32 lbl_808b3408[] = {0x00000000, 0x00000000, (u32)&unk_805324ec,
+                      0x00000000, 0x00000000, 0x00000000};
+u32 lbl_808b3420[] = {
+    0x00000000,         0x00000000,         (u32)&unk_80536054,
+    (u32)&unk_80535de8, (u32)&unk_80535e84, (u32)&unk_805336d8,
+    (u32)&unk_80535ef4, (u32)&unk_8053308c, (u32)&unk_80533be8,
+    (u32)&unk_80533c34, (u32)&unk_805371a4};
+u32 lbl_808b344c[] = {
+    0x00000000,         0x00000000,         (u32)&unk_80535f28,
+    (u32)&unk_80535de8, (u32)&unk_80535fe4, (u32)&unk_805336d8,
+    (u32)&unk_80535ef4, (u32)&unk_8053308c, (u32)&unk_80533be8,
+    (u32)&unk_80533c34, (u32)&unk_805371a4};
+u32 lbl_808b3478[] = {
+    0x00000000,         0x00000000,         (u32)&TimeAttackGamemode_canEndRace,
+    (u32)&unk_80535de8, (u32)&unk_80535e84, (u32)&unk_805336d8,
+    (u32)&unk_80535ef4, (u32)&unk_8053308c, (u32)&unk_80533be8,
+    (u32)&unk_80533c34, (u32)&unk_805371a4};
+u32 lbl_808b34a4[] = {0x00000000, 0x00000000, (u32)&RaceinfoPlayer_destroy};
+u32 lbl_808b34b0[] = {0x00000000, 0x00000000, (u32)&unk_805376e0,
+                      (u32)&unk_80535864, (u32)&unk_80535904};
+u32 lbl_808b34c4[] = {0x00000000, 0x00000000, (u32)&unk_80532de0,
+                      (u32)&unk_80532d44, (u32)&unk_805336a0};
+u32 lbl_808b34d8[] = {0x00000000, 0x00000000, (u32)&unk_805371a8,
+                      0x00000000, 0x00000000, 0x00000000};
+#pragma explicit_zero_data off
+
+// .bss
+u8 lbl_809bd730[8];
 
 // Symbol: Raceinfo_initStaticInstance
 // PAL: 0x80532084..0x805320d4
@@ -401,8 +511,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_initStaticInstance) {
   /* 805320C4 8063D730 */ lwz         r3, lbl_809bd730@l(r3)
   /* 805320C8 7C0803A6 */ mtlr        r0
   /* 805320CC 38210010 */ addi        r1, r1, 0x10
-  /* 805320D0 4E800020 */ blr
-  // clang-format on
+  /* 805320D0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: Raceinfo_destroyStaticInstance
@@ -431,8 +540,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_destroyStaticInstance) {
   /* 80532114 80010014 */ lwz         r0, 0x14(r1)
   /* 80532118 7C0803A6 */ mtlr        r0
   /* 8053211C 38210010 */ addi        r1, r1, 0x10
-  /* 80532120 4E800020 */ blr
-  // clang-format on
+  /* 80532120 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80532124
@@ -465,8 +573,7 @@ asm UNKNOWN_FUNCTION(unk_80532124) {
   /* 80532178 80010014 */ lwz         r0, 0x14(r1)
   /* 8053217C 7C0803A6 */ mtlr        r0
   /* 80532180 38210010 */ addi        r1, r1, 0x10
-  /* 80532184 4E800020 */ blr
-  // clang-format on
+  /* 80532184 4E800020 */ blr // clang-format on
 }
 
 // Symbol: Raceinfo_initGamemode
@@ -474,8 +581,6 @@ asm UNKNOWN_FUNCTION(unk_80532124) {
 MARK_BINARY_BLOB(Raceinfo_initGamemode, 0x80532188, 0x80532488);
 asm UNKNOWN_FUNCTION(Raceinfo_initGamemode) {
   // clang-format off
-  .section .text
-
   nofralloc
   /* 80532188 9421FFE0 */ stwu        r1, -0x20(r1)
   /* 8053218C 7C0802A6 */ mflr        r0
@@ -691,24 +796,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_initGamemode) {
   /* 80532478 80010024 */ lwz         r0, 0x24(r1)
   /* 8053247C 7C0803A6 */ mtlr        r0
   /* 80532480 38210020 */ addi        r1, r1, 0x20
-  /* 80532484 4E800020 */ blr
-
-  .section .data
-
-  .global jtbl_808b32bc
-  jtbl_808b32bc:
-      .4byte jump_805321cc
-      .4byte jump_80532220
-      .4byte jump_80532444
-      .4byte jump_80532254
-      .4byte jump_80532248
-      .4byte jump_80532444
-      .4byte jump_80532444
-      .4byte jump_805322c8
-      .4byte jump_805322c8
-      .4byte jump_805323e0
-      .4byte jump_805323e0
-  // clang-format on
+  /* 80532484 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80532488
@@ -725,8 +813,7 @@ asm UNKNOWN_FUNCTION(unk_80532488) {
   /* 8053249C B0030004 */ sth         r0, 4(r3)
   /* 805324A0 98030006 */ stb         r0, 6(r3)
   /* 805324A4 B0030008 */ sth         r0, 8(r3)
-  /* 805324A8 4E800020 */ blr
-  // clang-format on
+  /* 805324A8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805324ac
@@ -751,8 +838,7 @@ asm UNKNOWN_FUNCTION(unk_805324ac){
   /* 805324DC 80010014 */ lwz         r0, 0x14(r1)
   /* 805324E0 7C0803A6 */ mtlr        r0
   /* 805324E4 38210010 */ addi        r1, r1, 0x10
-  /* 805324E8 4E800020 */ blr
-  // clang-format on
+  /* 805324E8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805324ec
@@ -777,8 +863,7 @@ asm UNKNOWN_FUNCTION(unk_805324ec){
   /* 8053251C 80010014 */ lwz         r0, 0x14(r1)
   /* 80532520 7C0803A6 */ mtlr        r0
   /* 80532524 38210010 */ addi        r1, r1, 0x10
-  /* 80532528 4E800020 */ blr
-  // clang-format on
+  /* 80532528 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053252c
@@ -803,8 +888,7 @@ asm UNKNOWN_FUNCTION(unk_8053252c){
   /* 8053255C 80010014 */ lwz         r0, 0x14(r1)
   /* 80532560 7C0803A6 */ mtlr        r0
   /* 80532564 38210010 */ addi        r1, r1, 0x10
-  /* 80532568 4E800020 */ blr
-  // clang-format on
+  /* 80532568 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053256c
@@ -829,8 +913,7 @@ asm UNKNOWN_FUNCTION(unk_8053256c){
   /* 8053259C 80010014 */ lwz         r0, 0x14(r1)
   /* 805325A0 7C0803A6 */ mtlr        r0
   /* 805325A4 38210010 */ addi        r1, r1, 0x10
-  /* 805325A8 4E800020 */ blr
-  // clang-format on
+  /* 805325A8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805325ac
@@ -855,8 +938,7 @@ asm UNKNOWN_FUNCTION(unk_805325ac){
   /* 805325DC 80010014 */ lwz         r0, 0x14(r1)
   /* 805325E0 7C0803A6 */ mtlr        r0
   /* 805325E4 38210010 */ addi        r1, r1, 0x10
-  /* 805325E8 4E800020 */ blr
-  // clang-format on
+  /* 805325E8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805325ec
@@ -881,8 +963,7 @@ asm UNKNOWN_FUNCTION(unk_805325ec){
   /* 8053261C 80010014 */ lwz         r0, 0x14(r1)
   /* 80532620 7C0803A6 */ mtlr        r0
   /* 80532624 38210010 */ addi        r1, r1, 0x10
-  /* 80532628 4E800020 */ blr
-  // clang-format on
+  /* 80532628 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053262c
@@ -907,8 +988,7 @@ asm UNKNOWN_FUNCTION(unk_8053262c){
   /* 8053265C 80010014 */ lwz         r0, 0x14(r1)
   /* 80532660 7C0803A6 */ mtlr        r0
   /* 80532664 38210010 */ addi        r1, r1, 0x10
-  /* 80532668 4E800020 */ blr
-  // clang-format on
+  /* 80532668 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053266c
@@ -933,8 +1013,7 @@ asm UNKNOWN_FUNCTION(unk_8053266c){
   /* 8053269C 80010014 */ lwz         r0, 0x14(r1)
   /* 805326A0 7C0803A6 */ mtlr        r0
   /* 805326A4 38210010 */ addi        r1, r1, 0x10
-  /* 805326A8 4E800020 */ blr
-  // clang-format on
+  /* 805326A8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805326ac
@@ -959,8 +1038,7 @@ asm UNKNOWN_FUNCTION(unk_805326ac){
   /* 805326DC 80010014 */ lwz         r0, 0x14(r1)
   /* 805326E0 7C0803A6 */ mtlr        r0
   /* 805326E4 38210010 */ addi        r1, r1, 0x10
-  /* 805326E8 4E800020 */ blr
-  // clang-format on
+  /* 805326E8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805326ec
@@ -1015,8 +1093,7 @@ asm UNKNOWN_FUNCTION(unk_805326ec) {
   /* 80532790 83C10008 */ lwz         r30, 8(r1)
   /* 80532794 7C0803A6 */ mtlr        r0
   /* 80532798 38210010 */ addi        r1, r1, 0x10
-  /* 8053279C 4E800020 */ blr
-  // clang-format on
+  /* 8053279C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: Raceinfo_construct
@@ -1411,8 +1488,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_construct) {
   /* 80532D34 80010094 */ lwz         r0, 0x94(r1)
   /* 80532D38 7C0803A6 */ mtlr        r0
   /* 80532D3C 38210090 */ addi        r1, r1, 0x90
-  /* 80532D40 4E800020 */ blr
-  // clang-format on
+  /* 80532D40 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80532d44
@@ -1459,8 +1535,7 @@ asm UNKNOWN_FUNCTION(unk_80532d44){
   /* 80532DD0 80010024 */ lwz         r0, 0x24(r1)
   /* 80532DD4 7C0803A6 */ mtlr        r0
   /* 80532DD8 38210020 */ addi        r1, r1, 0x20
-  /* 80532DDC 4E800020 */ blr
-    // clang-format on
+  /* 80532DDC 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80532de0
@@ -1492,8 +1567,7 @@ asm UNKNOWN_FUNCTION(unk_80532de0){
   /* 80532E2C 80010014 */ lwz         r0, 0x14(r1)
   /* 80532E30 7C0803A6 */ mtlr        r0
   /* 80532E34 38210010 */ addi        r1, r1, 0x10
-  /* 80532E38 4E800020 */ blr
-  // clang-format on
+  /* 80532E38 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80532e3c
@@ -1574,8 +1648,7 @@ asm UNKNOWN_FUNCTION(unk_80532e3c) {
   /* 80532F38 80010024 */ lwz         r0, 0x24(r1)
   /* 80532F3C 7C0803A6 */ mtlr        r0
   /* 80532F40 38210020 */ addi        r1, r1, 0x20
-  /* 80532F44 4E800020 */ blr
-  // clang-format on
+  /* 80532F44 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_destroy
@@ -1600,13 +1673,12 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_destroy){
   /* 80532F78 80010014 */ lwz         r0, 0x14(r1)
   /* 80532F7C 7C0803A6 */ mtlr        r0
   /* 80532F80 38210010 */ addi        r1, r1, 0x10
-  /* 80532F84 4E800020 */ blr
-  // clang-format on
+  /* 80532F84 4E800020 */ blr // clang-format on
 }
 
 // Symbol: Raceinfo_init
-// PAL: 0x80532f88..0x80533090
-MARK_BINARY_BLOB(Raceinfo_init, 0x80532f88, 0x80533090);
+// PAL: 0x80532f88..0x8053308c
+MARK_BINARY_BLOB(Raceinfo_init, 0x80532f88, 0x8053308c);
 asm UNKNOWN_FUNCTION(Raceinfo_init) {
   // clang-format off
   nofralloc
@@ -1679,8 +1751,16 @@ asm UNKNOWN_FUNCTION(Raceinfo_init) {
   /* 8053307C 83A10014 */ lwz         r29, 0x14(r1)
   /* 80533080 7C0803A6 */ mtlr        r0
   /* 80533084 38210020 */ addi        r1, r1, 0x20
-  /* 80533088 4E800020 */ blr
-  // clang-format on
+  /* 80533088 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_8053308c
+// PAL: 0x8053308c..0x80533090
+MARK_BINARY_BLOB(unk_8053308c, 0x8053308c, 0x80533090);
+asm UNKNOWN_FUNCTION(unk_8053308c){
+    // clang-format off
+  nofralloc
+  /* 8053308C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceInfo_getCountdown
@@ -1701,8 +1781,7 @@ asm UNKNOWN_FUNCTION(RaceInfo_getCountdown) {
   lbl_805330b4:
   /* 805330B4 80030020 */ lwz         r0, 0x20(r3)
   /* 805330B8 206000F0 */ subfic      r3, r0, 0xf0
-  /* 805330BC 4E800020 */ blr
-  // clang-format on
+  /* 805330BC 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805330c0
@@ -1775,13 +1854,12 @@ asm UNKNOWN_FUNCTION(unk_805330c0) {
   /* 805331A4 83C10008 */ lwz         r30, 8(r1)
   /* 805331A8 7C0803A6 */ mtlr        r0
   /* 805331AC 38210030 */ addi        r1, r1, 0x30
-  /* 805331B0 4E800020 */ blr
-  // clang-format on
+  /* 805331B0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceInfo_update
-// PAL: 0x805331b4..0x805336a4
-MARK_BINARY_BLOB(RaceInfo_update, 0x805331b4, 0x805336a4);
+// PAL: 0x805331b4..0x805336a0
+MARK_BINARY_BLOB(RaceInfo_update, 0x805331b4, 0x805336a0);
 asm UNKNOWN_FUNCTION(RaceInfo_update) {
   // clang-format off
   nofralloc
@@ -2127,8 +2205,16 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   /* 80533690 83A10014 */ lwz         r29, 0x14(r1)
   /* 80533694 7C0803A6 */ mtlr        r0
   /* 80533698 38210040 */ addi        r1, r1, 0x40
-  /* 8053369C 4E800020 */ blr
-  // clang-format on
+  /* 8053369C 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_805336a0
+// PAL: 0x805336a0..0x805336a4
+MARK_BINARY_BLOB(unk_805336a0, 0x805336a0, 0x805336a4);
+asm UNKNOWN_FUNCTION(unk_805336a0){
+    // clang-format off
+  nofralloc
+  /* 805336A0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: getLapCount
@@ -2149,8 +2235,7 @@ asm UNKNOWN_FUNCTION(getLapCount) {
   /* 805336C8 28000008 */ cmplwi      r0, 8
   /* 805336CC 4C810020 */ blelr-
   /* 805336D0 38600003 */ li          r3, 0x3
-  /* 805336D4 4E800020 */ blr
-  // clang-format on
+  /* 805336D4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805336d8
@@ -2441,13 +2526,12 @@ asm UNKNOWN_FUNCTION(unk_805336d8) {
   /* 80533AEC 800100C4 */ lwz         r0, 0xc4(r1)
   /* 80533AF0 7C0803A6 */ mtlr        r0
   /* 80533AF4 382100C0 */ addi        r1, r1, 0xc0
-  /* 80533AF8 4E800020 */ blr
-  // clang-format on
+  /* 80533AF8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80533afc
-// PAL: 0x80533afc..0x80533bec
-MARK_BINARY_BLOB(unk_80533afc, 0x80533afc, 0x80533bec);
+// PAL: 0x80533afc..0x80533be8
+MARK_BINARY_BLOB(unk_80533afc, 0x80533afc, 0x80533be8);
 asm UNKNOWN_FUNCTION(unk_80533afc) {
   // clang-format off
   nofralloc
@@ -2513,8 +2597,16 @@ asm UNKNOWN_FUNCTION(unk_80533afc) {
   /* 80533BD8 80010014 */ lwz         r0, 0x14(r1)
   /* 80533BDC 7C0803A6 */ mtlr        r0
   /* 80533BE0 38210010 */ addi        r1, r1, 0x10
-  /* 80533BE4 4E800020 */ blr
-  // clang-format on
+  /* 80533BE4 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80533be8
+// PAL: 0x80533be8..0x80533bec
+MARK_BINARY_BLOB(unk_80533be8, 0x80533be8, 0x80533bec);
+asm UNKNOWN_FUNCTION(unk_80533be8){
+    // clang-format off
+  nofralloc
+  /* 80533BE8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80533bec
@@ -2540,8 +2632,7 @@ asm UNKNOWN_FUNCTION(unk_80533bec) {
   /* 80533C24 80010014 */ lwz         r0, 0x14(r1)
   /* 80533C28 7C0803A6 */ mtlr        r0
   /* 80533C2C 38210010 */ addi        r1, r1, 0x10
-  /* 80533C30 4E800020 */ blr
-  // clang-format on
+  /* 80533C30 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80533c34
@@ -2564,8 +2655,7 @@ asm UNKNOWN_FUNCTION(unk_80533c34){
   /* 80533C5C 38600001 */ li          r3, 0x1
   /* 80533C60 7C0803A6 */ mtlr        r0
   /* 80533C64 38210010 */ addi        r1, r1, 0x10
-  /* 80533C68 4E800020 */ blr
-  // clang-format on
+  /* 80533C68 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80533c6c
@@ -2649,8 +2739,7 @@ asm UNKNOWN_FUNCTION(unk_80533c6c) {
   /* 80533D74 83C10008 */ lwz         r30, 8(r1)
   /* 80533D78 7C0803A6 */ mtlr        r0
   /* 80533D7C 38210010 */ addi        r1, r1, 0x10
-  /* 80533D80 4E800020 */ blr
-  // clang-format on
+  /* 80533D80 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80533d84
@@ -2678,8 +2767,7 @@ asm UNKNOWN_FUNCTION(unk_80533d84) {
   /* 80533DC4 80010014 */ lwz         r0, 0x14(r1)
   /* 80533DC8 7C0803A6 */ mtlr        r0
   /* 80533DCC 38210010 */ addi        r1, r1, 0x10
-  /* 80533DD0 4E800020 */ blr
-  // clang-format on
+  /* 80533DD0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80533dd4
@@ -2757,8 +2845,7 @@ asm UNKNOWN_FUNCTION(unk_80533dd4) {
   /* 80533EC8 83C10008 */ lwz         r30, 8(r1)
   /* 80533ECC 7C0803A6 */ mtlr        r0
   /* 80533ED0 38210010 */ addi        r1, r1, 0x10
-  /* 80533ED4 4E800020 */ blr
-  // clang-format on
+  /* 80533ED4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_construct
@@ -2966,8 +3053,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_construct) {
   /* 80534184 80010024 */ lwz         r0, 0x24(r1)
   /* 80534188 7C0803A6 */ mtlr        r0
   /* 8053418C 38210020 */ addi        r1, r1, 0x20
-  /* 80534190 4E800020 */ blr
-  // clang-format on
+  /* 80534190 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_init
@@ -3068,8 +3154,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_init) {
   /* 805342D8 80010024 */ lwz         r0, 0x24(r1)
   /* 805342DC 7C0803A6 */ mtlr        r0
   /* 805342E0 38210020 */ addi        r1, r1, 0x20
-  /* 805342E4 4E800020 */ blr
-  // clang-format on
+  /* 805342E4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805342e8
@@ -3324,8 +3409,7 @@ asm UNKNOWN_FUNCTION(unk_805342e8) {
   /* 80534674 83A10054 */ lwz         r29, 0x54(r1)
   /* 80534678 7C0803A6 */ mtlr        r0
   /* 8053467C 38210060 */ addi        r1, r1, 0x60
-  /* 80534680 4E800020 */ blr
-  // clang-format on
+  /* 80534680 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80534684
@@ -3427,8 +3511,7 @@ asm UNKNOWN_FUNCTION(unk_80534684) {
   /* 805347E4 83810020 */ lwz         r28, 0x20(r1)
   /* 805347E8 7C0803A6 */ mtlr        r0
   /* 805347EC 38210040 */ addi        r1, r1, 0x40
-  /* 805347F0 4E800020 */ blr
-  // clang-format on
+  /* 805347F0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_endRace
@@ -3522,8 +3605,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endRace) {
   /* 80534924 83E1000C */ lwz         r31, 0xc(r1)
   /* 80534928 7C0803A6 */ mtlr        r0
   /* 8053492C 38210010 */ addi        r1, r1, 0x10
-  /* 80534930 4E800020 */ blr
-  // clang-format on
+  /* 80534930 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80534934
@@ -3567,8 +3649,7 @@ asm UNKNOWN_FUNCTION(unk_80534934){
   /* 805349A8 83E1000C */ lwz         r31, 0xc(r1)
   /* 805349AC 7C0803A6 */ mtlr        r0
   /* 805349B0 38210010 */ addi        r1, r1, 0x10
-  /* 805349B4 4E800020 */ blr
-  // clang-format on
+  /* 805349B4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_endLap
@@ -3761,13 +3842,12 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endLap) {
   /* 80534C68 80010054 */ lwz         r0, 0x54(r1)
   /* 80534C6C 7C0803A6 */ mtlr        r0
   /* 80534C70 38210050 */ addi        r1, r1, 0x50
-  /* 80534C74 4E800020 */ blr
-  // clang-format on
+  /* 80534C74 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80534c78
-// PAL: 0x80534c78..0x80534ccc
-MARK_BINARY_BLOB(unk_80534c78, 0x80534c78, 0x80534ccc);
+// PAL: 0x80534c78..0x80534cbc
+MARK_BINARY_BLOB(unk_80534c78, 0x80534c78, 0x80534cbc);
 asm UNKNOWN_FUNCTION(unk_80534c78) {
   // clang-format off
   nofralloc
@@ -3787,13 +3867,24 @@ asm UNKNOWN_FUNCTION(unk_80534c78) {
   /* 80534CAC 80010014 */ lwz         r0, 0x14(r1)
   /* 80534CB0 7C0803A6 */ mtlr        r0
   /* 80534CB4 38210010 */ addi        r1, r1, 0x10
-  /* 80534CB8 4E800020 */ blr
-  // clang-format on
+  /* 80534CB8 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80534cbc
+// PAL: 0x80534cbc..0x80534ccc
+MARK_BINARY_BLOB(unk_80534cbc, 0x80534cbc, 0x80534ccc);
+asm UNKNOWN_FUNCTION(unk_80534cbc){
+    // clang-format off
+  nofralloc
+  /* 80534CBC 80030038 */ lwz         r0, 0x38(r3)
+  /* 80534CC0 60000010 */ ori         r0, r0, 0x10
+  /* 80534CC4 90030038 */ stw         r0, 0x38(r3)
+  /* 80534CC8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80534ccc
-// PAL: 0x80534ccc..0x80534df8
-MARK_BINARY_BLOB(unk_80534ccc, 0x80534ccc, 0x80534df8);
+// PAL: 0x80534ccc..0x80534d6c
+MARK_BINARY_BLOB(unk_80534ccc, 0x80534ccc, 0x80534d6c);
 asm UNKNOWN_FUNCTION(unk_80534ccc) {
   // clang-format off
   nofralloc
@@ -3839,8 +3930,57 @@ asm UNKNOWN_FUNCTION(unk_80534ccc) {
   /* 80534D5C 83E1000C */ lwz         r31, 0xc(r1)
   /* 80534D60 7C0803A6 */ mtlr        r0
   /* 80534D64 38210010 */ addi        r1, r1, 0x10
-  /* 80534D68 4E800020 */ blr
-  // clang-format on
+  /* 80534D68 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80534d6c
+// PAL: 0x80534d6c..0x80534df8
+MARK_BINARY_BLOB(unk_80534d6c, 0x80534d6c, 0x80534df8);
+asm UNKNOWN_FUNCTION(unk_80534d6c) {
+  // clang-format off
+  nofralloc
+  /* 80534D6C 80030038 */ lwz         r0, 0x38(r3)
+  /* 80534D70 540007BD */ rlwinm.     r0, r0, 0, 0x1e, 0x1e
+  /* 80534D74 4C820020 */ bnelr-
+  /* 80534D78 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
+  /* 80534D7C 80A4D6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r4)
+  /* 80534D80 80850020 */ lwz         r4, 0x20(r5)
+  /* 80534D84 2C040000 */ cmpwi       r4, 0x0
+  /* 80534D88 4182000C */ beq-        lbl_80534d94
+  /* 80534D8C A0840004 */ lhz         r4, 4(r4)
+  /* 80534D90 48000008 */ b           lbl_80534d98
+  lbl_80534d94:
+  /* 80534D94 38800000 */ li          r4, 0x0
+  lbl_80534d98:
+  /* 80534D98 7C0400D0 */ neg         r0, r4
+  /* 80534D9C 7C002378 */ or          r0, r0, r4
+  /* 80534DA0 54000FFF */ rlwinm.     r0, r0, 1, 0x1f, 0x1f
+  /* 80534DA4 41820028 */ beq-        lbl_80534dcc
+  /* 80534DA8 8085001C */ lwz         r4, 0x1c(r5)
+  /* 80534DAC 2C040000 */ cmpwi       r4, 0x0
+  /* 80534DB0 4182000C */ beq-        lbl_80534dbc
+  /* 80534DB4 A0840004 */ lhz         r4, 4(r4)
+  /* 80534DB8 48000008 */ b           lbl_80534dc0
+  lbl_80534dbc:
+  /* 80534DBC 38800000 */ li          r4, 0x0
+  lbl_80534dc0:
+  /* 80534DC0 7C0400D0 */ neg         r0, r4
+  /* 80534DC4 7C002378 */ or          r0, r0, r4
+  /* 80534DC8 54000FFE */ srwi        r0, r0, 0x1f
+  lbl_80534dcc:
+  /* 80534DCC 2C000000 */ cmpwi       r0, 0x0
+  /* 80534DD0 41820010 */ beq-        lbl_80534de0
+  /* 80534DD4 80850020 */ lwz         r4, 0x20(r5)
+  /* 80534DD8 8804000C */ lbz         r0, 0xc(r4)
+  /* 80534DDC 48000008 */ b           lbl_80534de4
+  lbl_80534de0:
+  /* 80534DE0 3800FFFF */ li          r0, -0x1
+  lbl_80534de4:
+  /* 80534DE4 A8830024 */ lha         r4, 0x24(r3)
+  /* 80534DE8 98030028 */ stb         r0, 0x28(r3)
+  /* 80534DEC 3804FFFF */ addi        r0, r4, -0x1
+  /* 80534DF0 B0030024 */ sth         r0, 0x24(r3)
+  /* 80534DF4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_updateCheckpoint
@@ -4153,8 +4293,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateCheckpoint) {
   /* 805351FC 80010064 */ lwz         r0, 0x64(r1)
   /* 80535200 7C0803A6 */ mtlr        r0
   /* 80535204 38210060 */ addi        r1, r1, 0x60
-  /* 80535208 4E800020 */ blr
-  // clang-format on
+  /* 80535208 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053520c
@@ -4235,13 +4374,12 @@ asm UNKNOWN_FUNCTION(unk_8053520c) {
   /* 805352F8 4E800020 */ blr
   lbl_805352fc:
   /* 805352FC 38600000 */ li          r3, 0x0
-  /* 80535300 4E800020 */ blr
-  // clang-format on
+  /* 80535300 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_update
-// PAL: 0x80535304..0x80535718
-MARK_BINARY_BLOB(RaceinfoPlayer_update, 0x80535304, 0x80535718);
+// PAL: 0x80535304..0x80535698
+MARK_BINARY_BLOB(RaceinfoPlayer_update, 0x80535304, 0x80535698);
 asm UNKNOWN_FUNCTION(RaceinfoPlayer_update) {
   // clang-format off
   nofralloc
@@ -4492,8 +4630,60 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_update) {
   /* 80535688 83A10044 */ lwz         r29, 0x44(r1)
   /* 8053568C 7C0803A6 */ mtlr        r0
   /* 80535690 38210050 */ addi        r1, r1, 0x50
-  /* 80535694 4E800020 */ blr
-  // clang-format on
+  /* 80535694 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80535698
+// PAL: 0x80535698..0x8053569c
+MARK_BINARY_BLOB(unk_80535698, 0x80535698, 0x8053569c);
+asm UNKNOWN_FUNCTION(unk_80535698){
+    // clang-format off
+  nofralloc
+  /* 80535698 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_8053569c
+// PAL: 0x8053569c..0x80535718
+MARK_BINARY_BLOB(unk_8053569c, 0x8053569c, 0x80535718);
+asm UNKNOWN_FUNCTION(unk_8053569c) {
+  // clang-format off
+  nofralloc
+  /* 8053569C 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
+  /* 805356A0 80A4D6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r4)
+  /* 805356A4 80850020 */ lwz         r4, 0x20(r5)
+  /* 805356A8 2C040000 */ cmpwi       r4, 0x0
+  /* 805356AC 4182000C */ beq-        lbl_805356b8
+  /* 805356B0 A0840004 */ lhz         r4, 4(r4)
+  /* 805356B4 48000008 */ b           lbl_805356bc
+  lbl_805356b8:
+  /* 805356B8 38800000 */ li          r4, 0x0
+  lbl_805356bc:
+  /* 805356BC 7C0400D0 */ neg         r0, r4
+  /* 805356C0 7C002378 */ or          r0, r0, r4
+  /* 805356C4 54000FFF */ rlwinm.     r0, r0, 1, 0x1f, 0x1f
+  /* 805356C8 41820028 */ beq-        lbl_805356f0
+  /* 805356CC 8085001C */ lwz         r4, 0x1c(r5)
+  /* 805356D0 2C040000 */ cmpwi       r4, 0x0
+  /* 805356D4 4182000C */ beq-        lbl_805356e0
+  /* 805356D8 A0840004 */ lhz         r4, 4(r4)
+  /* 805356DC 48000008 */ b           lbl_805356e4
+  lbl_805356e0:
+  /* 805356E0 38800000 */ li          r4, 0x0
+  lbl_805356e4:
+  /* 805356E4 7C0400D0 */ neg         r0, r4
+  /* 805356E8 7C002378 */ or          r0, r0, r4
+  /* 805356EC 54000FFE */ srwi        r0, r0, 0x1f
+  lbl_805356f0:
+  /* 805356F0 2C000000 */ cmpwi       r0, 0x0
+  /* 805356F4 4D820020 */ beqlr-
+  /* 805356F8 80030038 */ lwz         r0, 0x38(r3)
+  /* 805356FC 540007FF */ clrlwi.     r0, r0, 0x1f
+  /* 80535700 4D820020 */ beqlr-
+  /* 80535704 3CA0809C */ lis         r5, lbl_809c18f8@ha
+  /* 80535708 88830008 */ lbz         r4, 8(r3)
+  /* 8053570C 806518F8 */ lwz         r3, lbl_809c18f8@l(r5)
+  /* 80535710 4805A9F0 */ b           PlayerHolder_getPlayer
+  /* 80535714 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80535718
@@ -4506,8 +4696,7 @@ asm UNKNOWN_FUNCTION(unk_80535718){
   /* 8053571C 81830000 */ lwz         r12, 0(r3)
   /* 80535720 818C0014 */ lwz         r12, 0x14(r12)
   /* 80535724 7D8903A6 */ mtctr       r12
-  /* 80535728 4E800420 */ bctr
-    // clang-format on
+  /* 80535728 4E800420 */ bctr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_getLapSplit
@@ -4599,8 +4788,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_getLapSplit) {
   /* 80535854 B0650004 */ sth         r3, 4(r5)
   /* 80535858 98050006 */ stb         r0, 6(r5)
   /* 8053585C B0050008 */ sth         r0, 8(r5)
-  /* 80535860 4E800020 */ blr
-  // clang-format on
+  /* 80535860 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80535864
@@ -4648,8 +4836,7 @@ asm UNKNOWN_FUNCTION(unk_80535864){
   /* 805358F4 80010024 */ lwz         r0, 0x24(r1)
   /* 805358F8 7C0803A6 */ mtlr        r0
   /* 805358FC 38210020 */ addi        r1, r1, 0x20
-  /* 80535900 4E800020 */ blr
-    // clang-format on
+  /* 80535900 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80535904
@@ -4905,8 +5092,7 @@ asm UNKNOWN_FUNCTION(unk_80535904) {
   /* 80535C90 83810030 */ lwz         r28, 0x30(r1)
   /* 80535C94 7C0803A6 */ mtlr        r0
   /* 80535C98 38210040 */ addi        r1, r1, 0x40
-  /* 80535C9C 4E800020 */ blr
-  // clang-format on
+  /* 80535C9C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceInfo_copyTimer
@@ -4944,8 +5130,7 @@ asm UNKNOWN_FUNCTION(RaceInfo_copyTimer){
   /* 80535D04 B0040004 */ sth         r0, 4(r4)
   /* 80535D08 98040006 */ stb         r0, 6(r4)
   /* 80535D0C B0040008 */ sth         r0, 8(r4)
-  /* 80535D10 4E800020 */ blr
-  // clang-format on
+  /* 80535D10 4E800020 */ blr // clang-format on
 }
 
 // Symbol: TimeAttackGamemode_canEndRace
@@ -5015,8 +5200,7 @@ asm UNKNOWN_FUNCTION(TimeAttackGamemode_canEndRace) {
   /* 80535DD8 7C002840 */ cmplw       r0, r5
   /* 80535DDC 4180FFBC */ blt+        lbl_80535d98
   /* 80535DE0 38600001 */ li          r3, 0x1
-  /* 80535DE4 4E800020 */ blr
-  // clang-format on
+  /* 80535DE4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80535de8
@@ -5066,8 +5250,7 @@ asm UNKNOWN_FUNCTION(unk_80535de8) {
   /* 80535E74 83810010 */ lwz         r28, 0x10(r1)
   /* 80535E78 7C0803A6 */ mtlr        r0
   /* 80535E7C 38210020 */ addi        r1, r1, 0x20
-  /* 80535E80 4E800020 */ blr
-  // clang-format on
+  /* 80535E80 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80535e84
@@ -5108,8 +5291,7 @@ asm UNKNOWN_FUNCTION(unk_80535e84) {
   /* 80535EE4 818C0014 */ lwz         r12, 0x14(r12)
   /* 80535EE8 7D8903A6 */ mtctr       r12
   /* 80535EEC 4E800420 */ bctr
-  /* 80535EF0 4E800020 */ blr
-  // clang-format on
+  /* 80535EF0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80535ef4
@@ -5131,13 +5313,12 @@ asm UNKNOWN_FUNCTION(unk_80535ef4) {
   /* 80535F18 7C840774 */ extsb       r4, r4
   /* 80535F1C 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
   /* 80535F20 5484043E */ clrlwi      r4, r4, 0x10
-  /* 80535F24 4BFE29FC */ b           unk_80518920
-  // clang-format on
+  /* 80535F24 4BFE29FC */ b           unk_80518920 // clang-format on
 }
 
 // Symbol: unk_80535f28
-// PAL: 0x80535f28..0x80536054
-MARK_BINARY_BLOB(unk_80535f28, 0x80535f28, 0x80536054);
+// PAL: 0x80535f28..0x80535fe4
+MARK_BINARY_BLOB(unk_80535f28, 0x80535f28, 0x80535fe4);
 asm UNKNOWN_FUNCTION(unk_80535f28) {
   // clang-format off
   nofralloc
@@ -5195,13 +5376,53 @@ asm UNKNOWN_FUNCTION(unk_80535f28) {
   /* 80535FD4 80010014 */ lwz         r0, 0x14(r1)
   /* 80535FD8 7C0803A6 */ mtlr        r0
   /* 80535FDC 38210010 */ addi        r1, r1, 0x10
-  /* 80535FE0 4E800020 */ blr
-  // clang-format on
+  /* 80535FE0 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80535fe4
+// PAL: 0x80535fe4..0x80536054
+MARK_BINARY_BLOB(unk_80535fe4, 0x80535fe4, 0x80536054);
+asm UNKNOWN_FUNCTION(unk_80535fe4) {
+  // clang-format off
+  nofralloc
+  /* 80535FE4 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
+  /* 80535FE8 80A4D6E8 */ lwz         r5, spInstance__Q26System9CourseMap@l(r4)
+  /* 80535FEC 80850020 */ lwz         r4, 0x20(r5)
+  /* 80535FF0 2C040000 */ cmpwi       r4, 0x0
+  /* 80535FF4 4182000C */ beq-        lbl_80536000
+  /* 80535FF8 A0840004 */ lhz         r4, 4(r4)
+  /* 80535FFC 48000008 */ b           lbl_80536004
+  lbl_80536000:
+  /* 80536000 38800000 */ li          r4, 0x0
+  lbl_80536004:
+  /* 80536004 7C0400D0 */ neg         r0, r4
+  /* 80536008 7C002378 */ or          r0, r0, r4
+  /* 8053600C 54000FFF */ rlwinm.     r0, r0, 1, 0x1f, 0x1f
+  /* 80536010 41820028 */ beq-        lbl_80536038
+  /* 80536014 8085001C */ lwz         r4, 0x1c(r5)
+  /* 80536018 2C040000 */ cmpwi       r4, 0x0
+  /* 8053601C 4182000C */ beq-        lbl_80536028
+  /* 80536020 A0840004 */ lhz         r4, 4(r4)
+  /* 80536024 48000008 */ b           lbl_8053602c
+  lbl_80536028:
+  /* 80536028 38800000 */ li          r4, 0x0
+  lbl_8053602c:
+  /* 8053602C 7C0400D0 */ neg         r0, r4
+  /* 80536030 7C002378 */ or          r0, r0, r4
+  /* 80536034 54000FFE */ srwi        r0, r0, 0x1f
+  lbl_80536038:
+  /* 80536038 2C000000 */ cmpwi       r0, 0x0
+  /* 8053603C 4D820020 */ beqlr-
+  /* 80536040 81830000 */ lwz         r12, 0(r3)
+  /* 80536044 818C0014 */ lwz         r12, 0x14(r12)
+  /* 80536048 7D8903A6 */ mtctr       r12
+  /* 8053604C 4E800420 */ bctr
+  /* 80536050 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80536054
-// PAL: 0x80536054..0x8053621c
-MARK_BINARY_BLOB(unk_80536054, 0x80536054, 0x8053621c);
+// PAL: 0x80536054..0x80536208
+MARK_BINARY_BLOB(unk_80536054, 0x80536054, 0x80536208);
 asm UNKNOWN_FUNCTION(unk_80536054) {
   // clang-format off
   nofralloc
@@ -5329,8 +5550,20 @@ asm UNKNOWN_FUNCTION(unk_80536054) {
   /* 805361F8 80010014 */ lwz         r0, 0x14(r1)
   /* 805361FC 7C0803A6 */ mtlr        r0
   /* 80536200 38210010 */ addi        r1, r1, 0x10
-  /* 80536204 4E800020 */ blr
-  // clang-format on
+  /* 80536204 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80536208
+// PAL: 0x80536208..0x8053621c
+MARK_BINARY_BLOB(unk_80536208, 0x80536208, 0x8053621c);
+asm UNKNOWN_FUNCTION(unk_80536208){
+    // clang-format off
+  nofralloc
+  /* 80536208 80630010 */ lwz         r3, 0x10(r3)
+  /* 8053620C 81830000 */ lwz         r12, 0(r3)
+  /* 80536210 818C0008 */ lwz         r12, 8(r12)
+  /* 80536214 7D8903A6 */ mtctr       r12
+  /* 80536218 4E800420 */ bctr // clang-format on
 }
 
 // Symbol: unk_8053621c
@@ -5343,13 +5576,12 @@ asm UNKNOWN_FUNCTION(unk_8053621c){
   /* 80536220 81830000 */ lwz         r12, 0(r3)
   /* 80536224 818C0018 */ lwz         r12, 0x18(r12)
   /* 80536228 7D8903A6 */ mtctr       r12
-  /* 8053622C 4E800420 */ bctr
-    // clang-format on
+  /* 8053622C 4E800420 */ bctr // clang-format on
 }
 
 // Symbol: Raceinfo_isAtLeastStage
-// PAL: 0x80536230..0x805362dc
-MARK_BINARY_BLOB(Raceinfo_isAtLeastStage, 0x80536230, 0x805362dc);
+// PAL: 0x80536230..0x80536248
+MARK_BINARY_BLOB(Raceinfo_isAtLeastStage, 0x80536230, 0x80536248);
 asm UNKNOWN_FUNCTION(Raceinfo_isAtLeastStage){
     // clang-format off
   nofralloc
@@ -5358,8 +5590,56 @@ asm UNKNOWN_FUNCTION(Raceinfo_isAtLeastStage){
   /* 80536238 7C05FE70 */ srawi       r5, r0, 0x1f
   /* 8053623C 7C040010 */ subfc       r0, r4, r0
   /* 80536240 7C651914 */ adde        r3, r5, r3
-  /* 80536244 4E800020 */ blr
-    // clang-format on
+  /* 80536244 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80536248
+// PAL: 0x80536248..0x805362dc
+MARK_BINARY_BLOB(unk_80536248, 0x80536248, 0x805362dc);
+asm UNKNOWN_FUNCTION(unk_80536248) {
+  // clang-format off
+  nofralloc
+  /* 80536248 3CA0809C */ lis         r5, spInstance__Q26System10RaceConfig@ha
+  /* 8053624C 38E00000 */ li          r7, 0x0
+  /* 80536250 80A5D728 */ lwz         r5, spInstance__Q26System10RaceConfig@l(r5)
+  /* 80536254 1C0400F0 */ mulli       r0, r4, 0xf0
+  /* 80536258 39000000 */ li          r8, 0x0
+  /* 8053625C 38C50028 */ addi        r6, r5, 0x28
+  /* 80536260 7CA60214 */ add         r5, r6, r0
+  /* 80536264 80A500CC */ lwz         r5, 0xcc(r5)
+  /* 80536268 7C8903A6 */ mtctr       r4
+  /* 8053626C 28040000 */ cmplwi      r4, 0
+  /* 80536270 4081002C */ ble-        lbl_8053629c
+  lbl_80536274:
+  /* 80536274 5500063E */ clrlwi      r0, r8, 0x18
+  /* 80536278 1C0000F0 */ mulli       r0, r0, 0xf0
+  /* 8053627C 7C860214 */ add         r4, r6, r0
+  /* 80536280 800400CC */ lwz         r0, 0xcc(r4)
+  /* 80536284 7C050000 */ cmpw        r5, r0
+  /* 80536288 4082000C */ bne-        lbl_80536294
+  /* 8053628C 38070001 */ addi        r0, r7, 0x1
+  /* 80536290 5407063E */ clrlwi      r7, r0, 0x18
+  lbl_80536294:
+  /* 80536294 39080001 */ addi        r8, r8, 0x1
+  /* 80536298 4200FFDC */ bdnz        lbl_80536274
+  lbl_8053629c:
+  /* 8053629C 2C050001 */ cmpwi       r5, 0x1
+  /* 805362A0 38A00000 */ li          r5, 0x0
+  /* 805362A4 40820008 */ bne-        lbl_805362ac
+  /* 805362A8 38A00006 */ li          r5, 0x6
+  lbl_805362ac:
+  /* 805362AC 88830024 */ lbz         r4, 0x24(r3)
+  /* 805362B0 3C602AAB */ lis         r3, 0x2aab
+  /* 805362B4 3803AAAB */ addi        r0, r3, -0x5555
+  /* 805362B8 7C843A14 */ add         r4, r4, r7
+  /* 805362BC 7C602096 */ mulhw       r3, r0, r4
+  /* 805362C0 54600FFE */ srwi        r0, r3, 0x1f
+  /* 805362C4 7C030214 */ add         r0, r3, r0
+  /* 805362C8 1C000006 */ mulli       r0, r0, 0x6
+  /* 805362CC 7C002050 */ subf        r0, r0, r4
+  /* 805362D0 7C050214 */ add         r0, r5, r0
+  /* 805362D4 5403063E */ clrlwi      r3, r0, 0x18
+  /* 805362D8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: Raceinfo_getInitialPosAndRotForPlayer
@@ -5367,8 +5647,6 @@ asm UNKNOWN_FUNCTION(Raceinfo_isAtLeastStage){
 MARK_BINARY_BLOB(Raceinfo_getInitialPosAndRotForPlayer, 0x805362dc, 0x805365c8);
 asm UNKNOWN_FUNCTION(Raceinfo_getInitialPosAndRotForPlayer) {
   // clang-format off
-  .section .text
-
   nofralloc
   /* 805362DC 9421FFD0 */ stwu        r1, -0x30(r1)
   /* 805362E0 7C0802A6 */ mflr        r0
@@ -5591,26 +5869,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_getInitialPosAndRotForPlayer) {
   /* 805365B8 80010034 */ lwz         r0, 0x34(r1)
   /* 805365BC 7C0803A6 */ mtlr        r0
   /* 805365C0 38210030 */ addi        r1, r1, 0x30
-  /* 805365C4 4E800020 */ blr
-
-  .section .data
-
-  .global jtbl_808b32e8
-  jtbl_808b32e8:
-      .4byte jump_80536540
-      .4byte jump_80536540
-      .4byte jump_80536494
-      .4byte jump_80536328
-      .4byte jump_805364a4
-      .4byte jump_80536494
-      .4byte jump_80536540
-      .4byte jump_80536540
-      .4byte jump_80536540
-      .4byte jump_80536328
-      .4byte jump_80536328
-      .4byte jump_80536450
-      .4byte jump_80536484
-  // clang-format on
+  /* 805365C4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805365c8
@@ -5618,8 +5877,6 @@ asm UNKNOWN_FUNCTION(Raceinfo_getInitialPosAndRotForPlayer) {
 MARK_BINARY_BLOB(unk_805365c8, 0x805365c8, 0x80536828);
 asm UNKNOWN_FUNCTION(unk_805365c8) {
   // clang-format off
-  .section .text
-
   nofralloc
   /* 805365C8 9421FFE0 */ stwu        r1, -0x20(r1)
   /* 805365CC 7C0802A6 */ mflr        r0
@@ -5805,31 +6062,12 @@ asm UNKNOWN_FUNCTION(unk_805365c8) {
   /* 80536818 83810010 */ lwz         r28, 0x10(r1)
   /* 8053681C 7C0803A6 */ mtlr        r0
   /* 80536820 38210020 */ addi        r1, r1, 0x20
-  /* 80536824 4E800020 */ blr
-
-  .section .data
-
-  .global jtbl_808b331c
-  jtbl_808b331c:
-      .4byte jump_805367f4
-      .4byte jump_805367f4
-      .4byte jump_805367ec
-      .4byte jump_80536618
-      .4byte jump_80536738
-      .4byte jump_805367ec
-      .4byte jump_805367f4
-      .4byte jump_805367f4
-      .4byte jump_805367f4
-      .4byte jump_80536618
-      .4byte jump_80536618
-      .4byte jump_805367b8
-      .4byte jump_805367e4
-  // clang-format on
+  /* 80536824 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80536828
-// PAL: 0x80536828..0x805368f8
-MARK_BINARY_BLOB(unk_80536828, 0x80536828, 0x805368f8);
+// PAL: 0x80536828..0x805368c4
+MARK_BINARY_BLOB(unk_80536828, 0x80536828, 0x805368c4);
 asm UNKNOWN_FUNCTION(unk_80536828) {
   // clang-format off
   nofralloc
@@ -5877,8 +6115,29 @@ asm UNKNOWN_FUNCTION(unk_80536828) {
   /* 805368B4 7CC33378 */ mr          r3, r6
   /* 805368B8 7C0803A6 */ mtlr        r0
   /* 805368BC 38210010 */ addi        r1, r1, 0x10
-  /* 805368C0 4E800020 */ blr
-  // clang-format on
+  /* 805368C0 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_805368c4
+// PAL: 0x805368c4..0x805368f8
+MARK_BINARY_BLOB(unk_805368c4, 0x805368c4, 0x805368f8);
+asm UNKNOWN_FUNCTION(unk_805368c4) {
+  // clang-format off
+  nofralloc
+  /* 805368C4 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
+  /* 805368C8 8084D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r4)
+  /* 805368CC 80040B70 */ lwz         r0, 0xb70(r4)
+  /* 805368D0 2C000000 */ cmpwi       r0, 0x0
+  /* 805368D4 4182000C */ beq-        lbl_805368e0
+  /* 805368D8 38600000 */ li          r3, 0x0
+  /* 805368DC 4E800020 */ blr
+  lbl_805368e0:
+  /* 805368E0 80630010 */ lwz         r3, 0x10(r3)
+  /* 805368E4 84030008 */ lwzu        r0, 8(r3)
+  /* 805368E8 2C000000 */ cmpwi       r0, 0x0
+  /* 805368EC 4C820020 */ bnelr-
+  /* 805368F0 38600000 */ li          r3, 0x0
+  /* 805368F4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: RaceinfoPlayer_updateGpRankScore
@@ -6130,13 +6389,12 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore) {
   /* 80536C74 83A10034 */ lwz         r29, 0x34(r1)
   /* 80536C78 7C0803A6 */ mtlr        r0
   /* 80536C7C 38210040 */ addi        r1, r1, 0x40
-  /* 80536C80 4E800020 */ blr
-  // clang-format on
+  /* 80536C80 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80536c84
-// PAL: 0x80536c84..0x805371a8
-MARK_BINARY_BLOB(unk_80536c84, 0x80536c84, 0x805371a8);
+// PAL: 0x80536c84..0x80537190
+MARK_BINARY_BLOB(unk_80536c84, 0x80536c84, 0x80537190);
 asm UNKNOWN_FUNCTION(unk_80536c84) {
   // clang-format off
   nofralloc
@@ -6495,8 +6753,29 @@ asm UNKNOWN_FUNCTION(unk_80536c84) {
   /* 80537180 80010054 */ lwz         r0, 0x54(r1)
   /* 80537184 7C0803A6 */ mtlr        r0
   /* 80537188 38210050 */ addi        r1, r1, 0x50
-  /* 8053718C 4E800020 */ blr
-  // clang-format on
+  /* 8053718C 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80537190
+// PAL: 0x80537190..0x805371a4
+MARK_BINARY_BLOB(unk_80537190, 0x80537190, 0x805371a4);
+asm UNKNOWN_FUNCTION(unk_80537190){
+    // clang-format off
+  nofralloc
+  /* 80537190 80630010 */ lwz         r3, 0x10(r3)
+  /* 80537194 81830000 */ lwz         r12, 0(r3)
+  /* 80537198 818C0028 */ lwz         r12, 0x28(r12)
+  /* 8053719C 7D8903A6 */ mtctr       r12
+  /* 805371A0 4E800420 */ bctr // clang-format on
+}
+
+// Symbol: unk_805371a4
+// PAL: 0x805371a4..0x805371a8
+MARK_BINARY_BLOB(unk_805371a4, 0x805371a4, 0x805371a8);
+asm UNKNOWN_FUNCTION(unk_805371a4){
+    // clang-format off
+  nofralloc
+  /* 805371A4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805371a8
@@ -6521,8 +6800,7 @@ asm UNKNOWN_FUNCTION(unk_805371a8){
   /* 805371D8 80010014 */ lwz         r0, 0x14(r1)
   /* 805371DC 7C0803A6 */ mtlr        r0
   /* 805371E0 38210010 */ addi        r1, r1, 0x10
-  /* 805371E4 4E800020 */ blr
-  // clang-format on
+  /* 805371E4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805371e8
@@ -6555,13 +6833,12 @@ asm UNKNOWN_FUNCTION(unk_805371e8){
   /* 8053723C 83C10018 */ lwz         r30, 0x18(r1)
   /* 80537240 7C0803A6 */ mtlr        r0
   /* 80537244 38210020 */ addi        r1, r1, 0x20
-  /* 80537248 4E800020 */ blr
-    // clang-format on
+  /* 80537248 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053724c
-// PAL: 0x8053724c..0x805372bc
-MARK_BINARY_BLOB(unk_8053724c, 0x8053724c, 0x805372bc);
+// PAL: 0x8053724c..0x805372b4
+MARK_BINARY_BLOB(unk_8053724c, 0x8053724c, 0x805372b4);
 asm UNKNOWN_FUNCTION(unk_8053724c){
     // clang-format off
   nofralloc
@@ -6590,8 +6867,17 @@ asm UNKNOWN_FUNCTION(unk_8053724c){
   /* 805372A4 83A10014 */ lwz         r29, 0x14(r1)
   /* 805372A8 7C0803A6 */ mtlr        r0
   /* 805372AC 38210020 */ addi        r1, r1, 0x20
-  /* 805372B0 4E800020 */ blr
-    // clang-format on
+  /* 805372B0 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_805372b4
+// PAL: 0x805372b4..0x805372bc
+MARK_BINARY_BLOB(unk_805372b4, 0x805372b4, 0x805372bc);
+asm UNKNOWN_FUNCTION(unk_805372b4){
+    // clang-format off
+  nofralloc
+  /* 805372B4 3860000D */ li          r3, 0xd
+  /* 805372B8 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805372bc
@@ -6624,13 +6910,12 @@ asm UNKNOWN_FUNCTION(unk_805372bc){
   /* 80537310 83C10018 */ lwz         r30, 0x18(r1)
   /* 80537314 7C0803A6 */ mtlr        r0
   /* 80537318 38210020 */ addi        r1, r1, 0x20
-  /* 8053731C 4E800020 */ blr
-    // clang-format on
+  /* 8053731C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537320
-// PAL: 0x80537320..0x80537390
-MARK_BINARY_BLOB(unk_80537320, 0x80537320, 0x80537390);
+// PAL: 0x80537320..0x80537388
+MARK_BINARY_BLOB(unk_80537320, 0x80537320, 0x80537388);
 asm UNKNOWN_FUNCTION(unk_80537320){
     // clang-format off
   nofralloc
@@ -6659,8 +6944,17 @@ asm UNKNOWN_FUNCTION(unk_80537320){
   /* 80537378 83A10014 */ lwz         r29, 0x14(r1)
   /* 8053737C 7C0803A6 */ mtlr        r0
   /* 80537380 38210020 */ addi        r1, r1, 0x20
-  /* 80537384 4E800020 */ blr
-    // clang-format on
+  /* 80537384 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80537388
+// PAL: 0x80537388..0x80537390
+MARK_BINARY_BLOB(unk_80537388, 0x80537388, 0x80537390);
+asm UNKNOWN_FUNCTION(unk_80537388){
+    // clang-format off
+  nofralloc
+  /* 80537388 3860000A */ li          r3, 0xa
+  /* 8053738C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537390
@@ -6693,13 +6987,12 @@ asm UNKNOWN_FUNCTION(unk_80537390){
   /* 805373E4 83C10018 */ lwz         r30, 0x18(r1)
   /* 805373E8 7C0803A6 */ mtlr        r0
   /* 805373EC 38210020 */ addi        r1, r1, 0x20
-  /* 805373F0 4E800020 */ blr
-    // clang-format on
+  /* 805373F0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805373f4
-// PAL: 0x805373f4..0x80537464
-MARK_BINARY_BLOB(unk_805373f4, 0x805373f4, 0x80537464);
+// PAL: 0x805373f4..0x8053745c
+MARK_BINARY_BLOB(unk_805373f4, 0x805373f4, 0x8053745c);
 asm UNKNOWN_FUNCTION(unk_805373f4){
     // clang-format off
   nofralloc
@@ -6728,8 +7021,17 @@ asm UNKNOWN_FUNCTION(unk_805373f4){
   /* 8053744C 83A10014 */ lwz         r29, 0x14(r1)
   /* 80537450 7C0803A6 */ mtlr        r0
   /* 80537454 38210020 */ addi        r1, r1, 0x20
-  /* 80537458 4E800020 */ blr
-    // clang-format on
+  /* 80537458 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_8053745c
+// PAL: 0x8053745c..0x80537464
+MARK_BINARY_BLOB(unk_8053745c, 0x8053745c, 0x80537464);
+asm UNKNOWN_FUNCTION(unk_8053745c){
+    // clang-format off
+  nofralloc
+  /* 8053745C 38600006 */ li          r3, 0x6
+  /* 80537460 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537464
@@ -6762,13 +7064,12 @@ asm UNKNOWN_FUNCTION(unk_80537464){
   /* 805374B8 83C10018 */ lwz         r30, 0x18(r1)
   /* 805374BC 7C0803A6 */ mtlr        r0
   /* 805374C0 38210020 */ addi        r1, r1, 0x20
-  /* 805374C4 4E800020 */ blr
-    // clang-format on
+  /* 805374C4 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805374c8
-// PAL: 0x805374c8..0x80537538
-MARK_BINARY_BLOB(unk_805374c8, 0x805374c8, 0x80537538);
+// PAL: 0x805374c8..0x80537530
+MARK_BINARY_BLOB(unk_805374c8, 0x805374c8, 0x80537530);
 asm UNKNOWN_FUNCTION(unk_805374c8){
     // clang-format off
   nofralloc
@@ -6797,8 +7098,17 @@ asm UNKNOWN_FUNCTION(unk_805374c8){
   /* 80537520 83A10014 */ lwz         r29, 0x14(r1)
   /* 80537524 7C0803A6 */ mtlr        r0
   /* 80537528 38210020 */ addi        r1, r1, 0x20
-  /* 8053752C 4E800020 */ blr
-    // clang-format on
+  /* 8053752C 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_80537530
+// PAL: 0x80537530..0x80537538
+MARK_BINARY_BLOB(unk_80537530, 0x80537530, 0x80537538);
+asm UNKNOWN_FUNCTION(unk_80537530){
+    // clang-format off
+  nofralloc
+  /* 80537530 38600006 */ li          r3, 0x6
+  /* 80537534 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537538
@@ -6831,8 +7141,7 @@ asm UNKNOWN_FUNCTION(unk_80537538){
   /* 8053758C 83C10018 */ lwz         r30, 0x18(r1)
   /* 80537590 7C0803A6 */ mtlr        r0
   /* 80537594 38210020 */ addi        r1, r1, 0x20
-  /* 80537598 4E800020 */ blr
-    // clang-format on
+  /* 80537598 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053759c
@@ -6866,8 +7175,7 @@ asm UNKNOWN_FUNCTION(unk_8053759c){
   /* 805375F4 83A10014 */ lwz         r29, 0x14(r1)
   /* 805375F8 7C0803A6 */ mtlr        r0
   /* 805375FC 38210020 */ addi        r1, r1, 0x20
-  /* 80537600 4E800020 */ blr
-    // clang-format on
+  /* 80537600 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537604
@@ -6877,8 +7185,7 @@ asm UNKNOWN_FUNCTION(unk_80537604){
     // clang-format off
   nofralloc
   /* 80537604 38600004 */ li          r3, 0x4
-  /* 80537608 4E800020 */ blr
-    // clang-format on
+  /* 80537608 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053760c
@@ -6911,13 +7218,12 @@ asm UNKNOWN_FUNCTION(unk_8053760c){
   /* 80537660 83C10018 */ lwz         r30, 0x18(r1)
   /* 80537664 7C0803A6 */ mtlr        r0
   /* 80537668 38210020 */ addi        r1, r1, 0x20
-  /* 8053766C 4E800020 */ blr
-    // clang-format on
+  /* 8053766C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537670
-// PAL: 0x80537670..0x805376e0
-MARK_BINARY_BLOB(unk_80537670, 0x80537670, 0x805376e0);
+// PAL: 0x80537670..0x805376d8
+MARK_BINARY_BLOB(unk_80537670, 0x80537670, 0x805376d8);
 asm UNKNOWN_FUNCTION(unk_80537670){
     // clang-format off
   nofralloc
@@ -6946,8 +7252,17 @@ asm UNKNOWN_FUNCTION(unk_80537670){
   /* 805376C8 83A10014 */ lwz         r29, 0x14(r1)
   /* 805376CC 7C0803A6 */ mtlr        r0
   /* 805376D0 38210020 */ addi        r1, r1, 0x20
-  /* 805376D4 4E800020 */ blr
-    // clang-format on
+  /* 805376D4 4E800020 */ blr // clang-format on
+}
+
+// Symbol: unk_805376d8
+// PAL: 0x805376d8..0x805376e0
+MARK_BINARY_BLOB(unk_805376d8, 0x805376d8, 0x805376e0);
+asm UNKNOWN_FUNCTION(unk_805376d8){
+    // clang-format off
+  nofralloc
+  /* 805376D8 38600002 */ li          r3, 0x2
+  /* 805376DC 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_805376e0
@@ -6981,8 +7296,7 @@ asm UNKNOWN_FUNCTION(unk_805376e0){
   /* 80537730 80010014 */ lwz         r0, 0x14(r1)
   /* 80537734 7C0803A6 */ mtlr        r0
   /* 80537738 38210010 */ addi        r1, r1, 0x10
-  /* 8053773C 4E800020 */ blr
-  // clang-format on
+  /* 8053773C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537740
@@ -7050,8 +7364,7 @@ asm UNKNOWN_FUNCTION(unk_80537740) {
   /* 80537820 D0210010 */ stfs        f1, 0x10(r1)
   /* 80537824 7C0803A6 */ mtlr        r0
   /* 80537828 38210040 */ addi        r1, r1, 0x40
-  /* 8053782C 4E800020 */ blr
-  // clang-format on
+  /* 8053782C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: VEC3_fromCross
@@ -7078,8 +7391,7 @@ asm UNKNOWN_FUNCTION(VEC3_fromCross){
   /* 8053786C D0830000 */ stfs        f4, 0(r3)
   /* 80537870 D0430004 */ stfs        f2, 4(r3)
   /* 80537874 D0030008 */ stfs        f0, 8(r3)
-  /* 80537878 4E800020 */ blr
-    // clang-format on
+  /* 80537878 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053787c
@@ -7283,8 +7595,7 @@ asm UNKNOWN_FUNCTION(unk_8053787c) {
   /* 80537B70 800100B4 */ lwz         r0, 0xb4(r1)
   /* 80537B74 7C0803A6 */ mtlr        r0
   /* 80537B78 382100B0 */ addi        r1, r1, 0xb0
-  /* 80537B7C 4E800020 */ blr
-  // clang-format on
+  /* 80537B7C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537b80
@@ -7301,8 +7612,7 @@ asm UNKNOWN_FUNCTION(unk_80537b80){
   /* 80537B94 D0030000 */ stfs        f0, 0(r3)
   /* 80537B98 D0230004 */ stfs        f1, 4(r3)
   /* 80537B9C D0430008 */ stfs        f2, 8(r3)
-  /* 80537BA0 4E800020 */ blr
-    // clang-format on
+  /* 80537BA0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537ba4
@@ -7354,8 +7664,7 @@ asm UNKNOWN_FUNCTION(unk_80537ba4) {
   /* 80537C44 80010074 */ lwz         r0, 0x74(r1)
   /* 80537C48 7C0803A6 */ mtlr        r0
   /* 80537C4C 38210070 */ addi        r1, r1, 0x70
-  /* 80537C50 4E800020 */ blr
-  // clang-format on
+  /* 80537C50 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537c54
@@ -7380,8 +7689,7 @@ asm UNKNOWN_FUNCTION(unk_80537c54){
   /* 80537C84 80010014 */ lwz         r0, 0x14(r1)
   /* 80537C88 7C0803A6 */ mtlr        r0
   /* 80537C8C 38210010 */ addi        r1, r1, 0x10
-  /* 80537C90 4E800020 */ blr
-  // clang-format on
+  /* 80537C90 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537c94
@@ -7406,8 +7714,7 @@ asm UNKNOWN_FUNCTION(unk_80537c94){
   /* 80537CC4 80010014 */ lwz         r0, 0x14(r1)
   /* 80537CC8 7C0803A6 */ mtlr        r0
   /* 80537CCC 38210010 */ addi        r1, r1, 0x10
-  /* 80537CD0 4E800020 */ blr
-  // clang-format on
+  /* 80537CD0 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537cd4
@@ -7604,8 +7911,7 @@ asm UNKNOWN_FUNCTION(unk_80537cd4) {
   /* 80537F88 800100C4 */ lwz         r0, 0xc4(r1)
   /* 80537F8C 7C0803A6 */ mtlr        r0
   /* 80537F90 382100C0 */ addi        r1, r1, 0xc0
-  /* 80537F94 4E800020 */ blr
-  // clang-format on
+  /* 80537F94 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80537f98
@@ -7674,8 +7980,7 @@ asm UNKNOWN_FUNCTION(unk_80537f98) {
   /* 80538074 83C10008 */ lwz         r30, 8(r1)
   /* 80538078 7C0803A6 */ mtlr        r0
   /* 8053807C 38210020 */ addi        r1, r1, 0x20
-  /* 80538080 4E800020 */ blr
-  // clang-format on
+  /* 80538080 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80538084
@@ -7744,8 +8049,7 @@ asm UNKNOWN_FUNCTION(unk_80538084) {
   /* 80538160 83C10008 */ lwz         r30, 8(r1)
   /* 80538164 7C0803A6 */ mtlr        r0
   /* 80538168 38210020 */ addi        r1, r1, 0x20
-  /* 8053816C 4E800020 */ blr
-  // clang-format on
+  /* 8053816C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80538170
@@ -7766,8 +8070,7 @@ asm UNKNOWN_FUNCTION(unk_80538170){
   /* 80538194 EC2100F2 */ fmuls       f1, f1, f3
   /* 80538198 EC02002A */ fadds       f0, f2, f0
   /* 8053819C EC21002A */ fadds       f1, f1, f0
-  /* 805381A0 4BFDC670 */ b           Vec3_scale
-    // clang-format on
+  /* 805381A0 4BFDC670 */ b           Vec3_scale // clang-format on
 }
 
 // Symbol: unk_805381a4
@@ -7806,8 +8109,7 @@ asm UNKNOWN_FUNCTION(unk_805381a4){
   /* 80538210 83C10018 */ lwz         r30, 0x18(r1)
   /* 80538214 7C0803A6 */ mtlr        r0
   /* 80538218 38210020 */ addi        r1, r1, 0x20
-  /* 8053821C 4E800020 */ blr
-    // clang-format on
+  /* 8053821C 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80538220
@@ -7881,8 +8183,7 @@ asm UNKNOWN_FUNCTION(unk_80538220) {
   /* 8053830C 83C10028 */ lwz         r30, 0x28(r1)
   /* 80538310 7C0803A6 */ mtlr        r0
   /* 80538314 38210030 */ addi        r1, r1, 0x30
-  /* 80538318 4E800020 */ blr
-  // clang-format on
+  /* 80538318 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_8053831c
@@ -7901,8 +8202,7 @@ asm UNKNOWN_FUNCTION(unk_8053831c){
   lbl_80538338:
   /* 80538338 38000000 */ li          r0, 0x0
   /* 8053833C 90030004 */ stw         r0, 4(r3)
-  /* 80538340 4E800020 */ blr
-  // clang-format on
+  /* 80538340 4E800020 */ blr // clang-format on
 }
 
 // Symbol: unk_80538344
@@ -7973,6 +8273,5 @@ asm UNKNOWN_FUNCTION(unk_80538344) {
   /* 8053840C 4E800020 */ blr
   lbl_80538410:
   /* 80538410 3860FFFF */ li          r3, -0x1
-  /* 80538414 4E800020 */ blr
-  // clang-format on
+  /* 80538414 4E800020 */ blr // clang-format on
 }

@@ -26,9 +26,8 @@ out/rel/bss_809bd6ec_809bd728.o
 out/RaceConfig.o
 out/RaceManager.o
 out/rel/text_80538418_8053fc4c.o
-out/rel/rodata_80890148_80890490.o
-out/rel/data_808b32ac_808b3960.o
-out/rel/bss_809bd72c_809bd738.o
+out/rel/rodata_80890218_80890490.o
+out/rel/data_808b34f0_808b3960.o
 out/ResourceManager.o
 out/rel/text_80542878_80555464.o
 out/rel/rodata_80890d0c_80891370.o
