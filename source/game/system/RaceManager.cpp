@@ -74,17 +74,17 @@ extern UNKNOWN_FUNCTION(VEC3_sub);
 // PAL: 0x80514b24
 extern UNKNOWN_FUNCTION(unk_80514b24);
 // PAL: 0x80514b30
-extern UNKNOWN_FUNCTION(KmpHolder_getKartpoint);
+extern UNKNOWN_FUNCTION(getStartPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80514bc8
-extern UNKNOWN_FUNCTION(unk_80514bc8);
+extern UNKNOWN_FUNCTION(getEnemyPath__Q26System9CourseMapCFUs);
 // PAL: 0x80515014
 extern UNKNOWN_FUNCTION(CheckpathHolder_findCheckpathForCheckpoint);
 // PAL: 0x80515c24
-extern UNKNOWN_FUNCTION(KmpHolder_getCheckpoint);
+extern UNKNOWN_FUNCTION(getCheckPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80518920
-extern UNKNOWN_FUNCTION(unk_80518920);
+extern UNKNOWN_FUNCTION(getJugemPoint__Q26System9CourseMapCFUs);
 // PAL: 0x80518b78
-extern UNKNOWN_FUNCTION(KmpHolder_getStageinfo);
+extern UNKNOWN_FUNCTION(getStage__Q26System9CourseMapCFv);
 // PAL: 0x8051c334
 extern UNKNOWN_FUNCTION(__dt__Q26System4TimeFv);
 // PAL: 0x8051c374
@@ -1702,7 +1702,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_init) {
   /* 80532FCC 40820020 */ bne-        lbl_80532fec
   /* 80532FD0 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 80532FD4 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
-  /* 80532FD8 4BFE5BA1 */ bl          KmpHolder_getStageinfo
+  /* 80532FD8 4BFE5BA1 */ bl          getStage__Q26System9CourseMapCFv
   /* 80532FDC 80630000 */ lwz         r3, 0(r3)
   /* 80532FE0 88030000 */ lbz         r0, 0(r3)
   /* 80532FE4 2C000000 */ cmpwi       r0, 0x0
@@ -3129,7 +3129,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_init) {
   /* 8053427C 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 80534280 A09F000A */ lhz         r4, 0xa(r31)
   /* 80534284 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
-  /* 80534288 4BFE199D */ bl          KmpHolder_getCheckpoint
+  /* 80534288 4BFE199D */ bl          getCheckPoint__Q26System9CourseMapCFUs
   /* 8053428C 80630000 */ lwz         r3, 0(r3)
   /* 80534290 88030010 */ lbz         r0, 0x10(r3)
   /* 80534294 981F0021 */ stb         r0, 0x21(r31)
@@ -4042,7 +4042,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateCheckpoint) {
   /* 80534EC0 EFE2082A */ fadds       f31, f2, f1
   /* 80534EC4 8079D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r25)
   /* 80534EC8 EFC0F828 */ fsubs       f30, f0, f31
-  /* 80534ECC 4BFE0D59 */ bl          KmpHolder_getCheckpoint
+  /* 80534ECC 4BFE0D59 */ bl          getCheckPoint__Q26System9CourseMapCFUs
   /* 80534ED0 80830000 */ lwz         r4, 0(r3)
   /* 80534ED4 7C7D1B78 */ mr          r29, r3
   /* 80534ED8 88840010 */ lbz         r4, 0x10(r4)
@@ -4056,7 +4056,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateCheckpoint) {
   /* 80534EF4 7FC4F378 */ mr          r4, r30
   /* 80534EF8 88050011 */ lbz         r0, 0x11(r5)
   /* 80534EFC 7C1F0774 */ extsb       r31, r0
-  /* 80534F00 4BFE0D25 */ bl          KmpHolder_getCheckpoint
+  /* 80534F00 4BFE0D25 */ bl          getCheckPoint__Q26System9CourseMapCFUs
   /* 80534F04 2C1C0000 */ cmpwi       r28, 0x0
   /* 80534F08 7C7C1B78 */ mr          r28, r3
   /* 80534F0C 418200B8 */ beq-        lbl_80534fc4
@@ -4518,7 +4518,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_update) {
   /* 805354E4 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 805354E8 A09E000A */ lhz         r4, 0xa(r30)
   /* 805354EC 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
-  /* 805354F0 4BFE0735 */ bl          KmpHolder_getCheckpoint
+  /* 805354F0 4BFE0735 */ bl          getCheckPoint__Q26System9CourseMapCFUs
   /* 805354F4 7C7F1B78 */ mr          r31, r3
   lbl_805354f8:
   /* 805354F8 C03E0014 */ lfs         f1, 0x14(r30)
@@ -4597,7 +4597,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_update) {
   /* 8053560C 4BD0E3F5 */ bl          normalise__Q23EGG8Vector2fFv
   /* 80535610 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 80535614 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
-  /* 80535618 4BFE3561 */ bl          KmpHolder_getStageinfo
+  /* 80535618 4BFE3561 */ bl          getStage__Q26System9CourseMapCFv
   /* 8053561C 80630000 */ lwz         r3, 0(r3)
   /* 80535620 88030000 */ lbz         r0, 0(r3)
   /* 80535624 2C000000 */ cmpwi       r0, 0x0
@@ -5313,7 +5313,7 @@ asm UNKNOWN_FUNCTION(unk_80535ef4) {
   /* 80535F18 7C840774 */ extsb       r4, r4
   /* 80535F1C 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
   /* 80535F20 5484043E */ clrlwi      r4, r4, 0x10
-  /* 80535F24 4BFE29FC */ b           unk_80518920 // clang-format on
+  /* 80535F24 4BFE29FC */ b           getJugemPoint__Q26System9CourseMapCFUs // clang-format on
 }
 
 // Symbol: unk_80535f28
@@ -5732,7 +5732,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_getInitialPosAndRotForPlayer) {
   /* 805363FC 48000028 */ b           lbl_80536424
   lbl_80536400:
   /* 80536400 5784063E */ clrlwi      r4, r28, 0x18
-  /* 80536404 4BFDE72D */ bl          KmpHolder_getKartpoint
+  /* 80536404 4BFDE72D */ bl          getStartPoint__Q26System9CourseMapCFUs
   /* 80536408 80630000 */ lwz         r3, 0(r3)
   /* 8053640C A8030018 */ lha         r0, 0x18(r3)
   /* 80536410 7C180000 */ cmpw        r24, r0
@@ -5789,7 +5789,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_getInitialPosAndRotForPlayer) {
   /* 805364A4 3FC0809C */ lis         r30, spInstance__Q26System9CourseMap@ha
   /* 805364A8 38800000 */ li          r4, 0x0
   /* 805364AC 807ED6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r30)
-  /* 805364B0 4BFDE681 */ bl          KmpHolder_getKartpoint
+  /* 805364B0 4BFDE681 */ bl          getStartPoint__Q26System9CourseMapCFUs
   /* 805364B4 80630000 */ lwz         r3, 0(r3)
   /* 805364B8 A8030018 */ lha         r0, 0x18(r3)
   /* 805364BC 2C00FFFF */ cmpwi       r0, -0x1
@@ -5808,7 +5808,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_getInitialPosAndRotForPlayer) {
   /* 805364EC 48000028 */ b           lbl_80536514
   lbl_805364f0:
   /* 805364F0 5704063E */ clrlwi      r4, r24, 0x18
-  /* 805364F4 4BFDE63D */ bl          KmpHolder_getKartpoint
+  /* 805364F4 4BFDE63D */ bl          getStartPoint__Q26System9CourseMapCFUs
   /* 805364F8 80630000 */ lwz         r3, 0(r3)
   /* 805364FC A8030018 */ lha         r0, 0x18(r3)
   /* 80536500 7C1C0000 */ cmpw        r28, r0
@@ -5843,7 +5843,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_getInitialPosAndRotForPlayer) {
   /* 80536558 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 8053655C 57C4063E */ clrlwi      r4, r30, 0x18
   /* 80536560 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
-  /* 80536564 4BFDE5CD */ bl          KmpHolder_getKartpoint
+  /* 80536564 4BFDE5CD */ bl          getStartPoint__Q26System9CourseMapCFUs
   /* 80536568 2C030000 */ cmpwi       r3, 0x0
   /* 8053656C 4182001C */ beq-        lbl_80536588
   /* 80536570 7F44D378 */ mr          r4, r26
@@ -5961,7 +5961,7 @@ asm UNKNOWN_FUNCTION(unk_805365c8) {
   /* 805366E4 48000028 */ b           lbl_8053670c
   lbl_805366e8:
   /* 805366E8 57C4063E */ clrlwi      r4, r30, 0x18
-  /* 805366EC 4BFDE445 */ bl          KmpHolder_getKartpoint
+  /* 805366EC 4BFDE445 */ bl          getStartPoint__Q26System9CourseMapCFUs
   /* 805366F0 80630000 */ lwz         r3, 0(r3)
   /* 805366F4 A8030018 */ lha         r0, 0x18(r3)
   /* 805366F8 7C1C0000 */ cmpw        r28, r0
@@ -5989,7 +5989,7 @@ asm UNKNOWN_FUNCTION(unk_805365c8) {
   /* 80536738 3FA0809C */ lis         r29, spInstance__Q26System9CourseMap@ha
   /* 8053673C 38800000 */ li          r4, 0x0
   /* 80536740 807DD6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r29)
-  /* 80536744 4BFDE3ED */ bl          KmpHolder_getKartpoint
+  /* 80536744 4BFDE3ED */ bl          getStartPoint__Q26System9CourseMapCFUs
   /* 80536748 80630000 */ lwz         r3, 0(r3)
   /* 8053674C A8030018 */ lha         r0, 0x18(r3)
   /* 80536750 2C00FFFF */ cmpwi       r0, -0x1
@@ -6001,7 +6001,7 @@ asm UNKNOWN_FUNCTION(unk_805365c8) {
   /* 80536764 48000028 */ b           lbl_8053678c
   lbl_80536768:
   /* 80536768 5784063E */ clrlwi      r4, r28, 0x18
-  /* 8053676C 4BFDE3C5 */ bl          KmpHolder_getKartpoint
+  /* 8053676C 4BFDE3C5 */ bl          getStartPoint__Q26System9CourseMapCFUs
   /* 80536770 80630000 */ lwz         r3, 0(r3)
   /* 80536774 A8030018 */ lha         r0, 0x18(r3)
   /* 80536778 7C1E0000 */ cmpw        r30, r0
@@ -6054,7 +6054,7 @@ asm UNKNOWN_FUNCTION(unk_805365c8) {
   /* 805367F8 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 805367FC 57E4063E */ clrlwi      r4, r31, 0x18
   /* 80536800 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
-  /* 80536804 4BFDE32D */ bl          KmpHolder_getKartpoint
+  /* 80536804 4BFDE32D */ bl          getStartPoint__Q26System9CourseMapCFUs
   /* 80536808 80010024 */ lwz         r0, 0x24(r1)
   /* 8053680C 83E1001C */ lwz         r31, 0x1c(r1)
   /* 80536810 83C10018 */ lwz         r30, 0x18(r1)
@@ -6107,7 +6107,7 @@ asm UNKNOWN_FUNCTION(unk_80536828) {
   lbl_8053689c:
   /* 8053689C 3C60809C */ lis         r3, spInstance__Q26System9CourseMap@ha
   /* 805368A0 8063D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r3)
-  /* 805368A4 4BFDE325 */ bl          unk_80514bc8
+  /* 805368A4 4BFDE325 */ bl          getEnemyPath__Q26System9CourseMapCFUs
   /* 805368A8 80630000 */ lwz         r3, 0(r3)
   /* 805368AC 88C30000 */ lbz         r6, 0(r3)
   lbl_805368b0:
