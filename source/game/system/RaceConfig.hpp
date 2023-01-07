@@ -7,7 +7,7 @@
 #include <game/system/ResourceManager.hpp>
 #include <game/system/InputManager.hpp>
 #include <game/system/InitScene.hpp>
-#include <game/system/SaveManager.hpp>
+#include <game/system/Rating.hpp>
 
 #include <rk_types.h>
 
