@@ -13,17 +13,17 @@ extern UNKNOWN_FUNCTION(appendData__Q26System13ParameterFileFPcUlPQ23EGG4Heap);
 extern UNKNOWN_FUNCTION(
     initRace__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario);
 // PAL: 0x8052d270
-extern UNKNOWN_FUNCTION(unk_8052d270);
+extern UNKNOWN_FUNCTION(updatePoints__Q26System6RatingFl);
 // PAL: 0x805368f8
 extern UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore);
 // PAL: 0x8052d118
-extern UNKNOWN_FUNCTION(unk_8052d118);
+extern UNKNOWN_FUNCTION(calcPosPoints__Q26System6RatingCFRCQ26System6Rating);
 // PAL: 0x800215b8
 extern UNKNOWN_FUNCTION(_restgpr_14);
 // PAL: 0x8002156c
 extern UNKNOWN_FUNCTION(_savegpr_14);
 // PAL: 0x8052d1c0
-extern UNKNOWN_FUNCTION(calcNegPoints__Q26System6RatingFPQ26System6Rating);
+extern UNKNOWN_FUNCTION(calcNegPoints__Q26System6RatingCFRCQ26System6Rating);
 // PAL: 0x80524500
 extern UNKNOWN_FUNCTION(unk_80524500);
 // PAL: 0x80524558
@@ -368,7 +368,7 @@ s16 RaceConfig::updateRating(u8 playerIdx) {
 
     Player& player = RaceConfig::spInstance->mRaceScenario.getPlayer(playerIdx);
     totalPoints += player.mRating.calcNegPoints(
-        &RaceConfig::spInstance->mRaceScenario.getPlayer(i).mRating);
+        RaceConfig::spInstance->mRaceScenario.getPlayer(i).mRating);
   }
   return totalPoints;
 }
@@ -507,7 +507,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EB10 1C0000F0 */ mulli       r0, r0, 0xf0
   /* 8052EB14 7C8F0214 */ add         r4, r15, r0
   /* 8052EB18 388400EC */ addi        r4, r4, 0xec
-  /* 8052EB1C 4BFFE5FD */ bl          unk_8052d118
+  /* 8052EB1C 4BFFE5FD */ bl          calcPosPoints__Q26System6RatingCFRCQ26System6Rating
   /* 8052EB20 7C600734 */ extsh       r0, r3
   /* 8052EB24 93E10020 */ stw         r31, 0x20(r1)
   /* 8052EB28 6C008000 */ xoris       r0, r0, 0x8000
@@ -524,7 +524,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EB50 1C0000F0 */ mulli       r0, r0, 0xf0
   /* 8052EB54 7C8F0214 */ add         r4, r15, r0
   /* 8052EB58 388400EC */ addi        r4, r4, 0xec
-  /* 8052EB5C 4BFFE665 */ bl          calcNegPoints__Q26System6RatingFPQ26System6Rating
+  /* 8052EB5C 4BFFE665 */ bl          calcNegPoints__Q26System6RatingCFRCQ26System6Rating
   /* 8052EB60 7C600734 */ extsh       r0, r3
   /* 8052EB64 93E10020 */ stw         r31, 0x20(r1)
   /* 8052EB68 6C008000 */ xoris       r0, r0, 0x8000
@@ -608,7 +608,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EC70 7C8E02AE */ lhax        r4, r14, r0
   /* 8052EC74 7C6F1A14 */ add         r3, r15, r3
   /* 8052EC78 386300EC */ addi        r3, r3, 0xec
-  /* 8052EC7C 4BFFE5F5 */ bl          unk_8052d270
+  /* 8052EC7C 4BFFE5F5 */ bl          updatePoints__Q26System6RatingFl
   /* 8052EC80 3A100001 */ addi        r16, r16, 0x1
   lbl_8052ec84:
   /* 8052EC84 5600063E */ clrlwi      r0, r16, 0x18

@@ -6,6 +6,7 @@ enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataSta
 1,source/game/system/LocalizedArchive.cpp,0x8052a098,0x8052a538,,,,,0x8088fdc0,0x8088fe00,0x808b3188,0x808b31d8,,
 1,source/game/system/MultiDvdArchive.cpp,0x8052a538,0x8052ae5c,,,,,0x8088fe00,0x8088fe28,0x808b31d8,0x808b31e8,,
 1,source/game/system/NandUtil.cpp,0x8052AE5C,0x8052BD5C,,,,,,,0x808B31E8,0x808B3228,,
+1,source/game/system/Rating.cpp,0x8052cef8,0x8052d298,,,,,0x8088ff60,0x8088ff98,,,,
 1,source/game/system/RaceConfig.cpp,0x8052d96c,0x80532084,,,,,0x8088ffa8,0x80890148,0x808b3260,0x808b32b0,0x809bd728,0x809bd730
 1,source/game/system/RaceManager.cpp,0x80532084,0x80538418,,,,,0x80890148,80890218,0x808b32b0,0x808b34f0,0x809bd730,0x809bd738
 1,source/game/system/ResourceManager.cpp,0x8053FC4C,0x80542878,,,,,0x80890490,0x80890d0c,0x808b3960,0x808b3c2c,809bd738,809bd73c
