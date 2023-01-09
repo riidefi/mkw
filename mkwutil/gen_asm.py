@@ -8,6 +8,7 @@ import os
 from re import I
 import struct
 import pickle
+import shutil
 
 import jinja2
 from ast import literal_eval
@@ -221,7 +222,9 @@ class CAsmGenerator:
             while addr < _slice.stop:
                 sym = self.lookup_sym(addr)
                 if _slice.section == "text":
-                    func_body = self.disassemble_function(addr)
+                    func_body = [f"#include \"asm/{addr:x}.s\"\n"]
+                    # only called to collect refs lmao
+                    self.disassemble_function(addr)
                     functions.append(
                         {
                             "addr": sym.addr,
@@ -585,6 +588,7 @@ class DOLSrcGenerator:
             gen.dump_section()
 
 
+INLINE_ASM_RE = r'#include "asm\/([0-9a-f]{8})\.s"'
 class RELSrcGenerator:
     """Generates assembly from REL."""
 
@@ -596,6 +600,7 @@ class RELSrcGenerator:
         symbols: SymbolsList,
         rel_asm_dir: Path,
         rel_bin_dir: Path,
+        source_dir: Path,
         pack_dir: Path,
         regen_asm: bool,
         regen_inline: bool,
@@ -607,15 +612,19 @@ class RELSrcGenerator:
         self.symbols = symbols
         self.rel_asm_dir = rel_asm_dir
         self.rel_bin_dir = rel_bin_dir
+        self.source_dir = source_dir
         self.pack_dir = pack_dir
         self.regen_asm = regen_asm
         self.regen_inline = regen_inline
         self.rel_asm_sources = set()
+        self.inline_asm_pattern = re.compile(INLINE_ASM_RE)
 
     def run(self):
         """Runs ASM generation for StaticR.rel"""
+        source_asm_dir = self.source_dir / "asm"
         for c_source_name, sections in self.slices.object_slices():
             self.__gen_c(c_source_name, sections)
+            self.__gen_includes(c_source_name, source_asm_dir)
         for _slice in self.slices:
             if _slice.section is None:
                 # ignore slices not belonging to sections
@@ -686,14 +695,30 @@ class RELSrcGenerator:
         # print(f"    => {asm_path}")
         self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
 
+    def __gen_includes(self, c_source_name: str, out_path: Path):
+        c_path = Path(c_source_name)
+        assert c_path.exists(), f"C source {c_source_name} not found"
+        with open(c_path, "r") as c_file:
+            c_text = c_file.read()
+            for addr_str in re.findall(self.inline_asm_pattern, c_text):
+                addr = int(addr_str, 16)
+                inline_asm = self.disaser.function_to_text(addr, inline=True, extra=False, 
+                                                           hashable=False, declare_mangled=False)
+                out_file = out_path / f"{addr:x}.s"
+                with open(out_file, "w") as asm_file:
+                    asm_file.write(inline_asm)
 
 
 def gen_asm(regen_asm=False, regen_inline=False):
     asm_dir = Path("./asm")
     pack_dir = Path("./pack")
+    source_dir = Path("./source")
+    source_asm_dir = source_dir / "asm"
     binary_dir = Path("./artifacts/orig/pal")
 
     asm_dir.mkdir(exist_ok=True)
+    shutil.rmtree(source_asm_dir, ignore_errors=True)
+    source_asm_dir.mkdir()
 
     symbols = read_symbol_map(pack_dir / "symbols.yml")
     symbols.derive_sizes(0x81000000)
@@ -721,7 +746,7 @@ def gen_asm(regen_asm=False, regen_inline=False):
     rel_asm_dir = asm_dir / "rel"
     rel_asm_dir.mkdir(exist_ok=True)
     rel_gen = RELSrcGenerator(
-        rel_slices, rel, rel_disaser, symbols, rel_asm_dir, rel_bin_dir, pack_dir, regen_asm, regen_inline
+        rel_slices, rel, rel_disaser, symbols, rel_asm_dir, rel_bin_dir, source_dir, pack_dir, regen_asm, regen_inline
     )
     rel_gen.run()
 
