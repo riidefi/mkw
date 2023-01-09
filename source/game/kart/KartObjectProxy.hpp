@@ -9,11 +9,11 @@ extern "C" {
 #endif
 
 // PAL: 0x80590128..0x80590138
-UNKNOWN_FUNCTION(initList__Q24Kart13KartComponentFv);
+UNKNOWN_FUNCTION(initList__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590138..0x8059018c
-UNKNOWN_FUNCTION(setupInList__Q24Kart13KartComponentFPQ24Kart12KartAccessor);
+UNKNOWN_FUNCTION(setupInList__Q24Kart15KartObjectProxyFPQ24Kart12KartAccessor);
 // PAL: 0x8059018c..0x805901d0
-UNKNOWN_FUNCTION(__ct__Q24Kart13KartComponentFv);
+UNKNOWN_FUNCTION(__ct__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805901d0..0x8059020c
 UNKNOWN_FUNCTION(setupSingle);
 // PAL: 0x8059020c..0x80590224

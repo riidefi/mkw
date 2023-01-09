@@ -114,7 +114,7 @@ extern void* lbl_809c2144;
 // PAL: 0x808b3260
 extern UNKNOWN_DATA(__vt__Q26System10RaceConfig);
 // PAL: 0x808b3288
-extern UNKNOWN_DATA(__vt__Q26System18RaceConfigScenario);
+extern UNKNOWN_DATA(__vt__Q36System10RaceConfig8Scenario);
 }
 
 // --- EXTERN DECLARATIONS END ---

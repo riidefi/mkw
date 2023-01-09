@@ -20,7 +20,8 @@ with open(args.symbolmap, "r") as f:
 if args.address in symbols:
     old_name = symbols[args.address].name
     if old_name != args.symbolname:
-        symbols[args.address] = args.symbolname
+        del symbols[args.address]
+        symbols.put(Symbol(args.address, args.symbolname))
 else:
     old_name = f"lbl_{args.address:x}"
     symbols.put(Symbol(args.address, args.symbolname))
