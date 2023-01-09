@@ -64,7 +64,7 @@ UNKNOWN_FUNCTION(unk_8052e950);
 // PAL: 0x8052ed18..0x8052ed20
 UNKNOWN_FUNCTION(getCameraMode__Q36System10RaceConfig8ScenarioFv);
 // PAL: 0x8052ed20..0x8052ed28
-UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerFv);
+UNKNOWN_FUNCTION(getPlayerType__Q36System10RaceConfig6PlayerCFv);
 // PAL: 0x8052ed28..0x8052eef0
 UNKNOWN_FUNCTION(
     postInitControllers__Q36System10RaceConfig8ScenarioFPQ36System10RaceConfig8Scenario);

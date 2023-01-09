@@ -3713,9 +3713,9 @@ asm UNKNOWN_FUNCTION(unk_805163b4){
   // clang-format on
 }
 
-// Symbol: unk_805163f4
+// Symbol: isInsideShape__Q26System14MapdataAreaBoxCFRCQ23EGG8Vector3f
 // PAL: 0x805163f4..0x805164fc
-MARK_BINARY_BLOB(unk_805163f4, 0x805163f4, 0x805164fc);
+MARK_BINARY_BLOB(isInsideShape__Q26System14MapdataAreaBoxCFRCQ23EGG8Vector3f, 0x805163f4, 0x805164fc);
 asm bool System::MapdataAreaBox::isInsideShape(const EGG::Vector3f& pos) const {
   // clang-format off
   nofralloc
@@ -3903,9 +3903,9 @@ asm UNKNOWN_FUNCTION(AreaCylinder_construct) {
   // clang-format on
 }
 
-// Symbol: unk_80516688
+// Symbol: isInsideShape__Q26System19MapdataAreaCylinderCFRCQ23EGG8Vector3f
 // PAL: 0x80516688..0x80516768
-MARK_BINARY_BLOB(unk_80516688, 0x80516688, 0x80516768);
+MARK_BINARY_BLOB(isInsideShape__Q26System19MapdataAreaCylinderCFRCQ23EGG8Vector3f, 0x80516688, 0x80516768);
 asm bool
 System::MapdataAreaCylinder::isInsideShape(const EGG::Vector3f& pos) const {
   // clang-format off

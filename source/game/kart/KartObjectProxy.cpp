@@ -81,7 +81,7 @@ extern UNKNOWN_FUNCTION(PlayerPhysics_initInertia1);
 // PAL: 0x808646f0
 extern UNKNOWN_FUNCTION(unk_808646f0);// Extern data references.
 // PAL: 0x80891c58
-extern UNKNOWN_DATA(lbl_80891c58);
+//extern UNKNOWN_DATA(lbl_80891c58);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd730
@@ -93,8 +93,8 @@ extern UNKNOWN_DATA(lbl_809c18f8);
 // --- EXTERN DECLARATIONS END ---
 
 // .rodata
-extern const u32 unused;
-const u32 unused = 0;
+extern const u32 lbl_80891c58;
+const u32 lbl_80891c58 = 0;
 const u32 lbl_80891c5c[] = {
     0x3f800000, 0x00000003, 0x00000004, 0x00000005,
     0x00000025, 0x00000026, 0x00000014
@@ -1212,7 +1212,7 @@ asm UNKNOWN_FUNCTION(unk_80591468) {
 // PAL: 0x80591478..0x805914bc
 MARK_BINARY_BLOB(unk_80591478, 0x80591478, 0x805914bc);
 asm UNKNOWN_FUNCTION(unk_80591478) {
-#include "asm/80591478.s"
+  #include "asm/80591478.s"
 }
 
 // Symbol: PlayerPointers_getScale
