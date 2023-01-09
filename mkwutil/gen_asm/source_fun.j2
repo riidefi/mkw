@@ -2,10 +2,8 @@
 // PAL: {{ function.addr | addr }}..{{ (function.addr+function.size) | addr }}
 MARK_BINARY_BLOB({{ function.name }}, {{ function.addr | addr }}, {{ (function.addr+function.size) | addr }});
 asm UNKNOWN_FUNCTION({{ function.name }}) {
-  // clang-format off
 {%- for line in function.inline_asm %}
   {{ line }}
 {%- endfor -%}
-  // clang-format on
 }
 
