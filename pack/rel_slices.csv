@@ -11,7 +11,7 @@ enabled,name,textStart,textEnd,ctorsStart,ctorsEnd,dtorsStart,dtorsEnd,rodataSta
 1,source/game/system/RaceManager.cpp,0x80532084,0x80538418,,,,,0x80890148,80890218,0x808b32b0,0x808b34f0,0x809bd730,0x809bd738
 1,source/game/system/ResourceManager.cpp,0x8053FC4C,0x80542878,,,,,0x80890490,0x80890d0c,0x808b3960,0x808b3c2c,809bd738,809bd73c
 1,source/game/util/Random.cpp,0x80555464,0x8055572c,,,,,0x80891370,0x80891380,0x808b42e0,0x808b42ec,,
-1,source/game/kart/KartComponent.cpp,0x80590128,0x805901d0,,,,,,,,,0x809c1900,0x809c1910
+1,source/game/kart/KartObjectProxy.cpp,0x80590128,0x805919f4,,,,,0x80891c58,0x80891c80,,,0x809c1900,0x809c1910
 1,source/game/ui/ControlGroup.cpp,0x805c23e4,0x805c2c18,,,,,,,,,,
 1,source/game/ui/MessageGroup.cpp,0x805f8b34,0x805f8d5c,,,,,0x80896148,0x80896158,,,,
 1,source/game/geo/BoxColManager.cpp,0x80786E60,0x80786ED0,,,,,,,,,,

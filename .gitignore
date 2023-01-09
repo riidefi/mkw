@@ -30,6 +30,7 @@
 /pack/dol.lcf
 
 # Auto-generated assembly
+/source/asm/
 /asm/dol/
 /asm/rel/
 
