@@ -27,4 +27,4 @@ for sym in elf_syms:
         old_name = symbols[sym.addr].name
         if old_name != sym.name:
             print(f"Updating symbol at {sym.addr:x} from {old_name} to {sym.name}")
-            set_symbol(sym.addr, sym.name, "pack/symbols.yml")
+            set_symbol(sym.addr, sym.name, args.symbol_map)
