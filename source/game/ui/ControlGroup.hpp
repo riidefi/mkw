@@ -2,11 +2,10 @@
 
 #include <rk_types.h>
 
-#include <game/ui/Page.hpp>
-
 namespace UI {
 
 class UIControl;
+class Page;
 
 class ControlGroup {
 public:

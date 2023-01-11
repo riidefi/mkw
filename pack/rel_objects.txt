@@ -37,7 +37,7 @@ out/rel/rodata_80890d0c_80891370.o
 out/rel/data_808b3c2c_808b42e0.o
 out/Random.o
 out/rel/text_8055572c_80590128.o
-out/rel/rodata_80891380_80891c5c.o
+out/rel/rodata_80891380_80891c58.o
 out/rel/data_808b42ec_808dd3d4.o
 out/rel/bss_809bd73c_809c1900.o
 out/KartObjectProxy.o
@@ -46,7 +46,9 @@ out/ControlGroup.o
 out/rel/text_805c2c18_805f8b34.o
 out/rel/rodata_80891c80_80896148.o
 out/MessageGroup.o
-out/rel/text_805f8d5c_80786e60.o
+out/rel/text_805f8d5c_8060197c.o
+out/Page.o
+out/rel/text_80602d2c_80786e60.o
 out/BoxColManager.o
 out/rel/rodata_80896158_808a4800.o
 out/BoxColUnit.o
