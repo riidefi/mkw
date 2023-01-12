@@ -184,11 +184,16 @@ asm UNKNOWN_FUNCTION(unk_80602338) {
   #include "asm/80602338.s"
 }
 
-// Symbol: Page_draw
-// PAL: 0x8060235c..0x80602378
-MARK_BINARY_BLOB(Page_draw, 0x8060235c, 0x80602378);
-asm UNKNOWN_FUNCTION(Page_draw) {
-  #include "asm/8060235c.s"
+namespace UI {
+
+void Page::draw(u32 pass) {
+    if (mState > 5 || mState < 3) {
+        return;
+    }
+
+    mControlGroup.draw(pass);
+}
+
 }
 
 // Symbol: unk_80602378
@@ -247,7 +252,7 @@ void Page::skipInAnimation(void) {
 
 void Page::startReplace(s32 animationDirection, f32 delay) {
   setAnimationDirection(animationDirection);
-  mAnimationLengthReplace = delay;
+  mAnimationDelay = delay;
   mNextStateRequested = true;
 }
 

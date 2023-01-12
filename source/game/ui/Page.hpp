@@ -37,7 +37,7 @@ UNKNOWN_FUNCTION(Page_calc);
 // PAL: 0x80602338..0x8060235c
 UNKNOWN_FUNCTION(unk_80602338);
 // PAL: 0x8060235c..0x80602378
-UNKNOWN_FUNCTION(Page_draw);
+UNKNOWN_FUNCTION(draw__Q22UI4PageFUl);
 // PAL: 0x80602378..0x8060238c
 UNKNOWN_FUNCTION(unk_80602378);
 // PAL: 0x8060238c..0x80602390
@@ -108,6 +108,7 @@ public:
   Page();
   virtual ~Page();
 
+  void draw(u32 pass);
   void setAnimationDirection(s32 animationDirection);
   void initChildren(s32 capacity);
   void insert(s32 index, UIControl* control, u32 drawPass);
@@ -123,9 +124,9 @@ private:
   u8 _0d[0x10 - 0x0d];
   s32 mAnimationDirection;
   f32 mAnimationStartFrame;
-  f32 mAnimationLengthReplace;
+  f32 mAnimationDelay;
   s32 mFrame;
-  u8 _1c[0x24 - 0x20];
+  u32 mUnknown;
   ControlGroup mControlGroup;
   System::InputManager* mInputManager;
   u32 mNextAnimationSfxId;

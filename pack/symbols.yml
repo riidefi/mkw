@@ -14607,7 +14607,7 @@ global:
     0x80602144: 'unk_80602144'
     0x806022cc: 'Page_calc'
     0x80602338: 'unk_80602338'
-    0x8060235c: 'Page_draw'
+    0x8060235c: 'draw__Q22UI4PageFUl'
     0x80602378: 'unk_80602378'
     0x8060238c: 'unk_8060238c'
     0x80602390: 'Page_refocus'
