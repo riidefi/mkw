@@ -59,7 +59,7 @@ UNKNOWN_FUNCTION(skipInAnimation__Q22UI4PageFv);
 // PAL: 0x80602488..0x806024a4
 UNKNOWN_FUNCTION(startReplace__Q22UI4PageFlf);
 // PAL: 0x806024a4..0x806024b0
-UNKNOWN_FUNCTION(unk_806024a4);
+UNKNOWN_FUNCTION(skipOutAnimation__Q22UI4PageFv);
 // PAL: 0x806024b0..0x80602530
 UNKNOWN_FUNCTION(Page_changeSection);
 // PAL: 0x80602530..0x806025b0
@@ -114,6 +114,7 @@ public:
   void setInputManager(System::InputManager* inputManager);
   void skipInAnimation(void);
   void startReplace(s32 animationDirection, f32 delay);
+  void skipOutAnimation(void);
 
 private:
   s32 mId;

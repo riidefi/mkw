@@ -251,13 +251,10 @@ void Page::startReplace(s32 animationDirection, f32 delay) {
   mNextStateRequested = true;
 }
 
+void Page::skipOutAnimation(void) {
+    mNextStateRequested = true;
 }
 
-// Symbol: unk_806024a4
-// PAL: 0x806024a4..0x806024b0
-MARK_BINARY_BLOB(unk_806024a4, 0x806024a4, 0x806024b0);
-asm UNKNOWN_FUNCTION(unk_806024a4) {
-  #include "asm/806024a4.s"
 }
 
 // Symbol: Page_changeSection
