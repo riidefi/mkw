@@ -14617,7 +14617,7 @@ global:
     0x8060245c: 'initChildren__Q22UI4PageFl'
     0x8060246c: 'insert__Q22UI4PageFlPQ22UI9UIControlUl'
     0x80602474: 'setInputManager__Q22UI4PageFPQ26System12InputManager'
-    0x8060247c: 'unk_8060247c'
+    0x8060247c: 'skipInAnimation__Q22UI4PageFv'
     0x80602488: 'startReplace__Q22UI4PageFlf'
     0x806024a4: 'unk_806024a4'
     0x806024b0: 'Page_changeSection'

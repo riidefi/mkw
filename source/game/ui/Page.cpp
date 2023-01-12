@@ -241,16 +241,9 @@ void Page::setInputManager(System::InputManager* inputManager) {
     mInputManager = inputManager;
 }
 
+void Page::skipInAnimation(void) {
+    mNextStateRequested = true;
 }
-
-// Symbol: unk_8060247c
-// PAL: 0x8060247c..0x80602488
-MARK_BINARY_BLOB(unk_8060247c, 0x8060247c, 0x80602488);
-asm UNKNOWN_FUNCTION(unk_8060247c) {
-  #include "asm/8060247c.s"
-}
-
-namespace UI {
 
 void Page::startReplace(s32 animationDirection, f32 delay) {
   setAnimationDirection(animationDirection);

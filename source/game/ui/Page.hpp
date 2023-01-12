@@ -55,7 +55,7 @@ UNKNOWN_FUNCTION(insert__Q22UI4PageFlPQ22UI9UIControlUl);
 // PAL: 0x80602474..0x8060247c
 UNKNOWN_FUNCTION(setInputManager__Q22UI4PageFPQ26System12InputManager);
 // PAL: 0x8060247c..0x80602488
-UNKNOWN_FUNCTION(unk_8060247c);
+UNKNOWN_FUNCTION(skipInAnimation__Q22UI4PageFv);
 // PAL: 0x80602488..0x806024a4
 UNKNOWN_FUNCTION(startReplace__Q22UI4PageFlf);
 // PAL: 0x806024a4..0x806024b0
@@ -112,6 +112,7 @@ public:
   void initChildren(s32 capacity);
   void insert(s32 index, UIControl* control, u32 drawPass);
   void setInputManager(System::InputManager* inputManager);
+  void skipInAnimation(void);
   void startReplace(s32 animationDirection, f32 delay);
 
 private:
