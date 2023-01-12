@@ -14618,7 +14618,7 @@ global:
     0x8060246c: 'Page_insert'
     0x80602474: 'Page_setInputManager'
     0x8060247c: 'unk_8060247c'
-    0x80602488: 'Page_startReplace'
+    0x80602488: 'startReplace__Q22UI4PageFlf'
     0x806024a4: 'unk_806024a4'
     0x806024b0: 'Page_changeSection'
     0x80602530: 'unk_80602530'

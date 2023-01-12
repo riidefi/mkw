@@ -256,11 +256,14 @@ asm UNKNOWN_FUNCTION(unk_8060247c) {
   #include "asm/8060247c.s"
 }
 
-// Symbol: Page_startReplace
-// PAL: 0x80602488..0x806024a4
-MARK_BINARY_BLOB(Page_startReplace, 0x80602488, 0x806024a4);
-asm UNKNOWN_FUNCTION(Page_startReplace) {
-  #include "asm/80602488.s"
+namespace UI {
+
+void Page::startReplace(s32 animationDirection, f32 delay) {
+  setAnimationDirection(animationDirection);
+  mAnimationLengthReplace = delay;
+  mNextStateRequested = true;
+}
+
 }
 
 // Symbol: unk_806024a4

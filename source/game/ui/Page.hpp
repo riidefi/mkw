@@ -59,7 +59,7 @@ UNKNOWN_FUNCTION(Page_setInputManager);
 // PAL: 0x8060247c..0x80602488
 UNKNOWN_FUNCTION(unk_8060247c);
 // PAL: 0x80602488..0x806024a4
-UNKNOWN_FUNCTION(Page_startReplace);
+UNKNOWN_FUNCTION(startReplace__Q22UI4PageFlf);
 // PAL: 0x806024a4..0x806024b0
 UNKNOWN_FUNCTION(unk_806024a4);
 // PAL: 0x806024b0..0x80602530
@@ -106,14 +106,20 @@ public:
   Page();
   virtual ~Page();
 
+  void startReplace(s32 animationDirection, f32 delay);
   void setAnimationDirection(s32 animationDirection);
   void initChildren(s32 capacity);
 
+
   s32 mId;
   s32 mState;
-  u8 _pad[0xc - 0x8];
+  bool mNextStateRequested;
+  u8 _pad[0xc - 0x9];
   s32 mAnimationDirection;
-  u8 _pad2[0x20 - 0x10];
+  f32 mAnimationStartFrame;
+  f32 mAnimationLengthReplace;
+  s32 mFrame;
+  u8 _pad2[0x20 - 0x1c];
   ControlGroup mControlGroup;
   u8 _pad3[0x3c - 0x34];
 };
