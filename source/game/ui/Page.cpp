@@ -233,20 +233,14 @@ void Page::initChildren(s32 capacity) {
     mControlGroup.create(this, capacity);
 }
 
+void Page::insert(s32 index, UIControl* control, u32 drawPass) {
+    mControlGroup.insert(index, control, drawPass);
 }
 
-// Symbol: Page_insert
-// PAL: 0x8060246c..0x80602474
-MARK_BINARY_BLOB(Page_insert, 0x8060246c, 0x80602474);
-asm UNKNOWN_FUNCTION(Page_insert) {
-  #include "asm/8060246c.s"
+void Page::setInputManager(System::InputManager* inputManager) {
+    mInputManager = inputManager;
 }
 
-// Symbol: Page_setInputManager
-// PAL: 0x80602474..0x8060247c
-MARK_BINARY_BLOB(Page_setInputManager, 0x80602474, 0x8060247c);
-asm UNKNOWN_FUNCTION(Page_setInputManager) {
-  #include "asm/80602474.s"
 }
 
 // Symbol: unk_8060247c

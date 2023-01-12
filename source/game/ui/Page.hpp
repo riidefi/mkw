@@ -51,9 +51,9 @@ UNKNOWN_FUNCTION(setAnimationDirection__Q22UI4PageFl);
 // PAL: 0x8060245c..0x8060246c
 UNKNOWN_FUNCTION(initChildren__Q22UI4PageFl);
 // PAL: 0x8060246c..0x80602474
-UNKNOWN_FUNCTION(Page_insert);
+UNKNOWN_FUNCTION(insert__Q22UI4PageFlPQ22UI9UIControlUl);
 // PAL: 0x80602474..0x8060247c
-UNKNOWN_FUNCTION(Page_setInputManager);
+UNKNOWN_FUNCTION(setInputManager__Q22UI4PageFPQ26System12InputManager);
 // PAL: 0x8060247c..0x80602488
 UNKNOWN_FUNCTION(unk_8060247c);
 // PAL: 0x80602488..0x806024a4
@@ -99,6 +99,7 @@ UNKNOWN_FUNCTION(unk_80602d20);
 
 
 #include "game/ui/ControlGroup.hpp"
+#include "game/system/InputManager.hpp"
 
 namespace UI {
 
@@ -107,24 +108,28 @@ public:
   Page();
   virtual ~Page();
 
-  void startReplace(s32 animationDirection, f32 delay);
   void setAnimationDirection(s32 animationDirection);
   void initChildren(s32 capacity);
+  void insert(s32 index, UIControl* control, u32 drawPass);
+  void setInputManager(System::InputManager* inputManager);
+  void startReplace(s32 animationDirection, f32 delay);
 
 private:
   s32 mId;
   s32 mState;
   bool mNextStateRequested;
-  u8 _09[0x0c - 0x09];
+  u8 _0d[0x10 - 0x0d];
   s32 mAnimationDirection;
   f32 mAnimationStartFrame;
   f32 mAnimationLengthReplace;
   s32 mFrame;
-  u8 _1c[0x20 - 0x1c];
+  u8 _1c[0x24 - 0x20];
   ControlGroup mControlGroup;
-  u8 _34[0x3c - 0x34];
+  System::InputManager* mInputManager;
+  u32 mNextAnimationSfxId;
+  u32 mPrevAnimationSfxId;
 };
 
-static_assert(sizeof(Page) == 0x40);
+static_assert(sizeof(Page) == 0x44);
 
 } // namespace UI
