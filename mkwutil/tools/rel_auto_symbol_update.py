@@ -5,6 +5,7 @@ from elftools.elf.elffile import ELFFile
 
 from mkwutil.lib.symbols import SymbolsList
 from mkwutil.tools.dump_rel_elf_symbols import symbols_from_elf
+from mkwutil.tools.set_symbol import set_symbol
 
 parser = argparse.ArgumentParser(
     description="Updates symbol names from the names in elf file"
@@ -26,5 +27,4 @@ for sym in elf_syms:
         old_name = symbols[sym.addr].name
         if old_name != sym.name:
             print(f"Updating symbol at {sym.addr:x} from {old_name} to {sym.name}")
-            command = f"python mkwutil/tools/set_symbol.py 0x{sym.addr:x} {sym.name} pack/symbols.yml"
-            os.system(command)
+            set_symbol(sym.addr, sym.name, args.symbol_map)
