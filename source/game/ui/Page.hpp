@@ -4,8 +4,6 @@
 
 #include <decomp.h>
 
-#include "ControlGroup.hpp"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -99,6 +97,9 @@ UNKNOWN_FUNCTION(unk_80602d20);
 }
 #endif
 
+
+#include "game/ui/ControlGroup.hpp"
+
 namespace UI {
 
 class Page {
@@ -110,18 +111,18 @@ public:
   void setAnimationDirection(s32 animationDirection);
   void initChildren(s32 capacity);
 
-
+private:
   s32 mId;
   s32 mState;
   bool mNextStateRequested;
-  u8 _pad[0xc - 0x9];
+  u8 _09[0x0c - 0x09];
   s32 mAnimationDirection;
   f32 mAnimationStartFrame;
   f32 mAnimationLengthReplace;
   s32 mFrame;
-  u8 _pad2[0x20 - 0x1c];
+  u8 _1c[0x20 - 0x1c];
   ControlGroup mControlGroup;
-  u8 _pad3[0x3c - 0x34];
+  u8 _34[0x3c - 0x34];
 };
 
 static_assert(sizeof(Page) == 0x40);
