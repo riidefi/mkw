@@ -20,7 +20,7 @@ I have written code to be as readable and maintainable as possible. While the or
 While the original game was written and compiled as C++03, several modern C++ features have been used to aid readability and increase code quality. All are define'd out when compiling for C++03. For example: strongly typed null pointers with `nullptr` and the `override` specifier.
 
 ## Documentation
-Every fully understood piece of reverse engineered data has been documented in a consistent doxygen style, [here]().
+Every fully understood piece of reverse engineered data has been documented in a consistent doxygen style, [here](https://riidefi.github.io/mkw/docs/html/index.html).
 
 ## Dependencies
 - DevKitPro (for the ppc-eabi assembler, and gcc dependency files)

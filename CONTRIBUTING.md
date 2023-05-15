@@ -22,7 +22,7 @@
 There are two scripts for renaming symbols:
 
 - `mkwutil/tools/set_symbol.py` lets you change/set the name of a symbol at a specified address, and refactor all the code base to reflect that change.
-- `mkwutil/tools/rel_auto_symbol_update.py` (StaticR.rel only) If everything matches besides relocations, this script can update all symbol names according to the symbole names in the compiled binary. While this script can save a lot of time, make sure to **only** use it with matching assembly otherwise it may change a lot of symbols incorrectly (because it uses the compiled binary's symbol addresses as a reference).
+- `mkwutil/tools/rel_auto_symbol_update.py` (StaticR.rel only) If everything matches besides relocations, this script can update all symbol names according to the symbol names in the compiled binary. While this script can save a lot of time, make sure to **only** use it with matching assembly otherwise it may change a lot of symbols incorrectly (because it uses the compiled binary's symbol addresses as a reference).
 
 You can use `--help` for how to use those scripts.
 
