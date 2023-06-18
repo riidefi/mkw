@@ -38,7 +38,7 @@ out/rel/data_808b3c2c_808b42e0.o
 out/Random.o
 out/rel/text_8055572c_80590128.o
 out/rel/rodata_80891380_80891c58.o
-out/rel/data_808b42ec_808dd3d4.o
+out/rel/data_808b42ec_808bc810.o
 out/rel/bss_809bd73c_809c1900.o
 out/KartObjectProxy.o
 out/rel/text_805919f4_805c23e4.o
@@ -50,7 +50,9 @@ out/rel/text_805f8d5c_8060197c.o
 out/Page.o
 out/rel/text_80602d2c_80621d0c.o
 out/Section.o
-out/rel/text_80624690_80634b80.o
+out/rel/text_80624690_8062c3a4.o
+out/SectionAutogens.o
+out/rel/text_8063240c_80634b80.o
 out/SectionDirector.o
 out/rel/text_80635eb8_80786e60.o
 out/BoxColManager.o
@@ -58,4 +60,5 @@ out/rel/rodata_80896158_808a4800.o
 out/BoxColUnit.o
 out/rel/text_80786f98_8088f400.o
 out/rel/rodata_808a4804_808b2bd0.o
+out/rel/data_808bcfd0_808dd3d4.o
 out/rel/bss_809c1910_809c4f90.o
