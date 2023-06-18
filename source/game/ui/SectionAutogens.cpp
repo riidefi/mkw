@@ -6,859 +6,2329 @@ extern "C" {
 
 // Extern function references.
 // PAL: 0x80622d08
-extern UNKNOWN_FUNCTION(Section_addPage);
+void Section_addPage(void*, s32);
 // PAL: 0x80622da0
-extern UNKNOWN_FUNCTION(Section_addActivePage);
-// PAL: 0x8062c3dc
-extern UNKNOWN_FUNCTION(jump_8062c3dc);
-// PAL: 0x8062c3e8
-extern UNKNOWN_FUNCTION(jump_8062c3e8);
-// PAL: 0x8062c3f4
-extern UNKNOWN_FUNCTION(jump_8062c3f4);
-// PAL: 0x8062c400
-extern UNKNOWN_FUNCTION(jump_8062c400);
-// PAL: 0x8062c40c
-extern UNKNOWN_FUNCTION(jump_8062c40c);
-// PAL: 0x8062c418
-extern UNKNOWN_FUNCTION(jump_8062c418);
-// PAL: 0x8062c424
-extern UNKNOWN_FUNCTION(jump_8062c424);
-// PAL: 0x8062c430
-extern UNKNOWN_FUNCTION(jump_8062c430);
-// PAL: 0x8062c43c
-extern UNKNOWN_FUNCTION(jump_8062c43c);
-// PAL: 0x8062c448
-extern UNKNOWN_FUNCTION(jump_8062c448);
-// PAL: 0x8062c454
-extern UNKNOWN_FUNCTION(jump_8062c454);
-// PAL: 0x8062c478
-extern UNKNOWN_FUNCTION(jump_8062c478);
-// PAL: 0x8062c4a8
-extern UNKNOWN_FUNCTION(jump_8062c4a8);
-// PAL: 0x8062c4d8
-extern UNKNOWN_FUNCTION(jump_8062c4d8);
-// PAL: 0x8062c4fc
-extern UNKNOWN_FUNCTION(jump_8062c4fc);
-// PAL: 0x8062c514
-extern UNKNOWN_FUNCTION(jump_8062c514);
-// PAL: 0x8062c52c
-extern UNKNOWN_FUNCTION(jump_8062c52c);
-// PAL: 0x8062c538
-extern UNKNOWN_FUNCTION(jump_8062c538);
-// PAL: 0x8062c544
-extern UNKNOWN_FUNCTION(jump_8062c544);
-// PAL: 0x8062c550
-extern UNKNOWN_FUNCTION(jump_8062c550);
-// PAL: 0x8062c55c
-extern UNKNOWN_FUNCTION(jump_8062c55c);
-// PAL: 0x8062c568
-extern UNKNOWN_FUNCTION(jump_8062c568);
-// PAL: 0x8062c574
-extern UNKNOWN_FUNCTION(jump_8062c574);
-// PAL: 0x8062c580
-extern UNKNOWN_FUNCTION(jump_8062c580);
-// PAL: 0x8062c58c
-extern UNKNOWN_FUNCTION(jump_8062c58c);
-// PAL: 0x8062c5e0
-extern UNKNOWN_FUNCTION(jump_8062c5e0);
-// PAL: 0x8062c64c
-extern UNKNOWN_FUNCTION(jump_8062c64c);
-// PAL: 0x8062c694
-extern UNKNOWN_FUNCTION(jump_8062c694);
-// PAL: 0x8062c6e8
-extern UNKNOWN_FUNCTION(jump_8062c6e8);
-// PAL: 0x8062c73c
-extern UNKNOWN_FUNCTION(jump_8062c73c);
-// PAL: 0x8062c790
-extern UNKNOWN_FUNCTION(jump_8062c790);
-// PAL: 0x8062c7d8
-extern UNKNOWN_FUNCTION(jump_8062c7d8);
-// PAL: 0x8062c82c
-extern UNKNOWN_FUNCTION(jump_8062c82c);
-// PAL: 0x8062c880
-extern UNKNOWN_FUNCTION(jump_8062c880);
-// PAL: 0x8062c8d4
-extern UNKNOWN_FUNCTION(jump_8062c8d4);
-// PAL: 0x8062c928
-extern UNKNOWN_FUNCTION(jump_8062c928);
-// PAL: 0x8062c988
-extern UNKNOWN_FUNCTION(jump_8062c988);
-// PAL: 0x8062c9e8
-extern UNKNOWN_FUNCTION(jump_8062c9e8);
-// PAL: 0x8062ca48
-extern UNKNOWN_FUNCTION(jump_8062ca48);
-// PAL: 0x8062ca84
-extern UNKNOWN_FUNCTION(jump_8062ca84);
-// PAL: 0x8062cacc
-extern UNKNOWN_FUNCTION(jump_8062cacc);
-// PAL: 0x8062cafc
-extern UNKNOWN_FUNCTION(jump_8062cafc);
-// PAL: 0x8062cb44
-extern UNKNOWN_FUNCTION(jump_8062cb44);
-// PAL: 0x8062cbbc
-extern UNKNOWN_FUNCTION(jump_8062cbbc);
-// PAL: 0x8062cc40
-extern UNKNOWN_FUNCTION(jump_8062cc40);
-// PAL: 0x8062cc7c
-extern UNKNOWN_FUNCTION(jump_8062cc7c);
-// PAL: 0x8062ccb8
-extern UNKNOWN_FUNCTION(jump_8062ccb8);
-// PAL: 0x8062ccf4
-extern UNKNOWN_FUNCTION(jump_8062ccf4);
-// PAL: 0x8062cd0c
-extern UNKNOWN_FUNCTION(jump_8062cd0c);
-// PAL: 0x8062cd24
-extern UNKNOWN_FUNCTION(jump_8062cd24);
-// PAL: 0x8062cd3c
-extern UNKNOWN_FUNCTION(jump_8062cd3c);
-// PAL: 0x8062cd54
-extern UNKNOWN_FUNCTION(jump_8062cd54);
-// PAL: 0x8062cd60
-extern UNKNOWN_FUNCTION(jump_8062cd60);
-// PAL: 0x8062cd6c
-extern UNKNOWN_FUNCTION(jump_8062cd6c);
-// PAL: 0x8062cd84
-extern UNKNOWN_FUNCTION(jump_8062cd84);
-// PAL: 0x8062cd9c
-extern UNKNOWN_FUNCTION(jump_8062cd9c);
-// PAL: 0x8062cdd8
-extern UNKNOWN_FUNCTION(jump_8062cdd8);
-// PAL: 0x8062ce14
-extern UNKNOWN_FUNCTION(jump_8062ce14);
-// PAL: 0x8062ce98
-extern UNKNOWN_FUNCTION(jump_8062ce98);
-// PAL: 0x8062cf1c
-extern UNKNOWN_FUNCTION(jump_8062cf1c);
-// PAL: 0x8062cfa0
-extern UNKNOWN_FUNCTION(jump_8062cfa0);
-// PAL: 0x8062d024
-extern UNKNOWN_FUNCTION(jump_8062d024);
-// PAL: 0x8062d0a8
-extern UNKNOWN_FUNCTION(jump_8062d0a8);
-// PAL: 0x8062d0c0
-extern UNKNOWN_FUNCTION(jump_8062d0c0);
-// PAL: 0x8062d108
-extern UNKNOWN_FUNCTION(jump_8062d108);
-// PAL: 0x8062d150
-extern UNKNOWN_FUNCTION(jump_8062d150);
-// PAL: 0x8062d1f8
-extern UNKNOWN_FUNCTION(jump_8062d1f8);
-// PAL: 0x8062d33c
-extern UNKNOWN_FUNCTION(jump_8062d33c);
-// PAL: 0x8062d480
-extern UNKNOWN_FUNCTION(jump_8062d480);
-// PAL: 0x8062d5c4
-extern UNKNOWN_FUNCTION(jump_8062d5c4);
-// PAL: 0x8062d648
-extern UNKNOWN_FUNCTION(jump_8062d648);
-// PAL: 0x8062d6cc
-extern UNKNOWN_FUNCTION(jump_8062d6cc);
-// PAL: 0x8062d810
-extern UNKNOWN_FUNCTION(jump_8062d810);
-// PAL: 0x8062d87c
-extern UNKNOWN_FUNCTION(jump_8062d87c);
-// PAL: 0x8062d8e8
-extern UNKNOWN_FUNCTION(jump_8062d8e8);
-// PAL: 0x8062d954
-extern UNKNOWN_FUNCTION(jump_8062d954);
-// PAL: 0x8062d99c
-extern UNKNOWN_FUNCTION(jump_8062d99c);
-// PAL: 0x8062d9e4
-extern UNKNOWN_FUNCTION(jump_8062d9e4);
-// PAL: 0x8062da2c
-extern UNKNOWN_FUNCTION(jump_8062da2c);
-// PAL: 0x8062db64
-extern UNKNOWN_FUNCTION(jump_8062db64);
-// PAL: 0x8062dd08
-extern UNKNOWN_FUNCTION(jump_8062dd08);
-// PAL: 0x8062deac
-extern UNKNOWN_FUNCTION(jump_8062deac);
-// PAL: 0x8062e050
-extern UNKNOWN_FUNCTION(jump_8062e050);
-// PAL: 0x8062e0e0
-extern UNKNOWN_FUNCTION(jump_8062e0e0);
-// PAL: 0x8062e170
-extern UNKNOWN_FUNCTION(jump_8062e170);
-// PAL: 0x8062e1d0
-extern UNKNOWN_FUNCTION(jump_8062e1d0);
-// PAL: 0x8062e374
-extern UNKNOWN_FUNCTION(jump_8062e374);
-// PAL: 0x8062e518
-extern UNKNOWN_FUNCTION(jump_8062e518);
-// PAL: 0x8062e6bc
-extern UNKNOWN_FUNCTION(jump_8062e6bc);
-// PAL: 0x8062e74c
-extern UNKNOWN_FUNCTION(jump_8062e74c);
-// PAL: 0x8062e7dc
-extern UNKNOWN_FUNCTION(jump_8062e7dc);
-// PAL: 0x8062e86c
-extern UNKNOWN_FUNCTION(jump_8062e86c);
-// PAL: 0x8062e8fc
-extern UNKNOWN_FUNCTION(jump_8062e8fc);
-// PAL: 0x8062e98c
-extern UNKNOWN_FUNCTION(jump_8062e98c);
-// PAL: 0x8062ea1c
-extern UNKNOWN_FUNCTION(jump_8062ea1c);
-// PAL: 0x8062eaac
-extern UNKNOWN_FUNCTION(jump_8062eaac);
-// PAL: 0x8062eb3c
-extern UNKNOWN_FUNCTION(jump_8062eb3c);
-// PAL: 0x8062ebcc
-extern UNKNOWN_FUNCTION(jump_8062ebcc);
-// PAL: 0x8062ec5c
-extern UNKNOWN_FUNCTION(jump_8062ec5c);
-// PAL: 0x8062ecd4
-extern UNKNOWN_FUNCTION(jump_8062ecd4);
-// PAL: 0x8062ed4c
-extern UNKNOWN_FUNCTION(jump_8062ed4c);
-// PAL: 0x8062eda0
-extern UNKNOWN_FUNCTION(jump_8062eda0);
-// PAL: 0x8062edf4
-extern UNKNOWN_FUNCTION(jump_8062edf4);
-// PAL: 0x8062ee78
-extern UNKNOWN_FUNCTION(jump_8062ee78);
-// PAL: 0x8062eefc
-extern UNKNOWN_FUNCTION(jump_8062eefc);
-// PAL: 0x8062ef5c
-extern UNKNOWN_FUNCTION(jump_8062ef5c);
-// PAL: 0x8062efbc
-extern UNKNOWN_FUNCTION(jump_8062efbc);
-// PAL: 0x8062f028
-extern UNKNOWN_FUNCTION(jump_8062f028);
-// PAL: 0x8062f094
-extern UNKNOWN_FUNCTION(jump_8062f094);
-// PAL: 0x8062f100
-extern UNKNOWN_FUNCTION(jump_8062f100);
-// PAL: 0x8062f16c
-extern UNKNOWN_FUNCTION(jump_8062f16c);
-// PAL: 0x8062f1d8
-extern UNKNOWN_FUNCTION(jump_8062f1d8);
-// PAL: 0x8062f244
-extern UNKNOWN_FUNCTION(jump_8062f244);
-// PAL: 0x8062f2b0
-extern UNKNOWN_FUNCTION(jump_8062f2b0);
-// PAL: 0x8062f31c
-extern UNKNOWN_FUNCTION(jump_8062f31c);
-// PAL: 0x8062f334
-extern UNKNOWN_FUNCTION(jump_8062f334);
-// PAL: 0x8062f34c
-extern UNKNOWN_FUNCTION(jump_8062f34c);
-// PAL: 0x8062f3a0
-extern UNKNOWN_FUNCTION(jump_8062f3a0);
-// PAL: 0x8062f3f4
-extern UNKNOWN_FUNCTION(jump_8062f3f4);
-// PAL: 0x8062f448
-extern UNKNOWN_FUNCTION(jump_8062f448);
-// PAL: 0x8062f544
-extern UNKNOWN_FUNCTION(jump_8062f544);
-// PAL: 0x8062f610
-extern UNKNOWN_FUNCTION(jump_8062f610);
-// PAL: 0x8062f694
-extern UNKNOWN_FUNCTION(jump_8062f694);
-// PAL: 0x8062f778
-extern UNKNOWN_FUNCTION(jump_8062f778);
-// PAL: 0x8062f850
-extern UNKNOWN_FUNCTION(jump_8062f850);
-// PAL: 0x8062f8b0
-extern UNKNOWN_FUNCTION(jump_8062f8b0);
-// PAL: 0x8062fa3c
-extern UNKNOWN_FUNCTION(jump_8062fa3c);
-// PAL: 0x8062fbd4
-extern UNKNOWN_FUNCTION(jump_8062fbd4);
-// PAL: 0x8062fc4c
-extern UNKNOWN_FUNCTION(jump_8062fc4c);
-// PAL: 0x8062fcc4
-extern UNKNOWN_FUNCTION(jump_8062fcc4);
-// PAL: 0x8062fd48
-extern UNKNOWN_FUNCTION(jump_8062fd48);
-// PAL: 0x8062fd60
-extern UNKNOWN_FUNCTION(jump_8062fd60);
-// PAL: 0x8062fd78
-extern UNKNOWN_FUNCTION(jump_8062fd78);
-// PAL: 0x8062fdcc
-extern UNKNOWN_FUNCTION(jump_8062fdcc);
-// PAL: 0x8062fe08
-extern UNKNOWN_FUNCTION(jump_8062fe08);
-// PAL: 0x8062fec8
-extern UNKNOWN_FUNCTION(jump_8062fec8);
-// PAL: 0x8062fef8
-extern UNKNOWN_FUNCTION(jump_8062fef8);
-// PAL: 0x8062ff1c
-extern UNKNOWN_FUNCTION(jump_8062ff1c);
-// PAL: 0x8062ff88
-extern UNKNOWN_FUNCTION(jump_8062ff88);
-// PAL: 0x8062ffb8
-extern UNKNOWN_FUNCTION(jump_8062ffb8);
-// PAL: 0x8062ffe8
-extern UNKNOWN_FUNCTION(jump_8062ffe8);
-// PAL: 0x80630018
-extern UNKNOWN_FUNCTION(jump_80630018);
-// PAL: 0x80630048
-extern UNKNOWN_FUNCTION(jump_80630048);
-// PAL: 0x806300cc
-extern UNKNOWN_FUNCTION(jump_806300cc);
-// PAL: 0x806300d8
-extern UNKNOWN_FUNCTION(jump_806300d8);
-// PAL: 0x806300e4
-extern UNKNOWN_FUNCTION(jump_806300e4);
-// PAL: 0x806300f0
-extern UNKNOWN_FUNCTION(jump_806300f0);
-// PAL: 0x806300fc
-extern UNKNOWN_FUNCTION(jump_806300fc);
-// PAL: 0x80630108
-extern UNKNOWN_FUNCTION(jump_80630108);
-// PAL: 0x80630114
-extern UNKNOWN_FUNCTION(jump_80630114);
-// PAL: 0x80630120
-extern UNKNOWN_FUNCTION(jump_80630120);
-// PAL: 0x8063012c
-extern UNKNOWN_FUNCTION(jump_8063012c);
-// PAL: 0x80630138
-extern UNKNOWN_FUNCTION(jump_80630138);
-// PAL: 0x80630144
-extern UNKNOWN_FUNCTION(jump_80630144);
-// PAL: 0x8063015c
-extern UNKNOWN_FUNCTION(jump_8063015c);
-// PAL: 0x80630174
-extern UNKNOWN_FUNCTION(jump_80630174);
-// PAL: 0x8063018c
-extern UNKNOWN_FUNCTION(jump_8063018c);
-// PAL: 0x806301a4
-extern UNKNOWN_FUNCTION(jump_806301a4);
-// PAL: 0x806301bc
-extern UNKNOWN_FUNCTION(jump_806301bc);
-// PAL: 0x806301d4
-extern UNKNOWN_FUNCTION(jump_806301d4);
-// PAL: 0x806301e0
-extern UNKNOWN_FUNCTION(jump_806301e0);
-// PAL: 0x806301ec
-extern UNKNOWN_FUNCTION(jump_806301ec);
-// PAL: 0x806301f8
-extern UNKNOWN_FUNCTION(jump_806301f8);
-// PAL: 0x80630204
-extern UNKNOWN_FUNCTION(jump_80630204);
-// PAL: 0x80630210
-extern UNKNOWN_FUNCTION(jump_80630210);
-// PAL: 0x8063021c
-extern UNKNOWN_FUNCTION(jump_8063021c);
-// PAL: 0x80630228
-extern UNKNOWN_FUNCTION(jump_80630228);
-// PAL: 0x80630234
-extern UNKNOWN_FUNCTION(jump_80630234);
-// PAL: 0x8063024c
-extern UNKNOWN_FUNCTION(jump_8063024c);
-// PAL: 0x80630270
-extern UNKNOWN_FUNCTION(jump_80630270);
-// PAL: 0x80630288
-extern UNKNOWN_FUNCTION(jump_80630288);
-// PAL: 0x806302a0
-extern UNKNOWN_FUNCTION(jump_806302a0);
-// PAL: 0x806302b8
-extern UNKNOWN_FUNCTION(jump_806302b8);
-// PAL: 0x806302d0
-extern UNKNOWN_FUNCTION(jump_806302d0);
-// PAL: 0x806302e8
-extern UNKNOWN_FUNCTION(jump_806302e8);
-// PAL: 0x80630300
-extern UNKNOWN_FUNCTION(jump_80630300);
-// PAL: 0x80630318
-extern UNKNOWN_FUNCTION(jump_80630318);
-// PAL: 0x80630330
-extern UNKNOWN_FUNCTION(jump_80630330);
-// PAL: 0x80630348
-extern UNKNOWN_FUNCTION(jump_80630348);
-// PAL: 0x80630360
-extern UNKNOWN_FUNCTION(jump_80630360);
-// PAL: 0x80630378
-extern UNKNOWN_FUNCTION(jump_80630378);
-// PAL: 0x80630390
-extern UNKNOWN_FUNCTION(jump_80630390);
-// PAL: 0x806303a8
-extern UNKNOWN_FUNCTION(jump_806303a8);
-// PAL: 0x806303c0
-extern UNKNOWN_FUNCTION(jump_806303c0);
-// PAL: 0x806303d8
-extern UNKNOWN_FUNCTION(jump_806303d8);
-// PAL: 0x806303fc
-extern UNKNOWN_FUNCTION(jump_806303fc);
-// PAL: 0x80630414
-extern UNKNOWN_FUNCTION(jump_80630414);
-// PAL: 0x80630438
-extern UNKNOWN_FUNCTION(jump_80630438);
-// PAL: 0x8063045c
-extern UNKNOWN_FUNCTION(jump_8063045c);
-// PAL: 0x80630480
-extern UNKNOWN_FUNCTION(jump_80630480);
-// PAL: 0x806304a4
-extern UNKNOWN_FUNCTION(jump_806304a4);
-// PAL: 0x806304b0
-extern UNKNOWN_FUNCTION(jump_806304b0);
-// PAL: 0x806304bc
-extern UNKNOWN_FUNCTION(jump_806304bc);
-// PAL: 0x806304c8
-extern UNKNOWN_FUNCTION(jump_806304c8);
-// PAL: 0x806304d4
-extern UNKNOWN_FUNCTION(jump_806304d4);
-// PAL: 0x806304e0
-extern UNKNOWN_FUNCTION(jump_806304e0);
-// PAL: 0x806304ec
-extern UNKNOWN_FUNCTION(jump_806304ec);
-// PAL: 0x80630504
-extern UNKNOWN_FUNCTION(jump_80630504);
-// PAL: 0x8063051c
-extern UNKNOWN_FUNCTION(jump_8063051c);
-// PAL: 0x80630534
-extern UNKNOWN_FUNCTION(jump_80630534);
-// PAL: 0x8063054c
-extern UNKNOWN_FUNCTION(jump_8063054c);
-// PAL: 0x8063057c
-extern UNKNOWN_FUNCTION(jump_8063057c);
-// PAL: 0x806305ac
-extern UNKNOWN_FUNCTION(jump_806305ac);
-// PAL: 0x806305dc
-extern UNKNOWN_FUNCTION(jump_806305dc);
-// PAL: 0x8063060c
-extern UNKNOWN_FUNCTION(jump_8063060c);
-// PAL: 0x8063063c
-extern UNKNOWN_FUNCTION(jump_8063063c);
-// PAL: 0x80630654
-extern UNKNOWN_FUNCTION(jump_80630654);
-// PAL: 0x80630678
-extern UNKNOWN_FUNCTION(jump_80630678);
-// PAL: 0x8063069c
-extern UNKNOWN_FUNCTION(jump_8063069c);
-// PAL: 0x806306c0
-extern UNKNOWN_FUNCTION(jump_806306c0);
-// PAL: 0x806306fc
-extern UNKNOWN_FUNCTION(jump_806306fc);
-// PAL: 0x80630738
-extern UNKNOWN_FUNCTION(jump_80630738);
-// PAL: 0x80630774
-extern UNKNOWN_FUNCTION(jump_80630774);
-// PAL: 0x806307b0
-extern UNKNOWN_FUNCTION(jump_806307b0);
-// PAL: 0x806307ec
-extern UNKNOWN_FUNCTION(jump_806307ec);
-// PAL: 0x8063081c
-extern UNKNOWN_FUNCTION(jump_8063081c);
-// PAL: 0x80630858
-extern UNKNOWN_FUNCTION(jump_80630858);
-// PAL: 0x80630894
-extern UNKNOWN_FUNCTION(jump_80630894);
-// PAL: 0x806308d0
-extern UNKNOWN_FUNCTION(jump_806308d0);
-// PAL: 0x80630900
-extern UNKNOWN_FUNCTION(jump_80630900);
-// PAL: 0x80630930
-extern UNKNOWN_FUNCTION(jump_80630930);
-// PAL: 0x80630960
-extern UNKNOWN_FUNCTION(jump_80630960);
-// PAL: 0x80630990
-extern UNKNOWN_FUNCTION(jump_80630990);
-// PAL: 0x806309d8
-extern UNKNOWN_FUNCTION(jump_806309d8);
-// PAL: 0x80630a20
-extern UNKNOWN_FUNCTION(jump_80630a20);
-// PAL: 0x80630a68
-extern UNKNOWN_FUNCTION(jump_80630a68);
-// PAL: 0x80630aa4
-extern UNKNOWN_FUNCTION(jump_80630aa4);
-// PAL: 0x80630ae0
-extern UNKNOWN_FUNCTION(jump_80630ae0);
-// PAL: 0x80630af8
-extern UNKNOWN_FUNCTION(jump_80630af8);
-// PAL: 0x80630b40
-extern UNKNOWN_FUNCTION(jump_80630b40);
-// PAL: 0x80630b88
-extern UNKNOWN_FUNCTION(jump_80630b88);
-// PAL: 0x80630bd0
-extern UNKNOWN_FUNCTION(jump_80630bd0);
-// PAL: 0x80630c0c
-extern UNKNOWN_FUNCTION(jump_80630c0c);
-// PAL: 0x80630c48
-extern UNKNOWN_FUNCTION(jump_80630c48);
-// PAL: 0x80630c84
-extern UNKNOWN_FUNCTION(jump_80630c84);
-// PAL: 0x80630cc0
-extern UNKNOWN_FUNCTION(jump_80630cc0);
-// PAL: 0x80630cfc
-extern UNKNOWN_FUNCTION(jump_80630cfc);
-// PAL: 0x80630d38
-extern UNKNOWN_FUNCTION(jump_80630d38);
-// PAL: 0x80630d74
-extern UNKNOWN_FUNCTION(jump_80630d74);
-// PAL: 0x80630db0
-extern UNKNOWN_FUNCTION(jump_80630db0);
-// PAL: 0x80630dec
-extern UNKNOWN_FUNCTION(jump_80630dec);
-// PAL: 0x80630e28
-extern UNKNOWN_FUNCTION(jump_80630e28);
-// PAL: 0x80630e58
-extern UNKNOWN_FUNCTION(jump_80630e58);
-// PAL: 0x80630e88
-extern UNKNOWN_FUNCTION(jump_80630e88);
-// PAL: 0x80630eb8
-extern UNKNOWN_FUNCTION(jump_80630eb8);
-// PAL: 0x80630ee8
-extern UNKNOWN_FUNCTION(jump_80630ee8);
-// PAL: 0x80630f18
-extern UNKNOWN_FUNCTION(jump_80630f18);
-// PAL: 0x80630f48
-extern UNKNOWN_FUNCTION(jump_80630f48);
-// PAL: 0x80630f78
-extern UNKNOWN_FUNCTION(jump_80630f78);
-// PAL: 0x80630fa8
-extern UNKNOWN_FUNCTION(jump_80630fa8);
-// PAL: 0x80630fd8
-extern UNKNOWN_FUNCTION(jump_80630fd8);
-// PAL: 0x80631008
-extern UNKNOWN_FUNCTION(jump_80631008);
-// PAL: 0x80631038
-extern UNKNOWN_FUNCTION(jump_80631038);
-// PAL: 0x80631068
-extern UNKNOWN_FUNCTION(jump_80631068);
-// PAL: 0x80631098
-extern UNKNOWN_FUNCTION(jump_80631098);
-// PAL: 0x806310c8
-extern UNKNOWN_FUNCTION(jump_806310c8);
-// PAL: 0x806310f8
-extern UNKNOWN_FUNCTION(jump_806310f8);
-// PAL: 0x80631128
-extern UNKNOWN_FUNCTION(jump_80631128);
-// PAL: 0x80631140
-extern UNKNOWN_FUNCTION(jump_80631140);
-// PAL: 0x80631158
-extern UNKNOWN_FUNCTION(jump_80631158);
-// PAL: 0x80631170
-extern UNKNOWN_FUNCTION(jump_80631170);
-// PAL: 0x80631188
-extern UNKNOWN_FUNCTION(jump_80631188);
-// PAL: 0x806311a0
-extern UNKNOWN_FUNCTION(jump_806311a0);
-// PAL: 0x806311e8
-extern UNKNOWN_FUNCTION(jump_806311e8);
-// PAL: 0x80631224
-extern UNKNOWN_FUNCTION(jump_80631224);
-// PAL: 0x80631248
-extern UNKNOWN_FUNCTION(jump_80631248);
-// PAL: 0x80631278
-extern UNKNOWN_FUNCTION(jump_80631278);
-// PAL: 0x806312a8
-extern UNKNOWN_FUNCTION(jump_806312a8);
-// PAL: 0x806312cc
-extern UNKNOWN_FUNCTION(jump_806312cc);
-// PAL: 0x80631314
-extern UNKNOWN_FUNCTION(jump_80631314);
-// PAL: 0x8063135c
-extern UNKNOWN_FUNCTION(jump_8063135c);
-// PAL: 0x80631380
-extern UNKNOWN_FUNCTION(jump_80631380);
-// PAL: 0x806313a4
-extern UNKNOWN_FUNCTION(jump_806313a4);
-// PAL: 0x806313c8
-extern UNKNOWN_FUNCTION(jump_806313c8);
-// PAL: 0x806313e0
-extern UNKNOWN_FUNCTION(jump_806313e0);
-// PAL: 0x806313f8
-extern UNKNOWN_FUNCTION(jump_806313f8);
-// PAL: 0x80631410
-extern UNKNOWN_FUNCTION(jump_80631410);
-// PAL: 0x80631428
-extern UNKNOWN_FUNCTION(jump_80631428);
-// PAL: 0x8063144c
-extern UNKNOWN_FUNCTION(jump_8063144c);
-// PAL: 0x80631470
-extern UNKNOWN_FUNCTION(jump_80631470);
-// PAL: 0x80631494
-extern UNKNOWN_FUNCTION(jump_80631494);
-// PAL: 0x806314b8
-extern UNKNOWN_FUNCTION(jump_806314b8);
-// PAL: 0x806314e8
-extern UNKNOWN_FUNCTION(jump_806314e8);
-// PAL: 0x80631518
-extern UNKNOWN_FUNCTION(jump_80631518);
-// PAL: 0x80631548
-extern UNKNOWN_FUNCTION(jump_80631548);
-// PAL: 0x806321d4
-extern UNKNOWN_FUNCTION(jump_806321d4);
-// PAL: 0x806321dc
-extern UNKNOWN_FUNCTION(jump_806321dc);
-// PAL: 0x806321e4
-extern UNKNOWN_FUNCTION(jump_806321e4);
-// PAL: 0x806321ec
-extern UNKNOWN_FUNCTION(jump_806321ec);
-// PAL: 0x806321f4
-extern UNKNOWN_FUNCTION(jump_806321f4);
-// PAL: 0x806321fc
-extern UNKNOWN_FUNCTION(jump_806321fc);
-// PAL: 0x80632204
-extern UNKNOWN_FUNCTION(jump_80632204);
-// PAL: 0x8063220c
-extern UNKNOWN_FUNCTION(jump_8063220c);
-// PAL: 0x80632214
-extern UNKNOWN_FUNCTION(jump_80632214);
-// PAL: 0x8063221c
-extern UNKNOWN_FUNCTION(jump_8063221c);
-// PAL: 0x80632224
-extern UNKNOWN_FUNCTION(jump_80632224);
-// PAL: 0x8063222c
-extern UNKNOWN_FUNCTION(jump_8063222c);
-// PAL: 0x80632234
-extern UNKNOWN_FUNCTION(jump_80632234);
-// PAL: 0x8063223c
-extern UNKNOWN_FUNCTION(jump_8063223c);
-// PAL: 0x80632244
-extern UNKNOWN_FUNCTION(jump_80632244);
-// PAL: 0x8063224c
-extern UNKNOWN_FUNCTION(jump_8063224c);
-// PAL: 0x80632254
-extern UNKNOWN_FUNCTION(jump_80632254);
-// PAL: 0x8063225c
-extern UNKNOWN_FUNCTION(jump_8063225c);
-// PAL: 0x80632264
-extern UNKNOWN_FUNCTION(jump_80632264);
-// PAL: 0x8063226c
-extern UNKNOWN_FUNCTION(jump_8063226c);
-// PAL: 0x80632274
-extern UNKNOWN_FUNCTION(jump_80632274);
-// PAL: 0x8063227c
-extern UNKNOWN_FUNCTION(jump_8063227c);
-// PAL: 0x80632284
-extern UNKNOWN_FUNCTION(jump_80632284);
-// PAL: 0x8063228c
-extern UNKNOWN_FUNCTION(jump_8063228c);
-// PAL: 0x80632294
-extern UNKNOWN_FUNCTION(jump_80632294);
-// PAL: 0x8063229c
-extern UNKNOWN_FUNCTION(jump_8063229c);
-// PAL: 0x806322a4
-extern UNKNOWN_FUNCTION(jump_806322a4);
-// PAL: 0x806322ac
-extern UNKNOWN_FUNCTION(jump_806322ac);
-// PAL: 0x806322b4
-extern UNKNOWN_FUNCTION(jump_806322b4);
-// PAL: 0x806322bc
-extern UNKNOWN_FUNCTION(jump_806322bc);
-// PAL: 0x806322c4
-extern UNKNOWN_FUNCTION(jump_806322c4);
-// PAL: 0x806322cc
-extern UNKNOWN_FUNCTION(jump_806322cc);
-// PAL: 0x806322d4
-extern UNKNOWN_FUNCTION(jump_806322d4);
-// PAL: 0x806322dc
-extern UNKNOWN_FUNCTION(jump_806322dc);
-// PAL: 0x806322e4
-extern UNKNOWN_FUNCTION(jump_806322e4);
-// PAL: 0x806322ec
-extern UNKNOWN_FUNCTION(jump_806322ec);
-// PAL: 0x806322f4
-extern UNKNOWN_FUNCTION(jump_806322f4);
-// PAL: 0x806322fc
-extern UNKNOWN_FUNCTION(jump_806322fc);
-// PAL: 0x80632304
-extern UNKNOWN_FUNCTION(jump_80632304);
-// PAL: 0x8063230c
-extern UNKNOWN_FUNCTION(jump_8063230c);
-// PAL: 0x80632314
-extern UNKNOWN_FUNCTION(jump_80632314);
-// PAL: 0x8063231c
-extern UNKNOWN_FUNCTION(jump_8063231c);
-// PAL: 0x80632324
-extern UNKNOWN_FUNCTION(jump_80632324);
-// PAL: 0x8063232c
-extern UNKNOWN_FUNCTION(jump_8063232c);
-// PAL: 0x80632334
-extern UNKNOWN_FUNCTION(jump_80632334);
-// PAL: 0x8063233c
-extern UNKNOWN_FUNCTION(jump_8063233c);
-// PAL: 0x80632344
-extern UNKNOWN_FUNCTION(jump_80632344);
-// PAL: 0x8063234c
-extern UNKNOWN_FUNCTION(jump_8063234c);
-// PAL: 0x80632354
-extern UNKNOWN_FUNCTION(jump_80632354);
-// PAL: 0x8063235c
-extern UNKNOWN_FUNCTION(jump_8063235c);
-// PAL: 0x80632364
-extern UNKNOWN_FUNCTION(jump_80632364);
-// PAL: 0x8063236c
-extern UNKNOWN_FUNCTION(jump_8063236c);
-// PAL: 0x80632374
-extern UNKNOWN_FUNCTION(jump_80632374);
-// PAL: 0x8063237c
-extern UNKNOWN_FUNCTION(jump_8063237c);
-// PAL: 0x80632384
-extern UNKNOWN_FUNCTION(jump_80632384);
-// PAL: 0x8063238c
-extern UNKNOWN_FUNCTION(jump_8063238c);
-// PAL: 0x80632394
-extern UNKNOWN_FUNCTION(jump_80632394);
-// PAL: 0x8063239c
-extern UNKNOWN_FUNCTION(jump_8063239c);
-// PAL: 0x806323a4
-extern UNKNOWN_FUNCTION(jump_806323a4);
-// PAL: 0x806323ac
-extern UNKNOWN_FUNCTION(jump_806323ac);
-// PAL: 0x806323b4
-extern UNKNOWN_FUNCTION(jump_806323b4);
-// PAL: 0x806323bc
-extern UNKNOWN_FUNCTION(jump_806323bc);
-// PAL: 0x806323c4
-extern UNKNOWN_FUNCTION(jump_806323c4);
-// PAL: 0x806323cc
-extern UNKNOWN_FUNCTION(jump_806323cc);
-// PAL: 0x806323d4
-extern UNKNOWN_FUNCTION(jump_806323d4);
-// PAL: 0x806323dc
-extern UNKNOWN_FUNCTION(jump_806323dc);
-// PAL: 0x806323e4
-extern UNKNOWN_FUNCTION(jump_806323e4);
-// PAL: 0x806323ec
-extern UNKNOWN_FUNCTION(jump_806323ec);
-// PAL: 0x806323f4
-extern UNKNOWN_FUNCTION(jump_806323f4);
-// PAL: 0x806323fc
-extern UNKNOWN_FUNCTION(jump_806323fc); // Extern data references.
+void Section_addActivePage(void*, s32);
 // PAL: 0x80897d94
 extern UNKNOWN_DATA(lbl_80897d94);
 }
 
 // --- EXTERN DECLARATIONS END ---
 
-// .rodata
-
-// .data
-#pragma explicit_zero_data on
-void (*jtbl_808bc810[])() = {
-    jump_8062c3dc, jump_8062c3e8, jump_8062c3f4, jump_8062c400, jump_8062c40c,
-    jump_8062c418, jump_8062c424, jump_8062c430, jump_8062c43c, jump_8062c448,
-    jump_8062c454, jump_8062c478, jump_8062c4a8, jump_8062c4d8, jump_8062c4fc,
-    jump_8062c514, jump_8062c52c, jump_8062c538, jump_8062c544, jump_8062c550,
-    jump_8062c55c, jump_8062c568, jump_8062c574, jump_8062c580, jump_8062c58c,
-    jump_8062c5e0, jump_8062c64c, jump_8062c694, jump_8062c6e8, jump_8062c73c,
-    jump_8062c790, jump_8062c7d8, jump_8062c82c, jump_8062c880, jump_8062c8d4,
-    jump_8062c928, jump_8062c988, jump_8062c9e8, jump_8062ca48, jump_8062ca84,
-    jump_8062cacc, jump_8062cafc, jump_8062cb44, jump_8062cbbc, jump_8062cc40,
-    jump_8062cc7c, jump_8062ccb8, jump_8062ccf4, jump_8062cd0c, jump_8062cd24,
-    jump_8062cd3c, jump_8062cd54, jump_8062cd60, jump_8062cd6c, jump_8062cd84,
-    jump_8062cd9c, jump_8062cdd8, jump_8062ce14, jump_8062ce98, jump_8062cf1c,
-    jump_8062cfa0, jump_8062d024, jump_8062d0a8, jump_8062d0c0, jump_8062d108,
-    jump_8062d150, jump_8062d1f8, jump_8062d33c, jump_8062d480, jump_8062d5c4,
-    jump_8062d648, jump_8062d6cc, jump_8062d810, jump_8062d87c, jump_8062d8e8,
-    jump_8062d954, jump_8062d99c, jump_8062d9e4, jump_8062da2c, jump_8062db64,
-    jump_8062dd08, jump_8062deac, jump_8062e050, jump_8062e0e0, jump_8062e170,
-    jump_8062e1d0, jump_8062e374, jump_8062e518, jump_8062e6bc, jump_8062e74c,
-    jump_8062e7dc, jump_8062e86c, jump_8062e8fc, jump_8062e98c, jump_8062ea1c,
-    jump_8062eaac, jump_8062eb3c, jump_8062ebcc, jump_8062ec5c, jump_8062ecd4,
-    jump_8062ed4c, jump_8062eda0, jump_8062edf4, jump_8062ee78, jump_8062eefc,
-    jump_8062ef5c, jump_8062efbc, jump_8062f028, jump_8062f094, jump_8062f100,
-    jump_8062f16c, jump_8062f1d8, jump_8062f244, jump_8062f2b0, jump_8062f31c,
-    jump_8062f334, jump_8062f34c, jump_8062f3a0, jump_8062f3f4, jump_8062f448,
-    jump_8062f544, jump_8062f610, jump_8062f694, jump_8062f778, jump_8062f850,
-    jump_8062f8b0, jump_8062fa3c, jump_8062fbd4, jump_8062fc4c, jump_8062fcc4,
-    jump_8062fd48, jump_8062fd60, jump_8062fd78, jump_8062fdcc, jump_8062fe08,
-    jump_8062fec8, jump_8062fef8, jump_8062ff1c, jump_8062ff88, jump_8062ffb8,
-    jump_8062ffe8, jump_80630018, jump_80630048,
-};
-
-void (*jtbl_808bca4c[])() = {
-    jump_806300cc, jump_806300d8, jump_806300e4, jump_806300f0, jump_806300fc,
-    jump_80630108, jump_80630114, jump_80630120, jump_8063012c, jump_80630138,
-    jump_80630144, jump_8063015c, jump_80630174, jump_8063018c, jump_806301a4,
-    jump_806301bc, jump_806301d4, jump_806301e0, jump_806301ec, jump_806301f8,
-    jump_80630204, jump_80630210, jump_8063021c, jump_80630228, jump_80630234,
-    jump_8063024c, jump_80630270, jump_80630288, jump_806302a0, jump_806302b8,
-    jump_806302d0, jump_806302e8, jump_80630300, jump_80630318, jump_80630330,
-    jump_80630348, jump_80630360, jump_80630378, jump_80630390, jump_806303a8,
-    jump_806303c0, jump_806303d8, jump_806303fc, jump_80630414, jump_80630438,
-    jump_8063045c, jump_80630480, jump_806304a4, jump_806304b0, jump_806304bc,
-    jump_806304c8, jump_806304d4, jump_806304e0, jump_806304ec, jump_80630504,
-    jump_8063051c, jump_80630534, jump_8063054c, jump_8063057c, jump_806305ac,
-    jump_806305dc, jump_8063060c, jump_8063063c, jump_80630654, jump_80630678,
-    jump_8063069c, jump_806306c0, jump_806306fc, jump_80630738, jump_80630774,
-    jump_806307b0, jump_806307ec, jump_8063081c, jump_80630858, jump_80630894,
-    jump_806308d0, jump_80630900, jump_80630930, jump_80630960, jump_80630990,
-    jump_806309d8, jump_80630a20, jump_80630a68, jump_80630aa4, jump_80630ae0,
-    jump_80630af8, jump_80630b40, jump_80630b88, jump_80630bd0, jump_80630c0c,
-    jump_80630c48, jump_80630c84, jump_80630cc0, jump_80630cfc, jump_80630d38,
-    jump_80630d74, jump_80630db0, jump_80630dec, jump_80630e28, jump_80630e58,
-    jump_80630e88, jump_80630eb8, jump_80630ee8, jump_80630f18, jump_80630f48,
-    jump_80630f78, jump_80630fa8, jump_80630fd8, jump_80631008, jump_80631038,
-    jump_80631068, jump_80631098, jump_806310c8, jump_806310f8, jump_80631128,
-    jump_80631140, jump_80631158, jump_80631170, jump_80631188, jump_806311a0,
-    jump_806311e8, jump_80631224, jump_80631248, jump_80631278, jump_806312a8,
-    jump_806312cc, jump_80631314, jump_8063135c, jump_80631380, jump_806313a4,
-    jump_806313c8, jump_806313e0, jump_806313f8, jump_80631410, jump_80631428,
-    jump_8063144c, jump_80631470, jump_80631494, jump_806314b8, jump_806314e8,
-    jump_80631518,
-};
-__declspec(section ".data") void (*jthack_808bcc80)() = jump_80631548;
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(jthack_808bcc80)
-#pragma pop
-void (*jtbl_808bcc84[])() = {
-    jump_806321d4, jump_806321dc, jump_806321e4, jump_806321e4, jump_806321e4,
-    jump_806321ec, jump_806321f4, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc, jump_806321fc,
-    jump_80632204, jump_8063220c, jump_80632214, jump_8063221c, jump_8063221c,
-    jump_8063221c, jump_8063221c, jump_8063221c, jump_8063221c, jump_8063221c,
-    jump_8063221c, jump_8063221c, jump_80632224, jump_8063222c, jump_8063222c,
-    jump_80632234, jump_8063223c, jump_80632244, jump_8063224c, jump_80632254,
-    jump_8063225c, jump_80632264, jump_80632264, jump_80632264, jump_80632264,
-    jump_80632264, jump_8063226c, jump_80632274, jump_80632274, jump_80632274,
-    jump_8063227c, jump_8063227c, jump_80632284, jump_80632284, jump_80632284,
-    jump_8063228c, jump_8063228c, jump_80632294, jump_80632294, jump_8063229c,
-    jump_8063229c, jump_806322a4, jump_806322ac, jump_806322b4, jump_806322bc,
-    jump_806322c4, jump_806322c4, jump_806322cc, jump_806322cc, jump_806322cc,
-    jump_806322cc, jump_806322cc, jump_806322d4, jump_806322dc, jump_806322e4,
-    jump_806322e4, jump_806322e4, jump_806322ec, jump_806322f4, jump_806322f4,
-    jump_806322f4, jump_806322f4, jump_806322f4, jump_806322fc, jump_80632304,
-    jump_8063230c, jump_80632314, jump_8063231c, jump_80632324, jump_8063232c,
-    jump_8063232c, jump_8063232c, jump_80632334, jump_80632334, jump_8063233c,
-    jump_80632344, jump_80632344, jump_8063234c, jump_8063234c, jump_80632354,
-    jump_8063235c, jump_80632364, jump_8063236c, jump_8063236c, jump_80632374,
-    jump_8063237c, jump_80632384, jump_8063238c, jump_8063238c, jump_8063238c,
-    jump_80632394, jump_80632394, jump_80632394, jump_8063239c, jump_8063239c,
-    jump_8063239c, jump_8063239c, jump_8063239c, jump_8063239c, jump_8063239c,
-    jump_8063239c, jump_8063239c, jump_806323a4, jump_806323a4, jump_806323ac,
-    jump_806323b4, jump_806323bc, jump_806323c4, jump_806323c4, jump_806323cc,
-    jump_806323d4, jump_806323d4, jump_806323dc, jump_806323dc, jump_806323dc,
-    jump_806323dc, jump_806323dc, jump_806323e4, jump_806323e4, jump_806323e4,
-    jump_806323e4, jump_806323e4, jump_806323e4, jump_806323e4, jump_806323e4,
-    jump_806323e4, jump_806323e4, jump_806323ec, jump_806323ec, jump_806323f4,
-    jump_806323fc, jump_806323fc, jump_806323fc, jump_806323fc, jump_806323fc,
-    jump_806323fc,
-};
-
-#pragma explicit_zero_data off
-
-// .bss
-
-// Symbol: Section_addPages
-// PAL: 0x8062c3a4..0x80630094
-MARK_BINARY_BLOB(Section_addPages, 0x8062c3a4, 0x80630094);
-asm UNKNOWN_FUNCTION(Section_addPages){
-#include "asm/8062c3a4.s"
+void Section_addPages(void* pSection, int sectionId) {
+  switch (sectionId) {
+  case 6:
+    Section_addPage(pSection, 0);
+    break;
+  case 7:
+    Section_addPage(pSection, 0);
+    break;
+  case 8:
+    Section_addPage(pSection, 0);
+    break;
+  case 9:
+    Section_addPage(pSection, 0);
+    break;
+  case 10:
+    Section_addPage(pSection, 0);
+    break;
+  case 11:
+    Section_addPage(pSection, 0);
+    break;
+  case 12:
+    Section_addPage(pSection, 0);
+    break;
+  case 13:
+    Section_addPage(pSection, 0);
+    break;
+  case 14:
+    Section_addPage(pSection, 0);
+    break;
+  case 15:
+    Section_addPage(pSection, 0);
+    break;
+  case 16:
+    Section_addPage(pSection, 3);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 93);
+    break;
+  case 17:
+    Section_addPage(pSection, 3);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 93);
+    break;
+  case 18:
+    Section_addPage(pSection, 3);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 93);
+    break;
+  case 19:
+    Section_addPage(pSection, 4);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 93);
+    break;
+  case 20:
+    Section_addPage(pSection, 5);
+    Section_addPage(pSection, 93);
+    break;
+  case 21:
+    Section_addPage(pSection, 6);
+    Section_addPage(pSection, 93);
+    break;
+  case 22:
+    Section_addPage(pSection, 1);
+    break;
+  case 23:
+    Section_addPage(pSection, 2);
+    break;
+  case 24:
+    Section_addPage(pSection, 2);
+    break;
+  case 25:
+    Section_addPage(pSection, 7);
+    break;
+  case 26:
+    Section_addPage(pSection, 8);
+    break;
+  case 27:
+    Section_addPage(pSection, 9);
+    break;
+  case 28:
+    Section_addPage(pSection, 10);
+    break;
+  case 29:
+    Section_addPage(pSection, 11);
+    break;
+  case 30:
+    Section_addPage(pSection, 12);
+    Section_addPage(pSection, 23);
+    Section_addPage(pSection, 32);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 48);
+    Section_addPage(pSection, 58);
+    break;
+  case 31:
+    Section_addPage(pSection, 13);
+    Section_addPage(pSection, 25);
+    Section_addPage(pSection, 33);
+    Section_addPage(pSection, 41);
+    Section_addPage(pSection, 43);
+    Section_addPage(pSection, 45);
+    Section_addPage(pSection, 46);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 167);
+    break;
+  case 32:
+    Section_addPage(pSection, 14);
+    Section_addPage(pSection, 24);
+    Section_addPage(pSection, 34);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 48);
+    Section_addPage(pSection, 58);
+    break;
+  case 33:
+    Section_addPage(pSection, 15);
+    Section_addPage(pSection, 24);
+    Section_addPage(pSection, 34);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 48);
+    Section_addPage(pSection, 58);
+    break;
+  case 34:
+    Section_addPage(pSection, 16);
+    Section_addPage(pSection, 24);
+    Section_addPage(pSection, 34);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 48);
+    Section_addPage(pSection, 58);
+    break;
+  case 35:
+    Section_addPage(pSection, 17);
+    Section_addPage(pSection, 24);
+    Section_addPage(pSection, 34);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 48);
+    Section_addPage(pSection, 58);
+    break;
+  case 36:
+    Section_addPage(pSection, 14);
+    Section_addPage(pSection, 24);
+    Section_addPage(pSection, 34);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 50);
+    Section_addPage(pSection, 58);
+    break;
+  case 37:
+    Section_addPage(pSection, 15);
+    Section_addPage(pSection, 24);
+    Section_addPage(pSection, 34);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 50);
+    Section_addPage(pSection, 58);
+    break;
+  case 38:
+    Section_addPage(pSection, 16);
+    Section_addPage(pSection, 24);
+    Section_addPage(pSection, 34);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 50);
+    Section_addPage(pSection, 58);
+    break;
+  case 39:
+    Section_addPage(pSection, 17);
+    Section_addPage(pSection, 24);
+    Section_addPage(pSection, 34);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 50);
+    Section_addPage(pSection, 58);
+    break;
+  case 40:
+    Section_addPage(pSection, 18);
+    Section_addPage(pSection, 26);
+    Section_addPage(pSection, 35);
+    Section_addPage(pSection, 36);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 52);
+    Section_addPage(pSection, 58);
+    break;
+  case 41:
+    Section_addPage(pSection, 19);
+    Section_addPage(pSection, 26);
+    Section_addPage(pSection, 35);
+    Section_addPage(pSection, 36);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 52);
+    Section_addPage(pSection, 58);
+    break;
+  case 42:
+    Section_addPage(pSection, 20);
+    Section_addPage(pSection, 26);
+    Section_addPage(pSection, 35);
+    Section_addPage(pSection, 36);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 52);
+    Section_addPage(pSection, 58);
+    break;
+  case 43:
+    Section_addPage(pSection, 21);
+    Section_addPage(pSection, 26);
+    Section_addPage(pSection, 35);
+    Section_addPage(pSection, 36);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 52);
+    Section_addPage(pSection, 58);
+    break;
+  case 44:
+    Section_addPage(pSection, 22);
+    Section_addPage(pSection, 27);
+    Section_addPage(pSection, 37);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 58);
+    break;
+  case 45:
+    Section_addPage(pSection, 22);
+    Section_addPage(pSection, 27);
+    Section_addPage(pSection, 38);
+    Section_addPage(pSection, 42);
+    Section_addPage(pSection, 53);
+    Section_addPage(pSection, 58);
+    break;
+  case 46:
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 54);
+    Section_addPage(pSection, 56);
+    Section_addPage(pSection, 58);
+    break;
+  case 47:
+    Section_addPage(pSection, 33);
+    Section_addPage(pSection, 43);
+    Section_addPage(pSection, 55);
+    Section_addPage(pSection, 57);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 167);
+    break;
+  case 48:
+    Section_addPage(pSection, 13);
+    Section_addPage(pSection, 28);
+    Section_addPage(pSection, 29);
+    Section_addPage(pSection, 30);
+    Section_addPage(pSection, 39);
+    Section_addPage(pSection, 40);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 45);
+    Section_addPage(pSection, 46);
+    Section_addPage(pSection, 58);
+    break;
+  case 49:
+    Section_addPage(pSection, 13);
+    Section_addPage(pSection, 28);
+    Section_addPage(pSection, 29);
+    Section_addPage(pSection, 30);
+    Section_addPage(pSection, 39);
+    Section_addPage(pSection, 40);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 45);
+    Section_addPage(pSection, 46);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 136);
+    break;
+  case 50:
+    Section_addPage(pSection, 31);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 55);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 167);
+    break;
+  case 51:
+    Section_addPage(pSection, 31);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 55);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 167);
+    break;
+  case 52:
+    Section_addPage(pSection, 31);
+    Section_addPage(pSection, 44);
+    Section_addPage(pSection, 55);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 167);
+    break;
+  case 53:
+    Section_addPage(pSection, 59);
+    Section_addPage(pSection, 60);
+    break;
+  case 54:
+    Section_addPage(pSection, 59);
+    Section_addPage(pSection, 60);
+    break;
+  case 55:
+    Section_addPage(pSection, 59);
+    Section_addPage(pSection, 60);
+    break;
+  case 56:
+    Section_addPage(pSection, 59);
+    Section_addPage(pSection, 60);
+    break;
+  case 57:
+    Section_addPage(pSection, 61);
+    break;
+  case 58:
+    Section_addPage(pSection, 61);
+    break;
+  case 59:
+    Section_addPage(pSection, 61);
+    Section_addPage(pSection, 62);
+    break;
+  case 60:
+    Section_addPage(pSection, 61);
+    Section_addPage(pSection, 62);
+    break;
+  case 61:
+    Section_addPage(pSection, 63);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 127);
+    break;
+  case 62:
+    Section_addPage(pSection, 63);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 127);
+    break;
+  case 63:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 84);
+    Section_addPage(pSection, 85);
+    Section_addPage(pSection, 86);
+    Section_addPage(pSection, 87);
+    Section_addPage(pSection, 88);
+    Section_addPage(pSection, 89);
+    Section_addPage(pSection, 90);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 101);
+    break;
+  case 64:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 84);
+    Section_addPage(pSection, 85);
+    Section_addPage(pSection, 86);
+    Section_addPage(pSection, 87);
+    Section_addPage(pSection, 88);
+    Section_addPage(pSection, 89);
+    Section_addPage(pSection, 90);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 101);
+    break;
+  case 65:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 84);
+    Section_addPage(pSection, 85);
+    Section_addPage(pSection, 86);
+    Section_addPage(pSection, 87);
+    Section_addPage(pSection, 88);
+    Section_addPage(pSection, 89);
+    Section_addPage(pSection, 90);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 101);
+    break;
+  case 66:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 84);
+    Section_addPage(pSection, 85);
+    Section_addPage(pSection, 86);
+    Section_addPage(pSection, 87);
+    Section_addPage(pSection, 88);
+    Section_addPage(pSection, 89);
+    Section_addPage(pSection, 90);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 101);
+    break;
+  case 67:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 84);
+    Section_addPage(pSection, 85);
+    Section_addPage(pSection, 86);
+    Section_addPage(pSection, 87);
+    Section_addPage(pSection, 88);
+    Section_addPage(pSection, 89);
+    Section_addPage(pSection, 90);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 101);
+    break;
+  case 68:
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 95);
+    break;
+  case 69:
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 96);
+    Section_addPage(pSection, 102);
+    break;
+  case 70:
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 96);
+    Section_addPage(pSection, 102);
+    break;
+  case 71:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 96);
+    Section_addPage(pSection, 102);
+    Section_addPage(pSection, 103);
+    Section_addPage(pSection, 104);
+    Section_addPage(pSection, 206);
+    Section_addPage(pSection, 207);
+    Section_addPage(pSection, 208);
+    Section_addPage(pSection, 209);
+    Section_addPage(pSection, 210);
+    break;
+  case 72:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 105);
+    Section_addPage(pSection, 106);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 112);
+    Section_addPage(pSection, 113);
+    Section_addPage(pSection, 114);
+    Section_addPage(pSection, 115);
+    Section_addPage(pSection, 116);
+    Section_addPage(pSection, 117);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 119);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 73:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 105);
+    Section_addPage(pSection, 106);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 112);
+    Section_addPage(pSection, 113);
+    Section_addPage(pSection, 114);
+    Section_addPage(pSection, 115);
+    Section_addPage(pSection, 116);
+    Section_addPage(pSection, 117);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 119);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 74:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 105);
+    Section_addPage(pSection, 106);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 112);
+    Section_addPage(pSection, 113);
+    Section_addPage(pSection, 114);
+    Section_addPage(pSection, 115);
+    Section_addPage(pSection, 116);
+    Section_addPage(pSection, 117);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 119);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 75:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 76:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 77:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 83);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 105);
+    Section_addPage(pSection, 106);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 112);
+    Section_addPage(pSection, 113);
+    Section_addPage(pSection, 114);
+    Section_addPage(pSection, 115);
+    Section_addPage(pSection, 116);
+    Section_addPage(pSection, 117);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 119);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 78:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 79:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 80:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 167);
+    break;
+  case 81:
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 167);
+    Section_addPage(pSection, 182);
+    break;
+  case 82:
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 167);
+    Section_addPage(pSection, 177);
+    Section_addPage(pSection, 178);
+    break;
+  case 83:
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 167);
+    Section_addPage(pSection, 177);
+    Section_addPage(pSection, 178);
+    break;
+  case 84:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 96);
+    Section_addPage(pSection, 97);
+    Section_addPage(pSection, 98);
+    Section_addPage(pSection, 99);
+    Section_addPage(pSection, 100);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 114);
+    Section_addPage(pSection, 115);
+    Section_addPage(pSection, 116);
+    Section_addPage(pSection, 117);
+    Section_addPage(pSection, 119);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 128);
+    Section_addPage(pSection, 129);
+    Section_addPage(pSection, 130);
+    Section_addPage(pSection, 131);
+    break;
+  case 85:
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 135);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 139);
+    Section_addPage(pSection, 140);
+    Section_addPage(pSection, 141);
+    Section_addPage(pSection, 143);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 150);
+    Section_addPage(pSection, 151);
+    Section_addPage(pSection, 152);
+    Section_addPage(pSection, 153);
+    Section_addPage(pSection, 155);
+    Section_addPage(pSection, 156);
+    Section_addPage(pSection, 157);
+    Section_addPage(pSection, 158);
+    Section_addPage(pSection, 165);
+    Section_addPage(pSection, 166);
+    Section_addPage(pSection, 167);
+    break;
+  case 86:
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 135);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 139);
+    Section_addPage(pSection, 140);
+    Section_addPage(pSection, 141);
+    Section_addPage(pSection, 143);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 150);
+    Section_addPage(pSection, 151);
+    Section_addPage(pSection, 152);
+    Section_addPage(pSection, 153);
+    Section_addPage(pSection, 155);
+    Section_addPage(pSection, 156);
+    Section_addPage(pSection, 157);
+    Section_addPage(pSection, 158);
+    Section_addPage(pSection, 165);
+    Section_addPage(pSection, 166);
+    Section_addPage(pSection, 167);
+    break;
+  case 87:
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 135);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 139);
+    Section_addPage(pSection, 140);
+    Section_addPage(pSection, 141);
+    Section_addPage(pSection, 143);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 150);
+    Section_addPage(pSection, 151);
+    Section_addPage(pSection, 152);
+    Section_addPage(pSection, 153);
+    Section_addPage(pSection, 155);
+    Section_addPage(pSection, 156);
+    Section_addPage(pSection, 157);
+    Section_addPage(pSection, 158);
+    Section_addPage(pSection, 165);
+    Section_addPage(pSection, 166);
+    Section_addPage(pSection, 167);
+    break;
+  case 88:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 89:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 90:
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 96);
+    Section_addPage(pSection, 97);
+    Section_addPage(pSection, 98);
+    Section_addPage(pSection, 99);
+    Section_addPage(pSection, 100);
+    Section_addPage(pSection, 138);
+    break;
+  case 91:
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 129);
+    Section_addPage(pSection, 130);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 135);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 139);
+    Section_addPage(pSection, 140);
+    Section_addPage(pSection, 141);
+    Section_addPage(pSection, 143);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 150);
+    Section_addPage(pSection, 151);
+    Section_addPage(pSection, 152);
+    Section_addPage(pSection, 153);
+    Section_addPage(pSection, 155);
+    Section_addPage(pSection, 156);
+    Section_addPage(pSection, 157);
+    Section_addPage(pSection, 158);
+    Section_addPage(pSection, 165);
+    Section_addPage(pSection, 166);
+    Section_addPage(pSection, 167);
+    break;
+  case 92:
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 129);
+    Section_addPage(pSection, 130);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 135);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 139);
+    Section_addPage(pSection, 140);
+    Section_addPage(pSection, 141);
+    Section_addPage(pSection, 143);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 150);
+    Section_addPage(pSection, 151);
+    Section_addPage(pSection, 152);
+    Section_addPage(pSection, 153);
+    Section_addPage(pSection, 155);
+    Section_addPage(pSection, 156);
+    Section_addPage(pSection, 157);
+    Section_addPage(pSection, 158);
+    Section_addPage(pSection, 165);
+    Section_addPage(pSection, 166);
+    Section_addPage(pSection, 167);
+    break;
+  case 93:
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 129);
+    Section_addPage(pSection, 130);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 135);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 139);
+    Section_addPage(pSection, 140);
+    Section_addPage(pSection, 141);
+    Section_addPage(pSection, 143);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 150);
+    Section_addPage(pSection, 151);
+    Section_addPage(pSection, 152);
+    Section_addPage(pSection, 153);
+    Section_addPage(pSection, 155);
+    Section_addPage(pSection, 156);
+    Section_addPage(pSection, 157);
+    Section_addPage(pSection, 158);
+    Section_addPage(pSection, 165);
+    Section_addPage(pSection, 166);
+    Section_addPage(pSection, 167);
+    break;
+  case 94:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 95:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 96:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 97:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 98:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 99:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 100:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 101:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 102:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 103:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 92);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 120);
+    Section_addPage(pSection, 121);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 144);
+    Section_addPage(pSection, 145);
+    Section_addPage(pSection, 146);
+    break;
+  case 104:
+    Section_addPage(pSection, 49);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 64);
+    Section_addPage(pSection, 69);
+    Section_addPage(pSection, 70);
+    Section_addPage(pSection, 71);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 105:
+    Section_addPage(pSection, 49);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 65);
+    Section_addPage(pSection, 69);
+    Section_addPage(pSection, 70);
+    Section_addPage(pSection, 71);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 106:
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 73);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 147);
+    Section_addPage(pSection, 148);
+    break;
+  case 107:
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 73);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 147);
+    Section_addPage(pSection, 148);
+    break;
+  case 108:
+    Section_addPage(pSection, 18);
+    Section_addPage(pSection, 49);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 69);
+    Section_addPage(pSection, 70);
+    Section_addPage(pSection, 71);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 109:
+    Section_addPage(pSection, 19);
+    Section_addPage(pSection, 49);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 69);
+    Section_addPage(pSection, 70);
+    Section_addPage(pSection, 71);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 110:
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 74);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 147);
+    Section_addPage(pSection, 148);
+    break;
+  case 111:
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 74);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 147);
+    Section_addPage(pSection, 148);
+    break;
+  case 112:
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 48);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 66);
+    Section_addPage(pSection, 68);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 113:
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 50);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 66);
+    Section_addPage(pSection, 68);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 114:
+    Section_addPage(pSection, 18);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 52);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 68);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 115:
+    Section_addPage(pSection, 18);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 52);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 68);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 116:
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 48);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 67);
+    Section_addPage(pSection, 68);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 117:
+    Section_addPage(pSection, 47);
+    Section_addPage(pSection, 50);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 67);
+    Section_addPage(pSection, 68);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 118:
+    Section_addPage(pSection, 19);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 52);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 68);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 119:
+    Section_addPage(pSection, 19);
+    Section_addPage(pSection, 51);
+    Section_addPage(pSection, 52);
+    Section_addPage(pSection, 58);
+    Section_addPage(pSection, 68);
+    Section_addPage(pSection, 72);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 148);
+    break;
+  case 120:
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 137);
+    break;
+  case 121:
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 137);
+    break;
+  case 122:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 162);
+    Section_addPage(pSection, 163);
+    Section_addPage(pSection, 164);
+    break;
+  case 123:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 162);
+    Section_addPage(pSection, 163);
+    Section_addPage(pSection, 164);
+    break;
+  case 124:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 162);
+    Section_addPage(pSection, 163);
+    Section_addPage(pSection, 164);
+    break;
+  case 125:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 110);
+    Section_addPage(pSection, 111);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 167);
+    Section_addPage(pSection, 168);
+    Section_addPage(pSection, 170);
+    Section_addPage(pSection, 171);
+    Section_addPage(pSection, 172);
+    Section_addPage(pSection, 173);
+    Section_addPage(pSection, 174);
+    Section_addPage(pSection, 175);
+    break;
+  case 126:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 169);
+    Section_addPage(pSection, 170);
+    Section_addPage(pSection, 171);
+    Section_addPage(pSection, 174);
+    Section_addPage(pSection, 175);
+    Section_addPage(pSection, 176);
+    break;
+  case 127:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 159);
+    Section_addPage(pSection, 160);
+    Section_addPage(pSection, 161);
+    break;
+  case 128:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 159);
+    Section_addPage(pSection, 160);
+    Section_addPage(pSection, 161);
+    break;
+  case 129:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 160);
+    Section_addPage(pSection, 161);
+    break;
+  case 130:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 167);
+    Section_addPage(pSection, 179);
+    Section_addPage(pSection, 180);
+    Section_addPage(pSection, 181);
+    break;
+  case 131:
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 135);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 142);
+    Section_addPage(pSection, 143);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 150);
+    Section_addPage(pSection, 151);
+    Section_addPage(pSection, 152);
+    Section_addPage(pSection, 153);
+    Section_addPage(pSection, 155);
+    Section_addPage(pSection, 156);
+    Section_addPage(pSection, 157);
+    Section_addPage(pSection, 158);
+    Section_addPage(pSection, 165);
+    Section_addPage(pSection, 166);
+    Section_addPage(pSection, 167);
+    break;
+  case 132:
+    Section_addPage(pSection, 76);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 118);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 135);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 142);
+    Section_addPage(pSection, 143);
+    Section_addPage(pSection, 149);
+    Section_addPage(pSection, 150);
+    Section_addPage(pSection, 151);
+    Section_addPage(pSection, 152);
+    Section_addPage(pSection, 153);
+    Section_addPage(pSection, 154);
+    Section_addPage(pSection, 155);
+    Section_addPage(pSection, 156);
+    Section_addPage(pSection, 157);
+    Section_addPage(pSection, 158);
+    Section_addPage(pSection, 165);
+    Section_addPage(pSection, 166);
+    Section_addPage(pSection, 167);
+    break;
+  case 133:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 183);
+    Section_addPage(pSection, 184);
+    Section_addPage(pSection, 187);
+    break;
+  case 134:
+    Section_addPage(pSection, 75);
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 107);
+    Section_addPage(pSection, 108);
+    Section_addPage(pSection, 109);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 183);
+    Section_addPage(pSection, 184);
+    Section_addPage(pSection, 187);
+    break;
+  case 135:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 132);
+    Section_addPage(pSection, 133);
+    Section_addPage(pSection, 134);
+    Section_addPage(pSection, 136);
+    Section_addPage(pSection, 137);
+    Section_addPage(pSection, 185);
+    break;
+  case 136:
+    Section_addPage(pSection, 91);
+    Section_addPage(pSection, 186);
+    break;
+  case 137:
+    Section_addPage(pSection, 91);
+    Section_addPage(pSection, 186);
+    break;
+  case 138:
+    Section_addPage(pSection, 79);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 189);
+    Section_addPage(pSection, 190);
+    Section_addPage(pSection, 191);
+    break;
+  case 139:
+    Section_addPage(pSection, 80);
+    Section_addPage(pSection, 81);
+    Section_addPage(pSection, 82);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 188);
+    break;
+  case 140:
+    Section_addPage(pSection, 77);
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 192);
+    Section_addPage(pSection, 193);
+    Section_addPage(pSection, 194);
+    Section_addPage(pSection, 195);
+    Section_addPage(pSection, 196);
+    Section_addPage(pSection, 197);
+    Section_addPage(pSection, 198);
+    Section_addPage(pSection, 199);
+    Section_addPage(pSection, 200);
+    Section_addPage(pSection, 201);
+    Section_addPage(pSection, 202);
+    Section_addPage(pSection, 203);
+    Section_addPage(pSection, 204);
+    break;
+  case 141:
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 202);
+    Section_addPage(pSection, 203);
+    Section_addPage(pSection, 204);
+    break;
+  case 142:
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 197);
+    Section_addPage(pSection, 204);
+    break;
+  case 143:
+    Section_addPage(pSection, 78);
+    Section_addPage(pSection, 93);
+    Section_addPage(pSection, 194);
+    Section_addPage(pSection, 195);
+    Section_addPage(pSection, 198);
+    Section_addPage(pSection, 199);
+    Section_addPage(pSection, 200);
+    Section_addPage(pSection, 201);
+    Section_addPage(pSection, 204);
+    break;
+  case 144:
+    Section_addPage(pSection, 91);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 205);
+    break;
+  case 145:
+    Section_addPage(pSection, 91);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 205);
+    break;
+  case 146:
+    Section_addPage(pSection, 91);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 205);
+    break;
+  case 147:
+    Section_addPage(pSection, 91);
+    Section_addPage(pSection, 94);
+    Section_addPage(pSection, 127);
+    Section_addPage(pSection, 205);
+    break;
+  case 148:
+    Section_addPage(pSection, 122);
+    Section_addPage(pSection, 123);
+    Section_addPage(pSection, 124);
+    Section_addPage(pSection, 125);
+    Section_addPage(pSection, 126);
+    break;
+  default:
+    return;
+  }
 }
 
-// Symbol: Section_addActivePages
-// PAL: 0x80630094..0x80631588
-MARK_BINARY_BLOB(Section_addActivePages, 0x80630094, 0x80631588);
-asm UNKNOWN_FUNCTION(Section_addActivePages){
-#include "asm/80630094.s"
+void Section_addActivePages(void* section, int sectionId) {
+  switch (sectionId) {
+  case 6:
+    Section_addActivePage(section, 0);
+    break;
+  case 7:
+    Section_addActivePage(section, 0);
+    break;
+  case 8:
+    Section_addActivePage(section, 0);
+    break;
+  case 9:
+    Section_addActivePage(section, 0);
+    break;
+  case 10:
+    Section_addActivePage(section, 0);
+    break;
+  case 0xb:
+    Section_addActivePage(section, 0);
+    break;
+  case 0xc:
+    Section_addActivePage(section, 0);
+    break;
+  case 0xd:
+    Section_addActivePage(section, 0);
+    break;
+  case 0xe:
+    Section_addActivePage(section, 0);
+    break;
+  case 0xf:
+    Section_addActivePage(section, 0);
+    break;
+  case 0x10:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 3);
+    break;
+  case 0x11:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 3);
+    break;
+  case 0x12:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 3);
+    break;
+  case 0x13:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 4);
+    break;
+  case 0x14:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 5);
+    break;
+  case 0x15:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 6);
+    break;
+  case 0x16:
+    Section_addActivePage(section, 1);
+    break;
+  case 0x17:
+    Section_addActivePage(section, 2);
+    break;
+  case 0x18:
+    Section_addActivePage(section, 2);
+    break;
+  case 0x19:
+    Section_addActivePage(section, 7);
+    break;
+  case 0x1a:
+    Section_addActivePage(section, 8);
+    break;
+  case 0x1b:
+    Section_addActivePage(section, 9);
+    break;
+  case 0x1c:
+    Section_addActivePage(section, 10);
+    break;
+  case 0x1d:
+    Section_addActivePage(section, 0xb);
+    break;
+  case 0x1e:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0xc);
+    break;
+  case 0x1f:
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0xd);
+    break;
+  case 0x20:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0xe);
+    break;
+  case 0x21:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0xf);
+    break;
+  case 0x22:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x10);
+    break;
+  case 0x23:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x11);
+    break;
+  case 0x24:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0xe);
+    break;
+  case 0x25:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0xf);
+    break;
+  case 0x26:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x10);
+    break;
+  case 0x27:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x11);
+    break;
+  case 0x28:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x12);
+    break;
+  case 0x29:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x13);
+    break;
+  case 0x2a:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x14);
+    break;
+  case 0x2b:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x15);
+    break;
+  case 0x2c:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x16);
+    break;
+  case 0x2d:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x16);
+    break;
+  case 0x2e:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x36);
+    break;
+  case 0x2f:
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x37);
+    break;
+  case 0x30:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0xd);
+    break;
+  case 0x31:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xd);
+    break;
+  case 0x32:
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x37);
+    break;
+  case 0x33:
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x37);
+    break;
+  case 0x34:
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x37);
+    break;
+  case 0x35:
+    Section_addActivePage(section, 0x3b);
+    break;
+  case 0x36:
+    Section_addActivePage(section, 0x3b);
+    break;
+  case 0x37:
+    Section_addActivePage(section, 0x3b);
+    break;
+  case 0x38:
+    Section_addActivePage(section, 0x3b);
+    break;
+  case 0x39:
+    Section_addActivePage(section, 0x3d);
+    break;
+  case 0x3a:
+    Section_addActivePage(section, 0x3d);
+    break;
+  case 0x3b:
+    Section_addActivePage(section, 0x3e);
+    Section_addActivePage(section, 0x3d);
+    break;
+  case 0x3c:
+    Section_addActivePage(section, 0x3e);
+    Section_addActivePage(section, 0x3d);
+    break;
+  case 0x3d:
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x3f);
+    break;
+  case 0x3e:
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x3f);
+    break;
+  case 0x3f:
+    Section_addActivePage(section, 0x54);
+    Section_addActivePage(section, 0x58);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x57);
+    break;
+  case 0x40:
+    Section_addActivePage(section, 0x54);
+    Section_addActivePage(section, 0x58);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x57);
+    break;
+  case 0x41:
+    Section_addActivePage(section, 0x54);
+    Section_addActivePage(section, 0x58);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x5a);
+    break;
+  case 0x42:
+    Section_addActivePage(section, 0x54);
+    Section_addActivePage(section, 0x58);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x65);
+    break;
+  case 0x43:
+    Section_addActivePage(section, 0x54);
+    Section_addActivePage(section, 0x58);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x65);
+    break;
+  case 0x44:
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x5f);
+    break;
+  case 0x45:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x60);
+    break;
+  case 0x46:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x60);
+    break;
+  case 0x47:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x67);
+    break;
+  case 0x48:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x69);
+    break;
+  case 0x49:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x6b);
+    break;
+  case 0x4a:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x6e);
+    break;
+  case 0x4b:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x6e);
+    break;
+  case 0x4c:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x78);
+    break;
+  case 0x4d:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    break;
+  case 0x4e:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x6b);
+    break;
+  case 0x4f:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x6b);
+    break;
+  case 0x50:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x6b);
+    break;
+  case 0x51:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0xb6);
+    break;
+  case 0x52:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0xb1);
+    break;
+  case 0x53:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0xb1);
+    break;
+  case 0x54:
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x61);
+    break;
+  case 0x55:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x84);
+    break;
+  case 0x56:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x9b);
+    break;
+  case 0x57:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x96);
+    break;
+  case 0x58:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x59:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x5a:
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x61);
+    break;
+  case 0x5b:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x84);
+    break;
+  case 0x5c:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x9b);
+    break;
+  case 0x5d:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x96);
+    break;
+  case 0x5e:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x5f:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x60:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x61:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x62:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 99:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 100:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x65:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x66:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x67:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5c);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x90);
+    break;
+  case 0x68:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x40);
+    break;
+  case 0x69:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x41);
+    break;
+  case 0x6a:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x93);
+    break;
+  case 0x6b:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x93);
+    break;
+  case 0x6c:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x12);
+    break;
+  case 0x6d:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x13);
+    break;
+  case 0x6e:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x93);
+    break;
+  case 0x6f:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x93);
+    break;
+  case 0x70:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x42);
+    break;
+  case 0x71:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x42);
+    break;
+  case 0x72:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x12);
+    break;
+  case 0x73:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x12);
+    break;
+  case 0x74:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x43);
+    break;
+  case 0x75:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x43);
+    break;
+  case 0x76:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x13);
+    break;
+  case 0x77:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x94);
+    Section_addActivePage(section, 0x3a);
+    Section_addActivePage(section, 0x13);
+    break;
+  case 0x78:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0x89);
+    break;
+  case 0x79:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0x89);
+    break;
+  case 0x7a:
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa2);
+    break;
+  case 0x7b:
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa3);
+    break;
+  case 0x7c:
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa4);
+    break;
+  case 0x7d:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0xaa);
+    Section_addActivePage(section, 0xab);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0xa8);
+    break;
+  case 0x7e:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xaa);
+    Section_addActivePage(section, 0xab);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0xb0);
+    break;
+  case 0x7f:
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x9f);
+    break;
+  case 0x80:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x9f);
+    break;
+  case 0x81:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x84);
+    break;
+  case 0x82:
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0xb3);
+    break;
+  case 0x83:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x84);
+    break;
+  case 0x84:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0xa7);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x95);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x84);
+    break;
+  case 0x85:
+    Section_addActivePage(section, 0xbb);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0xb8);
+    break;
+  case 0x86:
+    Section_addActivePage(section, 0xbb);
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0xb7);
+    break;
+  case 0x87:
+    Section_addActivePage(section, 0x88);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0x84);
+    break;
+  case 0x88:
+    Section_addActivePage(section, 0x5b);
+    Section_addActivePage(section, 0xba);
+    break;
+  case 0x89:
+    Section_addActivePage(section, 0x5b);
+    Section_addActivePage(section, 0xba);
+    break;
+  case 0x8a:
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xbd);
+    break;
+  case 0x8b:
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xbc);
+    break;
+  case 0x8c:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0xcc);
+    Section_addActivePage(section, 0xc0);
+    break;
+  case 0x8d:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0xcc);
+    Section_addActivePage(section, 0xca);
+    break;
+  case 0x8e:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0xcc);
+    Section_addActivePage(section, 0xc5);
+    break;
+  case 0x8f:
+    Section_addActivePage(section, 0x5d);
+    Section_addActivePage(section, 0xcc);
+    Section_addActivePage(section, 0xc6);
+    break;
+  case 0x90:
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x5b);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xcd);
+    break;
+  case 0x91:
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x5b);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xcd);
+    break;
+  case 0x92:
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x5b);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xcd);
+    break;
+  case 0x93:
+    Section_addActivePage(section, 0x7f);
+    Section_addActivePage(section, 0x5b);
+    Section_addActivePage(section, 0x5e);
+    Section_addActivePage(section, 0xcd);
+  }
 }
 
 RKSceneID Section_getSceneId(s32 sectionId) {
@@ -1021,13 +2491,294 @@ extern "C" u32 Section_getSoundType(s32 a1) {
 // Symbol: unk_80632080
 // PAL: 0x80632080..0x806321b4
 MARK_BINARY_BLOB(unk_80632080, 0x80632080, 0x806321b4);
-asm UNKNOWN_FUNCTION(unk_80632080){
+asm UNKNOWN_FUNCTION(unk_80632080) {
 #include "asm/80632080.s"
 }
 
-// Symbol: unk_806321b4
-// PAL: 0x806321b4..0x8063240c
-MARK_BINARY_BLOB(unk_806321b4, 0x806321b4, 0x8063240c);
-asm UNKNOWN_FUNCTION(unk_806321b4) {
-#include "asm/806321b4.s"
+extern "C" s32 Section_getSoundTrigger(s32 x) {
+  switch (x) {
+  case 0:
+    return 6;
+  case 1:
+    return 6;
+  case 2:
+  case 3:
+  case 4:
+    return 6;
+  case 5:
+    return 6;
+  case 6:
+    return 6;
+  case 7:
+  case 8:
+  case 9:
+  case 10:
+  case 0xb:
+  case 0xc:
+  case 0xd:
+  case 0xe:
+  case 0xf:
+  case 0x10:
+  case 0x11:
+  case 0x12:
+  case 0x13:
+  case 0x14:
+  case 0x15:
+  case 0x16:
+  case 0x17:
+  case 0x18:
+  case 0x19:
+  case 0x1a:
+  case 0x1b:
+  case 0x1c:
+  case 0x1d:
+  case 0x1e:
+  case 0x1f:
+  case 0x20:
+  case 0x21:
+  case 0x22:
+  case 0x23:
+  case 0x24:
+  case 0x25:
+  case 0x26:
+  case 0x27:
+  case 0x28:
+  case 0x29:
+  case 0x2a:
+  case 0x2b:
+  case 0x2c:
+  case 0x2d:
+  case 0x2e:
+  case 0x2f:
+  case 0x30:
+  case 0x31:
+  case 0x32:
+  case 0x33:
+  case 0x34:
+  case 0x35:
+  case 0x36:
+  case 0x37:
+  case 0x38:
+  case 0x39:
+  case 0x3a:
+  case 0x3b:
+  case 0x3c:
+  case 0x3d:
+  case 0x3e:
+  case 0x3f:
+  case 0x40:
+  case 0x41:
+  case 0x42:
+  case 0x43:
+  case 0x44:
+  case 0x45:
+  case 0x46:
+  case 0x47:
+  case 0x48:
+  case 0x49:
+  case 0x4a:
+    return 6;
+  case 0x4b:
+    return 6;
+  case 0x4c:
+    return 6;
+  case 0x4d:
+    return 6;
+  case 0x4e:
+  case 0x4f:
+  case 0x50:
+  case 0x51:
+  case 0x52:
+  case 0x53:
+  case 0x54:
+  case 0x55:
+  case 0x56:
+    return 6;
+  case 0x57:
+    return 0;
+  case 0x58:
+  case 0x59:
+    return 6;
+  case 0x5a:
+    return 5;
+  case 0x5b:
+    return 6;
+  case 0x5c:
+    return 6;
+  case 0x5d:
+    return 6;
+  case 0x5e:
+    return 6;
+  case 0x5f:
+    return 0;
+  case 0x60:
+  case 0x61:
+  case 0x62:
+  case 99:
+  case 100:
+    return 6;
+  case 0x65:
+    return 5;
+  case 0x66:
+  case 0x67:
+  case 0x68:
+    return 6;
+  case 0x69:
+  case 0x6a:
+    return 0;
+  case 0x6b:
+  case 0x6c:
+  case 0x6d:
+    return 1;
+  case 0x6e:
+  case 0x6f:
+    return 2;
+  case 0x70:
+  case 0x71:
+    return 2;
+  case 0x72:
+  case 0x73:
+    return 0;
+  case 0x74:
+    return 1;
+  case 0x75:
+    return 0;
+  case 0x76:
+    return 1;
+  case 0x77:
+    return 0;
+  case 0x78:
+  case 0x79:
+    return 2;
+  case 0x7a:
+  case 0x7b:
+  case 0x7c:
+  case 0x7d:
+  case 0x7e:
+    return 2;
+  case 0x7f:
+    return 6;
+  case 0x80:
+    return 0;
+  case 0x81:
+  case 0x82:
+  case 0x83:
+    return 1;
+  case 0x84:
+    return 0;
+  case 0x85:
+  case 0x86:
+  case 0x87:
+  case 0x88:
+  case 0x89:
+    return 6;
+  case 0x8a:
+    return 6;
+  case 0x8b:
+    return 0;
+  case 0x8c:
+    return 1;
+  case 0x8d:
+    return 0;
+  case 0x8e:
+    return 0;
+  case 0x8f:
+    return 2;
+  case 0x90:
+  case 0x91:
+  case 0x92:
+    return 3;
+  case 0x93:
+  case 0x94:
+    return 6;
+  case 0x95:
+    return 6;
+  case 0x96:
+  case 0x97:
+    return 2;
+  case 0x98:
+  case 0x99:
+    return 6;
+  case 0x9a:
+    return 6;
+  case 0x9b:
+    return 2;
+  case 0x9c:
+    return 1;
+  case 0x9d:
+  case 0x9e:
+    return 6;
+  case 0x9f:
+    return 0;
+  case 0xa0:
+    return 6;
+  case 0xa1:
+    return 2;
+  case 0xa2:
+  case 0xa3:
+  case 0xa4:
+    return 6;
+  case 0xa5:
+  case 0xa6:
+  case 0xa7:
+    return 6;
+  case 0xa8:
+  case 0xa9:
+  case 0xaa:
+  case 0xab:
+  case 0xac:
+  case 0xad:
+  case 0xae:
+  case 0xaf:
+  case 0xb0:
+    return 6;
+  case 0xb1:
+  case 0xb2:
+    return 6;
+  case 0xb3:
+    return 6;
+  case 0xb4:
+    return 2;
+  case 0xb5:
+    return 6;
+  case 0xb6:
+  case 0xb7:
+    return 6;
+  case 0xb8:
+    return 6;
+  case 0xb9:
+  case 0xba:
+    return 6;
+  case 0xbb:
+  case 0xbc:
+  case 0xbd:
+  case 0xbe:
+  case 0xbf:
+    return 6;
+  case 0xc0:
+  case 0xc1:
+  case 0xc2:
+  case 0xc3:
+  case 0xc4:
+  case 0xc5:
+  case 0xc6:
+  case 199:
+  case 200:
+  case 0xc9:
+    return 6;
+  case 0xca:
+  case 0xcb:
+    return 6;
+  case 0xcc:
+    return 6;
+  case 0xcd:
+  case 0xce:
+  case 0xcf:
+  case 0xd0:
+  case 0xd1:
+  case 0xd2:
+    return 6;
+  default:
+    return 6;
+  }
 }

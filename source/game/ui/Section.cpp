@@ -800,9 +800,9 @@ extern UNKNOWN_FUNCTION(unk_8062be24);
 // PAL: 0x8062c0f4
 extern UNKNOWN_FUNCTION(RecordsPage_ct);
 // PAL: 0x8062c3a4
-extern UNKNOWN_FUNCTION(Section_addPages);
+void Section_addPages(void* pSection, int sectionId);
 // PAL: 0x80630094
-extern UNKNOWN_FUNCTION(Section_addActivePages);
+void Section_addActivePages(void* pSection, int sectionId);
 // PAL: 0x80634a64
 extern UNKNOWN_FUNCTION(createSystemPage);
 // PAL: 0x80637514
