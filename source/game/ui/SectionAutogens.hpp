@@ -1,8 +1,9 @@
 #pragma once
 
-#include <rk_types.h>
-
 #include <decomp.h>
+
+#include <rk_types.h>
+#include <game/RKScene.hpp>
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,7 +14,7 @@ UNKNOWN_FUNCTION(Section_addPages);
 // PAL: 0x80630094..0x80631588
 UNKNOWN_FUNCTION(Section_addActivePages);
 // PAL: 0x80631588..0x80631734
-UNKNOWN_FUNCTION(Section_getSceneId);
+RKSceneID Section_getSceneId(s32);
 // PAL: 0x80631734..0x80631a58
 UNKNOWN_FUNCTION(Section_getResourceName);
 // PAL: 0x80631a58..0x80631af8

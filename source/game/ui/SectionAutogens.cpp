@@ -861,11 +861,61 @@ asm UNKNOWN_FUNCTION(Section_addActivePages){
 #include "asm/80630094.s"
 }
 
-// Symbol: Section_getSceneId
-// PAL: 0x80631588..0x80631734
-MARK_BINARY_BLOB(Section_getSceneId, 0x80631588, 0x80631734);
-asm UNKNOWN_FUNCTION(Section_getSceneId){
-#include "asm/80631588.s"
+RKSceneID Section_getSceneId(s32 sectionId) {
+  switch (sectionId) {
+  case 0x00 ... 0x05:
+    return RK_SCENE_ID_GAME_START;
+  case 0x06 ... 0x07:
+    return SCENE_UNK3;
+  case 0x08:
+    return SCENE_UNK6;
+  case 0x09:
+    return SCENE_UNK7;
+  case 0x0A:
+    return SCENE_UNK8;
+  case 0x0B:
+    return SCENE_UNK9;
+  case 0x0C:
+    return SCENE_UNK10;
+  case 0x0D:
+    return RK_SCENE_ID_RACE;
+  case 0x0E:
+    return SCENE_UNK11;
+  case 0x0F:
+    return RK_SCENE_ID_RACE;
+  case 0x10 ... 0x18:
+    return RK_SCENE_ID_MAIN_MENU;
+  case 0x19 ... 0x3A:
+    return RK_SCENE_ID_RACE;
+  case 0x3B ... 0x43:
+    return RK_SCENE_ID_MAIN_MENU;
+  case 0x44:
+    return RK_SCENE_ID_RACE;
+  case 0x45 ... 0x54:
+    return RK_SCENE_ID_MAIN_MENU;
+  case 0x55 ... 0x57:
+    return RK_SCENE_ID_MULTI;
+  case 0x58 ... 0x59:
+    return RK_SCENE_ID_MAIN_MENU;
+  case 0x5A ... 0x5D:
+    return RK_SCENE_ID_MULTI;
+  case 0x5E ... 0x67:
+    return RK_SCENE_ID_MAIN_MENU;
+  case 0x68 ... 0x77:
+    return RK_SCENE_ID_RACE;
+  case 0x78 ... 0x79:
+    return RK_SCENE_ID_MAIN_MENU;
+  case 0x7A ... 0x87:
+    return RK_SCENE_ID_MULTI;
+  case 0x88 ... 0x89:
+    return RK_SCENE_ID_MAIN_MENU;
+  case 0x8A ... 0x8B:
+    return RK_SCENE_ID_MULTI;
+  case 0x8C ... 0x94:
+    return RK_SCENE_ID_MAIN_MENU;
+  default:
+    return RK_SCENE_ID_MAIN_MENU;
+  }
 }
 
 // Symbol: Section_getResourceName

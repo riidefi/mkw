@@ -7,6 +7,14 @@
 
 //! Unique game scene IDs
 enum RKSceneID {
+  SCENE_UNK3 = 3,
+  SCENE_UNK6 = 6,
+  SCENE_UNK7 = 7,
+  SCENE_UNK8 = 8,
+  SCENE_UNK9 = 9,
+  SCENE_UNK10 = 10,
+  SCENE_UNK11 = 11,
+
   // --- <SceneCreatorREL>
   RK_SCENE_ID_GAME_START = 0, //!< Called when REL first loaded; "Title" might
                               //!< be a more fitting name*

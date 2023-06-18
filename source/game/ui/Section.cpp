@@ -1,5 +1,7 @@
 #include "Section.hpp"
 
+#include "SectionAutogens.hpp"
+
 // --- EXTERN DECLARATIONS BEGIN ---
 
 extern "C" {
@@ -23,8 +25,6 @@ extern UNKNOWN_FUNCTION(GXSetZMode);
 extern UNKNOWN_FUNCTION(GXSetZCompLoc);
 // PAL: 0x80199d04
 extern UNKNOWN_FUNCTION(PSMTXIdentity);
-// PAL: 0x801aaca8
-extern UNKNOWN_FUNCTION(OSSleepTicks);
 // PAL: 0x8020f62c
 extern UNKNOWN_FUNCTION(__ct__Q23EGG9AllocatorFPQ23EGG4Heapl);
 // PAL: 0x80229dcc
@@ -803,8 +803,6 @@ extern UNKNOWN_FUNCTION(RecordsPage_ct);
 extern UNKNOWN_FUNCTION(Section_addPages);
 // PAL: 0x80630094
 extern UNKNOWN_FUNCTION(Section_addActivePages);
-// PAL: 0x80631588
-extern UNKNOWN_FUNCTION(Section_getSceneId);
 // PAL: 0x80634a64
 extern UNKNOWN_FUNCTION(createSystemPage);
 // PAL: 0x80637514
