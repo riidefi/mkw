@@ -913,15 +913,59 @@ asm UNKNOWN_FUNCTION(unk_80631c10){
 // Symbol: unk_80631c68
 // PAL: 0x80631c68..0x80631ef8
 MARK_BINARY_BLOB(unk_80631c68, 0x80631c68, 0x80631ef8);
-asm UNKNOWN_FUNCTION(unk_80631c68){
+asm UNKNOWN_FUNCTION(unk_80631c68) {
 #include "asm/80631c68.s"
 }
 
-// Symbol: unk_80631ef8
-// PAL: 0x80631ef8..0x80632080
-MARK_BINARY_BLOB(unk_80631ef8, 0x80631ef8, 0x80632080);
-asm UNKNOWN_FUNCTION(unk_80631ef8){
-#include "asm/80631ef8.s"
+extern "C" u32 Section_getSoundType(s32 a1) {
+  switch (a1) {
+  case 0x0 ... 0xC:
+    return -1;
+  case 0xD:
+    return 8;
+  case 0xE:
+    return -1;
+  case 0xF:
+    return 9;
+  case 0x10 ... 0x34:
+    return -1;
+  case 0x35 ... 0x38:
+    return 8;
+  case 0x39 ... 0x3A:
+    return 9;
+  case 0x3B ... 0x3C:
+    return 10;
+  case 0x3D ... 0x3E:
+    return 11;
+  case 0x3F ... 0x44:
+    return 5;
+  case 0x45 ... 0x47:
+    return 6;
+  case 0x48 ... 0x54:
+    return 7;
+  case 0x55 ... 0x67:
+    return 3;
+  case 0x68 ... 0x79:
+    return -1;
+  case 0x7A ... 0x7C:
+    return 2;
+  case 0x7D ... 0x7E:
+    return 4;
+  case 0x7F ... 0x8B:
+    return 3;
+  case 0x8C ... 0x8F:
+    return 6;
+  case 0x90 ... 0x93:
+    return 12;
+  case 0x94:
+    return -1;
+  case 0x95 ... 0xAC:
+    return -1;
+  case 0xAD ... 0xB2:
+    return -1;
+  default:
+    return -1;
+  }
 }
 
 // Symbol: unk_80632080

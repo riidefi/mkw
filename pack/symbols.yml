@@ -15384,7 +15384,7 @@ global:
     0x80631c00: 'SectionManager_getSectionName'
     0x80631c10: 'unk_80631c10'
     0x80631c68: 'unk_80631c68'
-    0x80631ef8: 'unk_80631ef8'
+    0x80631ef8: 'Section_getSoundType'
     0x80632080: 'unk_80632080'
     0x806321b4: 'unk_806321b4'
     0x8063240c: 'unk_8063240c'
