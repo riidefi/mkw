@@ -10,9 +10,9 @@ extern "C" {
 #endif
 
 // PAL: 0x8062c3a4..0x80630094
-UNKNOWN_FUNCTION(Section_addPages);
+void Section_addPages(void* pSection, int sectionId);
 // PAL: 0x80630094..0x80631588
-UNKNOWN_FUNCTION(Section_addActivePages);
+void Section_addActivePages(void* pSection, int sectionId);
 // PAL: 0x80631588..0x80631734
 RKSceneID Section_getSceneId(s32);
 // PAL: 0x80631734..0x80631a58
@@ -32,7 +32,7 @@ UNKNOWN_FUNCTION(unk_80631c68);
 // PAL: 0x80632080..0x806321b4
 UNKNOWN_FUNCTION(unk_80632080);
 // PAL: 0x806321b4..0x8063240c
-UNKNOWN_FUNCTION(unk_806321b4);
+s32 Section_getSoundTrigger(s32);
 
 #ifdef __cplusplus
 }

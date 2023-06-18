@@ -15386,7 +15386,7 @@ global:
     0x80631c68: 'unk_80631c68'
     0x80631ef8: 'Section_getSoundType'
     0x80632080: 'unk_80632080'
-    0x806321b4: 'unk_806321b4'
+    0x806321b4: 'Section_getSoundTrigger'
     0x8063240c: 'unk_8063240c'
     0x80632414: 'unk_80632414'
     0x8063241c: 'unk_8063241c'
