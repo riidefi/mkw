@@ -50,7 +50,9 @@ out/rel/text_805f8d5c_8060197c.o
 out/Page.o
 out/rel/text_80602d2c_80621d0c.o
 out/Section.o
-out/rel/text_80624690_80786e60.o
+out/rel/text_80624690_80634b80.o
+out/SectionManager.o
+out/rel/text_80635eb8_80786e60.o
 out/BoxColManager.o
 out/rel/rodata_80896158_808a4800.o
 out/BoxColUnit.o
