@@ -1,4 +1,4 @@
-#include "SectionManager.hpp"
+#include "SectionDirector.hpp"
 
 // --- EXTERN DECLARATIONS BEGIN ---
 
