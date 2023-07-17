@@ -21,10 +21,10 @@ Uses `mkwutil` to rebuild MKW from decompiled sources and verifies the result.
 Specifies which sections are decompiled and holds information needed to reconstruct final binaries.
 
 - `./pack/dol_segments.csv`: Table of main.dol segments
-- `./pack/dol_slices.csv`: Table of main.dol decompiled sections
+- `./pack/dol_slices.yml`: Table of main.dol decompiled sections
 - `./pack/dol_objects.txt`: List of main.dol reconstructed objects (in order)
 - `./pack/rel_segments.csv`: Table of StaticR.rel segments
-- `./pack/rel_slices.csv`: Table of StaticR.rel decompiled sections
+- `./pack/rel_slices.yml`: Table of StaticR.rel decompiled sections
 - `./pack/dol_objects.txt`: List of StaticR.rel reconstructed objects (in order)
 
 ### `./asm`: Binary blobs

@@ -334,7 +334,7 @@ def link_dol(dol_objects_path: Path, n: Writer):
     # Generate LCF.
     src_lcf_path = Path("pack", "dol.lcf.j2")
     dst_lcf_path = Path("pack", "dol.lcf")
-    slices_path = Path("pack", "dol_slices.csv")
+    slices_path = Path("pack", "dol_slices.yml")
     n.build(
         str(dst_lcf_path),
         rule = "lcfgen",
@@ -421,7 +421,7 @@ def configure(args):
         orig_dol_path = Path("artifacts", "orig", "pal", "main.dol")
         orig_rel_path = Path("artifacts", "orig", "pal", "StaticR.rel")
 
-        slices_path = Path("pack", "rel_slices.csv")
+        slices_path = Path("pack", "rel_slices.yml")
         n.variable("slices", str(slices_path))
         n.rule(
             "lcfgen",
