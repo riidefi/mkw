@@ -95,7 +95,8 @@ UNKNOWN_FUNCTION(getPointInfo__Q26System13MapdataGeoObjCFv);
 // PAL: 0x80514208..0x80514258
 UNKNOWN_FUNCTION(findSection__Q26System19MapdataFileAccessorCFUl);
 // PAL: 0x80514258..0x80514368
-UNKNOWN_FUNCTION(__ct__Q26System25MapdataStartPointAccessorFPCQ26System16KmpSectionHeader);
+UNKNOWN_FUNCTION(
+    __ct__Q26System25MapdataStartPointAccessorFPCQ26System16KmpSectionHeader);
 // PAL: 0x80514368..0x80514794
 UNKNOWN_FUNCTION(unk_80514368);
 // PAL: 0x80514794..0x805147d4
@@ -162,7 +163,8 @@ UNKNOWN_FUNCTION(
 // PAL: 0x80515f8c..0x80516050
 UNKNOWN_FUNCTION(unk_80515f8c);
 // PAL: 0x80516050..0x805160b0
-UNKNOWN_FUNCTION(__ct__Q26System15MapdataAreaBaseFPCQ36System15MapdataAreaBase5SData);
+UNKNOWN_FUNCTION(
+    __ct__Q26System15MapdataAreaBaseFPCQ36System15MapdataAreaBase5SData);
 // PAL: 0x805160b0..0x80516138
 UNKNOWN_FUNCTION(isInside__Q26System15MapdataAreaBaseCFRCQ23EGG8Vector3f);
 // PAL: 0x80516138..0x80516168
@@ -178,7 +180,8 @@ UNKNOWN_FUNCTION(isInsideShape__Q26System14MapdataAreaBoxCFRCQ23EGG8Vector3f);
 // PAL: 0x805164fc..0x80516688
 UNKNOWN_FUNCTION(AreaCylinder_construct);
 // PAL: 0x80516688..0x80516768
-UNKNOWN_FUNCTION(isInsideShape__Q26System19MapdataAreaCylinderCFRCQ23EGG8Vector3f);
+UNKNOWN_FUNCTION(
+    isInsideShape__Q26System19MapdataAreaCylinderCFRCQ23EGG8Vector3f);
 // PAL: 0x80516768..0x805167b4
 UNKNOWN_FUNCTION(getArea__Q26System9CourseMapCFUs);
 // PAL: 0x805167b4..0x80516808
@@ -387,6 +390,13 @@ private:
 };
 static_assert(sizeof(MapdataCheckPath) == 0xc);
 
+class MapdataCheckPoint;
+struct LinkedCheckpoint {
+  MapdataCheckPoint* checkpoint;
+  EGG::Vector2f p0diff;
+  EGG::Vector2f p1diff;
+  f32 distance;
+};
 class MapdataCheckPoint {
 public:
   struct SData {
@@ -397,12 +407,43 @@ public:
     u8 prevPt;
     u8 nextPt;
   };
-
+  enum Completion {
+    Completion_0,
+    Completion_1,
+    Completion_2,
+  };
   MapdataCheckPoint(const SData* data);
+  Completion checkSectorAndDistanceRatio(const EGG::Vector3f& pos,
+                                         f32* distanceRatio) const;
+  bool isPlayerFlagged(s32 playerIdx) const { return mFlags & 1 << playerIdx; }
+  void setPlayerFlags(s32 playerIdx) { mFlags |= 1 << playerIdx; }
+  void resetFlags() { mFlags = 0; }
+  SData* data() const { return mpData; }
+  s32 nextCount() const { return mNextCount; }
+  s32 prevCount() const { return mPrevCount; }
+  s32 id() const { return mId; }
+  MapdataCheckPoint* prevPoint(s32 i) const { return mpPrevPoints[i]; }
+  const LinkedCheckpoint& nextPoint(s32 i) const { return mNextPoints[i]; }
 
 private:
+  bool checkSector(const LinkedCheckpoint& next, const EGG::Vector2f& p0,
+                   const EGG::Vector2f& p1) const;
+  bool checkDistanceRatio(const LinkedCheckpoint& next, const EGG::Vector2f& p0,
+                          const EGG::Vector2f& p1, f32* distanceRatio) const;
+  Completion checkSectorAndDistanceRatio_(const LinkedCheckpoint& next,
+                                          const EGG::Vector2f& p0,
+                                          const EGG::Vector2f& p1,
+                                          f32* distanceRatio) const;
   SData* mpData;
-  u8 _04[0xc8 - 0x04];
+  u16 mNextCount;
+  u16 mPrevCount;
+  EGG::Vector2f mMidpoint;
+  EGG::Vector2f mDir;
+  u16 mFlags;
+  u16 mId;
+  u8 _1c[0x20 - 0x1c];
+  MapdataCheckPoint* mpPrevPoints[6];
+  LinkedCheckpoint mNextPoints[6];
 };
 static_assert(sizeof(MapdataCheckPoint) == 0xc8);
 

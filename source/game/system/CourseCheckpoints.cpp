@@ -1,5 +1,7 @@
 #include "CourseCheckpoints.hpp"
 
+#include "CourseMap.hpp"
+
 // --- EXTERN DECLARATIONS BEGIN ---
 
 extern "C" {
@@ -39,21 +41,31 @@ extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
 // --- EXTERN DECLARATIONS END ---
 
 // .rodata
-const u32 lbl_8088f8d0[] = {0x00000000};
+const u32 lbl_8088f8d0 = {0x00000000};
 const u32 lbl_8088f8d4[] = {0x3f800000};
 const u32 lbl_8088f8d8[] = {0x3f000000, 0x00000000};
 const u32 lbl_8088f8e0[] = {0x43300000, 0x00000000};
+
+#define float_zero ((const f32&)lbl_8088f8d0)
 
 // .data
 
 // .bss
 
 // Symbol: unk_80510b84
-// PAL: 0x80510b84..0x80510bf0
-MARK_BINARY_BLOB(unk_80510b84, 0x80510b84, 0x80510bf0);
-asm UNKNOWN_FUNCTION(unk_80510b84){
-#include "asm/80510b84.s"
+namespace System {
+bool MapdataCheckPoint::checkSector(const LinkedCheckpoint& next,
+                                    const EGG::Vector2f& p0,
+                                    const EGG::Vector2f& p1) const {
+  if (-(next.p0diff.y) * p0.x + next.p0diff.x * p0.y < float_zero)
+    return false;
+
+  if (next.p1diff.y * p1.x - next.p1diff.x * p1.y < float_zero)
+    return false;
+
+  return true;
 }
+} // namespace System
 
 // Symbol: unk_80510bf0
 // PAL: 0x80510bf0..0x80510c74
