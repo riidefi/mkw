@@ -473,11 +473,11 @@ class SlicesCSVReader:
                     tags.append(k)
 
             for key, value in regions.items():
-                if "Start" in key:
-                    start = value
-                    stop_key = key.replace("Start", "End")
-                    stop = regions[stop_key]
-                    yield Slice(start=start, stop=stop, name=source_file, section=key.replace("Start", ""), tags=tags)
+                if value == 0 or value == 1:
+                    continue
+                start = value[0]
+                stop = value[1]
+                yield Slice(start=start, stop=stop, name=source_file, section=key.replace("Start", ""), tags=tags)
 
 
 class SlicesCSVWriter:

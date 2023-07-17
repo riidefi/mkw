@@ -1,2061 +1,1501 @@
 asm/trkHeader.s:
     enabled: 1
-    initStart: 0x80004000
-    initEnd: 0x80004100
+    init: [0x80004000, 0x80004100]
 
 asm/ppc_eabi_exception_handlers.s:
     enabled: 1
-    initStart: 0x80004100
-    initEnd: 0x80005f34
+    init: [0x80004100, 0x80005f34]
 
 source/runtime/__mem.c:
     enabled: 1
-    initStart: 0x80005f34
-    initEnd: 0x80006068
+    init: [0x80005f34, 0x80006068]
 
 source/game/host_system/SystemResource.cpp:
     enabled: 1
-    textStart: 0x80007f50
-    textEnd: 0x80007f7c
-    rodataStart: 0x80245010
-    rodataEnd: 0x802450b0
+    text: [0x80007f50, 0x80007f7c]
+    rodata: [0x80245010, 0x802450b0]
 
 source/platform/ansi_files.c:
     enabled: 1
-    textStart: 0x8000c948
-    textEnd: 0x8000cadc
+    text: [0x8000c948, 0x8000cadc]
 
 source/platform/ansi_fp.c:
     enabled: 1
-    textStart: 0x8000cadc
-    textEnd: 0x8000e418
-    sdata2Start: 0x80387030
-    sdata2End: 0x80387050
+    text: [0x8000cadc, 0x8000e418]
+    sdata2: [0x80387030, 0x80387050]
 
 source/platform/float.c:
     enabled: 1
-    textStart: 0x8000ef04
-    textEnd: 0x8000eff8
+    text: [0x8000ef04, 0x8000eff8]
 
 source/platform/mem.c:
     enabled: 1
-    textStart: 0x8000f1f0
-    textEnd: 0x8000f360
+    text: [0x8000f1f0, 0x8000f360]
 
 source/platform/mem_cpy.c:
     enabled: 1
-    textStart: 0x8000f360
-    textEnd: 0x8000f630
+    text: [0x8000f360, 0x8000f630]
 
 source/platform/printf.c:
     enabled: 1
-    textStart: 0x800100e4
-    textEnd: 0x80011b00
+    text: [0x800100e4, 0x80011b00]
 
 source/platform/qsort.c:
     enabled: 1
-    textStart: 0x80011b00
-    textEnd: 0x80011c70
+    text: [0x80011b00, 0x80011c70]
 
 source/platform/rand.c:
     enabled: 1
-    textStart: 0x80011c70
-    textEnd: 0x80011c98
-    sdataStart: 0x80384c38
-    sdataEnd: 0x80384c3c
+    text: [0x80011c70, 0x80011c98]
+    sdata: [0x80384c38, 0x80384c3c]
 
 source/platform/scanf.c:
     enabled: 1
-    textStart: 0x80011c98
-    textEnd: 0x80013108
+    text: [0x80011c98, 0x80013108]
 
 source/platform/wchar.c:
     enabled: 1
-    textStart: 0x80017998
-    textEnd: 0x80017a48
+    text: [0x80017998, 0x80017a48]
 
 source/platform/ExceptionPPC.cpp:
     enabled: 1
-    textStart: 0x80020dd8
-    textEnd: 0x80020e34
-    bssStart: 0x802a6968
-    bssEnd: 0x802a6974
+    text: [0x80020dd8, 0x80020e34]
+    bss: [0x802a6968, 0x802a6974]
 
 source/platform/__init_cpp_exceptions.cpp:
     enabled: 1
-    textStart: 0x800211e4
-    textEnd: 0x80021254
-    ctorsStart: 0x80244de0
-    ctorsEnd: 0x80244de4
-    dtorsStart: 0x80244ea0
-    dtorsEnd: 0x80244ea8
-    sdataStart: 0x80384c48
-    sdataEnd: 0x80384c4c
+    text: [0x800211e4, 0x80021254]
+    ctors: [0x80244de0, 0x80244de4]
+    dtors: [0x80244ea0, 0x80244ea8]
+    sdata: [0x80384c48, 0x80384c4c]
 
 source/platform/va_arg.c:
     enabled: 1
-    textStart: 0x80021270
-    textEnd: 0x80021338
+    text: [0x80021270, 0x80021338]
 
 source/platform/global_destructor_chain.c:
     enabled: 1
-    textStart: 0x80021338
-    textEnd: 0x800213e4
-    bssStart: 0x802a6978
-    bssEnd: 0x802a6c78
-    sbssStart: 0x803860a8
-    sbssEnd: 0x803860b0
+    text: [0x80021338, 0x800213e4]
+    bss: [0x802a6978, 0x802a6c78]
+    sbss: [0x803860a8, 0x803860b0]
 
 source/platform/eabi.c:
     enabled: 1
-    textStart: 0x8002156c
-    textEnd: 0x80021ba8
+    text: [0x8002156c, 0x80021ba8]
 
 source/nw4r/g3d/g3d_camera.cpp:
     enabled: 1
-    textStart: 0x8006a0c0
-    textEnd: 0x8006afbc
-    sdata2Start: 0x80387cac
-    sdata2End: 0x80387cd8
+    text: [0x8006a0c0, 0x8006afbc]
+    sdata2: [0x80387cac, 0x80387cd8]
 
 source/nw4r/g3d/g3d_fog.cpp:
     enabled: 1
-    textStart: 0x800774d0
-    textEnd: 0x800775d0
-    sdata2Start: 0x80387d58
-    sdata2End: 0x80387d5c
+    text: [0x800774d0, 0x800775d0]
+    sdata2: [0x80387d58, 0x80387d5c]
 
 source/nw4r/lyt/lyt_init.cpp:
     enabled: 1
-    textStart: 0x80078920
-    textEnd: 0x80078974
-    dataStart: 0x802733f0
-    dataEnd: 0x80273436
-    sdataStart: 0x80384d90
-    sdataEnd: 0x80384d94
+    text: [0x80078920, 0x80078974]
+    data: [0x802733f0, 0x80273436]
+    sdata: [0x80384d90, 0x80384d94]
 
 source/nw4r/lyt/lyt_textBox.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x8007c670
-    textEnd: 0x8007c6b0
+    text: [0x8007c670, 0x8007c6b0]
 
 source/nw4r/math/mathTriangular.cpp:
     enabled: 1
-    textStart: 0x80085110
-    textEnd: 0x80085578
-    rodataStart: 0x80248010
-    rodataEnd: 0x80249020
-    dataStart: 0x80274148
-    dataEnd: 0x80274250
-    sdata2Start: 0x80387e80
-    sdata2End: 0x80387ea4
+    text: [0x80085110, 0x80085578]
+    rodata: [0x80248010, 0x80249020]
+    data: [0x80274148, 0x80274250]
+    sdata2: [0x80387e80, 0x80387ea4]
 
 source/nw4r/math/mathTypes.cpp:
     enabled: 1
-    textStart: 0x80085600
-    textEnd: 0x80085938
+    text: [0x80085600, 0x80085938]
 
 source/nw4r/snd/snd_dvdSoundArchive.cpp:
     enabled: 1
-    textStart: 0x80090fc0
-    textEnd: 0x80091418
-    dataStart: 0x80274318
-    dataEnd: 0x80274338
+    text: [0x80090fc0, 0x80091418]
+    data: [0x80274318, 0x80274338]
 
 source/nw4r/ut/utList.cpp:
     enabled: 1
-    textStart: 0x800aef60
-    textEnd: 0x800af210
+    text: [0x800aef60, 0x800af210]
 
 source/nw4r/ut/ut_LinkList.cpp:
     enabled: 1
-    textStart: 0x800af210
-    textEnd: 0x800af3a0
+    text: [0x800af210, 0x800af3a0]
 
 source/nw4r/ut/ut_binaryFileFormat.cpp:
     enabled: 1
-    textStart: 0x800af3a0
-    textEnd: 0x800af414
+    text: [0x800af3a0, 0x800af414]
 
 source/nw4r/ut/ut_CharStrmReader.cpp:
     enabled: 1
-    textStart: 0x800af420
-    textEnd: 0x800af540
+    text: [0x800af420, 0x800af540]
 
 source/nw4r/ut/ut_IOStream.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x800afee0
-    textEnd: 0x800afeec
-    ctorsStart: 0x80244e2c
-    ctorsEnd: 0x80244e30
-    sbssStart: 0x80386240
-    sbssEnd: 0x80386244
+    text: [0x800afee0, 0x800afeec]
+    ctors: [0x80244e2c, 0x80244e30]
+    sbss: [0x80386240, 0x80386244]
 
 source/nw4r/ut/ut_fileStream.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x800afef0
-    textEnd: 0x800b006c
-    ctorsStart: 0x80244e30
-    ctorsEnd: 0x80244e34
-    sbssStart: 0x80386248
-    sbssEnd: 0x8038624c
+    text: [0x800afef0, 0x800b006c]
+    ctors: [0x80244e30, 0x80244e34]
+    sbss: [0x80386248, 0x8038624c]
 
 source/nw4r/ut/ut_dvdFileStream.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x800b0070
-    textEnd: 0x800b06ac
-    ctorsStart: 0x80244e34
-    ctorsEnd: 0x80244e38
-    dataStart: 0x80274c40
-    dataEnd: 0x80274ca4
-    sbssStart: 0x80386250
-    sbssEnd: 0x80386254
+    text: [0x800b0070, 0x800b06ac]
+    ctors: [0x80244e34, 0x80244e38]
+    data: [0x80274c40, 0x80274ca4]
+    sbss: [0x80386250, 0x80386254]
 
 source/nw4r/ut/ut_dvdLockedFileStream.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x800b06b0
-    textEnd: 0x800b0a9c
-    ctorsStart: 0x80244e38
-    ctorsEnd: 0x80244e3c
-    dataStart: 0x80274ca8
-    dataEnd: 0x80274d0c
-    bssStart: 0x802f12e8
-    bssEnd: 0x802f1300
-    sbssStart: 0x80386258
-    sbssEnd: 0x80386270
+    text: [0x800b06b0, 0x800b0a9c]
+    ctors: [0x80244e38, 0x80244e3c]
+    data: [0x80274ca8, 0x80274d0c]
+    bss: [0x802f12e8, 0x802f1300]
+    sbss: [0x80386258, 0x80386270]
 
 source/nw4r/ut/ut_nandFileStream.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x800b0aa0
-    textEnd: 0x800b178c
-    ctorsStart: 0x80244e3c
-    ctorsEnd: 0x80244e40
-    dataStart: 0x80274d10
-    dataEnd: 0x80274d6c
-    sbssStart: 0x80386270
-    sbssEnd: 0x80386274
+    text: [0x800b0aa0, 0x800b178c]
+    ctors: [0x80244e3c, 0x80244e40]
+    data: [0x80274d10, 0x80274d6c]
+    sbss: [0x80386270, 0x80386274]
 
 source/nw4r/ut/ut_lockedCache.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x800b1790
-    textEnd: 0x800b1968
-    ctorsStart: 0x80244e40
-    ctorsEnd: 0x80244e44
-    bssStart: 0x802f1300
-    bssEnd: 0x802f131c
+    text: [0x800b1790, 0x800b1968]
+    ctors: [0x80244e40, 0x80244e44]
+    bss: [0x802f1300, 0x802f131c]
 
 source/nw4r/ut/ut_font.cpp:
     enabled: 1
-    textStart: 0x800b1970
-    textEnd: 0x800b1a14
-    dataStart: 0x80274d70
-    dataEnd: 0x80274da0
+    text: [0x800b1970, 0x800b1a14]
+    data: [0x80274d70, 0x80274da0]
 
 source/nw4r/ut/ut_romFont.cpp:
     enabled: 1
-    textStart: 0x800b1a20
-    textEnd: 0x800b1f90
-    dataStart: 0x80274da0
-    dataEnd: 0x80274e08
-    sdataStart: 0x80384dc8
-    sdataEnd: 0x80384dca
+    text: [0x800b1a20, 0x800b1f90]
+    data: [0x80274da0, 0x80274e08]
+    sdata: [0x80384dc8, 0x80384dca]
 
 source/nw4r/ut/ut_resFontBase.cpp:
     enabled: 1
-    textStart: 0x800b1f90
-    textEnd: 0x800b2828
-    dataStart: 0x80274e68
-    dataEnd: 0x80274ed0
+    text: [0x800b1f90, 0x800b2828]
+    data: [0x80274e68, 0x80274ed0]
 
 source/nw4r/ut/ut_resFont.cpp:
     enabled: 1
-    textStart: 0x800b2830
-    textEnd: 0x800b2b2c
-    dataStart: 0x80274ed0
-    dataEnd: 0x80274f2c
+    text: [0x800b2830, 0x800b2b2c]
+    data: [0x80274ed0, 0x80274f2c]
 
 source/nw4r/ut/ut_charWriter.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x800b2b30
-    textEnd: 0x800b4374
-    bssStart: 0x802f1320
-    bssEnd: 0x802f1330
-    sbssStart: 0x80386278
-    sbssEnd: 0x80386280
-    sdata2Start: 0x803882e0
-    sdata2End: 0x80388300
+    text: [0x800b2b30, 0x800b4374]
+    bss: [0x802f1320, 0x802f1330]
+    sbss: [0x80386278, 0x80386280]
+    sdata2: [0x803882e0, 0x80388300]
 
 source/rfl/rfl_init.c:
     enabled: 1
-    textStart: 0x800bbb80
-    textEnd: 0x800bbf08
-    dataStart: 0x80274f30
-    dataEnd: 0x80274f78
+    text: [0x800bbb80, 0x800bbf08]
+    data: [0x80274f30, 0x80274f78]
 
 source/dwc/common/dwc_error.c:
     enabled: 1
-    textStart: 0x800ccb4c
-    textEnd: 0x800ccc80
-    dataStart: 0x80275700
-    dataEnd: 0x80275758
-    sbssStart: 0x803862a8
-    sbssEnd: 0x803862b0
+    text: [0x800ccb4c, 0x800ccc80]
+    data: [0x80275700, 0x80275758]
+    sbss: [0x803862a8, 0x803862b0]
 
 source/gamespy/darray.c:
     enabled: 1
-    textStart: 0x800ef378
-    textEnd: 0x800efdcc
+    text: [0x800ef378, 0x800efdcc]
 
 source/gamespy/hashtable.c:
     enabled: 1
-    textStart: 0x800efdcc
-    textEnd: 0x800f0264
+    text: [0x800efdcc, 0x800f0264]
 
 source/gamespy/md5c.c:
     enabled: 1
-    textStart: 0x800f0264
-    textEnd: 0x800f118c
-    rodataStart: 0x8024c6b8
-    rodataEnd: 0x8024c6c9
-    dataStart: 0x8027aca0
-    dataEnd: 0x8027ace0
+    text: [0x800f0264, 0x800f118c]
+    rodata: [0x8024c6b8, 0x8024c6c9]
+    data: [0x8027aca0, 0x8027ace0]
 
 source/gamespy/common/revolution/gsSocketRevolution.c:
     enabled: 1
-    textStart: 0x800f118c
-    textEnd: 0x800f164c
-    sbssStart: 0x80386350
-    sbssEnd: 0x80386358
+    text: [0x800f118c, 0x800f164c]
+    sbss: [0x80386350, 0x80386358]
 
 source/gamespy/common/revolution/gsUtilRevolution.c:
     enabled: 1
-    textStart: 0x800f1f58
-    textEnd: 0x800f2048
+    text: [0x800f1f58, 0x800f2048]
 
 source/gamespy/common/gsAvailable.c:
     enabled: 1
     strip: 1
-    textStart: 0x800f38a4
-    textEnd: 0x800f3a20
-    dataStart: 0x8027ad58
-    dataEnd: 0x8027ad79
-    bssStart: 0x802f2338
-    bssEnd: 0x802f2410
-    sbssStart: 0x80386358
-    sbssEnd: 0x8038635c
+    text: [0x800f38a4, 0x800f3a20]
+    data: [0x8027ad58, 0x8027ad79]
+    bss: [0x802f2338, 0x802f2410]
+    sbss: [0x80386358, 0x8038635c]
 
 source/gamespy/common/gsCore.c:
     strip: 1
-    textStart: 0x800f3c08
-    textEnd: 0x800f41dc
+    text: [0x800f3c08, 0x800f41dc]
 
 source/gamespy/common/gsUdpEngine.c:
     enabled: 1
     strip: 1
-    textStart: 0x800f489c
-    textEnd: 0x800f5a6c
-    bssStart: 0x802f2440
-    bssEnd: 0x802f247c
+    text: [0x800f489c, 0x800f5a6c]
+    bss: [0x802f2440, 0x802f247c]
 
 source/gamespy/common/gsXML.c:
     enabled: 1
     strip: 1
-    textStart: 0x800f5a6c
-    textEnd: 0x800fb828
-    dataStart: 0x8027ad80
-    dataEnd: 0x8027af18
-    sdataStart: 0x803850a0
-    sdataEnd: 0x80385105
+    text: [0x800f5a6c, 0x800fb828]
+    data: [0x8027ad80, 0x8027af18]
+    sdata: [0x803850a0, 0x80385105]
 
 source/gamespy/GP/gp.c:
     enabled: 1
     strip: 1
-    textStart: 0x800fb828
-    textEnd: 0x800fc7d4
-    dataStart: 0x8027af18
-    dataEnd: 0x8027b289
-    sdataStart: 0x80385108
-    sdataEnd: 0x80385118
+    text: [0x800fb828, 0x800fc7d4]
+    data: [0x8027af18, 0x8027b289]
+    sdata: [0x80385108, 0x80385118]
 
 source/gamespy/GP/gpi.c:
     enabled: 1
     strip: 1
-    textStart: 0x800fc7d4
-    textEnd: 0x800fd160
-    dataStart: 0x8027b290
-    dataEnd: 0x8027b30f
-    sdataStart: 0x80385118
-    sdataEnd: 0x80385150
+    text: [0x800fc7d4, 0x800fd160]
+    data: [0x8027b290, 0x8027b30f]
+    sdata: [0x80385118, 0x80385150]
 
 source/gamespy/GP/gpiBuddy.c:
     enabled: 1
     strip: 1
-    textStart: 0x800fd160
-    textEnd: 0x800fee90
-    dataStart: 0x8027b310
-    dataEnd: 0x8027b453
-    sdataStart: 0x80385150
-    sdataEnd: 0x803851ea
+    text: [0x800fd160, 0x800fee90]
+    data: [0x8027b310, 0x8027b453]
+    sdata: [0x80385150, 0x803851ea]
 
 source/gamespy/GP/gpiBuffer.c:
     enabled: 1
     strip: 1
-    textStart: 0x800fee90
-    textEnd: 0x800ff8c4
-    dataStart: 0x8027b458
-    dataEnd: 0x8027b4ba
-    sdataStart: 0x803851f0
-    sdataEnd: 0x80385206
+    text: [0x800fee90, 0x800ff8c4]
+    data: [0x8027b458, 0x8027b4ba]
+    sdata: [0x803851f0, 0x80385206]
 
 source/gamespy/GP/gpiCallback.c:
     enabled: 1
     strip: 1
-    textStart: 0x800ff8c4
-    textEnd: 0x800ffe28
-    dataStart: 0x8027b4c0
-    dataEnd: 0x8027b4cf
+    text: [0x800ff8c4, 0x800ffe28]
+    data: [0x8027b4c0, 0x8027b4cf]
 
 source/gamespy/GP/gpiConnect.c:
     enabled: 1
     strip: 1
-    textStart: 0x800ffe28
-    textEnd: 0x80101470
-    dataStart: 0x8027b4d0
-    dataEnd: 0x8027b876
-    sdataStart: 0x80385208
-    sdataEnd: 0x8038529b
+    text: [0x800ffe28, 0x80101470]
+    data: [0x8027b4d0, 0x8027b876]
+    sdata: [0x80385208, 0x8038529b]
 
 source/gamespy/GP/gpiInfo.c:
     enabled: 1
     strip: 1
-    textStart: 0x80101470
-    textEnd: 0x80103908
-    dataStart: 0x8027b878
-    dataEnd: 0x8027bbce
-    sdataStart: 0x803852a0
-    sdataEnd: 0x80385355
-    sdata2Start: 0x80388470
-    sdata2End: 0x80388474
+    text: [0x80101470, 0x80103908]
+    data: [0x8027b878, 0x8027bbce]
+    sdata: [0x803852a0, 0x80385355]
+    sdata2: [0x80388470, 0x80388474]
 
 source/gamespy/GP/gpiKeys.c:
     enabled: 1
     strip: 1
-    textStart: 0x80103908
-    textEnd: 0x80103f70
-    dataStart: 0x8027bbd0
-    dataEnd: 0x8027bc11
-    sdataStart: 0x80385358
-    sdataEnd: 0x8038535a
+    text: [0x80103908, 0x80103f70]
+    data: [0x8027bbd0, 0x8027bc11]
+    sdata: [0x80385358, 0x8038535a]
 
 source/gamespy/GP/gpiOperation.c:
     enabled: 1
     strip: 1
-    textStart: 0x80103f70
-    textEnd: 0x80104648
-    dataStart: 0x8027bc18
-    dataEnd: 0x8027bc60
+    text: [0x80103f70, 0x80104648]
+    data: [0x8027bc18, 0x8027bc60]
 
 source/gamespy/GP/gpiPeer.c:
     enabled: 1
     strip: 1
-    textStart: 0x80104648
-    textEnd: 0x80105d54
-    dataStart: 0x8027bc60
-    dataEnd: 0x8027bd2a
-    sdataStart: 0x80385360
-    sdataEnd: 0x803853b9
+    text: [0x80104648, 0x80105d54]
+    data: [0x8027bc60, 0x8027bd2a]
+    sdata: [0x80385360, 0x803853b9]
 
 source/gamespy/GP/gpiProfile.c:
     enabled: 1
     strip: 1
-    textStart: 0x80105d54
-    textEnd: 0x8010669c
-    dataStart: 0x8027bd30
-    dataEnd: 0x8027bee5
-    sdataStart: 0x803853c0
-    sdataEnd: 0x803853ce
+    text: [0x80105d54, 0x8010669c]
+    data: [0x8027bd30, 0x8027bee5]
+    sdata: [0x803853c0, 0x803853ce]
 
 source/gamespy/GP/gpiSearch.c:
     enabled: 1
     strip: 1
-    textStart: 0x8010669c
-    textEnd: 0x80108b38
-    dataStart: 0x8027bee8
-    dataEnd: 0x8027c204
-    sdataStart: 0x803853d0
-    sdataEnd: 0x803854bb
+    text: [0x8010669c, 0x80108b38]
+    data: [0x8027bee8, 0x8027c204]
+    sdata: [0x803853d0, 0x803854bb]
 
 source/gamespy/GP/gpiTransfer.c:
     enabled: 1
     strip: 1
-    textStart: 0x80108b38
-    textEnd: 0x80108c20
-    dataStart: 0x8027c208
-    dataEnd: 0x8027c229
-    sdataStart: 0x803854c0
-    sdataEnd: 0x803854cb
+    text: [0x80108b38, 0x80108c20]
+    data: [0x8027c208, 0x8027c229]
+    sdata: [0x803854c0, 0x803854cb]
 
 source/gamespy/GP/gpiUnique.c:
     enabled: 1
     strip: 1
-    textStart: 0x80108c20
-    textEnd: 0x80108e78
-    dataStart: 0x8027c230
-    dataEnd: 0x8027c26f
-    sdataStart: 0x803854d0
-    sdataEnd: 0x803854dd
+    text: [0x80108c20, 0x80108e78]
+    data: [0x8027c230, 0x8027c26f]
+    sdata: [0x803854d0, 0x803854dd]
 
 source/gamespy/GP/gpiUtility.c:
     enabled: 1
     strip: 1
-    textStart: 0x80108e78
-    textEnd: 0x8010945c
-    dataStart: 0x8027c270
-    dataEnd: 0x8027c2c5
-    sdataStart: 0x803854e0
-    sdataEnd: 0x803854f8
+    text: [0x80108e78, 0x8010945c]
+    data: [0x8027c270, 0x8027c2c5]
+    sdata: [0x803854e0, 0x803854f8]
 
 source/gamespy/gt2/gt2Auth.c:
     enabled: 1
     strip: 1
-    textStart: 0x8010945c
-    textEnd: 0x80109820
-    dataStart: 0x8027c2c8
-    dataEnd: 0x8027c2e9
+    text: [0x8010945c, 0x80109820]
+    data: [0x8027c2c8, 0x8027c2e9]
 
 source/gamespy/gt2/gt2Buffer.c:
     enabled: 1
     strip: 1
-    textStart: 0x80109820
-    textEnd: 0x801099c4
+    text: [0x80109820, 0x801099c4]
 
 source/gamespy/gt2/gt2Callback.c:
     enabled: 1
     strip: 1
-    textStart: 0x801099c4
-    textEnd: 0x8010a244
+    text: [0x801099c4, 0x8010a244]
 
 source/gamespy/gt2/gt2Connection.c:
     enabled: 1
     strip: 1
-    textStart: 0x8010a244
-    textEnd: 0x8010a918
+    text: [0x8010a244, 0x8010a918]
 
 source/gamespy/gt2/gt2Main.c:
     enabled: 1
     strip: 1
-    textStart: 0x8010a918
-    textEnd: 0x8010ad14
+    text: [0x8010a918, 0x8010ad14]
 
 source/gamespy/gt2/gt2Socket.c:
     enabled: 1
     strip: 1
-    textStart: 0x8010de30
-    textEnd: 0x8010e9c0
+    text: [0x8010de30, 0x8010e9c0]
 
 source/gamespy/gt2/gt2Utility.c:
     enabled: 1
     strip: 1
-    textStart: 0x8010e9c0
-    textEnd: 0x8010ecac
-    bssStart: 0x802f3480
-    bssEnd: 0x802f34b0
-    sdataStart: 0x80385508
-    sdataEnd: 0x80385519
-    sbssStart: 0x80386360
-    sbssEnd: 0x80386364
+    text: [0x8010e9c0, 0x8010ecac]
+    bss: [0x802f3480, 0x802f34b0]
+    sdata: [0x80385508, 0x80385519]
+    sbss: [0x80386360, 0x80386364]
 
 source/gamespy/qr2/qr2.c:
     enabled: 1
     strip: 1
-    textStart: 0x8010ecac
-    textEnd: 0x8011156c
-    dataStart: 0x8027c2f0
-    dataEnd: 0x8027d21b
-    bssStart: 0x802f34c0
-    bssEnd: 0x802f3624
-    sdataStart: 0x80385520
-    sdataEnd: 0x8038554a
-    sbssStart: 0x80386368
-    sbssEnd: 0x8038636c
-    sdata2Start: 0x80388478
-    sdata2End: 0x8038847e
+    text: [0x8010ecac, 0x8011156c]
+    data: [0x8027c2f0, 0x8027d21b]
+    bss: [0x802f34c0, 0x802f3624]
+    sdata: [0x80385520, 0x8038554a]
+    sbss: [0x80386368, 0x8038636c]
+    sdata2: [0x80388478, 0x8038847e]
 
 source/gamespy/qr2/qr2regkeys.c:
     enabled: 1
     strip: 1
-    textStart: 0x8011156c
-    textEnd: 0x801115fc
-    dataStart: 0x8027d220
-    dataEnd: 0x8027d6f8
-    sdataStart: 0x80385550
-    sdataEnd: 0x803855c7
+    text: [0x8011156c, 0x801115fc]
+    data: [0x8027d220, 0x8027d6f8]
+    sdata: [0x80385550, 0x803855c7]
 
 source/gamespy/ghttp/ghttpBuffer.c:
     enabled: 1
     strip: 1
-    textStart: 0x801115fc
-    textEnd: 0x80111de8
-    sdataStart: 0x803855c8
-    sdataEnd: 0x803855d3
+    text: [0x801115fc, 0x80111de8]
+    sdata: [0x803855c8, 0x803855d3]
 
 source/gamespy/ghttp/ghttpCallbacks.c:
     enabled: 1
-    textStart: 0x80111f0c
-    textEnd: 0x8011202c
+    text: [0x80111f0c, 0x8011202c]
 
 source/gamespy/ghttp/ghttpCommon.c:
     enabled: 1
     strip: 1
-    textStart: 0x8011202c
-    textEnd: 0x8011248c
-    sdataStart: 0x803855d8
-    sdataEnd: 0x803855e0
-    sbssStart: 0x80386370
-    sbssEnd: 0x80386378
+    text: [0x8011202c, 0x8011248c]
+    sdata: [0x803855d8, 0x803855e0]
+    sbss: [0x80386370, 0x80386378]
 
 source/gamespy/ghttp/ghttpConnection.c:
     enabled: 1
     strip: 1
-    textStart: 0x801125c8
-    textEnd: 0x80112d14
-    dataStart: 0x8027d6f8
-    dataEnd: 0x8027d701
-    sbssStart: 0x80386378
-    sbssEnd: 0x80386388
+    text: [0x801125c8, 0x80112d14]
+    data: [0x8027d6f8, 0x8027d701]
+    sbss: [0x80386378, 0x80386388]
 
 source/gamespy/ghttp/ghttpEncryption.c:
     enabled: 1
     strip: 1
-    textStart: 0x80112d14
-    textEnd: 0x8011312c
-    dataStart: 0x8027d708
-    dataEnd: 0x8027d711
+    text: [0x80112d14, 0x8011312c]
+    data: [0x8027d708, 0x8027d711]
 
 source/gamespy/ghttp/ghttpMain.c:
     enabled: 1
     strip: 1
-    textStart: 0x8011312c
-    textEnd: 0x801139b0
-    dataStart: 0x8027d718
-    dataEnd: 0x8027d731
-    sdataStart: 0x803855e0
-    sdataEnd: 0x803855e1
-    sbssStart: 0x80386388
-    sbssEnd: 0x8038638c
+    text: [0x8011312c, 0x801139b0]
+    data: [0x8027d718, 0x8027d731]
+    sdata: [0x803855e0, 0x803855e1]
+    sbss: [0x80386388, 0x8038638c]
 
 source/gamespy/ghttp/ghttpPost.c:
     enabled: 1
     strip: 1
-    textStart: 0x801139b0
-    textEnd: 0x80115384
-    dataStart: 0x8027d738
-    dataEnd: 0x8027d974
-    sdataStart: 0x803855e1
-    sdataEnd: 0x803855ff
-    sbssStart: 0x80386390
-    sbssEnd: 0x803863a4
-    sdata2Start: 0x80388480
-    sdata2End: 0x80388484
+    text: [0x801139b0, 0x80115384]
+    data: [0x8027d738, 0x8027d974]
+    sdata: [0x803855e1, 0x803855ff]
+    sbss: [0x80386390, 0x803863a4]
+    sdata2: [0x80388480, 0x80388484]
 
 source/gamespy/ghttp/ghttpProcess.c:
     enabled: 1
     strip: 1
-    textStart: 0x80115384
-    textEnd: 0x80116dd4
-    rodataStart: 0x8024c6d0
-    rodataEnd: 0x8024c6db
-    dataStart: 0x8027d978
-    dataEnd: 0x8027da43
-    sdataStart: 0x80385600
-    sdataEnd: 0x80385655
+    text: [0x80115384, 0x80116dd4]
+    rodata: [0x8024c6d0, 0x8024c6db]
+    data: [0x8027d978, 0x8027da43]
+    sdata: [0x80385600, 0x80385655]
 
 source/gamespy/gstats/gbucket.c:
     enabled: 1
     strip: 1
-    textStart: 0x80116dd4
-    textEnd: 0x80117f6c
-    sbssStart: 0x803863a8
-    sbssEnd: 0x803863c0
-    sdata2Start: 0x80388488
-    sdata2End: 0x80388490
+    text: [0x80116dd4, 0x80117f6c]
+    sbss: [0x803863a8, 0x803863c0]
+    sdata2: [0x80388488, 0x80388490]
 
 source/gamespy/gstats/gstats.c:
     enabled: 1
     strip: 1
-    textStart: 0x80117f6c
-    textEnd: 0x8011a054
-    dataStart: 0x8027da48
-    dataEnd: 0x8027dca0
-    bssStart: 0x802f3820
-    bssEnd: 0x802f3a20
-    sdataStart: 0x80385658
-    sdataEnd: 0x803856be
-    sbssStart: 0x803863c0
-    sbssEnd: 0x803863dc
+    text: [0x80117f6c, 0x8011a054]
+    data: [0x8027da48, 0x8027dca0]
+    bss: [0x802f3820, 0x802f3a20]
+    sdata: [0x80385658, 0x803856be]
+    sbss: [0x803863c0, 0x803863dc]
 
 source/gamespy/serverbrowsing/sb_crypt.c:
     enabled: 1
     strip: 1
-    textStart: 0x8011c10c
-    textEnd: 0x8011c540
+    text: [0x8011c10c, 0x8011c540]
 
 source/gamespy/serverbrowsing/sb_queryengine.c:
     enabled: 1
     strip: 1
-    textStart: 0x8011c540
-    textEnd: 0x8011d024
-    dataStart: 0x8027ddc0
-    dataEnd: 0x8027dde5
-    sdataStart: 0x803856f0
-    sdataEnd: 0x803856f8
+    text: [0x8011c540, 0x8011d024]
+    data: [0x8027ddc0, 0x8027dde5]
+    sdata: [0x803856f0, 0x803856f8]
 
 source/gamespy/serverbrowsing/sb_server.c:
     enabled: 1
     strip: 1
-    textStart: 0x8011d024
-    textEnd: 0x8011dd04
-    dataStart: 0x8027dde8
-    dataEnd: 0x8027ddf1
-    sdataStart: 0x803856f8
-    sdataEnd: 0x80385721
-    sbssStart: 0x80386430
-    sbssEnd: 0x8038643c
-    sdata2Start: 0x80388490
-    sdata2End: 0x80388498
+    text: [0x8011d024, 0x8011dd04]
+    data: [0x8027dde8, 0x8027ddf1]
+    sdata: [0x803856f8, 0x80385721]
+    sbss: [0x80386430, 0x8038643c]
+    sdata2: [0x80388490, 0x80388498]
 
 source/gamespy/serverbrowsing/sb_serverbrowsing.c:
     enabled: 1
     strip: 1
-    textStart: 0x8011dd04
-    textEnd: 0x8011e518
-    dataStart: 0x8027ddf8
-    dataEnd: 0x8027de18
-    sdataStart: 0x80385728
-    sdataEnd: 0x8038572c
+    text: [0x8011dd04, 0x8011e518]
+    data: [0x8027ddf8, 0x8027de18]
+    sdata: [0x80385728, 0x8038572c]
 
 source/gamespy/serverbrowsing/sb_serverlist.c:
     enabled: 1
     strip: 1
-    textStart: 0x8011e518
-    textEnd: 0x80121eec
-    dataStart: 0x8027de18
-    dataEnd: 0x8027de44
-    sdataStart: 0x80385730
-    sdataEnd: 0x80385740
-    sbssStart: 0x80386440
-    sbssEnd: 0x80386448
-    sdata2Start: 0x80388498
-    sdata2End: 0x803884a4
+    text: [0x8011e518, 0x80121eec]
+    data: [0x8027de18, 0x8027de44]
+    sdata: [0x80385730, 0x80385740]
+    sbss: [0x80386440, 0x80386448]
+    sdata2: [0x80388498, 0x803884a4]
 
 source/gamespy/sake/sakeMain.c:
     enabled: 1
     strip: 1
-    textStart: 0x80121eec
-    textEnd: 0x8012249c
-    dataStart: 0x8027de48
-    dataEnd: 0x8027df3e
-    bssStart: 0x802f3f40
-    bssEnd: 0x802f4040
-    sdataStart: 0x80385740
-    sdataEnd: 0x80385744
+    text: [0x80121eec, 0x8012249c]
+    data: [0x8027de48, 0x8027df3e]
+    bss: [0x802f3f40, 0x802f4040]
+    sdata: [0x80385740, 0x80385744]
 
 source/rvl/arc/rvlArchive.c:
     enabled: 1
-    textStart: 0x80124500
-    textEnd: 0x80124e80
-    dataStart: 0x8027e708
-    dataEnd: 0x8027e772
-    sdataStart: 0x803857f0
-    sdataEnd: 0x803857f6
+    text: [0x80124500, 0x80124e80]
+    data: [0x8027e708, 0x8027e772]
+    sdata: [0x803857f0, 0x803857f6]
 
 source/rvl/ax/rvlAx.c:
     enabled: 1
-    textStart: 0x80124e80
-    textEnd: 0x80124edc
-    dataStart: 0x8027e778
-    dataEnd: 0x8027e7bf
-    sdataStart: 0x803857f8
-    sdataEnd: 0x803857fc
-    sbssStart: 0x80386488
-    sbssEnd: 0x8038648c
+    text: [0x80124e80, 0x80124edc]
+    data: [0x8027e778, 0x8027e7bf]
+    sdata: [0x803857f8, 0x803857fc]
+    sbss: [0x80386488, 0x8038648c]
 
 source/rvl/ax/rvlAxAlloc.c:
     enabled: 1
-    textStart: 0x80124edc
-    textEnd: 0x80125394
-    bssStart: 0x802f40c0
-    bssEnd: 0x802f41c0
-    sbssStart: 0x80386490
-    sbssEnd: 0x80386494
+    text: [0x80124edc, 0x80125394]
+    bss: [0x802f40c0, 0x802f41c0]
+    sbss: [0x80386490, 0x80386494]
 
 source/rvl/ax/rvlAxAux.c:
     enabled: 1
-    textStart: 0x80125394
-    textEnd: 0x80125bac
-    sbssStart: 0x80386498
-    sbssEnd: 0x803864e0
+    text: [0x80125394, 0x80125bac]
+    sbss: [0x80386498, 0x803864e0]
 
 source/rvl/ax/rvlAxCl.c:
     enabled: 1
-    textStart: 0x80125bac
-    textEnd: 0x80126638
-    bssStart: 0x802f7340
-    bssEnd: 0x802f7440
-    sbssStart: 0x803864e0
-    sbssEnd: 0x803864fc
+    text: [0x80125bac, 0x80126638]
+    bss: [0x802f7340, 0x802f7440]
+    sbss: [0x803864e0, 0x803864fc]
 
 source/rvl/ax/rvlAxOut.c:
     enabled: 1
-    textStart: 0x80126638
-    textEnd: 0x80126e30
-    sbssStart: 0x80386500
-    sbssEnd: 0x8038653c
+    text: [0x80126638, 0x80126e30]
+    sbss: [0x80386500, 0x8038653c]
 
 source/rvl/ax/rvlAxSpb.c:
     enabled: 1
-    textStart: 0x80126e30
-    textEnd: 0x80127250
-    bssStart: 0x802f8240
-    bssEnd: 0x802f82b8
-    sbssStart: 0x80386540
-    sbssEnd: 0x80386590
+    text: [0x80126e30, 0x80127250]
+    bss: [0x802f8240, 0x802f82b8]
+    sbss: [0x80386540, 0x80386590]
 
 source/rvl/ax/rvlAxVpb.c:
     enabled: 1
-    textStart: 0x80127250
-    textEnd: 0x80127fec
-    sbssStart: 0x80386590
-    sbssEnd: 0x803865ac
-    sdata2Start: 0x803884a8
-    sdata2End: 0x803884c8
+    text: [0x80127250, 0x80127fec]
+    sbss: [0x80386590, 0x803865ac]
+    sdata2: [0x803884a8, 0x803884c8]
 
 source/rvl/ax/rvlAxProf.c:
     enabled: 1
-    textStart: 0x80127fec
-    textEnd: 0x8012802c
-    sbssStart: 0x803865b0
-    sbssEnd: 0x803865c0
+    text: [0x80127fec, 0x8012802c]
+    sbss: [0x803865b0, 0x803865c0]
 
 source/rvl/axfx/rvlAxFxReverbHi.c:
     enabled: 1
-    textStart: 0x8012802c
-    textEnd: 0x801280b8
-    sdata2Start: 0x803884c8
-    sdata2End: 0x803884d0
+    text: [0x8012802c, 0x801280b8]
+    sdata2: [0x803884c8, 0x803884d0]
 
 source/rvl/ax/rvlAxComp.c:
     enabled: 1
-    dataStart: 0x8027e860
-    dataEnd: 0x8027f820
+    data: [0x8027e860, 0x8027f820]
 
 source/rvl/axfx/rvlAxFxReverbHiExp.c:
     enabled: 1
-    textStart: 0x801280b8
-    textEnd: 0x801290a0
-    dataStart: 0x80281820
-    dataEnd: 0x802819c0
-    sdata2Start: 0x803884d0
-    sdata2End: 0x80388510
+    text: [0x801280b8, 0x801290a0]
+    data: [0x80281820, 0x802819c0]
+    sdata2: [0x803884d0, 0x80388510]
 
 source/rvl/axfx/rvlAxFxReverbHiExpDpl2.c:
     enabled: 1
-    textStart: 0x801290a0
-    textEnd: 0x8012a154
-    dataStart: 0x802819c0
-    dataEnd: 0x80281b7c
-    sdata2Start: 0x80388510
-    sdata2End: 0x80388550
+    text: [0x801290a0, 0x8012a154]
+    data: [0x802819c0, 0x80281b7c]
+    sdata2: [0x80388510, 0x80388550]
 
 source/rvl/axfx/rvlAxFxReverbStdExp.c:
     enabled: 1
-    textStart: 0x8012b47c
-    textEnd: 0x8012c17c
-    dataStart: 0x80281b80
-    dataEnd: 0x80281c10
-    sdata2Start: 0x80388580
-    sdata2End: 0x803885c0
+    text: [0x8012b47c, 0x8012c17c]
+    data: [0x80281b80, 0x80281c10]
+    sdata2: [0x80388580, 0x803885c0]
 
 source/rvl/ax/rvlAxDspCode.c:
     enabled: 1
-    sdataStart: 0x80385800
-    sdataEnd: 0x80385806
+    sdata: [0x80385800, 0x80385806]
 
 source/rvl/axfx/rvlAxFx.c:
     enabled: 1
-    textStart: 0x8012e52c
-    textEnd: 0x8012e564
-    sdataStart: 0x80385808
-    sdataEnd: 0x80385810
+    text: [0x8012e52c, 0x8012e564]
+    sdata: [0x80385808, 0x80385810]
 
 source/rvl/base/ppcArch.c:
     enabled: 1
-    textStart: 0x8012e564
-    textEnd: 0x8012e6d4
-    dataStart: 0x802826a0
-    dataEnd: 0x802826d7
+    text: [0x8012e564, 0x8012e6d4]
+    data: [0x802826a0, 0x802826d7]
 
 source/rvl/bte/gki_buffer.c:
     enabled: 1
-    textStart: 0x8012e6d4
-    textEnd: 0x8012fb18
+    text: [0x8012e6d4, 0x8012fb18]
 
 source/rvl/bte/gki_time.c:
     enabled: 1
-    textStart: 0x8012fb18
-    textEnd: 0x80130070
+    text: [0x8012fb18, 0x80130070]
 
 source/rvl/bte/gki_ppc.c:
     enabled: 1
-    textStart: 0x80130070
-    textEnd: 0x80130300
+    text: [0x80130070, 0x80130300]
 
 source/rvl/bte/hcisu_h2.c:
     enabled: 1
-    textStart: 0x80130300
-    textEnd: 0x8013099c
+    text: [0x80130300, 0x8013099c]
 
 source/rvl/bte/uusb_ppc.c:
     enabled: 1
-    textStart: 0x8013099c
-    textEnd: 0x801315a0
+    text: [0x8013099c, 0x801315a0]
 
 source/rvl/bte/bte_hcisu.c:
     enabled: 1
-    textStart: 0x801315a0
-    textEnd: 0x80131658
+    text: [0x801315a0, 0x80131658]
 
 source/rvl/bte/bte_init.c:
     enabled: 1
-    textStart: 0x80131658
-    textEnd: 0x80131684
+    text: [0x80131658, 0x80131684]
 
 source/rvl/bte/bte_logmsg.c:
     enabled: 1
-    textStart: 0x80131684
-    textEnd: 0x801317e8
+    text: [0x80131684, 0x801317e8]
 
 source/rvl/bte/bte_main.c:
     enabled: 1
-    textStart: 0x801317e8
-    textEnd: 0x80131940
+    text: [0x801317e8, 0x80131940]
 
 source/rvl/bte/bte_task1.c:
     enabled: 1
-    textStart: 0x80131940
-    textEnd: 0x80131d90
+    text: [0x80131940, 0x80131d90]
 
 source/rvl/bte/bd.c:
     enabled: 1
-    textStart: 0x80131d90
-    textEnd: 0x80131e64
+    text: [0x80131d90, 0x80131e64]
 
 source/rvl/bte/bta_sys.c:
     enabled: 1
-    textStart: 0x80131e64
-    textEnd: 0x801322fc
+    text: [0x80131e64, 0x801322fc]
 
 source/rvl/bte/ptim.c:
     enabled: 1
-    textStart: 0x801322fc
-    textEnd: 0x801324dc
+    text: [0x801322fc, 0x801324dc]
 
 source/rvl/bte/utl.c:
     enabled: 1
-    textStart: 0x801324dc
-    textEnd: 0x80132520
+    text: [0x801324dc, 0x80132520]
 
 source/rvl/bte/bta_dm_int.c:
     enabled: 1
-    textStart: 0x80132520
-    textEnd: 0x8013485c
-    sdata2Start: 0x80388678
-    sdata2End: 0x8038867c
+    text: [0x80132520, 0x8013485c]
+    sdata2: [0x80388678, 0x8038867c]
 
 source/rvl/bte/bta_api.c:
     enabled: 1
-    textStart: 0x8013485c
-    textEnd: 0x80134cc8
+    text: [0x8013485c, 0x80134cc8]
 
 source/rvl/bte/bta_dm_main.c:
     enabled: 1
-    textStart: 0x80134cc8
-    textEnd: 0x80134e28
+    text: [0x80134cc8, 0x80134e28]
 
 source/rvl/bte/bta_dm_pm.c:
     enabled: 1
-    textStart: 0x80134e28
-    textEnd: 0x80135844
+    text: [0x80134e28, 0x80135844]
 
 source/rvl/bte/bta_hh_act.c:
     enabled: 1
-    textStart: 0x80135844
-    textEnd: 0x80136f8c
+    text: [0x80135844, 0x80136f8c]
 
 source/rvl/bte/bta_hh_api.c:
     enabled: 1
-    textStart: 0x80136f8c
-    textEnd: 0x8013735c
+    text: [0x80136f8c, 0x8013735c]
 
 source/rvl/bte/bta_hh_main.c:
     enabled: 1
-    textStart: 0x8013735c
-    textEnd: 0x801378b0
+    text: [0x8013735c, 0x801378b0]
 
 source/rvl/bte/bta_hh_utils.c:
     enabled: 1
-    textStart: 0x801378b0
-    textEnd: 0x80137c5c
+    text: [0x801378b0, 0x80137c5c]
 
 source/rvl/bte/btm_acl.c:
     enabled: 1
-    textStart: 0x80137c5c
-    textEnd: 0x801399a0
+    text: [0x80137c5c, 0x801399a0]
 
 source/rvl/bte/btm_dev.c:
     enabled: 1
-    textStart: 0x801399a0
-    textEnd: 0x8013a06c
+    text: [0x801399a0, 0x8013a06c]
 
 source/rvl/bte/btm_devctl.c:
     enabled: 1
-    textStart: 0x8013a06c
-    textEnd: 0x8013b9f4
+    text: [0x8013a06c, 0x8013b9f4]
 
 source/rvl/bte/btm_discovery.c:
     enabled: 1
-    textStart: 0x8013b9f4
-    textEnd: 0x8013bb28
+    text: [0x8013b9f4, 0x8013bb28]
 
 source/rvl/bte/btm_inq.c:
     enabled: 1
-    textStart: 0x8013bb28
-    textEnd: 0x8013d5c0
+    text: [0x8013bb28, 0x8013d5c0]
 
 source/rvl/bte/btm_main.c:
     enabled: 1
-    textStart: 0x8013d5c0
-    textEnd: 0x8013d61c
+    text: [0x8013d5c0, 0x8013d61c]
 
 source/rvl/bte/btm_pm.c:
     enabled: 1
-    textStart: 0x8013d61c
-    textEnd: 0x8013e2b0
+    text: [0x8013d61c, 0x8013e2b0]
 
 source/rvl/bte/btm_sco.c:
     enabled: 1
-    textStart: 0x8013e2b0
-    textEnd: 0x8013f0e8
+    text: [0x8013e2b0, 0x8013f0e8]
 
 source/rvl/bte/btm_sec.c:
     enabled: 1
     strip: 1
-    textStart: 0x8013f0e8
-    textEnd: 0x801420ac
-    sdata2Start: 0x803886a8
-    sdata2End: 0x803886ae
+    text: [0x8013f0e8, 0x801420ac]
+    sdata2: [0x803886a8, 0x803886ae]
 
 source/rvl/bte/btu_hcif.c:
     enabled: 1
-    textStart: 0x801420ac
-    textEnd: 0x80143308
+    text: [0x801420ac, 0x80143308]
 
 source/rvl/bte/btu_init.c:
     enabled: 1
-    textStart: 0x80143308
-    textEnd: 0x80143380
+    text: [0x80143308, 0x80143380]
 
 source/rvl/bte/wbt_ext.c:
     enabled: 1
-    textStart: 0x80143380
-    textEnd: 0x80143460
+    text: [0x80143380, 0x80143460]
 
 source/rvl/bte/gap_api.c:
     enabled: 1
-    textStart: 0x80143460
-    textEnd: 0x801434c0
+    text: [0x80143460, 0x801434c0]
 
 source/rvl/bte/gap_conn.c:
     enabled: 1
-    textStart: 0x801434c0
-    textEnd: 0x80143ffc
+    text: [0x801434c0, 0x80143ffc]
 
 source/rvl/bte/gap_utils.c:
     enabled: 1
-    textStart: 0x80143ffc
-    textEnd: 0x80144618
+    text: [0x80143ffc, 0x80144618]
 
 source/rvl/bte/hcicmds.c:
     enabled: 1
-    textStart: 0x80144618
-    textEnd: 0x80146d34
+    text: [0x80144618, 0x80146d34]
 
 source/rvl/bte/hidd_api.c:
     enabled: 1
-    textStart: 0x80146d34
-    textEnd: 0x80146d9c
+    text: [0x80146d34, 0x80146d9c]
 
 source/rvl/bte/hidd_conn.c:
     enabled: 1
-    textStart: 0x80146d9c
-    textEnd: 0x80146e5c
+    text: [0x80146d9c, 0x80146e5c]
 
 source/rvl/bte/hidd_mgmt.c:
     enabled: 1
-    textStart: 0x80146e5c
-    textEnd: 0x80146f24
+    text: [0x80146e5c, 0x80146f24]
 
 source/rvl/bte/hidd_pm.c:
     enabled: 1
-    textStart: 0x80146f24
-    textEnd: 0x801472a0
+    text: [0x80146f24, 0x801472a0]
 
 source/rvl/bte/hidh_api.c:
     enabled: 1
-    textStart: 0x801472a0
-    textEnd: 0x80148020
+    text: [0x801472a0, 0x80148020]
 
 source/rvl/bte/hidh_conn.c:
     enabled: 1
-    textStart: 0x80148020
-    textEnd: 0x8014a060
+    text: [0x80148020, 0x8014a060]
 
 source/rvl/bte/l2c_api.c:
     enabled: 1
-    textStart: 0x8014a060
-    textEnd: 0x8014ac2c
+    text: [0x8014a060, 0x8014ac2c]
 
 source/rvl/bte/l2c_csm.c:
     enabled: 1
-    textStart: 0x8014ac2c
-    textEnd: 0x8014c108
+    text: [0x8014ac2c, 0x8014c108]
 
 source/rvl/bte/l2c_link.c:
     enabled: 1
-    textStart: 0x8014c108
-    textEnd: 0x8014d294
+    text: [0x8014c108, 0x8014d294]
 
 source/rvl/bte/l2c_main.c:
     enabled: 1
-    textStart: 0x8014d294
-    textEnd: 0x8014e2c4
+    text: [0x8014d294, 0x8014e2c4]
 
 source/rvl/bte/l2c_utils.c:
     enabled: 1
-    textStart: 0x8014e2c4
-    textEnd: 0x80150188
+    text: [0x8014e2c4, 0x80150188]
 
 source/rvl/bte/port_api.c:
     enabled: 1
-    textStart: 0x80150188
-    textEnd: 0x801501d8
+    text: [0x80150188, 0x801501d8]
 
 source/rvl/bte/port_rfc.c:
     enabled: 1
-    textStart: 0x801501d8
-    textEnd: 0x801515d4
+    text: [0x801501d8, 0x801515d4]
 
 source/rvl/bte/port_utils.c:
     enabled: 1
-    textStart: 0x801515d4
-    textEnd: 0x80151bac
+    text: [0x801515d4, 0x80151bac]
 
 source/rvl/bte/rfc_l2cap_if.c:
     enabled: 1
-    textStart: 0x80151bac
-    textEnd: 0x801524e0
+    text: [0x80151bac, 0x801524e0]
 
 source/rvl/bte/rfc_mx_fsm.c:
     enabled: 1
-    textStart: 0x801524e0
-    textEnd: 0x80153124
+    text: [0x801524e0, 0x80153124]
 
 source/rvl/bte/rfc_port_fsm.c:
     enabled: 1
-    textStart: 0x80153124
-    textEnd: 0x801542c4
+    text: [0x80153124, 0x801542c4]
 
 source/rvl/bte/rfc_port_if.c:
     enabled: 1
-    textStart: 0x801542c4
-    textEnd: 0x801547f0
+    text: [0x801542c4, 0x801547f0]
 
 source/rvl/bte/rfc_ts_frames.c:
     enabled: 1
-    textStart: 0x801547f0
-    textEnd: 0x80155e38
+    text: [0x801547f0, 0x80155e38]
 
 source/rvl/bte/rfc_utils.c:
     enabled: 1
-    textStart: 0x80155e38
-    textEnd: 0x80156618
+    text: [0x80155e38, 0x80156618]
 
 source/rvl/bte/sdp_api.c:
     enabled: 1
-    textStart: 0x80156618
-    textEnd: 0x80157480
+    text: [0x80156618, 0x80157480]
 
 source/rvl/bte/sdp_db.c:
     enabled: 1
-    textStart: 0x80157480
-    textEnd: 0x8015814c
+    text: [0x80157480, 0x8015814c]
 
 source/rvl/bte/sdp_discovery.c:
     enabled: 1
-    textStart: 0x8015814c
-    textEnd: 0x801593c4
+    text: [0x8015814c, 0x801593c4]
 
 source/rvl/bte/sdp_main.c:
     enabled: 1
-    textStart: 0x801593c4
-    textEnd: 0x80159f30
+    text: [0x801593c4, 0x80159f30]
 
 source/rvl/bte/sdp_server.c:
     enabled: 1
-    textStart: 0x80159f30
-    textEnd: 0x8015ac40
+    text: [0x80159f30, 0x8015ac40]
 
 source/rvl/bte/sdp_utils.c:
     enabled: 1
-    textStart: 0x8015ac40
-    textEnd: 0x8015bc80
+    text: [0x8015ac40, 0x8015bc80]
 
 source/rvl/cnt/cnt.c:
     enabled: 1
-    textStart: 0x8015bc80
-    textEnd: 0x8015bef0
+    text: [0x8015bc80, 0x8015bef0]
 
 source/rvl/cx/cxStreamingUncompression.c:
     enabled: 1
-    textStart: 0x8015bef0
-    textEnd: 0x8015c2e0
+    text: [0x8015bef0, 0x8015c2e0]
 
 source/rvl/cx/cxUncompression.c:
     enabled: 1
-    textStart: 0x8015c2e0
-    textEnd: 0x8015c320
+    text: [0x8015c2e0, 0x8015c320]
 
 source/rvl/darch/darch.c:
     enabled: 1
-    textStart: 0x8015c320
-    textEnd: 0x8015d314
-    sbssStart: 0x803865f8
-    sbssEnd: 0x803865fc
+    text: [0x8015c320, 0x8015d314]
+    sbss: [0x803865f8, 0x803865fc]
 
 source/rvl/db/db.c:
     enabled: 1
-    textStart: 0x8015d314
-    textEnd: 0x8015d3ac
-    sbssStart: 0x80386600
-    sbssEnd: 0x80386604
+    text: [0x8015d314, 0x8015d3ac]
+    sbss: [0x80386600, 0x80386604]
 
 source/rvl/db/dbPrintf.c:
     enabled: 1
-    textStart: 0x8015d3ac
-    textEnd: 0x8015d3fc
+    text: [0x8015d3ac, 0x8015d3fc]
 
 source/rvl/dsp/dsp.c:
     enabled: 1
-    textStart: 0x8015d3fc
-    textEnd: 0x8015d638
-    sbssStart: 0x80386608
-    sbssEnd: 0x8038660c
+    text: [0x8015d3fc, 0x8015d638]
+    sbss: [0x80386608, 0x8038660c]
 
 source/rvl/dsp/dspPrintf.c:
     enabled: 1
-    textStart: 0x8015d638
-    textEnd: 0x8015d688
+    text: [0x8015d638, 0x8015d688]
 
 source/rvl/dsp/dspTask.c:
     enabled: 1
-    textStart: 0x8015d688
-    textEnd: 0x8015df1c
-    sbssStart: 0x80386610
-    sbssEnd: 0x80386628
+    text: [0x8015d688, 0x8015df1c]
+    sbss: [0x80386610, 0x80386628]
 
 source/rvl/dvd/dvdFs.c:
     enabled: 1
-    textStart: 0x8015df1c
-    textEnd: 0x8015e964
+    text: [0x8015df1c, 0x8015e964]
 
 source/rvl/dvd/dvdMain.c:
     enabled: 1
-    textStart: 0x8015e964
-    textEnd: 0x801635bc
+    text: [0x8015e964, 0x801635bc]
 
 source/rvl/dvd/dvdQueue.c:
     enabled: 1
-    textStart: 0x801635bc
-    textEnd: 0x80163818
+    text: [0x801635bc, 0x80163818]
 
 source/rvl/dvd/dvdError.c:
     enabled: 1
-    textStart: 0x80163818
-    textEnd: 0x8016411c
+    text: [0x80163818, 0x8016411c]
 
 source/rvl/dvd/dvdUtils.c:
     enabled: 1
-    textStart: 0x8016411c
-    textEnd: 0x80164294
+    text: [0x8016411c, 0x80164294]
 
 source/rvl/dvd/dvdFatal.c:
     enabled: 1
-    textStart: 0x80164294
-    textEnd: 0x801643ec
-    sdata2Start: 0x803886b8
-    sdata2End: 0x803886bc
+    text: [0x80164294, 0x801643ec]
+    sdata2: [0x803886b8, 0x803886bc]
 
 source/rvl/dvd/dvdDeviceError.c:
     enabled: 1
-    textStart: 0x801643ec
-    textEnd: 0x80164684
+    text: [0x801643ec, 0x80164684]
 
 source/rvl/dvd/dvdBroadway.c:
     enabled: 1
-    textStart: 0x80164684
-    textEnd: 0x80166ad0
+    text: [0x80164684, 0x80166ad0]
 
 source/rvl/enc/encUtility.c:
     enabled: 1
-    textStart: 0x80166ad0
-    textEnd: 0x80166d0c
-    sbssStart: 0x80386740
-    sbssEnd: 0x80386744
+    text: [0x80166ad0, 0x80166d0c]
+    sbss: [0x80386740, 0x80386744]
 
 source/rvl/esp/esp.c:
     enabled: 1
-    textStart: 0x801671d0
-    textEnd: 0x80167b08
-    sdataStart: 0x80385908
-    sdataEnd: 0x80385918
+    text: [0x801671d0, 0x80167b08]
+    sdata: [0x80385908, 0x80385918]
 
 source/rvl/euart/euart.c:
     enabled: 1
-    textStart: 0x80167b08
-    textEnd: 0x80167e78
+    text: [0x80167b08, 0x80167e78]
 
 source/rvl/exi/exiBios.c:
     enabled: 1
-    textStart: 0x80167e78
-    textEnd: 0x8016970c
+    text: [0x80167e78, 0x8016970c]
 
 source/rvl/exi/exiUart.c:
     enabled: 1
-    textStart: 0x8016970c
-    textEnd: 0x80169a40
+    text: [0x8016970c, 0x80169a40]
 
 source/rvl/exi/exiCommon.c:
     enabled: 1
-    textStart: 0x80169a40
-    textEnd: 0x80169bcc
-    sdata2Start: 0x803886c0
-    sdata2End: 0x803886c4
+    text: [0x80169a40, 0x80169bcc]
+    sdata2: [0x803886c0, 0x803886c4]
 
 source/rvl/fs/fs.c:
     enabled: 1
-    textStart: 0x80169bcc
-    textEnd: 0x8016b49c
-    sdataStart: 0x80385920
-    sdataEnd: 0x80385930
-    sbssStart: 0x80386770
-    sbssEnd: 0x80386788
+    text: [0x80169bcc, 0x8016b49c]
+    sdata: [0x80385920, 0x80385930]
+    sbss: [0x80386770, 0x80386788]
 
 source/rvl/gx/gxInit.c:
     enabled: 1
-    textStart: 0x8016b49c
-    textEnd: 0x8016c668
+    text: [0x8016b49c, 0x8016c668]
 
 source/rvl/gx/gxFifo.c:
     enabled: 1
-    textStart: 0x8016c668
-    textEnd: 0x8016d3a4
+    text: [0x8016c668, 0x8016d3a4]
 
 source/rvl/gx/gxAttr.c:
     enabled: 1
-    textStart: 0x8016d3a4
-    textEnd: 0x8016e5c8
+    text: [0x8016d3a4, 0x8016e5c8]
 
 source/rvl/gx/gxMisc.c:
     enabled: 1
-    textStart: 0x8016e5c8
-    textEnd: 0x8016ee78
+    text: [0x8016e5c8, 0x8016ee78]
 
 source/rvl/gx/gxGeometry.c:
     enabled: 1
-    textStart: 0x8016ee78
-    textEnd: 0x8016f438
+    text: [0x8016ee78, 0x8016f438]
 
 source/rvl/gx/gxFrameBuf.c:
     enabled: 1
-    textStart: 0x8016f438
-    textEnd: 0x8016ff04
+    text: [0x8016f438, 0x8016ff04]
 
 source/rvl/gx/gxLight.c:
     enabled: 1
-    textStart: 0x8016ff04
-    textEnd: 0x80170614
+    text: [0x8016ff04, 0x80170614]
 
 source/rvl/gx/gxTexture.c:
     enabled: 1
-    textStart: 0x80170614
-    textEnd: 0x801717ac
+    text: [0x80170614, 0x801717ac]
 
 source/rvl/gx/gxBump.c:
     enabled: 1
-    textStart: 0x801717ac
-    textEnd: 0x80171c4c
+    text: [0x801717ac, 0x80171c4c]
 
 source/rvl/gx/gxTev.c:
     enabled: 1
-    textStart: 0x80171c4c
-    textEnd: 0x801722cc
+    text: [0x80171c4c, 0x801722cc]
 
 source/rvl/gx/gxPixel.c:
     enabled: 1
-    textStart: 0x801722cc
-    textEnd: 0x80172a30
+    text: [0x801722cc, 0x80172a30]
 
 source/rvl/gx/gxDraw.c:
     enabled: 1
-    textStart: 0x80172a30
-    textEnd: 0x80172e00
+    text: [0x80172a30, 0x80172e00]
 
 source/rvl/gx/gxDisplayList.c:
     enabled: 1
-    textStart: 0x80172e00
-    textEnd: 0x80172fd8
+    text: [0x80172e00, 0x80172fd8]
 
 source/rvl/gx/gxTransform.c:
     enabled: 1
-    textStart: 0x80172fd8
-    textEnd: 0x801735cc
+    text: [0x80172fd8, 0x801735cc]
 
 source/rvl/gx/gxPerf.c:
     enabled: 1
-    textStart: 0x801735cc
-    textEnd: 0x80173e08
+    text: [0x801735cc, 0x80173e08]
 
 source/rvl/ipc/ipcMain.c:
     enabled: 1
-    textStart: 0x80192f7c
-    textEnd: 0x80193048
-    sbssStart: 0x803867e8
-    sbssEnd: 0x803867fc
+    text: [0x80192f7c, 0x80193048]
+    sbss: [0x803867e8, 0x803867fc]
 
 source/rvl/ipc/ipcclt.c:
     enabled: 1
-    textStart: 0x80193048
-    textEnd: 0x801949b8
-    sdataStart: 0x80385990
-    sdataEnd: 0x80385998
-    sbssStart: 0x80386800
-    sbssEnd: 0x80386810
+    text: [0x80193048, 0x801949b8]
+    sdata: [0x80385990, 0x80385998]
+    sbss: [0x80386800, 0x80386810]
 
 source/rvl/kpad/rvlKpad.c:
     enabled: 1
-    textStart: 0x801950a0
-    textEnd: 0x801981ec
-    dataStart: 0x8028e998
-    dataEnd: 0x8028e9f0
-    bssStart: 0x803457e0
-    bssEnd: 0x80346cf0
-    sdataStart: 0x80385998
-    sdataEnd: 0x80385a08
-    sbssStart: 0x80386818
-    sbssEnd: 0x80386838
-    sdata2Start: 0x80388800
-    sdata2End: 0x80388860
+    text: [0x801950a0, 0x801981ec]
+    data: [0x8028e998, 0x8028e9f0]
+    bss: [0x803457e0, 0x80346cf0]
+    sdata: [0x80385998, 0x80385a08]
+    sbss: [0x80386818, 0x80386838]
+    sdata2: [0x80388800, 0x80388860]
 
 source/rvl/mem/rvlMemHeap.cpp:
     enabled: 1
-    textStart: 0x801981ec
-    textEnd: 0x80198798
-    bssStart: 0x80346cf0
-    bssEnd: 0x80346d18
-    sbssStart: 0x80386838
-    sbssEnd: 0x8038683c
+    text: [0x801981ec, 0x80198798]
+    bss: [0x80346cf0, 0x80346d18]
+    sbss: [0x80386838, 0x8038683c]
 
 source/rvl/mem/rvlMemExpHeap.c:
     enabled: 1
-    textStart: 0x80198798
-    textEnd: 0x80199430
+    text: [0x80198798, 0x80199430]
 
 source/rvl/mem/rvlMemFrmHeap.cpp:
     enabled: 1
-    textStart: 0x80199430
-    textEnd: 0x801998a4
+    text: [0x80199430, 0x801998a4]
 
 source/rvl/mem/rvlMemUnitHeap.cpp:
     enabled: 1
-    textStart: 0x801998a4
-    textEnd: 0x80199b58
+    text: [0x801998a4, 0x80199b58]
 
 source/rvl/mem/rvlMemAllocator.cpp:
     enabled: 1
-    textStart: 0x80199b58
-    textEnd: 0x80199bf0
-    sdata2Start: 0x80388860
-    sdata2End: 0x80388870
+    text: [0x80199b58, 0x80199bf0]
+    sdata2: [0x80388860, 0x80388870]
 
 source/rvl/mem/rvlMemList.cpp:
     enabled: 1
-    textStart: 0x80199bf0
-    textEnd: 0x80199d04
+    text: [0x80199bf0, 0x80199d04]
 
 source/rvl/mtx/rvlMtx.c:
     enabled: 1
-    textStart: 0x80199d04
-    textEnd: 0x8019a9c4
-    sdataStart: 0x80385a08
-    sdataEnd: 0x80385a10
-    sdata2Start: 0x80388870
-    sdata2End: 0x80388890
+    text: [0x80199d04, 0x8019a9c4]
+    sdata: [0x80385a08, 0x80385a10]
+    sdata2: [0x80388870, 0x80388890]
 
 source/rvl/mtx/rvlMtx2.c:
     enabled: 1
-    textStart: 0x8019a9c4
-    textEnd: 0x8019abe4
-    sdata2Start: 0x80388890
-    sdata2End: 0x803888a8
+    text: [0x8019a9c4, 0x8019abe4]
+    sdata2: [0x80388890, 0x803888a8]
 
 source/rvl/mtx/rvlVec.c:
     enabled: 1
-    textStart: 0x8019abe4
-    textEnd: 0x8019ae08
-    sdata2Start: 0x803888a8
-    sdata2End: 0x803888b4
+    text: [0x8019abe4, 0x8019ae08]
+    sdata2: [0x803888a8, 0x803888b4]
 
 source/rvl/mtx/rvlQuat.c:
     enabled: 1
-    textStart: 0x8019ae08
-    textEnd: 0x8019b314
-    rodataStart: 0x80252c78
-    rodataEnd: 0x80252c84
-    sdata2Start: 0x803888b8
-    sdata2End: 0x803888d0
+    text: [0x8019ae08, 0x8019b314]
+    rodata: [0x80252c78, 0x80252c84]
+    sdata2: [0x803888b8, 0x803888d0]
 
 source/rvl/nand/rvlNand1.c:
     enabled: 1
-    textStart: 0x8019b314
-    textEnd: 0x8019c6ec
-    sdataStart: 0x80385a10
-    sdataEnd: 0x80385a18
+    text: [0x8019b314, 0x8019c6ec]
+    sdata: [0x80385a10, 0x80385a18]
 
 source/rvl/nand/rvlNand2.c:
     enabled: 1
-    textStart: 0x8019c6ec
-    textEnd: 0x8019daa0
-    dataStart: 0x8028e9f0
-    dataEnd: 0x8028ea20
-    sdataStart: 0x80385a18
-    sdataEnd: 0x80385a28
-    sbssStart: 0x80386840
-    sbssEnd: 0x80386844
+    text: [0x8019c6ec, 0x8019daa0]
+    data: [0x8028e9f0, 0x8028ea20]
+    sdata: [0x80385a18, 0x80385a28]
+    sbss: [0x80386840, 0x80386844]
 
 source/rvl/nand/rvlNand3.c:
     enabled: 1
-    textStart: 0x8019daa0
-    textEnd: 0x8019f1a8
-    dataStart: 0x8028ea20
-    dataEnd: 0x8028ec3b
-    sdataStart: 0x80385a28
-    sdataEnd: 0x80385a64
-    sbssStart: 0x80386848
-    sbssEnd: 0x80386858
+    text: [0x8019daa0, 0x8019f1a8]
+    data: [0x8028ea20, 0x8028ec3b]
+    sdata: [0x80385a28, 0x80385a64]
+    sbss: [0x80386848, 0x80386858]
 
 source/rvl/os/osAlarm.c:
     enabled: 1
-    textStart: 0x801a05b8
-    textEnd: 0x801a0d9c
-    dataStart: 0x8028f058
-    dataEnd: 0x8028f068
-    sbssStart: 0x803868a0
-    sbssEnd: 0x803868a8
+    text: [0x801a05b8, 0x801a0d9c]
+    data: [0x8028f058, 0x8028f068]
+    sbss: [0x803868a0, 0x803868a8]
 
 source/rvl/os/osAlloc.c:
     enabled: 1
-    textStart: 0x801a0d9c
-    textEnd: 0x801a10a4
-    sdataStart: 0x80385a98
-    sdataEnd: 0x80385a9c
-    sbssStart: 0x803868a8
-    sbssEnd: 0x803868b8
+    text: [0x801a0d9c, 0x801a10a4]
+    sdata: [0x80385a98, 0x80385a9c]
+    sbss: [0x803868a8, 0x803868b8]
 
 source/rvl/os/osArena.c:
     enabled: 1
-    textStart: 0x801a10a4
-    textEnd: 0x801a1138
-    sdataStart: 0x80385aa0
-    sdataEnd: 0x80385aa8
-    sbssStart: 0x803868b8
-    sbssEnd: 0x803868c0
+    text: [0x801a10a4, 0x801a1138]
+    sdata: [0x80385aa0, 0x80385aa8]
+    sbss: [0x803868b8, 0x803868c0]
 
 source/rvl/os/osAudio.c:
     enabled: 1
-    textStart: 0x801a1138
-    textEnd: 0x801a15ec
+    text: [0x801a1138, 0x801a15ec]
 
 source/rvl/os/osCache.c:
     enabled: 1
-    textStart: 0x801a15ec
-    textEnd: 0x801a1c1c
+    text: [0x801a15ec, 0x801a1c1c]
 
 source/rvl/os/osContext.c:
     enabled: 1
-    textStart: 0x801a1c1c
-    textEnd: 0x801a25d0
-    dataStart: 0x8028f320
-    dataEnd: 0x8028f4d8
+    text: [0x801a1c1c, 0x801a25d0]
+    data: [0x8028f320, 0x8028f4d8]
 
 source/rvl/os/osError.c:
     enabled: 1
-    textStart: 0x801a25d0
-    textEnd: 0x801a2e84
-    sdataStart: 0x80385aa8
-    sdataEnd: 0x80385aac
+    text: [0x801a25d0, 0x801a2e84]
+    sdata: [0x80385aa8, 0x80385aac]
 
 source/rvl/os/osFatal.c:
     enabled: 1
     strip: 1
-    textStart: 0x801a4aa4
-    textEnd: 0x801a56dc
-    sdataStart: 0x80385ac8
-    sdataEnd: 0x80385acc
-    sdata2Start: 0x803888d8
-    sdata2End: 0x80388918
+    text: [0x801a4aa4, 0x801a56dc]
+    sdata: [0x80385ac8, 0x80385acc]
+    sdata2: [0x803888d8, 0x80388918]
 
 source/rvl/os/osFont.c:
     enabled: 1
-    textStart: 0x801a56dc
-    textEnd: 0x801a65ac
+    text: [0x801a56dc, 0x801a65ac]
 
 source/rvl/os/osInterrupt.c:
     enabled: 1
-    textStart: 0x801a65ac
-    textEnd: 0x801a6d30
-    dataStart: 0x80290600
-    dataEnd: 0x80290630
-    sbssStart: 0x803868e8
-    sbssEnd: 0x803868fc
+    text: [0x801a65ac, 0x801a6d30]
+    data: [0x80290600, 0x80290630]
+    sbss: [0x803868e8, 0x803868fc]
 
 source/rvl/os/osLink.c:
     enabled: 1
-    textStart: 0x801a6d30
-    textEnd: 0x801a72fc
+    text: [0x801a6d30, 0x801a72fc]
 
 source/rvl/os/osMessage.c:
     enabled: 1
-    textStart: 0x801a72fc
-    textEnd: 0x801a75d0
+    text: [0x801a72fc, 0x801a75d0]
 
 source/rvl/os/osMemory.c:
     enabled: 1
-    textStart: 0x801a75d0
-    textEnd: 0x801a7eac
+    text: [0x801a75d0, 0x801a7eac]
 
 source/rvl/os/osMutex.c:
     enabled: 1
-    textStart: 0x801a7eac
-    textEnd: 0x801a81b8
+    text: [0x801a7eac, 0x801a81b8]
 
 source/rvl/os/osReboot.c:
     enabled: 1
-    textStart: 0x801a81b8
-    textEnd: 0x801a8238
-    sbssStart: 0x80386900
-    sbssEnd: 0x80386908
+    text: [0x801a81b8, 0x801a8238]
+    sbss: [0x80386900, 0x80386908]
 
 source/rvl/os/osReset.c:
     enabled: 1
-    textStart: 0x801a8238
-    textEnd: 0x801a8a80
+    text: [0x801a8238, 0x801a8a80]
 
 source/rvl/os/osRtc.c:
     enabled: 1
-    textStart: 0x801a8a9c
-    textEnd: 0x801a9528
+    text: [0x801a8a9c, 0x801a9528]
 
 source/rvl/os/osSync.c:
     enabled: 1
-    textStart: 0x801a9528
-    textEnd: 0x801a95a8
+    text: [0x801a9528, 0x801a95a8]
 
 source/rvl/os/osThread.c:
     enabled: 1
-    textStart: 0x801a95ac
-    textEnd: 0x801aad5c
-    sdataStart: 0x80385ae0
-    sdataEnd: 0x80385ae4
-    sbssStart: 0x80386918
-    sbssEnd: 0x80386924
+    text: [0x801a95ac, 0x801aad5c]
+    sdata: [0x80385ae0, 0x80385ae4]
+    sbss: [0x80386918, 0x80386924]
 
 source/runtime/__start.c:
     enabled: 1
-    initStart: 0x80006068
-    initEnd: 0x80006348
-    sbssStart: 0x80386950
-    sbssEnd: 0x80386951
+    init: [0x80006068, 0x80006348]
+    sbss: [0x80386950, 0x80386951]
 
 source/runtime/__ppc_eabi_init.c:
     enabled: 1
-    initStart: 0x80006348
-    initEnd: 0x800063a0
+    init: [0x80006348, 0x800063a0]
 
 asm/dol_sections.s:
     enabled: 1
-    initStart: 0x800063a0
-    initEnd: 0x80006460
+    init: [0x800063a0, 0x80006460]
 
 source/rvl/pad/rvlPadClamp.c:
     enabled: 1
-    textStart: 0x801ae5d8
-    textEnd: 0x801ae880
-    rodataStart: 0x80252dd0
-    rodataEnd: 0x80252de6
-    sdata2Start: 0x80388930
-    sdata2End: 0x80388938
+    text: [0x801ae5d8, 0x801ae880]
+    rodata: [0x80252dd0, 0x80252de6]
+    sdata2: [0x80388930, 0x80388938]
 
 source/rvl/pad/rvlPad.c:
     enabled: 1
-    textStart: 0x801ae880
-    textEnd: 0x801b0180
-    dataStart: 0x8029cc80
-    dataEnd: 0x8029ccd8
-    bssStart: 0x803481b0
-    bssEnd: 0x80348230
-    sdataStart: 0x80385b08
-    sdataEnd: 0x80385b28
-    sbssStart: 0x80386998
-    sbssEnd: 0x803869c4
+    text: [0x801ae880, 0x801b0180]
+    data: [0x8029cc80, 0x8029ccd8]
+    bss: [0x803481b0, 0x80348230]
+    sdata: [0x80385b08, 0x80385b28]
+    sbss: [0x80386998, 0x803869c4]
 
 source/rvl/tpl/tpl.c:
     enabled: 1
-    textStart: 0x801b7410
-    textEnd: 0x801b7624
-    dataStart: 0x8029d058
-    dataEnd: 0x8029d083
-    sdataStart: 0x80385c68
-    sdataEnd: 0x80385c6e
-    sdata2Start: 0x80388958
-    sdata2End: 0x80388960
+    text: [0x801b7410, 0x801b7624]
+    data: [0x8029d058, 0x8029d083]
+    sdata: [0x80385c68, 0x80385c6e]
+    sdata2: [0x80388958, 0x80388960]
 
 source/rvl/si/siBios.c:
     enabled: 1
-    sbssStart: 0x803869f0
-    sbssEnd: 0x803869f8
+    sbss: [0x803869f0, 0x803869f8]
 
 source/rvl/so/soCommon.c:
     enabled: 1
-    textStart: 0x801ec088
-    textEnd: 0x801ecf20
-    dataStart: 0x802a2318
-    dataEnd: 0x802a24f4
-    bssStart: 0x80357220
-    bssEnd: 0x80357238
-    sdataStart: 0x80385ee0
-    sdataEnd: 0x80385ee8
-    sbssStart: 0x80386d30
-    sbssEnd: 0x80386d38
+    text: [0x801ec088, 0x801ecf20]
+    data: [0x802a2318, 0x802a24f4]
+    bss: [0x80357220, 0x80357238]
+    sdata: [0x80385ee0, 0x80385ee8]
+    sbss: [0x80386d30, 0x80386d38]
 
 source/rvl/so/soBasic.c:
     enabled: 1
-    textStart: 0x801ecf20
-    textEnd: 0x801ecff4
-    dataStart: 0x802a24f8
-    dataEnd: 0x802a2543
-    sdataStart: 0x80385ee8
-    sdataEnd: 0x80385eec
+    text: [0x801ecf20, 0x801ecff4]
+    data: [0x802a24f8, 0x802a2543]
+    sdata: [0x80385ee8, 0x80385eec]
 
 source/egg/core/eggAllocator.cpp:
     enabled: 1
-    textStart: 0x8020f62c
-    textEnd: 0x8020f6ec
-    dataStart: 0x802a2668
-    dataEnd: 0x802a2680
+    text: [0x8020f62c, 0x8020f6ec]
+    data: [0x802a2668, 0x802a2680]
 
 source/egg/core/eggArchive.cpp:
     enabled: 1
-    textStart: 0x8020f6ec
-    textEnd: 0x8020fcc4
-    dataStart: 0x802a2680
-    dataEnd: 0x802a268c
-    bssStart: 0x803832d8
-    bssEnd: 0x803832e4
-    sbssStart: 0x80386d80
-    sbssEnd: 0x80386d81
+    text: [0x8020f6ec, 0x8020fcc4]
+    data: [0x802a2680, 0x802a268c]
+    bss: [0x803832d8, 0x803832e4]
+    sbss: [0x80386d80, 0x80386d81]
 
 source/egg/core/eggAsyncDisplay.cpp:
     enabled: 1
-    textStart: 0x8020fcd4
-    textEnd: 0x802104ec
+    text: [0x8020fcd4, 0x802104ec]
 
 source/egg/audio/eggAudioArcPlayerMgr.cpp:
     enabled: 1
-    textStart: 0x80210590
-    textEnd: 0x80211058
+    text: [0x80210590, 0x80211058]
 
 source/egg/audio/eggAudioMgr.cpp:
-    textStart: 0x80211320
-    textEnd: 0x80213038
-    dataStart: 0x802a2790
-    dataEnd: 0x802a2864
-    sdata2Start: 0x80388a40
-    sdata2End: 0x80388a4c
+    text: [0x80211320, 0x80213038]
+    data: [0x802a2790, 0x802a2864]
+    sdata2: [0x80388a40, 0x80388a4c]
 
 source/egg/util/eggCntFile.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x80214e68
-    textEnd: 0x80215168
-    dataStart: 0x802a2a08
-    dataEnd: 0x802a2a28
-    sbssStart: 0x80386dc8
-    sbssEnd: 0x80386dcc
+    text: [0x80214e68, 0x80215168]
+    data: [0x802a2a08, 0x802a2a28]
+    sbss: [0x80386dc8, 0x80386dcc]
 
 source/egg/core/eggCompress.cpp:
     enabled: 1
-    textStart: 0x802156ac
-    textEnd: 0x80215cbc
+    text: [0x802156ac, 0x80215cbc]
 
 source/egg/core/eggDecomp.cpp:
     enabled: 1
-    textStart: 0x80218ba4
-    textEnd: 0x80219e68
-    sbssStart: 0x80386de8
-    sbssEnd: 0x80386e0c
+    text: [0x80218ba4, 0x80219e68]
+    sbss: [0x80386de8, 0x80386e0c]
 
 source/egg/core/eggDisplay.cpp:
     enabled: 1
-    textStart: 0x80219e68
-    textEnd: 0x8021a0f0
+    text: [0x80219e68, 0x8021a0f0]
 
 source/egg/core/eggDisposer.cpp:
     enabled: 1
-    textStart: 0x8021a0f0
-    textEnd: 0x8021a1b8
-    dataStart: 0x802a2b48
-    dataEnd: 0x802a2b54
-    bssStart: 0x80383500
-    bssEnd: 0x8038350c
+    text: [0x8021a0f0, 0x8021a1b8]
+    data: [0x802a2b48, 0x802a2b54]
+    bss: [0x80383500, 0x8038350c]
 
 source/egg/core/eggDvdFile.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x8022231c
-    textEnd: 0x802226d8
-    dataStart: 0x802a2da0
-    dataEnd: 0x802a2dc8
-    bssStart: 0x80384190
-    bssEnd: 0x803841a0
-    sbssStart: 0x80386e18
-    sbssEnd: 0x80386e20
+    text: [0x8022231c, 0x802226d8]
+    data: [0x802a2da0, 0x802a2dc8]
+    bss: [0x80384190, 0x803841a0]
+    sbss: [0x80386e18, 0x80386e20]
 
 source/egg/core/eggDvdRipper.cpp:
     enabled: 1
-    textStart: 0x802226d8
-    textEnd: 0x80222ccc
-    sdataStart: 0x80385f88
-    sdataEnd: 0x80385f89
-    sbssStart: 0x80386e20
-    sbssEnd: 0x80386e24
+    text: [0x802226d8, 0x80222ccc]
+    sdata: [0x80385f88, 0x80385f89]
+    sbss: [0x80386e20, 0x80386e24]
 
 source/egg/util/eggEffect.cpp:
     enabled: 1
-    textStart: 0x80222ccc
-    textEnd: 0x80224348
-    ctorsStart: 0x80244e70
-    ctorsEnd: 0x80244e74
+    text: [0x80222ccc, 0x80224348]
+    ctors: [0x80244e70, 0x80244e74]
 
 source/egg/util/eggEffectCreator.cpp:
     enabled: 1
-    textStart: 0x80224348
-    textEnd: 0x802246ec
-    dataStart: 0x802a2e50
-    dataEnd: 0x802a2e70
+    text: [0x80224348, 0x802246ec]
+    data: [0x802a2e50, 0x802a2e70]
 
 source/egg/core/eggExpHeap.cpp:
     enabled: 1
-    textStart: 0x802269a8
-    textEnd: 0x80226f04
-    rodataStart: 0x80257700
-    rodataEnd: 0x8025771a
-    dataStart: 0x802a2ff8
-    dataEnd: 0x802a3024
+    text: [0x802269a8, 0x80226f04]
+    rodata: [0x80257700, 0x8025771a]
+    data: [0x802a2ff8, 0x802a3024]
 
 source/egg/gfx/eggFog.cpp:
     enabled: 1
-    textStart: 0x80226f04
-    textEnd: 0x802271bc
+    text: [0x80226f04, 0x802271bc]
 
 source/egg/gfx/eggFogManager.cpp:
     enabled: 1
-    textStart: 0x802271bc
-    textEnd: 0x802276c0
+    text: [0x802271bc, 0x802276c0]
 
 source/egg/core/eggGraphicsFifo.cpp:
     enabled: 1
-    textStart: 0x80229540
-    textEnd: 0x802296a8
-    dataStart: 0x802a30b0
-    dataEnd: 0x802a30bc
-    sbssStart: 0x80386e90
-    sbssEnd: 0x80386e99
+    text: [0x80229540, 0x802296a8]
+    data: [0x802a30b0, 0x802a30bc]
+    sbss: [0x80386e90, 0x80386e99]
 
 source/egg/core/eggHeap.cpp:
     enabled: 1
-    textStart: 0x802296a8
-    textEnd: 0x80229fac
-    rodataStart: 0x80257740
-    rodataEnd: 0x80257824
-    dataStart: 0x802a30c0
-    dataEnd: 0x802a30ec
-    bssStart: 0x80384320
-    bssEnd: 0x80384348
-    sbssStart: 0x80386ea0
-    sbssEnd: 0x80386ec0
-    sdata2Start: 0x80388d68
-    sdata2End: 0x80388d80
+    text: [0x802296a8, 0x80229fac]
+    rodata: [0x80257740, 0x80257824]
+    data: [0x802a30c0, 0x802a30ec]
+    bss: [0x80384320, 0x80384348]
+    sbss: [0x80386ea0, 0x80386ec0]
+    sdata2: [0x80388d68, 0x80388d80]
 
 source/egg/gfx/eggIScnProc.cpp:
     enabled: 1
-    textStart: 0x80229fac
-    textEnd: 0x8022a38c
+    text: [0x80229fac, 0x8022a38c]
 
 source/egg/gfx/eggLightManager.cpp:
     enabled: 1
-    textStart: 0x8022a38c
-    textEnd: 0x8022b6d4
+    text: [0x8022a38c, 0x8022b6d4]
 
 source/egg/gfx/eggLightObject.cpp:
     enabled: 1
-    textStart: 0x8022b6d4
-    textEnd: 0x8022d0f8
+    text: [0x8022b6d4, 0x8022d0f8]
 
 source/egg/math/eggQuat.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x80239dfc
-    textEnd: 0x8023a884
-    sdata2Start: 0x80388fe0
-    sdata2End: 0x80389004
+    text: [0x80239dfc, 0x8023a884]
+    sdata2: [0x80388fe0, 0x80389004]
 
 source/egg/util/eggSaveBanner.cpp:
     enabled: 1
-    textStart: 0x8023a884
-    textEnd: 0x8023ad10
+    text: [0x8023a884, 0x8023ad10]
 
 source/egg/core/eggScene.cpp:
     enabled: 1
-    textStart: 0x8023ad10
-    textEnd: 0x8023addc
-    dataStart: 0x802a3de0
-    dataEnd: 0x802a3e08
+    text: [0x8023ad10, 0x8023addc]
+    data: [0x802a3de0, 0x802a3e08]
 
 source/egg/core/eggSceneManager.cpp:
     enabled: 1
-    textStart: 0x8023addc
-    textEnd: 0x8023b980
-    dataStart: 0x802a3e08
-    dataEnd: 0x802a3e2c
-    sbssStart: 0x80386f00
-    sbssEnd: 0x80386f10
+    text: [0x8023addc, 0x8023b980]
+    data: [0x802a3e08, 0x802a3e2c]
+    sbss: [0x80386f00, 0x80386f10]
 
 source/egg/gfx/eggScnRenderer.cpp:
     enabled: 1
-    textStart: 0x8023b980
-    textEnd: 0x8023c694
+    text: [0x8023b980, 0x8023c694]
 
 source/egg/util/eggStream.cpp:
     enabled: 1
-    textStart: 0x80241b60
-    textEnd: 0x80242498
+    text: [0x80241b60, 0x80242498]
 
 source/egg/core/eggStreamDecomp.cpp:
     enabled: 1
-    textStart: 0x80242498
-    textEnd: 0x80242504
-    dataStart: 0x802a3f78
-    dataEnd: 0x802a3f90
+    text: [0x80242498, 0x80242504]
+    data: [0x802a3f78, 0x802a3f90]
 
 source/egg/core/eggTaskThread.cpp:
     enabled: 1
-    textStart: 0x802428e8
-    textEnd: 0x80242f1c
-    dataStart: 0x802a3f90
-    dataEnd: 0x802a3fa8
+    text: [0x802428e8, 0x80242f1c]
+    data: [0x802a3f90, 0x802a3fa8]
 
 source/egg/core/eggTextureBuffer.cpp:
     enabled: 1
-    textStart: 0x80242f1c
-    textEnd: 0x802432e0
+    text: [0x80242f1c, 0x802432e0]
 
 source/egg/core/eggThread.cpp:
     enabled: 1
-    textStart: 0x802432e0
-    textEnd: 0x80243754
-    dataStart: 0x802a3fc0
-    dataEnd: 0x802a3fd8
-    bssStart: 0x80384b60
-    bssEnd: 0x80384b6c
+    text: [0x802432e0, 0x80243754]
+    data: [0x802a3fc0, 0x802a3fd8]
+    bss: [0x80384b60, 0x80384b6c]
 
 source/egg/core/eggUnitHeap.cpp:
     enabled: 1
-    textStart: 0x80243754
-    textEnd: 0x80243a00
-    dataStart: 0x802a3fd8
-    dataEnd: 0x802a4004
+    text: [0x80243754, 0x80243a00]
+    data: [0x802a3fd8, 0x802a4004]
 
 source/egg/core/eggSystem.cpp:
-    sbssStart: 0x80386f60
-    sbssEnd: 0x80386f64
+    sbss: [0x80386f60, 0x80386f64]
 
 source/egg/math/eggVector.cpp:
     enabled: 1
-    textStart: 0x80243a00
-    textEnd: 0x80243d18
-    ctorsStart: 0x80244e88
-    ctorsEnd: 0x80244e8c
-    bssStart: 0x80384b70
-    bssEnd: 0x80384bf4
-    sbssStart: 0x80386f78
-    sbssEnd: 0x80386f90
-    sdata2Start: 0x803890f8
-    sdata2End: 0x80389104
+    text: [0x80243a00, 0x80243d18]
+    ctors: [0x80244e88, 0x80244e8c]
+    bss: [0x80384b70, 0x80384bf4]
+    sbss: [0x80386f78, 0x80386f90]
+    sdata2: [0x803890f8, 0x80389104]
 
 source/egg/core/eggVideo.cpp:
     enabled: 1
     strip: 1
-    textStart: 0x80243d18
-    textEnd: 0x80244074
-    rodataStart: 0x802582e0
-    rodataEnd: 0x80258560
-    sdata2Start: 0x80389108
-    sdata2End: 0x80389118
+    text: [0x80243d18, 0x80244074]
+    rodata: [0x802582e0, 0x80258560]
+    sdata2: [0x80389108, 0x80389118]
 
 source/egg/core/eggViewport.cpp:
     enabled: 1
-    textStart: 0x80244074
-    textEnd: 0x80244160
+    text: [0x80244074, 0x80244160]
 
 source/egg/core/eggXfb.cpp:
     enabled: 1
-    textStart: 0x80244160
-    textEnd: 0x80244200
+    text: [0x80244160, 0x80244200]
 
 source/egg/core/eggXfbManager.cpp:
     enabled: 1
-    textStart: 0x80244200
-    textEnd: 0x802443ac
+    text: [0x80244200, 0x802443ac]
 
 source/egg/core/g3d_scnrfl.cpp:
     enabled: 1
-    textStart: 0x802443ac
-    textEnd: 0x80244dd4
+    text: [0x802443ac, 0x80244dd4]
