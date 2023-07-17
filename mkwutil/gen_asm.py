@@ -702,7 +702,7 @@ class RELSrcGenerator:
             c_text = c_file.read()
             for addr_str in re.findall(self.inline_asm_pattern, c_text):
                 addr = int(addr_str, 16)
-                inline_asm = self.disaser.function_to_text(addr, inline=True, extra=False, 
+                inline_asm = self.disaser.function_to_text(addr, inline=True, extra=False,
                                                            hashable=False, declare_mangled=False)
                 out_file = out_path / f"{addr:x}.s"
                 with open(out_file, "w") as asm_file:
@@ -725,7 +725,7 @@ def gen_asm(regen_asm=False, regen_inline=False):
 
     dol = read_dol(binary_dir / "main.dol")
     dol_disaser = get_dol_disaser()
-    dol_slices = read_enabled_slices(dol, pack_dir / "dol_slices.csv")
+    dol_slices = read_enabled_slices(dol, pack_dir / "dol_slices.yml")
 
     # Disassemble DOL sections.
     dol_asm_dir = asm_dir / "dol"

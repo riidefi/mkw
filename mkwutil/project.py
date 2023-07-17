@@ -6,11 +6,12 @@ from mkwutil.lib.symbols import SymbolsList
 from pathlib import Path
 
 
-dol_slices_path = Path(__file__).parent / ".." / "pack" / "dol_slices.csv"
+dol_slices_path = Path(__file__).parent / ".." / "pack" / "dol_slices.yml"
+rel_slices_path = Path(__file__).parent / ".." / "pack" / "rel_slices.yml"
 
 
 def load_dol_slices(sections=None) -> "SliceTable":
-    """Loads pack/dol_slices.csv in the default DOL region."""
+    """Loads pack/dol_slices.yml in the default DOL region."""
     return SliceTable.load_path(dol_slices_path, sections=sections)
 
 
@@ -20,10 +21,14 @@ def save_dol_slices(objects: ObjectSlices):
 
 
 def load_rel_slices(sections=None) -> "SliceTable":
-    """Loads pack/rel_slices.csv in the default DOL region."""
+    """Loads pack/rel_slices.yml in the default DOL region."""
     return SliceTable.load_path(
-        Path(__file__).parent / ".." / "pack" / "rel_slices.csv", sections=sections
+        Path(__file__).parent / ".." / "pack" / "rel_slices.yml", sections=sections
     )
+
+def save_rel_slices(objects: ObjectSlices):
+    with open(rel_slices_path, "w", newline="\n") as slices_file:
+        objects.write_to(slices_file, sections=SliceTable.SECTION_ORDER)
 
 
 def load_dol_binary_blob_slices(dir: Path):
@@ -64,7 +69,7 @@ def read_enabled_slices(dol, slices_path):
 
         return dol_slices.filter(SliceTable.ONLY_ENABLED)
 
-    raise RuntimeError("Cannot find dol_slices.csv")
+    raise RuntimeError("Cannot find dol_slices.yml")
 
 
 def read_rel(rel_path):

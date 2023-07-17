@@ -1,0 +1,162 @@
+source/game/system/CourseMap.cpp:
+    enabled: 1
+    textStart: 0x80512694
+    textEnd: 0x80518cc0
+    rodataStart: 0x8088fa38
+    rodataEnd: 0x8088fa40
+    dataStart: 0x808b2c30
+    dataEnd: 0x808b2c78
+    bssStart: 0x809bd6e8
+    bssEnd: 0x809bd6ec
+
+source/game/system/DvdArchive.cpp:
+    enabled: 1
+    textStart: 0x80518cc0
+    textEnd: 0x80519670
+    rodataStart: 0x8088faa0
+    rodataEnd: 0x8088fab7
+    dataStart: 0x808b2c78
+    dataEnd: 0x808b2c84
+
+source/game/system/GhostFile.cpp:
+    enabled: 1
+    textStart: 0x8051c088
+    textEnd: 0x8051d4d4
+    dataStart: 0x808b2d38
+    dataEnd: 0x808b2d50
+
+source/game/system/Mii.cpp:
+    enabled: 1
+    textStart: 0x80525f88
+    textEnd: 0x80525ff4
+    rodataStart: 0x8088fd60
+    rodataEnd: 0x8088fd64
+
+source/game/system/LocalizedArchive.cpp:
+    enabled: 1
+    textStart: 0x8052a098
+    textEnd: 0x8052a538
+    rodataStart: 0x8088fdc0
+    rodataEnd: 0x8088fe00
+    dataStart: 0x808b3188
+    dataEnd: 0x808b31d8
+
+source/game/system/MultiDvdArchive.cpp:
+    enabled: 1
+    textStart: 0x8052a538
+    textEnd: 0x8052ae5c
+    rodataStart: 0x8088fe00
+    rodataEnd: 0x8088fe28
+    dataStart: 0x808b31d8
+    dataEnd: 0x808b31e8
+
+source/game/system/NandUtil.cpp:
+    enabled: 1
+    textStart: 0x8052ae5c
+    textEnd: 0x8052bd5c
+    dataStart: 0x808b31e8
+    dataEnd: 0x808b3228
+
+source/game/system/Rating.cpp:
+    enabled: 1
+    textStart: 0x8052cef8
+    textEnd: 0x8052d298
+    rodataStart: 0x8088ff60
+    rodataEnd: 0x8088ff98
+
+source/game/system/RaceConfig.cpp:
+    enabled: 1
+    textStart: 0x8052d96c
+    textEnd: 0x80532084
+    rodataStart: 0x8088ffa8
+    rodataEnd: 0x80890148
+    dataStart: 0x808b3260
+    dataEnd: 0x808b32b0
+    bssStart: 0x809bd728
+    bssEnd: 0x809bd730
+
+source/game/system/RaceManager.cpp:
+    enabled: 1
+    textStart: 0x80532084
+    textEnd: 0x80538418
+    rodataStart: 0x80890148
+    rodataEnd: 0x80890218
+    dataStart: 0x808b32b0
+    dataEnd: 0x808b34f0
+    bssStart: 0x809bd730
+    bssEnd: 0x809bd738
+
+source/game/system/ResourceManager.cpp:
+    enabled: 1
+    textStart: 0x8053fc4c
+    textEnd: 0x80542878
+    rodataStart: 0x80890490
+    rodataEnd: 0x80890d0c
+    dataStart: 0x808b3960
+    dataEnd: 0x808b3c2c
+    bssStart: 0x809bd738
+    bssEnd: 0x809bd73c
+
+source/game/util/Random.cpp:
+    enabled: 1
+    textStart: 0x80555464
+    textEnd: 0x8055572c
+    rodataStart: 0x80891370
+    rodataEnd: 0x80891380
+    dataStart: 0x808b42e0
+    dataEnd: 0x808b42ec
+
+source/game/kart/KartObjectProxy.cpp:
+    enabled: 1
+    textStart: 0x80590128
+    textEnd: 0x805919f4
+    rodataStart: 0x80891c58
+    rodataEnd: 0x80891c80
+    bssStart: 0x809c1900
+    bssEnd: 0x809c1910
+
+source/game/ui/ControlGroup.cpp:
+    enabled: 1
+    textStart: 0x805c23e4
+    textEnd: 0x805c2c18
+
+source/game/ui/MessageGroup.cpp:
+    enabled: 1
+    textStart: 0x805f8b34
+    textEnd: 0x805f8d5c
+    rodataStart: 0x80896148
+    rodataEnd: 0x80896158
+
+source/game/ui/Page.cpp:
+    enabled: 1
+    textStart: 0x8060197c
+    textEnd: 0x80602d2c
+
+source/game/ui/Section.cpp:
+    enabled: 1
+    textStart: 0x80621d0c
+    textEnd: 0x80624690
+
+source/game/ui/SectionAutogens.cpp:
+    enabled: 1
+    textStart: 0x8062c3a4
+    textEnd: 0x8063240c
+    dataStart: 0x808bc810
+    dataEnd: 0x808bcfd0
+
+source/game/ui/SectionDirector.cpp:
+    enabled: 1
+    textStart: 0x80634b80
+    textEnd: 0x80635eb8
+
+source/game/geo/BoxColManager.cpp:
+    enabled: 1
+    textStart: 0x80786e60
+    textEnd: 0x80786ed0
+
+source/game/geo/BoxColUnit.cpp:
+    enabled: 1
+    textStart: 0x80786ed0
+    textEnd: 0x80786f98
+    rodataStart: 0x808a4800
+    rodataEnd: 0x808a4804

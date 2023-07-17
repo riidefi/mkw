@@ -30,9 +30,9 @@ def gen_lcf(
     slices = SliceTable.load_path(slices_path)
     slices = slices.filter(SliceTable.ONLY_ENABLED)
     # For dol and rel, we can also fill in section names.
-    if slices_path.name == "dol_slices.csv":
+    if slices_path.name == "dol_slices.yml":
         slices.set_sections(DOL_SECTIONS)
-    elif slices_path.name == "rel_slices.csv":
+    elif slices_path.name == "rel_slices.yml":
         slices.set_sections(REL_SECTIONS)
     else:
         print(f"WARN: Using linker-defined symbols instead of inline assembly")

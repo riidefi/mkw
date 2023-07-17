@@ -453,63 +453,31 @@ class SliceTable:
             _slice.section = sections[i].name
 
 
+import yaml
+
 class SlicesCSVReader:
-    """Reads a list of slices from slices.csv."""
-
     def __init__(self, file):
-        self.reader = csv.reader(file)
-        # Read CSV header.
-        header = next(self.reader)
-        self.cols = len(header)
-        # The name field separates tags and ranges.
-        name_idx = header.index("name")
-        self.tag_idx = header[:name_idx]
-        section_fields = header[name_idx + 1 :]
-        assert (
-            len(section_fields) > 0 and len(section_fields) % 2 == 0
-        ), "Odd number of fields"
-        # Remember section names.
-        self.sections = []
-        for i in range(0, len(section_fields), 2):
-            assert section_fields[i].endswith("Start")
-            assert section_fields[i + 1].endswith("End")
-            section = section_fields[i].removesuffix("Start")
-            assert section == section_fields[i + 1].removesuffix("End")
-            self.sections.append(section)
+        self.file = file
 
-    def __iter__(self) -> Generator[Slice, None, None]:
-        """Returns all slices in the file."""
-        for row in self.reader:
-            for slice in self.parse_row(row):
-                yield slice
+    def __iter__(self):
+        slices = []
+        data = yaml.safe_load(self.file)
 
-    def parse_row(self, row: str) -> Generator[Slice, None, None]:
-        """Returns all slices in a row."""
-        if len(row) == 0:
-            return
-        assert len(row) == self.cols, "Unexpected number of fields"
-        # Read flags.
-        flags = set()
-        for i, tag in enumerate(self.tag_idx):
-            if row[i] == "1":
-                flags.add(tag)
-        # Read name.
-        name = row[len(self.tag_idx)]
-        # Read section ranges.
-        ranges = row[len(self.tag_idx) + 1 :]
-        for i, section in enumerate(self.sections):
-            start_str, stop_str = ranges[2 * i : 2 * i + 2]
-            start_str = start_str.strip()
-            stop_str = stop_str.strip()
-            if start_str == "":
+        for source_file, regions in data.items():
+            if regions.get('enabled', 0) != 1:
                 continue
-            if stop_str == "":
-                print(f"column {i} start_str {start_str} stop_str {stop_str}")
 
-            assert stop_str != ""
-            start = int(start_str.strip(), 16)
-            stop = int(stop_str, 16)
-            yield Slice(start, stop, name, section, flags)
+            tags = []
+            for k, v in regions.items():
+                if v == 1:
+                    tags.append(k)
+
+            for key, value in regions.items():
+                if "Start" in key:
+                    start = value
+                    stop_key = key.replace("Start", "End")
+                    stop = regions[stop_key]
+                    yield Slice(start=start, stop=stop, name=source_file, section=key.replace("Start", ""), tags=tags)
 
 
 class SlicesCSVWriter:
