@@ -1,3 +1,8 @@
+source/game/system/CourseCheckpoints.cpp:
+    enabled: 1
+    text: [0x80510b84, 0x80512694]
+    rodata: [0x8088f8d0, 0x8088f8e8]
+
 source/game/system/CourseMap.cpp:
     enabled: 1
     text: [0x80512694, 0x80518cc0]
