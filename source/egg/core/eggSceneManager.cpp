@@ -233,11 +233,6 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
   this->createScene(ID, pScene);
 }
 
-void SceneManager::calcCurrentScene() {
-  if (this->mCurrentScene)
-    this->mCurrentScene->calc();
-}
-
 void SceneManager::calcCurrentFader() {
   if (mCurrentFader == NULL || mCurrentFader->calc() == 0)
     return;
@@ -717,25 +712,12 @@ void SceneManager::incomingCurrentScene() {
     this->mCurrentScene->incoming_childDestroy();
 }
 
-} // namespace EGG
-
-// Symbol: calcCurrentScene__Q23EGG12SceneManagerFv
-// PAL: 0x8023b588..0x8023b5a8
-MARK_BINARY_BLOB(calcCurrentScene__Q23EGG12SceneManagerFv, 0x8023b588,
-                 0x8023b5a8);
-asm UNKNOWN_FUNCTION(calcCurrentScene__Q23EGG12SceneManagerFv) {
-  // clang-format off
-  nofralloc;
-  lwz r3, 0xc(r3);
-  cmpwi r3, 0;
-  beqlr;
-  lwz r12, 0(r3);
-  lwz r12, 0xc(r12);
-  mtctr r12;
-  bctr;
-  blr;
-  // clang-format on
+void SceneManager::calcCurrentScene() {
+  if (this->mCurrentScene)
+    this->mCurrentScene->calc();
 }
+
+} // namespace EGG
 
 // Symbol: calcCurrentFader__Q23EGG12SceneManagerFv
 // PAL: 0x8023b5a8..0x8023b800
