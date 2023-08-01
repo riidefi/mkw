@@ -31,10 +31,6 @@ UNKNOWN_FUNCTION(calcCurrentScene__Q23EGG12SceneManagerFv);
 UNKNOWN_FUNCTION(calcCurrentFader__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b800..0x8023b890
 UNKNOWN_FUNCTION(drawCurrentScene__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b890..0x8023b8ac
-UNKNOWN_FUNCTION(drawCurrentFader__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b8ac..0x8023b8b0
-UNKNOWN_FUNCTION(unk_8023b8ac);
 // PAL: 0x8023b8b0..0x8023b910
 UNKNOWN_FUNCTION(createDefaultFader__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b910..0x8023b92c
@@ -248,10 +244,6 @@ void SceneManager::drawCurrentScene() {
           Display::SCREEN_STATE_FLAG_TOGGLE_BLACK_OUT))
       pSystemDisplay->mScreenStateFlag |=
           Display::SCREEN_STATE_FLAG_TOGGLE_BLACK_OUT;
-}
-void SceneManager::drawCurrentFader() {
-  if (mCurrentFader)
-    mCurrentFader->draw();
 }
 
 #endif
@@ -923,32 +915,14 @@ lbl_8023b87c:
   // clang-format on
 }
 
-// Symbol: drawCurrentFader__Q23EGG12SceneManagerFv
-// PAL: 0x8023b890..0x8023b8ac
-MARK_BINARY_BLOB(drawCurrentFader__Q23EGG12SceneManagerFv, 0x8023b890,
-                 0x8023b8ac);
-asm UNKNOWN_FUNCTION(drawCurrentFader__Q23EGG12SceneManagerFv) {
-  // clang-format off
-  nofralloc;
-  lwz r3, 0x24(r3);
-  cmpwi r3, 0;
-  beqlr;
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctr;
-  // clang-format on
+namespace EGG {
+
+void SceneManager::drawCurrentFader() {
+  if (mCurrentFader)
+    mCurrentFader->draw();
 }
 
-// Symbol: unk_8023b8ac
-// PAL: 0x8023b8ac..0x8023b8b0
-MARK_BINARY_BLOB(unk_8023b8ac, 0x8023b8ac, 0x8023b8b0);
-asm UNKNOWN_FUNCTION(unk_8023b8ac) {
-  // clang-format off
-  nofralloc;
-  blr;
-  // clang-format on
-}
+} // namespace EGG
 
 #if 0
 namespace EGG {

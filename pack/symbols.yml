@@ -8646,7 +8646,6 @@ global:
     0x8023b5a8: 'calcCurrentFader__Q23EGG12SceneManagerFv'
     0x8023b800: 'drawCurrentScene__Q23EGG12SceneManagerFv'
     0x8023b890: 'drawCurrentFader__Q23EGG12SceneManagerFv'
-    0x8023b8ac: 'unk_8023b8ac'
     0x8023b8b0: 'createDefaultFader__Q23EGG12SceneManagerFv'
     0x8023b910: 'setupNextSceneID__Q23EGG12SceneManagerFv'
     0x8023b92c: 'outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene'
