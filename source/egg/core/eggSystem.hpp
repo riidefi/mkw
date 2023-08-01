@@ -2,6 +2,7 @@
 
 namespace EGG {
 
+class Display;
 class Video;
 class Heap;
 
@@ -11,6 +12,8 @@ public:
 
   //! Returns a pointer to the video manager.
   virtual Video* getVideo() = 0; // [vt+0x08]
+  virtual Heap* getSysHeap() = 0; // [vt+0x0C]
+  virtual Display* getDisplay() = 0; // [vt+0x10]
 
 public:
   unsigned int _04;
