@@ -20,11 +20,11 @@ UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene);
 // PAL: 0x8023b2ac..0x8023b344
 UNKNOWN_FUNCTION(destroyCurrentSceneNoIncoming__Q23EGG12SceneManagerFb);
 // PAL: 0x8023b344..0x8023b3f0
-UNKNOWN_FUNCTION(unk_8023b344);
+UNKNOWN_FUNCTION(destroyToSelectSceneID__Q23EGG12SceneManagerFi);
 // PAL: 0x8023b3f0..0x8023b568
 UNKNOWN_FUNCTION(destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
 // PAL: 0x8023b568..0x8023b588
-UNKNOWN_FUNCTION(unk_8023b568);
+UNKNOWN_FUNCTION(incomingCurrentScene__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b588..0x8023b5a8
 UNKNOWN_FUNCTION(calcCurrentScene__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b5a8..0x8023b800
@@ -42,7 +42,7 @@ UNKNOWN_FUNCTION(setupNextSceneID__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b92c..0x8023b940
 UNKNOWN_FUNCTION(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
 // PAL: 0x8023b940..0x8023b980
-UNKNOWN_FUNCTION(unk_8023b940);
+UNKNOWN_FUNCTION(findParentScene__Q23EGG12SceneManagerFi);
 
 extern UNKNOWN_FUNCTION(GXFlush);
 extern UNKNOWN_FUNCTION(GXDraw);
@@ -231,26 +231,6 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
   this->mNextSceneID = ID;
   this->setupNextSceneID();
   this->createScene(ID, pScene);
-}
-bool SceneManager::destroyToSelectSceneID(int ID) {
-  Scene* parent = this->findParentScene(ID); // r31
-
-  // This ain't it, chief!
-  if (parent == NULL)
-    return false;
-  // inline destroyCurrentSceneNoIncoming?
-  while (parent->getSceneID() != this->_18) {
-    Scene* parent; // r30
-    if (this->mCurrentScene &&
-        (parent = this->mCurrentScene->getParentScene())) {
-      this->destroyScene(parent->getChildScene());
-      this->mNextSceneID = parent->getSceneID();
-      this->setupNextSceneID();
-    }
-  }
-  this->incomingCurrentScene();
-
-  return true;
 }
 void SceneManager::destroyScene(Scene* pScene) {
   pScene->exit();
@@ -718,62 +698,27 @@ bool SceneManager::destroyCurrentSceneNoIncoming(bool destroyRootIfNoParent) {
     return ret;
 }
 
-} // namespace EGG
-
-// Symbol: unk_8023b344
-// PAL: 0x8023b344..0x8023b3f0
-MARK_BINARY_BLOB(unk_8023b344, 0x8023b344, 0x8023b3f0);
-asm UNKNOWN_FUNCTION(unk_8023b344) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  stw r30, 0x18(r1);
-  stw r29, 0x14(r1);
-  li r29, 0;
-  stw r28, 0x10(r1);
-  mr r28, r3;
-  bl unk_8023b940;
-  cmpwi r3, 0;
-  mr r31, r3;
-  beq lbl_8023b3cc;
-  li r29, 1;
-  b lbl_8023b3b4;
-lbl_8023b380:
-  lwz r3, 0xc(r28);
-  cmpwi r3, 0;
-  beq lbl_8023b3b4;
-  lwz r30, 0x20(r3);
-  cmpwi r30, 0;
-  beq lbl_8023b3b4;
-  lwz r4, 0x24(r30);
-  mr r3, r28;
-  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
-  lwz r0, 0x28(r30);
-  mr r3, r28;
-  stw r0, 0x14(r28);
-  bl setupNextSceneID__Q23EGG12SceneManagerFv;
-lbl_8023b3b4:
-  lwz r3, 0x28(r31);
-  lwz r0, 0x18(r28);
-  cmpw r3, r0;
-  bne lbl_8023b380;
-  mr r3, r28;
-  bl unk_8023b568;
-lbl_8023b3cc:
-  lwz r31, 0x1c(r1);
-  mr r3, r29;
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r28, 0x10(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool EGG::SceneManager::destroyToSelectSceneID(int ID) {
+  bool ret = 0;
+  Scene* parent = this->findParentScene(ID); // r31
+  if (parent) {
+    ret = 1;
+    // destroyCurrentSceneNoIncoming should be inlined
+    while (parent->getSceneID() != getUnk18()) {
+      Scene* parent; // r30
+      if (this->mCurrentScene &&
+          (parent = this->mCurrentScene->getParentScene())) {
+        this->destroyScene(parent->getChildScene());
+        this->mNextSceneID = parent->getSceneID();
+        this->setupNextSceneID();
+      }
+    }
+    this->incomingCurrentScene();
+  }
+  return ret;
 }
+
+} // namespace EGG
 
 // Symbol: destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene
 // PAL: 0x8023b3f0..0x8023b568
@@ -887,10 +832,10 @@ lbl_8023b534:
   // clang-format on
 }
 
-// Symbol: unk_8023b568
+// Symbol: incomingCurrentScene__Q23EGG12SceneManagerFv
 // PAL: 0x8023b568..0x8023b588
-MARK_BINARY_BLOB(unk_8023b568, 0x8023b568, 0x8023b588);
-asm UNKNOWN_FUNCTION(unk_8023b568) {
+MARK_BINARY_BLOB(incomingCurrentScene__Q23EGG12SceneManagerFv, 0x8023b568, 0x8023b588);
+asm UNKNOWN_FUNCTION(incomingCurrentScene__Q23EGG12SceneManagerFv) {
   // clang-format off
   nofralloc;
   lwz r3, 0xc(r3);
@@ -1043,7 +988,7 @@ lbl_8023b714:
 lbl_8023b73c:
   lwz r4, 0x14(r31);
   mr r3, r31;
-  bl unk_8023b940;
+  bl findParentScene__Q23EGG12SceneManagerFi;
   cmpwi r3, 0;
   mr r30, r3;
   beq lbl_8023b7d8;
@@ -1237,10 +1182,10 @@ asm UNKNOWN_FUNCTION(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene) {
   // clang-format on
 }
 
-// Symbol: unk_8023b940
+// Symbol: findParentScene__Q23EGG12SceneManagerFi
 // PAL: 0x8023b940..0x8023b980
-MARK_BINARY_BLOB(unk_8023b940, 0x8023b940, 0x8023b980);
-asm UNKNOWN_FUNCTION(unk_8023b940) {
+MARK_BINARY_BLOB(findParentScene__Q23EGG12SceneManagerFi, 0x8023b940, 0x8023b980);
+asm UNKNOWN_FUNCTION(findParentScene__Q23EGG12SceneManagerFi) {
   // clang-format off
   nofralloc;
   lwz r3, 0xc(r3);

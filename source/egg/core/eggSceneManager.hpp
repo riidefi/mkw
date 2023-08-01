@@ -221,6 +221,9 @@ public:
   //!
   Scene* findParentScene(int ID);
 
+private:
+  inline s32 getUnk18() { return _18; }
+
 public:
   SceneCreator* mSceneCreator; //!< [+0x04]
   u32 _08;                     // unseen
