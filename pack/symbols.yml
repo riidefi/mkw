@@ -8634,7 +8634,7 @@ global:
     0x8023af18: 'reinitCurrentSceneAfterFadeOut__Q23EGG12SceneManagerFv'
     0x8023af84: 'changeUncleScene__Q23EGG12SceneManagerFi'
     0x8023afe0: 'changeSiblingScene__Q23EGG12SceneManagerFi'
-    0x8023afe8: 'SceneManager_changeSiblingSceneAfterFadeOut'
+    0x8023afe8: 'changeSiblingSceneAfterFadeOut__Q23EGG12SceneManagerFi'
     0x8023b064: 'changeSiblingScene__Q23EGG12SceneManagerFv'
     0x8023b0e4: 'createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene'
     0x8023b248: 'createChildScene__Q23EGG12SceneManagerFiPQ23EGG5Scene'
