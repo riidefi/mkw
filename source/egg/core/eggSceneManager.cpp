@@ -11,8 +11,6 @@ UNKNOWN_FUNCTION(SceneManager_reinitCurrentScene);
 UNKNOWN_FUNCTION(SceneManager_reinitCurrentSceneAfterFadeOut);
 // PAL: 0x8023afe0..0x8023afe8
 UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFi);
-// PAL: 0x8023afe8..0x8023b064
-UNKNOWN_FUNCTION(SceneManager_changeSiblingSceneAfterFadeOut);
 // PAL: 0x8023b064..0x8023b0e4
 UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b0e4..0x8023b248
@@ -99,17 +97,6 @@ bool SceneManager::reinitCurrentSceneAfterFadeOut() {
 }
 
 #if 0
-
-bool SceneManager::changeSiblingSceneAfterFadeOut(int ID) {
-  bool returnValue = false;
-  if (this->mTransitionStatus == -1 && !this->mCurrentFader->fadeOut()) {
-    this->mNextSceneID = ID;
-    this->mTransitionStatus = STATUS_CHANGE_SIBLING_SCENE;
-    returnValue = true;
-  }
-
-  return returnValue;
-}
 
 void SceneManager::changeSiblingScene() {
   Scene* curScene = this->mCurrentScene; // r4
@@ -231,46 +218,14 @@ void EGG::SceneManager::changeSiblingScene(int ID) {
   changeSiblingScene();
 }
 
-// Symbol: SceneManager_changeSiblingSceneAfterFadeOut
-// PAL: 0x8023afe8..0x8023b064
-MARK_BINARY_BLOB(SceneManager_changeSiblingSceneAfterFadeOut, 0x8023afe8,
-                 0x8023b064);
-asm UNKNOWN_FUNCTION(SceneManager_changeSiblingSceneAfterFadeOut) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  li r31, 0;
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lwz r0, 0x20(r3);
-  cmpwi r0, -1;
-  bne lbl_8023b044;
-  lwz r3, 0x24(r3);
-  lwz r12, 0(r3);
-  lwz r12, 0x14(r12);
-  mtctr r12;
-  bctrl;
-  cmpwi r3, 0;
-  beq lbl_8023b044;
-  li r0, 1;
-  stw r30, 0x14(r29);
-  li r31, 1;
-  stw r0, 0x20(r29);
-lbl_8023b044:
-  mr r3, r31;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool EGG::SceneManager::changeSiblingSceneAfterFadeOut(int ID) {
+  bool returnValue = false;
+  if (this->mTransitionStatus == -1 && this->mCurrentFader->fadeOut()) {
+    this->mNextSceneID = ID;
+    this->mTransitionStatus = STATUS_CHANGE_SIBLING_SCENE;
+    returnValue = true;
+  }
+  return returnValue;
 }
 
 // Symbol: changeSiblingScene__Q23EGG12SceneManagerFv
