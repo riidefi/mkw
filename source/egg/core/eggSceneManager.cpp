@@ -254,20 +254,6 @@ void SceneManager::drawCurrentFader() {
     mCurrentFader->draw();
 }
 
-Scene* SceneManager::findParentScene(int ID) {
-  bool found = false; // r5
-  Scene* scene;       // r3
-
-  for (scene = mCurrentScene->getParentScene(); scene != NULL;
-       scene = scene->getParentScene()) {
-    if (scene->getSceneID() == ID) {
-      found = true;
-      break;
-    }
-  }
-
-  return found ? scene : NULL;
-}
 #endif
 } // namespace EGG
 
@@ -1020,33 +1006,19 @@ void SceneManager::outgoingParentScene(Scene* pScene) {
   pScene->outgoing_childCreate();
 }
 
+Scene* SceneManager::findParentScene(int ID) {
+  bool found = false; // r5
+  Scene* scene;       // r3
+
+  for (scene = mCurrentScene->getParentScene(); scene != NULL;
+       scene = scene->getParentScene()) {
+    if (scene->getSceneID() == ID) {
+      found = true;
+      break;
+    }
+  }
+
+  return found ? scene : NULL;
 }
 
-// Symbol: findParentScene__Q23EGG12SceneManagerFi
-// PAL: 0x8023b940..0x8023b980
-MARK_BINARY_BLOB(findParentScene__Q23EGG12SceneManagerFi, 0x8023b940, 0x8023b980);
-asm UNKNOWN_FUNCTION(findParentScene__Q23EGG12SceneManagerFi) {
-  // clang-format off
-  nofralloc;
-  lwz r3, 0xc(r3);
-  li r5, 0;
-  lwz r3, 0x20(r3);
-  b lbl_8023b968;
-lbl_8023b950:
-  lwz r0, 0x28(r3);
-  cmpw r4, r0;
-  bne lbl_8023b964;
-  li r5, 1;
-  b lbl_8023b970;
-lbl_8023b964:
-  lwz r3, 0x20(r3);
-lbl_8023b968:
-  cmpwi r3, 0;
-  bne lbl_8023b950;
-lbl_8023b970:
-  cmpwi r5, 0;
-  bnelr;
-  li r3, 0;
-  blr;
-  // clang-format on
-}
+} // namespace EGG
