@@ -16,9 +16,7 @@ UNKNOWN_FUNCTION(SceneManager_changeSiblingSceneAfterFadeOut);
 // PAL: 0x8023b064..0x8023b0e4
 UNKNOWN_FUNCTION(SceneManager_changeSiblingScene2);
 // PAL: 0x8023b0e4..0x8023b248
-UNKNOWN_FUNCTION(SceneManager_createScene);
-// PAL: 0x8023b248..0x8023b2ac
-UNKNOWN_FUNCTION(SceneManager_createChildScene);
+UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene);
 // PAL: 0x8023b2ac..0x8023b344
 UNKNOWN_FUNCTION(unk_8023b2ac);
 // PAL: 0x8023b344..0x8023b3f0
@@ -40,9 +38,9 @@ UNKNOWN_FUNCTION(unk_8023b8ac);
 // PAL: 0x8023b8b0..0x8023b910
 UNKNOWN_FUNCTION(createDefaultFader__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b910..0x8023b92c
-UNKNOWN_FUNCTION(unk_8023b910);
+UNKNOWN_FUNCTION(setupNextSceneID__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b92c..0x8023b940
-UNKNOWN_FUNCTION(unk_8023b92c);
+UNKNOWN_FUNCTION(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
 // PAL: 0x8023b940..0x8023b980
 UNKNOWN_FUNCTION(unk_8023b940);
 
@@ -587,11 +585,11 @@ lbl_8023b094:
 lbl_8023b0ac:
   lwz r30, 0x14(r29);
   mr r3, r29;
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
   mr r3, r29;
   mr r4, r30;
   mr r5, r31;
-  bl SceneManager_createScene;
+  bl createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene;
   lwz r0, 0x24(r1);
   lwz r31, 0x1c(r1);
   lwz r30, 0x18(r1);
@@ -602,10 +600,10 @@ lbl_8023b0ac:
   // clang-format on
 }
 
-// Symbol: SceneManager_createScene
+// Symbol: createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene
 // PAL: 0x8023b0e4..0x8023b248
-MARK_BINARY_BLOB(SceneManager_createScene, 0x8023b0e4, 0x8023b248);
-asm UNKNOWN_FUNCTION(SceneManager_createScene) {
+MARK_BINARY_BLOB(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene, 0x8023b0e4, 0x8023b248);
+asm UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene) {
   // clang-format off
   nofralloc;
   stwu r1, -0x30(r1);
@@ -710,39 +708,16 @@ lbl_8023b214:
   // clang-format on
 }
 
-// Symbol: SceneManager_createChildScene
-// PAL: 0x8023b248..0x8023b2ac
-MARK_BINARY_BLOB(SceneManager_createChildScene, 0x8023b248, 0x8023b2ac);
-asm UNKNOWN_FUNCTION(SceneManager_createChildScene) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r5;
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  mr r4, r31;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  bl unk_8023b92c;
-  stw r30, 0x14(r29);
-  mr r3, r29;
-  bl unk_8023b910;
-  mr r3, r29;
-  mr r4, r30;
-  mr r5, r31;
-  bl SceneManager_createScene;
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+namespace EGG {
+
+void SceneManager::createChildScene(int ID, Scene* pScene) {
+  outgoingParentScene(pScene);
+  mNextSceneID = ID;
+  setupNextSceneID();
+  createScene(ID, pScene);
 }
+
+} // namespace EGG
 
 // Symbol: unk_8023b2ac
 // PAL: 0x8023b2ac..0x8023b344
@@ -770,7 +745,7 @@ asm UNKNOWN_FUNCTION(unk_8023b2ac) {
   lwz r0, 0x28(r31);
   mr r3, r29;
   stw r0, 0x14(r29);
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
   b lbl_8023b324;
 lbl_8023b304:
   cmpwi r4, 0;
@@ -780,7 +755,7 @@ lbl_8023b304:
   li r0, -1;
   stw r0, 0x14(r29);
   mr r3, r29;
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
 lbl_8023b324:
   mr r3, r30;
   lwz r31, 0x1c(r1);
@@ -827,7 +802,7 @@ lbl_8023b380:
   lwz r0, 0x28(r30);
   mr r3, r28;
   stw r0, 0x14(r28);
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
 lbl_8023b3b4:
   lwz r3, 0x28(r31);
   lwz r0, 0x18(r28);
@@ -1048,14 +1023,14 @@ lbl_8023b62c:
   lwz r0, 0x28(r28);
   mr r3, r31;
   stw r0, 0x14(r31);
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
   b lbl_8023b674;
 lbl_8023b660:
   mr r3, r31;
   bl SceneManager_destroyScene;
   stw r30, 0x14(r31);
   mr r3, r31;
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
 lbl_8023b674:
   lwz r4, 0xc(r31);
   cmpwi r4, 0;
@@ -1074,11 +1049,11 @@ lbl_8023b690:
 lbl_8023b6a8:
   lwz r29, 0x14(r31);
   mr r3, r31;
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
   mr r3, r31;
   mr r4, r29;
   mr r5, r30;
-  bl SceneManager_createScene;
+  bl createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene;
   b lbl_8023b7d8;
 lbl_8023b6c8:
   lwz r4, 0xc(r31);
@@ -1096,22 +1071,22 @@ lbl_8023b6dc:
 lbl_8023b6f4:
   lwz r29, 0x14(r31);
   mr r3, r31;
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
   mr r3, r31;
   mr r4, r29;
   mr r5, r30;
-  bl SceneManager_createScene;
+  bl createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene;
   b lbl_8023b7d8;
 lbl_8023b714:
   lwz r4, 0x10(r31);
   mr r3, r31;
-  bl unk_8023b92c;
+  bl outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
   mr r3, r31;
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
   lwz r4, 0x18(r31);
   mr r3, r31;
   lwz r5, 0x10(r31);
-  bl SceneManager_createScene;
+  bl createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene;
   b lbl_8023b7d8;
 lbl_8023b73c:
   lwz r4, 0x14(r31);
@@ -1134,7 +1109,7 @@ lbl_8023b758:
   lwz r0, 0x28(r28);
   mr r3, r31;
   stw r0, 0x14(r31);
-  bl unk_8023b910;
+  bl setupNextSceneID__Q23EGG12SceneManagerFv;
 lbl_8023b78c:
   lwz r3, 0x28(r30);
   lwz r0, 0x18(r31);
@@ -1280,10 +1255,10 @@ lbl_8023b8f8:
   // clang-format on
 }
 
-// Symbol: unk_8023b910
+// Symbol: setupNextSceneID__Q23EGG12SceneManagerFv
 // PAL: 0x8023b910..0x8023b92c
-MARK_BINARY_BLOB(unk_8023b910, 0x8023b910, 0x8023b92c);
-asm UNKNOWN_FUNCTION(unk_8023b910) {
+MARK_BINARY_BLOB(setupNextSceneID__Q23EGG12SceneManagerFv, 0x8023b910, 0x8023b92c);
+asm UNKNOWN_FUNCTION(setupNextSceneID__Q23EGG12SceneManagerFv) {
   // clang-format off
   nofralloc;
   lwz r5, 0x18(r3);
@@ -1296,10 +1271,10 @@ asm UNKNOWN_FUNCTION(unk_8023b910) {
   // clang-format on
 }
 
-// Symbol: unk_8023b92c
+// Symbol: outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene
 // PAL: 0x8023b92c..0x8023b940
-MARK_BINARY_BLOB(unk_8023b92c, 0x8023b92c, 0x8023b940);
-asm UNKNOWN_FUNCTION(unk_8023b92c) {
+MARK_BINARY_BLOB(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene, 0x8023b92c, 0x8023b940);
+asm UNKNOWN_FUNCTION(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene) {
   // clang-format off
   nofralloc;
   lwz r12, 0(r4);
