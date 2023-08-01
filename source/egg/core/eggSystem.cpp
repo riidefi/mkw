@@ -1,9 +1,3 @@
-namespace EGG {
-class BaseSystem {
-public:
-  static BaseSystem* sSystem;
-};
+#include "eggSystem.hpp"
 
-BaseSystem* BaseSystem::sSystem;
-
-} // namespace EGG
+EGG::BaseSystem* EGG::BaseSystem::sSystem;

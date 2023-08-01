@@ -1467,6 +1467,7 @@ source/egg/core/eggUnitHeap.cpp:
     data: [0x802a3fd8, 0x802a4004]
 
 source/egg/core/eggSystem.cpp:
+    enabled: 1
     sbss: [0x80386f60, 0x80386f64]
 
 source/egg/math/eggVector.cpp:

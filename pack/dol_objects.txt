@@ -542,7 +542,9 @@ out/eggThread.o
 out/eggUnitHeap.o
 out/dol/data_802a4004_802a4040.o
 out/dol/bss_80384b6c_80384b70.o
-out/dol/sbss_80386f10_80386f78.o
+out/dol/sbss_80386f10_80386f60.o
+out/eggSystem.o
+out/dol/sbss_80386f64_80386f78.o
 out/dol/sdata2_80389004_803890f8.o
 out/eggVector.o
 out/dol/ctors_80244e8c_80244e90.o
