@@ -254,10 +254,6 @@ void SceneManager::drawCurrentFader() {
     mCurrentFader->draw();
 }
 
-void SceneManager::outgoingParentScene(Scene* pScene) {
-  pScene->outgoing_childCreate();
-}
-
 Scene* SceneManager::findParentScene(int ID) {
   bool found = false; // r5
   Scene* scene;       // r3
@@ -1020,20 +1016,10 @@ void SceneManager::setupNextSceneID() {
   this->mNextSceneID = -1;
 }
 
+void SceneManager::outgoingParentScene(Scene* pScene) {
+  pScene->outgoing_childCreate();
 }
 
-// Symbol: outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene
-// PAL: 0x8023b92c..0x8023b940
-MARK_BINARY_BLOB(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene, 0x8023b92c, 0x8023b940);
-asm UNKNOWN_FUNCTION(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene) {
-  // clang-format off
-  nofralloc;
-  lwz r12, 0(r4);
-  mr r3, r4;
-  lwz r12, 0x24(r12);
-  mtctr r12;
-  bctr;
-  // clang-format on
 }
 
 // Symbol: findParentScene__Q23EGG12SceneManagerFi
