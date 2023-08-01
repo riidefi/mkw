@@ -9,8 +9,6 @@ extern "C" {
 UNKNOWN_FUNCTION(SceneManager_reinitCurrentScene);
 // PAL: 0x8023af18..0x8023af84
 UNKNOWN_FUNCTION(SceneManager_reinitCurrentSceneAfterFadeOut);
-// PAL: 0x8023af84..0x8023afe0
-UNKNOWN_FUNCTION(unk_8023af84);
 // PAL: 0x8023afe0..0x8023afe8
 UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFi);
 // PAL: 0x8023afe8..0x8023b064
@@ -101,15 +99,6 @@ bool SceneManager::reinitCurrentSceneAfterFadeOut() {
 }
 
 #if 0
-// Exit current scene to parent, then manuver to sibling scene ID
-// Not a real symbol
-void SceneManager::ChangeUncleScene(int ID) {
-  while (this->mCurrentScene) {
-    // destroy current scene then go to parent
-    this->destroyCurrentSceneNoIncoming(true);
-  }
-  this->changeSiblingScene(ID);
-}
 
 bool SceneManager::changeSiblingSceneAfterFadeOut(int ID) {
   bool returnValue = false;
@@ -229,38 +218,12 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
 #endif
 } // namespace EGG
 
-// Symbol: unk_8023af84
-// PAL: 0x8023af84..0x8023afe0
-MARK_BINARY_BLOB(unk_8023af84, 0x8023af84, 0x8023afe0);
-asm UNKNOWN_FUNCTION(unk_8023af84) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  b lbl_8023afb0;
-lbl_8023afa4:
-  mr r3, r30;
-  li r4, 1;
-  bl destroyCurrentSceneNoIncoming__Q23EGG12SceneManagerFb;
-lbl_8023afb0:
-  lwz r0, 0xc(r30);
-  cmpwi r0, 0;
-  bne lbl_8023afa4;
-  mr r3, r30;
-  mr r4, r31;
-  bl changeSiblingScene__Q23EGG12SceneManagerFi;
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void EGG::SceneManager::changeUncleScene(int ID) {
+  while (this->mCurrentScene) {
+    // destroy current scene then go to parent
+    this->destroyCurrentSceneNoIncoming(true);
+  }
+  this->changeSiblingScene(ID);
 }
 
 void EGG::SceneManager::changeSiblingScene(int ID) {
