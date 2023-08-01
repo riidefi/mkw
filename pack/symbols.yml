@@ -7951,7 +7951,7 @@ global:
     0x80215150: 'writeData__Q23EGG7CntFileFPCvll'
     0x80215158: 'open__Q23EGG7CntFileFPCc'
     0x80215160: 'getFileSize__Q23EGG7CntFileCFv'
-    0x80215168: 'ColorFader_construct'
+    0x80215168: '__ct__Q23EGG10ColorFaderFffffQ34nw4r2ut5ColorQ33EGG5Fader7EStatus'
     0x8021522c: 'ColorFader_setColor'
     0x80215248: 'ColorFader_setStatus'
     0x80215280: 'ColorFader_fadeIn'
