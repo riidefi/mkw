@@ -233,10 +233,6 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
   this->createScene(ID, pScene);
 }
 
-void SceneManager::incomingCurrentScene() {
-  if (this->mCurrentScene)
-    this->mCurrentScene->incoming_childDestroy();
-}
 void SceneManager::calcCurrentScene() {
   if (this->mCurrentScene)
     this->mCurrentScene->calc();
@@ -716,24 +712,12 @@ void SceneManager::destroyScene(Scene* pScene /* r30 */) {
   GXDraw();
 }
 
-} // namespace EGG
-
-// Symbol: incomingCurrentScene__Q23EGG12SceneManagerFv
-// PAL: 0x8023b568..0x8023b588
-MARK_BINARY_BLOB(incomingCurrentScene__Q23EGG12SceneManagerFv, 0x8023b568, 0x8023b588);
-asm UNKNOWN_FUNCTION(incomingCurrentScene__Q23EGG12SceneManagerFv) {
-  // clang-format off
-  nofralloc;
-  lwz r3, 0xc(r3);
-  cmpwi r3, 0;
-  beqlr;
-  lwz r12, 0(r3);
-  lwz r12, 0x20(r12);
-  mtctr r12;
-  bctr;
-  blr;
-  // clang-format on
+void SceneManager::incomingCurrentScene() {
+  if (this->mCurrentScene)
+    this->mCurrentScene->incoming_childDestroy();
 }
+
+} // namespace EGG
 
 // Symbol: calcCurrentScene__Q23EGG12SceneManagerFv
 // PAL: 0x8023b588..0x8023b5a8
