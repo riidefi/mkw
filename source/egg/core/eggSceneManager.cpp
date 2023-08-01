@@ -180,12 +180,6 @@ void SceneManager::createScene(int ID, Scene* parentScene) {
   pNewScene->setSceneMgr(this);
   pNewScene->enter();
 }
-void SceneManager::createChildScene(int ID, Scene* pScene) {
-  this->outgoingParentScene(pScene);
-  this->mNextSceneID = ID;
-  this->setupNextSceneID();
-  this->createScene(ID, pScene);
-}
 
 #endif
 } // namespace EGG
@@ -722,7 +716,6 @@ lbl_8023b7e0:
 }
 #endif
 
-#if 0
 namespace EGG {
 
 void SceneManager::drawCurrentScene() {
@@ -732,64 +725,12 @@ void SceneManager::drawCurrentScene() {
   mCurrentScene->draw();
 
   Display* pSystemDisplay = BaseSystem::sSystem->getDisplay(); // r31
+  Video * pSystemVideo = BaseSystem::sSystem->getVideo();
 
   // flag name likely wrong
-  if (BaseSystem::sSystem->getVideo()->mFlag &
-      Video::VIDEO_FLAG_IS_NOT_BLACKED_OUT)
-    if (!(pSystemDisplay->mScreenStateFlag & 1))
-      pSystemDisplay->mScreenStateFlag |= 1;
+  if ((pSystemVideo->mFlag & 1) && !pSystemDisplay->hasScreenStateFlag(0))
+      pSystemDisplay->setScreenStateFlag(0);
 }
-}
-#else
-// Symbol: drawCurrentScene__Q23EGG12SceneManagerFv
-// PAL: 0x8023b800..0x8023b890
-MARK_BINARY_BLOB(drawCurrentScene__Q23EGG12SceneManagerFv, 0x8023b800,
-                 0x8023b890);
-asm UNKNOWN_FUNCTION(drawCurrentScene__Q23EGG12SceneManagerFv) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  lwz r3, 0xc(r3);
-  cmpwi r3, 0;
-  beq lbl_8023b87c;
-  lwz r12, 0(r3);
-  lwz r12, 0x10(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, -0x5ca0(r13);
-  lwz r12, 0(r3);
-  lwz r12, 0x10(r12);
-  mtctr r12;
-  bctrl;
-  mr r31, r3;
-  lwz r3, -0x5ca0(r13);
-  lwz r12, 0(r3);
-  lwz r12, 8(r12);
-  mtctr r12;
-  bctrl;
-  lbz r0, 4(r3);
-  clrlwi. r0, r0, 0x1f;
-  beq lbl_8023b87c;
-  lbz r0, 9(r31);
-  clrlwi. r0, r0, 0x1f;
-  bne lbl_8023b87c;
-  lbz r0, 9(r31);
-  ori r0, r0, 1;
-  stb r0, 9(r31);
-lbl_8023b87c:
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
-#endif
-
-namespace EGG {
 
 void SceneManager::drawCurrentFader() {
   if (mCurrentFader)
