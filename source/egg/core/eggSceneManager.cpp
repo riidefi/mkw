@@ -3,32 +3,15 @@
 #include <egg/core/eggDisplay.hpp>
 #include <egg/core/eggVideo.hpp>
 #include <egg/eggInternal.hpp>
+#include <rvl/gx/gxMisc.h>
 
 extern "C" {
-// PAL: 0x8023aef8..0x8023af18
-UNKNOWN_FUNCTION(SceneManager_reinitCurrentScene);
-// PAL: 0x8023af18..0x8023af84
-UNKNOWN_FUNCTION(SceneManager_reinitCurrentSceneAfterFadeOut);
-// PAL: 0x8023afe0..0x8023afe8
-UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFi);
-// PAL: 0x8023b064..0x8023b0e4
-UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b0e4..0x8023b248
 UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene);
-// PAL: 0x8023b2ac..0x8023b344
-UNKNOWN_FUNCTION(destroyCurrentSceneNoIncoming__Q23EGG12SceneManagerFb);
-// PAL: 0x8023b344..0x8023b3f0
-UNKNOWN_FUNCTION(destroyToSelectSceneID__Q23EGG12SceneManagerFi);
 // PAL: 0x8023b3f0..0x8023b568
 UNKNOWN_FUNCTION(destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
-// PAL: 0x8023b568..0x8023b588
-UNKNOWN_FUNCTION(incomingCurrentScene__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b588..0x8023b5a8
-UNKNOWN_FUNCTION(calcCurrentScene__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b5a8..0x8023b800
 UNKNOWN_FUNCTION(calcCurrentFader__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b800..0x8023b890
-UNKNOWN_FUNCTION(drawCurrentScene__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b8b0..0x8023b910
 UNKNOWN_FUNCTION(createDefaultFader__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b910..0x8023b92c
@@ -38,8 +21,6 @@ UNKNOWN_FUNCTION(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
 // PAL: 0x8023b940..0x8023b980
 UNKNOWN_FUNCTION(findParentScene__Q23EGG12SceneManagerFi);
 
-extern UNKNOWN_FUNCTION(GXFlush);
-extern UNKNOWN_FUNCTION(GXDraw);
 extern UNKNOWN_FUNCTION(__ct__Q23EGG10ColorFaderFffffQ34nw4r2ut5ColorQ33EGG5Fader7EStatus);
 extern UNKNOWN_FUNCTION(create__Q23EGG7ExpHeapFUlPQ23EGG4HeapUs);
 extern UNKNOWN_FUNCTION(becomeCurrentHeap__Q23EGG4HeapFv);
