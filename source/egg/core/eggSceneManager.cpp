@@ -18,11 +18,11 @@ UNKNOWN_FUNCTION(SceneManager_changeSiblingScene2);
 // PAL: 0x8023b0e4..0x8023b248
 UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene);
 // PAL: 0x8023b2ac..0x8023b344
-UNKNOWN_FUNCTION(unk_8023b2ac);
+UNKNOWN_FUNCTION(destroyCurrentSceneNoIncoming__Q23EGG12SceneManagerFb);
 // PAL: 0x8023b344..0x8023b3f0
 UNKNOWN_FUNCTION(unk_8023b344);
 // PAL: 0x8023b3f0..0x8023b568
-UNKNOWN_FUNCTION(SceneManager_destroyScene);
+UNKNOWN_FUNCTION(destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
 // PAL: 0x8023b568..0x8023b588
 UNKNOWN_FUNCTION(unk_8023b568);
 // PAL: 0x8023b588..0x8023b5a8
@@ -231,27 +231,6 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
   this->mNextSceneID = ID;
   this->setupNextSceneID();
   this->createScene(ID, pScene);
-}
-// TODO: match to real symbol
-bool SceneManager::destroyCurrentSceneNoIncoming(bool destroyRootIfNoParent) {
-  bool result = false; // r30
-
-  Scene* curScene = mCurrentScene; // r5
-  if (curScene == NULL)
-    return false;
-
-  Scene* parent = curScene->getParentScene(); // r31
-  if (parent) {
-    this->destroyScene(parent->getChildScene());
-    this->mNextSceneID = parent->getSceneID();
-    this->setupNextSceneID();
-    return true;
-  } else if (destroyRootIfNoParent) {
-    this->destroyScene(curScene);
-    this->mNextSceneID = -1;
-    this->setupNextSceneID();
-  }
-  return false;
 }
 bool SceneManager::destroyToSelectSceneID(int ID) {
   Scene* parent = this->findParentScene(ID); // r31
@@ -487,7 +466,7 @@ asm UNKNOWN_FUNCTION(unk_8023af84) {
 lbl_8023afa4:
   mr r3, r30;
   li r4, 1;
-  bl unk_8023b2ac;
+  bl destroyCurrentSceneNoIncoming__Q23EGG12SceneManagerFb;
 lbl_8023afb0:
   lwz r0, 0xc(r30);
   cmpwi r0, 0;
@@ -579,7 +558,7 @@ lbl_8023b094:
   cmpwi r4, 0;
   beq lbl_8023b0ac;
   mr r3, r29;
-  bl SceneManager_destroyScene;
+  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
   li r0, 0;
   stw r0, 0xc(r29);
 lbl_8023b0ac:
@@ -717,56 +696,29 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
   createScene(ID, pScene);
 }
 
-} // namespace EGG
-
-// Symbol: unk_8023b2ac
-// PAL: 0x8023b2ac..0x8023b344
-MARK_BINARY_BLOB(unk_8023b2ac, 0x8023b2ac, 0x8023b344);
-asm UNKNOWN_FUNCTION(unk_8023b2ac) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  stw r30, 0x18(r1);
-  li r30, 0;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lwz r5, 0xc(r3);
-  cmpwi r5, 0;
-  beq lbl_8023b324;
-  lwz r31, 0x20(r5);
-  cmpwi r31, 0;
-  beq lbl_8023b304;
-  lwz r4, 0x24(r31);
-  li r30, 1;
-  bl SceneManager_destroyScene;
-  lwz r0, 0x28(r31);
-  mr r3, r29;
-  stw r0, 0x14(r29);
-  bl setupNextSceneID__Q23EGG12SceneManagerFv;
-  b lbl_8023b324;
-lbl_8023b304:
-  cmpwi r4, 0;
-  beq lbl_8023b324;
-  mr r4, r5;
-  bl SceneManager_destroyScene;
-  li r0, -1;
-  stw r0, 0x14(r29);
-  mr r3, r29;
-  bl setupNextSceneID__Q23EGG12SceneManagerFv;
-lbl_8023b324:
-  mr r3, r30;
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+bool SceneManager::destroyCurrentSceneNoIncoming(bool destroyRootIfNoParent) {
+    bool ret = 0;
+    Scene * scene = mCurrentScene;
+    if( scene ) {
+        Scene * parent = scene->getParentScene();
+        if( parent ) {
+            ret = 1;
+            Scene * child = parent->getChildScene();
+            destroyScene( child );
+            mNextSceneID = parent->getSceneID();
+            setupNextSceneID();
+        } else {
+            if( destroyRootIfNoParent ) {
+                destroyScene( scene );
+                mNextSceneID = -1;
+                setupNextSceneID();
+            }
+        }
+    }
+    return ret;
 }
+
+} // namespace EGG
 
 // Symbol: unk_8023b344
 // PAL: 0x8023b344..0x8023b3f0
@@ -798,7 +750,7 @@ lbl_8023b380:
   beq lbl_8023b3b4;
   lwz r4, 0x24(r30);
   mr r3, r28;
-  bl SceneManager_destroyScene;
+  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
   lwz r0, 0x28(r30);
   mr r3, r28;
   stw r0, 0x14(r28);
@@ -823,10 +775,10 @@ lbl_8023b3cc:
   // clang-format on
 }
 
-// Symbol: SceneManager_destroyScene
+// Symbol: destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene
 // PAL: 0x8023b3f0..0x8023b568
-MARK_BINARY_BLOB(SceneManager_destroyScene, 0x8023b3f0, 0x8023b568);
-asm UNKNOWN_FUNCTION(SceneManager_destroyScene) {
+MARK_BINARY_BLOB(destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene, 0x8023b3f0, 0x8023b568);
+asm UNKNOWN_FUNCTION(destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene) {
   // clang-format off
   nofralloc;
 lbl_8023b3f0:
@@ -1019,7 +971,7 @@ lbl_8023b62c:
   beq lbl_8023b660;
   lwz r4, 0x24(r28);
   mr r3, r31;
-  bl SceneManager_destroyScene;
+  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
   lwz r0, 0x28(r28);
   mr r3, r31;
   stw r0, 0x14(r31);
@@ -1027,7 +979,7 @@ lbl_8023b62c:
   b lbl_8023b674;
 lbl_8023b660:
   mr r3, r31;
-  bl SceneManager_destroyScene;
+  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
   stw r30, 0x14(r31);
   mr r3, r31;
   bl setupNextSceneID__Q23EGG12SceneManagerFv;
@@ -1043,7 +995,7 @@ lbl_8023b690:
   cmpwi r4, 0;
   beq lbl_8023b6a8;
   mr r3, r31;
-  bl SceneManager_destroyScene;
+  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
   li r0, 0;
   stw r0, 0xc(r31);
 lbl_8023b6a8:
@@ -1065,7 +1017,7 @@ lbl_8023b6dc:
   cmpwi r4, 0;
   beq lbl_8023b6f4;
   mr r3, r31;
-  bl SceneManager_destroyScene;
+  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
   li r0, 0;
   stw r0, 0xc(r31);
 lbl_8023b6f4:
@@ -1105,7 +1057,7 @@ lbl_8023b758:
   beq lbl_8023b78c;
   lwz r4, 0x24(r28);
   mr r3, r31;
-  bl SceneManager_destroyScene;
+  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
   lwz r0, 0x28(r28);
   mr r3, r31;
   stw r0, 0x14(r31);
