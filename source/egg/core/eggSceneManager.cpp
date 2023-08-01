@@ -46,7 +46,7 @@ UNKNOWN_FUNCTION(findParentScene__Q23EGG12SceneManagerFi);
 
 extern UNKNOWN_FUNCTION(GXFlush);
 extern UNKNOWN_FUNCTION(GXDraw);
-extern UNKNOWN_FUNCTION(ColorFader_construct);
+extern UNKNOWN_FUNCTION(__ct__Q23EGG10ColorFaderFffffQ34nw4r2ut5ColorQ33EGG5Fader7EStatus);
 extern UNKNOWN_FUNCTION(create__Q23EGG7ExpHeapFUlPQ23EGG4HeapUs);
 extern UNKNOWN_FUNCTION(becomeCurrentHeap__Q23EGG4HeapFv);
 extern UNKNOWN_FUNCTION(__nw__FUl);
@@ -233,88 +233,6 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
   this->createScene(ID, pScene);
 }
 
-void SceneManager::calcCurrentFader() {
-  if (mCurrentFader == NULL || mCurrentFader->calc() == 0)
-    return;
-  switch (this->mTransitionStatus) {
-  case 0: {
-    int r29 = this->mNextSceneID;
-    Scene* curScene;                       // r4
-    while (curScene = this->mCurrentScene) // r4
-    {
-      if (curScene == NULL)
-        continue;
-      Scene* r28 = curScene->getParentScene(); // r28
-      if (r28) {
-        this->destroyScene(r28->getChildScene());
-        this->mNextSceneID = r28->getSceneID();
-        this->setupNextSceneID();
-      } else {
-        this->destroyScene(curScene);
-        this->mNextSceneID = -1;
-        this->setupNextSceneID();
-      }
-    }
-    this->mNextSceneID = r29;
-    EGG::Scene* r30 = curScene ? curScene->getParentScene() : 0;
-    if (curScene) {
-      this->destroyScene(curScene);
-      this->mCurrentScene = 0;
-    }
-
-    this->mNextSceneID = r29;
-    this->setupNextSceneID();
-    this->createScene(r29, r30);
-    break;
-  }
-  case STATUS_CHANGE_SIBLING_SCENE: {
-    // Identical to changeSiblingScene
-    Scene* r30 = this->mCurrentScene ? mCurrentScene->getParentScene() : 0;
-    if (mCurrentScene) {
-      this->destroyScene(r30);
-      this->mCurrentScene = NULL;
-    }
-    int r29 = this->mNextSceneID;
-    this->setupNextSceneID();
-    this->createScene(r29, r30);
-    break;
-  }
-  case 2:
-    // fields have changed a lot, cant trust this
-    WiiSportsAssert(this->pParent, "eggSceneManager.cpp", 701, "pParent");
-    WiiSportsAssert(this->pParent->getChildScene(), "eggSceneManager.cpp", 704,
-                    "pParent->getChildScene()() == NULL");
-    this->outgoingParentScene(this->pParent);
-    this->setupNextSceneID();
-    this->createScene(this->_18, this->pParent);
-    break;
-  case 4:
-    // TODO
-    if (Scene* s = this->findParentScene(this->mNextSceneID)) // r30
-    {
-      while (s->getSceneID() != this->_18) {
-        if (this->mCurrentScene == 0)
-          continue;
-        Scene* r28 = this->mCurrentScene->getParentScene();
-        if (r28 == 0)
-          continue;
-        this->destroyScene(r28);
-        this->mNextSceneID = this->bUseMem2;
-        this->setupNextSceneID();
-      }
-      if (this->mCurrentScene == 0)
-        break;
-      this->mCurrentScene->incoming_childDestroy();
-    }
-
-    break;
-  case STATUS_REINITIALIZE:
-    if (mCurrentScene)
-      mCurrentScene->reinit();
-    break;
-  }
-  this->mTransitionStatus = STATUS_IDLE;
-}
 void SceneManager::drawCurrentScene() {
   if (!mCurrentScene)
     return;
@@ -334,15 +252,6 @@ void SceneManager::drawCurrentScene() {
 void SceneManager::drawCurrentFader() {
   if (mCurrentFader)
     mCurrentFader->draw();
-}
-void SceneManager::createDefaultFader() {
-  mCurrentFader = new ColorFader(0.0f, 0.0f, 640.0f, 480.0f, 0 /*color*/,
-                                 Fader::ESTATUS_OPAQUE);
-}
-void SceneManager::setupNextSceneID() {
-  this->_1C = this->_18;
-  this->_18 = this->mNextSceneID;
-  this->mNextSceneID = -1;
 }
 
 void SceneManager::outgoingParentScene(Scene* pScene) {
@@ -719,6 +628,95 @@ void SceneManager::calcCurrentScene() {
 
 } // namespace EGG
 
+#if 0
+namespace EGG {
+
+void SceneManager::calcCurrentFader() {
+  if (!mCurrentFader)
+    return;
+  if (!mCurrentFader->calc())
+    return;
+  switch (this->mTransitionStatus) {
+  case 0: {
+    int r29 = this->mNextSceneID;
+    Scene* curScene;                       // r4
+    while (curScene = this->mCurrentScene) // r4
+    {
+      if (!curScene)
+        continue;
+      Scene* r28 = curScene->getParentScene(); // r28
+      if (r28) {
+        this->destroyScene(r28->getChildScene());
+        this->mNextSceneID = r28->getSceneID();
+        this->setupNextSceneID();
+      } else {
+        this->destroyScene(curScene);
+        this->mNextSceneID = -1;
+        this->setupNextSceneID();
+      }
+    }
+    this->mNextSceneID = r29;
+    EGG::Scene* r30 = 0;
+    if( curScene ) r30 = curScene->getParentScene();
+    if( curScene ) {
+      this->destroyScene(curScene);
+      this->mCurrentScene = 0;
+    }
+
+    this->mNextSceneID = r29;
+    this->setupNextSceneID();
+    this->createScene(r29, r30);
+    break;
+  }
+  case 1: {
+    // Identical to changeSiblingScene
+    Scene* r30 = 0;
+    if( mCurrentScene ) r30 = mCurrentScene->getParentScene();
+    if (mCurrentScene) {
+      this->destroyScene(mCurrentScene);
+      this->mCurrentScene = 0;
+    }
+    int r29 = this->mNextSceneID;
+    this->setupNextSceneID();
+    this->createScene(r29, r30);
+    break;
+  }
+  case 2:
+    this->outgoingParentScene(this->pParent);
+    this->setupNextSceneID();
+    this->createScene(this->get18(), this->pParent);
+    break;
+  case 4:
+    // TODO
+    if (Scene* s = this->findParentScene(this->mNextSceneID)) // r30
+    {
+      while (s->getSceneID() != this->get18()) {
+        if (this->mCurrentScene == 0)
+          continue;
+        Scene* r28 = mCurrentScene->getParentScene();
+        if (r28 == 0)
+          continue;
+        this->destroyScene(r28->getChildScene());
+        this->mNextSceneID = r28->getSceneID();
+        this->setupNextSceneID();
+      }
+      if (this->mCurrentScene == 0)
+        break;
+      this->mCurrentScene->incoming_childDestroy();
+    }
+
+    break;
+  case 3:
+    if (mCurrentScene)
+      mCurrentScene->reinit();
+    break;
+  }
+  this->mTransitionStatus = -1;
+}
+
+}
+#else
+
 // Symbol: calcCurrentFader__Q23EGG12SceneManagerFv
 // PAL: 0x8023b5a8..0x8023b800
 MARK_BINARY_BLOB(calcCurrentFader__Q23EGG12SceneManagerFv, 0x8023b5a8,
@@ -894,6 +892,7 @@ lbl_8023b7e0:
   blr;
   // clang-format on
 }
+#endif
 
 // Symbol: drawCurrentScene__Q23EGG12SceneManagerFv
 // PAL: 0x8023b800..0x8023b890
@@ -969,6 +968,14 @@ asm UNKNOWN_FUNCTION(unk_8023b8ac) {
   // clang-format on
 }
 
+#if 0
+namespace EGG {
+void SceneManager::createDefaultFader() {
+  mCurrentFader = new ColorFader(0.0f, 0.0f, 640.0f, 480.0f, 0 /*color*/,
+                                 Fader::ESTATUS_OPAQUE);
+}
+}
+#else
 // Symbol: createDefaultFader__Q23EGG12SceneManagerFv
 // PAL: 0x8023b8b0..0x8023b910
 MARK_BINARY_BLOB(createDefaultFader__Q23EGG12SceneManagerFv, 0x8023b8b0,
@@ -993,7 +1000,7 @@ asm UNKNOWN_FUNCTION(createDefaultFader__Q23EGG12SceneManagerFv) {
   lfs f3, unk_8038900c;
   lfs f4, unk_80389010;
   li r5, 0;
-  bl ColorFader_construct;
+  bl __ct__Q23EGG10ColorFaderFffffQ34nw4r2ut5ColorQ33EGG5Fader7EStatus;
 lbl_8023b8f8:
   stw r3, 0x24(r31);
   lwz r31, 0x1c(r1);
@@ -1003,21 +1010,16 @@ lbl_8023b8f8:
   blr;
   // clang-format on
 }
+#endif
 
-// Symbol: setupNextSceneID__Q23EGG12SceneManagerFv
-// PAL: 0x8023b910..0x8023b92c
-MARK_BINARY_BLOB(setupNextSceneID__Q23EGG12SceneManagerFv, 0x8023b910, 0x8023b92c);
-asm UNKNOWN_FUNCTION(setupNextSceneID__Q23EGG12SceneManagerFv) {
-  // clang-format off
-  nofralloc;
-  lwz r5, 0x18(r3);
-  li r0, -1;
-  lwz r4, 0x14(r3);
-  stw r5, 0x1c(r3);
-  stw r4, 0x18(r3);
-  stw r0, 0x14(r3);
-  blr;
-  // clang-format on
+namespace EGG {
+
+void SceneManager::setupNextSceneID() {
+  this->_1C = this->_18;
+  this->_18 = this->mNextSceneID;
+  this->mNextSceneID = -1;
+}
+
 }
 
 // Symbol: outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene
