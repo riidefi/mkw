@@ -98,21 +98,6 @@ bool SceneManager::reinitCurrentSceneAfterFadeOut() {
 
 #if 0
 
-void SceneManager::changeSiblingScene() {
-  Scene* curScene = this->mCurrentScene; // r4
-
-  Scene* parentScene = curScene ? curScene->getParentScene() : NULL; // r31
-
-  if (curScene) {
-    this->destroyScene(curScene);
-    this->mCurrentScene = NULL;
-
-    s32 r30 = mNextSceneID;
-    this->setupNextSceneID();
-    this->createScene(r30, parentScene);
-  }
-}
-
 void SceneManager::createScene(int ID, Scene* parentScene) {
   Heap* pParentHeap_Mem1;  // r26
   Heap* pParentHeap_Mem2;  // r25
@@ -228,47 +213,24 @@ bool EGG::SceneManager::changeSiblingSceneAfterFadeOut(int ID) {
   return returnValue;
 }
 
-// Symbol: changeSiblingScene__Q23EGG12SceneManagerFv
-// PAL: 0x8023b064..0x8023b0e4
-MARK_BINARY_BLOB(changeSiblingScene__Q23EGG12SceneManagerFv, 0x8023b064, 0x8023b0e4);
-asm UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFv) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  li r31, 0;
-  stw r30, 0x18(r1);
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  lwz r4, 0xc(r3);
-  cmpwi r4, 0;
-  beq lbl_8023b094;
-  lwz r31, 0x20(r4);
-lbl_8023b094:
-  cmpwi r4, 0;
-  beq lbl_8023b0ac;
-  mr r3, r29;
-  bl destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene;
-  li r0, 0;
-  stw r0, 0xc(r29);
-lbl_8023b0ac:
-  lwz r30, 0x14(r29);
-  mr r3, r29;
-  bl setupNextSceneID__Q23EGG12SceneManagerFv;
-  mr r3, r29;
-  mr r4, r30;
-  mr r5, r31;
-  bl createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene;
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+namespace EGG {
+
+void SceneManager::changeSiblingScene() {
+  Scene* curScene = this->mCurrentScene; // r4
+
+  Scene* parentScene = NULL; // r31
+  if (curScene) parentScene = curScene->getParentScene();
+
+  if (curScene) {
+    this->destroyScene(curScene);
+    this->mCurrentScene = NULL;
+  }
+
+  s32 r30 = mNextSceneID;
+  this->setupNextSceneID();
+  this->createScene(r30, parentScene);
+}
+
 }
 
 // Symbol: createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene
