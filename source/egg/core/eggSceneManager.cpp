@@ -232,61 +232,7 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
   this->setupNextSceneID();
   this->createScene(ID, pScene);
 }
-void SceneManager::destroyScene(Scene* pScene) {
-  pScene->exit();
-  GXFlush();
-  GXDrawDone(); // GXDraw in IDA?
 
-  // If we have a child scene, destroy that and so on
-  if (pScene->getChildScene())
-    this->destroyScene(pScene->getChildScene());
-  GXFlush();
-  GXDrawDone();
-
-  Scene* parent = pScene->getParentScene(); // r31
-  this->mSceneCreator->destroy(pScene->getSceneID());
-  this->mCurrentScene = NULL;
-
-  // If we're not the root scene, delete ourselves from our parent
-  // and make the current scene our parent
-  if (parent) {
-    parent->setChildScene(NULL);
-    this->mCurrentScene = parent;
-  }
-
-  // If the scene has a debug heap, destroy it
-  if (pScene->getHeap_Debug())
-    pScene->getHeap_Debug()->destroy();
-
-  // ???
-  if (pScene->getHeap_Mem1() != pScene->getHeap()) {
-    if (pScene->getHeap_Mem2() == pScene->getHeap()) {
-      pScene->getHeap_Mem1()->destroy();
-      pScene->getHeap_Mem2()->destroy();
-    }
-    // If pScene pScene->getHeap_Mem1() != pScene->getHeap() !=
-    // pScene->getHeap_Mem2() we do nothing
-  } else {
-    pScene->getHeap_Mem2()->destroy();
-    pScene->getHeap_Debug()->destroy();
-  }
-  Heap* r31_second;
-  // If we have a parent, use it's heap
-  if (parent) {
-    r31_second = parent->getHeap();
-  }
-  // If we're root, rederive it
-  else {
-    r31_second = this->bUseMem2 ? BaseSystem::sConfigData->mRootHeapMem2
-                                : BaseSystem::sConfigData->mRootHeapMem1;
-  }
-  GXFlush();
-  GXDrawDone();
-  r31_second->becomeCurrentHeap();
-  GXFlush();
-  GXDrawDone();
-  r31_second->becomeCurrentHeap();
-}
 void SceneManager::incomingCurrentScene() {
   if (this->mCurrentScene)
     this->mCurrentScene->incoming_childDestroy();
@@ -718,119 +664,59 @@ bool EGG::SceneManager::destroyToSelectSceneID(int ID) {
   return ret;
 }
 
-} // namespace EGG
+void SceneManager::destroyScene(Scene* pScene /* r30 */) {
+  pScene->exit();
+  GXFlush();
+  GXDraw();
 
-// Symbol: destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene
-// PAL: 0x8023b3f0..0x8023b568
-MARK_BINARY_BLOB(destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene, 0x8023b3f0, 0x8023b568);
-asm UNKNOWN_FUNCTION(destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene) {
-  // clang-format off
-  nofralloc;
-lbl_8023b3f0:
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  stw r30, 0x18(r1);
-  mr r30, r4;
-  stw r29, 0x14(r1);
-  mr r29, r3;
-  mr r3, r30;
-  lwz r12, 0(r30);
-  lwz r12, 0x18(r12);
-  mtctr r12;
-  bctrl;
-  bl GXFlush;
-  bl GXDraw;
-  lwz r4, 0x24(r30);
-  cmpwi r4, 0;
-  beq lbl_8023b440;
-  mr r3, r29;
-  bl lbl_8023b3f0;
-lbl_8023b440:
-  bl GXFlush;
-  bl GXDraw;
-  lwz r3, 4(r29);
-  lwz r31, 0x20(r30);
-  lwz r12, 0(r3);
-  lwz r4, 0x28(r30);
-  lwz r12, 0xc(r12);
-  mtctr r12;
-  bctrl;
-  cmpwi r31, 0;
-  li r0, 0;
-  stw r0, 0xc(r29);
-  beq lbl_8023b47c;
-  stw r0, 0x24(r31);
-  stw r31, 0xc(r29);
-lbl_8023b47c:
-  lwz r3, 0x1c(r30);
-  cmpwi r3, 0;
-  beq lbl_8023b498;
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-lbl_8023b498:
-  lwz r4, 0x10(r30);
-  lwz r3, 0x14(r30);
-  cmplw r3, r4;
-  bne lbl_8023b4d4;
-  lwz r3, 0x18(r30);
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, 0x14(r30);
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  b lbl_8023b504;
-lbl_8023b4d4:
-  lwz r0, 0x18(r30);
-  cmplw r0, r4;
-  bne lbl_8023b504;
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-  lwz r3, 0x18(r30);
-  lwz r12, 0(r3);
-  lwz r12, 0x1c(r12);
-  mtctr r12;
-  bctrl;
-lbl_8023b504:
-  cmpwi r31, 0;
-  beq lbl_8023b514;
-  lwz r31, 0x10(r31);
-  b lbl_8023b534;
-lbl_8023b514:
-  lwz r0, 0x28(r29);
-  cmpwi r0, 0;
-  bne lbl_8023b52c;
-  lwz r3, -0x5ca0(r13);
-  lwz r31, 0x18(r3);
-  b lbl_8023b534;
-lbl_8023b52c:
-  lwz r3, -0x5ca0(r13);
-  lwz r31, 0x1c(r3);
-lbl_8023b534:
-  bl GXFlush;
-  bl GXDraw;
-  mr r3, r31;
-  bl becomeCurrentHeap__Q23EGG4HeapFv;
-  bl GXFlush;
-  bl GXDraw;
-  lwz r0, 0x24(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+  // If we have a child scene, destroy that and so on
+  if (pScene->getChildScene())
+    this->destroyScene(pScene->getChildScene());
+  GXFlush();
+  GXDraw();
+
+  Scene* parent = pScene->getParentScene(); // r31
+  this->mSceneCreator->destroy(pScene->getSceneID());
+  this->mCurrentScene = 0;
+
+  // If we're not the root scene, delete ourselves from our parent
+  // and make the current scene our parent
+  if (parent) {
+    parent->setChildScene(0);
+    this->mCurrentScene = parent;
+  }
+
+  // If the scene has a debug heap, destroy it
+  if (pScene->getHeap_Debug())
+    pScene->getHeap_Debug()->destroy();
+
+  Heap * sceneHeap = pScene->getHeap(); // r4
+  if (pScene->getHeap_Mem1() == sceneHeap) {
+    pScene->getHeap_Mem2()->destroy();
+    pScene->getHeap_Mem1()->destroy();
+  } else if (pScene->getHeap_Mem2() == sceneHeap) {
+    pScene->getHeap_Mem1()->destroy();
+    pScene->getHeap_Mem2()->destroy();
+  }
+    
+  Heap* r31_second;
+  // If we have a parent, use it's heap
+  if (parent) {
+    r31_second = parent->getHeap();
+  }
+  // If we're root, rederive it
+  else {
+    r31_second = !this->bUseMem2 ? BaseSystem::sSystem->mRootHeapMem1
+                                 : BaseSystem::sSystem->mRootHeapMem2;
+  }
+  GXFlush();
+  GXDraw();
+  r31_second->becomeCurrentHeap();
+  GXFlush();
+  GXDraw();
 }
+
+} // namespace EGG
 
 // Symbol: incomingCurrentScene__Q23EGG12SceneManagerFv
 // PAL: 0x8023b568..0x8023b588
