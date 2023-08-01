@@ -23,6 +23,7 @@ public:
   unsigned int _14;
   Heap * mRootHeapMem1;
   Heap * mRootHeapMem2;
+  Heap * mRootHeapDebug;
 };
 
 } // namespace EGG
