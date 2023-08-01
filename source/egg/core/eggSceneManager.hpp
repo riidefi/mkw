@@ -123,7 +123,7 @@ public:
   //! @param[in] ID Scene ID to switch to after destroying current scene
   //! completely.
   //!
-  void ChangeUncleScene(int ID);
+  void changeUncleScene(int ID);
 
   //! @brief Change to a sibling scene with the specified ID.
   //!

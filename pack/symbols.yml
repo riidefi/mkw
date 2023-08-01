@@ -8632,7 +8632,7 @@ global:
     0x8023aeac: 'draw__Q23EGG12SceneManagerFv'
     0x8023aef8: 'reinitCurrentScene__Q23EGG12SceneManagerFv'
     0x8023af18: 'reinitCurrentSceneAfterFadeOut__Q23EGG12SceneManagerFv'
-    0x8023af84: 'unk_8023af84'
+    0x8023af84: 'changeUncleScene__Q23EGG12SceneManagerFi'
     0x8023afe0: 'changeSiblingScene__Q23EGG12SceneManagerFi'
     0x8023afe8: 'SceneManager_changeSiblingSceneAfterFadeOut'
     0x8023b064: 'changeSiblingScene__Q23EGG12SceneManagerFv'
