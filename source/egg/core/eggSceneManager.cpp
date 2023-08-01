@@ -1,5 +1,7 @@
 #include <egg/core/eggSceneManager.hpp>
 #include <egg/core/eggSystem.hpp>
+#include <egg/core/eggDisplay.hpp>
+#include <egg/core/eggVideo.hpp>
 #include <egg/eggInternal.hpp>
 
 extern "C" {
@@ -10,11 +12,11 @@ UNKNOWN_FUNCTION(SceneManager_reinitCurrentSceneAfterFadeOut);
 // PAL: 0x8023af84..0x8023afe0
 UNKNOWN_FUNCTION(unk_8023af84);
 // PAL: 0x8023afe0..0x8023afe8
-UNKNOWN_FUNCTION(SceneManager_changeSiblingScene);
+UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFi);
 // PAL: 0x8023afe8..0x8023b064
 UNKNOWN_FUNCTION(SceneManager_changeSiblingSceneAfterFadeOut);
 // PAL: 0x8023b064..0x8023b0e4
-UNKNOWN_FUNCTION(SceneManager_changeSiblingScene2);
+UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFv);
 // PAL: 0x8023b0e4..0x8023b248
 UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene);
 // PAL: 0x8023b2ac..0x8023b344
@@ -107,11 +109,6 @@ void SceneManager::ChangeUncleScene(int ID) {
     this->destroyCurrentSceneNoIncoming(true);
   }
   this->changeSiblingScene(ID);
-}
-
-void SceneManager::changeSiblingScene(int ID) {
-  this->mNextSceneID = ID;
-  changeSiblingScene();
 }
 
 bool SceneManager::changeSiblingSceneAfterFadeOut(int ID) {
@@ -229,23 +226,6 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
   this->createScene(ID, pScene);
 }
 
-void SceneManager::drawCurrentScene() {
-  if (!mCurrentScene)
-    return;
-
-  mCurrentScene->draw();
-
-  Display* pSystemDisplay = BaseSystem::sConfigData->getDisplay(); // r31
-
-  // flag name likely wrong
-  if (BaseSystem::sConfigData->getVideo()->mFlag &
-      Video::VIDEO_FLAG_IS_NOT_BLACKED_OUT)
-    if (!(pSystemDisplay->mScreenStateFlag &
-          Display::SCREEN_STATE_FLAG_TOGGLE_BLACK_OUT))
-      pSystemDisplay->mScreenStateFlag |=
-          Display::SCREEN_STATE_FLAG_TOGGLE_BLACK_OUT;
-}
-
 #endif
 } // namespace EGG
 
@@ -273,7 +253,7 @@ lbl_8023afb0:
   bne lbl_8023afa4;
   mr r3, r30;
   mr r4, r31;
-  bl SceneManager_changeSiblingScene;
+  bl changeSiblingScene__Q23EGG12SceneManagerFi;
   lwz r0, 0x14(r1);
   lwz r31, 0xc(r1);
   lwz r30, 8(r1);
@@ -283,15 +263,9 @@ lbl_8023afb0:
   // clang-format on
 }
 
-// Symbol: SceneManager_changeSiblingScene
-// PAL: 0x8023afe0..0x8023afe8
-MARK_BINARY_BLOB(SceneManager_changeSiblingScene, 0x8023afe0, 0x8023afe8);
-asm UNKNOWN_FUNCTION(SceneManager_changeSiblingScene) {
-  // clang-format off
-  nofralloc;
-  stw r4, 0x14(r3);
-  b SceneManager_changeSiblingScene2;
-  // clang-format on
+void EGG::SceneManager::changeSiblingScene(int ID) {
+  this->mNextSceneID = ID;
+  changeSiblingScene();
 }
 
 // Symbol: SceneManager_changeSiblingSceneAfterFadeOut
@@ -336,10 +310,10 @@ lbl_8023b044:
   // clang-format on
 }
 
-// Symbol: SceneManager_changeSiblingScene2
+// Symbol: changeSiblingScene__Q23EGG12SceneManagerFv
 // PAL: 0x8023b064..0x8023b0e4
-MARK_BINARY_BLOB(SceneManager_changeSiblingScene2, 0x8023b064, 0x8023b0e4);
-asm UNKNOWN_FUNCTION(SceneManager_changeSiblingScene2) {
+MARK_BINARY_BLOB(changeSiblingScene__Q23EGG12SceneManagerFv, 0x8023b064, 0x8023b0e4);
+asm UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -868,6 +842,25 @@ lbl_8023b7e0:
 }
 #endif
 
+#if 0
+namespace EGG {
+
+void SceneManager::drawCurrentScene() {
+  if (!mCurrentScene)
+    return;
+
+  mCurrentScene->draw();
+
+  Display* pSystemDisplay = BaseSystem::sSystem->getDisplay(); // r31
+
+  // flag name likely wrong
+  if (BaseSystem::sSystem->getVideo()->mFlag &
+      Video::VIDEO_FLAG_IS_NOT_BLACKED_OUT)
+    if (!(pSystemDisplay->mScreenStateFlag & 1))
+      pSystemDisplay->mScreenStateFlag |= 1;
+}
+}
+#else
 // Symbol: drawCurrentScene__Q23EGG12SceneManagerFv
 // PAL: 0x8023b800..0x8023b890
 MARK_BINARY_BLOB(drawCurrentScene__Q23EGG12SceneManagerFv, 0x8023b800,
@@ -914,6 +907,7 @@ lbl_8023b87c:
   blr;
   // clang-format on
 }
+#endif
 
 namespace EGG {
 
