@@ -2,6 +2,7 @@
 #include <egg/core/eggHeap.hpp>
 #include <egg/eggInternal.hpp>
 #include <rvl/gx.h>
+#include <rvl/gx/gxFifo.h>
 
 namespace EGG {
 

@@ -714,7 +714,7 @@ lbl_8016cf8c:
 // Symbol: GXGetGPFifo
 // PAL: 0x8016cfa0..0x8016d030
 MARK_BINARY_BLOB(GXGetGPFifo, 0x8016cfa0, 0x8016d030);
-asm UNKNOWN_FUNCTION(GXGetGPFifo) {
+asm int GXGetGPFifo(GXFifoObj* fifo) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -761,7 +761,7 @@ lbl_8016d01c:
 // Symbol: GXGetFifoPtrs
 // PAL: 0x8016d030..0x8016d044
 MARK_BINARY_BLOB(GXGetFifoPtrs, 0x8016d030, 0x8016d044);
-asm UNKNOWN_FUNCTION(GXGetFifoPtrs) {
+asm void GXGetFifoPtrs(const GXFifoObj* fifo, void** readPtr, void** writePtr) {
   // clang-format off
   nofralloc;
   lwz r6, 0x14(r3);
@@ -823,7 +823,7 @@ asm UNKNOWN_FUNCTION(GXSetBreakPtCallback) {
 // Symbol: GXEnableBreakPt
 // PAL: 0x8016d098..0x8016d138
 MARK_BINARY_BLOB(GXEnableBreakPt, 0x8016d098, 0x8016d138);
-asm UNKNOWN_FUNCTION(GXEnableBreakPt) {
+asm void GXEnableBreakPt(void* breakPtr) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
@@ -872,7 +872,7 @@ asm UNKNOWN_FUNCTION(GXEnableBreakPt) {
 // Symbol: GXDisableBreakPt
 // PAL: 0x8016d138..0x8016d180
 MARK_BINARY_BLOB(GXDisableBreakPt, 0x8016d138, 0x8016d180);
-asm UNKNOWN_FUNCTION(GXDisableBreakPt) {
+asm void GXDisableBreakPt(void) {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);

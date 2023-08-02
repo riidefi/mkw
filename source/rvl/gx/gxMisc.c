@@ -351,7 +351,7 @@ lbl_8016e9e4:
 // Symbol: GXSetDrawSync
 // PAL: 0x8016e9fc..0x8016eab0
 MARK_BINARY_BLOB(GXSetDrawSync, 0x8016e9fc, 0x8016eab0);
-asm UNKNOWN_FUNCTION(GXSetDrawSync) {
+asm void GXSetDrawSync(u16 token) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
