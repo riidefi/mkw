@@ -1340,6 +1340,7 @@ source/egg/core/eggDecomp.cpp:
 source/egg/core/eggDisplay.cpp:
     enabled: 1
     text: [0x80219e68, 0x8021a0f0]
+    data: [0x802a2b28, 0x802a2b44]
 
 source/egg/core/eggDisposer.cpp:
     enabled: 1
