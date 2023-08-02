@@ -248,6 +248,28 @@ public:
   Heap* becomeCurrentHeap();
 
 public:
+  bool hasFlag(int idx) const {
+    return mFlag & 1 << idx;
+  }
+
+  void clearFlag(int idx) {
+    mFlag &= ~(1 << idx);
+  }
+
+  void setFlag(int idx) {
+    mFlag |= (1 << idx);
+  }
+
+  bool isLocked() const {
+    return hasFlag(0) ? 1 : 0;
+  }
+
+  bool lock() {
+    bool b = isLocked();
+    if (b) clearFlag(0);
+    return b;
+  }
+
   static void* addOffset(void* begin, u32 size) {
     return reinterpret_cast<char*>(begin) + size;
   }

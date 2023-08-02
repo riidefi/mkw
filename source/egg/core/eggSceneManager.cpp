@@ -2,6 +2,7 @@
 #include <egg/core/eggSystem.hpp>
 #include <egg/core/eggDisplay.hpp>
 #include <egg/core/eggVideo.hpp>
+#include <egg/core/eggExpHeap.hpp>
 #include <egg/eggInternal.hpp>
 #include <rvl/gx/gxMisc.h>
 
@@ -22,8 +23,6 @@ UNKNOWN_FUNCTION(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
 UNKNOWN_FUNCTION(findParentScene__Q23EGG12SceneManagerFi);
 
 extern UNKNOWN_FUNCTION(__ct__Q23EGG10ColorFaderFffffQ34nw4r2ut5ColorQ33EGG5Fader7EStatus);
-extern UNKNOWN_FUNCTION(create__Q23EGG7ExpHeapFUlPQ23EGG4HeapUs);
-extern UNKNOWN_FUNCTION(becomeCurrentHeap__Q23EGG4HeapFv);
 extern UNKNOWN_FUNCTION(__nw__FUl);
 }
 
@@ -31,7 +30,7 @@ extern u32 unk_80389008, unk_8038900c, unk_80389010;
 
 namespace EGG {
 
-u32 SceneManager::sHeapOptionFlg;
+u16 SceneManager::sHeapOptionFlg;
 Heap* SceneManager::sHeapMem1_ForCreateScene;
 Heap* SceneManager::sHeapMem2_ForCreateScene;
 Heap* SceneManager::sHeapDebug_ForCreateScene;
@@ -77,95 +76,7 @@ bool SceneManager::reinitCurrentSceneAfterFadeOut() {
   return returnValue;
 }
 
-#if 0
-
-void SceneManager::createScene(int ID, Scene* parentScene) {
-  Heap* pParentHeap_Mem1;  // r26
-  Heap* pParentHeap_Mem2;  // r25
-  Heap* pParentHeap_Debug; // r24
-
-  // if the scene is not NULL (I imagine only NULL for root?), we want to
-  // build off that
-  if (parentScene) {
-    pParentHeap_Mem1 = parentScene->getHeap_Mem1();
-    pParentHeap_Mem2 = parentScene->getHeap_Mem2();
-    pParentHeap_Debug = parentScene->getHeap_Debug();
-  }
-  // otherwise, grab the system heaps
-  else {
-    BaseSystem* sys = EGG::ConfigurationData::sConfigData;
-    pParentHeap_Mem1 = sys->mRootHeapMem1;
-    pParentHeap_Mem2 = sys->mRootHeapMem2;
-    pParentHeap_Debug = sys->mRootHeapDebug;
-  }
-
-  Heap* pNewHeap = bUseMem2 ? pParentHeap_Mem2 : pParentHeap_Mem1; // r28
-
-  WiiSportsAssert(pParentHeap_Mem1 && pParentHeap_Mem2, "eggSceneManager.cpp",
-                  267, "pParentHeap_Mem1 && pParentHeap_Mem2");
-
-  // same val from "DAME DAME!"
-  int r27 = pNewHeap->mFlag & 1;
-  if (r27)
-    pNewHeap->mFlag &= ~1;
-
-  ExpHeap* r23 = ExpHeap::create(-1, pNewHeap, sHeapOptionFlg); // r23
-
-  ExpHeap* pNewHeap_Debug = NULL; // r22
-  ExpHeap* pNewHeap_Mem1;         // r25; overwrites pParentHeap_Mem2
-  ExpHeap* pNewHeap_Mem2;         // r26; overwrites pParentHeap_Mem1
-
-  if (pNewHeap == pParentHeap_Mem2) {
-    pNewHeap_Mem1 = ExpHeap::create(-1, pParentHeap_Mem1, sHeapOptionFlg);
-    pNewHeap_Mem2 = (EGG::ExpHeap*)r23;
-  } else {
-    pNewHeap_Mem2 = ExpHeap::create(-1, pParentHeap_Mem2, sHeapOptionFlg);
-    pNewHeap_Mem1 = (EGG::ExpHeap*)r23;
-  }
-  // If we have a debug heap, we want to create a child debug heap
-  // The system debug heap will in normal game logic be created if and only if
-  // MEM2 size exceeds retail size. Since the root entry, would build off
-  // this, we would not expect this code to run on a game running on a non
-  // development unit
-  if (pParentHeap_Debug)
-    pNewHeap_Debug = ExpHeap::create(-1, pParentHeap_Debug, sHeapOptionFlg);
-
-  // Set static heap pointers
-  sHeapMem1_ForCreateScene = pNewHeap_Mem1;
-  sHeapMem2_ForCreateScene = pNewHeap_Mem2;
-  sHeapDebug_ForCreateScene = pNewHeap_Debug;
-
-  WiiSportsAssert(pNewHeap && pNewHeap_Mem1 && pNewHeap_Mem2,
-                  "eggSceneManager.cpp", 299,
-                  "pNewHeap && pNewHeap_Mem1 && pNewHeap_Mem2");
-
-  // if we unset that value above, we need to restore it
-  if (r27)
-    pNewHeap->mFlag |= 1;
-
-  // Let's make the new heap the current heap
-  r23->becomeCurrentHeap();
-
-  // Create the scene through the scene creator.
-  WiiSportsAssert(this->mSceneCreator, "eggSceneManager.cpp", 311,
-                  "mSceneCreator");
-  Scene* pNewScene = this->mSceneCreator->create(ID); // r3
-  WiiSportsAssert(pNewScene, "eggSceneManager.cpp", 313, "pNewScene");
-
-  // Inline setters below
-  if (parentScene)
-    parentScene->setChildScene(pNewScene);
-  this->mCurrentScene = pNewScene;
-  pNewScene->setSceneID(ID);
-  pNewScene->setParentScene(parentScene);
-  pNewScene->setSceneMgr(this);
-  pNewScene->enter();
-}
-
-#endif
-} // namespace EGG
-
-void EGG::SceneManager::changeUncleScene(int ID) {
+void SceneManager::changeUncleScene(int ID) {
   while (this->mCurrentScene) {
     // destroy current scene then go to parent
     this->destroyCurrentSceneNoIncoming(true);
@@ -173,12 +84,12 @@ void EGG::SceneManager::changeUncleScene(int ID) {
   this->changeSiblingScene(ID);
 }
 
-void EGG::SceneManager::changeSiblingScene(int ID) {
+void SceneManager::changeSiblingScene(int ID) {
   this->mNextSceneID = ID;
   changeSiblingScene();
 }
 
-bool EGG::SceneManager::changeSiblingSceneAfterFadeOut(int ID) {
+bool SceneManager::changeSiblingSceneAfterFadeOut(int ID) {
   bool returnValue = false;
   if (this->mTransitionStatus == -1 && this->mCurrentFader->fadeOut()) {
     this->mNextSceneID = ID;
@@ -187,8 +98,6 @@ bool EGG::SceneManager::changeSiblingSceneAfterFadeOut(int ID) {
   }
   return returnValue;
 }
-
-namespace EGG {
 
 void SceneManager::changeSiblingScene() {
   Scene* curScene = this->mCurrentScene; // r4
@@ -206,117 +115,74 @@ void SceneManager::changeSiblingScene() {
   this->createScene(r30, parentScene);
 }
 
-}
+void SceneManager::createScene(int ID, Scene* parentScene) {
+  Heap* pParentHeap_Mem1;  // r26
+  Heap* pParentHeap_Mem2;  // r25
+  Heap* pParentHeap_Debug; // r24
 
-// Symbol: createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene
-// PAL: 0x8023b0e4..0x8023b248
-MARK_BINARY_BLOB(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene, 0x8023b0e4, 0x8023b248);
-asm UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x30(r1);
-  mflr r0;
-  cmpwi r5, 0;
-  stw r0, 0x34(r1);
-  stmw r22, 8(r1);
-  mr r29, r3;
-  mr r30, r4;
-  mr r31, r5;
-  beq lbl_8023b118;
-  lwz r26, 0x14(r5);
-  lwz r25, 0x18(r5);
-  lwz r24, 0x1c(r5);
-  b lbl_8023b128;
-lbl_8023b118:
-  lwz r4, -0x5ca0(r13);
-  lwz r26, 0x18(r4);
-  lwz r25, 0x1c(r4);
-  lwz r24, 0x20(r4);
-lbl_8023b128:
-  lwz r0, 0x28(r3);
-  cmpwi r0, 0;
-  bne lbl_8023b13c;
-  mr r28, r26;
-  b lbl_8023b140;
-lbl_8023b13c:
-  mr r28, r25;
-lbl_8023b140:
-  lhz r0, 0x1c(r28);
-  clrlwi. r27, r0, 0x1f;
-  beq lbl_8023b158;
-  lhz r0, 0x1c(r28);
-  rlwinm r0, r0, 0, 0x10, 0x1e;
-  sth r0, 0x1c(r28);
-lbl_8023b158:
-  lhz r5, -0x5d00(r13);
-  mr r4, r28;
-  li r3, -1;
-  bl create__Q23EGG7ExpHeapFUlPQ23EGG4HeapUs;
-  cmplw r28, r25;
-  mr r23, r3;
-  li r22, 0;
-  bne lbl_8023b194;
-  lhz r5, -0x5d00(r13);
-  mr r4, r26;
-  li r3, -1;
-  bl create__Q23EGG7ExpHeapFUlPQ23EGG4HeapUs;
-  mr r25, r3;
-  mr r26, r23;
-  b lbl_8023b1ac;
-lbl_8023b194:
-  lhz r5, -0x5d00(r13);
-  mr r4, r25;
-  li r3, -1;
-  bl create__Q23EGG7ExpHeapFUlPQ23EGG4HeapUs;
-  mr r26, r3;
-  mr r25, r23;
-lbl_8023b1ac:
-  cmpwi r24, 0;
-  beq lbl_8023b1c8;
-  lhz r5, -0x5d00(r13);
-  mr r4, r24;
-  li r3, -1;
-  bl create__Q23EGG7ExpHeapFUlPQ23EGG4HeapUs;
-  mr r22, r3;
-lbl_8023b1c8:
-  cmpwi r27, 0;
-  stw r25, -0x5cfc(r13);
-  stw r26, -0x5cf8(r13);
-  stw r22, -0x5cf4(r13);
-  beq lbl_8023b1e8;
-  lhz r0, 0x1c(r28);
-  ori r0, r0, 1;
-  sth r0, 0x1c(r28);
-lbl_8023b1e8:
-  mr r3, r23;
-  bl becomeCurrentHeap__Q23EGG4HeapFv;
-  lwz r3, 4(r29);
-  mr r4, r30;
-  lwz r12, 0(r3);
-  lwz r12, 8(r12);
-  mtctr r12;
-  bctrl;
-  cmpwi r31, 0;
-  beq lbl_8023b214;
-  stw r3, 0x24(r31);
-lbl_8023b214:
-  stw r3, 0xc(r29);
-  stw r30, 0x28(r3);
-  stw r31, 0x20(r3);
-  stw r29, 0x2c(r3);
-  lwz r12, 0(r3);
-  lwz r12, 0x14(r12);
-  mtctr r12;
-  bctrl;
-  lmw r22, 8(r1);
-  lwz r0, 0x34(r1);
-  mtlr r0;
-  addi r1, r1, 0x30;
-  blr;
-  // clang-format on
-}
+  // if the scene is not NULL (I imagine only NULL for root?), we want to
+  // build off that
+  if (parentScene) {
+    pParentHeap_Mem1 = parentScene->getHeap_Mem1();
+    pParentHeap_Mem2 = parentScene->getHeap_Mem2();
+    pParentHeap_Debug = parentScene->getHeap_Debug();
+  }
+  // otherwise, grab the system heaps
+  else {
+    BaseSystem* sys = EGG::BaseSystem::sSystem;
+    pParentHeap_Mem1 = sys->mRootHeapMem1;
+    pParentHeap_Mem2 = sys->mRootHeapMem2;
+    pParentHeap_Debug = sys->mRootHeapDebug;
+  }
 
-namespace EGG {
+  Heap* pParentHeap = (!bUseMem2 ? pParentHeap_Mem1 : pParentHeap_Mem2); // r28
+
+  int r27b = pParentHeap->lock();
+
+  ExpHeap* pNewHeap = ExpHeap::create(-1, pParentHeap, sHeapOptionFlg); // r23
+
+  ExpHeap* pNewHeap_Mem1;         // r25; overwrites pParentHeap_Mem2
+  ExpHeap* pNewHeap_Mem2;         // r26; overwrites pParentHeap_Mem1
+  ExpHeap* pNewHeap_Debug = 0; // r22
+
+  if (pParentHeap == pParentHeap_Mem2) {
+    pNewHeap_Mem1 = ExpHeap::create(-1, pParentHeap_Mem1, sHeapOptionFlg);
+    pNewHeap_Mem2 = (EGG::ExpHeap*)pNewHeap;
+  } else {
+    pNewHeap_Mem2 = ExpHeap::create(-1, pParentHeap_Mem2, sHeapOptionFlg);
+    pNewHeap_Mem1 = (EGG::ExpHeap*)pNewHeap;
+  }
+  // If we have a debug heap, we want to create a child debug heap
+  // The system debug heap will in normal game logic be created if and only if
+  // MEM2 size exceeds retail size. Since the root entry, would build off
+  // this, we would not expect this code to run on a game running on a non
+  // development unit
+  if (pParentHeap_Debug)
+    pNewHeap_Debug = ExpHeap::create(-1, pParentHeap_Debug, sHeapOptionFlg);
+
+  // Set static heap pointers
+  sHeapMem1_ForCreateScene = pNewHeap_Mem1;
+  sHeapMem2_ForCreateScene = pNewHeap_Mem2;
+  sHeapDebug_ForCreateScene = pNewHeap_Debug;
+
+  // if we unset that value above, we need to restore it
+  if (r27b) pParentHeap->setFlag(0);
+
+  // Let's make the new heap the current heap
+  pNewHeap->becomeCurrentHeap();
+
+  // Create the scene through the scene creator.
+  Scene* pNewScene = this->mSceneCreator->create(ID); // r3
+
+  // Inline setters below
+  if (parentScene)
+    parentScene->setChildScene(pNewScene);
+  this->mCurrentScene = pNewScene;
+  pNewScene->setSceneID(ID);
+  pNewScene->setParentScene(parentScene);
+  pNewScene->setSceneMgr(this);
+  pNewScene->enter();
+}
 
 void SceneManager::createChildScene(int ID, Scene* pScene) {
   outgoingParentScene(pScene);
