@@ -380,6 +380,7 @@ SOURCES_EGG_CORE = [
     Source(src="source/egg/gfx/eggIScnProc.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/gfx/eggLightManager.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/gfx/eggLightObject.cpp", cc='4201_127', opts=EGG_OPTS),
+    Source(src="source/egg/core/eggProcessMeter.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/util/eggSaveBanner.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggScene.cpp", cc='4201_127', opts=EGG_OPTS),
     Source(src="source/egg/core/eggSceneManager.cpp", cc='4201_127', opts=EGG_OPTS),
