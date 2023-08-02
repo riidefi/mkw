@@ -8,7 +8,7 @@ struct BoundBox2f {
   Vector2f min;
   Vector2f max;
 
-  BoundBox2f() {}
+  BoundBox2f();
 };
 
 } // namespace EGG

@@ -1,18 +1,27 @@
 #pragma once
 
 #include <rk_types.h>
+#include <egg/core/eggHeap.hpp>
 
-#include <decomp.h>
+namespace EGG {
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+class Xfb {
+public:
+  Xfb(Heap*);
+  static size_t calcBufferSize(u16, u16);
 
-// PAL: 0x80244160..0x802441ec
-UNKNOWN_FUNCTION(__ct__Q23EGG3XfbFPQ23EGG4Heap);
-// PAL: 0x802441ec..0x80244200
-UNKNOWN_FUNCTION(EGG__Xfb__CalcXfbSize);
+private:
+  u16 width;
+  u16 height;
+  u8* buf;
+  u32 _unk08;
+  u32 _unk0c;
 
-#ifdef __cplusplus
-}
-#endif
+private:
+  inline void setDimensions(u16 w, u16 h) {
+    width = w;
+    height = h;
+  }
+};
+
+} // namespace EGG

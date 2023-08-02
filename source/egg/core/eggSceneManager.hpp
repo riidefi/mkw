@@ -35,7 +35,7 @@ public:
 
 public: // .sbss
   //! @brief Option to use when creating Scene ExpHeaps
-  static u32 sHeapOptionFlg;
+  static u16 sHeapOptionFlg;
   static Heap* sHeapMem1_ForCreateScene;
   static Heap* sHeapMem2_ForCreateScene;
   static Heap* sHeapDebug_ForCreateScene;
@@ -123,7 +123,7 @@ public:
   //! @param[in] ID Scene ID to switch to after destroying current scene
   //! completely.
   //!
-  void ChangeUncleScene(int ID);
+  void changeUncleScene(int ID);
 
   //! @brief Change to a sibling scene with the specified ID.
   //!
@@ -220,6 +220,13 @@ public:
   //! @returns Pointer to found parent scene, otherwise NULL.
   //!
   Scene* findParentScene(int ID);
+
+  inline int getNextSceneID() {
+    return mNextSceneID;
+  }
+
+private:
+  inline s32 getUnk18() { return _18; }
 
 public:
   SceneCreator* mSceneCreator; //!< [+0x04]

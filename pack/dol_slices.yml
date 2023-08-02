@@ -1429,9 +1429,11 @@ source/egg/core/eggScene.cpp:
 
 source/egg/core/eggSceneManager.cpp:
     enabled: 1
+    strip: 1
     text: [0x8023addc, 0x8023b980]
     data: [0x802a3e08, 0x802a3e2c]
     sbss: [0x80386f00, 0x80386f10]
+    sdata2: [0x80389008, 0x80389014]
 
 source/egg/gfx/eggScnRenderer.cpp:
     enabled: 1
@@ -1467,6 +1469,7 @@ source/egg/core/eggUnitHeap.cpp:
     data: [0x802a3fd8, 0x802a4004]
 
 source/egg/core/eggSystem.cpp:
+    enabled: 1
     sbss: [0x80386f60, 0x80386f64]
 
 source/egg/math/eggVector.cpp:
@@ -1486,7 +1489,9 @@ source/egg/core/eggVideo.cpp:
 
 source/egg/core/eggViewport.cpp:
     enabled: 1
+    strip: 1
     text: [0x80244074, 0x80244160]
+    sdata2: [0x80389118, 0x80389128]
 
 source/egg/core/eggXfb.cpp:
     enabled: 1
