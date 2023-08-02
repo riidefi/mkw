@@ -221,6 +221,10 @@ public:
   //!
   Scene* findParentScene(int ID);
 
+  inline int getNextSceneID() {
+    return mNextSceneID;
+  }
+
 private:
   inline s32 getUnk18() { return _18; }
 
