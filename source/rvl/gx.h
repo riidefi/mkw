@@ -16,19 +16,19 @@ GXFifoObj* GXInit(void* buf, u32 size);
 void GXSetDrawSync(u16 token);
 
 typedef struct GXRenderModeObj {
-  int tv_mode;
-  u16 fb_width;
-  u16 efb_height;
-  u16 xfb_height;
-  u16 vi_x;
-  u16 vi_y;
-  u16 vi_width;
-  u16 vi_height;
-  int vi_xfb;
-  u8 field;
-  u8 aa;
-  u8 sample[12][2];
-  u8 vert_filter[7];
+  int tv_mode;       // 0x00
+  u16 fb_width;      // 0x04
+  u16 efb_height;    // 0x06
+  u16 xfb_height;    // 0x08
+  u16 vi_x;          // 0x0a
+  u16 vi_y;          // 0x0c
+  u16 vi_width;      // 0x0e
+  u16 vi_height;     // 0x10
+  int vi_xfb;        // 0x14
+  u8 field;          // 0x18
+  u8 aa;             // 0x19
+  u8 sample[12][2];  // 0x1a
+  u8 vert_filter[7]; // 0x32
 } GXRenderModeObj;
 
 #ifdef __cplusplus

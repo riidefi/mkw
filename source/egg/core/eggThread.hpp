@@ -126,7 +126,7 @@ public:
   //!
   static void* start(void* eggThread);
 
-  inline OSMessageQueue *getMesgQueue() { return &mMesgQueue; }
+  inline OSMessageQueue* getMesgQueue() { return &mMesgQueue; }
 
   inline OSThread* getOSThread() { return mOSThread; }
 
