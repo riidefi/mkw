@@ -1489,7 +1489,9 @@ source/egg/core/eggVideo.cpp:
 
 source/egg/core/eggViewport.cpp:
     enabled: 1
+    strip: 1
     text: [0x80244074, 0x80244160]
+    sdata2: [0x80389118, 0x80389128]
 
 source/egg/core/eggXfb.cpp:
     enabled: 1
