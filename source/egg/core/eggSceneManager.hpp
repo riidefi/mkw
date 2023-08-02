@@ -35,7 +35,7 @@ public:
 
 public: // .sbss
   //! @brief Option to use when creating Scene ExpHeaps
-  static u32 sHeapOptionFlg;
+  static u16 sHeapOptionFlg;
   static Heap* sHeapMem1_ForCreateScene;
   static Heap* sHeapMem2_ForCreateScene;
   static Heap* sHeapDebug_ForCreateScene;
