@@ -1,5 +1,11 @@
 #include "eggProcessMeter.hpp"
 
+#include <rvl/os/osInterrupt.h>
+#include <rvl/gx.h>
+#include <rvl/gx/gxFifo.h>
+#include <rvl/gx/gxGeometry.h>
+#include <rvl/mtx/mtx.h>
+
 // Extern function references.
 // PAL: 0x800aef60
 extern "C" void List_Init__Q24nw4r2utFPQ34nw4r2ut4ListUs();
@@ -7,14 +13,6 @@ extern "C" void List_Init__Q24nw4r2utFPQ34nw4r2ut4ListUs();
 extern "C" void List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv();
 // PAL: 0x800af180
 extern "C" void List_GetNext__Q24nw4r2utFPCQ34nw4r2ut4ListPCv();
-// PAL: 0x8016cfa0
-extern "C" void GXGetGPFifo();
-// PAL: 0x8016d030
-extern "C" void GXGetFifoPtrs();
-// PAL: 0x8016d098
-extern "C" void GXEnableBreakPt();
-// PAL: 0x8016d138
-extern "C" void GXDisableBreakPt();
 // PAL: 0x8016d39c
 extern "C" void GXGetCurrentGXThread();
 // PAL: 0x8016dc34
@@ -23,12 +21,8 @@ extern "C" void GXClearVtxDesc();
 extern "C" void GXSetVtxAttrFmt();
 // PAL: 0x8016e5a4
 extern "C" void GXSetNumTexGens();
-// PAL: 0x8016e9fc
-extern "C" void GXSetDrawSync();
 // PAL: 0x8016ec88
 extern "C" void GXSetDrawSyncCallback();
-// PAL: 0x8016f0f0
-extern "C" void GXBegin();
 // PAL: 0x8016f314
 extern "C" void GXSetLineWidth();
 // PAL: 0x8016f3b8
@@ -63,30 +57,11 @@ extern "C" void GXSetCurrentMtx();
 extern "C" void GXSetViewport();
 // PAL: 0x80173430
 extern "C" void GXSetScissor();
-// PAL: 0x80199d64
-extern "C" void PSMTXConcat();
-// PAL: 0x8019a3e0
-extern "C" void PSMTXTrans();
-// PAL: 0x8019a460
-extern "C" void PSMTXScale();
-// PAL: 0x8019ab4c
-extern "C" void C_MTXOrtho();
-// PAL: 0x801a65ac
-extern "C" void OSDisableInterrupts();
-// PAL: 0x801a65d4
-extern "C" void OSRestoreInterrupts();
-// PAL: 0x801a735c
-extern "C" void OSSendMessage();
-// PAL: 0x801a7424
-extern "C" void OSReceiveMessage();
-// PAL: 0x801aa58c
-extern "C" void OSResumeThread();
 // PAL: 0x801aab98
 extern "C" void OSSetThreadPriority();
-// PAL: 0x801aad74
-extern "C" void OSGetTick();
 // PAL: 0x80238f54
-extern "C" void ProcessMeter_append2();
+extern "C" void
+append__Q23EGG12ProcessMeterFPQ33EGG12ProcessMeter12CpuGpMonitor();
 // PAL: 0x80239338
 extern "C" void ProcessMeter_draw2();
 // PAL: 0x802432e0
@@ -94,167 +69,88 @@ extern "C" void __ct__Q23EGG6ThreadFUliiPQ23EGG4Heap();
 // PAL: 0x8024341c
 extern "C" void __dt__Q23EGG6ThreadFv();
 
-// Symbol: CpuMonitor_measureBegin
-// PAL: 0x802386dc..0x80238714
-MARK_BINARY_BLOB(CpuMonitor_measureBegin, 0x802386dc, 0x80238714);
-asm UNKNOWN_FUNCTION(CpuMonitor_measureBegin) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  bl OSGetTick;
-  li r0, 0;
-  stw r3, 0xc(r31);
-  stw r0, 0x10(r31);
-  lwz r31, 0xc(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+namespace EGG {
+
+// dead-stripped, inlined
+ProcessMeter::ProcessBar::ProcessBar(nw4r::ut::Color color, f32 posY,
+                                     f32 dimY) {
+  mPosX = 0.0f;
+  mDimX = 0.0f;
+  mStartTick = 0;
+  mEndTick = 0;
+  mColor = color;
+  mPosY = posY;
+  mDimY = dimY;
+  mFlags = 0;
 }
 
-// Symbol: CpuMonitor_measureEnd
-// PAL: 0x80238714..0x80238750
-MARK_BINARY_BLOB(CpuMonitor_measureEnd, 0x80238714, 0x80238750);
-asm UNKNOWN_FUNCTION(CpuMonitor_measureEnd) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  lwz r0, 0xc(r3);
-  cmpwi r0, 0;
-  beq lbl_8023873c;
-  bl OSGetTick;
-  stw r3, 0x10(r31);
-lbl_8023873c:
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+// dead-stripped, inlined
+void ProcessMeter::ProcessBar::update(f32 posX) {
+  mPosX = posX;
+
+  u32 duration;
+  if (mStartTick != 0 && mEndTick != 0) {
+    duration = mEndTick - mStartTick;
+  } else {
+    duration = 0;
+  }
+  mDimX = static_cast<f32>(duration) / static_cast<f32>(OS_TIMER_CLOCK / 1000);
 }
 
-// Symbol: CpuMonitor_show
-// PAL: 0x80238750..0x80238760
-MARK_BINARY_BLOB(CpuMonitor_show, 0x80238750, 0x80238760);
-asm UNKNOWN_FUNCTION(CpuMonitor_show) {
-  // clang-format off
-  nofralloc;
-  lbz r0, 0x20(r3);
-  rlwinm r0, r0, 0, 0x18, 0x1e;
-  stb r0, 0x20(r3);
-  blr;
-  // clang-format on
+// dead-stripped, inlined
+void ProcessMeter::ProcessBar::update(u32 startTickInFrame) {
+  f32 posX = static_cast<f32>(startTickInFrame) /
+             static_cast<f32>(OS_TIMER_CLOCK / 1000);
+  update(posX);
 }
 
-// Symbol: CpuMonitor_hide
-// PAL: 0x80238760..0x80238770
-MARK_BINARY_BLOB(CpuMonitor_hide, 0x80238760, 0x80238770);
-asm UNKNOWN_FUNCTION(CpuMonitor_hide) {
-  // clang-format off
-  nofralloc;
-  lbz r0, 0x20(r3);
-  ori r0, r0, 1;
-  stb r0, 0x20(r3);
-  blr;
-  // clang-format on
+// dead-stripped, inlined
+ProcessMeter::CpuMonitor::CpuMonitor(nw4r::ut::Color color, f32 posY)
+    : mCpuBar(color, posY, 1.0) {}
+
+void ProcessMeter::CpuMonitor::measureBegin() {
+  mCpuBar.mStartTick = OSGetTick();
+  mCpuBar.mEndTick = 0;
 }
 
-// Symbol: CpuGpMonitor_measureBegin
-// PAL: 0x80238770..0x802387bc
-MARK_BINARY_BLOB(CpuGpMonitor_measureBegin, 0x80238770, 0x802387bc);
-asm UNKNOWN_FUNCTION(CpuGpMonitor_measureBegin) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  bl OSGetTick;
-  stw r3, 0xc(r31);
-  li r4, 0;
-  li r0, 1;
-  lwz r3, 0x58(r31);
-  stw r4, 0x10(r31);
-  addi r4, r31, 0x5c;
-  sth r0, 0x54(r31);
-  bl ProcessMeter_setDrawSync;
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void ProcessMeter::CpuMonitor::measureEnd() {
+  if (mCpuBar.mStartTick != 0) {
+    mCpuBar.mEndTick = OSGetTick();
+  }
 }
 
-// Symbol: CpuGpMonitor_measureEnd
-// PAL: 0x802387bc..0x80238804
-MARK_BINARY_BLOB(CpuGpMonitor_measureEnd, 0x802387bc, 0x80238804);
-asm UNKNOWN_FUNCTION(CpuGpMonitor_measureEnd) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  lwz r0, 0xc(r3);
-  cmpwi r0, 0;
-  beq lbl_802387e4;
-  bl OSGetTick;
-  stw r3, 0x10(r31);
-lbl_802387e4:
-  lwz r3, 0x58(r31);
-  addi r4, r31, 0x6c;
-  bl ProcessMeter_setDrawSync;
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void ProcessMeter::CpuMonitor::show() { mCpuBar.mFlags &= ~ProcessBar::HIDDEN; }
+
+void ProcessMeter::CpuMonitor::hide() { mCpuBar.mFlags |= ProcessBar::HIDDEN; }
+
+void ProcessMeter::CpuGpMonitor::measureBegin() {
+  mCpuBar.mStartTick = OSGetTick();
+  mCpuBar.mEndTick = 0;
+
+  mNextFuture = NEXT_FUTURE_BEGIN;
+
+  mProcessMeter->setDrawSync(&mBeginFuture);
 }
 
-// Symbol: CpuGpMonitor_show
-// PAL: 0x80238804..0x80238820
-MARK_BINARY_BLOB(CpuGpMonitor_show, 0x80238804, 0x80238820);
-asm UNKNOWN_FUNCTION(CpuGpMonitor_show) {
-  // clang-format off
-  nofralloc;
-  lbz r4, 0x20(r3);
-  lbz r0, 0x48(r3);
-  rlwinm r4, r4, 0, 0x18, 0x1e;
-  stb r4, 0x20(r3);
-  rlwinm r0, r0, 0, 0x18, 0x1e;
-  stb r0, 0x48(r3);
-  blr;
-  // clang-format on
+void ProcessMeter::CpuGpMonitor::measureEnd() {
+  if (mCpuBar.mStartTick != 0) {
+    mCpuBar.mEndTick = OSGetTick();
+  }
+
+  mProcessMeter->setDrawSync(&mEndFuture);
 }
 
-// Symbol: CpuGpMonitor_hide
-// PAL: 0x80238820..0x8023883c
-MARK_BINARY_BLOB(CpuGpMonitor_hide, 0x80238820, 0x8023883c);
-asm UNKNOWN_FUNCTION(CpuGpMonitor_hide) {
-  // clang-format off
-  nofralloc;
-  lbz r4, 0x20(r3);
-  lbz r0, 0x48(r3);
-  ori r4, r4, 1;
-  stb r4, 0x20(r3);
-  ori r0, r0, 1;
-  stb r0, 0x48(r3);
-  blr;
-  // clang-format on
+void ProcessMeter::CpuGpMonitor::show() {
+  mCpuBar.mFlags &= ~ProcessBar::HIDDEN;
+  mGpBar.mFlags &= ~ProcessBar::HIDDEN;
 }
+
+void ProcessMeter::CpuGpMonitor::hide() {
+  mCpuBar.mFlags |= ProcessBar::HIDDEN;
+  mGpBar.mFlags |= ProcessBar::HIDDEN;
+}
+
+} // namespace EGG
 
 // Symbol: ProcessMeter_construct
 // PAL: 0x8023883c..0x80238a94
@@ -385,10 +281,10 @@ asm UNKNOWN_FUNCTION(ProcessMeter_construct) {
   stb r0, 0x152(r30);
   stw r0, 0x6c(r30);
   stw r0, 0x70(r30);
-  bl ProcessMeter_append;
+  bl append__Q23EGG12ProcessMeterFPQ33EGG12ProcessMeter10CpuMonitor;
   mr r3, r30;
   addi r4, r30, 0xc8;
-  bl ProcessMeter_append2;
+  bl append__Q23EGG12ProcessMeterFPQ33EGG12ProcessMeter12CpuGpMonitor;
   lbz r0, 0x152(r30);
   cmpwi r31, 0;
   ori r0, r0, 1;
@@ -416,10 +312,11 @@ lbl_80238a58:
   // clang-format on
 }
 
-// Symbol: ProcessMeter_measureBeginFrame
+// Symbol: measureBeginFrame__Q23EGG12ProcessMeterFv
 // PAL: 0x80238a94..0x80238d10
-MARK_BINARY_BLOB(ProcessMeter_measureBeginFrame, 0x80238a94, 0x80238d10);
-asm UNKNOWN_FUNCTION(ProcessMeter_measureBeginFrame) {
+MARK_BINARY_BLOB(measureBeginFrame__Q23EGG12ProcessMeterFv, 0x80238a94,
+                 0x80238d10);
+asm UNKNOWN_FUNCTION(measureBeginFrame__Q23EGG12ProcessMeterFv) {
   // clang-format off
   nofralloc;
   stwu r1, -0x80(r1);
@@ -595,269 +492,140 @@ lbl_80238c84:
   // clang-format on
 }
 
-// Symbol: ProcessMeter_measureEndFrame
-// PAL: 0x80238d10..0x80238d20
-MARK_BINARY_BLOB(ProcessMeter_measureEndFrame, 0x80238d10, 0x80238d20);
-asm UNKNOWN_FUNCTION(ProcessMeter_measureEndFrame) {
-  // clang-format off
-  nofralloc;
-  lwzu r12, 0x9c(r3);
-  lwz r12, 0x14(r12);
-  mtctr r12;
-  bctr;
-  // clang-format on
+namespace EGG {
+
+// void ProcessMeter::measureBeginFrame() {
+//   if (mBgBar.mStartTick != 0) {
+//     mBgBar.mEndTick = OSGetTick();
+//   }
+//   mBgBar.update(0.0f);
+
+//   ProcessBar* bar = nullptr;
+//   f32 maxY = 0.0f;
+//   while ((bar = (ProcessBar*)List_GetNext(&mBarList, bar))) {
+//     bar->update(bar->mStartTick - mBgBar.mStartTick);
+
+//     f32 barMaxY;
+//     if (bar->mDimX > 0.0f) {
+//       barMaxY = bar->mPosY + bar->mDimY;
+//     } else {
+//       barMaxY = 0.0f;
+//     }
+//     if (!(bar->mFlags & ProcessBar::HIDDEN) && barMaxY > maxY) {
+//       maxY = barMaxY;
+//     }
+//   }
+
+//   mBgBarDimY = 1.0f + maxY;
+
+//   mBgBar.mStartTick = OSGetTick();
+//   mBgBar.mEndTick = 0;
+
+//   mCpuMonitor.measureBegin();
+// }
+
+void ProcessMeter::measureEndFrame() { mCpuMonitor.measureEnd(); }
+
+void ProcessMeter::measureBeginRender() { mCpuGpMonitor.measureBegin(); }
+
+void ProcessMeter::measureEndRender() { mCpuGpMonitor.measureEnd(); }
+
+void ProcessMeter::callbackDrawSync(u16 token) {
+  if (mHeadGpFuture->mToken == token) {
+    u32 tick = OSGetTick();
+    OSSendMessage(getMesgQueue(), reinterpret_cast<void*>(tick),
+                  OS_MESSAGE_NOBLOCK);
+  }
 }
 
-// Symbol: ProcessMeter_measureBeginRender
-// PAL: 0x80238d20..0x80238d30
-MARK_BINARY_BLOB(ProcessMeter_measureBeginRender, 0x80238d20, 0x80238d30);
-asm UNKNOWN_FUNCTION(ProcessMeter_measureBeginRender) {
-  // clang-format off
-  nofralloc;
-  lwzu r12, 0xc8(r3);
-  lwz r12, 0x10(r12);
-  mtctr r12;
-  bctr;
-  // clang-format on
+void* ProcessMeter::run() {
+  while (true) {
+    OSMessage message;
+    OSReceiveMessage(getMesgQueue(), &message, OS_MESSAGE_BLOCK);
+    u32 tick = reinterpret_cast<u32>(message);
+
+    int interrupts = OSDisableInterrupts();
+
+    GpFuture* next = mHeadGpFuture->mNext;
+    if (next != nullptr) {
+      if (next->mNext != nullptr) {
+        GXEnableBreakPt(next->mNext->mWritePtr);
+      } else {
+        GXDisableBreakPt();
+      }
+    }
+
+    CpuGpMonitor* cpuGpMonitor = mHeadGpFuture->mCpuGpMonitor;
+    mHeadGpFuture = mHeadGpFuture->mNext;
+
+    OSRestoreInterrupts(interrupts);
+
+    switch (cpuGpMonitor->mNextFuture) {
+    case CpuGpMonitor::NEXT_FUTURE_BEGIN:
+      cpuGpMonitor->mGpBar.mStartTick = tick;
+      cpuGpMonitor->mNextFuture = CpuGpMonitor::NEXT_FUTURE_END;
+      break;
+    case CpuGpMonitor::NEXT_FUTURE_END:
+      cpuGpMonitor->mGpBar.mEndTick = tick;
+      cpuGpMonitor->mNextFuture = CpuGpMonitor::NEXT_FUTURE_NONE;
+      break;
+    }
+  }
 }
 
-// Symbol: ProcessMeter_measureEndRender
-// PAL: 0x80238d30..0x80238d40
-MARK_BINARY_BLOB(ProcessMeter_measureEndRender, 0x80238d30, 0x80238d40);
-asm UNKNOWN_FUNCTION(ProcessMeter_measureEndRender) {
-  // clang-format off
-  nofralloc;
-  lwzu r12, 0xc8(r3);
-  lwz r12, 0x14(r12);
-  mtctr r12;
-  bctr;
-  // clang-format on
+void ProcessMeter::setDrawSync(GpFuture* nextGpFuture) {
+  int interrupts = OSDisableInterrupts();
+
+  mToken += 1;
+  if (mToken > 0xdfff) {
+    mToken = 0xd000;
+  }
+
+  nextGpFuture->mToken = mToken;
+  nextGpFuture->mNext = nullptr;
+
+  if (mHeadGpFuture != nullptr) {
+    GXFifoObj fifo;
+    GXGetGPFifo(&fifo);
+    void* readPtr;
+    GXGetFifoPtrs(&fifo, &readPtr, &nextGpFuture->mWritePtr);
+    if (mHeadGpFuture->mNext == nullptr) {
+      GXEnableBreakPt(nextGpFuture->mWritePtr);
+    }
+
+    mTailGpFuture->mNext = nextGpFuture;
+    mTailGpFuture = nextGpFuture;
+  } else {
+    mHeadGpFuture = nextGpFuture;
+    mTailGpFuture = nextGpFuture;
+  }
+
+  GXSetDrawSync(mToken);
+
+  OSRestoreInterrupts(interrupts);
 }
 
-// Symbol: ProcessMeter_callbackDrawSync
-// PAL: 0x80238d40..0x80238d8c
-MARK_BINARY_BLOB(ProcessMeter_callbackDrawSync, 0x80238d40, 0x80238d8c);
-asm UNKNOWN_FUNCTION(ProcessMeter_callbackDrawSync) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r3;
-  lwz r5, 0x6c(r3);
-  lhz r0, 4(r5);
-  cmplw r0, r4;
-  bne lbl_80238d78;
-  bl OSGetTick;
-  mr r4, r3;
-  addi r3, r31, 0xc;
-  li r5, 0;
-  bl OSSendMessage;
-lbl_80238d78:
-  lwz r0, 0x14(r1);
-  lwz r31, 0xc(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
+void ProcessMeter::setVisible(bool visible) {
+  if (visible) {
+    mFlags |= VISIBLE;
+  } else {
+    mFlags &= ~VISIBLE;
+  }
 }
 
-// Symbol: ProcessMeter_run
-// PAL: 0x80238d8c..0x80238e38
-MARK_BINARY_BLOB(ProcessMeter_run, 0x80238d8c, 0x80238e38);
-asm UNKNOWN_FUNCTION(ProcessMeter_run) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x30(r1);
-  mflr r0;
-  stw r0, 0x34(r1);
-  stmw r27, 0x1c(r1);
-  mr r27, r3;
-  li r30, 2;
-  li r31, 0;
-lbl_80238da8:
-  addi r3, r27, 0xc;
-  addi r4, r1, 8;
-  li r5, 1;
-  bl OSReceiveMessage;
-  lwz r29, 8(r1);
-  bl OSDisableInterrupts;
-  lwz r4, 0x6c(r27);
-  mr r28, r3;
-  lwz r3, 8(r4);
-  cmpwi r3, 0;
-  beq lbl_80238df0;
-  lwz r3, 8(r3);
-  cmpwi r3, 0;
-  beq lbl_80238dec;
-  lwz r3, 0(r3);
-  bl GXEnableBreakPt;
-  b lbl_80238df0;
-lbl_80238dec:
-  bl GXDisableBreakPt;
-lbl_80238df0:
-  lwz r4, 0x6c(r27);
-  mr r3, r28;
-  lwz r28, 0xc(r4);
-  lwz r0, 8(r4);
-  stw r0, 0x6c(r27);
-  bl OSRestoreInterrupts;
-  lhz r0, 0x54(r28);
-  cmpwi r0, 1;
-  beq lbl_80238e20;
-  cmpwi r0, 2;
-  beq lbl_80238e2c;
-  b lbl_80238da8;
-lbl_80238e20:
-  stw r29, 0x34(r28);
-  sth r30, 0x54(r28);
-  b lbl_80238da8;
-lbl_80238e2c:
-  stw r29, 0x38(r28);
-  sth r31, 0x54(r28);
-  b lbl_80238da8;
-  // clang-format on
+bool ProcessMeter::isVisible() { return mFlags & VISIBLE; }
+
+void ProcessMeter::append(CpuMonitor* cpuMonitor) {
+  List_Append(&mBarList, &cpuMonitor->mCpuBar);
 }
 
-// Symbol: ProcessMeter_setDrawSync
-// PAL: 0x80238e38..0x80238f14
-MARK_BINARY_BLOB(ProcessMeter_setDrawSync, 0x80238e38, 0x80238f14);
-asm UNKNOWN_FUNCTION(ProcessMeter_setDrawSync) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0xa0(r1);
-  mflr r0;
-  stw r0, 0xa4(r1);
-  stw r31, 0x9c(r1);
-  stw r30, 0x98(r1);
-  mr r30, r4;
-  stw r29, 0x94(r1);
-  mr r29, r3;
-  bl OSDisableInterrupts;
-  lhz r4, 0x150(r29);
-  mr r31, r3;
-  addi r0, r4, 1;
-  sth r0, 0x150(r29);
-  clrlwi r0, r0, 0x10;
-  cmplwi r0, 0xdfff;
-  ble lbl_80238e84;
-  lis r3, 1;
-  addi r0, r3, -12288;
-  sth r0, 0x150(r29);
-lbl_80238e84:
-  lhz r3, 0x150(r29);
-  li r0, 0;
-  sth r3, 4(r30);
-  stw r0, 8(r30);
-  lwz r0, 0x6c(r29);
-  cmpwi r0, 0;
-  beq lbl_80238ee0;
-  addi r3, r1, 0x10;
-  bl GXGetGPFifo;
-  mr r5, r30;
-  addi r3, r1, 0x10;
-  addi r4, r1, 8;
-  bl GXGetFifoPtrs;
-  lwz r3, 0x6c(r29);
-  lwz r0, 8(r3);
-  cmpwi r0, 0;
-  bne lbl_80238ed0;
-  lwz r3, 0(r30);
-  bl GXEnableBreakPt;
-lbl_80238ed0:
-  lwz r3, 0x70(r29);
-  stw r30, 8(r3);
-  stw r30, 0x70(r29);
-  b lbl_80238ee8;
-lbl_80238ee0:
-  stw r30, 0x6c(r29);
-  stw r30, 0x70(r29);
-lbl_80238ee8:
-  lhz r3, 0x150(r29);
-  bl GXSetDrawSync;
-  mr r3, r31;
-  bl OSRestoreInterrupts;
-  lwz r0, 0xa4(r1);
-  lwz r31, 0x9c(r1);
-  lwz r30, 0x98(r1);
-  lwz r29, 0x94(r1);
-  mtlr r0;
-  addi r1, r1, 0xa0;
-  blr;
-  // clang-format on
+void ProcessMeter::append(CpuGpMonitor* cpuGpMonitor) {
+  List_Append(&mBarList, &cpuGpMonitor->mCpuBar);
+  List_Append(&mBarList, &cpuGpMonitor->mGpBar);
+  cpuGpMonitor->mProcessMeter = this;
 }
 
-// Symbol: ProcessMeter_setVisible
-// PAL: 0x80238f14..0x80238f3c
-MARK_BINARY_BLOB(ProcessMeter_setVisible, 0x80238f14, 0x80238f3c);
-asm UNKNOWN_FUNCTION(ProcessMeter_setVisible) {
-  // clang-format off
-  nofralloc;
-  cmpwi r4, 0;
-  beq lbl_80238f2c;
-  lbz r0, 0x152(r3);
-  ori r0, r0, 1;
-  stb r0, 0x152(r3);
-  blr;
-lbl_80238f2c:
-  lbz r0, 0x152(r3);
-  rlwinm r0, r0, 0, 0x18, 0x1e;
-  stb r0, 0x152(r3);
-  blr;
-  // clang-format on
-}
-
-// Symbol: ProcessMeter_isVisible
-// PAL: 0x80238f3c..0x80238f48
-MARK_BINARY_BLOB(ProcessMeter_isVisible, 0x80238f3c, 0x80238f48);
-asm UNKNOWN_FUNCTION(ProcessMeter_isVisible) {
-  // clang-format off
-  nofralloc;
-  lbz r0, 0x152(r3);
-  clrlwi r3, r0, 0x1f;
-  blr;
-  // clang-format on
-}
-
-// Symbol: ProcessMeter_append
-MARK_BINARY_BLOB(ProcessMeter_append, 0x80238f48, 0x80238f54);
-asm UNKNOWN_FUNCTION(ProcessMeter_append) {
-  // clang-format off
-  nofralloc;
-  addi r3, r3, 0x60;
-  addi r4, r4, 4;
-  b List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv;
-  // clang-format on
-}
-
-
-MARK_BINARY_BLOB(ProcessMeter_append2, 0x80238f54, 0x80238fa4);
-asm UNKNOWN_FUNCTION(ProcessMeter_append2) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x10(r1);
-  mflr r0;
-  stw r0, 0x14(r1);
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  addi r4, r4, 4;
-  stw r30, 8(r1);
-  mr r30, r3;
-  addi r3, r3, 0x60;
-  bl List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv;
-  addi r3, r30, 0x60;
-  addi r4, r31, 0x2c;
-  bl List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv;
-  stw r30, 0x58(r31);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x14(r1);
-  mtlr r0;
-  addi r1, r1, 0x10;
-  blr;
-  // clang-format on
-}
+} // namespace EGG
 
 // Symbol: ProcessMeter_draw
 MARK_BINARY_BLOB(ProcessMeter_draw, 0x80238fa4, 0x80239338);
@@ -1342,25 +1110,27 @@ lbl_80239664:
   // clang-format on
 }
 
-// Symbol: ProcessMeter_isVisible_
+// Symbol: isVisibleThunk__Q23EGG12ProcessMeterFv
 // PAL: 0x80239680..0x80239688
-MARK_BINARY_BLOB(ProcessMeter_isVisible_, 0x80239680, 0x80239688);
-asm UNKNOWN_FUNCTION(ProcessMeter_isVisible_) {
+MARK_BINARY_BLOB(isVisibleThunk__Q23EGG12ProcessMeterFv, 0x80239680,
+                 0x80239688);
+asm UNKNOWN_FUNCTION(isVisibleThunk__Q23EGG12ProcessMeterFv) {
   // clang-format off
   nofralloc;
   addi r3, r3, -72;
-  b ProcessMeter_isVisible;
+  b isVisible__Q23EGG12ProcessMeterFv;
   // clang-format on
 }
 
-// Symbol: ProcessMeter_setVisible_
+// Symbol: setVisibleThunk__Q23EGG12ProcessMeterFb
 // PAL: 0x80239688..0x80239690
-MARK_BINARY_BLOB(ProcessMeter_setVisible_, 0x80239688, 0x80239690);
-asm UNKNOWN_FUNCTION(ProcessMeter_setVisible_) {
+MARK_BINARY_BLOB(setVisibleThunk__Q23EGG12ProcessMeterFb, 0x80239688,
+                 0x80239690);
+asm UNKNOWN_FUNCTION(setVisibleThunk__Q23EGG12ProcessMeterFb) {
   // clang-format off
   nofralloc;
   addi r3, r3, -72;
-  b ProcessMeter_setVisible;
+  b setVisible__Q23EGG12ProcessMeterFb;
   // clang-format on
 }
 
@@ -1375,58 +1145,62 @@ asm UNKNOWN_FUNCTION(ProcessMeter_draw_) {
   // clang-format on
 }
 
-// Symbol: ProcessMeter_callbackDrawSync_
+// Symbol: callbackDrawSyncThunk__Q23EGG12ProcessMeterFUs
 // PAL: 0x80239698..0x802396a0
-MARK_BINARY_BLOB(ProcessMeter_callbackDrawSync_, 0x80239698, 0x802396a0);
-asm UNKNOWN_FUNCTION(ProcessMeter_callbackDrawSync_) {
+MARK_BINARY_BLOB(callbackDrawSyncThunk__Q23EGG12ProcessMeterFUs, 0x80239698,
+                 0x802396a0);
+asm UNKNOWN_FUNCTION(callbackDrawSyncThunk__Q23EGG12ProcessMeterFUs) {
   // clang-format off
   nofralloc;
   addi r3, r3, -72;
-  b ProcessMeter_callbackDrawSync;
+  b callbackDrawSync__Q23EGG12ProcessMeterFUs;
   // clang-format on
 }
 
-// Symbol: ProcessMeter_measureEndRender_
+// Symbol: measureEndRenderThunk__Q23EGG12ProcessMeterFv
 // PAL: 0x802396a0..0x802396a8
-MARK_BINARY_BLOB(ProcessMeter_measureEndRender_, 0x802396a0, 0x802396a8);
-asm UNKNOWN_FUNCTION(ProcessMeter_measureEndRender_) {
+MARK_BINARY_BLOB(measureEndRenderThunk__Q23EGG12ProcessMeterFv, 0x802396a0,
+                 0x802396a8);
+asm UNKNOWN_FUNCTION(measureEndRenderThunk__Q23EGG12ProcessMeterFv) {
   // clang-format off
   nofralloc;
   addi r3, r3, -72;
-  b ProcessMeter_measureEndRender;
+  b measureEndRender__Q23EGG12ProcessMeterFv;
   // clang-format on
 }
 
-// Symbol: ProcessMeter_measureBeginRender_
+// Symbol: measureBeginRenderThunk__Q23EGG12ProcessMeterFv
 // PAL: 0x802396a8..0x802396b0
-MARK_BINARY_BLOB(ProcessMeter_measureBeginRender_, 0x802396a8, 0x802396b0);
-asm UNKNOWN_FUNCTION(ProcessMeter_measureBeginRender_) {
+MARK_BINARY_BLOB(measureBeginRenderThunk__Q23EGG12ProcessMeterFv, 0x802396a8,
+                 0x802396b0);
+asm UNKNOWN_FUNCTION(measureBeginRenderThunk__Q23EGG12ProcessMeterFv) {
   // clang-format off
   nofralloc;
   addi r3, r3, -72;
-  b ProcessMeter_measureBeginRender;
+  b measureBeginRender__Q23EGG12ProcessMeterFv;
   // clang-format on
 }
 
-// Symbol: ProcessMeter_measureEndFrame_
+// Symbol: measureEndFrameThunk__Q23EGG12ProcessMeterFv
 // PAL: 0x802396b0..0x802396b8
-MARK_BINARY_BLOB(ProcessMeter_measureEndFrame_, 0x802396b0, 0x802396b8);
-asm UNKNOWN_FUNCTION(ProcessMeter_measureEndFrame_) {
+MARK_BINARY_BLOB(measureEndFrameThunk__Q23EGG12ProcessMeterFv, 0x802396b0,
+                 0x802396b8);
+asm UNKNOWN_FUNCTION(measureEndFrameThunk__Q23EGG12ProcessMeterFv) {
   // clang-format off
   nofralloc;
   addi r3, r3, -72;
-  b ProcessMeter_measureEndFrame;
+  b measureEndFrame__Q23EGG12ProcessMeterFv;
   // clang-format on
 }
 
-// Symbol: ProcessMeter_measureBeginFrame_
+// Symbol: measureBeginFrameThunk__Q23EGG12ProcessMeterFv
 // PAL: 0x802396b8..0x802396c0
-MARK_BINARY_BLOB(ProcessMeter_measureBeginFrame_, 0x802396b8, 0x802396c0);
-asm UNKNOWN_FUNCTION(ProcessMeter_measureBeginFrame_) {
+MARK_BINARY_BLOB(measureBeginFrameThunk__Q23EGG12ProcessMeterFv, 0x802396b8,
+                 0x802396c0);
+asm UNKNOWN_FUNCTION(measureBeginFrameThunk__Q23EGG12ProcessMeterFv) {
   // clang-format off
   nofralloc;
   addi r3, r3, -72;
-  b ProcessMeter_measureBeginFrame;
+  b measureBeginFrame__Q23EGG12ProcessMeterFv;
   // clang-format on
 }
-

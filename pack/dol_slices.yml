@@ -1414,7 +1414,9 @@ source/egg/gfx/eggLightObject.cpp:
 
 source/egg/core/eggProcessMeter.cpp:
     enabled: 1
+    strip: 1
     text: [0x802386dc, 0x802396c0]
+    data: [0x802a3d48, 0x802a3d78]
 
 source/egg/math/eggQuat.cpp:
     enabled: 1
