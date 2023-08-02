@@ -1,5 +1,6 @@
 #include "eggAsyncDisplay.hpp"
 
+#include <egg/core/eggVideo.hpp>
 #include <rvl/os/osAlarm.h>
 #include <rvl/os/osInterrupt.h>
 #include <rvl/os/osThread.h>
@@ -35,6 +36,8 @@ extern "C" UNKNOWN_FUNCTION(getTickPerVRetrace__Q23EGG5VideoFv);
 extern "C" UNKNOWN_FUNCTION(setNextFrameBuffer__Q23EGG10XfbManagerFv);
 // PAL: 0x80244350
 extern "C" UNKNOWN_FUNCTION(postVRetrace__Q23EGG10XfbManagerFv);
+
+extern "C" void copyEFBtoXFB__Q23EGG7DisplayFv();
 
 // Symbol: PostRetraceCallback
 // PAL: 0x8020fcd4..0x8020fcdc
@@ -312,7 +315,7 @@ lbl_8020ffe8:
   cmpwi r4, 0;
   beq lbl_80210008;
   mr r3, r31;
-  bl endRender__Q23EGG7DisplayFv;
+  bl copyEFBtoXFB__Q23EGG7DisplayFv;
   lis r3, 0x8021;
   addi r3, r3, -804;
   bl GXSetDrawDoneCallback;
@@ -421,22 +424,17 @@ asm UNKNOWN_FUNCTION(clearEFB__Q23EGG12AsyncDisplayFv) {
   // clang-format on
 }
 
-// Symbol: getTickPerFrame__Q23EGG12AsyncDisplayFv
-// PAL: 0x80210124..0x8021013c
-MARK_BINARY_BLOB(getTickPerFrame__Q23EGG12AsyncDisplayFv, 0x80210124,
-                 0x8021013c);
-asm UNKNOWN_FUNCTION(getTickPerFrame__Q23EGG12AsyncDisplayFv) {
-  // clang-format off
-  nofralloc;
-  lwz r0, 0x60(r3);
-  cmpwi r0, 1;
-  bne lbl_80210138;
-  li r3, 0;
-  b getTickPerVRetrace__Q23EGG5VideoFUl;
-lbl_80210138:
-  b getTickPerVRetrace__Q23EGG5VideoFv;
-  // clang-format on
+namespace EGG {
+
+u32 AsyncDisplay::getTickPerFrame() {
+  if (WORD_0x60 == 1) {
+    return Video::getTickPerVRetrace(VI_NTSC);
+  }
+
+  return Video::getTickPerVRetrace();
 }
+
+} // namespace EGG
 
 // Symbol: clearEFB__Q23EGG12AsyncDisplayFUsUsUsUsUsUsQ34nw4r2ut5Color
 // PAL: 0x8021013c..0x802104ec

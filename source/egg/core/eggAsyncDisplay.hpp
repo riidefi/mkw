@@ -13,6 +13,7 @@ struct AsyncDisplay : Display {
   AsyncDisplay(u8);
   void syncTick();
   void clearEFB(u16, u16, u16, u16, u16, u16, nw4r::ut::Color);
+
   virtual void beginFrame();
   virtual void beginRender();
   virtual void endRender();
@@ -20,7 +21,7 @@ struct AsyncDisplay : Display {
 
   char UNK_0x28[0x30];
   OSThreadQueue mThreadQueue; // at 0x58
-  u32 WORD_0x60;
+  s32 WORD_0x60;
   f32 FLOAT_0x64;
   u32 WORD_0x68;
   u32 WORD_0x6C;

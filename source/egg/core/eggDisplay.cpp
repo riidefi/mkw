@@ -23,6 +23,7 @@ extern UNKNOWN_FUNCTION(setNextFrameBuffer__Q23EGG10XfbManagerFv);
 
 extern UNKNOWN_FUNCTION(calcFrequency__Q23EGG7DisplayFv);
 extern UNKNOWN_FUNCTION(endRender__Q23EGG7DisplayFv);
+extern UNKNOWN_FUNCTION(copyEFBtoXFB__Q23EGG7DisplayFv);
 
 // Symbol: __ct__Q23EGG7DisplayFUc
 // PAL: 0x80219e68..0x80219eb0
@@ -57,7 +58,7 @@ namespace EGG {
 // Symbol: getTickPerFrame__Q23EGG7DisplayFv
 // PAL: 0x80219eb0..0x80219eb4
 MARK_BINARY_BLOB(getTickPerFrame__Q23EGG7DisplayFv, 0x80219eb0, 0x80219eb4);
-asm void Display::getTickPerFrame(void) {
+asm u32 Display::getTickPerFrame(void) {
   // clang-format off
   nofralloc;
   b getTickPerVRetrace__Q23EGG5VideoFv;
@@ -65,7 +66,7 @@ asm void Display::getTickPerFrame(void) {
 }
 
 // Symbol: beginFrame__Q23EGG7DisplayFv
-// PAL: 0x80219eb4..0x80219fac
+// PAL: 0x80219eb4..0x80219fa8
 MARK_BINARY_BLOB(beginFrame__Q23EGG7DisplayFv, 0x80219eb4, 0x80219fac);
 asm void Display::beginFrame(void) {
   // clang-format off
@@ -136,19 +137,16 @@ lbl_80219f68:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-  blr;
   // clang-format on
 }
 
-// Symbol: j_endRender__Q23EGG7DisplayFv
-// PAL: 0x80219fac..0x80219fb0
-MARK_BINARY_BLOB(j_endRender__Q23EGG7DisplayFv, 0x80219fac, 0x80219fb0);
-asm void Display::j_endRender(void) {
-  // clang-format off
-  nofralloc;
-  b endRender__Q23EGG7DisplayFv;
-  // clang-format on
-}
+namespace EGG {
+
+void Display::beginRender() {}
+
+void Display::endRender() { copyEFBtoXFB__Q23EGG7DisplayFv(); }
+
+} // namespace EGG
 
 // Symbol: endFrame__Q23EGG7DisplayFv
 // PAL: 0x80219fb0..0x80219fb4
@@ -160,10 +158,10 @@ asm void Display::endFrame(void) {
   // clang-format on
 }
 
-// Symbol: endRender__Q23EGG7DisplayFv
+// Symbol: copyEFBtoXFB__Q23EGG7DisplayFv
 // PAL: 0x80219fb4..0x8021a06c
-MARK_BINARY_BLOB(endRender__Q23EGG7DisplayFv, 0x80219fb4, 0x8021a06c);
-asm void Display::endRender(void) {
+MARK_BINARY_BLOB(copyEFBtoXFB__Q23EGG7DisplayFv, 0x80219fb4, 0x8021a06c);
+asm void Display::copyEFBtoXFB(void) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
