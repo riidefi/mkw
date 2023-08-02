@@ -8824,7 +8824,7 @@ global:
     0x802440b4: 'set__Q23EGG8ViewportFiiii'
     0x80244134: 'calculateAR__Q23EGG8ViewportFv'
     0x80244160: '__ct__Q23EGG3XfbFPQ23EGG4Heap'
-    0x802441ec: 'EGG__Xfb__CalcXfbSize'
+    0x802441ec: 'calcXfbSize__Q23EGG3XfbFii'
     0x80244200: 'attach__Q23EGG10XfbManagerFPQ23EGG3Xfb'
     0x80244268: 'copyEFB__Q23EGG10XfbManagerFb'
     0x802442e8: 'setNextFrameBuffer__Q23EGG10XfbManagerFv'

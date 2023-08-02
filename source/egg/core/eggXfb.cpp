@@ -27,7 +27,7 @@ asm UNKNOWN_FUNCTION(__ct__Q23EGG3XfbFPQ23EGG4Heap) {
   lhz r3, 4(r3);
   sth r3, 0(r30);
   sth r4, 2(r30);
-  bl EGG__Xfb__CalcXfbSize;
+  bl calcXfbSize__Q23EGG3XfbFii;
   cmpwi r31, 0;
   bne lbl_802441b4;
   lwz r31, -0x5d60(r13);
@@ -49,16 +49,6 @@ lbl_802441b4:
   // clang-format on
 }
 
-// Symbol: EGG__Xfb__CalcXfbSize
-// PAL: 0x802441ec..0x80244200
-MARK_BINARY_BLOB(EGG__Xfb__CalcXfbSize, 0x802441ec, 0x80244200);
-asm UNKNOWN_FUNCTION(EGG__Xfb__CalcXfbSize) {
-  // clang-format off
-  nofralloc;
-  addi r0, r3, 0xf;
-  rlwinm r0, r0, 0, 0x10, 0x1b;
-  mullw r0, r0, r4;
-  slwi r3, r0, 1;
-  blr;
-  // clang-format on
+int EGG::Xfb::calcXfbSize(int p1, int p2) {
+  return (p1 + 0xfu & 0xfff0) * p2 * 2;
 }
