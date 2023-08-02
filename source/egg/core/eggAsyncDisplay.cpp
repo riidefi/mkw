@@ -277,15 +277,11 @@ lbl_8020ff74:
   // clang-format on
 }
 
-// Symbol: beginRender__Q23EGG12AsyncDisplayFv
-// PAL: 0x8020ff98..0x8020ff9c
-MARK_BINARY_BLOB(beginRender__Q23EGG12AsyncDisplayFv, 0x8020ff98, 0x8020ff9c);
-asm UNKNOWN_FUNCTION(beginRender__Q23EGG12AsyncDisplayFv) {
-  // clang-format off
-  nofralloc;
-  b GXDraw;
-  // clang-format on
-}
+namespace EGG {
+
+void AsyncDisplay::beginRender() { GXDraw(); }
+
+} // namespace EGG
 
 // Symbol: endRender__Q23EGG12AsyncDisplayFv
 // PAL: 0x8020ff9c..0x80210024
