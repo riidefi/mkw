@@ -34,6 +34,14 @@ public:
   f32 mFrequency;                 // at 0x24
 
 public:
+  bool hasFlag(int idx) { return mFlag & 1 << idx; }
+
+  void clearFlag(int idx) {
+    (*(volatile unsigned char*)(&mFlag)) &= ~(1 << idx);
+  }
+
+  void setFlag(int idx) { (*(volatile unsigned char*)(&mFlag)) |= (1 << idx); }
+
   bool hasScreenStateFlag(int idx) { return mScreenStateFlag & 1 << idx; }
 
   void clearScreenStateFlag(int idx) {
