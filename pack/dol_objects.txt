@@ -528,6 +528,7 @@ out/dol/sdata2_80388d80_80388fe0.o
 out/eggQuat.o
 out/eggSaveBanner.o
 out/eggScene.o
+out/dol/sdata2_80389004_80389008.o
 out/eggSceneManager.o
 out/eggScnRenderer.o
 out/dol/text_8023c694_80241b60.o
@@ -545,7 +546,7 @@ out/dol/bss_80384b6c_80384b70.o
 out/dol/sbss_80386f10_80386f60.o
 out/eggSystem.o
 out/dol/sbss_80386f64_80386f78.o
-out/dol/sdata2_80389004_803890f8.o
+out/dol/sdata2_80389014_803890f8.o
 out/eggVector.o
 out/dol/ctors_80244e8c_80244e90.o
 out/dol/bss_80384bf4_80384c00.o
