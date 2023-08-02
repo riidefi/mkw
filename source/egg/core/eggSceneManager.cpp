@@ -81,7 +81,8 @@ void SceneManager::changeSiblingScene() {
   Scene* curScene = this->mCurrentScene; // r4
 
   Scene* parentScene = NULL; // r31
-  if (curScene) parentScene = curScene->getParentScene();
+  if (curScene)
+    parentScene = curScene->getParentScene();
 
   if (curScene) {
     this->destroyScene(curScene);
@@ -119,8 +120,8 @@ void SceneManager::createScene(int ID, Scene* parentScene) {
 
   ExpHeap* pNewHeap = ExpHeap::create(-1, pParentHeap, sHeapOptionFlg); // r23
 
-  ExpHeap* pNewHeap_Mem1;         // r25; overwrites pParentHeap_Mem2
-  ExpHeap* pNewHeap_Mem2;         // r26; overwrites pParentHeap_Mem1
+  ExpHeap* pNewHeap_Mem1;      // r25; overwrites pParentHeap_Mem2
+  ExpHeap* pNewHeap_Mem2;      // r26; overwrites pParentHeap_Mem1
   ExpHeap* pNewHeap_Debug = 0; // r22
 
   if (pParentHeap == pParentHeap_Mem2) {
@@ -144,7 +145,8 @@ void SceneManager::createScene(int ID, Scene* parentScene) {
   sHeapDebug_ForCreateScene = pNewHeap_Debug;
 
   // if we unset that value above, we need to restore it
-  if (r27b) pParentHeap->setFlag(0);
+  if (r27b)
+    pParentHeap->setFlag(0);
 
   // Let's make the new heap the current heap
   pNewHeap->becomeCurrentHeap();
@@ -170,25 +172,25 @@ void SceneManager::createChildScene(int ID, Scene* pScene) {
 }
 
 bool SceneManager::destroyCurrentSceneNoIncoming(bool destroyRootIfNoParent) {
-    bool ret = 0;
-    Scene * scene = mCurrentScene;
-    if( scene ) {
-        Scene * parent = scene->getParentScene();
-        if( parent ) {
-            ret = 1;
-            Scene * child = parent->getChildScene();
-            destroyScene( child );
-            mNextSceneID = parent->getSceneID();
-            setupNextSceneID();
-        } else {
-            if( destroyRootIfNoParent ) {
-                destroyScene( scene );
-                mNextSceneID = -1;
-                setupNextSceneID();
-            }
-        }
+  bool ret = 0;
+  Scene* scene = mCurrentScene;
+  if (scene) {
+    Scene* parent = scene->getParentScene();
+    if (parent) {
+      ret = 1;
+      Scene* child = parent->getChildScene();
+      destroyScene(child);
+      mNextSceneID = parent->getSceneID();
+      setupNextSceneID();
+    } else {
+      if (destroyRootIfNoParent) {
+        destroyScene(scene);
+        mNextSceneID = -1;
+        setupNextSceneID();
+      }
     }
-    return ret;
+  }
+  return ret;
 }
 
 bool EGG::SceneManager::destroyToSelectSceneID(int ID) {
@@ -237,7 +239,7 @@ void SceneManager::destroyScene(Scene* pScene /* r30 */) {
   if (pScene->getHeap_Debug())
     pScene->getHeap_Debug()->destroy();
 
-  Heap * sceneHeap = pScene->getHeap(); // r4
+  Heap* sceneHeap = pScene->getHeap(); // r4
   if (pScene->getHeap_Mem1() == sceneHeap) {
     pScene->getHeap_Mem2()->destroy();
     pScene->getHeap_Mem1()->destroy();
@@ -245,7 +247,7 @@ void SceneManager::destroyScene(Scene* pScene /* r30 */) {
     pScene->getHeap_Mem1()->destroy();
     pScene->getHeap_Mem2()->destroy();
   }
-    
+
   Heap* r31_second;
   // If we have a parent, use it's heap
   if (parent) {
@@ -273,7 +275,8 @@ void SceneManager::calcCurrentScene() {
     this->mCurrentScene->calc();
 }
 
-static inline void createNewScene(SceneManager* manager, Scene* newScene, int _nextSceneID) {
+static inline void createNewScene(SceneManager* manager, Scene* newScene,
+                                  int _nextSceneID) {
   int nextSceneID = _nextSceneID; // manager->getNextSceneID();
   manager->setupNextSceneID();
   manager->createScene(nextSceneID, newScene);
@@ -281,10 +284,10 @@ static inline void createNewScene(SceneManager* manager, Scene* newScene, int _n
 
 static inline void setupNewScene(SceneManager* manager, Scene* currentScene) {
   Scene* newScene = nullptr;
-  
-  if (currentScene) 
+
+  if (currentScene)
     newScene = currentScene->getParentScene();
-  
+
   if (currentScene) {
     manager->destroyScene(currentScene);
     manager->mCurrentScene = nullptr;
@@ -301,75 +304,75 @@ void SceneManager::calcCurrentFader() {
     return;
 
   switch (this->mTransitionStatus) {
-    case 0: {
-      int r29 = getNextSceneID();
-      
-      Scene* curScene = nullptr;               // r4
-      while (curScene = this->mCurrentScene) { // r4
-        if (!curScene)
+  case 0: {
+    int r29 = getNextSceneID();
+
+    Scene* curScene = nullptr;               // r4
+    while (curScene = this->mCurrentScene) { // r4
+      if (!curScene)
+        continue;
+
+      Scene* r28 = curScene->getParentScene(); // r28
+
+      if (r28) {
+        this->destroyScene(r28->getChildScene());
+        this->mNextSceneID = r28->getSceneID();
+        this->setupNextSceneID();
+      } else {
+        this->destroyScene(curScene);
+        this->mNextSceneID = -1;
+        this->setupNextSceneID();
+      }
+    }
+
+    this->mNextSceneID = r29;
+
+    setupNewScene(this, curScene);
+
+    break;
+  }
+  case 1: {
+    // Identical to changeSiblingScene
+    setupNewScene(this, mCurrentScene);
+    break;
+  }
+  case 2: {
+    this->outgoingParentScene(this->pParent);
+    this->setupNextSceneID();
+    this->createScene(this->getUnk18(), this->pParent);
+    break;
+  }
+  case 4: {
+    // TODO
+    if (Scene* s = this->findParentScene(this->mNextSceneID)) { // r30
+      while (s->getSceneID() != this->getUnk18()) {
+        if (this->mCurrentScene == 0)
           continue;
 
-        Scene* r28 = curScene->getParentScene(); // r28
-      
-        if (r28) {
-          this->destroyScene(r28->getChildScene());
-          this->mNextSceneID = r28->getSceneID();
-          this->setupNextSceneID();
-        } else {
-          this->destroyScene(curScene);
-          this->mNextSceneID = -1;
-          this->setupNextSceneID();
-        }
+        Scene* r28 = mCurrentScene->getParentScene();
+
+        if (r28 == nullptr)
+          continue;
+
+        this->destroyScene(r28->getChildScene());
+        this->mNextSceneID = r28->getSceneID();
+        this->setupNextSceneID();
       }
-      
-      this->mNextSceneID = r29;
 
-      setupNewScene(this, curScene);
-      
-      break;
-    }
-    case 1: {
-      // Identical to changeSiblingScene
-      setupNewScene(this, mCurrentScene);
-      break;
-    }
-    case 2: {
-      this->outgoingParentScene(this->pParent);
-      this->setupNextSceneID();
-      this->createScene(this->getUnk18(), this->pParent);
-      break;
-    }
-    case 4: {
-      // TODO
-      if (Scene* s = this->findParentScene(this->mNextSceneID)) { // r30
-        while (s->getSceneID() != this->getUnk18()) {
-          if (this->mCurrentScene == 0)
-            continue;
+      if (this->mCurrentScene == 0)
+        break;
 
-          Scene* r28 = mCurrentScene->getParentScene();
-      
-          if (r28 == nullptr)
-            continue;
-
-          this->destroyScene(r28->getChildScene());
-          this->mNextSceneID = r28->getSceneID();
-          this->setupNextSceneID();
-        }
-
-        if (this->mCurrentScene == 0)
-            break;
-  
-        this->mCurrentScene->incoming_childDestroy();
-      }
-  
-      break;
+      this->mCurrentScene->incoming_childDestroy();
     }
-    case 3: {
-      if (mCurrentScene)
-        mCurrentScene->reinit();
 
-      break;
-    }
+    break;
+  }
+  case 3: {
+    if (mCurrentScene)
+      mCurrentScene->reinit();
+
+    break;
+  }
   }
 
   this->mTransitionStatus = STATUS_IDLE;
@@ -382,11 +385,11 @@ void SceneManager::drawCurrentScene() {
   mCurrentScene->draw();
 
   Display* pSystemDisplay = BaseSystem::sSystem->getDisplay(); // r31
-  Video * pSystemVideo = BaseSystem::sSystem->getVideo();
+  Video* pSystemVideo = BaseSystem::sSystem->getVideo();
 
   // flag name likely wrong
   if ((pSystemVideo->mFlag & 1) && !pSystemDisplay->hasScreenStateFlag(0))
-      pSystemDisplay->setScreenStateFlag(0);
+    pSystemDisplay->setScreenStateFlag(0);
 }
 
 void SceneManager::drawCurrentFader() {
