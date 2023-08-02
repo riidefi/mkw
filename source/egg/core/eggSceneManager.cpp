@@ -6,28 +6,6 @@
 #include <egg/eggInternal.hpp>
 #include <rvl/gx/gxMisc.h>
 
-extern "C" {
-// PAL: 0x8023b0e4..0x8023b248
-UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene);
-// PAL: 0x8023b3f0..0x8023b568
-UNKNOWN_FUNCTION(destroyScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
-// PAL: 0x8023b5a8..0x8023b800
-UNKNOWN_FUNCTION(calcCurrentFader__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b8b0..0x8023b910
-UNKNOWN_FUNCTION(createDefaultFader__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b910..0x8023b92c
-UNKNOWN_FUNCTION(setupNextSceneID__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b92c..0x8023b940
-UNKNOWN_FUNCTION(outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
-// PAL: 0x8023b940..0x8023b980
-UNKNOWN_FUNCTION(findParentScene__Q23EGG12SceneManagerFi);
-
-extern UNKNOWN_FUNCTION(__ct__Q23EGG10ColorFaderFffffQ34nw4r2ut5ColorQ33EGG5Fader7EStatus);
-extern UNKNOWN_FUNCTION(__nw__FUl);
-}
-
-extern u32 unk_80389008, unk_8038900c, unk_80389010;
-
 namespace EGG {
 
 u16 SceneManager::sHeapOptionFlg;
@@ -416,53 +394,10 @@ void SceneManager::drawCurrentFader() {
     mCurrentFader->draw();
 }
 
-} // namespace EGG
-
-#if 0
-namespace EGG {
 void SceneManager::createDefaultFader() {
   mCurrentFader = new ColorFader(0.0f, 0.0f, 640.0f, 480.0f, 0 /*color*/,
                                  Fader::ESTATUS_OPAQUE);
 }
-}
-#else
-// Symbol: createDefaultFader__Q23EGG12SceneManagerFv
-// PAL: 0x8023b8b0..0x8023b910
-MARK_BINARY_BLOB(createDefaultFader__Q23EGG12SceneManagerFv, 0x8023b8b0,
-                 0x8023b910);
-asm UNKNOWN_FUNCTION(createDefaultFader__Q23EGG12SceneManagerFv) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r3;
-  li r3, 0x24;
-  bl __nw__FUl;
-  cmpwi r3, 0;
-  beq lbl_8023b8f8;
-  lfs f1, unk_80389008;
-  li r0, 0;
-  stw r0, 8(r1);
-  addi r4, r1, 8;
-  fmr f2, f1;
-  lfs f3, unk_8038900c;
-  lfs f4, unk_80389010;
-  li r5, 0;
-  bl __ct__Q23EGG10ColorFaderFffffQ34nw4r2ut5ColorQ33EGG5Fader7EStatus;
-lbl_8023b8f8:
-  stw r3, 0x24(r31);
-  lwz r31, 0x1c(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
-}
-#endif
-
-namespace EGG {
 
 void SceneManager::setupNextSceneID() {
   this->_1C = this->_18;
