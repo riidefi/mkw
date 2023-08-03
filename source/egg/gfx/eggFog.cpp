@@ -40,10 +40,10 @@ void Fog::Reset() {
 
 } // namespace EGG
 
-// Symbol: unk_80226f60
+// Symbol: SetGX__Q23EGG3FogCFv
 // PAL: 0x80226f60..0x80227018
-MARK_BINARY_BLOB(unk_80226f60, 0x80226f60, 0x80227018);
-asm UNKNOWN_FUNCTION(unk_80226f60) {
+MARK_BINARY_BLOB(SetGX__Q23EGG3FogCFv, 0x80226f60, 0x80227018);
+asm void EGG::Fog::SetGX() const {
   // clang-format off
   nofralloc;
   stwu r1, -0x10(r1);
