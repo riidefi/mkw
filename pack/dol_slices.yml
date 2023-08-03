@@ -1382,6 +1382,7 @@ source/egg/core/eggExpHeap.cpp:
 source/egg/gfx/eggFog.cpp:
     enabled: 1
     text: [0x80226f04, 0x802271bc]
+    sdata2: [0x80388d00, 0x80388d08]
 
 source/egg/gfx/eggFogManager.cpp:
     enabled: 1

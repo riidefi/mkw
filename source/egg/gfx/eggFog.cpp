@@ -1,44 +1,44 @@
 #include "eggFog.hpp"
 
+// Source:
+// https://github.com/doldecomp/ogws/blob/master/include/egg/gfx/eggFog.h
+
 extern "C" UNKNOWN_FUNCTION(GXSetFog);
 extern "C" UNKNOWN_FUNCTION(GXSetFogRangeAdj);
 
-extern float unk_80388d00;
-extern float unk_80388d04;
-extern u8 unk_80388b44;
-extern u8 unk_80388b45;
-extern u8 unk_80388b46;
-extern u8 unk_80388b47;
+extern const GXColor unk_80388b44;
+extern const u8 unk_80388b45;
+extern const u8 unk_80388b46;
+extern const u8 unk_80388b47;
 
 namespace EGG {
-Fog::Fog() {}
-} // namespace EGG
 
-// Symbol: unk_80226f14
-// PAL: 0x80226f14..0x80226f60
-MARK_BINARY_BLOB(unk_80226f14, 0x80226f14, 0x80226f60);
-asm UNKNOWN_FUNCTION(unk_80226f14) {
-  addi r4, r2, -25692;
-  lfs f0, unk_80388d00;
-  lbz r7, unk_80388b44;
-  li r8, 0;
-  lbz r6, 1(r4);
-  li r0, 2;
-  lbz r5, 2(r4);
-  lbz r4, 3(r4);
-  stb r8, 0x1c(r3);
-  stb r7, 4(r3);
-  stb r6, 5(r3);
-  stb r5, 6(r3);
-  stb r4, 7(r3);
-  stfs f0, 0x14(r3);
-  stfs f0, 0x10(r3);
-  stfs f0, 0xc(r3);
-  stfs f0, 8(r3);
-  stw r0, 0x18(r3);
-  blr;
-  // clang-format on
+Fog::Fog() {}
+
+void Fog::Reset() {
+  mFlags = 0;
+
+  mColor = unk_80388b44;
+
+  mFarZ = 0.0f;
+  mNearZ = 0.0f;
+  mEndZ = 0.0f;
+  mStartZ = 0.0f;
+
+  mFogType = GX_FOG_PERSP_LIN;
 }
+
+// void Fog::SetGX() const {
+//   if (mFlags & BOUND) {
+//     again, need to copy color byte-wise, not word wise
+//     GXSetFog((int)mFogType, mStartZ, mEndZ, mNearZ, mFarZ, mColor);
+//   } else {
+//     GXSetFog(GX_FOG_NONE, 0.0f, 1.0f, 0.0f, 1.0f, unk_80388b44);
+//   }
+//   GXSetFogRangeAdj(0, 0, NULL);
+// }
+
+} // namespace EGG
 
 // Symbol: unk_80226f60
 // PAL: 0x80226f60..0x80227018
@@ -70,9 +70,9 @@ asm UNKNOWN_FUNCTION(unk_80226f60) {
   bl GXSetFog;
   b lbl_80226ff8;
 lbl_80226fbc:
-  lfs f1, unk_80388d00;
+  lfs f1, 0.0f;
   addi r4, r1, 8;
-  lfs f2, unk_80388d04;
+  lfs f2, 1.0f;
   li r3, 0;
   lbz r7, unk_80388b44;
   fmr f3, f1;
@@ -143,10 +143,12 @@ lbl_80227060:
 lbl_8022709c:
   addi r1, r1, 0x10;
   blr;
+  // bruh
   lis r3, 0x8025;
   addi r3, r3, 0x7720;
   addi r3, r3, 6;
   blr;
+  // bruh
   lbz r0, 8(r4);
   cmpwi r0, 0;
   bnelr;
@@ -171,6 +173,7 @@ lbl_8022709c:
   stw r5, 0x18(r3);
   stb r0, 0x1c(r3);
   blr;
+  // bruh
   lfs f0, 8(r3);
   lfs f1, 0xc(r3);
   lfs f2, 0x10(r3);
@@ -192,7 +195,9 @@ lbl_8022709c:
   stb r5, 0x24(r4);
   stb r0, 0x25(r4);
   blr;
+  // bruh
   blr;
+  // bruh
   li r3, 0x30;
   blr;
   // clang-format on
