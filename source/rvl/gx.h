@@ -31,6 +31,8 @@ typedef struct GXRenderModeObj {
   u8 vert_filter[7]; // 0x32
 } GXRenderModeObj;
 
+void GXFlush(void);
+
 #ifdef __cplusplus
 }
 #endif

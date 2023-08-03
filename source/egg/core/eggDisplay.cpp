@@ -59,6 +59,18 @@ asm void __ct__Q23EGG7DisplayFUc() {
 
 namespace EGG {
 
+// Display::Display(u8 wait) :
+//     mScreenStateFlag(0),
+//     mMaxRetraces(wait),
+//     mRetraceCount(0),
+//     mFrameCount(0),
+//     mClearColor(0x808080ff),
+//     mClearZ(0x00ffffff),
+//     mBeginTick(0)
+// {
+//     setFlag(0);
+// }
+
 // Symbol: getTickPerFrame__Q23EGG7DisplayFv
 // PAL: 0x80219eb0..0x80219eb4
 MARK_BINARY_BLOB(getTickPerFrame__Q23EGG7DisplayFv, 0x80219eb0, 0x80219eb4);
