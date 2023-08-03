@@ -13,8 +13,8 @@ Xfb::Xfb(Heap* heap) {
   if (!heap)
     heap = Heap::getCurrentHeap();
   buf = new (heap, 0x20) u8[sz];
-  _unk0c = 0u;
-  _unk08 = 0u;
+  mNext = 0u;
+  mPrev = 0u;
 }
 
 size_t EGG::Xfb::calcBufferSize(u16 p1, u16 p2) {

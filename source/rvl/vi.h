@@ -55,6 +55,9 @@ void VIWaitForRetrace();
 int VIGetDTVStatus();
 unsigned int VIGetTvFormat();
 
+void *VIGetNextFrameBuffer();
+void VISetNextFrameBuffer(void *);
+
 #ifdef __cplusplus
 }
 #endif
