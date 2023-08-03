@@ -31,6 +31,25 @@ typedef struct GXRenderModeObj {
   u8 vert_filter[7]; // 0x32
 } GXRenderModeObj;
 
+typedef enum _GXFogType {
+  GX_FOG_NONE = 0,
+  GX_FOG_PERSP_LIN = 2,
+  GX_FOG_PERSP_EXP = 4,
+  GX_FOG_PERSP_EXP2 = 5,
+  GX_FOG_PERSP_REVEXP = 6,
+  GX_FOG_PERSP_REVEXP2 = 7,
+  GX_FOG_ORTHO_LIN = 10,
+  GX_FOG_ORTHO_EXP = 12,
+  GX_FOG_ORTHO_EXP2 = 13,
+  GX_FOG_ORTHO_REVEXP = 14,
+  GX_FOG_ORTHO_REVEXP2 = 15,
+  GX_FOG_LIN = GX_FOG_PERSP_LIN,
+  GX_FOG_EXP = GX_FOG_PERSP_EXP,
+  GX_FOG_EXP2 = GX_FOG_PERSP_EXP2,
+  GX_FOG_REVEXP = GX_FOG_PERSP_REVEXP,
+  GX_FOG_REVEXP2 = GX_FOG_PERSP_REVEXP2,
+} GXFogType;
+
 void GXFlush(void);
 
 #ifdef __cplusplus

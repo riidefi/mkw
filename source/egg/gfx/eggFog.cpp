@@ -10,16 +10,14 @@ extern u8 unk_80388b45;
 extern u8 unk_80388b46;
 extern u8 unk_80388b47;
 
-// Symbol: unk_80226f04
-// PAL: 0x80226f04..0x80226f60
-MARK_BINARY_BLOB(unk_80226f04, 0x80226f04, 0x80226f60);
-asm UNKNOWN_FUNCTION(unk_80226f04) {
-  // clang-format off
-  nofralloc;
-  lis r4, 0x802a;
-  addi r4, r4, 0x3028;
-  stw r4, 0(r3);
-  blr;
+namespace EGG {
+Fog::Fog() {}
+} // namespace EGG
+
+// Symbol: unk_80226f14
+// PAL: 0x80226f14..0x80226f60
+MARK_BINARY_BLOB(unk_80226f14, 0x80226f14, 0x80226f60);
+asm UNKNOWN_FUNCTION(unk_80226f14) {
   addi r4, r2, -25692;
   lfs f0, unk_80388d00;
   lbz r7, unk_80388b44;
