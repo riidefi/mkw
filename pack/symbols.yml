@@ -8268,7 +8268,7 @@ global:
     0x80226ebc: 'freeAll__Q23EGG7ExpHeapFv'
     0x80226efc: 'getHeapKind__Q23EGG7ExpHeapCFv'
     0x80226f04: '__ct__Q23EGG3FogFv'
-    0x80226f60: 'unk_80226f60'
+    0x80226f60: 'SetGX__Q23EGG3FogCFv'
     0x80227018: 'unk_80227018'
     0x80227174: 'unk_80227174'
     0x802271bc: 'unk_802271bc'
