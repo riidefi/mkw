@@ -1,7 +1,7 @@
 #include "eggFogManager.hpp"
 
 extern "C" UNKNOWN_FUNCTION(unk_8006f440);
-extern "C" UNKNOWN_FUNCTION(unk_80226f04);
+extern "C" UNKNOWN_FUNCTION(__ct__Q23EGG3FogFv);
 extern "C" UNKNOWN_FUNCTION(unk_80227018);
 extern "C" UNKNOWN_FUNCTION(__nw__FUl);
 extern "C" UNKNOWN_FUNCTION(__nwa__FUl);
@@ -37,7 +37,7 @@ lbl_8022720c:
   bl __nw__FUl;
   cmpwi r3, 0;
   beq lbl_80227220;
-  bl unk_80226f04;
+  bl __ct__Q23EGG3FogFv;
 lbl_80227220:
   lwz r4, 0xc(r29);
   addi r30, r30, 1;
