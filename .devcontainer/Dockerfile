@@ -1,8 +1,7 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.222.0/containers/python-3/.devcontainer/base.Dockerfile
 
-# [Choice] Python version (use -bullseye variants on local arm64/Apple Silicon): 3, 3.10, 3.9, 3.8, 3.7, 3.6, 3-bullseye, 3.10-bullseye, 3.9-bullseye, 3.8-bullseye, 3.7-bullseye, 3.6-bullseye, 3-buster, 3.10-buster, 3.9-buster, 3.8-buster, 3.7-buster, 3.6-buster
-ARG VARIANT="3.10-bullseye"
-FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
+ARG VARIANT="3.11-bookworm"
+FROM mcr.microsoft.com/vscode/devcontainers/python:1-${VARIANT}
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
 ARG NODE_VERSION="none"
@@ -17,7 +16,7 @@ RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requ
 RUN dpkg --add-architecture i386 \
     && apt-get update \
     && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends wine wine32 unzip
+    && apt-get -y install --no-install-recommends wine wine32 unzip ninja-build
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
@@ -31,10 +30,14 @@ RUN mkdir -p ./artifacts/orig/pal \
     && rm tools.zip \
     && chmod +x ./tools/devkitppc/bin/powerpc-eabi-as \
     && chmod +x ./tools/devkitppc/bin/powerpc-eabi-gcc \
-    && mv ./tools/blobs/* ./artifacts/orig/pal \
+    && mv ./tools/blobs/* ./artifacts/orig/pal
 
-ARG NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip"
-ADD ${NINJA_URL} ./ninja.zip
-RUN unzip -o ninja.zip \
-    && rm ninja.zip
-    && chmod +x ./ninja.exe
+# install devkitpro
+WORKDIR /tmp/devkitpro
+RUN mkdir -p /usr/local/share/keyring/ \
+ && wget -O /usr/local/share/keyring/devkitpro-pub.gpg https://apt.devkitpro.org/devkitpro-pub.gpg \
+ && echo "deb [signed-by=/usr/local/share/keyring/devkitpro-pub.gpg] https://apt.devkitpro.org stable main" > /etc/apt/sources.list.d/devkitpro.list \
+ && apt-get update \
+ && apt-get -y install devkitpro-pacman \
+ && ln -s /proc/self/mounts /etc/mtab \
+ && dkp-pacman -S --noconfirm wii-dev
