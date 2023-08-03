@@ -290,13 +290,13 @@ def add_compile_rules(args, n: Writer):
     ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
     n.rule(
         "as",
-        command = ALLOW_CHAIN + f"$as $in $asflags -o $out && python mkwutil/postprocess.py -fno-ctor_realign -fsymbol-fixup -fprologue-fixup=none $out",
+        command = ALLOW_CHAIN + "$as $in $asflags -o $out && python -m mkwutil.postprocess -fno-ctor_realign -fsymbol-fixup -fprologue-fixup=none $out",
         description = "AS $in"
     )
 
     n.rule(
         "cc",
-        command = ALLOW_CHAIN + f"$gcc -Isource -Isource/platform -nostdinc -M -MF $out.d $in && $cc $cflags -o $out $in && python mkwutil/postprocess.py -fno-ctor_realign -fsymbol-fixup -fprologue-fixup=none $out",
+        command = ALLOW_CHAIN + "$gcc -Isource -Isource/platform -nostdinc -M -MF $out.d $in && $cc $cflags -o $out $in && python -m mkwutil.postprocess -fno-ctor_realign -fsymbol-fixup -fprologue-fixup=none $out",
         description = "CC $in",
         deps = "gcc",
         depfile = "$out.d"
@@ -357,7 +357,7 @@ def link_dol(dol_objects_path: Path, n: Writer):
     ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
     n.rule(
         "pack_dol",
-        command = ALLOW_CHAIN + f"python mkwutil/mkw_binary_patch.py $in && python mkwutil/pack_main_dol.py -o $out $in",
+        command = ALLOW_CHAIN + "python -m mkwutil.mkw_binary_patch $in && python -m mkwutil.pack_main_dol -o $out $in",
         description = "PACK $out"
     )
     n.build(
@@ -387,7 +387,7 @@ def link_rel(rel_objects_path: Path, n: Writer):
     orig_rel_yml_path = Path("mkwutil", "ppcdis_adapter", "rel.yaml")
     n.rule(
         "pack_rel",
-        command = f"python mkwutil/pack_staticr_rel.py --base-rel $baserel --dol-elf $dolelf -o $out $in",
+        command = "python -m mkwutil.pack_staticr_rel --base-rel $baserel --dol-elf $dolelf -o $out $in",
         description = "PACK $out"
     )
     n.build(
@@ -425,13 +425,13 @@ def configure(args):
         n.variable("slices", str(slices_path))
         n.rule(
             "lcfgen",
-            command = f"python mkwutil/gen_lcf.py --base $base --out $out --objs $in --slices $slices",
+            command = "python -m mkwutil.gen_lcf --base $base --out $out --objs $in --slices $slices",
             description = "LCFGEN $out"
         )
         n.variable("ld", get_compat_cmd(MWLD))
         n.rule(
             "ld",
-            command = f"$ld $in $ldflags -o $out",
+            command = "$ld $in $ldflags -o $out",
             description = "LD $out"
         )
         target_dol_path = link_dol(dol_objects_path, n)
@@ -439,7 +439,7 @@ def configure(args):
 
         n.rule(
             "verify",
-            command = f"python $verifyscript --reference $ref --target $in",
+            command = "python -m $verifyscript --reference $ref --target $in",
             description = "VERIFY $in"
         )
         dol_ok = "." + str(orig_dol_path)+".ok"
@@ -448,7 +448,7 @@ def configure(args):
             rule = "verify",
             inputs = str(target_dol_path),
             variables = {
-                "verifyscript" : "mkwutil/verify_main_dol.py",
+                "verifyscript" : "mkwutil.verify_main_dol",
                 "ref" : str(orig_dol_path),
             }
         )
@@ -458,12 +458,12 @@ def configure(args):
             rule = "verify",
             inputs = str(target_rel_path),
             variables = {
-                "verifyscript" : "mkwutil/verify_staticr_rel.py",
+                "verifyscript" : "mkwutil.verify_staticr_rel",
                 "ref" : str(orig_rel_path),
             }
         )
 
-        n.rule("stats", command = f"python mkwutil/progress/percent_decompiled.py", description = "STATS")
+        n.rule("stats", command = "python -m mkwutil.progress.percent_decompiled", description = "STATS")
         n.build("phony", rule="stats", inputs=[rel_ok, dol_ok], implicit=[dol_ok, rel_ok])
 
 
