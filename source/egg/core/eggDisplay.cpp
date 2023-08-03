@@ -1,9 +1,13 @@
 #include "eggDisplay.hpp"
 
 #include <rvl/os/os.h>
+#include <rvl/gx.h>
 #include <rvl/gx/gxDraw.h>
 #include <rvl/gx/gxFrameBuf.h>
 #include <rvl/gx/gxMisc.h>
+#include <egg/core/eggVideo.hpp>
+#include <egg/core/eggSystem.hpp>
+#include <egg/core/eggXfbManager.hpp>
 
 extern "C" {
 
@@ -23,6 +27,7 @@ extern UNKNOWN_FUNCTION(setNextFrameBuffer__Q23EGG10XfbManagerFv);
 
 extern UNKNOWN_FUNCTION(calcFrequency__Q23EGG7DisplayFv);
 extern UNKNOWN_FUNCTION(endRender__Q23EGG7DisplayFv);
+extern UNKNOWN_FUNCTION(copyEFBtoXFB__Q23EGG7DisplayFv);
 
 // Symbol: __ct__Q23EGG7DisplayFUc
 // PAL: 0x80219e68..0x80219eb0
@@ -54,10 +59,22 @@ asm void __ct__Q23EGG7DisplayFUc() {
 
 namespace EGG {
 
+// Display::Display(u8 wait) :
+//     mScreenStateFlag(0),
+//     mMaxRetraces(wait),
+//     mRetraceCount(0),
+//     mFrameCount(0),
+//     mClearColor(0x808080ff),
+//     mClearZ(0x00ffffff),
+//     mBeginTick(0)
+// {
+//     setFlag(0);
+// }
+
 // Symbol: getTickPerFrame__Q23EGG7DisplayFv
 // PAL: 0x80219eb0..0x80219eb4
 MARK_BINARY_BLOB(getTickPerFrame__Q23EGG7DisplayFv, 0x80219eb0, 0x80219eb4);
-asm void Display::getTickPerFrame(void) {
+asm u32 Display::getTickPerFrame(void) {
   // clang-format off
   nofralloc;
   b getTickPerVRetrace__Q23EGG5VideoFv;
@@ -65,7 +82,7 @@ asm void Display::getTickPerFrame(void) {
 }
 
 // Symbol: beginFrame__Q23EGG7DisplayFv
-// PAL: 0x80219eb4..0x80219fac
+// PAL: 0x80219eb4..0x80219fa8
 MARK_BINARY_BLOB(beginFrame__Q23EGG7DisplayFv, 0x80219eb4, 0x80219fac);
 asm void Display::beginFrame(void) {
   // clang-format off
@@ -136,34 +153,32 @@ lbl_80219f68:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
-  blr;
   // clang-format on
 }
 
-// Symbol: j_endRender__Q23EGG7DisplayFv
-// PAL: 0x80219fac..0x80219fb0
-MARK_BINARY_BLOB(j_endRender__Q23EGG7DisplayFv, 0x80219fac, 0x80219fb0);
-asm void Display::j_endRender(void) {
-  // clang-format off
-  nofralloc;
-  b endRender__Q23EGG7DisplayFv;
-  // clang-format on
-}
+void Display::beginRender() {}
 
-// Symbol: endFrame__Q23EGG7DisplayFv
-// PAL: 0x80219fb0..0x80219fb4
-MARK_BINARY_BLOB(endFrame__Q23EGG7DisplayFv, 0x80219fb0, 0x80219fb4);
-asm void Display::endFrame(void) {
-  // clang-format off
-  nofralloc;
-  b GXDraw;
-  // clang-format on
-}
+void Display::endRender() { copyEFBtoXFB__Q23EGG7DisplayFv(); }
 
-// Symbol: endRender__Q23EGG7DisplayFv
+void Display::endFrame() { GXDraw(); }
+
+// void Display::copyEFBtoXFB() {
+//   if (hasFlag(0)) {
+//     // need bytewise copy
+//     nw4r::ut::Color c(mClearColor);
+//     GXSetCopyClear(c, mClearZ);
+//   }
+//   GXRenderModeObj const* pObj = BaseSystem::sSystem->getVideo()->pRenderMode;
+//   bool b = (pObj->aa == 0);
+//   GXSetCopyFilter(pObj->aa, pObj->sample, b, pObj->vert_filter);
+//   bool efbFlag = hasFlag(0);
+//   BaseSystem::sSystem->getXfbMgr()->copyEFB(efbFlag);
+// }
+
+// Symbol: copyEFBtoXFB__Q23EGG7DisplayFv
 // PAL: 0x80219fb4..0x8021a06c
-MARK_BINARY_BLOB(endRender__Q23EGG7DisplayFv, 0x80219fb4, 0x8021a06c);
-asm void Display::endRender(void) {
+MARK_BINARY_BLOB(copyEFBtoXFB__Q23EGG7DisplayFv, 0x80219fb4, 0x8021a06c);
+asm void Display::copyEFBtoXFB(void) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
@@ -216,46 +231,14 @@ lbl_8021a004:
   // clang-format on
 }
 
-// Symbol: calcFrequency__Q23EGG7DisplayFv
-// PAL: 0x8021a06c..0x8021a0f0
-MARK_BINARY_BLOB(calcFrequency__Q23EGG7DisplayFv, 0x8021a06c, 0x8021a0f0);
-asm void Display::calcFrequency(void) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x20(r1);
-  mflr r0;
-  stw r0, 0x24(r1);
-  stw r31, 0x1c(r1);
-  mr r31, r3;
-  bl OSGetTick;
-  lwz r6, 0x1c(r31);
-  lis r0, 0x4330;
-  lis r4, 0x431c;
-  lis r5, 0x8000;
-  subf r7, r6, r3;
-  stw r7, 0x20(r31);
-  addi r6, r4, -8573;
-  lfd f2, -0x6480(r2);
-  lwz r4, 0xf8(r5);
-  slwi r5, r7, 3;
-  stw r0, 8(r1);
-  srwi r0, r4, 2;
-  lfs f0, -0x6488(r2);
-  mulhwu r0, r6, r0;
-  stw r3, 0x1c(r31);
-  srwi r0, r0, 0xf;
-  divwu r0, r5, r0;
-  stw r0, 0xc(r1);
-  lfd f1, 8(r1);
-  fsubs f1, f1, f2;
-  fdivs f0, f0, f1;
-  stfs f0, 0x24(r31);
-  lwz r31, 0x1c(r1);
-  lwz r0, 0x24(r1);
-  mtlr r0;
-  addi r1, r1, 0x20;
-  blr;
-  // clang-format on
+u32 __OSConsoleBusSpeed : 0x800000f8;
+
+void Display::calcFrequency() {
+  const s32 endTick = OSGetTick();
+  mDeltaTick = endTick - mBeginTick;
+  mFrequency =
+      1000000.0f / ((mDeltaTick * 8) / ((__OSConsoleBusSpeed >> 2) / 125000));
+  mBeginTick = endTick;
 }
 
 } // namespace EGG

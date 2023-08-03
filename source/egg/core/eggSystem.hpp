@@ -5,15 +5,17 @@ namespace EGG {
 class Display;
 class Video;
 class Heap;
+class XfbManager;
 
 class BaseSystem {
 public:
   static BaseSystem* sSystem;
 
   //! Returns a pointer to the video manager.
-  virtual Video* getVideo() = 0; // [vt+0x08]
-  virtual Heap* getSysHeap() = 0; // [vt+0x0C]
-  virtual Display* getDisplay() = 0; // [vt+0x10]
+  virtual Video* getVideo() = 0;       // [vt+0x08]
+  virtual Heap* getSysHeap() = 0;      // [vt+0x0C]
+  virtual Display* getDisplay() = 0;   // [vt+0x10]
+  virtual XfbManager* getXfbMgr() = 0; // [vt+0x10]
 
 public:
   unsigned int _04;
@@ -21,9 +23,9 @@ public:
   unsigned int _0c;
   unsigned int _10;
   unsigned int _14;
-  Heap * mRootHeapMem1;
-  Heap * mRootHeapMem2;
-  Heap * mRootHeapDebug;
+  Heap* mRootHeapMem1;
+  Heap* mRootHeapMem2;
+  Heap* mRootHeapDebug;
 };
 
 } // namespace EGG
