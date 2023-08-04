@@ -250,8 +250,8 @@ lbl_80125138:
 }
 
 // Symbol: AXAcquireVoice
-// PAL: 0x80125178..0x80125394
-MARK_BINARY_BLOB(AXAcquireVoice, 0x80125178, 0x80125394);
+// PAL: 0x80125178..0x801252f8
+MARK_BINARY_BLOB(AXAcquireVoice, 0x80125178, 0x801252f8);
 asm UNKNOWN_FUNCTION(AXAcquireVoice) {
   // clang-format off
   nofralloc;
@@ -361,6 +361,14 @@ lbl_801252d4:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  // clang-format on
+}
+
+// Symbol: AXSetVoicePriority
+// PAL: 0x801252f8..0x80125394
+MARK_BINARY_BLOB(AXSetVoicePriority, 0x801252f8, 0x80125394);
+asm UNKNOWN_FUNCTION(AXSetVoicePriority) {
+  // clang-format off
   stwu r1, -0x20(r1);
   mflr r0;
   stw r0, 0x24(r1);
