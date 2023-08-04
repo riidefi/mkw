@@ -50,8 +50,8 @@ extern UNKNOWN_FUNCTION(unk_8022b414);
 
 extern unk unk_80388d98, unk_80388da0, unk_80388da8, unk_80388db0, unk_80388d9c,
     unk_80388da4, unk_80388d98, unk_80388da0, unk_80388da8, unk_80388db0,
-    unk_80388d9c, unk_80388da4, unk_80388b44, unk_80388b45, unk_80388b46,
-    unk_80388b47, unk_80388b40, unk_80388b41, unk_80388b42, unk_80388b43,
+    unk_80388d9c, unk_80388da4, unk_80388b44, lbl_80388b45, lbl_80388b46,
+    lbl_80388b47, unk_80388b40, unk_80388b41, unk_80388b42, unk_80388b43,
     unk_80388dac, unk_80388db4;
 extern unk unk_80388dc0, unk_80388db8, unk_80388dc8, unk_80388dcc;
 
@@ -76,9 +76,9 @@ asm UNKNOWN_FUNCTION(unk_8022b6d4) {
   lfs f6, unk_80388d9c;
   lfs f4, unk_80388da4;
   lbz r12, unk_80388b44;
-  lbz r11, unk_80388b45;
-  lbz r10, unk_80388b46;
-  lbz r9, unk_80388b47;
+  lbz r11, lbl_80388b45;
+  lbz r10, lbl_80388b46;
+  lbz r9, lbl_80388b47;
   lbz r8, unk_80388b40;
   lbz r7, unk_80388b41;
   lbz r6, unk_80388b42;
