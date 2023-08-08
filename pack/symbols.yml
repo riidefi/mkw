@@ -3267,7 +3267,7 @@ global:
     0x800cb2b0: 'unk_800cb2b0'
     0x800cb3e0: 'unk_800cb3e0'
     0x800cb550: 'unk_800cb550'
-    0x800cb6a0: 'unk_800cb6a0'
+    0x800cb6a0: 'RFLiPickupCharInfo'
     0x800cb7e0: 'unk_800cb7e0'
     0x800cb840: 'unk_800cb840'
     0x800cb8b0: 'unk_800cb8b0'
