@@ -358,6 +358,7 @@ SOURCES_NW4R_UT = [
 ]
 SOURCES_RFL = [
     Source(src="source/rfl/rfl_init.c", cc='4201_127', opts=RFL_OPTS),
+    Source(src="source/rfl/rfl_icon.c", cc='4201_127', opts=RFL_OPTS),
 ]
 SOURCES_EGG_CORE = [
     Source(src="source/egg/core/eggAllocator.cpp", cc='4201_127', opts=EGG_OPTS),

@@ -216,6 +216,10 @@ source/rfl/rfl_init.c:
     text: [0x800bbb80, 0x800bbf08]
     data: [0x80274f30, 0x80274f78]
 
+source/rfl/rfl_icon.c:
+    enabled: 1
+    text: [0x800c4e00, 0x800c4e74]
+
 source/dwc/common/dwc_error.c:
     enabled: 1
     text: [0x800ccb4c, 0x800ccc80]
