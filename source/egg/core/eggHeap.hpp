@@ -248,19 +248,27 @@ public:
   Heap* becomeCurrentHeap();
 
 public:
-  bool hasFlag(int idx) const { return mFlag & 1 << idx; }
+  bool hasFlag(u8 idx) volatile { return mFlag & 1 << idx; }
 
-  void clearFlag(int idx) { mFlag &= ~(1 << idx); }
+  void clearFlag(u8 idx) volatile { mFlag &= ~(1 << idx); }
 
-  void setFlag(int idx) { mFlag |= (1 << idx); }
+  void setFlag(u8 idx) volatile { mFlag |= (1 << idx); }
 
-  bool isLocked() const { return hasFlag(0) ? 1 : 0; }
-
-  bool lock() {
-    bool b = isLocked();
+  //! @brief Enables the heap's allocation.
+  //!
+  //! @return Whether or not the heap's allocation was disabled.
+  //!
+  bool enableAllocation() {
+    bool b = hasFlag(0);
     if (b)
       clearFlag(0);
     return b;
+  }
+
+  //! @brief Disables the heap's allocation.
+  //!
+  void disableAllocation() {
+    setFlag(0);
   }
 
   static void* addOffset(void* begin, u32 size) {

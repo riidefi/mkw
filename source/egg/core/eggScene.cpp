@@ -6,9 +6,9 @@ namespace EGG {
 
 Scene::Scene() {
   _10 = Heap::getCurrentHeap();
-  mHeapMem1 = SceneManager::sHeapMem1_ForCreateScene;
-  mHeapMem2 = SceneManager::sHeapMem2_ForCreateScene;
-  mHeapDebug = SceneManager::sHeapDebug_ForCreateScene;
+  mHeapMem1 = SceneManager::getHeapForCreateScene_Mem1();
+  mHeapMem2 = SceneManager::getHeapForCreateScene_Mem2();
+  mHeapDebug = SceneManager::getHeapForCreateScene_Debug();
   pParentScene = 0;
   pChildScene = 0;
   mID = -1;

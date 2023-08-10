@@ -2,6 +2,8 @@
 
 #include <rk_types.h>
 #include <decomp.h>
+#include <egg/core/eggSystem.hpp>
+#include <egg/core/eggVideo.hpp>
 #include <nw4r/ut/utColor.hpp>
 
 namespace EGG {
@@ -50,6 +52,15 @@ public:
 
   void setScreenStateFlag(int idx) {
     (*(volatile unsigned char*)(&mScreenStateFlag)) |= (1 << idx);
+  }
+
+  // TODO: more complete definition
+  void setBlack(bool b_) {
+    (void)b_;
+    if (!BaseSystem::sSystem->getVideo()->isBlack() || hasScreenStateFlag(0))
+      return;
+
+    setScreenStateFlag(0);
   }
 };
 
