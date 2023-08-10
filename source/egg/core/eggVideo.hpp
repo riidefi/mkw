@@ -49,7 +49,15 @@ public:
     initialize(rm, rmTable);
   }
 
-public:
+  GXRenderModeObj const* getRenderModeObj() {
+    return pRenderMode;
+  }
+
+  bool isBlack() {
+    return mFlag & 1;
+  }
+
+private:
   enum Flag { VIDEO_FLAG_IS_NOT_BLACKED_OUT = 1 };
   GXRenderModeObj const* pRenderMode;
   u8 mFlag;

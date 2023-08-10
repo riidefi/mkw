@@ -7,7 +7,7 @@ namespace EGG {
 
 Xfb::Xfb(Heap* heap) {
   Video* video = BaseSystem::sSystem->getVideo();
-  GXRenderModeObj const* mode = video->pRenderMode;
+  GXRenderModeObj const* mode = video->getRenderModeObj();
   setDimensions(mode->fb_width, mode->xfb_height);
   size_t sz = calcBufferSize(width, height);
   if (!heap)
