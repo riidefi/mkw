@@ -11,16 +11,6 @@
 #include <game/system/MultiDvdArchive.hpp>
 #include <game/system/GhostFile.hpp>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-UNKNOWN_FUNCTION(process__Q26System15ResourceManagerFv);
-UNKNOWN_FUNCTION(flush__Q26System15ResourceManagerFv);
-#ifdef __cplusplus
-}
-#endif
-
 namespace System {
 
 struct JobContext {
@@ -402,7 +392,12 @@ public:
                                  const char* dirname);
   void preloadCourseAsync(CourseId courseId);
   void initGlobeHeap(size_t size, EGG::Heap* heap);
-  void flush();
+  // to match flush
+  inline void enableRequests() volatile {
+    mRequestsEnabled = true;
+    mRequestPending = false;
+  }
+  void flush() NEVER_INLINE;
   void deinitGlobeHeap();
   static void doLoadCharacterKartModel(void* idxs);
   void doLoadCharacterKartModelPriv(s32 idxs);
@@ -423,7 +418,7 @@ public:
   }
   bool loadGlobeAsync(void* arg);
   void clear();
-  void process();
+  void process() NEVER_INLINE;
   static void doLoadTask(void* jobContext);
   void requestLoad(s32 idx, MultiDvdArchive* m, const char* p,
                    EGG::Heap* archiveHeap);
@@ -486,6 +481,8 @@ public:
       mMenuManagers[i].mState = MENU_CHARACTER_MANAGER_STATE_CLEARED;
     }
   }
+  // needed to prevent duplicate code in flush and process
+  inline void _process();
 };
 
 } // namespace System

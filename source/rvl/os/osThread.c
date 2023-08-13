@@ -1523,7 +1523,7 @@ lbl_801aa7fc:
 // Symbol: OSSuspendThread
 // PAL: 0x801aa824..0x801aa9b8
 MARK_BINARY_BLOB(OSSuspendThread, 0x801aa824, 0x801aa9b8);
-asm UNKNOWN_FUNCTION(OSSuspendThread) {
+asm s32 OSSuspendThread(OSThread*) {
   // clang-format off
   nofralloc;
   stwu r1, -0x20(r1);
