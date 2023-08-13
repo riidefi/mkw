@@ -902,7 +902,7 @@ extern UNKNOWN_FUNCTION(TimeAttackSplitsPage_ct); // Extern data references.
 // PAL: 0x802a3ee8
 extern UNKNOWN_DATA(lbl_802a3ee8);
 // PAL: 0x80385fc8
-extern UNKNOWN_DATA(lbl_80385fc8);
+extern UNKNOWN_DATA(sInstance__Q26System8RKSystem);
 // PAL: 0x80386000
 extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
 // PAL: 0x80386170

@@ -53,7 +53,7 @@ extern UNKNOWN_FUNCTION(unk_807146a8);
 // PAL: 0x8071476c
 extern UNKNOWN_FUNCTION(unk_8071476c);// Extern data references.
 // PAL: 0x80385fc8
-extern UNKNOWN_DATA(lbl_80385fc8);
+extern UNKNOWN_DATA(sInstance__Q26System8RKSystem);
 // PAL: 0x80896820
 extern UNKNOWN_DATA(lbl_80896820);
 // PAL: 0x80896824
