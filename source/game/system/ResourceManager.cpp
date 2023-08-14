@@ -985,22 +985,10 @@ void ResourceManager::clear() {
   mpMenuHeap = nullptr;
 }
 
-} // namespace System
-
-// Symbol: unk_8054247c
-// PAL: 0x8054247c..0x8054248c
-MARK_BINARY_BLOB(unk_8054247c, 0x8054247c, 0x8054248c);
-asm UNKNOWN_FUNCTION(unk_8054247c) {
-  // clang-format off
-  nofralloc
-  /* 8054247C 1C040018 */ mulli       r0, r4, 0x18
-  /* 80542480 7C630214 */ add         r3, r3, r0
-  /* 80542484 806305B0 */ lwz         r3, 0x5b0(r3)
-  /* 80542488 4E800020 */ blr
-  // clang-format on
+EGG::ExpHeap* ResourceManager::getMenuManagerHeap(int managerIdx) {
+  return this->mMenuManagers[managerIdx].mpArchiveHeap;
 }
 
-namespace System {
 u8* ResourceManager::loadGlobe(EGG::Heap* globeHeap) {
   EGG::LZStreamDecomp lzstream;
 
@@ -1070,15 +1058,9 @@ void ResourceManager::loadStaffGhostAsync(
 }
 } // namespace System
 
-// Symbol: unk_80542868
-// PAL: 0x80542868..0x80542878
-MARK_BINARY_BLOB(unk_80542868, 0x80542868, 0x80542878);
-asm UNKNOWN_FUNCTION(unk_80542868) {
-  // clang-format off
-  nofralloc
-  /* 80542868 90830004 */ stw         r4, 4(r3)
-  /* 8054286C 90A30008 */ stw         r5, 8(r3)
-  /* 80542870 38600001 */ li          r3, 0x1
-  /* 80542874 4E800020 */ blr
-  // clang-format on
+// unused
+u32 unk_80542868(u32* param1, u32 param2, u32 param3) {
+  param1[1] = param2;
+  param1[2] = param3;
+  return 1;
 }
