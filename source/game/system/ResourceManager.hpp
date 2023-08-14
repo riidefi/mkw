@@ -404,6 +404,7 @@ public:
   bool loadKartMenuModelAsync(s32 idx, CharacterId characterId,
                               BattleTeam battleTeam);
   void createMenuHeaps(u32 count, s32 heapIdx);
+  EGG::ExpHeap* getMenuManagerHeap(int managerIdx);
   static u8* loadGlobe(EGG::Heap* globeHeap);
   static void doLoadGlobe(void* globeBlob);
   void doLoadGlobeImpl(u8** glodeBlob) volatile;
