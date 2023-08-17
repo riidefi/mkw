@@ -1057,10 +1057,3 @@ void ResourceManager::loadStaffGhostAsync(
                                              destBuffer);
 }
 } // namespace System
-
-// unused
-u32 unk_80542868(u32* param1, u32 param2, u32 param3) {
-  param1[1] = param2;
-  param1[2] = param3;
-  return 1;
-}
