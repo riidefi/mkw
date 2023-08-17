@@ -64,10 +64,16 @@ source/game/system/RaceManager.cpp:
 
 source/game/system/ResourceManager.cpp:
     enabled: 1
-    text: [0x8053fc4c, 0x80542878]
-    rodata: [0x80890490, 0x80890d0c]
-    data: [0x808b3960, 0x808b3c2c]
+    text: [0x8053fc4c, 0x80542868]
+    rodata: [0x80890490, 0x80890d10]
+    data: [0x808b3960, 0x808b3c30]
     bss: [0x809bd738, 0x809bd73c]
+
+source/game/system/ResourceManagerUnk80542868.cpp:
+    enabled: 1
+    text: [0x80542868, 0x80542878]
+    rodata: [0x80890d10, 0x80890d20]
+    data: [0x808b3c30, 0x808b3c48]
 
 source/game/util/Random.cpp:
     enabled: 1
