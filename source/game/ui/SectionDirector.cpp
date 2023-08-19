@@ -146,9 +146,9 @@ extern UNKNOWN_FUNCTION(unk_807178ec);
 // PAL: 0x80782528
 extern UNKNOWN_FUNCTION(unk_80782528); // Extern data references.
 // PAL: 0x80385fc0
-extern UNKNOWN_DATA(sInstance__Q23EGG14AsyncDvdStatus);
+extern void* sInstance__Q23EGG14AsyncDvdStatus;
 // PAL: 0x80385fc8
-extern UNKNOWN_DATA(sInstance__Q26System8RKSystem);
+extern UNKNOWN_DATA(spInstance__Q26System8RKSystem);
 // PAL: 0x80386000
 extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
 // PAL: 0x809bd6e0
