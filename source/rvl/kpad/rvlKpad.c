@@ -116,8 +116,7 @@ asm UNKNOWN_FUNCTION(KPADSetPosParam) {
 }
 
 // Symbol: KPADSetHoriParam
-// PAL: 0x801950d0..0x80195124
-MARK_BINARY_BLOB(KPADSetHoriParam, 0x801950d0, 0x80195124);
+MARK_BINARY_BLOB(KPADSetHoriParam, 0x801950d0, 0x801950ec);
 asm UNKNOWN_FUNCTION(KPADSetHoriParam) {
   // clang-format off
   nofralloc;
@@ -128,6 +127,14 @@ asm UNKNOWN_FUNCTION(KPADSetHoriParam) {
   stfs f1, 0x8c(r3);
   stfs f2, 0x90(r3);
   blr;
+  // clang-format on
+}
+
+// Symbol: KPADSetDistParam
+MARK_BINARY_BLOB(KPADSetDistParam, 0x801950ec, 0x80195108);
+asm UNKNOWN_FUNCTION(KPADSetDistParam) {
+  // clang-format off
+  nofralloc;
   mulli r0, r3, 0x538;
   lis r3, 0x8034;
   addi r3, r3, 0x57e0;
@@ -135,6 +142,14 @@ asm UNKNOWN_FUNCTION(KPADSetHoriParam) {
   stfs f1, 0x94(r3);
   stfs f2, 0x98(r3);
   blr;
+  // clang-format on
+}
+
+// Symbol: KPADSetAccParam
+MARK_BINARY_BLOB(KPADSetAccParam, 0x80195108, 0x80195124);
+asm UNKNOWN_FUNCTION(KPADSetAccParam) {
+  // clang-format off
+  nofralloc;
   mulli r0, r3, 0x538;
   lis r3, 0x8034;
   addi r3, r3, 0x57e0;

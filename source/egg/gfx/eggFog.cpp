@@ -7,9 +7,9 @@ extern "C" UNKNOWN_FUNCTION(GXSetFog);
 extern "C" UNKNOWN_FUNCTION(GXSetFogRangeAdj);
 
 extern const GXColor unk_80388b44;
-extern const u8 unk_80388b45;
-extern const u8 unk_80388b46;
-extern const u8 unk_80388b47;
+extern const u8 lbl_80388b45;
+extern const u8 lbl_80388b46;
+extern const u8 lbl_80388b47;
 
 namespace EGG {
 
@@ -76,10 +76,10 @@ lbl_80226fbc:
   li r3, 0;
   lbz r7, unk_80388b44;
   fmr f3, f1;
-  lbz r6, unk_80388b45;
+  lbz r6, lbl_80388b45;
   fmr f4, f2;
-  lbz r5, unk_80388b46;
-  lbz r0, unk_80388b47;
+  lbz r5, lbl_80388b46;
+  lbz r0, lbl_80388b47;
   stb r7, 8(r1);
   stb r6, 9(r1);
   stb r5, 0xa(r1);
