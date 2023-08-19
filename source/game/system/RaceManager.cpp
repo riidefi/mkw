@@ -330,7 +330,7 @@ extern UNKNOWN_FUNCTION(unk_8082b420);
 // PAL: 0x80860124
 extern UNKNOWN_FUNCTION(unk_80860124); // Extern data references.
 // PAL: 0x80385fc8
-extern UNKNOWN_DATA(sInstance__Q26System8RKSystem);
+extern UNKNOWN_DATA(spInstance__Q26System8RKSystem);
 // PAL: 0x80386000
 extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
 // PAL: 0x80890218
@@ -1956,8 +1956,8 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   /* 80533304 80030B74 */ lwz         r0, 0xb74(r3)
   /* 80533308 2C000005 */ cmpwi       r0, 0x5
   /* 8053330C 40820100 */ bne-        lbl_8053340c
-  /* 80533310 3C608038 */ lis         r3, sInstance__Q26System8RKSystem@ha
-  /* 80533314 80635FC8 */ lwz         r3, sInstance__Q26System8RKSystem@l(r3)
+  /* 80533310 3C608038 */ lis         r3, spInstance__Q26System8RKSystem@ha
+  /* 80533314 80635FC8 */ lwz         r3, spInstance__Q26System8RKSystem@l(r3)
   /* 80533318 80630054 */ lwz         r3, 0x54(r3)
   /* 8053331C 80630024 */ lwz         r3, 0x24(r3)
   /* 80533320 81830000 */ lwz         r12, 0(r3)

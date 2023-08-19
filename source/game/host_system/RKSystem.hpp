@@ -17,11 +17,12 @@ namespace System {
 
 class RKSystem : EGG::BaseSystem {
 public:
-    static RKSystem* sInstance;
+  static RKSystem* spInstance;
+  static RKSystem sInstance;
 
-    u8 _24[0x28];
-    EGG::AsyncDisplay* mAsyncDisplay;
-    u32 _50;
-    RKSceneManager* mSceneMgr;
+  u8 _24[0x28];
+  EGG::AsyncDisplay* mAsyncDisplay;
+  u32 _50;
+  RKSceneManager* mSceneMgr;
 };
-}
+} // namespace System

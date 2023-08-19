@@ -245,15 +245,13 @@ void ResourceManager::doLoadTask(void* jobContext) {
   }
 }
 
-void ResourceManager::process() {
-  _process();
-}
+void ResourceManager::process() { _process(); }
 
 void ResourceManager::_process() {
   bool isSuspended = false;
   while (mpTaskThread->isTaskExist()) {
-    RKSystem::sInstance->mAsyncDisplay->endFrame();
-    RKSystem::sInstance->mAsyncDisplay->beginFrame();
+    RKSystem::spInstance->mAsyncDisplay->endFrame();
+    RKSystem::spInstance->mAsyncDisplay->beginFrame();
     if (EGG::AsyncDvdStatus::sInstance->_51) {
       if (!isSuspended) {
         VISetBlack(0);
@@ -261,23 +259,21 @@ void ResourceManager::_process() {
       }
       isSuspended = true;
       EGG::AsyncDvdStatus::sInstance->halt();
-    }
-    else {
+    } else {
       if (isSuspended) {
         OSResumeThread(mpTaskThread->getOSThread());
       }
       isSuspended = false;
-      RKSystem::sInstance->mSceneMgr->doCalcFader();
+      RKSystem::spInstance->mSceneMgr->doCalcFader();
     }
     SystemManager::sInstance->handlePowerState();
-    RKSystem::sInstance->mAsyncDisplay->beginRender();
+    RKSystem::spInstance->mAsyncDisplay->beginRender();
     if (isSuspended) {
       EGG::AsyncDvdStatus::sInstance->printError();
+    } else {
+      RKSystem::spInstance->mSceneMgr->doDrawFader();
     }
-    else {
-      RKSystem::sInstance->mSceneMgr->doDrawFader();
-    }
-    RKSystem::sInstance->mAsyncDisplay->endRender();
+    RKSystem::spInstance->mAsyncDisplay->endRender();
   }
 }
 
