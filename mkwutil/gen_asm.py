@@ -552,15 +552,14 @@ class DOLSrcGenerator:
         data = self.dol.virtual_read(_slice.start, len(_slice))
         with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
             gen = CAsmGenerator(
-                data,
                 self.disaser,
-                _slice,
+                [_slice],
                 self.symbols,
                 h_file,
                 c_file,
                 not str(c_path).endswith(".c"),
             )
-            gen.dump_slice()
+            gen.dump_source()
 
     def __gen_asm(self, section: Section, _slice: Slice):
         """Generates an ASM file."""
