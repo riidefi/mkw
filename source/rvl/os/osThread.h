@@ -86,7 +86,7 @@ UNKNOWN_FUNCTION(OSExitThread);
 // PAL: 0x801aa3ac..0x801aa4ec
 UNKNOWN_FUNCTION(OSJoinThread);
 // PAL: 0x801aa824..0x801aa9b8
-UNKNOWN_FUNCTION(OSSuspendThread);
+s32 OSSuspendThread(OSThread*);
 // PAL: 0x801aa9b8..0x801aaaa4
 void OSSleepThread(struct OSThreadQueue*);
 // PAL: 0x801aaaa4..0x801aab98

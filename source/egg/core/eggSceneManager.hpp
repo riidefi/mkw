@@ -20,17 +20,17 @@ public:
   enum eAfterFadeType {
     STATUS_IDLE = -1, // guess
     // big logic
-    STATUS_0 = 0,
+    STATUS_CHANGE_SCENE = 0,
     // destroyScene then
     // set in changeSiblingSceneAfterFadeOut
     //! [1] Change to a sibling scene @see changeSIblingSceneAfterFadeOut,
     //! calcCurrentFader
     STATUS_CHANGE_SIBLING_SCENE = 1,
     // createScene with _18 and _10
-    STATUS_2 = 2,
+    STATUS_OUTGOING = 2,
     //! [3] When set, in calcFader, reinitCurrentScene
     STATUS_REINITIALIZE = 3,
-    STATUS_4 = 4
+    STATUS_INCOMING = 4
   };
 
 public: // .sbss
@@ -95,6 +95,14 @@ public:
   //!
   bool fadeIn();
 
+  //! @brief Fade out of the scene
+  //!
+  //! @pre mCurrentFader *must* be set.
+  //!
+  //! @returns Whether or not the operation did anything.
+  //!
+  bool fadeOut();
+
   //! @brief Re-initialize current scene
   //!
   //! @pre mCurrentScene is not NULL.
@@ -115,15 +123,13 @@ public:
   //!
   bool reinitCurrentSceneAfterFadeOut();
 
-  // Exit current scene to parent, then manuver to sibling scene ID
-  // TODO: Match to real symbol
   //! @brief Destroy the current scene, then manuever to a sibling of the
   //! parent.
   //!
   //! @param[in] ID Scene ID to switch to after destroying current scene
   //! completely.
   //!
-  void changeUncleScene(int ID);
+  void changeScene(int ID);
 
   //! @brief Change to a sibling scene with the specified ID.
   //!
@@ -221,12 +227,50 @@ public:
   //!
   Scene* findParentScene(int ID);
 
+public:
+  //! @brief Create a child scene with the specified ID.
+  //!
+  //! @param[in] ID ID of child scene to create.
+  //!
+  //! @pre Calls createChildScene with the current scene.
+  //!
+  inline void createChildSceneCurrent(int ID) {
+    createChildScene(ID, getCurrentScene());
+  }
+
+  //! @brief Resets the transition status to idle.
+  //!
+  inline void resetAfterFadeType() { mTransitionStatus = STATUS_IDLE; }
+
+  //! @brief Gets the current scene.
+  //!
+  inline Scene* getCurrentScene() const { return mCurrentScene; }
+
+  inline int getCurrentSceneID() const { return mCurrentSceneID; }
+
+  static inline EGG::Heap* getHeapForCreateScene_Mem1() {
+    return sHeapMem1_ForCreateScene;
+  }
+
+  static inline EGG::Heap* getHeapForCreateScene_Mem2() {
+    return sHeapMem2_ForCreateScene;
+  }
+
+  static inline EGG::Heap* getHeapForCreateScene_Debug() {
+    return sHeapDebug_ForCreateScene;
+  }
+
   inline int getNextSceneID() { return mNextSceneID; }
 
-private:
-  inline s32 getUnk18() { return _18; }
+  inline void setAfterFadeType(eAfterFadeType type) {
+    mTransitionStatus = type;
+  }
 
-public:
+  inline void setCreator(SceneCreator* creator) { mSceneCreator = creator; }
+
+  inline void setNextSceneID(int ID) { mNextSceneID = ID; }
+
+private:
   SceneCreator* mSceneCreator; //!< [+0x04]
   u32 _08;                     // unseen
 
@@ -238,8 +282,8 @@ public:
 
   s32 mNextSceneID; //!< [+0x14] set in matched inline "setNextSceneID" set to
                     //!< -1 in ct. tied to  mCurrentScene->OC. child?
-  s32 _18;          // set to -1 in ct. tied to _10 brother next?
-  s32 _1C;          // set to -1 in ct
+  s32 mCurrentSceneID;
+  s32 mPreviousSceneID;
 
   eAfterFadeType mTransitionStatus; //!< [+0x20] -1 in ct
   ColorFader* mCurrentFader; //!< [+0x24] header fn placement proves it's a ptr
