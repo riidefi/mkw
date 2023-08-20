@@ -104,6 +104,21 @@ source/game/geo/ObjFloat.cpp:
 source/game/geo/ObjOilSFC.cpp:
     text: [0x806DD934, 0x806DDA84]
 
+source/game/geo/MapObjSniper.cpp:
+    text: [0x806DDA84, 0x806DDCB0]
+
+source/game/geo/ObjSound.cpp:
+    text: [0x806DDCB0, 0x806DDDD8]
+
+source/game/geo/ObjSunDS.cpp:
+    text: [0x806DDDD8, 0x806DE624]
+
+source/game/geo/ObjSunDSManager.cpp:
+    text: [0x806DE624, 0x806DE7FC]
+
+source/game/geo/ObjTaimatsu.cpp:
+    text: [0x806DE7FC, 0x806DEB40]
+
 source/game/geo/BoxColManager.cpp:
     text: [0x80786e60, 0x80786ed0]
 

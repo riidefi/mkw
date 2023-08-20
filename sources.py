@@ -482,6 +482,11 @@ SOURCES_REL = [
     Source(src="source/game/geo/ObjKuribo.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/ObjFloat.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/ObjOilSFC.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/geo/MapObjSniper.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/geo/ObjSound.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/geo/ObjSunDS.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/geo/ObjSunDSManager.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/geo/ObjTaimatsu.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/BoxColManager.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/BoxColUnit.cpp", cc='4201_127', opts=REL_OPTS),
 ]
