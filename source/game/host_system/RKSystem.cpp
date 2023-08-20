@@ -40,10 +40,6 @@ extern UNKNOWN_FUNCTION(DVDInit);
 extern UNKNOWN_FUNCTION(KPADInit);
 // PAL: 0x801a25d0
 extern UNKNOWN_FUNCTION(OSReport);
-// PAL: 0x801a98b0
-extern UNKNOWN_FUNCTION(OSGetCurrentThread);
-// PAL: 0x801aaca8
-extern UNKNOWN_FUNCTION(OSSleepTicks);
 // PAL: 0x801af2f0
 extern UNKNOWN_FUNCTION(PADInit);
 // PAL: 0x801b0180
@@ -172,6 +168,10 @@ extern UNKNOWN_DATA(sSystem__Q23EGG10BaseSystem);
 extern UNKNOWN_DATA(lbl_80386ff8);
 // PAL: 0x80386ffc
 extern UNKNOWN_DATA(lbl_80386ffc);
+}
+
+extern "C" {
+#include <rvl/os/osThread.h>
 }
 
 // --- EXTERN DECLARATIONS END ---
@@ -350,8 +350,6 @@ asm UNKNOWN_FUNCTION(RKSystem_getAudioManager) {
 #include "asm/800099c4.s"
 }
 
-#if 0
-
 // Symbol: unk_800099cc
 // PAL: 0x800099cc..0x80009b40
 MARK_BINARY_BLOB(unk_800099cc, 0x800099cc, 0x80009b40);
@@ -372,4 +370,3 @@ MARK_BINARY_BLOB(__dt__Q23EGG8Vector2fFv, 0x80009b80, 0x80009bc0);
 asm UNKNOWN_FUNCTION(__dt__Q23EGG8Vector2fFv) {
 #include "asm/80009b80.s"
 }
-#endif
