@@ -464,10 +464,10 @@ class SlicesCSVReader:
         data = yaml.safe_load(self.file)
 
         for source_file, regions in data.items():
-            if regions.get('enabled', 0) != 1:
-                continue
+            # if regions.get('enabled', 0) != 1:
+            #     continue
 
-            tags = []
+            tags = ["enabled"]
             for k, v in regions.items():
                 if v == 1:
                     tags.append(k)
