@@ -113,6 +113,22 @@ source/game/ui/SectionDirector.cpp:
     enabled: 1
     text: [0x80634b80, 0x80635eb8]
 
+source/game/geo/ObjKoopaFigure64.cpp:
+    enabled: 1
+    text: [0x806DA914, 0x806DB184]
+
+source/game/geo/ObjKuribo.cpp:
+    enabled: 1
+    text: [0x806DB184, 0x806DD2D8]
+
+source/game/geo/ObjFloat.cpp:
+    enabled: 1
+    text: [0x806DD2D8, 0x806DD934]
+
+source/game/geo/ObjOilSFC.cpp:
+    enabled: 1
+    text: [0x806DD934, 0x806DDA84]
+
 source/game/geo/BoxColManager.cpp:
     enabled: 1
     text: [0x80786e60, 0x80786ed0]
