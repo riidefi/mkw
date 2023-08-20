@@ -1,0 +1,50 @@
+#pragma once
+
+#include <rk_types.h>
+
+#include <decomp.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// PAL: 0x806dddd8..0x806ddf04
+UNKNOWN_FUNCTION(unk_806dddd8);
+// PAL: 0x806ddf04..0x806ddf68
+UNKNOWN_FUNCTION(unk_806ddf04);
+// PAL: 0x806ddf68..0x806ddfd4
+UNKNOWN_FUNCTION(unk_806ddf68);
+// PAL: 0x806ddfd4..0x806de03c
+UNKNOWN_FUNCTION(unk_806ddfd4);
+// PAL: 0x806de03c..0x806de1c8
+UNKNOWN_FUNCTION(unk_806de03c);
+// PAL: 0x806de1c8..0x806de1e4
+UNKNOWN_FUNCTION(unk_806de1c8);
+// PAL: 0x806de1e4..0x806de408
+UNKNOWN_FUNCTION(unk_806de1e4);
+// PAL: 0x806de408..0x806de454
+UNKNOWN_FUNCTION(unk_806de408);
+// PAL: 0x806de454..0x806de458
+UNKNOWN_FUNCTION(unk_806de454);
+// PAL: 0x806de458..0x806de4e4
+UNKNOWN_FUNCTION(unk_806de458);
+// PAL: 0x806de4e4..0x806de510
+UNKNOWN_FUNCTION(unk_806de4e4);
+// PAL: 0x806de510..0x806de568
+UNKNOWN_FUNCTION(unk_806de510);
+// PAL: 0x806de568..0x806de598
+UNKNOWN_FUNCTION(unk_806de568);
+// PAL: 0x806de598..0x806de5c8
+UNKNOWN_FUNCTION(unk_806de598);
+// PAL: 0x806de5c8..0x806de5d0
+UNKNOWN_FUNCTION(unk_806de5c8);
+// PAL: 0x806de5d0..0x806de614
+UNKNOWN_FUNCTION(unk_806de5d0);
+// PAL: 0x806de614..0x806de61c
+UNKNOWN_FUNCTION(unk_806de614);
+// PAL: 0x806de61c..0x806de624
+UNKNOWN_FUNCTION(unk_806de61c);
+
+#ifdef __cplusplus
+}
+#endif

@@ -62,7 +62,12 @@ out/ObjKoopaFigure64.o
 out/ObjKuribo.o
 out/ObjFloat.o
 out/ObjOilSFC.o
-out/rel/text_806dda84_80786e60.o
+out/MapObjSniper.o
+out/ObjSound.o
+out/ObjSunDS.o
+out/ObjSunDSManager.o
+out/ObjTaimatsu.o
+out/rel/text_806deb40_80786e60.o
 out/BoxColManager.o
 out/rel/rodata_80896158_808a4800.o
 out/BoxColUnit.o
