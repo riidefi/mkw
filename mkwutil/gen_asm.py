@@ -403,8 +403,10 @@ def replace_source_extern_decls(filestr, extern_functions, extern_data, cpp_mode
         return new_filestr
 
 
+INLINE_ASM_RE = r'#include "asm\/([0-9a-f]{8})\.s"'
+
 class DOLSrcGenerator:
-    """Generates assembly files from DOL."""
+    """Generates assembly from DOL."""
 
     def __init__(
         self,
@@ -413,6 +415,8 @@ class DOLSrcGenerator:
         disaser: Disassembler,
         symbols: SymbolsList,
         dol_asm_dir: Path,
+        dol_bin_dir: Path,
+        source_dir: Path,
         pack_dir: Path,
         regen_asm: bool,
         regen_inline: bool,
@@ -423,81 +427,59 @@ class DOLSrcGenerator:
         self.disaser = disaser
         self.symbols = symbols
         self.dol_asm_dir = dol_asm_dir
+        self.dol_bin_dir = dol_bin_dir
+        self.source_dir = source_dir
         self.pack_dir = pack_dir
         self.regen_asm = regen_asm
         self.regen_inline = regen_inline
         self.dol_asm_sources = set()
-        self.dol_decomp_sources = set()
+        self.inline_asm_pattern = re.compile(INLINE_ASM_RE)
 
         dol_labels_path = Path("./mkwutil/ppcdis_adapter/externs.pickle")
         with open(dol_labels_path, 'rb') as dol_labels_file:
             self.extra_labels = pickle.load(dol_labels_file)
             self.extra_labels = self.extra_labels['labels']
 
-    # Delete stale ASM files.
-    def __prune_asm(self):
+
+    def run(self):
+        """Runs ASM generation for main.dol/StaticR.dol"""
+        source_asm_dir = self.source_dir / "asm"
+        for c_source_name, sections in self.slices.object_slices():
+            self.__gen_c(c_source_name, sections)
+            self.__gen_includes(c_source_name, source_asm_dir)
+        for _slice in self.slices:
+            if _slice.section is None:
+                # ignore slices not belonging to sections
+                continue
+            if self.__slice_dest_asm(_slice):
+               self. __gen_asm(_slice)
+        # Delete stale ASM files.
         for path in self.dol_asm_dir.iterdir():
             if path.suffix != ".s":
                 continue
             if path.stem not in self.dol_asm_sources:
                 os.remove(path)
-
-    def __stem_for_asm_slice(self, _slice):
-        if _slice.has_name():
-            return Path(Path(_slice.name).name)
-
-        return get_asm_path(Path("dol"), _slice)
-
-    def __outpath_of_asm_slice(self, _slice):
-        # Wrong term maybe
-        stem = self.__stem_for_asm_slice(_slice)
-        out_path = Path("out") / stem.with_suffix(".o")
-        return str(out_path)
-
-    # Iterator of all non-empty sections
-    def __slice_sections(self):
+        # Give all ASM slices a name. This makes the slice table unusable.
         for _slice in self.slices:
             if _slice.section is None:
                 continue
-
-            yield _slice
-
-    # Give all ASM slices a name. This makes the slice table unusable.
-    def __name_asm_slices(self):
-        for _slice in self.__slice_sections():
-            _slice.name = self.__outpath_of_asm_slice(_slice)
-
-    # Write list of objects for linker.
-    def __write_objlist(self):
-        # Drop slices smaller than 4 bytes.
-        objects = self.slices.object_slices().objects
-        for object in list(objects.keys()):
-            # Drop slice.
-            slices = objects[object]
-            for i, slice in reversed(list(enumerate(slices))):
-                if len(slice) < 4:
-                    slices.pop(i)
-            # Drop entire object if all slices have been removed.
-            if len(slices) == 0:
-                del objects[object]
-        object_names = objects.keys()
+            out_path = None
+            if not _slice.has_name():
+                out_path = get_asm_path(Path("dol"), _slice)
+            else:
+                out_path = Path(Path(_slice.name).name)
+            out_path = Path("out") / out_path.with_suffix(".o")
+            _slice.name = str(out_path)
+        # Write list of objects for linker.
+        object_names = self.slices.object_slices().objects.keys()
         with open(self.pack_dir / "dol_objects.txt", "w") as file:
             for name in object_names:
                 print(PurePosixPath(Path(name)), file=file)
 
-    def run(self):
-        """Runs ASM generation for main.dol."""
-        for section in DOL_SECTIONS:
-            self.__process_section(section)
-
-        self.__prune_asm()
-        self.__name_asm_slices()
-        self.__write_objlist()
-
     def __process_section(self, section: Section):
-        """Processes a program section and all its slices."""
+        """Processes a library section and all its slices."""
         subtable = self.slices.slice(section.start, section.stop)
-        # print(f".{section.name} ({section.type}): {subtable.count()} slices")
+        print(f".{section.name} ({section.type}): {subtable.count()} slices")
         for _slice in subtable:
             self.__process_slice(section, _slice)
 
@@ -509,69 +491,31 @@ class DOLSrcGenerator:
     def __slice_dest_c(self, _slice):
         return _slice.has_name()
 
-    def __process_slice(self, section: Section, _slice: Slice):
-        """Process a slice in slices.csv or a gap."""
-        # print(f"  {_slice}")
 
-        if self.__slice_dest_asm(_slice):
-            self.__gen_asm(section, _slice)
-            return
-
-        # TODO Ideally this would work on the notion of objects instead of slices.
-        if self.__slice_dest_c(_slice):
-            source_path = Path(_slice.name)
-            if source_path.stem not in self.dol_decomp_sources:
-                self.dol_decomp_sources.add(source_path.stem)
-            if section.type == "code":
-                self.__gen_c(_slice)
-
-    def __gen_c(self, _slice: Slice):
-        """Generates a C file with inline assembly if not exists."""
-        # Generate C inline assembly.
-        c_path = Path(_slice.name)
+    def __gen_c(self, c_source_name: str, _slices: list[Slice]):
+        c_path = Path(c_source_name)
         h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
-        if c_path.exists() or h_path.exists():
-            """
-            if self.regen_inline and (str(c_path).endswith(".c") or str(c_path).endswith(".cpp")):
-                print(c_path)
-                with open(c_path) as file:
-                    filestr = file.read()
-                    new_filestr, extern_functions, extern_data = replace_inline_asm(filestr, self.disaser, self.symbols)
-                    if len(extern_functions) != 0 or len(extern_data) != 0:
-                        cpp_mode = not str(c_path).endswith(".c")
-                        new_filestr = replace_source_extern_decls(new_filestr, extern_functions, extern_data, cpp_mode)
-                #print(new_filestr)
+        if not (c_path.exists() or h_path.exists()):
+            c_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
+                gen = CAsmGenerator(
+                    self.disaser,
+                    _slices,
+                    self.symbols,
+                    h_file,
+                    c_file,
+                    not str(c_path).endswith(".c"),
+                )
+                gen.dump_source()
 
-                with open(c_path, "w") as c_file:
-                    c_file.write(new_filestr)
-            """
-            return
-
-        c_path.parent.mkdir(parents=True, exist_ok=True)
-        # print(f"    => {_slice.name}")
-        data = self.dol.virtual_read(_slice.start, len(_slice))
-        with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
-            gen = CAsmGenerator(
-                self.disaser,
-                [_slice],
-                self.symbols,
-                h_file,
-                c_file,
-                not str(c_path).endswith(".c"),
-            )
-            gen.dump_source()
-
-    def __gen_asm(self, section: Section, _slice: Slice):
+    def __gen_asm(self, _slice: Slice):
         """Generates an ASM file."""
-        # Relocatable ASM unsupported for DOL
-        """
+        section = _slice.section
         asm_path = get_asm_path(self.dol_asm_dir, _slice)
         self.dol_asm_sources.add(asm_path.stem)
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
-        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
-        """
         asm_path = get_asm_path(self.dol_asm_dir, _slice)
         self.dol_asm_sources.add(asm_path.stem)
         if not self.regen_asm and asm_path.exists():
@@ -580,14 +524,26 @@ class DOLSrcGenerator:
         with open(asm_path, "w") as asm_file:
             data = (
                 self.dol.virtual_read(_slice.start, len(_slice))
-                if section.type != "bss"
+                if "bss" not in section
                 else None
             )
             gen = AsmGenerator(data, _slice, self.symbols, asm_file, self.extra_labels)
             gen.dump_section()
 
+    def __gen_includes(self, c_source_name: str, out_path: Path):
+        c_path = Path(c_source_name)
+        assert c_path.exists(), f"C source {c_source_name} not found"
+        with open(c_path, "r") as c_file:
+            c_text = c_file.read()
+            for addr_str in re.findall(self.inline_asm_pattern, c_text):
+                addr = int(addr_str, 16)
+                inline_asm = self.disaser.function_to_text(addr, inline=True, extra=False,
+                                                           hashable=False, declare_mangled=False)
+                out_file = out_path / f"{addr:x}.s"
+                with open(out_file, "w") as asm_file:
+                    asm_file.write(inline_asm)
 
-INLINE_ASM_RE = r'#include "asm\/([0-9a-f]{8})\.s"'
+
 class RELSrcGenerator:
     """Generates assembly from REL."""
 
@@ -724,13 +680,14 @@ def gen_asm(regen_asm=False, regen_inline=False):
 
     dol = read_dol(binary_dir / "main.dol")
     dol_disaser = get_dol_disaser()
+    dol_bin_dir = binary_dir / "dol"
     dol_slices = read_enabled_slices(dol, pack_dir / "dol_slices.yml")
 
     # Disassemble DOL sections.
     dol_asm_dir = asm_dir / "dol"
     dol_asm_dir.mkdir(exist_ok=True)
     dol_gen = DOLSrcGenerator(
-        dol_slices, dol, dol_disaser, symbols, dol_asm_dir, pack_dir, regen_asm, regen_inline
+        dol_slices, dol, dol_disaser, symbols, dol_asm_dir, dol_bin_dir, source_dir, pack_dir, regen_asm, regen_inline
     )
     dol_gen.run()
 
