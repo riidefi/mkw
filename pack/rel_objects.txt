@@ -35,8 +35,10 @@ out/rel/rodata_80890218_80890490.o
 out/rel/data_808b34f0_808b3960.o
 out/ResourceManager.o
 out/ResourceManagerUnk80542868.o
-out/rel/text_80542878_80555464.o
-out/rel/rodata_80890d20_80891370.o
+out/rel/text_80542878_8055531c.o
+out/rel/rodata_80890d20_808912f0.o
+out/ModuleSymbols.o
+out/rel/rodata_8089135b_80891370.o
 out/rel/data_808b3c48_808b42e0.o
 out/Random.o
 out/rel/text_8055572c_80590128.o
