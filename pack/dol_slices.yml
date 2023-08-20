@@ -15,13 +15,14 @@ source/game/host_system/SystemResource.cpp:
     text: [0x80007f50, 0x80007f7c]
     rodata: [0x80245010, 0x802450b0]
 
-#source/game/host_system/RKSystem.cpp:
-#    enabled: 0
-#    # text: [0x80008e84, 0x80009B40]
-#    # ctors: [0x80244de4, 0x80244de8]
-#    # data: [0x80270bf0, 0x80270c94]
-#    # bss: [0x802a4080, 0x802a4100]
-#    # sbss: [0x80385fc8, 0x80385fcc]
+source/game/host_system/RKSystem.cpp:
+    enabled: 1
+    text: [0x80008e84, 0x800099cc] # 0x800099cc 0x80009b40
+    # ctors: [0x80244de4, 0x80244de8]
+    # data: [0x80270bf0, 0x80270c94]
+    # bss: [0x802a4080, 0x802a4100]
+    # sbss: [0x80385fc8, 0x80385fcc]
+    #sbss: [0x80385FD0, 0x80385FD8]
 
 source/platform/ansi_files.c:
     enabled: 1

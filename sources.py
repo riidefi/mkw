@@ -30,6 +30,7 @@ class Source:
 
 SOURCES_HOSTSYS = [
     Source(src="source/game/host_system/SystemResource.cpp", cc='4201_127', opts=HOSTSYS_OPTS),
+    Source(src="source/game/host_system/RKSystem.cpp", cc='4201_127', opts=HOSTSYS_OPTS),
 ]
 
 SOURCES_TRK = [
