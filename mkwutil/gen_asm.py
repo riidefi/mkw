@@ -252,6 +252,8 @@ class CAsmGenerator:
         # Sort extern functions.
         self.extern_functions.sort(key=lambda ref: ref[0])
         self.extern_data.sort(key=lambda ref: ref[0])
+        emit_extern = lambda x: x[1] != '__dl__FPv'
+        self.extern_functions = filter(emit_extern, self.extern_functions)
         # Write out to C file.
         template = jinja_env.get_template("source.c.j2")
         template.stream(
