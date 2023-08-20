@@ -6,7 +6,9 @@ out/dol/extabindex_80006a20_800072c0.o
 out/dol/text_800072c0_80007f50.o
 out/dol/rodata_80244ec0_80245010.o
 out/SystemResource.o
-out/dol/text_80007f7c_8000c948.o
+out/dol/text_80007f7c_80008e84.o
+out/RKSystem.o
+out/dol/text_800099cc_8000c948.o
 out/ansi_files.o
 out/dol/rodata_802450b0_80248010.o
 out/dol/data_80258580_802733f0.o
