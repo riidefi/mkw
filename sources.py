@@ -476,6 +476,7 @@ SOURCES_REL = [
     Source(src="source/game/system/RaceManager.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/ResourceManager.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/system/ResourceManagerUnk80542868.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/util/ModuleSymbols.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/util/Random.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartObjectProxy.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/ObjKoopaFigure64.cpp", cc='4201_127', opts=REL_OPTS),

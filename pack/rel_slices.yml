@@ -62,6 +62,10 @@ source/game/system/ResourceManagerUnk80542868.cpp:
     rodata: [0x80890d10, 0x80890d20]
     data: [0x808b3c30, 0x808b3c48]
 
+source/game/util/ModuleSymbols.cpp:
+    text: [0x8055531c, 0x80555464]
+    rodata: [0x808912f0, 0x8089135b]
+
 source/game/util/Random.cpp:
     text: [0x80555464, 0x8055572c]
     rodata: [0x80891370, 0x80891380]
