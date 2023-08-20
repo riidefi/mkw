@@ -57,7 +57,12 @@ out/rel/text_80624690_8062c3a4.o
 out/SectionAutogens.o
 out/rel/text_8063240c_80634b80.o
 out/SectionDirector.o
-out/rel/text_80635eb8_80786e60.o
+out/rel/text_80635eb8_806da914.o
+out/ObjKoopaFigure64.o
+out/ObjKuribo.o
+out/ObjFloat.o
+out/ObjOilSFC.o
+out/rel/text_806dda84_80786e60.o
 out/BoxColManager.o
 out/rel/rodata_80896158_808a4800.o
 out/BoxColUnit.o
