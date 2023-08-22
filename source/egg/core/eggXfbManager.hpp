@@ -12,7 +12,9 @@ class Heap;
 class Xfb;
 class XfbManager {
 public:
-  XfbManager(Heap* heap) {}
+  inline XfbManager(Heap* heap)
+    : mListHead(nullptr), mListTail(nullptr),
+      mCopiedXfb(nullptr), mShowXfb(nullptr) {}
   ~XfbManager() {}
 
   bool isReadytoCopy() const {

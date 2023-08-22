@@ -152,10 +152,10 @@ void ProcessMeter::CpuGpMonitor::hide() {
 
 } // namespace EGG
 
-// Symbol: ProcessMeter_construct
+// Symbol: __ct__Q23EGG12ProcessMeterFb
 // PAL: 0x8023883c..0x80238a94
-MARK_BINARY_BLOB(ProcessMeter_construct, 0x8023883c, 0x80238a94);
-asm UNKNOWN_FUNCTION(ProcessMeter_construct) {
+MARK_BINARY_BLOB(__ct__Q23EGG12ProcessMeterFb, 0x8023883c, 0x80238a94);
+asm UNKNOWN_FUNCTION(__ct__Q23EGG12ProcessMeterFb) {
   // clang-format off
   nofralloc;
   stwu r1, -0x50(r1);

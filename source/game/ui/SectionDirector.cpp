@@ -6,7 +6,7 @@ extern "C" {
 
 // Extern function references.
 // PAL: 0x80008e84
-extern UNKNOWN_FUNCTION(RKSystem_getStaticInstance);
+extern UNKNOWN_FUNCTION(getStaticInstance__Q26System8RKSystemFv);
 // PAL: 0x8000b154
 extern UNKNOWN_FUNCTION(SystemManager_shutdownSystem);
 // PAL: 0x8000b188

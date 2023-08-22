@@ -1,6 +1,6 @@
 #include "SceneCreatorStatic.hpp"
 
-#include <game/RKScene.hpp>
+#include <game/host_system/RKScene.hpp>
 
 namespace System {
 

@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from itertools import chain
 
 
-HOSTSYS_OPTS = ' -ipa file -rostr'
+HOSTSYS_OPTS = ' -ipa file -rostr -str noreuse'
 RVL_OPTS = ' -lang=c99 -ipa file'
 MSL_LIBC_OPTS = ' -lang=c99 -ipa file'
 NW4R_OPTS = ' -lang=c99 -ipa file -inline auto -O4,p -pragma \"legacy_struct_alignment on\"'
