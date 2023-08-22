@@ -20,44 +20,28 @@ extern "C" {
 
 // PAL: 0x80008e84..0x80008e90
 UNKNOWN_FUNCTION(getStaticInstance__Q26System8RKSystemFv);
-// PAL: 0x80008e90..0x80008eb0
-void* WPADAllocator(u32);
-// PAL: 0x80008eb0..0x80008ef0
-u8 WPADFree(void*);
 // PAL: 0x80008ef0..0x80008fac
 UNKNOWN_FUNCTION(main__Q26System8RKSystemFiPPc);
 // PAL: 0x80008fac..0x80008fb4
-UNKNOWN_FUNCTION(RKSystem_getSysHeap);
+UNKNOWN_FUNCTION(getSysHeap__Q26System8RKSystemFv);
 // PAL: 0x80008fb4..0x80009190
-UNKNOWN_FUNCTION(TSystem_initialize);
+UNKNOWN_FUNCTION(initialize__Q23EGG10BaseSystemFv);
 // PAL: 0x80009190..0x80009194
-UNKNOWN_FUNCTION(unk_80009190);
+UNKNOWN_FUNCTION(initRenderMode__Q23EGG10BaseSystemFv);
 // PAL: 0x80009194..0x8000951c
 UNKNOWN_FUNCTION(initialize__Q26System8RKSystemFv);
 // PAL: 0x8000951c..0x80009818
-UNKNOWN_FUNCTION(RKSystem_run);
+UNKNOWN_FUNCTION(run__Q26System8RKSystemFv);
 // PAL: 0x80009818..0x80009820
 UNKNOWN_FUNCTION(getDisplay__Q23EGG10BaseSystemFv);
 // PAL: 0x80009820..0x80009824
-UNKNOWN_FUNCTION(unk_80009820);
+UNKNOWN_FUNCTION(onBeginFrame__Q23EGG10BaseSystemFv);
 // PAL: 0x80009824..0x80009828
-UNKNOWN_FUNCTION(unk_80009824);
+UNKNOWN_FUNCTION(onEndFrame__Q23EGG10BaseSystemFv);
 // PAL: 0x80009828..0x80009830
-UNKNOWN_FUNCTION(RKSystem_getSceneManager);
+UNKNOWN_FUNCTION(getSceneManager__Q23EGG10BaseSystemFv);
 // PAL: 0x80009830..0x80009844
-UNKNOWN_FUNCTION(RKSystem_getPerformanceView);
-// PAL: 0x80009844..0x8000984c
-UNKNOWN_FUNCTION(RkSceneManager_changeSceneWithCreator);
-// PAL: 0x8000984c..0x80009984
-UNKNOWN_FUNCTION(RKSceneManager_calcCurrentFader);
-// PAL: 0x80009984..0x80009988
-UNKNOWN_FUNCTION(RkSceneManager_calc);
-// PAL: 0x80009988..0x8000998c
-UNKNOWN_FUNCTION(RkSceneManager_draw);
-// PAL: 0x8000998c..0x8000999c
-UNKNOWN_FUNCTION(unk_8000998c);
-// PAL: 0x8000999c..0x800099ac
-UNKNOWN_FUNCTION(unk_8000999c);
+UNKNOWN_FUNCTION(getPerformanceView__Q23EGG10BaseSystemFv);
 // PAL: 0x800099ac..0x800099b4
 UNKNOWN_FUNCTION(getVideo__Q23EGG10BaseSystemFv);
 // PAL: 0x800099b4..0x800099bc
@@ -65,9 +49,9 @@ UNKNOWN_FUNCTION(getSysHeap__Q23EGG10BaseSystemFv);
 // PAL: 0x800099bc..0x800099c4
 UNKNOWN_FUNCTION(getXfbManager__Q23EGG10BaseSystemFv);
 // PAL: 0x800099c4..0x800099cc
-UNKNOWN_FUNCTION(RKSystem_getAudioManager);
+UNKNOWN_FUNCTION(getAudioManager__Q23EGG10BaseSystemFv);
 // PAL: 0x800099cc..0x80009b40
-UNKNOWN_FUNCTION(unk_800099cc);
+UNKNOWN_FUNCTION(__sinit__RKSystem_cpp);
 // PAL: 0x80009b40..0x80009b80
 UNKNOWN_FUNCTION(__dt__Q23EGG8Vector3fFv);
 // PAL: 0x80009b80..0x80009bc0
@@ -92,9 +76,11 @@ public:
   virtual void doCalcFader();                             // [vt+0x24]
   virtual void doDrawFader();                             // [vt+0x28]
 
-  void changeSceneWithCreator(int id, EGG::SceneCreator* creator);
+  inline void changeSceneWithCreator(int sceneID);
 
-  u32 _2c;                                                // [this+0x2c]
+  void changeSceneWithCreatorAfterFadeOut(int id, EGG::SceneCreator* creator);
+
+  EGG::SceneCreator* mNextSceneCreator;                   // [this+0x2c]
 };
 
 // vtable @ 80270bf0
@@ -103,15 +89,26 @@ public:
   static RKSystem* spInstance;
   static RKSystem sInstance;
 
+public:
   static RKSystem* getStaticInstance();
 
   static void main(int argc, char** argv);
+
+public:
+  inline RKSystem() : EGG::BaseSystem(), mFrameClock(true), _69(false) {}
 
   EGG::Heap* getSysHeap() override;                       // [vt+0x0c]
 
   void run() override;                                    // [vt+0x34]
   void initialize() override;                             // [vt+0x38]
 
+  inline void beginFrame();
+  inline void endFrame();
+
+  inline void draw();
+  inline void calc();
+
+public:
   EGG::Heap* mWPADHeap;                                   // [this+0x58]
   EGG::Allocator* mWPADAllocator;                         // [this+0x5c]
   EGG::Heap* mModuleHeap;                                 // [this+0x60]
@@ -120,7 +117,7 @@ public:
   bool _69;
   bool _6a;
   bool _6b;
-  bool _6c;
+  volatile bool _6c;
   u8 _6d;
   u8 _6e;
   u8 _6f;

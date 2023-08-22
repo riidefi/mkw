@@ -9,6 +9,8 @@
 
 #include <decomp.h>
 
+#include <egg/core/eggProcessMeter.hpp>
+
 
 struct GXRenderModeObj;
 
@@ -28,28 +30,51 @@ class BaseSystem {
 public:
   static BaseSystem* sSystem;
 
+public:
+  inline BaseSystem()
+    : mSysHeapSize(0x177000), mGraphicsFifoSize(0x80000),
+      mRenderMode(nullptr) {}
+
   //! @brief [vt+0x08] Return a pointer to the video manager.
   //!
-  virtual Video* getVideo();
+  virtual Video* getVideo();// { return mVideo; }
 
   //! @brief [vt+0x0c] Return a pointer to the system heap.
   //!
-  virtual Heap* getSysHeap();
+  virtual Heap* getSysHeap();// { return mSysHeap; }
 
   //! @brief [vt+0x10] Return a pointer to the display manager.
   //!
-  virtual Display* getDisplay();
+  virtual Display* getDisplay() { return mDisplay; }
 
   //! @brief [vt+0x14] Return a pointer to the Xfb manager.
   //!
-  virtual XfbManager* getXfbManager();
+  virtual XfbManager* getXfbManager();// { return mXfbMgr; }
 
-  virtual PerformanceView* getPerformanceView();  // [vt+0x18]
-  virtual SceneManager* getSceneManager();        // [vt+0x1c]
-  virtual AudioManager* getAudioManager();        // [vt+0x20]
+  //! @brief [vt+0x18] Return a pointer to the performance view.
+  //!
+  virtual PerformanceView* getPerformanceView() {
+    return static_cast<PerformanceView*>(mProcessMeter);
+  }
 
-  virtual void onBeginFrame();                    // [vt+0x24]
-  virtual void onEndFrame();                      // [vt+0x28]
+  //! @brief [vt+0x1c] Return a pointer to the scene manager.
+  //!
+  virtual SceneManager* getSceneManager() { return mSceneMgr; }
+
+  //! @brief [vt+0x20] Return a pointer to the audio manager.
+  //!
+  virtual AudioManager* getAudioManager();// { return mAudioMgr; }
+
+  //! @brief [vt+0x24] Called by `run` at the beginning of every frame right
+  //! after calling `beginFrame` on the display.
+  //!
+  virtual void onBeginFrame() {}
+
+  //! @brief [vt+0x24] Called by `run` at the end of every frame right after
+  //! calling `endFrame` on the display.
+  //!
+  virtual void onEndFrame() {}
+
   virtual void initRenderMode();                  // [vt+0x2c]
   virtual void initMemory();                      // [vt+0x30]
 

@@ -7,14 +7,14 @@ from dataclasses import dataclass
 from itertools import chain
 
 
-HOSTSYS_OPTS = ' -ipa file -rostr -str noreuse'
+HOSTSYS_OPTS = ' -ipa file -rostr -str noreuse -use_lmw_stmw=on'
 RVL_OPTS = ' -lang=c99 -ipa file'
 MSL_LIBC_OPTS = ' -lang=c99 -ipa file'
 NW4R_OPTS = ' -lang=c99 -ipa file -inline auto -O4,p -pragma \"legacy_struct_alignment on\"'
 SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 RFL_OPTS = RVL_OPTS + " -O4,p"
 EGG_OPTS = ' -lang=c99 -use_lmw_stmw=on -ipa function -rostr'
-REL_OPTS = HOSTSYS_OPTS + " -sdata 0 -sdata2 0 -lang=c++ -use_lmw_stmw=on -pragma \"legacy_struct_alignment on\" -DREL"
+REL_OPTS = HOSTSYS_OPTS + " -sdata 0 -sdata2 0 -lang=c++ -pragma \"legacy_struct_alignment on\" -DREL"
 
 
 @dataclass
