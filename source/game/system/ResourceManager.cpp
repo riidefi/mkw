@@ -9,7 +9,8 @@
 #include <game/system/RaceConfig.hpp>
 #include <egg/core/eggStreamDecomp.hpp>
 #include <egg/core/eggDvdRipper.hpp>
-#include <game/RKScene.hpp>
+#include <egg/core/eggDisplay.hpp>
+#include <game/host_system/RKScene.hpp>
 
 #pragma dont_reuse_strings on
 #pragma legacy_struct_alignment off
@@ -250,8 +251,8 @@ void ResourceManager::process() { _process(); }
 void ResourceManager::_process() {
   bool isSuspended = false;
   while (mpTaskThread->isTaskExist()) {
-    RKSystem::spInstance->mAsyncDisplay->endFrame();
-    RKSystem::spInstance->mAsyncDisplay->beginFrame();
+    RKSystem::spInstance->mDisplay->endFrame();
+    RKSystem::spInstance->mDisplay->beginFrame();
     if (EGG::AsyncDvdStatus::sInstance->_51) {
       if (!isSuspended) {
         VISetBlack(0);
@@ -264,16 +265,16 @@ void ResourceManager::_process() {
         OSResumeThread(mpTaskThread->getOSThread());
       }
       isSuspended = false;
-      RKSystem::spInstance->mSceneMgr->doCalcFader();
+      ((RKSceneManager*)RKSystem::spInstance->mSceneMgr)->doCalcFader();
     }
     SystemManager::sInstance->handlePowerState();
-    RKSystem::spInstance->mAsyncDisplay->beginRender();
+    RKSystem::spInstance->mDisplay->beginRender();
     if (isSuspended) {
       EGG::AsyncDvdStatus::sInstance->printError();
     } else {
-      RKSystem::spInstance->mSceneMgr->doDrawFader();
+      ((RKSceneManager*)RKSystem::spInstance->mSceneMgr)->doDrawFader();
     }
-    RKSystem::spInstance->mAsyncDisplay->endRender();
+    RKSystem::spInstance->mDisplay->endRender();
   }
 }
 

@@ -11,6 +11,7 @@
 namespace EGG {
 struct AsyncDisplay : Display {
   AsyncDisplay(u8);
+  void startSyncNTSC(u8);
   void syncTick();
   void clearEFB(u16, u16, u16, u16, u16, u16, nw4r::ut::Color);
 
@@ -31,6 +32,7 @@ struct AsyncDisplay : Display {
   u32 WORD_0x78;
   s32 OSTICK_0x7C;
   s32 OSTICK_0x80;
+  u32 WORD_0x84;
 };
 } // namespace EGG
 

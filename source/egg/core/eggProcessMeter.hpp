@@ -114,6 +114,8 @@ public:
 
   ~ProcessMeter() override;
 
+  void setVisible(bool visible) override;
+
   void* run() override;
 
   void measureBeginFrame() override;
@@ -126,9 +128,9 @@ public:
 
   void callbackDrawSync(u16 token) override;
 
-  void draw() override;
+  void unused() override;
 
-  void setVisible(bool visible) override;
+  void draw() override;
 
   bool isVisible() override;
 
@@ -184,7 +186,7 @@ UNKNOWN_FUNCTION(CpuGpMonitor_show);
 // PAL: 0x80238820..0x8023883c
 UNKNOWN_FUNCTION(CpuGpMonitor_hide);
 // PAL: 0x8023883c..0x80238a94
-UNKNOWN_FUNCTION(ProcessMeter_construct);
+UNKNOWN_FUNCTION(__ct__Q23EGG12ProcessMeterFb);
 // PAL: 0x80238a94..0x80238d10
 UNKNOWN_FUNCTION(measureBeginFrame__Q23EGG12ProcessMeterFv);
 // PAL: 0x80238d10..0x80238d20
