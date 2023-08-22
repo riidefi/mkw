@@ -248,6 +248,10 @@ public:
 
   inline int getCurrentSceneID() const { return mCurrentSceneID; }
 
+  inline Scene* getParentScene() const { return pParent; }
+
+  inline ColorFader* getCurrentFader() const { return mCurrentFader; }
+
   static inline EGG::Heap* getHeapForCreateScene_Mem1() {
     return sHeapMem1_ForCreateScene;
   }
@@ -265,6 +269,8 @@ public:
   inline void setAfterFadeType(eAfterFadeType type) {
     mTransitionStatus = type;
   }
+
+  inline eAfterFadeType getAfterFadeType() { return mTransitionStatus; }
 
   inline void setCreator(SceneCreator* creator) { mSceneCreator = creator; }
 
