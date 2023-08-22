@@ -3,7 +3,7 @@
 #include <decomp.h>
 
 #include <rk_types.h>
-#include <game/RKScene.hpp>
+#include <game/host_system/RKScene.hpp>
 
 #ifdef __cplusplus
 extern "C" {
