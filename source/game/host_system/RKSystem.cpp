@@ -9,6 +9,7 @@
 #include <egg/core/eggXfb.hpp>
 #include <egg/core/eggXfbManager.hpp>
 
+#include <game/host_system/eggAsyncDvdStatus.hpp>
 #include <game/host_system/RKScene.hpp>
 #include <game/host_system/SceneCreatorStatic.hpp>
 #include <game/host_system/SystemManager.hpp>
@@ -24,6 +25,10 @@ extern void unk_80008c10(EGG::Heap*);
 extern UNKNOWN_FUNCTION(halt__Q23EGG14AsyncDvdStatusFv);
 // PAL: 0x80008e74
 extern UNKNOWN_FUNCTION(printError__Q23EGG14AsyncDvdStatusFv);
+// PAL: 0x80008e90..0x80008eb0
+extern UNKNOWN_FUNCTION(WPADAllocator__6SystemFUl);
+// PAL: 0x80008eb0..0x80008ef0
+extern UNKNOWN_FUNCTION(WPADFree__6SystemFPv);
 // PAL: 0x80009b40
 extern UNKNOWN_FUNCTION(__dt__Q23EGG8Vector3fFv);
 // PAL: 0x80009b80
@@ -142,9 +147,9 @@ extern UNKNOWN_DATA(lbl_80245938);
 // PAL: 0x80270bd8
 extern void lbl_80270bd8(void);
 // PAL: 0x80270bf0
-extern UNKNOWN_DATA(lbl_80270bf0);
+extern UNKNOWN_DATA(__vt__Q26System8RKSystem);
 // PAL: 0x80270c2c
-extern UNKNOWN_DATA(lbl_80270c2c);
+extern UNKNOWN_DATA(__vt__Q23EGG10BaseSystem);
 // PAL: 0x80270c68
 extern UNKNOWN_DATA(__vt__Q26System14RKSceneManager);
 // PAL: 0x80270cd0
@@ -194,35 +199,21 @@ extern "C" {
 
 // .bss
 
-// Symbol: getStaticInstance__Q26System8RKSystemFv
-// PAL: 0x80008e84..0x80008e90
-MARK_BINARY_BLOB(getStaticInstance__Q26System8RKSystemFv, 0x80008e84, 0x80008e90);
-asm UNKNOWN_FUNCTION(getStaticInstance__Q26System8RKSystemFv){
-#include "asm/80008e84.s"
-}
-
 namespace System {
 
-#ifdef NON_MATCHING
 RKSystem* RKSystem::getStaticInstance() {
   return &sInstance;
 }
-#endif
+
+void* WPADAllocator(u32 size) {
+  return RKSystem::sInstance.mWPADAllocator->alloc(size);
+}
+
+u8 WPADFree(void* block) {
+  RKSystem::sInstance.mWPADAllocator->free(block);
+  return 1;
+}
 } // namespace System
-
-// Symbol: WPADAllocator
-// PAL: 0x80008e90..0x80008eb0
-MARK_BINARY_BLOB(WPADAllocator, 0x80008e90, 0x80008eb0);
-asm void* WPADAllocator(u32) {
-#include "asm/80008e90.s"
-}
-
-// Symbol: WPADFree
-// PAL: 0x80008eb0..0x80008ef0
-MARK_BINARY_BLOB(WPADFree, 0x80008eb0, 0x80008ef0);
-asm u8 WPADFree(void*) {
-#include "asm/80008eb0.s"
-}
 
 // Symbol: main__Q26System8RKSystemFiPPc
 // PAL: 0x80008ef0..0x80008fac
@@ -254,37 +245,38 @@ void RKSystem::main(int argc, char** argv) {
 #endif
 } // namespace System
 
-// Symbol: RKSystem_getSysHeap
+// Symbol: getSysHeap__Q26System8RKSystemFv
 // PAL: 0x80008fac..0x80008fb4
-MARK_BINARY_BLOB(RKSystem_getSysHeap, 0x80008fac, 0x80008fb4);
-asm UNKNOWN_FUNCTION(RKSystem_getSysHeap){
+MARK_BINARY_BLOB(getSysHeap__Q26System8RKSystemFv, 0x80008fac, 0x80008fb4);
+asm UNKNOWN_FUNCTION(getSysHeap__Q26System8RKSystemFv){
 #include "asm/80008fac.s"
-}
-
-// Symbol: TSystem_initialize
-// PAL: 0x80008fb4..0x80009190
-MARK_BINARY_BLOB(TSystem_initialize, 0x80008fb4, 0x80009190);
-asm UNKNOWN_FUNCTION(TSystem_initialize){
-#include "asm/80008fb4.s"
-}
-
-// Symbol: unk_80009190
-// PAL: 0x80009190..0x80009194
-MARK_BINARY_BLOB(unk_80009190, 0x80009190, 0x80009194);
-asm UNKNOWN_FUNCTION(unk_80009190){
-#include "asm/80009190.s"
-}
-
-// Symbol: initialize__Q26System8RKSystemFv
-// PAL: 0x80009194..0x8000951c
-MARK_BINARY_BLOB(initialize__Q26System8RKSystemFv, 0x80009194, 0x8000951c);
-asm UNKNOWN_FUNCTION(initialize__Q26System8RKSystemFv){
-#include "asm/80009194.s"
 }
 
 namespace System {
 
 #ifdef NON_MATCHING
+EGG::Heap* RKSystem::getSysHeap() {
+  return mSysHeap2;
+}
+#endif
+} // namespace System
+
+// Symbol: initialize__Q23EGG10BaseSystemFv
+// PAL: 0x80008fb4..0x80009190
+MARK_BINARY_BLOB(initialize__Q23EGG10BaseSystemFv, 0x80008fb4, 0x80009190);
+asm UNKNOWN_FUNCTION(initialize__Q23EGG10BaseSystemFv){
+#include "asm/80008fb4.s"
+}
+
+// Symbol: initRenderMode__Q23EGG10BaseSystemFv
+// PAL: 0x80009190..0x80009194
+MARK_BINARY_BLOB(initRenderMode__Q23EGG10BaseSystemFv, 0x80009190, 0x80009194);
+asm UNKNOWN_FUNCTION(initRenderMode__Q23EGG10BaseSystemFv){
+#include "asm/80009190.s"
+}
+
+namespace System {
+
 void RKSystem::initialize() {
   initMemory();
 
@@ -325,7 +317,7 @@ void RKSystem::initialize() {
   PADInit();
   mWPADHeap->adjust();
 
-  mSceneMgr = new RKSceneManager((EGG::SceneCreator*)0);
+  mSceneMgr = new RKSceneManager(nullptr);
 
   SystemManager::initStaticInstance(mSysHeap2);
   SystemManager::sInstance->setupSystem(mRootHeapMem2);
@@ -341,7 +333,7 @@ void RKSystem::initialize() {
   else {
     OSReport("***********************************\n");
     OSReport("*   NTSC/Progressive/PAL60 mode   *\n");
-    OSReport("***********************************\n");
+    OSReport("***********************************\n\0\0");
   }
 
   ModuleLinker_initStaticInstance();
@@ -360,92 +352,175 @@ void RKSystem::initialize() {
   mModuleHeap = EGG::ExpHeap::create(0xa00000, mRootHeapMem1, 0);
   mRootHeapMem2->becomeCurrentHeap();
 }
-#endif
+
+void RKSystem::run() {
+  bool flag1;
+  bool flag2 = _69;
+
+  mFrameClock = true;
+  _6a = !flag2 || mFrameClock;
+  _6b = false;
+  _6c = false;
+
+  bool ejectedDisc = false;
+
+  while (true) {
+    if (mFrameClock) {
+      flag2 = _69;
+    }
+
+    bool isBeginFrame = mFrameClock || !flag2;
+    bool isEndFrame = !mFrameClock || !flag2;
+
+    _6a = isBeginFrame;
+    flag1 = _6c;
+
+    if (isBeginFrame) {
+      beginFrame();
+
+      draw();
+
+      if (flag1) {
+        OSSleepTicks((s64)((__OSBusClock / 4) / 125000) * 500 / 8);
+      }
+    }
+
+    _6b = true; // reading DVD flag?
+    if (EGG::AsyncDvdStatus::sInstance->_51) {
+      if (!ejectedDisc) {
+        VISetBlack(0);
+        ejectedDisc = true;
+      }
+
+      EGG::AsyncDvdStatus::sInstance->halt();
+      SystemManager::sInstance->handlePowerState();
+    }
+    else {
+      ejectedDisc = false;
+
+      calc();
+    }
+    _6b = false;
+
+    if (isEndFrame) {
+      endFrame();
+    }
+
+    if(flag1 && flag2 && isBeginFrame) {
+      OSSleepTicks((s64)((__OSBusClock / 4) / 125000) * 500 / 8);            
+    }
+
+    mFrameClock = !mFrameClock;
+  }
+}
+
+// These inline functions are needed for BaseSystem's inline virtuals to be
+// emitted in the correct order.
+void RKSystem::beginFrame() {
+  getDisplay()->beginFrame();
+  onBeginFrame();
+}
+
+void RKSystem::endFrame() {
+  getDisplay()->endFrame();
+  onEndFrame();
+}
+
+void RKSystem::draw() {
+  getDisplay()->beginRender();
+
+  if (EGG::AsyncDvdStatus::sInstance->_51) {
+    EGG::AsyncDvdStatus::sInstance->printError();
+  }
+  else {
+    getSceneManager()->draw();
+  }
+  getPerformanceView()->draw();
+
+  getDisplay()->endRender();
+}
+
+void RKSystem::calc() {
+  getSceneManager()->calc();
+}
+
+
+///////////////////
+// RKSceneManager
+
+void RKSceneManager::changeSceneWithCreator(int sceneID) {
+  while (getCurrentScene()) {
+    destroyCurrentSceneNoIncoming(true);
+  }
+
+  setCreator(mNextSceneCreator);
+  mNextSceneCreator = nullptr;
+
+  changeSiblingScene(sceneID);
+}
+
+void RKSceneManager::changeSceneWithCreatorAfterFadeOut(int id, EGG::SceneCreator* creator) {
+  mNextSceneCreator = creator;
+  changeSiblingSceneAfterFadeOut(id);
+}
+
+void RKSceneManager::calcCurrentFader() {
+  EGG::ColorFader* currentFader = getCurrentFader();
+  if (!currentFader) {
+    return;
+  }
+  if (!currentFader->calc() != 0) {
+    return;
+  }
+
+  switch (getAfterFadeType()) {
+  case STATUS_CHANGE_SCENE:
+    changeScene(getNextSceneID());
+    break;
+
+  case STATUS_CHANGE_SIBLING_SCENE:
+    if (mNextSceneCreator) {
+      changeSceneWithCreator(getNextSceneID());
+    }
+    else {
+      changeSiblingScene();
+    }
+    break;
+
+  case STATUS_OUTGOING:
+    outgoingParentScene(getParentScene());
+    setupNextSceneID();
+    createScene(getCurrentSceneID(), getParentScene());
+    break;
+
+  case STATUS_INCOMING:
+    destroyToSelectSceneID(getNextSceneID());
+    break;
+
+  case STATUS_REINITIALIZE:
+    reinitCurrentScene();
+    break;
+  }
+
+  setAfterFadeType(STATUS_IDLE);
+}
+
+void RKSceneManager::calc() {
+  EGG::SceneManager::calc();
+}
+
+void RKSceneManager::draw() {
+  EGG::SceneManager::draw();
+}
+
+void RKSceneManager::doDrawFader() {
+  drawCurrentFader();
+}
+
+void RKSceneManager::doCalcFader() {
+  calcCurrentFader();
+}
 } // namespace System
-
-// Symbol: RKSystem_run
-// PAL: 0x8000951c..0x80009818
-MARK_BINARY_BLOB(RKSystem_run, 0x8000951c, 0x80009818);
-asm UNKNOWN_FUNCTION(RKSystem_run){
-#include "asm/8000951c.s"
-}
-
-// Symbol: getDisplay__Q23EGG10BaseSystemFv
-// PAL: 0x80009818..0x80009820
-MARK_BINARY_BLOB(getDisplay__Q23EGG10BaseSystemFv, 0x80009818, 0x80009820);
-asm UNKNOWN_FUNCTION(getDisplay__Q23EGG10BaseSystemFv){
-#include "asm/80009818.s"
-}
-
-// Symbol: unk_80009820
-// PAL: 0x80009820..0x80009824
-MARK_BINARY_BLOB(unk_80009820, 0x80009820, 0x80009824);
-asm UNKNOWN_FUNCTION(unk_80009820){
-#include "asm/80009820.s"
-}
-
-// Symbol: unk_80009824
-// PAL: 0x80009824..0x80009828
-MARK_BINARY_BLOB(unk_80009824, 0x80009824, 0x80009828);
-asm UNKNOWN_FUNCTION(unk_80009824){
-#include "asm/80009824.s"
-}
-
-// Symbol: RKSystem_getSceneManager
-// PAL: 0x80009828..0x80009830
-MARK_BINARY_BLOB(RKSystem_getSceneManager, 0x80009828, 0x80009830);
-asm UNKNOWN_FUNCTION(RKSystem_getSceneManager){
-#include "asm/80009828.s"
-}
-
-// Symbol: RKSystem_getPerformanceView
-// PAL: 0x80009830..0x80009844
-MARK_BINARY_BLOB(RKSystem_getPerformanceView, 0x80009830, 0x80009844);
-asm UNKNOWN_FUNCTION(RKSystem_getPerformanceView){
-#include "asm/80009830.s"
-}
-
-// Symbol: RkSceneManager_changeSceneWithCreator
-// PAL: 0x80009844..0x8000984c
-MARK_BINARY_BLOB(RkSceneManager_changeSceneWithCreator, 0x80009844, 0x8000984c);
-asm UNKNOWN_FUNCTION(RkSceneManager_changeSceneWithCreator){
-#include "asm/80009844.s"
-}
-
-// Symbol: RKSceneManager_calcCurrentFader
-// PAL: 0x8000984c..0x80009984
-MARK_BINARY_BLOB(RKSceneManager_calcCurrentFader, 0x8000984c, 0x80009984);
-asm UNKNOWN_FUNCTION(RKSceneManager_calcCurrentFader){
-#include "asm/8000984c.s"
-}
-
-// Symbol: RkSceneManager_calc
-// PAL: 0x80009984..0x80009988
-MARK_BINARY_BLOB(RkSceneManager_calc, 0x80009984, 0x80009988);
-asm UNKNOWN_FUNCTION(RkSceneManager_calc){
-#include "asm/80009984.s"
-}
-
-// Symbol: RkSceneManager_draw
-// PAL: 0x80009988..0x8000998c
-MARK_BINARY_BLOB(RkSceneManager_draw, 0x80009988, 0x8000998c);
-asm UNKNOWN_FUNCTION(RkSceneManager_draw){
-#include "asm/80009988.s"
-}
-
-// Symbol: unk_8000998c
-// PAL: 0x8000998c..0x8000999c
-MARK_BINARY_BLOB(unk_8000998c, 0x8000998c, 0x8000999c);
-asm UNKNOWN_FUNCTION(unk_8000998c){
-#include "asm/8000998c.s"
-}
-
-// Symbol: unk_8000999c
-// PAL: 0x8000999c..0x800099ac
-MARK_BINARY_BLOB(unk_8000999c, 0x8000999c, 0x800099ac);
-asm UNKNOWN_FUNCTION(unk_8000999c){
-#include "asm/8000999c.s"
-}
 
 // Symbol: getVideo__Q23EGG10BaseSystemFv
 // PAL: 0x800099ac..0x800099b4
@@ -468,17 +543,17 @@ asm UNKNOWN_FUNCTION(getXfbManager__Q23EGG10BaseSystemFv){
 #include "asm/800099bc.s"
 }
 
-// Symbol: RKSystem_getAudioManager
+// Symbol: getAudioManager__Q23EGG10BaseSystemFv
 // PAL: 0x800099c4..0x800099cc
-MARK_BINARY_BLOB(RKSystem_getAudioManager, 0x800099c4, 0x800099cc);
-asm UNKNOWN_FUNCTION(RKSystem_getAudioManager) {
+MARK_BINARY_BLOB(getAudioManager__Q23EGG10BaseSystemFv, 0x800099c4, 0x800099cc);
+asm UNKNOWN_FUNCTION(getAudioManager__Q23EGG10BaseSystemFv) {
 #include "asm/800099c4.s"
 }
 
-// Symbol: unk_800099cc
+// Symbol: __sinit__RKSystem_cpp
 // PAL: 0x800099cc..0x80009b40
-MARK_BINARY_BLOB(unk_800099cc, 0x800099cc, 0x80009b40);
-asm UNKNOWN_FUNCTION(unk_800099cc) {
+MARK_BINARY_BLOB(__sinit__RKSystem_cpp, 0x800099cc, 0x80009b40);
+asm UNKNOWN_FUNCTION(__sinit__RKSystem_cpp) {
 #include "asm/800099cc.s"
 }
 
