@@ -9,19 +9,16 @@
 
 #include <decomp.h>
 
-#include <egg/core/eggProcessMeter.hpp>
-
 
 struct GXRenderModeObj;
 
 namespace EGG {
 
-class AudioManager; // TODO: make AudioManager header
 class Display;
 class Heap;
 class PerformanceView;
-class ProcessMeter;
 class SceneManager;
+class SimpleAudioMgr;
 class Thread;
 class Video;
 class XfbManager;
@@ -32,76 +29,156 @@ public:
 
 public:
   inline BaseSystem()
-    : mSysHeapSize(0x177000), mGraphicsFifoSize(0x80000),
+    : mSysHeapSize(0x177000),
+      mGraphicsFifoSize(0x80000),
       mRenderMode(nullptr) {}
 
   //! @brief [vt+0x08] Return a pointer to the video manager.
   //!
-  virtual Video* getVideo();// { return mVideo; }
+  virtual Video* getVideo() = 0;
 
   //! @brief [vt+0x0c] Return a pointer to the system heap.
   //!
-  virtual Heap* getSysHeap();// { return mSysHeap; }
+  virtual Heap* getSysHeap() = 0;
 
   //! @brief [vt+0x10] Return a pointer to the display manager.
   //!
-  virtual Display* getDisplay() { return mDisplay; }
+  virtual Display* getDisplay() = 0;
 
   //! @brief [vt+0x14] Return a pointer to the Xfb manager.
   //!
-  virtual XfbManager* getXfbManager();// { return mXfbMgr; }
+  virtual XfbManager* getXfbMgr() = 0;
 
   //! @brief [vt+0x18] Return a pointer to the performance view.
   //!
-  virtual PerformanceView* getPerformanceView() {
-    return static_cast<PerformanceView*>(mProcessMeter);
-  }
+  virtual PerformanceView* getPerfView() = 0;
 
   //! @brief [vt+0x1c] Return a pointer to the scene manager.
   //!
-  virtual SceneManager* getSceneManager() { return mSceneMgr; }
+  virtual SceneManager* getSceneMgr() = 0;
 
   //! @brief [vt+0x20] Return a pointer to the audio manager.
   //!
-  virtual AudioManager* getAudioManager();// { return mAudioMgr; }
+  virtual SimpleAudioMgr* getAudioMgr() = 0;
 
-  //! @brief [vt+0x24] Called by `run` at the beginning of every frame right
-  //! after calling `beginFrame` on the display.
+  //! @brief [vt+0x24] Called before every frame.
   //!
-  virtual void onBeginFrame() {}
+  virtual void onBeginFrame();
 
-  //! @brief [vt+0x24] Called by `run` at the end of every frame right after
-  //! calling `endFrame` on the display.
+  //! @brief [vt+0x28] Called on every frame end.
   //!
-  virtual void onEndFrame() {}
+  virtual void onEndFrame();
 
-  virtual void initRenderMode();                  // [vt+0x2c]
-  virtual void initMemory();                      // [vt+0x30]
+  //! @brief [vt+0x2c] Initialize the render mode.
+  //!
+  virtual void initRenderMode();
 
-  virtual void run();                             // [vt+0x34]
-  virtual void initialize();                      // [vt+0x38]
+  //! @brief [vt+0x30] Initialize the system memory.
+  //!
+  virtual void initMemory();
+
+  //! @brief [vt+0x34] Main game loop.
+  //!
+  virtual void run();
+
+  //! @brief [vt+0x38] Initialize the system.
+  //!
+  virtual void initialize() = 0;
 
 public:
   void* mMEM1ArenaLo;                             // [this+0x04]
   void* mMEM1ArenaHi;                             // [this+0x08]
   void* mMEM2ArenaLo;                             // [this+0x0c]
   void* mMEM2ArenaHi;                             // [this+0x10]
-  u32 _14;
+  u32 mMemorySize;                                // [this+0x14]
   Heap* mRootHeapMem1;                            // [this+0x18]
   Heap* mRootHeapMem2;                            // [this+0x1c]
   Heap* mRootHeapDebug;                           // [this+0x20]
   Heap* mSysHeap;                                 // [this+0x24]
   Thread* mThread;                                // [this+0x28]
-  u32 _2c;
-  u32 _30;
+  void* _2c;
+  void* _30;
   u32 mSysHeapSize;                               // [this+0x34]
   u32 mGraphicsFifoSize;                          // [this+0x38]
   GXRenderModeObj* mRenderMode;                   // [this+0x3c]
-  AudioManager* mAudioMgr;                        // [this+0x40]
-  Video* mVideo;                                  // [this+0x44]
-  XfbManager* mXfbMgr;                            // [this+0x48]
-  Display* mDisplay;                              // [this+0x4c]
-  ProcessMeter* mProcessMeter;                    // [this+0x50]
-  SceneManager* mSceneMgr;                        // [this+0x54]
+};
+
+template <class tVideo, class tDisplay, class tXfbMgr, class tAudioMgr,
+          class tSceneMgr, class tPerfView>
+class TSystem : public BaseSystem {
+public:
+  inline TSystem() : BaseSystem() {}
+
+  Video* getVideo() override { return static_cast<Video*>(mVideo); }
+
+  Heap* getSysHeap() override { return mSysHeap; }
+
+  Display* getDisplay() override { return static_cast<Display*>(mDisplay); }
+
+  XfbManager* getXfbMgr() override {
+    return static_cast<XfbManager*>(mXfbMgr);
+  }
+
+  PerformanceView* getPerfView() override {
+    return static_cast<PerformanceView*>(mPerfView);
+  }
+
+  SceneManager* getSceneMgr() override {
+    return static_cast<SceneManager*>(mSceneMgr);
+  }
+
+  SimpleAudioMgr* getAudioMgr() override {
+    return static_cast<SimpleAudioMgr*>(mAudioMgr);
+  }
+
+  void onBeginFrame() override {}
+  void onEndFrame() override {}
+
+  void initRenderMode() override {}
+
+  void initialize() override {
+    DVDInit();
+    SCInit();
+
+    initMemory();
+    initRenderMode();
+
+    GraphicsFifo::create(mGraphicsFifoSize, nullptr);
+
+    mVideo = new tVideo(mRenderMode, nullptr);
+
+    mXfbMgr = new tXfbMgr(nullptr);
+    for (int i = 0; i < 2; ++i) {
+      mXfbMgr->attach(new Xfb(mRootHeapMem2));
+    }
+
+    mDisplay = new tDisplay(1);
+
+    Thread::initialize();
+    mThread = new Thread(OSGetCurrentThread(), 4);
+
+    mPerfView = new tPerfView(true);
+
+    DvdFile::initialize();
+
+    CoreControllerMgr::createStaticInstance();
+    GCControllerMgr::createStaticInstance();
+
+    Exception_create(0x40, 0x20, 4, nullptr, 1);
+
+    mSceneMgr = new tSceneMgr(nullptr);
+      
+    mRootHeapMem1->becomeCurrentHeap();
+
+    mAudioMgr = new tAudioMgr();
+  }
+
+public:
+  tAudioMgr* mAudioMgr;                         // [this+0x40]
+  tVideo* mVideo;                               // [this+0x44]
+  tXfbMgr* mXfbMgr;                             // [this+0x48]
+  tDisplay* mDisplay;                           // [this+0x4c]
+  tPerfView* mPerfView;                         // [this+0x50]
+  tSceneMgr* mSceneMgr;                         // [this+0x54]
 };
 } // namespace EGG

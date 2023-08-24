@@ -9,15 +9,19 @@
 
 #include <decomp.h>
 
+#include <egg/audio/eggAudioMgr.hpp>
 #include <egg/core/eggAllocator.hpp>
+#include <egg/core/eggAsyncDisplay.hpp>
+#include <egg/core/eggController.hpp>
+#include <egg/core/eggGraphicsFifo.hpp>
+#include <egg/core/eggProcessMeter.hpp>
 #include <egg/core/eggSceneManager.hpp>
 #include <egg/core/eggSystem.hpp>
+#include <egg/core/eggXfb.hpp>
+#include <egg/core/eggXfbManager.hpp>
 
 
-#ifdef __cplusplus
 extern "C" {
-#endif
-
 // PAL: 0x80008e84..0x80008e90
 UNKNOWN_FUNCTION(getStaticInstance__Q26System8RKSystemFv);
 // PAL: 0x80008ef0..0x80008fac
@@ -39,17 +43,17 @@ UNKNOWN_FUNCTION(onBeginFrame__Q23EGG10BaseSystemFv);
 // PAL: 0x80009824..0x80009828
 UNKNOWN_FUNCTION(onEndFrame__Q23EGG10BaseSystemFv);
 // PAL: 0x80009828..0x80009830
-UNKNOWN_FUNCTION(getSceneManager__Q23EGG10BaseSystemFv);
+UNKNOWN_FUNCTION(getSceneMgr__Q23EGG10BaseSystemFv);
 // PAL: 0x80009830..0x80009844
-UNKNOWN_FUNCTION(getPerformanceView__Q23EGG10BaseSystemFv);
+UNKNOWN_FUNCTION(getPerfView__Q23EGG10BaseSystemFv);
 // PAL: 0x800099ac..0x800099b4
 UNKNOWN_FUNCTION(getVideo__Q23EGG10BaseSystemFv);
 // PAL: 0x800099b4..0x800099bc
 UNKNOWN_FUNCTION(getSysHeap__Q23EGG10BaseSystemFv);
 // PAL: 0x800099bc..0x800099c4
-UNKNOWN_FUNCTION(getXfbManager__Q23EGG10BaseSystemFv);
+UNKNOWN_FUNCTION(getXfbMgr__Q23EGG10BaseSystemFv);
 // PAL: 0x800099c4..0x800099cc
-UNKNOWN_FUNCTION(getAudioManager__Q23EGG10BaseSystemFv);
+UNKNOWN_FUNCTION(getAudioMgr__Q23EGG10BaseSystemFv);
 // PAL: 0x800099cc..0x80009b40
 UNKNOWN_FUNCTION(__sinit__RKSystem_cpp);
 // PAL: 0x80009b40..0x80009b80
@@ -57,17 +61,18 @@ UNKNOWN_FUNCTION(__dt__Q23EGG8Vector3fFv);
 // PAL: 0x80009b80..0x80009bc0
 UNKNOWN_FUNCTION(__dt__Q23EGG8Vector2fFv);
 
-#ifdef __cplusplus
+// Needed for template instantiation
+extern UNKNOWN_FUNCTION(DVDInit);
+extern UNKNOWN_FUNCTION(SCInit);
+extern void Exception_create(int, int, int, EGG::Heap*, int);
 }
-#endif
 
 namespace System {
 
 // vtable @ 80270c68
 class RKSceneManager : public EGG::SceneManager {
 public:
-  RKSceneManager(EGG::SceneCreator* creator)
-    : EGG::SceneManager(creator) {}
+  RKSceneManager(EGG::SceneCreator* creator) : EGG::SceneManager(creator) {}
 
   void calc() override;                                   // [vt+0x08]
   void draw() override;                                   // [vt+0x0c]
@@ -80,11 +85,16 @@ public:
 
   void changeSceneWithCreatorAfterFadeOut(int id, EGG::SceneCreator* creator);
 
+public:
   EGG::SceneCreator* mNextSceneCreator;                   // [this+0x2c]
 };
 
+typedef EGG::TSystem<EGG::Video, EGG::AsyncDisplay, EGG::XfbManager,
+                     EGG::SimpleAudioMgr, RKSceneManager,
+                     EGG::ProcessMeter> RKSystemTemplate;
+
 // vtable @ 80270bf0
-class RKSystem : public EGG::BaseSystem {
+class RKSystem : public RKSystemTemplate {
 public:
   static RKSystem* spInstance;
   static RKSystem sInstance;
@@ -95,7 +105,7 @@ public:
   static void main(int argc, char** argv);
 
 public:
-  inline RKSystem() : EGG::BaseSystem(), mFrameClock(true), _69(false) {}
+  inline RKSystem() : RKSystemTemplate(), mFrameClock(true), _69(false) {}
 
   EGG::Heap* getSysHeap() override;                       // [vt+0x0c]
 
