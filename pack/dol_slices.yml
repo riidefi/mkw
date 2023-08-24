@@ -1203,6 +1203,8 @@ source/egg/core/eggUnitHeap.cpp:
     data: [0x802a3fd8, 0x802a4004]
 
 source/egg/core/eggSystem.cpp:
+    text: [0x80242504, 0x802428e8]
+    rodata: [0x802582b0, 0x802582e0]
     sbss: [0x80386f60, 0x80386f64]
 
 source/egg/math/eggVector.cpp:
