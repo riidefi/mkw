@@ -1,13 +1,7 @@
 #include "RKSystem.hpp"
 
-#include <egg/core/eggAsyncDisplay.hpp>
 #include <egg/core/eggDvdFile.hpp>
 #include <egg/core/eggExpHeap.hpp>
-#include <egg/core/eggGraphicsFifo.hpp>
-#include <egg/core/eggProcessMeter.hpp>
-#include <egg/core/eggVideo.hpp>
-#include <egg/core/eggXfb.hpp>
-#include <egg/core/eggXfbManager.hpp>
 
 #include <game/host_system/eggAsyncDvdStatus.hpp>
 #include <game/host_system/RKScene.hpp>
@@ -76,11 +70,11 @@ extern UNKNOWN_FUNCTION(__ct__Q23EGG12AsyncDisplayFUc);
 // PAL: 0x8020fd8c
 extern UNKNOWN_FUNCTION(startSyncNTSC__Q23EGG12AsyncDisplayFUc);
 // PAL: 0x8021329c
-extern UNKNOWN_FUNCTION(SimpleAudioMgr_construct);
+extern UNKNOWN_FUNCTION(__ct__Q23EGG14SimpleAudioMgrFv);
 // PAL: 0x802166f4
-extern UNKNOWN_FUNCTION(CoreControllerMgr_createInstance);
+extern UNKNOWN_FUNCTION(createStaticInstance__Q23EGG17CoreControllerMgrFv);
 // PAL: 0x8021709c
-extern UNKNOWN_FUNCTION(GCControllerMgr_createInstance);
+extern UNKNOWN_FUNCTION(createStaticInstance__Q23EGG15GCControllerMgrFv);
 // PAL: 0x8022231c
 extern UNKNOWN_FUNCTION(initialize__Q23EGG7DvdFileFv);
 // PAL: 0x80226734
@@ -234,7 +228,8 @@ void RKSystem::main(int argc, char** argv) {
   lbl_80385fec = argv;
   lbl_80385fe8 = argc;
 
-  sys->initialize();
+  // Cast needed to emit TSystem::initialize
+  ((RKSystemTemplate*)sys)->initialize();
 
   lbl_80385ff0 = new (sys->getSysHeap(), 4) SceneCreatorStatic();
   spInstance->mSceneMgr->setCreator(lbl_80385ff0);
@@ -299,8 +294,8 @@ void RKSystem::initialize() {
 
   EGG::Thread::initialize();
 
-  mProcessMeter = new EGG::ProcessMeter(true);
-  mProcessMeter->setVisible(false);
+  mPerfView = new EGG::ProcessMeter(true);
+  mPerfView->setVisible(false);
 
   mThread = new EGG::Thread(OSGetCurrentThread(), 4);
 
@@ -433,15 +428,15 @@ void RKSystem::draw() {
     EGG::AsyncDvdStatus::sInstance->printError();
   }
   else {
-    getSceneManager()->draw();
+    getSceneMgr()->draw();
   }
-  getPerformanceView()->draw();
+  getPerfView()->draw();
 
   getDisplay()->endRender();
 }
 
 void RKSystem::calc() {
-  getSceneManager()->calc();
+  getSceneMgr()->calc();
 }
 
 
@@ -536,17 +531,17 @@ asm UNKNOWN_FUNCTION(getSysHeap__Q23EGG10BaseSystemFv){
 #include "asm/800099b4.s"
 }
 
-// Symbol: getXfbManager__Q23EGG10BaseSystemFv
+// Symbol: getXfbMgr__Q23EGG10BaseSystemFv
 // PAL: 0x800099bc..0x800099c4
-MARK_BINARY_BLOB(getXfbManager__Q23EGG10BaseSystemFv, 0x800099bc, 0x800099c4);
-asm UNKNOWN_FUNCTION(getXfbManager__Q23EGG10BaseSystemFv){
+MARK_BINARY_BLOB(getXfbMgr__Q23EGG10BaseSystemFv, 0x800099bc, 0x800099c4);
+asm UNKNOWN_FUNCTION(getXfbMgr__Q23EGG10BaseSystemFv){
 #include "asm/800099bc.s"
 }
 
-// Symbol: getAudioManager__Q23EGG10BaseSystemFv
+// Symbol: getAudioMgr__Q23EGG10BaseSystemFv
 // PAL: 0x800099c4..0x800099cc
-MARK_BINARY_BLOB(getAudioManager__Q23EGG10BaseSystemFv, 0x800099c4, 0x800099cc);
-asm UNKNOWN_FUNCTION(getAudioManager__Q23EGG10BaseSystemFv) {
+MARK_BINARY_BLOB(getAudioMgr__Q23EGG10BaseSystemFv, 0x800099c4, 0x800099cc);
+asm UNKNOWN_FUNCTION(getAudioMgr__Q23EGG10BaseSystemFv) {
 #include "asm/800099c4.s"
 }
 
