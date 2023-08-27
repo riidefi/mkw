@@ -13,12 +13,14 @@
 #include <egg/core/eggAllocator.hpp>
 #include <egg/core/eggAsyncDisplay.hpp>
 #include <egg/core/eggController.hpp>
+#include <egg/core/eggDvdFile.hpp>
 #include <egg/core/eggGraphicsFifo.hpp>
 #include <egg/core/eggProcessMeter.hpp>
 #include <egg/core/eggSceneManager.hpp>
 #include <egg/core/eggSystem.hpp>
 #include <egg/core/eggXfb.hpp>
 #include <egg/core/eggXfbManager.hpp>
+#include <egg/core/eggVideo.hpp>
 
 
 extern "C" {
@@ -107,7 +109,8 @@ public:
 public:
   inline RKSystem() : RKSystemTemplate(), mFrameClock(true), _69(false) {}
 
-  EGG::Heap* getSysHeap() override;                       // [vt+0x0c]
+  // Uncomment out this inline definition when enabling WIP_DECOMP
+  EGG::Heap* getSysHeap() override;// { return mSysHeap2; }  // [vt+0x0c]
 
   void run() override;                                    // [vt+0x34]
   void initialize() override;                             // [vt+0x38]

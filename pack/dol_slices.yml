@@ -15,11 +15,19 @@ source/game/host_system/RKSystem.cpp:
     text: [0x80008e84, 0x80009bc0]
     # ctors: [0x80244de4, 0x80244de8]
     rodata: [0x80245938, 0x80245a18]
-    # data: [0x80270bf0, 0x80270c94]
     data: [0x80270c68, 0x80270c94]
-    # bss: [0x802a4080, 0x802a4160]
-    # sbss: [0x80385fc8, 0x80385fcc]
+    sbss: [0x80385fc8, 0x80385fcc]
     sdata2: [0x80386ff8, 0x80387000]
+
+# Uncomment out when enabling WIP_DECOMP
+# source/game/host_system/RKSystem.cpp:
+#     text: [0x80008e84, 0x80009b40]
+#     # ctors: [0x80244de4, 0x80244de8]
+#     rodata: [0x80245938, 0x80245a18]
+#     data: [0x80270bf0, 0x80270c94]
+#     bss: [0x802a4080, 0x802a4160]
+#     sbss: [0x80385fc8, 0x80385fcc]
+#     sdata2: [0x80386ff8, 0x80387000]
 
 source/platform/ansi_files.c:
     text: [0x8000c948, 0x8000cadc]

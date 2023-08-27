@@ -9,8 +9,8 @@ namespace EGG {
 class SceneCreator {
 public:
   virtual Scene*
-  create(int SceneID) = 0; //!< [vt+0x08] @see SceneManager::createScene
-  virtual void destroy(int SceneID) = 0; //!< [vt+0x0C]
+  create(int SceneID); //!< [vt+0x08] @see SceneManager::createScene
+  virtual void destroy(int SceneID); //!< [vt+0x0C]
 };
 
 class SceneManager {
