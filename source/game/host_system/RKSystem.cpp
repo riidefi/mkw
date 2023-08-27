@@ -8,6 +8,35 @@
 #include <game/host_system/SceneCreatorStatic.hpp>
 #include <game/host_system/SystemManager.hpp>
 
+
+// Despite having a lot of decompiled functions locked behind WIP_DECOMP macros,
+// this slice is nearly fully matching. In fact, we can get everything to match
+// except __sinit, or, even more specifically, the inlined constructor of
+// RKSystem. So why not include everything but __sinit, then?
+//
+// Basically, virtual tables are the issue here. There are 3 vtables emitted
+// by this TU: RKSystem, TSystem, and RKSceneManager, in that order.
+// RKSceneManager's vtable is always emitted. If we include the definition of
+// main, RKSystem's vtable is emitted, but not TSystem's. Here we have a
+// problem. With only RKSceneManager's vtable, we can cut the slice to not
+// include the first 2, but with the one in the middle missing, we're out of
+// luck. The only way to emit TSystem's vtable is to instantiate sInstance,
+// but by doing so, we generate an __sinit section, and by extension the
+// non-matching constructor! Here is a link to the __sinit scratch:
+//
+//   https://decomp.me/scratch/7uWav
+//
+// We also had problems trying to get the Vectors' destructors to be emitted,
+// but thankfully, we figured that part out. More info at the end of this file.
+//
+// Before enabling WIP_DECOMP, two things need to be done. First, uncomment out
+// the inline definition of getSysHeap in RKSystem.hpp. Second, uncomment out
+// the RKSystem block marked for WIP_DECOMP in dol_slices.yml, and of course,
+// don't forget to comment out the block above!
+
+// #define WIP_DECOMP
+
+
 // --- EXTERN DECLARATIONS BEGIN ---
 
 extern "C" {
@@ -187,13 +216,12 @@ extern "C" {
 
 // --- EXTERN DECLARATIONS END ---
 
-// .rodata
-
-// .data
-
-// .bss
-
 namespace System {
+
+RKSystem* RKSystem::spInstance;
+#ifdef WIP_DECOMP
+RKSystem RKSystem::sInstance;
+#endif
 
 RKSystem* RKSystem::getStaticInstance() {
   return &sInstance;
@@ -207,18 +235,8 @@ u8 WPADFree(void* block) {
   RKSystem::sInstance.mWPADAllocator->free(block);
   return 1;
 }
-} // namespace System
 
-// Symbol: main__Q26System8RKSystemFiPPc
-// PAL: 0x80008ef0..0x80008fac
-MARK_BINARY_BLOB(main__Q26System8RKSystemFiPPc, 0x80008ef0, 0x80008fac);
-asm UNKNOWN_FUNCTION(main__Q26System8RKSystemFiPPc){
-#include "asm/80008ef0.s"
-}
-
-namespace System {
-
-#ifdef NON_MATCHING
+#ifdef WIP_DECOMP
 void RKSystem::main(int argc, char** argv) {
   RKSystem* sys = &sInstance;
 
@@ -240,21 +258,20 @@ void RKSystem::main(int argc, char** argv) {
 #endif
 } // namespace System
 
+#ifndef WIP_DECOMP
+// Symbol: main__Q26System8RKSystemFiPPc
+// PAL: 0x80008ef0..0x80008fac
+MARK_BINARY_BLOB(main__Q26System8RKSystemFiPPc, 0x80008ef0, 0x80008fac);
+asm UNKNOWN_FUNCTION(main__Q26System8RKSystemFiPPc){
+#include "asm/80008ef0.s"
+}
+
 // Symbol: getSysHeap__Q26System8RKSystemFv
 // PAL: 0x80008fac..0x80008fb4
 MARK_BINARY_BLOB(getSysHeap__Q26System8RKSystemFv, 0x80008fac, 0x80008fb4);
 asm UNKNOWN_FUNCTION(getSysHeap__Q26System8RKSystemFv){
 #include "asm/80008fac.s"
 }
-
-namespace System {
-
-#ifdef NON_MATCHING
-EGG::Heap* RKSystem::getSysHeap() {
-  return mSysHeap2;
-}
-#endif
-} // namespace System
 
 // Symbol: initialize__Q23EGG10BaseSystemFv
 // PAL: 0x80008fb4..0x80009190
@@ -269,6 +286,7 @@ MARK_BINARY_BLOB(initRenderMode__Q23EGG10BaseSystemFv, 0x80009190, 0x80009194);
 asm UNKNOWN_FUNCTION(initRenderMode__Q23EGG10BaseSystemFv){
 #include "asm/80009190.s"
 }
+#endif
 
 namespace System {
 
@@ -517,6 +535,7 @@ void RKSceneManager::doCalcFader() {
 }
 } // namespace System
 
+#ifndef WIP_DECOMP
 // Symbol: getVideo__Q23EGG10BaseSystemFv
 // PAL: 0x800099ac..0x800099b4
 MARK_BINARY_BLOB(getVideo__Q23EGG10BaseSystemFv, 0x800099ac, 0x800099b4);
@@ -565,3 +584,34 @@ MARK_BINARY_BLOB(__dt__Q23EGG8Vector2fFv, 0x80009b80, 0x80009bc0);
 asm UNKNOWN_FUNCTION(__dt__Q23EGG8Vector2fFv) {
 #include "asm/80009b80.s"
 }
+#endif
+
+#ifdef WIP_DECOMP
+#include <egg/math/eggVector.hpp>
+
+namespace EGG {
+
+const EGG::Vector3f V3F_ZERO(0.f, 0.f, 0.f);
+const EGG::Vector3f V3F_EX(1.f, 0.f, 0.f);
+const EGG::Vector3f V3F_EY(0.f, 1.f, 0.f);
+const EGG::Vector3f V3F_EZ(0.f, 0.f, 1.f);
+const EGG::Vector2f V2F_ZERO(0.f, 0.f);
+const EGG::Vector2f V2F_EX(1.f, 0.f);
+const EGG::Vector2f V2F_EY(0.f, 1.f);
+
+// This is how to generate a dtor after __sinit, templates! Unfortunately, this
+// isn't really feasible to do with the Vector classes at the moment, since
+// templated classes generate symbols that are unusable in C++ code, which
+// could make matching the entire rest of the project that relies on these
+// types a giant pain. This isn't really a problem for the moment, since we
+// can simply not include dtors in the slice until Vectors can be templated.
+//
+// template <class T>
+// struct example {
+// public:
+//   ~example() {}
+// };
+//
+// const example<void> instance;
+}
+#endif
