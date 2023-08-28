@@ -27,6 +27,9 @@ public:
 
   static InputManager* spInstance;
 
-  PlayerInput playerInputs[4];
+  PlayerInput mPlayerInputs[4];
+  u8 _3b4[0x4154 - 0x3b4];
+  bool mIsPaused;                                 // [this+0x4154]
+  bool mIsMirror;                                 // [this+0x4155]
 };
 } // namespace System
