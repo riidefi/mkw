@@ -19,13 +19,13 @@ public:
   u8 _10[0xEC - 0x10];
 };
 
-class InputManager {
+class KPadDirector {
 public:
-  InputManager();
-  virtual ~InputManager();
+  KPadDirector();
+  virtual ~KPadDirector();
   void setGhostController(u8 playerInputIdx, void* inputs, bool driftIsAuto);
 
-  static InputManager* spInstance;
+  static KPadDirector* spInstance;
 
   PlayerInput mPlayerInputs[4];
   u8 _3b4[0x4154 - 0x3b4];

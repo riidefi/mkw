@@ -53,7 +53,7 @@ UNKNOWN_FUNCTION(initChildren__Q22UI4PageFl);
 // PAL: 0x8060246c..0x80602474
 UNKNOWN_FUNCTION(insert__Q22UI4PageFlPQ22UI9UIControlUl);
 // PAL: 0x80602474..0x8060247c
-UNKNOWN_FUNCTION(setInputManager__Q22UI4PageFPQ26System12InputManager);
+UNKNOWN_FUNCTION(setKPadDirector__Q22UI4PageFPQ26System12KPadDirector);
 // PAL: 0x8060247c..0x80602488
 UNKNOWN_FUNCTION(skipInAnimation__Q22UI4PageFv);
 // PAL: 0x80602488..0x806024a4
@@ -99,7 +99,7 @@ UNKNOWN_FUNCTION(unk_80602d20);
 
 
 #include "game/ui/ControlGroup.hpp"
-#include "game/system/InputManager.hpp"
+#include "game/system/KPadDirector.hpp"
 
 namespace UI {
 
@@ -112,7 +112,7 @@ public:
   void setAnimationDirection(s32 animationDirection);
   void initChildren(s32 capacity);
   void insert(s32 index, UIControl* control, u32 drawPass);
-  void setInputManager(System::InputManager* inputManager);
+  void setKPadDirector(System::KPadDirector* kPadDirector);
   void skipInAnimation(void);
   void startReplace(s32 animationDirection, f32 delay);
   void skipOutAnimation(void);
@@ -128,7 +128,7 @@ private:
   s32 mFrame;
   u32 mUnknown;
   ControlGroup mControlGroup;
-  System::InputManager* mInputManager;
+  System::KPadDirector* mKPadDirector;
   u32 mNextAnimationSfxId;
   u32 mPrevAnimationSfxId;
 };

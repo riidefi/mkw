@@ -92,11 +92,11 @@ extern UNKNOWN_FUNCTION(__ct__Q26System4TimeFv);
 // PAL: 0x805235ac
 extern UNKNOWN_FUNCTION(unk_805235ac);
 // PAL: 0x80524568
-extern UNKNOWN_FUNCTION(InputManager_startRace);
+extern UNKNOWN_FUNCTION(KPadDirector_startRace);
 // PAL: 0x80524580
-extern UNKNOWN_FUNCTION(InputManager_startGhostProxies);
+extern UNKNOWN_FUNCTION(KPadDirector_startGhostProxies);
 // PAL: 0x805245cc
-extern UNKNOWN_FUNCTION(InputManager_endGhostProxy);
+extern UNKNOWN_FUNCTION(KPadDirector_endGhostProxy);
 // PAL: 0x805275ec
 extern UNKNOWN_FUNCTION(isMii);
 // PAL: 0x8052cb6c
@@ -354,7 +354,7 @@ extern UNKNOWN_DATA(lbl_808b3928);
 // PAL: 0x809bd6e8
 extern UNKNOWN_DATA(spInstance__Q26System9CourseMap);
 // PAL: 0x809bd70c
-extern UNKNOWN_DATA(spInstance__Q26System12InputManager);
+extern UNKNOWN_DATA(spInstance__Q26System12KPadDirector);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd738
@@ -1722,9 +1722,9 @@ asm UNKNOWN_FUNCTION(Raceinfo_init) {
   lbl_80533014:
   /* 80533014 3C008000 */ lis         r0, 0x8000
   /* 80533018 901F0038 */ stw         r0, 0x38(r31)
-  /* 8053301C 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
-  /* 80533020 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
-  /* 80533024 4BFF1545 */ bl          InputManager_startRace
+  /* 8053301C 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
+  /* 80533020 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
+  /* 80533024 4BFF1545 */ bl          KPadDirector_startRace
   /* 80533028 3BA00000 */ li          r29, 0x0
   /* 8053302C 3FC0809C */ lis         r30, spInstance__Q26System10RaceConfig@ha
   /* 80533030 48000018 */ b           lbl_80533048
@@ -2042,9 +2042,9 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   /* 80533440 818C0020 */ lwz         r12, 0x20(r12)
   /* 80533444 7D8903A6 */ mtctr       r12
   /* 80533448 4E800421 */ bctrl
-  /* 8053344C 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
-  /* 80533450 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
-  /* 80533454 4BFF112D */ bl          InputManager_startGhostProxies
+  /* 8053344C 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
+  /* 80533450 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
+  /* 80533454 4BFF112D */ bl          KPadDirector_startGhostProxies
   /* 80533458 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 8053345C 38600000 */ li          r3, 0x0
   /* 80533460 8084D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r4)
@@ -2057,17 +2057,17 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   lbl_8053347c:
   /* 8053347C 2C030000 */ cmpwi       r3, 0x0
   /* 80533480 41820020 */ beq-        lbl_805334a0
-  /* 80533484 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
-  /* 80533488 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
+  /* 80533484 3FC0809C */ lis         r30, spInstance__Q26System12KPadDirector@ha
+  /* 80533488 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 8053348C 4BFF0121 */ bl          unk_805235ac
-  /* 80533490 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
+  /* 80533490 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 80533494 38000001 */ li          r0, 0x1
   /* 80533498 98034156 */ stb         r0, 0x4156(r3)
   /* 8053349C 48000014 */ b           lbl_805334b0
   lbl_805334a0:
-  /* 805334A0 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 805334A0 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 805334A4 38000000 */ li          r0, 0x0
-  /* 805334A8 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
+  /* 805334A8 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
   /* 805334AC 98034156 */ stb         r0, 0x4156(r3)
   lbl_805334b0:
   /* 805334B0 38000001 */ li          r0, 0x1
@@ -2133,9 +2133,9 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   /* 8053358C 818C0020 */ lwz         r12, 0x20(r12)
   /* 80533590 7D8903A6 */ mtctr       r12
   /* 80533594 4E800421 */ bctrl
-  /* 80533598 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
-  /* 8053359C 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
-  /* 805335A0 4BFF0FE1 */ bl          InputManager_startGhostProxies
+  /* 80533598 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
+  /* 8053359C 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
+  /* 805335A0 4BFF0FE1 */ bl          KPadDirector_startGhostProxies
   /* 805335A4 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 805335A8 38600000 */ li          r3, 0x0
   /* 805335AC 8084D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r4)
@@ -2148,17 +2148,17 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   lbl_805335c8:
   /* 805335C8 2C030000 */ cmpwi       r3, 0x0
   /* 805335CC 41820020 */ beq-        lbl_805335ec
-  /* 805335D0 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
-  /* 805335D4 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
+  /* 805335D0 3FC0809C */ lis         r30, spInstance__Q26System12KPadDirector@ha
+  /* 805335D4 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 805335D8 4BFEFFD5 */ bl          unk_805235ac
-  /* 805335DC 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
+  /* 805335DC 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 805335E0 38000001 */ li          r0, 0x1
   /* 805335E4 98034156 */ stb         r0, 0x4156(r3)
   /* 805335E8 48000014 */ b           lbl_805335fc
   lbl_805335ec:
-  /* 805335EC 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 805335EC 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 805335F0 38000000 */ li          r0, 0x0
-  /* 805335F4 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
+  /* 805335F4 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
   /* 805335F8 98034156 */ stb         r0, 0x4156(r3)
   lbl_805335fc:
   /* 805335FC 38000001 */ li          r0, 0x1
@@ -2546,9 +2546,9 @@ asm UNKNOWN_FUNCTION(unk_80533afc) {
   /* 80533B1C 818C0020 */ lwz         r12, 0x20(r12)
   /* 80533B20 7D8903A6 */ mtctr       r12
   /* 80533B24 4E800421 */ bctrl
-  /* 80533B28 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
-  /* 80533B2C 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
-  /* 80533B30 4BFF0A51 */ bl          InputManager_startGhostProxies
+  /* 80533B28 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
+  /* 80533B2C 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
+  /* 80533B30 4BFF0A51 */ bl          KPadDirector_startGhostProxies
   /* 80533B34 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 80533B38 38600000 */ li          r3, 0x0
   /* 80533B3C 8084D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r4)
@@ -2561,17 +2561,17 @@ asm UNKNOWN_FUNCTION(unk_80533afc) {
   lbl_80533b58:
   /* 80533B58 2C030000 */ cmpwi       r3, 0x0
   /* 80533B5C 41820020 */ beq-        lbl_80533b7c
-  /* 80533B60 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
-  /* 80533B64 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
+  /* 80533B60 3FC0809C */ lis         r30, spInstance__Q26System12KPadDirector@ha
+  /* 80533B64 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 80533B68 4BFEFA45 */ bl          unk_805235ac
-  /* 80533B6C 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
+  /* 80533B6C 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 80533B70 38000001 */ li          r0, 0x1
   /* 80533B74 98034156 */ stb         r0, 0x4156(r3)
   /* 80533B78 48000014 */ b           lbl_80533b8c
   lbl_80533b7c:
-  /* 80533B7C 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 80533B7C 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80533B80 38000000 */ li          r0, 0x0
-  /* 80533B84 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
+  /* 80533B84 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
   /* 80533B88 98034156 */ stb         r0, 0x4156(r3)
   lbl_80533b8c:
   /* 80533B8C 38000001 */ li          r0, 0x1
@@ -2680,10 +2680,10 @@ asm UNKNOWN_FUNCTION(unk_80533c6c) {
   /* 80533CA0 8803002E */ lbz         r0, 0x2e(r3)
   /* 80533CA4 7C000775 */ extsb.      r0, r0
   /* 80533CA8 41800014 */ blt-        lbl_80533cbc
-  /* 80533CAC 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 80533CAC 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80533CB0 5404063E */ clrlwi      r4, r0, 0x18
-  /* 80533CB4 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
-  /* 80533CB8 4BFF0915 */ bl          InputManager_endGhostProxy
+  /* 80533CB4 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
+  /* 80533CB8 4BFF0915 */ bl          KPadDirector_endGhostProxy
   lbl_80533cbc:
   /* 80533CBC 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 80533CC0 3C60809C */ lis         r3, lbl_809bd730@ha
@@ -3030,17 +3030,17 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_construct) {
   /* 80534130 2C00FFFF */ cmpwi       r0, -0x1
   /* 80534134 41820024 */ beq-        lbl_80534158
   /* 80534138 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8053413C 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 8053413C 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80534140 1C0000EC */ mulli       r0, r0, 0xec
-  /* 80534144 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
+  /* 80534144 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
   /* 80534148 7C630214 */ add         r3, r3, r0
   /* 8053414C 38030004 */ addi        r0, r3, 0x4
   /* 80534150 901E0048 */ stw         r0, 0x48(r30)
   /* 80534154 4800001C */ b           lbl_80534170
   lbl_80534158:
-  /* 80534158 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 80534158 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 8053415C 1C050180 */ mulli       r0, r5, 0x180
-  /* 80534160 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
+  /* 80534160 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
   /* 80534164 7C630214 */ add         r3, r3, r0
   /* 80534168 380303B4 */ addi        r0, r3, 0x3b4
   /* 8053416C 901E0048 */ stw         r0, 0x48(r30)
@@ -3588,9 +3588,9 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endRace) {
   /* 805348E4 7C000774 */ extsb       r0, r0
   /* 805348E8 2C00FFFF */ cmpwi       r0, -0x1
   /* 805348EC 4182001C */ beq-        lbl_80534908
-  /* 805348F0 3C80809C */ lis         r4, spInstance__Q26System12InputManager@ha
+  /* 805348F0 3C80809C */ lis         r4, spInstance__Q26System12KPadDirector@ha
   /* 805348F4 1C050180 */ mulli       r0, r5, 0x180
-  /* 805348F8 8084D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r4)
+  /* 805348F8 8084D70C */ lwz         r4, spInstance__Q26System12KPadDirector@l(r4)
   /* 805348FC 7C840214 */ add         r4, r4, r0
   /* 80534900 380403B4 */ addi        r0, r4, 0x3b4
   /* 80534904 90030048 */ stw         r0, 0x48(r3)
@@ -6318,9 +6318,9 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore) {
   /* 80536B7C 7FC3F050 */ subf        r30, r3, r30
   /* 80536B80 41820048 */ beq-        lbl_80536bc8
   /* 80536B84 57E0063E */ clrlwi      r0, r31, 0x18
-  /* 80536B88 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 80536B88 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80536B8C 1C0000EC */ mulli       r0, r0, 0xec
-  /* 80536B90 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
+  /* 80536B90 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
   /* 80536B94 7C630214 */ add         r3, r3, r0
   /* 80536B98 80630008 */ lwz         r3, 8(r3)
   /* 80536B9C 2C030000 */ cmpwi       r3, 0x0
@@ -6340,9 +6340,9 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore) {
   /* 80536BC8 2C1FFFFF */ cmpwi       r31, -0x1
   /* 80536BCC 4182003C */ beq-        lbl_80536c08
   /* 80536BD0 57E0063E */ clrlwi      r0, r31, 0x18
-  /* 80536BD4 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 80536BD4 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80536BD8 1C0000EC */ mulli       r0, r0, 0xec
-  /* 80536BDC 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
+  /* 80536BDC 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
   /* 80536BE0 7C630214 */ add         r3, r3, r0
   /* 80536BE4 80630008 */ lwz         r3, 8(r3)
   /* 80536BE8 2C030000 */ cmpwi       r3, 0x0
@@ -6417,9 +6417,9 @@ asm UNKNOWN_FUNCTION(unk_80536c84) {
   /* 80536CC4 90C10028 */ stw         r6, 0x28(r1)
   /* 80536CC8 7C800775 */ extsb.      r0, r4
   /* 80536CCC 41800018 */ blt-        lbl_80536ce4
-  /* 80536CD0 3C60809C */ lis         r3, spInstance__Q26System12InputManager@ha
+  /* 80536CD0 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80536CD4 1C0400EC */ mulli       r0, r4, 0xec
-  /* 80536CD8 8063D70C */ lwz         r3, spInstance__Q26System12InputManager@l(r3)
+  /* 80536CD8 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
   /* 80536CDC 7C630214 */ add         r3, r3, r0
   /* 80536CE0 3BA30004 */ addi        r29, r3, 0x4
   lbl_80536ce4:
