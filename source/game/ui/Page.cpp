@@ -242,8 +242,8 @@ void Page::insert(s32 index, UIControl* control, u32 drawPass) {
     mControlGroup.insert(index, control, drawPass);
 }
 
-void Page::setKPadDirector(System::KPadDirector* kPadDirector) {
-    mKPadDirector = kPadDirector;
+void Page::setInputManager(MenuInputManager* inputManager) {
+    mInputManager = inputManager;
 }
 
 void Page::skipInAnimation(void) {
