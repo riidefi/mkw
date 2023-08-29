@@ -3,12 +3,6 @@
 #include <game/system/KPadDirector.hpp>
 
 
-// Float literals cause relocation problems, so until every function that uses
-// them is matched, their definitions can't be included.
-
-// #define WIP_DECOMP
-
-
 extern "C" {
 
 // Extern function references.
@@ -119,13 +113,13 @@ extern UNKNOWN_DATA(spInstance__Q26System8RKSystem);
 // PAL: 0x8088fcb0
 extern UNKNOWN_DATA(lbl_8088fcb0);
 // PAL: 0x8088fcc0
-extern UNKNOWN_DATA(lbl_8088fcc0);
+extern UNKNOWN_DATA(ZERO_F__6System);
 // PAL: 0x8088fcc4
-extern UNKNOWN_DATA(lbl_8088fcc4);
+extern UNKNOWN_DATA(MINUS_ONE_F__6System);
 // PAL: 0x8088fcc8
-extern UNKNOWN_DATA(lbl_8088fcc8);
+extern UNKNOWN_DATA(SEVEN_F__6System);
 // PAL: 0x8088fcd0
-extern UNKNOWN_DATA(lbl_8088fcd0);
+extern UNKNOWN_DATA(DIVIDE_BY_SEVEN_F__6System);
 // PAL: 0x8088fce0
 extern UNKNOWN_DATA(lbl_8088fce0);
 // PAL: 0x8088fcf0
@@ -168,7 +162,25 @@ extern UNKNOWN_DATA(lbl_809bd748);
 
 // --- EXTERN DECLARATIONS END ---
 
+namespace System {
+
 // .rodata
+
+#ifndef SHIFTABLE
+extern f32 ZERO_F;
+REL_SYMBOL_AT(ZERO_F, 0x8088fcc0)
+extern f32 MINUS_ONE_F;
+REL_SYMBOL_AT(MINUS_ONE_F, 0x8088fcc4)
+extern f32 SEVEN_F;
+REL_SYMBOL_AT(SEVEN_F, 0x8088fcc8)
+extern f64 DIVIDE_BY_SEVEN_F;
+REL_SYMBOL_AT(DIVIDE_BY_SEVEN_F, 0x8088fcd0)
+#else
+static const f32 ZERO_F = 0.f;
+static const f32 MINUS_ONE_F = 1.f;
+static const f32 SEVEN_F = 7.f;
+static const f64 DIVIDE_BY_SEVEN_F = reinterpret_cast<f64>(0x433ULL << 52);
+#endif
 
 // .data
 
@@ -176,11 +188,8 @@ extern UNKNOWN_DATA(lbl_809bd748);
 // .bss
 
 
-namespace System {
-
 float rawStickToFloat(u8 stick);
 
-#ifdef WIP_DECOMP
 void KPadRaceInputState::reset() {
   mButtons = 0;
   mButtonsRaw = 0;
@@ -192,41 +201,27 @@ void KPadRaceInputState::reset() {
   mTrickRaw = 0;
   mFlags._0 = 0;
 }
-#endif
-} // namespace System
-
-#ifndef WIP_DECOMP
-// Symbol: reset__Q26System18KPadRaceInputStateFv
-// PAL: 0x8051e85c..0x8051e89c
-MARK_BINARY_BLOB(reset__Q26System18KPadRaceInputStateFv, 0x8051e85c, 0x8051e89c);
-asm UNKNOWN_FUNCTION(reset__Q26System18KPadRaceInputStateFv) {
-  #include "asm/8051e85c.s"
-}
-#endif
-
-namespace System {
 
 bool KPadRaceInputState::operator==(const KPadRaceInputState& rhs) const {
   if (!mFlags._0 || !rhs.mFlags._0) {
       return false;
   }
 
-  f32 lx = rhs.mStick.x; 
-  f32 rx = mStick.x;
-  if (rx != lx) {
+  f32 rx = rhs.mStick.x; 
+  f32 lx = mStick.x;
+  if (lx != rx) {
     return false;
   }
 
-  f32 ly = rhs.mStick.y;
-  f32 ry = mStick.y;
-  if (ry != ly) {
+  f32 ry = rhs.mStick.y;
+  f32 ly = mStick.y;
+  if (ly != ry) {
     return false;
   }
 
   return mButtons == rhs.mButtons;
 }
 
-#ifdef WIP_DECOMP
 void KPadUIInputState::reset() {
   mButtons = 0;  
   mButtonsRaw = 0;
@@ -242,135 +237,37 @@ void KPadUIInputState::reset() {
   _2c = 0.f;
   mFlags._1 = 0;
 }
-#endif
-} // namespace System
 
-#ifndef WIP_DECOMP
-// Symbol: reset__Q26System16KPadUIInputStateFv
-// PAL: 0x8051e904..0x8051e960
-MARK_BINARY_BLOB(reset__Q26System16KPadUIInputStateFv, 0x8051e904, 0x8051e960);
-asm UNKNOWN_FUNCTION(reset__Q26System16KPadUIInputStateFv) {
-  #include "asm/8051e904.s"
-}
-#endif
-
-namespace System {
-
-#ifdef WIP_DECOMP
 void KPadRaceInputState::setStickXMirrored(u8 x) {
   mStickXRaw = x;
   mStick.x = KPadDirector::spInstance->mIsMirror ?
               -rawStickToFloat(x) : rawStickToFloat(x);
 }
-#endif
-} // namespace System
 
-#ifndef WIP_DECOMP
-// Symbol: setStickXMirrored__Q26System18KPadRaceInputStateFUc
-// PAL: 0x8051e960..0x8051e9e8
-MARK_BINARY_BLOB(setStickXMirrored__Q26System18KPadRaceInputStateFUc, 0x8051e960, 0x8051e9e8);
-asm UNKNOWN_FUNCTION(setStickXMirrored__Q26System18KPadRaceInputStateFUc) {
-  #include "asm/8051e960.s"
-}
-#endif
-
-namespace System {
-
-#ifdef WIP_DECOMP
 void KPadRaceInputState::setStickXUnmirrored(u8 x) {
   mStickXRaw = x;
   mStick.x = rawStickToFloat(x);
 }
-#endif
-} // namespace System
 
-#ifndef WIP_DECOMP
-// Symbol: setStickXUnmirrored__Q26System18KPadRaceInputStateFUc
-// PAL: 0x8051e9e8..0x8051ea28
-MARK_BINARY_BLOB(setStickXUnmirrored__Q26System18KPadRaceInputStateFUc, 0x8051e9e8, 0x8051ea28);
-asm UNKNOWN_FUNCTION(setStickXUnmirrored__Q26System18KPadRaceInputStateFUc) {
-  #include "asm/8051e9e8.s"
-}
-#endif
-
-namespace System {
-
-#ifdef WIP_DECOMP
 float rawStickToFloat(u8 stick) {
   return (stick - 7.f) / 7.f;
 }
-#endif
-} // namespace System
-
-#ifndef WIP_DECOMP
-// Symbol: rawStickToFloat__6SystemFUc
-// PAL: 0x8051ea28..0x8051ea60
-MARK_BINARY_BLOB(rawStickToFloat__6SystemFUc, 0x8051ea28, 0x8051ea60);
-asm UNKNOWN_FUNCTION(rawStickToFloat__6SystemFUc) {
-  #include "asm/8051ea28.s"
-}
-#endif
-
-namespace System {
-
-#ifdef WIP_DECOMP
 
 void KPadRaceInputState::setStickY(u8 y) {
   mStickYRaw = y;
   mStick.y = rawStickToFloat(y);
 }
-#endif
-} // namespace System
 
-#ifndef WIP_DECOMP
-// Symbol: setStickY__Q26System18KPadRaceInputStateFUc
-// PAL: 0x8051ea60..0x8051eaa0
-MARK_BINARY_BLOB(setStickY__Q26System18KPadRaceInputStateFUc, 0x8051ea60, 0x8051eaa0);
-asm UNKNOWN_FUNCTION(setStickY__Q26System18KPadRaceInputStateFUc) {
-  #include "asm/8051ea60.s"
-}
-#endif
-
-namespace System {
-
-#ifdef WIP_DECOMP
 void KPadUIInputState::setStickXMirrored(u8 x) {
   mStickXRaw = x;
   mStick.x = KPadDirector::spInstance->mIsMirror ?
               -rawStickToFloat(x) : rawStickToFloat(x);
 }
-#endif
-} // namespace System
 
-#ifndef WIP_DECOMP
-// Symbol: setStickXMirrored__Q26System16KPadUIInputStateFUc
-// PAL: 0x8051eaa0..0x8051eb28
-MARK_BINARY_BLOB(setStickXMirrored__Q26System16KPadUIInputStateFUc, 0x8051eaa0, 0x8051eb28);
-asm UNKNOWN_FUNCTION(setStickXMirrored__Q26System16KPadUIInputStateFUc) {
-  #include "asm/8051eaa0.s"
-}
-#endif
-
-namespace System {
-
-#ifdef WIP_DECOMP
 void KPadUIInputState::setStickY(u8 y) {
   mStickYRaw = y;
   mStick.y = rawStickToFloat(y);
 }
-#endif
-} // namespace System
-
-#ifndef WIP_DECOMP
-// Symbol: setStickY__Q26System16KPadUIInputStateFUc
-// PAL: 0x8051eb28..0x8051eb68
-MARK_BINARY_BLOB(setStickY__Q26System16KPadUIInputStateFUc, 0x8051eb28, 0x8051eb68);
-asm UNKNOWN_FUNCTION(setStickY__Q26System16KPadUIInputStateFUc) {
-  #include "asm/8051eb28.s"
-}
-#endif
-
-namespace System {
 
 void KPadRaceInputState::setTrick(u8 trick) {
   mTrickRaw = trick;
