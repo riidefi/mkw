@@ -11,7 +11,7 @@ extern "C" {
 // PAL: 0x8051e85c..0x8051e89c
 UNKNOWN_FUNCTION(reset__Q26System18KPadRaceInputStateFv);
 // PAL: 0x8051e89c..0x8051e904
-UNKNOWN_FUNCTION(eq__Q26System18KPadRaceInputStateFPQ26System18KPadRaceInputState);
+UNKNOWN_FUNCTION(__eq__Q26System18KPadRaceInputStateCFRCQ26System18KPadRaceInputState);
 // PAL: 0x8051e904..0x8051e960
 UNKNOWN_FUNCTION(reset__Q26System16KPadUIInputStateFv);
 // PAL: 0x8051e960..0x8051e9e8
@@ -226,7 +226,7 @@ struct KPadRaceInputState {
 
   void reset();
 
-  bool eq(KPadRaceInputState* rhs);
+  bool operator==(const KPadRaceInputState& rhs) const;
 
   void setStickXMirrored(u8 x);
   void setStickXUnmirrored(u8 x);
