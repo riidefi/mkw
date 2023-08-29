@@ -206,17 +206,24 @@ asm UNKNOWN_FUNCTION(reset__Q26System18KPadRaceInputStateFv) {
 
 namespace System {
 
-bool KPadRaceInputState::eq(KPadRaceInputState* rhs) {
-  if (!mFlags._0 || !rhs->mFlags._0) {
+bool KPadRaceInputState::operator==(const KPadRaceInputState& rhs) const {
+  if (!mFlags._0 || !rhs.mFlags._0) {
       return false;
   }
-  if (mStick.getX() != rhs->mStick.getX()) {
+
+  f32 lx = rhs.mStick.x; 
+  f32 rx = mStick.x;
+  if (rx != lx) {
     return false;
   }
-  if (mStick.getY() != rhs->mStick.getY()) {
+
+  f32 ly = rhs.mStick.y;
+  f32 ry = mStick.y;
+  if (ry != ly) {
     return false;
   }
-  return !(rhs->mButtons - mButtons);
+
+  return mButtons == rhs.mButtons;
 }
 
 #ifdef WIP_DECOMP
