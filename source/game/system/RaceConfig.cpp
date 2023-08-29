@@ -35,7 +35,7 @@ extern UNKNOWN_FUNCTION(__destroy_arr);
 // PAL: 0x8051c334
 extern UNKNOWN_FUNCTION(__dt__Q26System4TimeFv);
 // PAL: 0x8052453c
-extern UNKNOWN_FUNCTION(setGhostController__Q26System12InputManagerFUcPvb);
+extern UNKNOWN_FUNCTION(setGhostController__Q26System12KPadDirectorFUcPvb);
 // PAL: 0x8051c790
 extern UNKNOWN_FUNCTION(read__Q26System9GhostFileFRCQ26System12RawGhostFile);
 // PAL: 0x8051c270
@@ -105,7 +105,7 @@ extern UNKNOWN_DATA(lbl_809bd730);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd70c
-extern UNKNOWN_DATA(spInstance__Q26System12InputManager);
+extern UNKNOWN_DATA(spInstance__Q26System12KPadDirector);
 // PAL: 0x8088ffb0
 extern UNKNOWN_DATA(COURSE_ORDER__6System);
 // PAL: 0x809c2144
@@ -694,7 +694,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052ED60 48000174 */ b           lbl_8052eed4
   lbl_8052ed64:
   /* 8052ED64 3BA00000 */ li          r29, 0x0
-  /* 8052ED68 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
+  /* 8052ED68 3FC0809C */ lis         r30, spInstance__Q26System12KPadDirector@ha
   lbl_8052ed6c:
   /* 8052ED6C 57A0063E */ clrlwi      r0, r29, 0x18
   /* 8052ED70 1C0000F0 */ mulli       r0, r0, 0xf0
@@ -705,7 +705,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052ED84 8803000E */ lbz         r0, 0xe(r3)
   /* 8052ED88 7C000775 */ extsb.      r0, r0
   /* 8052ED8C 41800010 */ blt-        lbl_8052ed9c
-  /* 8052ED90 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
+  /* 8052ED90 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 8052ED94 5404063E */ clrlwi      r4, r0, 0x18
   /* 8052ED98 4BFF57C1 */ bl          unk_80524558
   lbl_8052ed9c:
@@ -716,7 +716,7 @@ asm UNKNOWN_FUNCTION(
   lbl_8052edac:
   /* 8052EDAC 38000004 */ li          r0, 0x4
   /* 8052EDB0 38C00000 */ li          r6, 0x0
-  /* 8052EDB4 3CA0809C */ lis         r5, spInstance__Q26System12InputManager@ha
+  /* 8052EDB4 3CA0809C */ lis         r5, spInstance__Q26System12KPadDirector@ha
   /* 8052EDB8 7C0903A6 */ mtctr       r0
   lbl_8052edbc:
   /* 8052EDBC 54C0063E */ clrlwi      r0, r6, 0x18
@@ -729,7 +729,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EDD8 7C000775 */ extsb.      r0, r0
   /* 8052EDDC 4180001C */ blt-        lbl_8052edf8
   /* 8052EDE0 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EDE4 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
+  /* 8052EDE4 8085D70C */ lwz         r4, spInstance__Q26System12KPadDirector@l(r5)
   /* 8052EDE8 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EDEC 7C840214 */ add         r4, r4, r0
   /* 8052EDF0 80040010 */ lwz         r0, 0x10(r4)
@@ -746,7 +746,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE18 7C000775 */ extsb.      r0, r0
   /* 8052EE1C 4180001C */ blt-        lbl_8052ee38
   /* 8052EE20 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EE24 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
+  /* 8052EE24 8085D70C */ lwz         r4, spInstance__Q26System12KPadDirector@l(r5)
   /* 8052EE28 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EE2C 7C840214 */ add         r4, r4, r0
   /* 8052EE30 80040010 */ lwz         r0, 0x10(r4)
@@ -763,7 +763,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE58 7C000775 */ extsb.      r0, r0
   /* 8052EE5C 4180001C */ blt-        lbl_8052ee78
   /* 8052EE60 5400063E */ clrlwi      r0, r0, 0x18
-  /* 8052EE64 8085D70C */ lwz         r4, spInstance__Q26System12InputManager@l(r5)
+  /* 8052EE64 8085D70C */ lwz         r4, spInstance__Q26System12KPadDirector@l(r5)
   /* 8052EE68 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052EE6C 7C840214 */ add         r4, r4, r0
   /* 8052EE70 80040010 */ lwz         r0, 0x10(r4)
@@ -777,7 +777,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EE88 2C000000 */ cmpwi       r0, 0x0
   /* 8052EE8C 40820048 */ bne-        lbl_8052eed4
   /* 8052EE90 3BA00000 */ li          r29, 0x0
-  /* 8052EE94 3FC0809C */ lis         r30, spInstance__Q26System12InputManager@ha
+  /* 8052EE94 3FC0809C */ lis         r30, spInstance__Q26System12KPadDirector@ha
   lbl_8052ee98:
   /* 8052EE98 57A0063E */ clrlwi      r0, r29, 0x18
   /* 8052EE9C 1C0000F0 */ mulli       r0, r0, 0xf0
@@ -788,7 +788,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EEB0 8803000E */ lbz         r0, 0xe(r3)
   /* 8052EEB4 7C000775 */ extsb.      r0, r0
   /* 8052EEB8 41800010 */ blt-        lbl_8052eec8
-  /* 8052EEBC 807ED70C */ lwz         r3, spInstance__Q26System12InputManager@l(r30)
+  /* 8052EEBC 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 8052EEC0 5404063E */ clrlwi      r4, r0, 0x18
   /* 8052EEC4 4BFF563D */ bl          unk_80524500
   lbl_8052eec8:
@@ -816,7 +816,7 @@ bool RaceConfig::Scenario::initGhost(u8 playerIdx, s8 playerInputIdx) {
 
     if (ghost.mCourseId == mSettings.mCourseId) {
       if (playerInputIdx >= 0) {
-        InputManager::spInstance->setGhostController(
+        KPadDirector::spInstance->setGhostController(
             playerInputIdx, (void*)ghost.mInputs, ghost.mDriftIsAuto);
       }
 
@@ -1096,7 +1096,7 @@ void RaceConfig::Scenario::initControllers(u8 controllerCount) {
       mPlayers[i].mLocalPlayerNum = localPlayerNum;
       mPlayers[i].mPlayerInputIdx = playerInputIdx;
       controller =
-          InputManager::spInstance->playerInputs[playerInputIdx].controller;
+          KPadDirector::spInstance->playerInputs[playerInputIdx].controller;
       if (controller == nullptr) {
         controllerId = -1;
       } else {
@@ -1155,7 +1155,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F504 3B800000 */ li          r28, 0x0
   /* 8052F508 3B600000 */ li          r27, 0x0
   /* 8052F50C 3B400000 */ li          r26, 0x0
-  /* 8052F510 3FE0809C */ lis         r31, spInstance__Q26System12InputManager@ha
+  /* 8052F510 3FE0809C */ lis         r31, spInstance__Q26System12KPadDirector@ha
   /* 8052F514 3EC08052 */ lis         r22, __dt__Q26System4TimeFv@ha
   /* 8052F518 3AE00005 */ li          r23, 0x5
   /* 8052F51C 9BA30B64 */ stb         r29, 0xb64(r3)
@@ -1179,7 +1179,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F55C 5760063E */ clrlwi      r0, r27, 0x18
   /* 8052F560 1C0000EC */ mulli       r0, r0, 0xec
   /* 8052F564 9B7E000E */ stb         r27, 0xe(r30)
-  /* 8052F568 807FD70C */ lwz         r3, spInstance__Q26System12InputManager@l(r31)
+  /* 8052F568 807FD70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r31)
   /* 8052F56C 7C630214 */ add         r3, r3, r0
   /* 8052F570 80630008 */ lwz         r3, 8(r3)
   /* 8052F574 2C030000 */ cmpwi       r3, 0x0
@@ -1221,11 +1221,11 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F5F4 40820040 */ bne-        lbl_8052f634
   /* 8052F5F8 7F600775 */ extsb.      r0, r27
   /* 8052F5FC 41800018 */ blt-        lbl_8052f614
-  /* 8052F600 807FD70C */ lwz         r3, spInstance__Q26System12InputManager@l(r31)
+  /* 8052F600 807FD70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r31)
   /* 8052F604 5764063E */ clrlwi      r4, r27, 0x18
   /* 8052F608 80A100DC */ lwz         r5, 0xdc(r1)
   /* 8052F60C 88C100D0 */ lbz         r6, 0xd0(r1)
-  /* 8052F610 4BFF4F2D */ bl          setGhostController__Q26System12InputManagerFUcPvb
+  /* 8052F610 4BFF4F2D */ bl          setGhostController__Q26System12KPadDirectorFUcPvb
   lbl_8052f614:
   /* 8052F614 800100B8 */ lwz         r0, 0xb8(r1)
   /* 8052F618 3AA00001 */ li          r21, 0x1

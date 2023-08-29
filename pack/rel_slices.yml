@@ -17,8 +17,9 @@ source/game/system/GhostFile.cpp:
     text: [0x8051c088, 0x8051d4d4]
     data: [0x808b2d38, 0x808b2d50]
 
-source/game/system/KPadBase.cpp:
-    text: [0x8051e85c, 0x8051eba8]
+source/game/system/KPadController.cpp:
+    text: [0x8051e85c, 0x80522974]
+    # rodata: [0x8088fcc0, 0x8088fcd8]
 
 source/game/system/Mii.cpp:
     text: [0x80525f88, 0x80525ff4]
