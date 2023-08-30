@@ -6,6 +6,10 @@
 
 #include <egg/math/eggVector.hpp>
 
+#include <rvl/kpad/kpad.h>
+#include <rvl/pad/pad.h>
+#include <rvl/wpad/wpad.h>
+
 
 extern "C" {
 // PAL: 0x8051e85c..0x8051e89c
@@ -29,55 +33,55 @@ UNKNOWN_FUNCTION(setStickY__Q26System16KPadUIInputStateFUc);
 // PAL: 0x8051eb68..0x8051eba8
 UNKNOWN_FUNCTION(setTrick__Q26System18KPadRaceInputStateFUc);
 // PAL: 0x8051eba8..0x8051ec94
-UNKNOWN_FUNCTION(Controller_construct);
+UNKNOWN_FUNCTION(__ct__Q26System14KPadControllerFv);
 // PAL: 0x8051ec94..0x8051ecd4
-UNKNOWN_FUNCTION(RaceInputState_destroy);
+UNKNOWN_FUNCTION(__dt__Q26System18KPadRaceInputStateFv);
 // PAL: 0x8051ecd4..0x8051ed14
-UNKNOWN_FUNCTION(UIInputState_destroy);
+UNKNOWN_FUNCTION(__dt__Q26System16KPadUIInputStateFv);
 // PAL: 0x8051ed14..0x8051f00c
-UNKNOWN_FUNCTION(Controller_calc);
+UNKNOWN_FUNCTION(calc__Q26System14KPadControllerFv);
 // PAL: 0x8051f00c..0x8051f010
-UNKNOWN_FUNCTION(Controller_stopMotorHard);
+UNKNOWN_FUNCTION(stopMotorHard__Q26System14KPadControllerFv);
 // PAL: 0x8051f010..0x8051f074
-UNKNOWN_FUNCTION(unk_8051f010);
+UNKNOWN_FUNCTION(updateBatteryStatus__Q26System14KPadControllerFv);
 // PAL: 0x8051f074..0x8051f07c
-UNKNOWN_FUNCTION(Controller_getBatteryLevelAsync);
+UNKNOWN_FUNCTION(getBatteryLevelAsync__Q26System14KPadControllerFv);
 // PAL: 0x8051f07c..0x8051f088
-UNKNOWN_FUNCTION(unk_8051f07c);
+UNKNOWN_FUNCTION(vf_3c__Q26System14KPadControllerFv);
 // PAL: 0x8051f088..0x8051f1ec
-UNKNOWN_FUNCTION(WiiController_construct);
+UNKNOWN_FUNCTION(__ct__Q26System17KPadWiiControllerFv);
 // PAL: 0x8051f1ec..0x8051f22c
-UNKNOWN_FUNCTION(Controller_destroy);
+UNKNOWN_FUNCTION(__dt__Q26System14KPadControllerFv);
 // PAL: 0x8051f22c..0x8051f308
-UNKNOWN_FUNCTION(unk_8051f22c);
+UNKNOWN_FUNCTION(reset__Q26System17KPadWiiControllerFb);
 // PAL: 0x8051f308..0x8051f37c
-UNKNOWN_FUNCTION(unk_8051f308);
+UNKNOWN_FUNCTION(reset__Q26System14KPadControllerFb);
 // PAL: 0x8051f37c..0x8051f384
-UNKNOWN_FUNCTION(Controller_setDriftIsAuto);
+UNKNOWN_FUNCTION(setIsDriftAuto__Q26System14KPadControllerFb);
 // PAL: 0x8051f384..0x8051f3b4
-UNKNOWN_FUNCTION(unk_8051f384);
+UNKNOWN_FUNCTION(updateBatteryCallback__Q26System17KPadWiiControllerFii);
 // PAL: 0x8051f3b4..0x8051f3d0
-UNKNOWN_FUNCTION(unk_8051f3b4);
+UNKNOWN_FUNCTION(updateBattery__Q26System17KPadWiiControllerFi);
 // PAL: 0x8051f3d0..0x8051f410
-UNKNOWN_FUNCTION(WiiController_getBatteryLevelAsync);
+UNKNOWN_FUNCTION(getBatteryLevelAsync__Q26System17KPadWiiControllerFv);
 // PAL: 0x8051f410..0x8051fa7c
-UNKNOWN_FUNCTION(unk_8051f410);
+UNKNOWN_FUNCTION(calcClassic__Q26System17KPadWiiControllerFP21KPADUnifiedWpadStatusPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState);
 // PAL: 0x8051fa7c..0x8051fbe0
-UNKNOWN_FUNCTION(unk_8051fa7c);
+UNKNOWN_FUNCTION(raceToUIInputFreestyle__Q26System17KPadWiiControllerFPQ26System16KPadUIInputStatePQ26System18KPadRaceInputState);
 // PAL: 0x8051fbe0..0x8051fc84
-UNKNOWN_FUNCTION(unk_8051fbe0);
+UNKNOWN_FUNCTION(raceToUIInputCore__Q26System17KPadWiiControllerFPQ26System16KPadUIInputStatePQ26System18KPadRaceInputState);
 // PAL: 0x8051fc84..0x8051ffb8
-UNKNOWN_FUNCTION(WiiController_calcInner);
+UNKNOWN_FUNCTION(calcInner__Q26System17KPadWiiControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState);
 // PAL: 0x8051ffb8..0x8051ffd0
-UNKNOWN_FUNCTION(WiiController_controlDpd);
+UNKNOWN_FUNCTION(setDpdEnabled__Q26System17KPadWiiControllerFb);
 // PAL: 0x8051ffd0..0x80520118
-UNKNOWN_FUNCTION(GcController_construct);
+UNKNOWN_FUNCTION(__ct__Q26System16KPadGCControllerFv);
 // PAL: 0x80520118..0x805201b0
-UNKNOWN_FUNCTION(unk_80520118);
+UNKNOWN_FUNCTION(reset__Q26System16KPadGCControllerFb);
 // PAL: 0x805201b0..0x805206fc
-UNKNOWN_FUNCTION(GcController_calcInner);
+UNKNOWN_FUNCTION(calcInner__Q26System16KPadGCControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState);
 // PAL: 0x805206fc..0x80520730
-UNKNOWN_FUNCTION(unk_805206fc);
+UNKNOWN_FUNCTION(isRumbleEnabled__Q26System16KPadGCControllerFv);
 // PAL: 0x80520730..0x80520924
 UNKNOWN_FUNCTION(GhostController_construct);
 // PAL: 0x80520924..0x80520998
@@ -222,6 +226,7 @@ UNKNOWN_FUNCTION(WiiController_destroy);
 namespace System {
 
 struct KPadRaceInputState {
+  inline KPadRaceInputState() { reset(); }
   virtual ~KPadRaceInputState() {}                // [vt+0x08]
 
   void reset();
@@ -240,16 +245,16 @@ struct KPadRaceInputState {
   u8 mStickYRaw;                                  // [this+0x11]
   u8 mTrick;                                      // [this+0x12]
   u8 mTrickRaw;                                   // [this+0x13]
-  struct {
-    u8 _0: 1;
-    u8 _1: 1;
-    u8 _2: 1;
-    u8 _3: 1;
-    u8 _4: 1;
-    u8 _5: 1;
-    u8 _6: 1;
-    u8 _7: 1;
-  } mFlags;                                       // [this+0x14]
+  struct {                                        // [this+0x14]
+    bool mIsValid: 1;
+    bool mFlags_1: 1;
+    bool mFlags_2: 1;
+    bool mFlags_3: 1;
+    bool mFlags_4: 1;
+    bool mFlags_5: 1;
+    bool mFlags_6: 1;
+    bool mFlags_7: 1;
+  };
   u8 _15;
   u8 _16;
   u8 _17;
@@ -258,6 +263,7 @@ struct KPadRaceInputState {
 static_assert(sizeof(KPadRaceInputState) == 0x18);
 
 struct KPadUIInputState {
+  inline KPadUIInputState() { reset(); }
   virtual ~KPadUIInputState() {}                  // [vt+0x08]
 
   void reset();
@@ -273,25 +279,191 @@ struct KPadUIInputState {
   u8 mStickYRaw;                                  // [this+0x19]
   u8 _1a;
   u8 _1b;
-  float _1c;
-  float _20;
-  float _24; // _24 and _28 potentially a vector?
-  float _28;
-  float _2c;
-  struct {
-    volatile u8 _0: 1; // volatile feels like a hack...
-    u8 _1: 1;
-    u8 _2: 1;
-    u8 _3: 1;
-    u8 _4: 1;
-    u8 _5: 1;
-    u8 _6: 1;
-    u8 _7: 1;
-  } mFlags;                                       // [this+0x30]
+  EGG::Vector2f mPointerPos;                      // [this+0x1c]
+  EGG::Vector2f mPointerHorizontal;               // [this+0x24]
+  float mPointerDist;                             // [this+0x2c]
+  struct {                                        // [this+0x30]
+    volatile u8 mFlags_0: 1; // volatile feels like a hack...
+    u8 mFlags_1: 1;
+    u8 mFlags_2: 1;
+    u8 mFlags_3: 1;
+    u8 mFlags_4: 1;
+    u8 mFlags_5: 1;
+    u8 mFlags_6: 1;
+    u8 mFlags_7: 1;
+  };
   u8 _31;
   u8 _32;
   u8 _33;
 };
 
 static_assert(sizeof(KPadUIInputState) == 0x34);
+
+class KPadController {
+public:
+  enum eControlSource {
+    CONTROL_SOURCE_UNKNOWN    = -1,
+
+    //! @brief Wiimote
+    //!
+    CONTROL_SOURCE_CORE       = 0,
+
+    //! @brief Wiimote+Nunchuck
+    //!
+    CONTROL_SOURCE_FREESTYLE  = 2,
+
+    //! @brief Classic controller
+    //!
+    CONTROL_SOURCE_CLASSIC    = 3,
+
+    //! @brief Gamecube controller
+    //!
+    CONTROL_SOURCE_GAMECUBE   = 4,
+
+    CONTROL_SOURCE_GHOST      = 5,
+
+    CONTROL_SOURCE_AI         = 6,
+  };
+
+public:
+  KPadController();
+  virtual ~KPadController() {}                    // [vt+0x08]
+
+  void calc();
+
+  //! @brief [vt+0x0c] Called by `calc`.
+  //!
+  virtual void calcInner(KPadRaceInputState* raceInputState,
+                         KPadUIInputState* uiInputState) = 0;
+
+  virtual eControlSource getControlSource();      // [vt+0x10]
+  virtual bool isRumbleEnabled();                 // [vt+0x14]
+  virtual void startMotor();                      // [vt+0x18]
+  virtual void stopMotor();                       // [vt+0x1c]
+  virtual void stopMotorHard() {}                 // [vt+0x20]
+  virtual float vf_24();                          // [vt+0x24]
+  virtual void setDpdEnabled(bool enabled);       // [vt+0x28]
+  virtual bool isDpdEnabled();                    // [vt+0x2c]
+  virtual void updateBatteryStatus();             // [vt+0x30]
+  virtual int getChan();                          // [vt+0x34]
+  virtual void setIsDriftAuto(bool isAuto);       // [vt+0x38]
+  virtual void* vf_3c();                          // [vt+0x3c]
+  virtual u32 getBatteryLevelAsync();             // [vt+0x40]
+  virtual void reset(bool isDriftAuto);           // [vt+0x44]
+
+public:
+  KPadRaceInputState mRaceInputState;             // [this+0x04]
+  KPadUIInputState mUIInputState;                 // [this+0x1c]
+  bool mIsConnected;                              // [this+0x50]
+  bool mIsDriftAuto;                              // [this+0x51]
+  u8 _52;
+  u8 _53;
+  u32 mBattery;                                   // [this+0x54]
+  bool mOutOfBattery;                             // [this+0x58]
+  u8 _59;
+  u8 _5a;
+  u8 _5b;
+  KPadUIInputState mPrevUIInputState;             // [this+0x5c]
+};
+
+static_assert(sizeof(KPadController) == 0x90);
+
+class KPadWiiControllerData;
+
+class KPadWiiController : public KPadController {
+public:
+  KPadWiiController();
+  virtual ~KPadWiiController() {};                // [vt+0x08]
+
+  //! @brief [vt+0x0c]
+  void calcInner(KPadRaceInputState* raceInputState,
+                 KPadUIInputState* uiInputState) override;
+
+  eControlSource getControlSource() override;     // [vt+0x10]
+  bool isRumbleEnabled() override;                // [vt+0x14]
+  void startMotor() override;                     // [vt+0x18]
+  void stopMotor() override;                      // [vt+0x1c]
+  void stopMotorHard() override;                  // [vt+0x20]
+  void setDpdEnabled(bool enabled) override;      // [vt+0x28]
+  bool isDpdEnabled() override;                   // [vt+0x2c]
+  int getChan() override;                         // [vt+0x34]
+  u32 getBatteryLevelAsync() override;            // [vt+0x40]
+  void reset(bool isDriftAuto) override;          // [vt+0x44]
+
+private:
+
+  // Calc inputs for Classic
+  void calcClassic(KPADUnifiedWpadStatus* kpadUnifiedWpadStatus,
+                   KPadRaceInputState* raceInputState,
+                   KPadUIInputState* uiInputState);
+
+  // Convert race input to UI input for Wiimote
+  void raceToUIInputCore(KPadUIInputState* dst, KPadRaceInputState* src);
+
+  // Convert race input to UI input for Nunchuck
+  void raceToUIInputFreestyle(KPadUIInputState* dst, KPadRaceInputState* src);
+
+  // Callback used in `getBatteryLevelAsync`
+  static void updateBatteryCallback(int chan, int result);
+
+  // Inlined in `updateBatteryCallback`
+  void updateBattery(int result);
+
+public:
+  KPADStatus mKpadStatuses[0x10];                 // [this+0x090]
+  u8 mKpadStatusCount;                            // [this+0x8d0]
+  u8 _8d1;
+  u8 _8d2;
+  u8 _8d3;
+  int mChan;                                      // [this+0x8d4]
+  int mType;                                      // [this+0x8d8]
+  eControlSource mControlSource;                  // [this+0x8dc]
+  WPADInfo mWpadInfo;                             // [this+0x8e0]
+  u16 _8f8;
+  u8 _8fa;
+  u8 _8fb;
+  u16 _8fc;
+  u16 _8fe;
+  int mWpadType;                                  // [this+0x900]
+  bool mClassicIsInDrift;                         // [this+0x904]
+  u8 _905;
+  u16 _906;
+  EGG::Vector2f mPointerPos;                      // [this+0x908]
+  EGG::Vector2f mPointerHorizontal;               // [this+0x910]
+  f32 mPointerDist;                               // [this+0x918]
+  KPadWiiControllerData* mWiiControllerData;      // [this+0x91c]
+};
+
+static_assert(sizeof(KPadWiiController) == 0x920);
+
+class KPadGCController : public KPadController {
+public:
+  KPadGCController();
+  virtual ~KPadGCController() {}                  // [vt+0x08]
+
+  //! @brief [vt+0x0c]
+  void calcInner(KPadRaceInputState* raceInputState,
+                 KPadUIInputState* uiInputState) override;
+
+  eControlSource getControlSource() override;     // [vt+0x10]
+  bool isRumbleEnabled() override;                // [vt+0x14]
+  void startMotor() override;                     // [vt+0x18]
+  void stopMotor() override;                      // [vt+0x1c]
+  void stopMotorHard() override;                  // [vt+0x20]
+  int getChan() override;                         // [vt+0x34]
+  void reset(bool isDriftAuto) override;          // [vt+0x44]
+
+public:
+  PADStatus mPadStatus;                           // [this+0x90]
+  int mChan;                                      // [this+0x9c]
+  EGG::Vector2f mSubstick;                        // [this+0xa0]
+  u16 _a8;
+  bool _aa;
+  u8 _ab;
+  u16 _ac;
+  u8 _ae;
+  u8 _af;
+};
+
+static_assert(sizeof(KPadGCController) == 0xb0);
 } // namespace System
