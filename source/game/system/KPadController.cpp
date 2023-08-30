@@ -22,32 +22,8 @@ extern UNKNOWN_FUNCTION(_restgpr_14);
 extern UNKNOWN_FUNCTION(_restgpr_24);
 // PAL: 0x800215ec
 extern UNKNOWN_FUNCTION(_restgpr_27);
-// PAL: 0x801950a0
-extern UNKNOWN_FUNCTION(KPADSetFSStickClamp);
-// PAL: 0x801950b4
-extern UNKNOWN_FUNCTION(KPADSetPosParam);
-// PAL: 0x801950d0
-extern UNKNOWN_FUNCTION(KPADSetHoriParam);
-// PAL: 0x80197380
-extern UNKNOWN_FUNCTION(KPADRead);
-// PAL: 0x80197da0
-extern UNKNOWN_FUNCTION(KPADDisableDPD);
-// PAL: 0x80197dbc
-extern UNKNOWN_FUNCTION(KPADEnableDPD);
-// PAL: 0x8019812c
-extern UNKNOWN_FUNCTION(KPADGetUnifiedWpadStatus);
-// PAL: 0x801af908
-extern UNKNOWN_FUNCTION(PADControlMotor);
 // PAL: 0x801bf694
 extern UNKNOWN_FUNCTION(FUN_801bf694);
-// PAL: 0x801c0990
-extern UNKNOWN_FUNCTION(WPADProbe);
-// PAL: 0x801c0ca4
-extern UNKNOWN_FUNCTION(WPADGetInfoAsync);
-// PAL: 0x801c0ec4
-extern UNKNOWN_FUNCTION(WPADControlMotor);
-// PAL: 0x801c32a4
-extern UNKNOWN_FUNCTION(WPADIsDpdEnabled);
 // PAL: 0x801cb364
 extern UNKNOWN_FUNCTION(unk_801cb364);
 // PAL: 0x80213a3c
@@ -60,16 +36,6 @@ extern UNKNOWN_FUNCTION(__nw__FUl);
 extern UNKNOWN_FUNCTION(__nwa__FUl);
 // PAL: 0x80229ee0
 extern UNKNOWN_FUNCTION(__dla__FPv);
-// PAL: 0x8051ed14
-extern UNKNOWN_FUNCTION(Controller_calc);
-// PAL: 0x8051f384
-extern UNKNOWN_FUNCTION(unk_8051f384);
-// PAL: 0x8051f410
-extern UNKNOWN_FUNCTION(unk_8051f410);
-// PAL: 0x8051fa7c
-extern UNKNOWN_FUNCTION(unk_8051fa7c);
-// PAL: 0x8051fbe0
-extern UNKNOWN_FUNCTION(unk_8051fbe0);
 // PAL: 0x80521198
 extern UNKNOWN_FUNCTION(Input_vf_0c);
 // PAL: 0x80521acc
@@ -199,11 +165,11 @@ void KPadRaceInputState::reset() {
   mStickYRaw = 7;
   mTrick = 0;
   mTrickRaw = 0;
-  mFlags._0 = 0;
+  mIsValid = 0;
 }
 
 bool KPadRaceInputState::operator==(const KPadRaceInputState& rhs) const {
-  if (!mFlags._0 || !rhs.mFlags._0) {
+  if (!mIsValid || !rhs.mIsValid) {
       return false;
   }
 
@@ -229,13 +195,13 @@ void KPadUIInputState::reset() {
   mStick.x = 0.0f;
   mStickXRaw = 7;
   mStickYRaw = 7;
-  mFlags._0 = 0;
-  _1c = -1.f;
-  _20 = -1.f;
-  _28 = 0.f;
-  _24 = 0.f;
-  _2c = 0.f;
-  mFlags._1 = 0;
+  mFlags_0 = 0;
+  mPointerPos.x = -1.f;
+  mPointerPos.y = -1.f;
+  mPointerHorizontal.y = 0.f;
+  mPointerHorizontal.x = 0.f;
+  mPointerDist = 0.f;
+  mFlags_1 = 0;
 }
 
 void KPadRaceInputState::setStickXMirrored(u8 x) {
@@ -288,178 +254,178 @@ void KPadRaceInputState::setTrick(u8 trick) {
 }
 } // namespace System
 
-// Symbol: Controller_construct
+// Symbol: __ct__Q26System14KPadControllerFv
 // PAL: 0x8051eba8..0x8051ec94
-MARK_BINARY_BLOB(Controller_construct, 0x8051eba8, 0x8051ec94);
-asm UNKNOWN_FUNCTION(Controller_construct) {
+MARK_BINARY_BLOB(__ct__Q26System14KPadControllerFv, 0x8051eba8, 0x8051ec94);
+asm UNKNOWN_FUNCTION(__ct__Q26System14KPadControllerFv) {
   #include "asm/8051eba8.s"
 }
 
-// Symbol: RaceInputState_destroy
+// Symbol: __dt__Q26System18KPadRaceInputStateFv
 // PAL: 0x8051ec94..0x8051ecd4
-MARK_BINARY_BLOB(RaceInputState_destroy, 0x8051ec94, 0x8051ecd4);
-asm UNKNOWN_FUNCTION(RaceInputState_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System18KPadRaceInputStateFv, 0x8051ec94, 0x8051ecd4);
+asm UNKNOWN_FUNCTION(__dt__Q26System18KPadRaceInputStateFv) {
   #include "asm/8051ec94.s"
 }
 
-// Symbol: UIInputState_destroy
+// Symbol: __dt__Q26System16KPadUIInputStateFv
 // PAL: 0x8051ecd4..0x8051ed14
-MARK_BINARY_BLOB(UIInputState_destroy, 0x8051ecd4, 0x8051ed14);
-asm UNKNOWN_FUNCTION(UIInputState_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System16KPadUIInputStateFv, 0x8051ecd4, 0x8051ed14);
+asm UNKNOWN_FUNCTION(__dt__Q26System16KPadUIInputStateFv) {
   #include "asm/8051ecd4.s"
 }
 
-// Symbol: Controller_calc
+// Symbol: calc__Q26System14KPadControllerFv
 // PAL: 0x8051ed14..0x8051f00c
-MARK_BINARY_BLOB(Controller_calc, 0x8051ed14, 0x8051f00c);
-asm UNKNOWN_FUNCTION(Controller_calc) {
+MARK_BINARY_BLOB(calc__Q26System14KPadControllerFv, 0x8051ed14, 0x8051f00c);
+asm UNKNOWN_FUNCTION(calc__Q26System14KPadControllerFv) {
   #include "asm/8051ed14.s"
 }
 
-// Symbol: Controller_stopMotorHard
+// Symbol: stopMotorHard__Q26System14KPadControllerFv
 // PAL: 0x8051f00c..0x8051f010
-MARK_BINARY_BLOB(Controller_stopMotorHard, 0x8051f00c, 0x8051f010);
-asm UNKNOWN_FUNCTION(Controller_stopMotorHard) {
+MARK_BINARY_BLOB(stopMotorHard__Q26System14KPadControllerFv, 0x8051f00c, 0x8051f010);
+asm UNKNOWN_FUNCTION(stopMotorHard__Q26System14KPadControllerFv) {
   #include "asm/8051f00c.s"
 }
 
-// Symbol: unk_8051f010
+// Symbol: updateBatteryStatus__Q26System14KPadControllerFv
 // PAL: 0x8051f010..0x8051f074
-MARK_BINARY_BLOB(unk_8051f010, 0x8051f010, 0x8051f074);
-asm UNKNOWN_FUNCTION(unk_8051f010) {
+MARK_BINARY_BLOB(updateBatteryStatus__Q26System14KPadControllerFv, 0x8051f010, 0x8051f074);
+asm UNKNOWN_FUNCTION(updateBatteryStatus__Q26System14KPadControllerFv) {
   #include "asm/8051f010.s"
 }
 
-// Symbol: Controller_getBatteryLevelAsync
+// Symbol: getBatteryLevelAsync__Q26System14KPadControllerFv
 // PAL: 0x8051f074..0x8051f07c
-MARK_BINARY_BLOB(Controller_getBatteryLevelAsync, 0x8051f074, 0x8051f07c);
-asm UNKNOWN_FUNCTION(Controller_getBatteryLevelAsync) {
+MARK_BINARY_BLOB(getBatteryLevelAsync__Q26System14KPadControllerFv, 0x8051f074, 0x8051f07c);
+asm UNKNOWN_FUNCTION(getBatteryLevelAsync__Q26System14KPadControllerFv) {
   #include "asm/8051f074.s"
 }
 
-// Symbol: unk_8051f07c
+// Symbol: vf_3c__Q26System14KPadControllerFv
 // PAL: 0x8051f07c..0x8051f088
-MARK_BINARY_BLOB(unk_8051f07c, 0x8051f07c, 0x8051f088);
-asm UNKNOWN_FUNCTION(unk_8051f07c) {
+MARK_BINARY_BLOB(vf_3c__Q26System14KPadControllerFv, 0x8051f07c, 0x8051f088);
+asm UNKNOWN_FUNCTION(vf_3c__Q26System14KPadControllerFv) {
   #include "asm/8051f07c.s"
 }
 
-// Symbol: WiiController_construct
+// Symbol: __ct__Q26System17KPadWiiControllerFv
 // PAL: 0x8051f088..0x8051f1ec
-MARK_BINARY_BLOB(WiiController_construct, 0x8051f088, 0x8051f1ec);
-asm UNKNOWN_FUNCTION(WiiController_construct) {
+MARK_BINARY_BLOB(__ct__Q26System17KPadWiiControllerFv, 0x8051f088, 0x8051f1ec);
+asm UNKNOWN_FUNCTION(__ct__Q26System17KPadWiiControllerFv) {
   #include "asm/8051f088.s"
 }
 
-// Symbol: Controller_destroy
+// Symbol: __dt__Q26System14KPadControllerFv
 // PAL: 0x8051f1ec..0x8051f22c
-MARK_BINARY_BLOB(Controller_destroy, 0x8051f1ec, 0x8051f22c);
-asm UNKNOWN_FUNCTION(Controller_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System14KPadControllerFv, 0x8051f1ec, 0x8051f22c);
+asm UNKNOWN_FUNCTION(__dt__Q26System14KPadControllerFv) {
   #include "asm/8051f1ec.s"
 }
 
-// Symbol: unk_8051f22c
+// Symbol: reset__Q26System17KPadWiiControllerFb
 // PAL: 0x8051f22c..0x8051f308
-MARK_BINARY_BLOB(unk_8051f22c, 0x8051f22c, 0x8051f308);
-asm UNKNOWN_FUNCTION(unk_8051f22c) {
+MARK_BINARY_BLOB(reset__Q26System17KPadWiiControllerFb, 0x8051f22c, 0x8051f308);
+asm UNKNOWN_FUNCTION(reset__Q26System17KPadWiiControllerFb) {
   #include "asm/8051f22c.s"
 }
 
-// Symbol: unk_8051f308
+// Symbol: reset__Q26System14KPadControllerFb
 // PAL: 0x8051f308..0x8051f37c
-MARK_BINARY_BLOB(unk_8051f308, 0x8051f308, 0x8051f37c);
-asm UNKNOWN_FUNCTION(unk_8051f308) {
+MARK_BINARY_BLOB(reset__Q26System14KPadControllerFb, 0x8051f308, 0x8051f37c);
+asm UNKNOWN_FUNCTION(reset__Q26System14KPadControllerFb) {
   #include "asm/8051f308.s"
 }
 
-// Symbol: Controller_setDriftIsAuto
+// Symbol: setIsDriftAuto__Q26System14KPadControllerFb
 // PAL: 0x8051f37c..0x8051f384
-MARK_BINARY_BLOB(Controller_setDriftIsAuto, 0x8051f37c, 0x8051f384);
-asm UNKNOWN_FUNCTION(Controller_setDriftIsAuto) {
+MARK_BINARY_BLOB(setIsDriftAuto__Q26System14KPadControllerFb, 0x8051f37c, 0x8051f384);
+asm UNKNOWN_FUNCTION(setIsDriftAuto__Q26System14KPadControllerFb) {
   #include "asm/8051f37c.s"
 }
 
-// Symbol: unk_8051f384
+// Symbol: updateBatteryCallback__Q26System17KPadWiiControllerFii
 // PAL: 0x8051f384..0x8051f3b4
-MARK_BINARY_BLOB(unk_8051f384, 0x8051f384, 0x8051f3b4);
-asm UNKNOWN_FUNCTION(unk_8051f384) {
+MARK_BINARY_BLOB(updateBatteryCallback__Q26System17KPadWiiControllerFii, 0x8051f384, 0x8051f3b4);
+asm UNKNOWN_FUNCTION(updateBatteryCallback__Q26System17KPadWiiControllerFii) {
   #include "asm/8051f384.s"
 }
 
-// Symbol: unk_8051f3b4
+// Symbol: updateBattery__Q26System17KPadWiiControllerFi
 // PAL: 0x8051f3b4..0x8051f3d0
-MARK_BINARY_BLOB(unk_8051f3b4, 0x8051f3b4, 0x8051f3d0);
-asm UNKNOWN_FUNCTION(unk_8051f3b4) {
+MARK_BINARY_BLOB(updateBattery__Q26System17KPadWiiControllerFi, 0x8051f3b4, 0x8051f3d0);
+asm UNKNOWN_FUNCTION(updateBattery__Q26System17KPadWiiControllerFi) {
   #include "asm/8051f3b4.s"
 }
 
-// Symbol: WiiController_getBatteryLevelAsync
+// Symbol: getBatteryLevelAsync__Q26System17KPadWiiControllerFv
 // PAL: 0x8051f3d0..0x8051f410
-MARK_BINARY_BLOB(WiiController_getBatteryLevelAsync, 0x8051f3d0, 0x8051f410);
-asm UNKNOWN_FUNCTION(WiiController_getBatteryLevelAsync) {
+MARK_BINARY_BLOB(getBatteryLevelAsync__Q26System17KPadWiiControllerFv, 0x8051f3d0, 0x8051f410);
+asm UNKNOWN_FUNCTION(getBatteryLevelAsync__Q26System17KPadWiiControllerFv) {
   #include "asm/8051f3d0.s"
 }
 
-// Symbol: unk_8051f410
+// Symbol: calcClassic__Q26System17KPadWiiControllerFP21KPADUnifiedWpadStatusPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState
 // PAL: 0x8051f410..0x8051fa7c
-MARK_BINARY_BLOB(unk_8051f410, 0x8051f410, 0x8051fa7c);
-asm UNKNOWN_FUNCTION(unk_8051f410) {
+MARK_BINARY_BLOB(calcClassic__Q26System17KPadWiiControllerFP21KPADUnifiedWpadStatusPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState, 0x8051f410, 0x8051fa7c);
+asm UNKNOWN_FUNCTION(calcClassic__Q26System17KPadWiiControllerFP21KPADUnifiedWpadStatusPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState) {
   #include "asm/8051f410.s"
 }
 
-// Symbol: unk_8051fa7c
+// Symbol: raceToUIInputFreestyle__Q26System17KPadWiiControllerFPQ26System16KPadUIInputStatePQ26System18KPadRaceInputState
 // PAL: 0x8051fa7c..0x8051fbe0
-MARK_BINARY_BLOB(unk_8051fa7c, 0x8051fa7c, 0x8051fbe0);
-asm UNKNOWN_FUNCTION(unk_8051fa7c) {
+MARK_BINARY_BLOB(raceToUIInputFreestyle__Q26System17KPadWiiControllerFPQ26System16KPadUIInputStatePQ26System18KPadRaceInputState, 0x8051fa7c, 0x8051fbe0);
+asm UNKNOWN_FUNCTION(raceToUIInputFreestyle__Q26System17KPadWiiControllerFPQ26System16KPadUIInputStatePQ26System18KPadRaceInputState) {
   #include "asm/8051fa7c.s"
 }
 
-// Symbol: unk_8051fbe0
+// Symbol: raceToUIInputCore__Q26System17KPadWiiControllerFPQ26System16KPadUIInputStatePQ26System18KPadRaceInputState
 // PAL: 0x8051fbe0..0x8051fc84
-MARK_BINARY_BLOB(unk_8051fbe0, 0x8051fbe0, 0x8051fc84);
-asm UNKNOWN_FUNCTION(unk_8051fbe0) {
+MARK_BINARY_BLOB(raceToUIInputCore__Q26System17KPadWiiControllerFPQ26System16KPadUIInputStatePQ26System18KPadRaceInputState, 0x8051fbe0, 0x8051fc84);
+asm UNKNOWN_FUNCTION(raceToUIInputCore__Q26System17KPadWiiControllerFPQ26System16KPadUIInputStatePQ26System18KPadRaceInputState) {
   #include "asm/8051fbe0.s"
 }
 
-// Symbol: WiiController_calcInner
+// Symbol: calcInner__Q26System17KPadWiiControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState
 // PAL: 0x8051fc84..0x8051ffb8
-MARK_BINARY_BLOB(WiiController_calcInner, 0x8051fc84, 0x8051ffb8);
-asm UNKNOWN_FUNCTION(WiiController_calcInner) {
+MARK_BINARY_BLOB(calcInner__Q26System17KPadWiiControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState, 0x8051fc84, 0x8051ffb8);
+asm UNKNOWN_FUNCTION(calcInner__Q26System17KPadWiiControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState) {
   #include "asm/8051fc84.s"
 }
 
-// Symbol: WiiController_controlDpd
+// Symbol: setDpdEnabled__Q26System17KPadWiiControllerFb
 // PAL: 0x8051ffb8..0x8051ffd0
-MARK_BINARY_BLOB(WiiController_controlDpd, 0x8051ffb8, 0x8051ffd0);
-asm UNKNOWN_FUNCTION(WiiController_controlDpd) {
+MARK_BINARY_BLOB(setDpdEnabled__Q26System17KPadWiiControllerFb, 0x8051ffb8, 0x8051ffd0);
+asm UNKNOWN_FUNCTION(setDpdEnabled__Q26System17KPadWiiControllerFb) {
   #include "asm/8051ffb8.s"
 }
 
-// Symbol: GcController_construct
+// Symbol: __ct__Q26System16KPadGCControllerFv
 // PAL: 0x8051ffd0..0x80520118
-MARK_BINARY_BLOB(GcController_construct, 0x8051ffd0, 0x80520118);
-asm UNKNOWN_FUNCTION(GcController_construct) {
+MARK_BINARY_BLOB(__ct__Q26System16KPadGCControllerFv, 0x8051ffd0, 0x80520118);
+asm UNKNOWN_FUNCTION(__ct__Q26System16KPadGCControllerFv) {
   #include "asm/8051ffd0.s"
 }
 
-// Symbol: unk_80520118
+// Symbol: reset__Q26System16KPadGCControllerFb
 // PAL: 0x80520118..0x805201b0
-MARK_BINARY_BLOB(unk_80520118, 0x80520118, 0x805201b0);
-asm UNKNOWN_FUNCTION(unk_80520118) {
+MARK_BINARY_BLOB(reset__Q26System16KPadGCControllerFb, 0x80520118, 0x805201b0);
+asm UNKNOWN_FUNCTION(reset__Q26System16KPadGCControllerFb) {
   #include "asm/80520118.s"
 }
 
-// Symbol: GcController_calcInner
+// Symbol: calcInner__Q26System16KPadGCControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState
 // PAL: 0x805201b0..0x805206fc
-MARK_BINARY_BLOB(GcController_calcInner, 0x805201b0, 0x805206fc);
-asm UNKNOWN_FUNCTION(GcController_calcInner) {
+MARK_BINARY_BLOB(calcInner__Q26System16KPadGCControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState, 0x805201b0, 0x805206fc);
+asm UNKNOWN_FUNCTION(calcInner__Q26System16KPadGCControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState) {
   #include "asm/805201b0.s"
 }
 
-// Symbol: unk_805206fc
+// Symbol: isRumbleEnabled__Q26System16KPadGCControllerFv
 // PAL: 0x805206fc..0x80520730
-MARK_BINARY_BLOB(unk_805206fc, 0x805206fc, 0x80520730);
-asm UNKNOWN_FUNCTION(unk_805206fc) {
+MARK_BINARY_BLOB(isRumbleEnabled__Q26System16KPadGCControllerFv, 0x805206fc, 0x80520730);
+asm UNKNOWN_FUNCTION(isRumbleEnabled__Q26System16KPadGCControllerFv) {
   #include "asm/805206fc.s"
 }
 

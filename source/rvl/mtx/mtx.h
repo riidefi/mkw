@@ -10,6 +10,10 @@ typedef struct {
   f32 x, y, z;
 } Vec;
 
+typedef struct {
+  f32 x, y;
+} Vec2;
+
 typedef f32 Mtx[3][4];
 typedef f32 (*MtxPtr)[4];
 
