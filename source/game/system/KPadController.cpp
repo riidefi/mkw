@@ -36,10 +36,6 @@ extern UNKNOWN_FUNCTION(__nw__FUl);
 extern UNKNOWN_FUNCTION(__nwa__FUl);
 // PAL: 0x80229ee0
 extern UNKNOWN_FUNCTION(__dla__FPv);
-// PAL: 0x80521198
-extern UNKNOWN_FUNCTION(Input_vf_0c);
-// PAL: 0x80521acc
-extern UNKNOWN_FUNCTION(unk_80521acc);
 // PAL: 0x80523a58
 extern UNKNOWN_FUNCTION(unk_80523a58);
 // PAL: 0x80524628
@@ -338,10 +334,10 @@ asm UNKNOWN_FUNCTION(reset__Q26System14KPadControllerFb) {
   #include "asm/8051f308.s"
 }
 
-// Symbol: setIsDriftAuto__Q26System14KPadControllerFb
+// Symbol: setDriftIsAuto__Q26System14KPadControllerFb
 // PAL: 0x8051f37c..0x8051f384
-MARK_BINARY_BLOB(setIsDriftAuto__Q26System14KPadControllerFb, 0x8051f37c, 0x8051f384);
-asm UNKNOWN_FUNCTION(setIsDriftAuto__Q26System14KPadControllerFb) {
+MARK_BINARY_BLOB(setDriftIsAuto__Q26System14KPadControllerFb, 0x8051f37c, 0x8051f384);
+asm UNKNOWN_FUNCTION(setDriftIsAuto__Q26System14KPadControllerFb) {
   #include "asm/8051f37c.s"
 }
 
@@ -429,136 +425,136 @@ asm UNKNOWN_FUNCTION(isRumbleEnabled__Q26System16KPadGCControllerFv) {
   #include "asm/805206fc.s"
 }
 
-// Symbol: GhostController_construct
+// Symbol: __ct__Q26System19KPadGhostControllerFv
 // PAL: 0x80520730..0x80520924
-MARK_BINARY_BLOB(GhostController_construct, 0x80520730, 0x80520924);
-asm UNKNOWN_FUNCTION(GhostController_construct) {
+MARK_BINARY_BLOB(__ct__Q26System19KPadGhostControllerFv, 0x80520730, 0x80520924);
+asm UNKNOWN_FUNCTION(__ct__Q26System19KPadGhostControllerFv) {
   #include "asm/80520730.s"
 }
 
-// Symbol: GhostController_destroy
+// Symbol: __dt__Q26System19KPadGhostControllerFv
 // PAL: 0x80520924..0x80520998
-MARK_BINARY_BLOB(GhostController_destroy, 0x80520924, 0x80520998);
-asm UNKNOWN_FUNCTION(GhostController_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System19KPadGhostControllerFv, 0x80520924, 0x80520998);
+asm UNKNOWN_FUNCTION(__dt__Q26System19KPadGhostControllerFv) {
   #include "asm/80520924.s"
 }
 
-// Symbol: unk_80520998
+// Symbol: reset__Q26System19KPadGhostControllerFb
 // PAL: 0x80520998..0x80520a4c
-MARK_BINARY_BLOB(unk_80520998, 0x80520998, 0x80520a4c);
-asm UNKNOWN_FUNCTION(unk_80520998) {
+MARK_BINARY_BLOB(reset__Q26System19KPadGhostControllerFb, 0x80520998, 0x80520a4c);
+asm UNKNOWN_FUNCTION(reset__Q26System19KPadGhostControllerFb) {
   #include "asm/80520998.s"
 }
 
-// Symbol: unk_80520a4c
+// Symbol: hasGhostBuffer__Q26System19KPadGhostControllerFv
 // PAL: 0x80520a4c..0x80520a60
-MARK_BINARY_BLOB(unk_80520a4c, 0x80520a4c, 0x80520a60);
-asm UNKNOWN_FUNCTION(unk_80520a4c) {
+MARK_BINARY_BLOB(hasGhostBuffer__Q26System19KPadGhostControllerFv, 0x80520a4c, 0x80520a60);
+asm UNKNOWN_FUNCTION(hasGhostBuffer__Q26System19KPadGhostControllerFv) {
   #include "asm/80520a4c.s"
 }
 
-// Symbol: unk_80520a60
+// Symbol: getStreamSize__Q26System19KPadGhostControllerFv
 // PAL: 0x80520a60..0x80520b18
-MARK_BINARY_BLOB(unk_80520a60, 0x80520a60, 0x80520b18);
-asm UNKNOWN_FUNCTION(unk_80520a60) {
+MARK_BINARY_BLOB(getStreamSize__Q26System19KPadGhostControllerFv, 0x80520a60, 0x80520b18);
+asm UNKNOWN_FUNCTION(getStreamSize__Q26System19KPadGhostControllerFv) {
   #include "asm/80520a60.s"
 }
 
-// Symbol: unk_80520b18
+// Symbol: readGhostBuffer__Q26System19KPadGhostControllerFPUsb
 // PAL: 0x80520b18..0x80520b9c
-MARK_BINARY_BLOB(unk_80520b18, 0x80520b18, 0x80520b9c);
-asm UNKNOWN_FUNCTION(unk_80520b18) {
+MARK_BINARY_BLOB(readGhostBuffer__Q26System19KPadGhostControllerFPUsb, 0x80520b18, 0x80520b9c);
+asm UNKNOWN_FUNCTION(readGhostBuffer__Q26System19KPadGhostControllerFPUsb) {
   #include "asm/80520b18.s"
 }
 
-// Symbol: GhostController_calcInner
+// Symbol: calcInner__Q26System19KPadGhostControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState
 // PAL: 0x80520b9c..0x80520d4c
-MARK_BINARY_BLOB(GhostController_calcInner, 0x80520b9c, 0x80520d4c);
-asm UNKNOWN_FUNCTION(GhostController_calcInner) {
+MARK_BINARY_BLOB(calcInner__Q26System19KPadGhostControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState, 0x80520b9c, 0x80520d4c);
+asm UNKNOWN_FUNCTION(calcInner__Q26System19KPadGhostControllerFPQ26System18KPadRaceInputStatePQ26System16KPadUIInputState) {
   #include "asm/80520b9c.s"
 }
 
-// Symbol: DirectionButtonsStream_readFrame
+// Symbol: readFrame__Q26System26KPadDirectionButtonsStreamFv
 // PAL: 0x80520d4c..0x80520eb4
-MARK_BINARY_BLOB(DirectionButtonsStream_readFrame, 0x80520d4c, 0x80520eb4);
-asm UNKNOWN_FUNCTION(DirectionButtonsStream_readFrame) {
+MARK_BINARY_BLOB(readFrame__Q26System26KPadDirectionButtonsStreamFv, 0x80520d4c, 0x80520eb4);
+asm UNKNOWN_FUNCTION(readFrame__Q26System26KPadDirectionButtonsStreamFv) {
   #include "asm/80520d4c.s"
 }
 
-// Symbol: DirectionButtonsStream_getSequenceSize
+// Symbol: getSequenceSize__Q26System26KPadDirectionButtonsStreamFv
 // PAL: 0x80520eb4..0x80520ebc
-MARK_BINARY_BLOB(DirectionButtonsStream_getSequenceSize, 0x80520eb4, 0x80520ebc);
-asm UNKNOWN_FUNCTION(DirectionButtonsStream_getSequenceSize) {
+MARK_BINARY_BLOB(getSequenceSize__Q26System26KPadDirectionButtonsStreamFv, 0x80520eb4, 0x80520ebc);
+asm UNKNOWN_FUNCTION(getSequenceSize__Q26System26KPadDirectionButtonsStreamFv) {
   #include "asm/80520eb4.s"
 }
 
-// Symbol: Input_vf_20
+// Symbol: initRumbleManagers__Q26System4KPadFv
 // PAL: 0x80520ebc..0x80520f2c
-MARK_BINARY_BLOB(Input_vf_20, 0x80520ebc, 0x80520f2c);
-asm UNKNOWN_FUNCTION(Input_vf_20) {
+MARK_BINARY_BLOB(initRumbleManagers__Q26System4KPadFv, 0x80520ebc, 0x80520f2c);
+asm UNKNOWN_FUNCTION(initRumbleManagers__Q26System4KPadFv) {
   #include "asm/80520ebc.s"
 }
 
-// Symbol: unk_80520f2c
+// Symbol: setDriftIsAuto__Q26System4KPadFUs
 // PAL: 0x80520f2c..0x80520f64
-MARK_BINARY_BLOB(unk_80520f2c, 0x80520f2c, 0x80520f64);
-asm UNKNOWN_FUNCTION(unk_80520f2c) {
+MARK_BINARY_BLOB(setDriftIsAuto__Q26System4KPadFUs, 0x80520f2c, 0x80520f64);
+asm UNKNOWN_FUNCTION(setDriftIsAuto__Q26System4KPadFUs) {
   #include "asm/80520f2c.s"
 }
 
-// Symbol: KartInput_construct
+// Symbol: __ct__Q26System4KPadFv
 // PAL: 0x80520f64..0x80521110
-MARK_BINARY_BLOB(KartInput_construct, 0x80520f64, 0x80521110);
-asm UNKNOWN_FUNCTION(KartInput_construct) {
+MARK_BINARY_BLOB(__ct__Q26System4KPadFv, 0x80520f64, 0x80521110);
+asm UNKNOWN_FUNCTION(__ct__Q26System4KPadFv) {
   #include "asm/80520f64.s"
 }
 
-// Symbol: Input_vf_10
+// Symbol: reset__Q26System4KPadFv
 // PAL: 0x80521110..0x80521198
-MARK_BINARY_BLOB(Input_vf_10, 0x80521110, 0x80521198);
-asm UNKNOWN_FUNCTION(Input_vf_10) {
+MARK_BINARY_BLOB(reset__Q26System4KPadFv, 0x80521110, 0x80521198);
+asm UNKNOWN_FUNCTION(reset__Q26System4KPadFv) {
   #include "asm/80521110.s"
 }
 
-// Symbol: Input_vf_0c
+// Symbol: calc__Q26System4KPadFb
 // PAL: 0x80521198..0x80521554
-MARK_BINARY_BLOB(Input_vf_0c, 0x80521198, 0x80521554);
-asm UNKNOWN_FUNCTION(Input_vf_0c) {
+MARK_BINARY_BLOB(calc__Q26System4KPadFb, 0x80521198, 0x80521554);
+asm UNKNOWN_FUNCTION(calc__Q26System4KPadFb) {
   #include "asm/80521198.s"
 }
 
-// Symbol: KartInput_setController
+// Symbol: setController__Q26System4KPadFPQ26System14KPadControllerPQ26System14KPadController
 // PAL: 0x80521554..0x805215d4
-MARK_BINARY_BLOB(KartInput_setController, 0x80521554, 0x805215d4);
-asm UNKNOWN_FUNCTION(KartInput_setController) {
+MARK_BINARY_BLOB(setController__Q26System4KPadFPQ26System14KPadControllerPQ26System14KPadController, 0x80521554, 0x805215d4);
+asm UNKNOWN_FUNCTION(setController__Q26System4KPadFPQ26System14KPadControllerPQ26System14KPadController) {
   #include "asm/80521554.s"
 }
 
-// Symbol: GhostPadProxy_start
+// Symbol: startGhostProxy__Q26System10KPadPlayerFv
 // PAL: 0x805215d4..0x80521688
-MARK_BINARY_BLOB(GhostPadProxy_start, 0x805215d4, 0x80521688);
-asm UNKNOWN_FUNCTION(GhostPadProxy_start) {
+MARK_BINARY_BLOB(startGhostProxy__Q26System10KPadPlayerFv, 0x805215d4, 0x80521688);
+asm UNKNOWN_FUNCTION(startGhostProxy__Q26System10KPadPlayerFv) {
   #include "asm/805215d4.s"
 }
 
-// Symbol: GhostPadProxy_end
+// Symbol: endGhostProxy__Q26System10KPadPlayerFv
 // PAL: 0x80521688..0x80521768
-MARK_BINARY_BLOB(GhostPadProxy_end, 0x80521688, 0x80521768);
-asm UNKNOWN_FUNCTION(GhostPadProxy_end) {
+MARK_BINARY_BLOB(endGhostProxy__Q26System10KPadPlayerFv, 0x80521688, 0x80521768);
+asm UNKNOWN_FUNCTION(endGhostProxy__Q26System10KPadPlayerFv) {
   #include "asm/80521688.s"
 }
 
-// Symbol: PlayerInput_calc
+// Symbol: calc__Q26System10KPadPlayerFb
 // PAL: 0x80521768..0x80521844
-MARK_BINARY_BLOB(PlayerInput_calc, 0x80521768, 0x80521844);
-asm UNKNOWN_FUNCTION(PlayerInput_calc) {
+MARK_BINARY_BLOB(calc__Q26System10KPadPlayerFb, 0x80521768, 0x80521844);
+asm UNKNOWN_FUNCTION(calc__Q26System10KPadPlayerFb) {
   #include "asm/80521768.s"
 }
 
-// Symbol: PlayerKartInput_setGhostController
+// Symbol: setGhostController__Q26System10KPadPlayerFPQ26System14KPadControllerPQ26System14KPadControllerb
 // PAL: 0x80521844..0x80521930
-MARK_BINARY_BLOB(PlayerKartInput_setGhostController, 0x80521844, 0x80521930);
-asm UNKNOWN_FUNCTION(PlayerKartInput_setGhostController) {
+MARK_BINARY_BLOB(setGhostController__Q26System10KPadPlayerFPQ26System14KPadControllerPQ26System14KPadControllerb, 0x80521844, 0x80521930);
+asm UNKNOWN_FUNCTION(setGhostController__Q26System10KPadPlayerFPQ26System14KPadControllerPQ26System14KPadControllerb) {
   #include "asm/80521844.s"
 }
 
@@ -569,10 +565,10 @@ asm UNKNOWN_FUNCTION(unk_80521930) {
   #include "asm/80521930.s"
 }
 
-// Symbol: unk_805219ac
+// Symbol: setInputState__Q26System6KPadAIFPQ26System18KPadRaceInputState
 // PAL: 0x805219ac..0x80521a34
-MARK_BINARY_BLOB(unk_805219ac, 0x805219ac, 0x80521a34);
-asm UNKNOWN_FUNCTION(unk_805219ac) {
+MARK_BINARY_BLOB(setInputState__Q26System6KPadAIFPQ26System18KPadRaceInputState, 0x805219ac, 0x80521a34);
+asm UNKNOWN_FUNCTION(setInputState__Q26System6KPadAIFPQ26System18KPadRaceInputState) {
   #include "asm/805219ac.s"
 }
 
@@ -590,10 +586,10 @@ asm UNKNOWN_FUNCTION(unk_80521acc) {
   #include "asm/80521acc.s"
 }
 
-// Symbol: unk_80521d84
+// Symbol: isRumbleEnabled__Q26System14KPadControllerFv
 // PAL: 0x80521d84..0x80521d8c
-MARK_BINARY_BLOB(unk_80521d84, 0x80521d84, 0x80521d8c);
-asm UNKNOWN_FUNCTION(unk_80521d84) {
+MARK_BINARY_BLOB(isRumbleEnabled__Q26System14KPadControllerFv, 0x80521d84, 0x80521d8c);
+asm UNKNOWN_FUNCTION(isRumbleEnabled__Q26System14KPadControllerFv) {
   #include "asm/80521d84.s"
 }
 
@@ -632,59 +628,59 @@ asm UNKNOWN_FUNCTION(unk_80522014) {
   #include "asm/80522014.s"
 }
 
-// Symbol: unk_80522078
+// Symbol: startMotor__Q26System4KPadFv
 // PAL: 0x80522078..0x8052208c
-MARK_BINARY_BLOB(unk_80522078, 0x80522078, 0x8052208c);
-asm UNKNOWN_FUNCTION(unk_80522078) {
+MARK_BINARY_BLOB(startMotor__Q26System4KPadFv, 0x80522078, 0x8052208c);
+asm UNKNOWN_FUNCTION(startMotor__Q26System4KPadFv) {
   #include "asm/80522078.s"
 }
 
-// Symbol: Controller_startMotor
+// Symbol: startMotor__Q26System14KPadControllerFv
 // PAL: 0x8052208c..0x80522090
-MARK_BINARY_BLOB(Controller_startMotor, 0x8052208c, 0x80522090);
-asm UNKNOWN_FUNCTION(Controller_startMotor) {
+MARK_BINARY_BLOB(startMotor__Q26System14KPadControllerFv, 0x8052208c, 0x80522090);
+asm UNKNOWN_FUNCTION(startMotor__Q26System14KPadControllerFv) {
   #include "asm/8052208c.s"
 }
 
-// Symbol: unk_80522090
+// Symbol: stopMotor__Q26System4KPadFv
 // PAL: 0x80522090..0x805220a4
-MARK_BINARY_BLOB(unk_80522090, 0x80522090, 0x805220a4);
-asm UNKNOWN_FUNCTION(unk_80522090) {
+MARK_BINARY_BLOB(stopMotor__Q26System4KPadFv, 0x80522090, 0x805220a4);
+asm UNKNOWN_FUNCTION(stopMotor__Q26System4KPadFv) {
   #include "asm/80522090.s"
 }
 
-// Symbol: Controller_stopMotor
+// Symbol: stopMotor__Q26System14KPadControllerFv
 // PAL: 0x805220a4..0x805220a8
-MARK_BINARY_BLOB(Controller_stopMotor, 0x805220a4, 0x805220a8);
-asm UNKNOWN_FUNCTION(Controller_stopMotor) {
+MARK_BINARY_BLOB(stopMotor__Q26System14KPadControllerFv, 0x805220a4, 0x805220a8);
+asm UNKNOWN_FUNCTION(stopMotor__Q26System14KPadControllerFv) {
   #include "asm/805220a4.s"
 }
 
-// Symbol: unk_805220a8
+// Symbol: stopMotorHard__Q26System4KPadFv
 // PAL: 0x805220a8..0x805220bc
-MARK_BINARY_BLOB(unk_805220a8, 0x805220a8, 0x805220bc);
-asm UNKNOWN_FUNCTION(unk_805220a8) {
+MARK_BINARY_BLOB(stopMotorHard__Q26System4KPadFv, 0x805220a8, 0x805220bc);
+asm UNKNOWN_FUNCTION(stopMotorHard__Q26System4KPadFv) {
   #include "asm/805220a8.s"
 }
 
-// Symbol: PlayerKartInput_construct
+// Symbol: __ct__Q26System10KPadPlayerFv
 // PAL: 0x805220bc..0x805222b4
-MARK_BINARY_BLOB(PlayerKartInput_construct, 0x805220bc, 0x805222b4);
-asm UNKNOWN_FUNCTION(PlayerKartInput_construct) {
+MARK_BINARY_BLOB(__ct__Q26System10KPadPlayerFv, 0x805220bc, 0x805222b4);
+asm UNKNOWN_FUNCTION(__ct__Q26System10KPadPlayerFv) {
   #include "asm/805220bc.s"
 }
 
-// Symbol: KartInput_destroy
+// Symbol: __dt__Q26System4KPadFv
 // PAL: 0x805222b4..0x805222f4
-MARK_BINARY_BLOB(KartInput_destroy, 0x805222b4, 0x805222f4);
-asm UNKNOWN_FUNCTION(KartInput_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System4KPadFv, 0x805222b4, 0x805222f4);
+asm UNKNOWN_FUNCTION(__dt__Q26System4KPadFv) {
   #include "asm/805222b4.s"
 }
 
-// Symbol: PlayerKartInput_destroy
+// Symbol: __dt__Q26System10KPadPlayerFv
 // PAL: 0x805222f4..0x80522358
-MARK_BINARY_BLOB(PlayerKartInput_destroy, 0x805222f4, 0x80522358);
-asm UNKNOWN_FUNCTION(PlayerKartInput_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System10KPadPlayerFv, 0x805222f4, 0x80522358);
+asm UNKNOWN_FUNCTION(__dt__Q26System10KPadPlayerFv) {
   #include "asm/805222f4.s"
 }
 
@@ -695,38 +691,38 @@ asm UNKNOWN_FUNCTION(unk_80522358) {
   #include "asm/80522358.s"
 }
 
-// Symbol: unk_80522364
+// Symbol: init__Q26System18KPadControllerInfoFPQ26System14KPadController
 // PAL: 0x80522364..0x80522494
-MARK_BINARY_BLOB(unk_80522364, 0x80522364, 0x80522494);
-asm UNKNOWN_FUNCTION(unk_80522364) {
+MARK_BINARY_BLOB(init__Q26System18KPadControllerInfoFPQ26System14KPadController, 0x80522364, 0x80522494);
+asm UNKNOWN_FUNCTION(init__Q26System18KPadControllerInfoFPQ26System14KPadController) {
   #include "asm/80522364.s"
 }
 
-// Symbol: Controller_getChan
+// Symbol: getChan__Q26System14KPadControllerFv
 // PAL: 0x80522494..0x8052249c
-MARK_BINARY_BLOB(Controller_getChan, 0x80522494, 0x8052249c);
-asm UNKNOWN_FUNCTION(Controller_getChan) {
+MARK_BINARY_BLOB(getChan__Q26System14KPadControllerFv, 0x80522494, 0x8052249c);
+asm UNKNOWN_FUNCTION(getChan__Q26System14KPadControllerFv) {
   #include "asm/80522494.s"
 }
 
-// Symbol: unk_8052249c
+// Symbol: getDevAddr__Q36System18KPadControllerInfo4AddrFi
 // PAL: 0x8052249c..0x8052250c
-MARK_BINARY_BLOB(unk_8052249c, 0x8052249c, 0x8052250c);
-asm UNKNOWN_FUNCTION(unk_8052249c) {
+MARK_BINARY_BLOB(getDevAddr__Q36System18KPadControllerInfo4AddrFi, 0x8052249c, 0x8052250c);
+asm UNKNOWN_FUNCTION(getDevAddr__Q36System18KPadControllerInfo4AddrFi) {
   #include "asm/8052249c.s"
 }
 
-// Symbol: unk_8052250c
+// Symbol: __eq__Q36System18KPadControllerInfo4AddrCFRCQ36System18KPadControllerInfo4Addr
 // PAL: 0x8052250c..0x805225a4
-MARK_BINARY_BLOB(unk_8052250c, 0x8052250c, 0x805225a4);
-asm UNKNOWN_FUNCTION(unk_8052250c) {
+MARK_BINARY_BLOB(__eq__Q36System18KPadControllerInfo4AddrCFRCQ36System18KPadControllerInfo4Addr, 0x8052250c, 0x805225a4);
+asm UNKNOWN_FUNCTION(__eq__Q36System18KPadControllerInfo4AddrCFRCQ36System18KPadControllerInfo4Addr) {
   #include "asm/8052250c.s"
 }
 
-// Symbol: unk_805225a4
+// Symbol: __eq__Q26System18KPadControllerInfoCFRCQ26System18KPadControllerInfo
 // PAL: 0x805225a4..0x80522690
-MARK_BINARY_BLOB(unk_805225a4, 0x805225a4, 0x80522690);
-asm UNKNOWN_FUNCTION(unk_805225a4) {
+MARK_BINARY_BLOB(__eq__Q26System18KPadControllerInfoCFRCQ26System18KPadControllerInfo, 0x805225a4, 0x80522690);
+asm UNKNOWN_FUNCTION(__eq__Q26System18KPadControllerInfoCFRCQ26System18KPadControllerInfo) {
   #include "asm/805225a4.s"
 }
 
@@ -737,178 +733,233 @@ asm UNKNOWN_FUNCTION(unk_80522690) {
   #include "asm/80522690.s"
 }
 
-// Symbol: Input_setInputState
+// Symbol: setInputState__Q26System4KPadFPQ26System18KPadRaceInputState
 // PAL: 0x805226f4..0x805226f8
-MARK_BINARY_BLOB(Input_setInputState, 0x805226f4, 0x805226f8);
-asm UNKNOWN_FUNCTION(Input_setInputState) {
+MARK_BINARY_BLOB(setInputState__Q26System4KPadFPQ26System18KPadRaceInputState, 0x805226f4, 0x805226f8);
+asm UNKNOWN_FUNCTION(setInputState__Q26System4KPadFPQ26System18KPadRaceInputState) {
   #include "asm/805226f4.s"
 }
 
-// Symbol: unk_805226f8
+// Symbol: getRecordedBufferSize__Q26System10KPadPlayerFv
 // PAL: 0x805226f8..0x80522700
-MARK_BINARY_BLOB(unk_805226f8, 0x805226f8, 0x80522700);
-asm UNKNOWN_FUNCTION(unk_805226f8) {
+MARK_BINARY_BLOB(getRecordedBufferSize__Q26System10KPadPlayerFv, 0x805226f8, 0x80522700);
+asm UNKNOWN_FUNCTION(getRecordedBufferSize__Q26System10KPadPlayerFv) {
   #include "asm/805226f8.s"
 }
 
-// Symbol: unk_80522700
+// Symbol: getRecordedBuffer__Q26System10KPadPlayerFv
 // PAL: 0x80522700..0x80522708
-MARK_BINARY_BLOB(unk_80522700, 0x80522700, 0x80522708);
-asm UNKNOWN_FUNCTION(unk_80522700) {
+MARK_BINARY_BLOB(getRecordedBuffer__Q26System10KPadPlayerFv, 0x80522700, 0x80522708);
+asm UNKNOWN_FUNCTION(getRecordedBuffer__Q26System10KPadPlayerFv) {
   #include "asm/80522700.s"
 }
 
-// Symbol: PlayerKartInput_reset
+// Symbol: reset__Q26System10KPadPlayerFv
 // PAL: 0x80522708..0x8052279c
-MARK_BINARY_BLOB(PlayerKartInput_reset, 0x80522708, 0x8052279c);
-asm UNKNOWN_FUNCTION(PlayerKartInput_reset) {
+MARK_BINARY_BLOB(reset__Q26System10KPadPlayerFv, 0x80522708, 0x8052279c);
+asm UNKNOWN_FUNCTION(reset__Q26System10KPadPlayerFv) {
   #include "asm/80522708.s"
 }
 
-// Symbol: AiKartInput_destroy
+// Symbol: __dt__Q26System6KPadAIFv
 // PAL: 0x8052279c..0x805227dc
-MARK_BINARY_BLOB(AiKartInput_destroy, 0x8052279c, 0x805227dc);
-asm UNKNOWN_FUNCTION(AiKartInput_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System6KPadAIFv, 0x8052279c, 0x805227dc);
+asm UNKNOWN_FUNCTION(__dt__Q26System6KPadAIFv) {
   #include "asm/8052279c.s"
 }
 
-// Symbol: unk_805227dc
+// Symbol: __dt__Q26System16KPadAIControllerFv
 // PAL: 0x805227dc..0x8052281c
-MARK_BINARY_BLOB(unk_805227dc, 0x805227dc, 0x8052281c);
-asm UNKNOWN_FUNCTION(unk_805227dc) {
+MARK_BINARY_BLOB(__dt__Q26System16KPadAIControllerFv, 0x805227dc, 0x8052281c);
+asm UNKNOWN_FUNCTION(__dt__Q26System16KPadAIControllerFv) {
   #include "asm/805227dc.s"
 }
 
-// Symbol: Controller_isDpdEnabled
+// Symbol: isDpdEnabled__Q26System14KPadControllerFv
 // PAL: 0x8052281c..0x80522824
-MARK_BINARY_BLOB(Controller_isDpdEnabled, 0x8052281c, 0x80522824);
-asm UNKNOWN_FUNCTION(Controller_isDpdEnabled) {
+MARK_BINARY_BLOB(isDpdEnabled__Q26System14KPadControllerFv, 0x8052281c, 0x80522824);
+asm UNKNOWN_FUNCTION(isDpdEnabled__Q26System14KPadControllerFv) {
   #include "asm/8052281c.s"
 }
 
-// Symbol: Controller_controlDpd
+// Symbol: setDpdEnabled__Q26System14KPadControllerFb
 // PAL: 0x80522824..0x80522828
-MARK_BINARY_BLOB(Controller_controlDpd, 0x80522824, 0x80522828);
-asm UNKNOWN_FUNCTION(Controller_controlDpd) {
+MARK_BINARY_BLOB(setDpdEnabled__Q26System14KPadControllerFb, 0x80522824, 0x80522828);
+asm UNKNOWN_FUNCTION(setDpdEnabled__Q26System14KPadControllerFb) {
   #include "asm/80522824.s"
 }
 
-// Symbol: GhostController_setDriftIsAuto
+// Symbol: setDriftIsAuto__Q26System19KPadGhostControllerFb
 // PAL: 0x80522828..0x8052282c
-MARK_BINARY_BLOB(GhostController_setDriftIsAuto, 0x80522828, 0x8052282c);
-asm UNKNOWN_FUNCTION(GhostController_setDriftIsAuto) {
+MARK_BINARY_BLOB(setDriftIsAuto__Q26System19KPadGhostControllerFb, 0x80522828, 0x8052282c);
+asm UNKNOWN_FUNCTION(setDriftIsAuto__Q26System19KPadGhostControllerFb) {
   #include "asm/80522828.s"
 }
 
-// Symbol: unk_8052282c
+// Symbol: getControlSource__Q26System19KPadGhostControllerFv
 // PAL: 0x8052282c..0x80522834
-MARK_BINARY_BLOB(unk_8052282c, 0x8052282c, 0x80522834);
-asm UNKNOWN_FUNCTION(unk_8052282c) {
+MARK_BINARY_BLOB(getControlSource__Q26System19KPadGhostControllerFv, 0x8052282c, 0x80522834);
+asm UNKNOWN_FUNCTION(getControlSource__Q26System19KPadGhostControllerFv) {
   #include "asm/8052282c.s"
 }
 
-// Symbol: unk_80522834
+// Symbol: getStreamSize__Q26System14KPadControllerFv
 // PAL: 0x80522834..0x80522840
-MARK_BINARY_BLOB(unk_80522834, 0x80522834, 0x80522840);
-asm UNKNOWN_FUNCTION(unk_80522834) {
+MARK_BINARY_BLOB(getStreamSize__Q26System14KPadControllerFv, 0x80522834, 0x80522840);
+asm UNKNOWN_FUNCTION(getStreamSize__Q26System14KPadControllerFv) {
   #include "asm/80522834.s"
 }
 
-// Symbol: GcController_stopMotorHard
+// Symbol: stopMotorHard__Q26System16KPadGCControllerFv
 // PAL: 0x80522840..0x8052284c
-MARK_BINARY_BLOB(GcController_stopMotorHard, 0x80522840, 0x8052284c);
-asm UNKNOWN_FUNCTION(GcController_stopMotorHard) {
+MARK_BINARY_BLOB(stopMotorHard__Q26System16KPadGCControllerFv, 0x80522840, 0x8052284c);
+asm UNKNOWN_FUNCTION(stopMotorHard__Q26System16KPadGCControllerFv) {
   #include "asm/80522840.s"
 }
 
-// Symbol: GcController_stopMotor
+// Symbol: stopMotor__Q26System16KPadGCControllerFv
 // PAL: 0x8052284c..0x80522858
-MARK_BINARY_BLOB(GcController_stopMotor, 0x8052284c, 0x80522858);
-asm UNKNOWN_FUNCTION(GcController_stopMotor) {
+MARK_BINARY_BLOB(stopMotor__Q26System16KPadGCControllerFv, 0x8052284c, 0x80522858);
+asm UNKNOWN_FUNCTION(stopMotor__Q26System16KPadGCControllerFv) {
   #include "asm/8052284c.s"
 }
 
-// Symbol: GcController_startMotor
+// Symbol: startMotor__Q26System16KPadGCControllerFv
 // PAL: 0x80522858..0x80522864
-MARK_BINARY_BLOB(GcController_startMotor, 0x80522858, 0x80522864);
-asm UNKNOWN_FUNCTION(GcController_startMotor) {
+MARK_BINARY_BLOB(startMotor__Q26System16KPadGCControllerFv, 0x80522858, 0x80522864);
+asm UNKNOWN_FUNCTION(startMotor__Q26System16KPadGCControllerFv) {
   #include "asm/80522858.s"
 }
 
-// Symbol: GcController_getChan
+// Symbol: getChan__Q26System16KPadGCControllerFv
 // PAL: 0x80522864..0x8052286c
-MARK_BINARY_BLOB(GcController_getChan, 0x80522864, 0x8052286c);
-asm UNKNOWN_FUNCTION(GcController_getChan) {
+MARK_BINARY_BLOB(getChan__Q26System16KPadGCControllerFv, 0x80522864, 0x8052286c);
+asm UNKNOWN_FUNCTION(getChan__Q26System16KPadGCControllerFv) {
   #include "asm/80522864.s"
 }
 
-// Symbol: unk_8052286c
+// Symbol: getControlSource__Q26System16KPadGCControllerFv
 // PAL: 0x8052286c..0x80522874
-MARK_BINARY_BLOB(unk_8052286c, 0x8052286c, 0x80522874);
-asm UNKNOWN_FUNCTION(unk_8052286c) {
+MARK_BINARY_BLOB(getControlSource__Q26System16KPadGCControllerFv, 0x8052286c, 0x80522874);
+asm UNKNOWN_FUNCTION(getControlSource__Q26System16KPadGCControllerFv) {
   #include "asm/8052286c.s"
 }
 
-// Symbol: GcController_destroy
+// Symbol: __dt__Q26System16KPadGCControllerFv
 // PAL: 0x80522874..0x805228b4
-MARK_BINARY_BLOB(GcController_destroy, 0x80522874, 0x805228b4);
-asm UNKNOWN_FUNCTION(GcController_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System16KPadGCControllerFv, 0x80522874, 0x805228b4);
+asm UNKNOWN_FUNCTION(__dt__Q26System16KPadGCControllerFv) {
   #include "asm/80522874.s"
 }
 
-// Symbol: WiiController_stopMotorHard
+// Symbol: stopMotorHard__Q26System17KPadWiiControllerFv
 // PAL: 0x805228b4..0x805228c4
-MARK_BINARY_BLOB(WiiController_stopMotorHard, 0x805228b4, 0x805228c4);
-asm UNKNOWN_FUNCTION(WiiController_stopMotorHard) {
+MARK_BINARY_BLOB(stopMotorHard__Q26System17KPadWiiControllerFv, 0x805228b4, 0x805228c4);
+asm UNKNOWN_FUNCTION(stopMotorHard__Q26System17KPadWiiControllerFv) {
   #include "asm/805228b4.s"
 }
 
-// Symbol: WiiController_stopMotor
+// Symbol: stopMotor__Q26System17KPadWiiControllerFv
 // PAL: 0x805228c4..0x805228d0
-MARK_BINARY_BLOB(WiiController_stopMotor, 0x805228c4, 0x805228d0);
-asm UNKNOWN_FUNCTION(WiiController_stopMotor) {
+MARK_BINARY_BLOB(stopMotor__Q26System17KPadWiiControllerFv, 0x805228c4, 0x805228d0);
+asm UNKNOWN_FUNCTION(stopMotor__Q26System17KPadWiiControllerFv) {
   #include "asm/805228c4.s"
 }
 
-// Symbol: WiiController_startMotor
+// Symbol: startMotor__Q26System17KPadWiiControllerFv
 // PAL: 0x805228d0..0x805228dc
-MARK_BINARY_BLOB(WiiController_startMotor, 0x805228d0, 0x805228dc);
-asm UNKNOWN_FUNCTION(WiiController_startMotor) {
+MARK_BINARY_BLOB(startMotor__Q26System17KPadWiiControllerFv, 0x805228d0, 0x805228dc);
+asm UNKNOWN_FUNCTION(startMotor__Q26System17KPadWiiControllerFv) {
   #include "asm/805228d0.s"
 }
 
-// Symbol: unk_805228dc
+// Symbol: isRumbleEnabled__Q26System17KPadWiiControllerFv
 // PAL: 0x805228dc..0x805228f4
-MARK_BINARY_BLOB(unk_805228dc, 0x805228dc, 0x805228f4);
-asm UNKNOWN_FUNCTION(unk_805228dc) {
+MARK_BINARY_BLOB(isRumbleEnabled__Q26System17KPadWiiControllerFv, 0x805228dc, 0x805228f4);
+asm UNKNOWN_FUNCTION(isRumbleEnabled__Q26System17KPadWiiControllerFv) {
   #include "asm/805228dc.s"
 }
 
-// Symbol: WiiController_isDpdEnabled
+// Symbol: isDpdEnabled__Q26System17KPadWiiControllerFv
 // PAL: 0x805228f4..0x80522924
-MARK_BINARY_BLOB(WiiController_isDpdEnabled, 0x805228f4, 0x80522924);
-asm UNKNOWN_FUNCTION(WiiController_isDpdEnabled) {
+MARK_BINARY_BLOB(isDpdEnabled__Q26System17KPadWiiControllerFv, 0x805228f4, 0x80522924);
+asm UNKNOWN_FUNCTION(isDpdEnabled__Q26System17KPadWiiControllerFv) {
   #include "asm/805228f4.s"
 }
 
-// Symbol: WiiController_getChan
+// Symbol: getChan__Q26System17KPadWiiControllerFv
 // PAL: 0x80522924..0x8052292c
-MARK_BINARY_BLOB(WiiController_getChan, 0x80522924, 0x8052292c);
-asm UNKNOWN_FUNCTION(WiiController_getChan) {
+MARK_BINARY_BLOB(getChan__Q26System17KPadWiiControllerFv, 0x80522924, 0x8052292c);
+asm UNKNOWN_FUNCTION(getChan__Q26System17KPadWiiControllerFv) {
   #include "asm/80522924.s"
 }
 
-// Symbol: unk_8052292c
+// Symbol: getControlSource__Q26System17KPadWiiControllerFv
 // PAL: 0x8052292c..0x80522934
-MARK_BINARY_BLOB(unk_8052292c, 0x8052292c, 0x80522934);
-asm UNKNOWN_FUNCTION(unk_8052292c) {
+MARK_BINARY_BLOB(getControlSource__Q26System17KPadWiiControllerFv, 0x8052292c, 0x80522934);
+asm UNKNOWN_FUNCTION(getControlSource__Q26System17KPadWiiControllerFv) {
   #include "asm/8052292c.s"
 }
 
-// Symbol: WiiController_destroy
+// Symbol: __dt__Q26System17KPadWiiControllerFv
 // PAL: 0x80522934..0x80522974
-MARK_BINARY_BLOB(WiiController_destroy, 0x80522934, 0x80522974);
-asm UNKNOWN_FUNCTION(WiiController_destroy) {
+MARK_BINARY_BLOB(__dt__Q26System17KPadWiiControllerFv, 0x80522934, 0x80522974);
+asm UNKNOWN_FUNCTION(__dt__Q26System17KPadWiiControllerFv) {
   #include "asm/80522934.s"
 }
 
+// Symbol: writeFrame__Q26System26KPadDirectionButtonsStreamFUc
+// PAL: 0x80522974..0x80522ae8
+MARK_BINARY_BLOB(writeFrame__Q26System26KPadDirectionButtonsStreamFUc, 0x80522974, 0x80522ae8);
+asm UNKNOWN_FUNCTION(writeFrame__Q26System26KPadDirectionButtonsStreamFUc) {
+  #include "asm/80522974.s"
+}
+
+// Symbol: writeFrame__Q26System18KPadTrickButtonsStreamFUc
+// PAL: 0x80522ae8..0x80522c5c
+MARK_BINARY_BLOB(writeFrame__Q26System18KPadTrickButtonsStreamFUc, 0x80522ae8, 0x80522c5c);
+asm UNKNOWN_FUNCTION(writeFrame__Q26System18KPadTrickButtonsStreamFUc) {
+  #include "asm/80522ae8.s"
+}
+
+// Symbol: readFrame__Q26System18KPadTrickButtonsStreamFv
+// PAL: 0x80522c5c..0x80522dc4
+MARK_BINARY_BLOB(readFrame__Q26System18KPadTrickButtonsStreamFv, 0x80522c5c, 0x80522dc4);
+asm UNKNOWN_FUNCTION(readFrame__Q26System18KPadTrickButtonsStreamFv) {
+  #include "asm/80522c5c.s"
+}
+
+// Symbol: getSequenceSize__Q26System18KPadTrickButtonsStreamFv
+// PAL: 0x80522dc4..0x80522dcc
+MARK_BINARY_BLOB(getSequenceSize__Q26System18KPadTrickButtonsStreamFv, 0x80522dc4, 0x80522dcc);
+asm UNKNOWN_FUNCTION(getSequenceSize__Q26System18KPadTrickButtonsStreamFv) {
+  #include "asm/80522dc4.s"
+}
+
+// Symbol: writeFrame__Q26System17KPadFaceButtonsStreamFUc
+// PAL: 0x80522dcc..0x80522f40
+MARK_BINARY_BLOB(writeFrame__Q26System17KPadFaceButtonsStreamFUc, 0x80522dcc, 0x80522f40);
+asm UNKNOWN_FUNCTION(writeFrame__Q26System17KPadFaceButtonsStreamFUc) {
+  #include "asm/80522dcc.s"
+}
+
+// Symbol: readFrame__Q26System17KPadFaceButtonsStreamFv
+// PAL: 0x80522f40..0x805230a8
+MARK_BINARY_BLOB(readFrame__Q26System17KPadFaceButtonsStreamFv, 0x80522f40, 0x805230a8);
+asm UNKNOWN_FUNCTION(readFrame__Q26System17KPadFaceButtonsStreamFv) {
+  #include "asm/80522f40.s"
+}
+
+// Symbol: getSequenceSize__Q26System17KPadFaceButtonsStreamFv
+// PAL: 0x805230a8..0x805230b0
+MARK_BINARY_BLOB(getSequenceSize__Q26System17KPadFaceButtonsStreamFv, 0x805230a8, 0x805230b0);
+asm UNKNOWN_FUNCTION(getSequenceSize__Q26System17KPadFaceButtonsStreamFv) {
+  #include "asm/805230a8.s"
+}
+
+// Symbol: __sinit__KPadController_cpp
+// PAL: 0x805230b0..0x805230e0
+MARK_BINARY_BLOB(__sinit__KPadController_cpp, 0x805230b0, 0x805230e0);
+asm UNKNOWN_FUNCTION(__sinit__KPadController_cpp) {
+  #include "asm/805230b0.s"
+}
