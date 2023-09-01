@@ -21,6 +21,9 @@ source/game/system/KPadController.cpp:
     text: [0x8051e85c, 0x805230e0]
     rodata: [0x8088fcc0, 0x8088fcd8]
 
+source/game/system/KPadDirector.cpp:
+    text: [0x805230e0, 0x80524ac4]
+
 source/game/system/Mii.cpp:
     text: [0x80525f88, 0x80525ff4]
     rodata: [0x8088fd60, 0x8088fd64]

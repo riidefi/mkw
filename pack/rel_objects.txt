@@ -15,7 +15,8 @@ out/rel/data_808b2c84_808b2d38.o
 out/GhostFile.o
 out/rel/text_8051d4d4_8051e85c.o
 out/KPadController.o
-out/rel/text_805230e0_80525f88.o
+out/KPadDirector.o
+out/rel/text_80524ac4_80525f88.o
 out/rel/rodata_8088fcd8_8088fd60.o
 out/Mii.o
 out/rel/text_80525ff4_8052a098.o

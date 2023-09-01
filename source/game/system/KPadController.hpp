@@ -373,7 +373,7 @@ public:
   virtual void setDriftIsAuto(bool isAuto);       // [vt+0x38]
   virtual void* vf_3c();                          // [vt+0x3c]
   virtual u32 getBatteryLevelAsync();             // [vt+0x40]
-  virtual void reset(bool isDriftAuto);           // [vt+0x44]
+  virtual void reset(bool driftIsAuto);           // [vt+0x44]
 
 public:
   KPadRaceInputState mRaceInputState;             // [this+0x04]
@@ -410,7 +410,7 @@ public:
   bool isDpdEnabled() override;                   // [vt+0x2c]
   int getChan() override;                         // [vt+0x34]
   u32 getBatteryLevelAsync() override;            // [vt+0x40]
-  void reset(bool isDriftAuto) override;          // [vt+0x44]
+  void reset(bool driftIsAuto) override;          // [vt+0x44]
 
 private:
 
@@ -473,7 +473,7 @@ public:
   void stopMotor() override;                      // [vt+0x1c]
   void stopMotorHard() override;                  // [vt+0x20]
   int getChan() override;                         // [vt+0x34]
-  void reset(bool isDriftAuto) override;          // [vt+0x44]
+  void reset(bool driftIsAuto) override;          // [vt+0x44]
 
 public:
   PADStatus mPadStatus;                           // [this+0x90]
@@ -501,7 +501,7 @@ public:
   eControlSource getControlSource() override;     // [vt+0x10]
   double getStreamSize() override;                // [vt+0x24]
   void setDriftIsAuto(bool isAuto) override;      // [vt+0x38]
-  void reset(bool isDriftAuto) override;          // [vt+0x44]
+  void reset(bool driftIsAuto) override;          // [vt+0x44]
 
   bool hasGhostBuffer() const;
   void readGhostBuffer(u16* buttonsData, bool isAuto);
@@ -606,8 +606,8 @@ public:
   KPadUIInputState mUIInputState;                 // [this+0x58]
   KPadUIInputState mPrevUIPInputState;            // [this+0x8c]
   s16 _c0; // Is drift auto (?)
-  u16 _c2; // Frames holding the same input
-  u16 _c4; // Frames controller has been disconnected
+  u16 mInactivityFrames;                          // [this+0xc2]
+  u16 mDisconnectedFrames;                        // [this+0xc4]
   bool _c6; // Is paused (?)
   u8 _c7;
   KPadControllerInfo mControllerInfo;             // [this+0xc8]
@@ -629,7 +629,7 @@ public:
 
   void setGhostController(KPadController* controller,
                           KPadController* controller2,
-                          bool isDriftAuto);
+                          bool driftIsAuto);
 
 public:
   u16* mGhostBuffer;                              // [this+0xd8]
@@ -646,7 +646,7 @@ static_assert(sizeof(KPadPlayer) == 0xec);
 
 class KPadAI : public KPad {
 public:
-  virtual ~KPadAI() {};                  // [vt+0x08]
+  virtual ~KPadAI() {};                           // [vt+0x08]
 
   // [vt+0x14]
   void setInputState(KPadRaceInputState* raceInputState) override;
