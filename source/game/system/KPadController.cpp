@@ -37,9 +37,9 @@ extern UNKNOWN_FUNCTION(__nwa__FUl);
 // PAL: 0x80229ee0
 extern UNKNOWN_FUNCTION(__dla__FPv);
 // PAL: 0x80523a58
-extern UNKNOWN_FUNCTION(unk_80523a58);
+extern UNKNOWN_FUNCTION(getControllerType__Q26System12KPadDirectorFQ26System14eControlSource);
 // PAL: 0x80524628
-extern UNKNOWN_FUNCTION(KPadDirector_getPadStatus);
+extern UNKNOWN_FUNCTION(getPadStatus__Q26System12KPadDirectorFUcP9PADStatus);
 // PAL: 0x80524ac4
 extern UNKNOWN_FUNCTION(GhostWriter_construct);
 // PAL: 0x80524ca8

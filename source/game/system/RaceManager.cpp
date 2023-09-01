@@ -90,13 +90,13 @@ extern UNKNOWN_FUNCTION(__dt__Q26System4TimeFv);
 // PAL: 0x8051c374
 extern UNKNOWN_FUNCTION(__ct__Q26System4TimeFv);
 // PAL: 0x805235ac
-extern UNKNOWN_FUNCTION(unk_805235ac);
+extern UNKNOWN_FUNCTION(resetPlayersActivityStatus__Q26System12KPadDirectorFv);
 // PAL: 0x80524568
-extern UNKNOWN_FUNCTION(KPadDirector_startRace);
+extern UNKNOWN_FUNCTION(lockGhostProxies__Q26System12KPadDirectorFv);
 // PAL: 0x80524580
-extern UNKNOWN_FUNCTION(KPadDirector_startGhostProxies);
+extern UNKNOWN_FUNCTION(startGhostProxies__Q26System12KPadDirectorFv);
 // PAL: 0x805245cc
-extern UNKNOWN_FUNCTION(KPadDirector_endGhostProxy);
+extern UNKNOWN_FUNCTION(endGhostProxy__Q26System12KPadDirectorFUc);
 // PAL: 0x805275ec
 extern UNKNOWN_FUNCTION(isMii);
 // PAL: 0x8052cb6c
@@ -1724,7 +1724,7 @@ asm UNKNOWN_FUNCTION(Raceinfo_init) {
   /* 80533018 901F0038 */ stw         r0, 0x38(r31)
   /* 8053301C 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80533020 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
-  /* 80533024 4BFF1545 */ bl          KPadDirector_startRace
+  /* 80533024 4BFF1545 */ bl          lockGhostProxies__Q26System12KPadDirectorFv
   /* 80533028 3BA00000 */ li          r29, 0x0
   /* 8053302C 3FC0809C */ lis         r30, spInstance__Q26System10RaceConfig@ha
   /* 80533030 48000018 */ b           lbl_80533048
@@ -2044,7 +2044,7 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   /* 80533448 4E800421 */ bctrl
   /* 8053344C 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80533450 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
-  /* 80533454 4BFF112D */ bl          KPadDirector_startGhostProxies
+  /* 80533454 4BFF112D */ bl          startGhostProxies__Q26System12KPadDirectorFv
   /* 80533458 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 8053345C 38600000 */ li          r3, 0x0
   /* 80533460 8084D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r4)
@@ -2059,7 +2059,7 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   /* 80533480 41820020 */ beq-        lbl_805334a0
   /* 80533484 3FC0809C */ lis         r30, spInstance__Q26System12KPadDirector@ha
   /* 80533488 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
-  /* 8053348C 4BFF0121 */ bl          unk_805235ac
+  /* 8053348C 4BFF0121 */ bl          resetPlayersActivityStatus__Q26System12KPadDirectorFv
   /* 80533490 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 80533494 38000001 */ li          r0, 0x1
   /* 80533498 98034156 */ stb         r0, 0x4156(r3)
@@ -2135,7 +2135,7 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   /* 80533594 4E800421 */ bctrl
   /* 80533598 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 8053359C 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
-  /* 805335A0 4BFF0FE1 */ bl          KPadDirector_startGhostProxies
+  /* 805335A0 4BFF0FE1 */ bl          startGhostProxies__Q26System12KPadDirectorFv
   /* 805335A4 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 805335A8 38600000 */ li          r3, 0x0
   /* 805335AC 8084D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r4)
@@ -2150,7 +2150,7 @@ asm UNKNOWN_FUNCTION(RaceInfo_update) {
   /* 805335CC 41820020 */ beq-        lbl_805335ec
   /* 805335D0 3FC0809C */ lis         r30, spInstance__Q26System12KPadDirector@ha
   /* 805335D4 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
-  /* 805335D8 4BFEFFD5 */ bl          unk_805235ac
+  /* 805335D8 4BFEFFD5 */ bl          resetPlayersActivityStatus__Q26System12KPadDirectorFv
   /* 805335DC 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 805335E0 38000001 */ li          r0, 0x1
   /* 805335E4 98034156 */ stb         r0, 0x4156(r3)
@@ -2548,7 +2548,7 @@ asm UNKNOWN_FUNCTION(unk_80533afc) {
   /* 80533B24 4E800421 */ bctrl
   /* 80533B28 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80533B2C 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
-  /* 80533B30 4BFF0A51 */ bl          KPadDirector_startGhostProxies
+  /* 80533B30 4BFF0A51 */ bl          startGhostProxies__Q26System12KPadDirectorFv
   /* 80533B34 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 80533B38 38600000 */ li          r3, 0x0
   /* 80533B3C 8084D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r4)
@@ -2563,7 +2563,7 @@ asm UNKNOWN_FUNCTION(unk_80533afc) {
   /* 80533B5C 41820020 */ beq-        lbl_80533b7c
   /* 80533B60 3FC0809C */ lis         r30, spInstance__Q26System12KPadDirector@ha
   /* 80533B64 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
-  /* 80533B68 4BFEFA45 */ bl          unk_805235ac
+  /* 80533B68 4BFEFA45 */ bl          resetPlayersActivityStatus__Q26System12KPadDirectorFv
   /* 80533B6C 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 80533B70 38000001 */ li          r0, 0x1
   /* 80533B74 98034156 */ stb         r0, 0x4156(r3)
@@ -2683,7 +2683,7 @@ asm UNKNOWN_FUNCTION(unk_80533c6c) {
   /* 80533CAC 3C60809C */ lis         r3, spInstance__Q26System12KPadDirector@ha
   /* 80533CB0 5404063E */ clrlwi      r4, r0, 0x18
   /* 80533CB4 8063D70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r3)
-  /* 80533CB8 4BFF0915 */ bl          KPadDirector_endGhostProxy
+  /* 80533CB8 4BFF0915 */ bl          endGhostProxy__Q26System12KPadDirectorFUc
   lbl_80533cbc:
   /* 80533CBC 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 80533CC0 3C60809C */ lis         r3, lbl_809bd730@ha

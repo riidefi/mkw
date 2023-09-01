@@ -25,7 +25,7 @@ extern UNKNOWN_FUNCTION(_savegpr_14);
 // PAL: 0x8052d1c0
 extern UNKNOWN_FUNCTION(calcNegPoints__Q26System6RatingCFRCQ26System6Rating);
 // PAL: 0x80524500
-extern UNKNOWN_FUNCTION(unk_80524500);
+extern UNKNOWN_FUNCTION(setGhostController__Q26System12KPadDirectorFUc);
 // PAL: 0x80524558
 extern UNKNOWN_FUNCTION(unk_80524558);
 // PAL: 0x8051c120
@@ -35,7 +35,7 @@ extern UNKNOWN_FUNCTION(__destroy_arr);
 // PAL: 0x8051c334
 extern UNKNOWN_FUNCTION(__dt__Q26System4TimeFv);
 // PAL: 0x8052453c
-extern UNKNOWN_FUNCTION(setGhostController__Q26System12KPadDirectorFUcPvb);
+extern UNKNOWN_FUNCTION(setGhostController__Q26System12KPadDirectorFUcPUsb);
 // PAL: 0x8051c790
 extern UNKNOWN_FUNCTION(read__Q26System9GhostFileFRCQ26System12RawGhostFile);
 // PAL: 0x8051c270
@@ -790,7 +790,7 @@ asm UNKNOWN_FUNCTION(
   /* 8052EEB8 41800010 */ blt-        lbl_8052eec8
   /* 8052EEBC 807ED70C */ lwz         r3, spInstance__Q26System12KPadDirector@l(r30)
   /* 8052EEC0 5404063E */ clrlwi      r4, r0, 0x18
-  /* 8052EEC4 4BFF563D */ bl          unk_80524500
+  /* 8052EEC4 4BFF563D */ bl          setGhostController__Q26System12KPadDirectorFUc
   lbl_8052eec8:
   /* 8052EEC8 3BBD0001 */ addi        r29, r29, 0x1
   /* 8052EECC 281D000C */ cmplwi      r29, 0xc
@@ -817,7 +817,7 @@ bool RaceConfig::Scenario::initGhost(u8 playerIdx, s8 playerInputIdx) {
     if (ghost.mCourseId == mSettings.mCourseId) {
       if (playerInputIdx >= 0) {
         KPadDirector::spInstance->setGhostController(
-            playerInputIdx, (void*)ghost.mInputs, ghost.mDriftIsAuto);
+            playerInputIdx, (u16*)ghost.mInputs, ghost.mDriftIsAuto);
       }
 
       mPlayers[playerIdx].mCharacterId = (CharacterId)ghost.mCharacterId;
@@ -1225,7 +1225,7 @@ asm UNKNOWN_FUNCTION(initControllers__Q36System10RaceConfig8ScenarioFUc) {
   /* 8052F604 5764063E */ clrlwi      r4, r27, 0x18
   /* 8052F608 80A100DC */ lwz         r5, 0xdc(r1)
   /* 8052F60C 88C100D0 */ lbz         r6, 0xd0(r1)
-  /* 8052F610 4BFF4F2D */ bl          setGhostController__Q26System12KPadDirectorFUcPvb
+  /* 8052F610 4BFF4F2D */ bl          setGhostController__Q26System12KPadDirectorFUcPUsb
   lbl_8052f614:
   /* 8052F614 800100B8 */ lwz         r0, 0xb8(r1)
   /* 8052F618 3AA00001 */ li          r21, 0x1
