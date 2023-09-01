@@ -9,9 +9,9 @@ extern "C" {
 #endif
 
 // PAL: 0x80590128..0x80590138
-UNKNOWN_FUNCTION(initList__Q24Kart15KartObjectProxyFv);
+UNKNOWN_FUNCTION(InitList__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590138..0x8059018c
-UNKNOWN_FUNCTION(setupInList__Q24Kart15KartObjectProxyFPQ24Kart12KartAccessor);
+UNKNOWN_FUNCTION(SetupInList__Q24Kart15KartObjectProxyFPQ24Kart12KartAccessor);
 // PAL: 0x8059018c..0x805901d0
 UNKNOWN_FUNCTION(__ct__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805901d0..0x8059020c
@@ -73,17 +73,17 @@ UNKNOWN_FUNCTION(PlayerPointers_isGhost);
 // PAL: 0x8059068c..0x8059069c
 UNKNOWN_FUNCTION(PlayerModel_isMii);
 // PAL: 0x8059069c..0x805906a8
-UNKNOWN_FUNCTION(PlayerPointers_getKartBody);
+UNKNOWN_FUNCTION(kartBody__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805906a8..0x805906b4
-UNKNOWN_FUNCTION(unk_805906a8);
+UNKNOWN_FUNCTION(kartBody__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x805906b4..0x805906c8
-UNKNOWN_FUNCTION(PlayerPointers_getWheel0);
+UNKNOWN_FUNCTION(kartSus__Q24Kart15KartObjectProxyFl);
 // PAL: 0x805906c8..0x805906dc
-UNKNOWN_FUNCTION(unk_805906c8);
+UNKNOWN_FUNCTION(kartSus__Q24Kart15KartObjectProxyCFl);
 // PAL: 0x805906dc..0x805906f0
-UNKNOWN_FUNCTION(PlayerPointers_getWheel1);
+UNKNOWN_FUNCTION(kartTire__Q24Kart15KartObjectProxyFl);
 // PAL: 0x805906f0..0x80590704
-UNKNOWN_FUNCTION(unk_805906f0);
+UNKNOWN_FUNCTION(kartTire__Q24Kart15KartObjectProxyCFl);
 // PAL: 0x80590704..0x8059071c
 UNKNOWN_FUNCTION(PlayerPointers_getWheelPhysicsHolder);
 // PAL: 0x8059071c..0x80590734
@@ -93,23 +93,23 @@ UNKNOWN_FUNCTION(PlayerPointers_getWheelPhysics);
 // PAL: 0x8059074c..0x80590764
 UNKNOWN_FUNCTION(unk_8059074c);
 // PAL: 0x80590764..0x80590770
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub);
+UNKNOWN_FUNCTION(kartSub__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590770..0x8059077c
-UNKNOWN_FUNCTION(unk_80590770);
+UNKNOWN_FUNCTION(kartSub__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x8059077c..0x80590788
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub10);
+UNKNOWN_FUNCTION(kartMove__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590788..0x80590794
-UNKNOWN_FUNCTION(unk_80590788);
+UNKNOWN_FUNCTION(kartMove__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590794..0x805907a0
-UNKNOWN_FUNCTION(PlayerPointers_getSnd);
+UNKNOWN_FUNCTION(kartSnd__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805907a0..0x805907b0
 UNKNOWN_FUNCTION(unk_805907a0);
 // PAL: 0x805907b0..0x805907c0
 UNKNOWN_FUNCTION(unk_805907b0);
 // PAL: 0x805907c0..0x805907cc
-UNKNOWN_FUNCTION(PlayerPointers_get34);
+UNKNOWN_FUNCTION(kartAccessor_34__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805907cc..0x805907d8
-UNKNOWN_FUNCTION(unk_805907cc);
+UNKNOWN_FUNCTION(maybeShadow__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805907d8..0x805907ec
 UNKNOWN_FUNCTION(PlayerPointers_getCollisionGroup);
 // PAL: 0x805907ec..0x80590800
@@ -121,9 +121,9 @@ UNKNOWN_FUNCTION(PlayerPointers_getVehicleBodyCollisionData);
 // PAL: 0x80590834..0x8059084c
 UNKNOWN_FUNCTION(PlayerPointers_getWheelCollisionData);
 // PAL: 0x8059084c..0x80590858
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub18);
+UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590858..0x80590864
-UNKNOWN_FUNCTION(unk_80590858);
+UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590864..0x80590874
 UNKNOWN_FUNCTION(unk_80590864);
 // PAL: 0x80590874..0x80590888
@@ -163,7 +163,7 @@ UNKNOWN_FUNCTION(PlayerPointers_getVehicleType);
 // PAL: 0x80590a28..0x80590a40
 UNKNOWN_FUNCTION(unk_80590a28);
 // PAL: 0x80590a40..0x80590a4c
-UNKNOWN_FUNCTION(PlayerPointers_getModel);
+UNKNOWN_FUNCTION(kartModel__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590a4c..0x80590a5c
 UNKNOWN_FUNCTION(unk_80590a4c);
 // PAL: 0x80590a5c..0x80590a6c
@@ -193,9 +193,9 @@ UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub10Speed);
 // PAL: 0x80590d08..0x80590d20
 UNKNOWN_FUNCTION(playerPointers_getSpeed);
 // PAL: 0x80590d20..0x80590d2c
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub14);
+UNKNOWN_FUNCTION(kartAction__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590d2c..0x80590d38
-UNKNOWN_FUNCTION(unk_80590d2c);
+UNKNOWN_FUNCTION(kartAction__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590d38..0x80590d5c
 UNKNOWN_FUNCTION(unk_80590d38);
 // PAL: 0x80590d5c..0x80590d88
@@ -213,9 +213,9 @@ UNKNOWN_FUNCTION(PlayerPointers_getSpeedRatioCapped);
 // PAL: 0x80590dd0..0x80590de0
 UNKNOWN_FUNCTION(unk_80590dd0);
 // PAL: 0x80590de0..0x80590df8
-UNKNOWN_FUNCTION(unk_80590de0);
+UNKNOWN_FUNCTION(hasCamera__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590df8..0x80590e04
-UNKNOWN_FUNCTION(PlayerPointers_setCamera);
+UNKNOWN_FUNCTION(setCamera__Q24Kart15KartObjectProxyFPQ24Kart10KartCamera);
 // PAL: 0x80590e04..0x80590e28
 UNKNOWN_FUNCTION(unk_80590e04);
 // PAL: 0x80590e28..0x80590e40
@@ -227,7 +227,7 @@ UNKNOWN_FUNCTION(unk_80590e58);
 // PAL: 0x80590e70..0x80590e88
 UNKNOWN_FUNCTION(unk_80590e70);
 // PAL: 0x80590e88..0x80590e8c
-UNKNOWN_FUNCTION(unk_80590e88);
+UNKNOWN_FUNCTION(empty__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590e8c..0x80590ea4
 UNKNOWN_FUNCTION(unk_80590e8c);
 // PAL: 0x80590ea4..0x80590ed8
@@ -257,19 +257,19 @@ UNKNOWN_FUNCTION(unk_80591044);
 // PAL: 0x80591050..0x80591070
 UNKNOWN_FUNCTION(unk_80591050);
 // PAL: 0x80591070..0x8059107c
-UNKNOWN_FUNCTION(unk_80591070);
+UNKNOWN_FUNCTION(kartAccessor_54__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059107c..0x8059108c
 UNKNOWN_FUNCTION(unk_8059107c);
 // PAL: 0x8059108c..0x80591098
-UNKNOWN_FUNCTION(unk_8059108c);
+UNKNOWN_FUNCTION(kartBlink__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591098..0x805910a4
-UNKNOWN_FUNCTION(unk_80591098);
+UNKNOWN_FUNCTION(kartBlink__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x805910a4..0x805910b0
-UNKNOWN_FUNCTION(unk_805910a4);
+UNKNOWN_FUNCTION(kartAccessor_5c__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805910b0..0x805910c0
 UNKNOWN_FUNCTION(unk_805910b0);
 // PAL: 0x805910c0..0x805910cc
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub20);
+UNKNOWN_FUNCTION(kartEnemy__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805910cc..0x805910e4
 UNKNOWN_FUNCTION(unk_805910cc);
 // PAL: 0x805910e4..0x805910fc
@@ -311,13 +311,13 @@ UNKNOWN_FUNCTION(unk_805913fc);
 // PAL: 0x80591418..0x80591428
 UNKNOWN_FUNCTION(unk_80591418);
 // PAL: 0x80591428..0x80591434
-UNKNOWN_FUNCTION(unk_80591428);
+UNKNOWN_FUNCTION(kartAccessor_44__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591434..0x80591440
-UNKNOWN_FUNCTION(unk_80591434);
+UNKNOWN_FUNCTION(kartAccessor_48__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591440..0x8059144c
-UNKNOWN_FUNCTION(PlayerPointers_getRacedataFactory);
+UNKNOWN_FUNCTION(kartNetSender__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059144c..0x80591458
-UNKNOWN_FUNCTION(PlayerPointers_getRacedataHandler);
+UNKNOWN_FUNCTION(kartNetReceiver__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591458..0x80591468
 UNKNOWN_FUNCTION(PlayerPointers_getRacedataFactoryFlags);
 // PAL: 0x80591468..0x80591478
@@ -333,15 +333,15 @@ UNKNOWN_FUNCTION(unk_805914e4);
 // PAL: 0x805914f4..0x80591520
 UNKNOWN_FUNCTION(unk_805914f4);
 // PAL: 0x80591520..0x8059152c
-UNKNOWN_FUNCTION(PlayerPointers_getEntity);
+UNKNOWN_FUNCTION(kartEntity__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059152c..0x80591538
-UNKNOWN_FUNCTION(unk_8059152c);
+UNKNOWN_FUNCTION(kartAccessor_50__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591538..0x80591608
 UNKNOWN_FUNCTION(unk_80591538);
 // PAL: 0x80591608..0x80591618
 UNKNOWN_FUNCTION(unk_80591608);
 // PAL: 0x80591618..0x80591624
-UNKNOWN_FUNCTION(unk_80591618);
+UNKNOWN_FUNCTION(kartAccessor_60__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591624..0x80591650
 UNKNOWN_FUNCTION(unk_80591624);
 // PAL: 0x80591650..0x80591664
@@ -387,18 +387,102 @@ UNKNOWN_FUNCTION(unk_805919e8);
 }
 #endif
 
-
 #include <nw4r/ut/utList.hpp>
 
 namespace Kart {
 
-class KartAccessor;
+class KartBody;
+class KartSus;
+class KartTire;
+class KartSub;
+class KartMove;
+class KartSnd;
+class KartAccessor_34;
+class MaybeShadow;
+class KartCollide;
+class KartModel;
+class KartAction;
+class KartCamera;
+class KartAccessor_54;
+class KartBlink;
+class KartAccessor_5c;
+class KartEnemy;
+class KartAccessor_44;
+class KartAccessor_48;
+class KartNetReceiver;
+class KartNetSender;
+class BoxColUnit;
+class KartAccessor_50;
+class KartAccessor_60;
+
+struct KartAccessor {
+  u8 _00[0x08 - 0x00];
+  KartBody* mBody;
+  KartSus** mSus;
+  KartTire** mTires;
+  KartModel* mModel;
+  KartSub* mSub;
+  KartSnd* mSnd;
+  MaybeShadow* mMaybeShadow;
+  KartCamera* mCamera;
+  KartMove* mMove;
+  KartAction* mAction;
+  KartCollide* mCollide;
+  KartAccessor_34* m_34;
+  KartEnemy* mEnemy;
+  KartNetSender* mSender;
+  KartNetReceiver* mReceiver;
+  KartAccessor_44 *m_44;
+  KartAccessor_48 *m_48;
+  BoxColUnit *mEntity;
+  KartAccessor_50* m_50;
+  KartAccessor_54* m_54;
+  KartBlink* mBlink;
+  KartAccessor_5c* m_5c;
+  KartAccessor_60* m_60;
+};
+static_assert(sizeof(KartAccessor) == 0x64);
 
 class KartObjectProxy {
 public:
-  static void initList();
-  static void setupInList(KartAccessor* accessor);
   KartObjectProxy();
+
+  KartBody* kartBody();
+  const KartBody* kartBody() const;
+  KartSus* kartSus(s32 idx);
+  const KartSus* kartSus(s32 idx) const;
+  KartTire* kartTire(s32 idx);
+  const KartTire* kartTire(s32 idx) const;
+  KartSub* kartSub();
+  const KartSub* kartSub() const;
+  KartMove* kartMove();
+  const KartMove* kartMove() const;
+  KartSnd* kartSnd();
+  KartAccessor_34* kartAccessor_34();
+  MaybeShadow* maybeShadow();
+  KartCollide* kartCollide();
+  const KartCollide* kartCollide() const;
+  KartModel* kartModel();
+  KartAction* kartAction();
+  const KartAction* kartAction() const;
+  bool hasCamera();
+  void setCamera(KartCamera* camera);
+  void empty();
+  KartAccessor_54* kartAccessor_54();
+  KartBlink* kartBlink();
+  const KartBlink* kartBlink() const;
+  KartAccessor_5c* kartAccessor_5c();
+  KartEnemy* kartEnemy();
+  KartAccessor_44* kartAccessor_44();
+  KartAccessor_48* kartAccessor_48();
+  KartNetSender* kartNetSender();
+  KartNetReceiver* kartNetReceiver();
+  BoxColUnit* kartEntity();
+  KartAccessor_50* kartAccessor_50();
+  KartAccessor_60* kartAccessor_60();
+
+  static void InitList();
+  static void SetupInList(KartAccessor* accessor);
 
 private:
   inline KartObjectProxy(const KartObjectProxy&) {}
