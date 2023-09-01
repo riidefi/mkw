@@ -310,7 +310,7 @@ extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPosition);
 // PAL: 0x80590224
 extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolderPosition);
 // PAL: 0x8059077c
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub10);
+extern UNKNOWN_FUNCTION(kartMove__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590c94
 extern UNKNOWN_FUNCTION(PlayerPointers_getBodyFront);
 // PAL: 0x805a8fbc
@@ -2761,7 +2761,7 @@ asm UNKNOWN_FUNCTION(unk_80533d84) {
   /* 80533DAC 806318F8 */ lwz         r3, lbl_809c18f8@l(r3)
   /* 80533DB0 88840008 */ lbz         r4, 8(r4)
   /* 80533DB4 4805C34D */ bl          PlayerHolder_getPlayer
-  /* 80533DB8 4805C9C5 */ bl          PlayerPointers_getPlayerSub10
+  /* 80533DB8 4805C9C5 */ bl          kartMove__Q24Kart15KartObjectProxyFv
   /* 80533DBC 38800001 */ li          r4, 0x1
   /* 80533DC0 4804D5E5 */ bl          unk_805813a4
   /* 80533DC4 80010014 */ lwz         r0, 0x14(r1)
@@ -3861,7 +3861,7 @@ asm UNKNOWN_FUNCTION(unk_80534c78) {
   /* 80534C94 90030038 */ stw         r0, 0x38(r3)
   /* 80534C98 806518F8 */ lwz         r3, lbl_809c18f8@l(r5)
   /* 80534C9C 4805B465 */ bl          PlayerHolder_getPlayer
-  /* 80534CA0 4805BADD */ bl          PlayerPointers_getPlayerSub10
+  /* 80534CA0 4805BADD */ bl          kartMove__Q24Kart15KartObjectProxyFv
   /* 80534CA4 38800001 */ li          r4, 0x1
   /* 80534CA8 4804C6FD */ bl          unk_805813a4
   /* 80534CAC 80010014 */ lwz         r0, 0x14(r1)
