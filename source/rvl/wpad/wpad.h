@@ -75,6 +75,12 @@ typedef struct WPADInfo {
 
 // PAL: 0x801bf5c4
 extern UNKNOWN_FUNCTION(WPADInit);
+// PAL: 0x801bf634
+extern UNKNOWN_FUNCTION(WPADStartSyncSimple);
+// PAL: 0x801bf63c
+extern UNKNOWN_FUNCTION(WPADStopSimpleSync);
+// PAL: 0x801bf640
+extern UNKNOWN_FUNCTION(WPADSetSyncDeviceCallback);
 // PAL: 0x801bf64c
 extern UNKNOWN_FUNCTION(WPADGetStatus);
 // PAL: 0x801bf714
