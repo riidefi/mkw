@@ -78,6 +78,12 @@ source/game/util/Random.cpp:
     rodata: [0x80891370, 0x80891380]
     data: [0x808b42e0, 0x808b42ec]
 
+source/game/kart/KartMove.cpp:
+    text: [0x80577fc4, 0x8058985c]
+    # rodata: [0x80891a00, 0x80891b08]
+    # data: [0x808b58f0, 0x808b60b0]
+    # bss: [0x809c18e0, 0x809c18e8]
+
 source/game/kart/KartObjectProxy.cpp:
     text: [0x80590128, 0x805919f4]
     rodata: [0x80891c58, 0x80891c80]
