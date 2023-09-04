@@ -9,6 +9,7 @@ import sys
 
 from mkwutil.lib.dol import DolBinary
 from mkwutil.lib.verify_binary import *
+from mkwutil.project import *
 
 from mkwutil.sections import DOL_SECTIONS
 
@@ -64,6 +65,8 @@ def verify_dol(reference: Path, target: Path):
             )
         )
         if not match:
+            slices = load_dol_slices(sections=DOL_SECTIONS)
+
             amount_printed = 0
             for vaddr in range(min(good_segment.start, bad_segment.start), max(good_segment.stop, bad_segment.stop), 4):
                 good_bytes = good.virtual_read_word(vaddr)
@@ -72,6 +75,9 @@ def verify_dol(reference: Path, target: Path):
                 if good_bytes == bad_bytes or amount_printed > 10:
                     continue
                 print("%x: Good=%x Bad=%x" % (vaddr, good_bytes, bad_bytes))
+                slice_it, slice_i = slices.find(vaddr)
+                if slice_it:
+                    print(" -> This is in %s" % slice_it)
                 amount_printed += 1
     print(
         format_segment(

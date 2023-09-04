@@ -10,6 +10,7 @@ import sys
 
 from mkwutil.lib.rel import Rel
 from mkwutil.lib.verify_binary import *
+from mkwutil.project import *
 from mkwutil.sections import REL_SECTIONS, REL_SECTION_IDX
 
 from ppcdis import diff_relocs, load_binary_yml
@@ -68,6 +69,8 @@ def verify_rel(reference: Path, target: Path):
             )
         )
         if not match:
+            slices = load_rel_slices(sections=REL_SECTIONS)
+
             paired_data = zip(chunks(good_section.data, 4), chunks(bad_section.data, 4))
             amount_printed = 0
 
@@ -77,6 +80,9 @@ def verify_rel(reference: Path, target: Path):
                 if good_bytes == bad_bytes or amount_printed > 10:
                     continue
                 print("%x: Good=%x Bad=%x" % (vaddr, struct.unpack(">I", good_bytes)[0], struct.unpack(">I", bad_bytes)[0]))
+                slice_it, slice_i = slices.find(vaddr)
+                if slice_it:
+                    print(" -> This is in %s" % slice_it)
                 amount_printed += 1
 
     if section_match:
