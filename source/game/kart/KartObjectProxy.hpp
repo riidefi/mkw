@@ -4,6 +4,8 @@
 
 #include <decomp.h>
 
+#include <egg/math/eggVector.hpp>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -155,9 +157,9 @@ UNKNOWN_FUNCTION(unk_805909b8);
 // PAL: 0x805909c8..0x805909f4
 UNKNOWN_FUNCTION(unk_805909c8);
 // PAL: 0x805909f4..0x80590a04
-UNKNOWN_FUNCTION(unk_805909f4);
+UNKNOWN_FUNCTION(getHopStickX__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590a04..0x80590a10
-UNKNOWN_FUNCTION(unk_80590a04);
+UNKNOWN_FUNCTION(getAppliedHopStickX__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590a10..0x80590a28
 UNKNOWN_FUNCTION(PlayerPointers_getVehicleType);
 // PAL: 0x80590a28..0x80590a40
@@ -189,7 +191,7 @@ UNKNOWN_FUNCTION(unk_80590cd0);
 // PAL: 0x80590ce4..0x80590cf8
 UNKNOWN_FUNCTION(PlayerPointers_getMalCol2);
 // PAL: 0x80590cf8..0x80590d08
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub10Speed);
+UNKNOWN_FUNCTION(getVehicleSpeed__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590d08..0x80590d20
 UNKNOWN_FUNCTION(playerPointers_getSpeed);
 // PAL: 0x80590d20..0x80590d2c
@@ -203,15 +205,15 @@ UNKNOWN_FUNCTION(unk_80590d5c);
 // PAL: 0x80590d88..0x80590d94
 UNKNOWN_FUNCTION(unk_80590d88);
 // PAL: 0x80590d94..0x80590da4
-UNKNOWN_FUNCTION(unk_80590d94);
+UNKNOWN_FUNCTION(empty__Q24Kart15KartObjectProxyFs);
 // PAL: 0x80590da4..0x80590db4
 UNKNOWN_FUNCTION(unk_80590da4);
 // PAL: 0x80590db4..0x80590dc0
-UNKNOWN_FUNCTION(unk_80590db4);
+UNKNOWN_FUNCTION(clearBoost__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590dc0..0x80590dd0
-UNKNOWN_FUNCTION(PlayerPointers_getSpeedRatioCapped);
+UNKNOWN_FUNCTION(getSpeedRatioCapped__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590dd0..0x80590de0
-UNKNOWN_FUNCTION(unk_80590dd0);
+UNKNOWN_FUNCTION(getSpeedRatio__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590de0..0x80590df8
 UNKNOWN_FUNCTION(hasCamera__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590df8..0x80590e04
@@ -267,7 +269,7 @@ UNKNOWN_FUNCTION(kartBlink__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x805910a4..0x805910b0
 UNKNOWN_FUNCTION(kartAccessor_5c__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805910b0..0x805910c0
-UNKNOWN_FUNCTION(unk_805910b0);
+UNKNOWN_FUNCTION(getBaseSpeed__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805910c0..0x805910cc
 UNKNOWN_FUNCTION(kartEnemy__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805910cc..0x805910e4
@@ -285,15 +287,15 @@ UNKNOWN_FUNCTION(unk_805911a8);
 // PAL: 0x805911c0..0x805911d8
 UNKNOWN_FUNCTION(unk_805911c0);
 // PAL: 0x805911d8..0x805911e8
-UNKNOWN_FUNCTION(unk_805911d8);
+UNKNOWN_FUNCTION(getDriftState__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805911e8..0x805911f8
-UNKNOWN_FUNCTION(unk_805911e8);
+UNKNOWN_FUNCTION(getMtCharge__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805911f8..0x80591208
-UNKNOWN_FUNCTION(unk_805911f8);
+UNKNOWN_FUNCTION(getSmtCharge__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591208..0x80591214
-UNKNOWN_FUNCTION(unk_80591208);
+UNKNOWN_FUNCTION(getMaxMtCharge__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591214..0x80591220
-UNKNOWN_FUNCTION(unk_80591214);
+UNKNOWN_FUNCTION(getMaxSmtCharge__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591220..0x80591264
 UNKNOWN_FUNCTION(unk_80591220);
 // PAL: 0x80591264..0x80591314
@@ -307,9 +309,9 @@ UNKNOWN_FUNCTION(unk_80591378);
 // PAL: 0x805913a8..0x805913fc
 UNKNOWN_FUNCTION(unk_805913a8);
 // PAL: 0x805913fc..0x80591418
-UNKNOWN_FUNCTION(unk_805913fc);
+UNKNOWN_FUNCTION(isDrivingIdle__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591418..0x80591428
-UNKNOWN_FUNCTION(unk_80591418);
+UNKNOWN_FUNCTION(getBackwardsAllowCounter__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591428..0x80591434
 UNKNOWN_FUNCTION(kartAccessor_44__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591434..0x80591440
@@ -323,15 +325,15 @@ UNKNOWN_FUNCTION(PlayerPointers_getRacedataFactoryFlags);
 // PAL: 0x80591468..0x80591478
 UNKNOWN_FUNCTION(unk_80591468);
 // PAL: 0x80591478..0x805914bc
-UNKNOWN_FUNCTION(unk_80591478);
+UNKNOWN_FUNCTION(setScale__Q24Kart15KartObjectProxyFRCQ23EGG8Vector3f);
 // PAL: 0x805914bc..0x805914cc
-UNKNOWN_FUNCTION(PlayerPointers_getScale);
+UNKNOWN_FUNCTION(getScale__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805914cc..0x805914e4
 UNKNOWN_FUNCTION(unk_805914cc);
 // PAL: 0x805914e4..0x805914f4
 UNKNOWN_FUNCTION(unk_805914e4);
 // PAL: 0x805914f4..0x80591520
-UNKNOWN_FUNCTION(unk_805914f4);
+UNKNOWN_FUNCTION(inRespawn__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591520..0x8059152c
 UNKNOWN_FUNCTION(kartEntity__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059152c..0x80591538
@@ -345,7 +347,7 @@ UNKNOWN_FUNCTION(kartAccessor_60__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591624..0x80591650
 UNKNOWN_FUNCTION(unk_80591624);
 // PAL: 0x80591650..0x80591664
-UNKNOWN_FUNCTION(unk_80591650);
+UNKNOWN_FUNCTION(isSomeMoveFlagActive__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591664..0x8059170c
 UNKNOWN_FUNCTION(PlayerPointers_resetInertia);
 // PAL: 0x8059170c..0x80591784
@@ -371,9 +373,9 @@ UNKNOWN_FUNCTION(unk_805918bc);
 // PAL: 0x805918e0..0x80591904
 UNKNOWN_FUNCTION(unk_805918e0);
 // PAL: 0x80591904..0x80591914
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerZipper);
+UNKNOWN_FUNCTION(kartHalfPipe__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591914..0x80591924
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerTrick);
+UNKNOWN_FUNCTION(kartJump__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80591924..0x8059197c
 UNKNOWN_FUNCTION(unk_80591924);
 // PAL: 0x8059197c..0x80591998
@@ -414,6 +416,9 @@ class KartNetSender;
 class BoxColUnit;
 class KartAccessor_50;
 class KartAccessor_60;
+// Used outside of KartAccessor
+class KartHalfPipe;
+class KartJump;
 
 struct KartAccessor {
   u8 _00[0x08 - 0x00];
@@ -432,9 +437,9 @@ struct KartAccessor {
   KartEnemy* mEnemy;
   KartNetSender* mSender;
   KartNetReceiver* mReceiver;
-  KartAccessor_44 *m_44;
-  KartAccessor_48 *m_48;
-  BoxColUnit *mEntity;
+  KartAccessor_44* m_44;
+  KartAccessor_48* m_48;
+  BoxColUnit* mEntity;
   KartAccessor_50* m_50;
   KartAccessor_54* m_54;
   KartBlink* mBlink;
@@ -480,6 +485,30 @@ public:
   BoxColUnit* kartEntity();
   KartAccessor_50* kartAccessor_50();
   KartAccessor_60* kartAccessor_60();
+  const KartHalfPipe* kartHalfPipe();
+  const KartJump* kartJump();
+
+  s32 getHopStickX();
+  s32 getAppliedHopStickX();
+  f32 getVehicleSpeed();
+  void empty(s16 arg);
+  void clearBoost();
+  f32 getSpeedRatioCapped();
+  f32 getSpeedRatio();
+  f32 getBaseSpeed();
+  s16 getDriftState();
+  s16 getMtCharge();
+  s16 getSmtCharge();
+  s16 getMaxMtCharge();
+  s16 getMaxSmtCharge();
+  bool isDrivingIdle();
+  s16 getBackwardsAllowCounter();
+  void setScale(const EGG::Vector3f& scale);
+  const EGG::Vector3f& getScale();
+  // Tentative name
+  bool inRespawn();
+  // Unused, and the KartMove flags are not documented
+  bool isSomeMoveFlagActive();
 
   static void InitList();
   static void SetupInList(KartAccessor* accessor);
