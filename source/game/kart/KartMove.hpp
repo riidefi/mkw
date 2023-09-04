@@ -4,6 +4,8 @@
 
 #include <decomp.h>
 
+#include <game/kart/KartObjectProxy.hpp>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -129,11 +131,11 @@ UNKNOWN_FUNCTION(unk_8057ed8c);
 // PAL: 0x8057ee50..0x8057efe0
 UNKNOWN_FUNCTION(PlayerSub10_updateMtCharge);
 // PAL: 0x8057efe0..0x8057efec
-UNKNOWN_FUNCTION(unk_8057efe0);
+UNKNOWN_FUNCTION(getMaxMtCharge__Q24Kart8KartMoveFv);
 // PAL: 0x8057efec..0x8057eff8
-UNKNOWN_FUNCTION(unk_8057efec);
+UNKNOWN_FUNCTION(getMaxSmtCharge__Q24Kart8KartMoveFv);
 // PAL: 0x8057eff8..0x8057f024
-UNKNOWN_FUNCTION(unk_8057eff8);
+UNKNOWN_FUNCTION(getAppliedHopStickX__Q24Kart8KartMoveFv);
 // PAL: 0x8057f024..0x8057f05c
 UNKNOWN_FUNCTION(unk_8057f024);
 // PAL: 0x8057f05c..0x8057f090
@@ -199,7 +201,7 @@ UNKNOWN_FUNCTION(unk_805813e8);
 // PAL: 0x8058160c..0x80581720
 UNKNOWN_FUNCTION(unk_8058160c);
 // PAL: 0x80581720..0x8058173c
-UNKNOWN_FUNCTION(unk_80581720);
+UNKNOWN_FUNCTION(setScale__Q24Kart8KartMoveFRCQ23EGG8Vector3f);
 // PAL: 0x8058173c..0x80581778
 UNKNOWN_FUNCTION(unk_8058173c);
 // PAL: 0x80581778..0x80581824
@@ -211,7 +213,7 @@ UNKNOWN_FUNCTION(unk_8058196c);
 // PAL: 0x805819a8..0x80581a24
 UNKNOWN_FUNCTION(unk_805819a8);
 // PAL: 0x80581a24..0x80581a28
-UNKNOWN_FUNCTION(unk_80581a24);
+UNKNOWN_FUNCTION(empty__Q24Kart8KartMoveFl);
 // PAL: 0x80581a28..0x80581a40
 UNKNOWN_FUNCTION(PlayerSub10_activateTc);
 // PAL: 0x80581a40..0x80581a58
@@ -265,7 +267,7 @@ UNKNOWN_FUNCTION(unk_8058327c);
 // PAL: 0x805832c4..0x805832e4
 UNKNOWN_FUNCTION(unk_805832c4);
 // PAL: 0x805832e4..0x80583424
-UNKNOWN_FUNCTION(unk_805832e4);
+UNKNOWN_FUNCTION(clearBoost__Q24Kart8KartMoveFv);
 // PAL: 0x80583424..0x8058348c
 UNKNOWN_FUNCTION(unk_80583424);
 // PAL: 0x8058348c..0x80583658
@@ -460,3 +462,71 @@ UNKNOWN_FUNCTION(unk_80589844);
 #ifdef __cplusplus
 }
 #endif
+
+namespace Kart {
+
+// TODO: implement
+class KartHalfPipe;
+class KartJump;
+
+class KartMove : public KartObjectProxy {
+public:
+  enum DrivingDirection { DRIVING_DIRECTION_IDLE = 2 };
+
+  s16 getMaxMtCharge();
+  s16 getMaxSmtCharge();
+  s32 getAppliedHopStickX();
+  void setScale(const EGG::Vector3f& scale);
+  void empty(s32 arg);
+  void clearBoost();
+
+  f32 baseSpeed() const { return mBaseSpeed; }
+  f32 speed() const { return mSpeed; }
+  f32 speedRatioCapped() const { return mSpeedRatioCapped; }
+  f32 speedRatio() const { return mSpeedRatio; }
+  s32 hopStickX() const { return mHopStickX; }
+  s16 driftState() const { return mDriftState; }
+  s16 mtCharge() const { return mMtCharge; }
+  s16 smtCharge() const { return mSmtCharge; }
+  const EGG::Vector3f& scale() const { return mScale; }
+  s16 someTimer() const { return _someTimer; }
+  s16 respawnTimer() const { return mRespawnTimer; }
+  DrivingDirection drivingDirection() const { return mDrivingDirection; }
+  s16 backwardsAllowCounter() const { return mBackwardsAllowCounter; }
+  u16 flags() const { return mFlags; }
+  const KartJump* kartJump() { return mJump; }
+  const KartHalfPipe* kartHalfPipe() { return mHalfPipe; }
+
+private:
+  u8 _00c[0x014 - 0x00c];
+  f32 mBaseSpeed;
+  u8 _018[0x020 - 0x018];
+  f32 mSpeed;
+  u8 _024[0x0b0 - 0x024];
+  f32 mSpeedRatioCapped;
+  f32 mSpeedRatio;
+  u8 _0b8[0x0cc - 0x0b8];
+  s32 mHopStickX;
+  u8 _0d0[0x0fc - 0x0d0];
+  s16 mDriftState;
+  s16 mMtCharge;
+  s16 mSmtCharge;
+  u8 _102[0x164 - 0x102];
+  EGG::Vector3f mScale;
+  u8 _170[0x238 - 0x170];
+  s16 _someTimer;
+  s16 mRespawnTimer;
+  u8 _23c[0x248 - 0x23c];
+  DrivingDirection mDrivingDirection;
+  s16 mBackwardsAllowCounter;
+  u8 _24e[0x254 - 0x24e];
+  // TODO
+  u16 mFlags;
+  u8 _256[0x258 - 0x256];
+  KartJump* mJump;
+  KartHalfPipe* mHalfPipe;
+  u8 _260[0x294 - 0x260];
+};
+static_assert(sizeof(KartMove) == 0x294);
+
+} // namespace Kart

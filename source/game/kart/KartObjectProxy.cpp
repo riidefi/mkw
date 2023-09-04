@@ -1,6 +1,8 @@
 #include "KartObjectProxy.hpp"
 #include <cstddef>
 
+#include <game/kart/KartMove.hpp>
+
 // --- EXTERN DECLARATIONS BEGIN ---
 
 extern "C" {
@@ -12,10 +14,6 @@ extern UNKNOWN_FUNCTION(List_Init__Q24nw4r2utFPQ34nw4r2ut4ListUs);
 extern UNKNOWN_FUNCTION(List_Append__Q24nw4r2utFPQ34nw4r2ut4ListPv);
 // PAL: 0x800af180
 extern UNKNOWN_FUNCTION(List_GetNext__Q24nw4r2utFPCQ34nw4r2ut4ListPCv);
-// PAL: 0x80199d04
-extern UNKNOWN_FUNCTION(PSMTXIdentity);
-// PAL: 0x80199d30
-extern UNKNOWN_FUNCTION(PSMTXCopy);
 // PAL: 0x80521a34
 extern UNKNOWN_FUNCTION(unk_80521a34);
 // PAL: 0x805275ec
@@ -37,17 +35,17 @@ extern UNKNOWN_FUNCTION(unk_8056ca48);
 // PAL: 0x8056cb5c
 extern UNKNOWN_FUNCTION(unk_8056cb5c);
 // PAL: 0x8057efe0
-extern UNKNOWN_FUNCTION(unk_8057efe0);
+extern UNKNOWN_FUNCTION(getMaxMtCharge__Q24Kart8KartMoveFv);
 // PAL: 0x8057efec
-extern UNKNOWN_FUNCTION(unk_8057efec);
+extern UNKNOWN_FUNCTION(getMaxSmtCharge__Q24Kart8KartMoveFv);
 // PAL: 0x8057eff8
-extern UNKNOWN_FUNCTION(unk_8057eff8);
+extern UNKNOWN_FUNCTION(getAppliedHopStickX__Q24Kart8KartMoveFv);
 // PAL: 0x80581720
-extern UNKNOWN_FUNCTION(unk_80581720);
+extern UNKNOWN_FUNCTION(setScale__Q24Kart8KartMoveFRCQ23EGG8Vector3f);
 // PAL: 0x80581a24
-extern UNKNOWN_FUNCTION(unk_80581a24);
+extern UNKNOWN_FUNCTION(empty__Q24Kart8KartMoveFl);
 // PAL: 0x805832e4
-extern UNKNOWN_FUNCTION(unk_805832e4);
+extern UNKNOWN_FUNCTION(clearBoost__Q24Kart8KartMoveFv);
 // PAL: 0x8058d47c
 extern UNKNOWN_FUNCTION(unk_8058d47c);
 // PAL: 0x80590100
@@ -561,23 +559,19 @@ asm UNKNOWN_FUNCTION(unk_805909b8){
 // Symbol: unk_805909c8
 // PAL: 0x805909c8..0x805909f4
 MARK_BINARY_BLOB(unk_805909c8, 0x805909c8, 0x805909f4);
-asm UNKNOWN_FUNCTION(unk_805909c8){
+asm UNKNOWN_FUNCTION(unk_805909c8) {
 #include "asm/805909c8.s"
 }
 
-// Symbol: unk_805909f4
-// PAL: 0x805909f4..0x80590a04
-MARK_BINARY_BLOB(unk_805909f4, 0x805909f4, 0x80590a04);
-asm UNKNOWN_FUNCTION(unk_805909f4){
-#include "asm/805909f4.s"
+namespace Kart {
+
+s32 KartObjectProxy::getHopStickX() { return kartMove()->hopStickX(); }
+
+s32 KartObjectProxy::getAppliedHopStickX() {
+  return kartMove()->getAppliedHopStickX();
 }
 
-// Symbol: unk_80590a04
-// PAL: 0x80590a04..0x80590a10
-MARK_BINARY_BLOB(unk_80590a04, 0x80590a04, 0x80590a10);
-asm UNKNOWN_FUNCTION(unk_80590a04){
-#include "asm/80590a04.s"
-}
+} // namespace Kart
 
 // Symbol: PlayerPointers_getVehicleType
 // PAL: 0x80590a10..0x80590a28
@@ -679,16 +673,15 @@ asm UNKNOWN_FUNCTION(unk_80590cd0){
 // Symbol: PlayerPointers_getMalCol2
 // PAL: 0x80590ce4..0x80590cf8
 MARK_BINARY_BLOB(PlayerPointers_getMalCol2, 0x80590ce4, 0x80590cf8);
-asm UNKNOWN_FUNCTION(PlayerPointers_getMalCol2){
+asm UNKNOWN_FUNCTION(PlayerPointers_getMalCol2) {
 #include "asm/80590ce4.s"
 }
 
-// Symbol: PlayerPointers_getPlayerSub10Speed
-// PAL: 0x80590cf8..0x80590d08
-MARK_BINARY_BLOB(PlayerPointers_getPlayerSub10Speed, 0x80590cf8, 0x80590d08);
-asm UNKNOWN_FUNCTION(PlayerPointers_getPlayerSub10Speed){
-#include "asm/80590cf8.s"
-}
+namespace Kart {
+
+f32 KartObjectProxy::getVehicleSpeed() { return kartMove()->speed(); }
+
+} // namespace Kart
 
 // Symbol: playerPointers_getSpeed
 // PAL: 0x80590d08..0x80590d20
@@ -724,46 +717,32 @@ asm UNKNOWN_FUNCTION(unk_80590d5c){
 // Symbol: unk_80590d88
 // PAL: 0x80590d88..0x80590d94
 MARK_BINARY_BLOB(unk_80590d88, 0x80590d88, 0x80590d94);
-asm UNKNOWN_FUNCTION(unk_80590d88){
+asm UNKNOWN_FUNCTION(unk_80590d88) {
 #include "asm/80590d88.s"
 }
 
-// Symbol: unk_80590d94
-// PAL: 0x80590d94..0x80590da4
-MARK_BINARY_BLOB(unk_80590d94, 0x80590d94, 0x80590da4);
-asm UNKNOWN_FUNCTION(unk_80590d94){
-#include "asm/80590d94.s"
-}
+namespace Kart {
+
+void KartObjectProxy::empty(s16 arg) { kartMove()->empty(arg); }
+
+} // namespace Kart
 
 // Symbol: unk_80590da4
 // PAL: 0x80590da4..0x80590db4
 MARK_BINARY_BLOB(unk_80590da4, 0x80590da4, 0x80590db4);
-asm UNKNOWN_FUNCTION(unk_80590da4){
+asm UNKNOWN_FUNCTION(unk_80590da4) {
 #include "asm/80590da4.s"
 }
 
-// Symbol: unk_80590db4
-// PAL: 0x80590db4..0x80590dc0
-MARK_BINARY_BLOB(unk_80590db4, 0x80590db4, 0x80590dc0);
-asm UNKNOWN_FUNCTION(unk_80590db4){
-#include "asm/80590db4.s"
-}
-
-// Symbol: PlayerPointers_getSpeedRatioCapped
-// PAL: 0x80590dc0..0x80590dd0
-MARK_BINARY_BLOB(PlayerPointers_getSpeedRatioCapped, 0x80590dc0, 0x80590dd0);
-asm UNKNOWN_FUNCTION(PlayerPointers_getSpeedRatioCapped){
-#include "asm/80590dc0.s"
-}
-
-// Symbol: unk_80590dd0
-// PAL: 0x80590dd0..0x80590de0
-MARK_BINARY_BLOB(unk_80590dd0, 0x80590dd0, 0x80590de0);
-asm UNKNOWN_FUNCTION(unk_80590dd0) {
-#include "asm/80590dd0.s"
-}
-
 namespace Kart {
+
+void KartObjectProxy::clearBoost() { kartMove()->clearBoost(); }
+
+f32 KartObjectProxy::getSpeedRatioCapped() {
+  return kartMove()->speedRatioCapped();
+}
+
+f32 KartObjectProxy::getSpeedRatio() { return kartMove()->speedRatio(); }
 
 bool KartObjectProxy::hasCamera() { return mAccessor->mCamera; }
 
@@ -935,16 +914,7 @@ const KartBlink* KartObjectProxy::kartBlink() const {
 
 KartAccessor_5c* KartObjectProxy::kartAccessor_5c() { return mAccessor->m_5c; }
 
-} // namespace Kart
-
-// Symbol: unk_805910b0
-// PAL: 0x805910b0..0x805910c0
-MARK_BINARY_BLOB(unk_805910b0, 0x805910b0, 0x805910c0);
-asm UNKNOWN_FUNCTION(unk_805910b0) {
-#include "asm/805910b0.s"
-}
-
-namespace Kart {
+f32 KartObjectProxy::getBaseSpeed() { return kartMove()->baseSpeed(); }
 
 KartEnemy* KartObjectProxy::kartEnemy() { return mAccessor->mEnemy; }
 
@@ -995,44 +965,23 @@ asm UNKNOWN_FUNCTION(unk_805911a8){
 // Symbol: unk_805911c0
 // PAL: 0x805911c0..0x805911d8
 MARK_BINARY_BLOB(unk_805911c0, 0x805911c0, 0x805911d8);
-asm UNKNOWN_FUNCTION(unk_805911c0){
+asm UNKNOWN_FUNCTION(unk_805911c0) {
 #include "asm/805911c0.s"
 }
 
-// Symbol: unk_805911d8
-// PAL: 0x805911d8..0x805911e8
-MARK_BINARY_BLOB(unk_805911d8, 0x805911d8, 0x805911e8);
-asm UNKNOWN_FUNCTION(unk_805911d8){
-#include "asm/805911d8.s"
-}
+namespace Kart {
 
-// Symbol: unk_805911e8
-// PAL: 0x805911e8..0x805911f8
-MARK_BINARY_BLOB(unk_805911e8, 0x805911e8, 0x805911f8);
-asm UNKNOWN_FUNCTION(unk_805911e8){
-#include "asm/805911e8.s"
-}
+s16 KartObjectProxy::getDriftState() { return kartMove()->driftState(); }
 
-// Symbol: unk_805911f8
-// PAL: 0x805911f8..0x80591208
-MARK_BINARY_BLOB(unk_805911f8, 0x805911f8, 0x80591208);
-asm UNKNOWN_FUNCTION(unk_805911f8){
-#include "asm/805911f8.s"
-}
+s16 KartObjectProxy::getMtCharge() { return kartMove()->mtCharge(); }
 
-// Symbol: unk_80591208
-// PAL: 0x80591208..0x80591214
-MARK_BINARY_BLOB(unk_80591208, 0x80591208, 0x80591214);
-asm UNKNOWN_FUNCTION(unk_80591208){
-#include "asm/80591208.s"
-}
+s16 KartObjectProxy::getSmtCharge() { return kartMove()->smtCharge(); }
 
-// Symbol: unk_80591214
-// PAL: 0x80591214..0x80591220
-MARK_BINARY_BLOB(unk_80591214, 0x80591214, 0x80591220);
-asm UNKNOWN_FUNCTION(unk_80591214){
-#include "asm/80591214.s"
-}
+s16 KartObjectProxy::getMaxMtCharge() { return kartMove()->getMaxMtCharge(); }
+
+s16 KartObjectProxy::getMaxSmtCharge() { return kartMove()->getMaxSmtCharge(); }
+
+} // namespace Kart
 
 // Symbol: unk_80591220
 // PAL: 0x80591220..0x80591264
@@ -1072,54 +1021,19 @@ asm UNKNOWN_FUNCTION(unk_80591378){
 // Symbol: unk_805913a8
 // PAL: 0x805913a8..0x805913fc
 MARK_BINARY_BLOB(unk_805913a8, 0x805913a8, 0x805913fc);
-asm UNKNOWN_FUNCTION(unk_805913a8){
+asm UNKNOWN_FUNCTION(unk_805913a8) {
 #include "asm/805913a8.s"
 }
 
-// Symbol: unk_805913fc
-// PAL: 0x805913fc..0x80591418
-MARK_BINARY_BLOB(unk_805913fc, 0x805913fc, 0x80591418);
-asm UNKNOWN_FUNCTION(unk_805913fc){
-#include "asm/805913fc.s"
-}
-
-// Symbol: unk_80591418
-// PAL: 0x80591418..0x80591428
-MARK_BINARY_BLOB(unk_80591418, 0x80591418, 0x80591428);
-asm UNKNOWN_FUNCTION(unk_80591418) {
-#include "asm/80591418.s"
-}
-
-#if 0
-// Symbol: kartAccessor_44__Q24Kart15KartObjectProxyFv
-// PAL: 0x80591428..0x80591434
-MARK_BINARY_BLOB(kartAccessor_44__Q24Kart15KartObjectProxyFv, 0x80591428, 0x80591434);
-asm UNKNOWN_FUNCTION(kartAccessor_44__Q24Kart15KartObjectProxyFv){
-#include "asm/80591428.s"
-}
-
-// Symbol: kartAccessor_48__Q24Kart15KartObjectProxyFv
-// PAL: 0x80591434..0x80591440
-MARK_BINARY_BLOB(kartAccessor_48__Q24Kart15KartObjectProxyFv, 0x80591434, 0x80591440);
-asm UNKNOWN_FUNCTION(kartAccessor_48__Q24Kart15KartObjectProxyFv){
-#include "asm/80591434.s"
-}
-
-// Symbol: kartNetSender__Q24Kart15KartObjectProxyFv
-// PAL: 0x80591440..0x8059144c
-MARK_BINARY_BLOB(kartNetSender__Q24Kart15KartObjectProxyFv, 0x80591440, 0x8059144c);
-asm UNKNOWN_FUNCTION(kartNetSender__Q24Kart15KartObjectProxyFv){
-#include "asm/80591440.s"
-}
-
-// Symbol: kartNetReceiver__Q24Kart15KartObjectProxyFv
-// PAL: 0x8059144c..0x80591458
-MARK_BINARY_BLOB(kartNetReceiver__Q24Kart15KartObjectProxyFv, 0x8059144c, 0x80591458);
-asm UNKNOWN_FUNCTION(kartNetReceiver__Q24Kart15KartObjectProxyFv){
-#include "asm/8059144c.s"
-}
-#else
 namespace Kart {
+
+bool KartObjectProxy::isDrivingIdle() {
+  return kartMove()->drivingDirection() == KartMove::DRIVING_DIRECTION_IDLE;
+}
+
+s16 KartObjectProxy::getBackwardsAllowCounter() {
+  return kartMove()->backwardsAllowCounter();
+}
 
 KartAccessor_44* KartObjectProxy::kartAccessor_44() { return mAccessor->m_44; }
 
@@ -1132,7 +1046,6 @@ KartNetReceiver* KartObjectProxy::kartNetReceiver() {
 }
 
 } // namespace Kart
-#endif
 
 // Symbol: PlayerPointers_getRacedataFactoryFlags
 // PAL: 0x80591458..0x80591468
@@ -1145,23 +1058,20 @@ asm UNKNOWN_FUNCTION(PlayerPointers_getRacedataFactoryFlags){
 // Symbol: unk_80591468
 // PAL: 0x80591468..0x80591478
 MARK_BINARY_BLOB(unk_80591468, 0x80591468, 0x80591478);
-asm UNKNOWN_FUNCTION(unk_80591468){
+asm UNKNOWN_FUNCTION(unk_80591468) {
 #include "asm/80591468.s"
 }
 
-// Symbol: unk_80591478
-// PAL: 0x80591478..0x805914bc
-MARK_BINARY_BLOB(unk_80591478, 0x80591478, 0x805914bc);
-asm UNKNOWN_FUNCTION(unk_80591478){
-#include "asm/80591478.s"
+namespace Kart {
+
+void KartObjectProxy::setScale(const EGG::Vector3f& scale) {
+  EGG::Vector3f scale_ = scale;
+  kartMove()->setScale(scale_);
 }
 
-// Symbol: PlayerPointers_getScale
-// PAL: 0x805914bc..0x805914cc
-MARK_BINARY_BLOB(PlayerPointers_getScale, 0x805914bc, 0x805914cc);
-asm UNKNOWN_FUNCTION(PlayerPointers_getScale){
-#include "asm/805914bc.s"
-}
+const EGG::Vector3f& KartObjectProxy::getScale() { return kartMove()->scale(); }
+
+} // namespace Kart
 
 // Symbol: unk_805914cc
 // PAL: 0x805914cc..0x805914e4
@@ -1173,18 +1083,15 @@ asm UNKNOWN_FUNCTION(unk_805914cc){
 // Symbol: unk_805914e4
 // PAL: 0x805914e4..0x805914f4
 MARK_BINARY_BLOB(unk_805914e4, 0x805914e4, 0x805914f4);
-asm UNKNOWN_FUNCTION(unk_805914e4){
+asm UNKNOWN_FUNCTION(unk_805914e4) {
 #include "asm/805914e4.s"
 }
 
-// Symbol: unk_805914f4
-// PAL: 0x805914f4..0x80591520
-MARK_BINARY_BLOB(unk_805914f4, 0x805914f4, 0x80591520);
-asm UNKNOWN_FUNCTION(unk_805914f4) {
-#include "asm/805914f4.s"
-}
-
 namespace Kart {
+
+bool KartObjectProxy::inRespawn() {
+  return kartMove()->respawnTimer() > 0 || kartMove()->someTimer() > 0;
+}
 
 BoxColUnit* KartObjectProxy::kartEntity() { return mAccessor->mEntity; }
 
@@ -1202,38 +1109,30 @@ asm UNKNOWN_FUNCTION(unk_80591538){
 // Symbol: unk_80591608
 // PAL: 0x80591608..0x80591618
 MARK_BINARY_BLOB(unk_80591608, 0x80591608, 0x80591618);
-asm UNKNOWN_FUNCTION(unk_80591608){
+asm UNKNOWN_FUNCTION(unk_80591608) {
 #include "asm/80591608.s"
 }
 
-#if 0
-// Symbol: kartAccessor_60__Q24Kart15KartObjectProxyFv
-// PAL: 0x80591618..0x80591624
-MARK_BINARY_BLOB(kartAccessor_60__Q24Kart15KartObjectProxyFv, 0x80591618, 0x80591624);
-asm UNKNOWN_FUNCTION(kartAccessor_60__Q24Kart15KartObjectProxyFv){
-#include "asm/80591618.s"
-}
-#else
 namespace Kart {
 
 KartAccessor_60* KartObjectProxy::kartAccessor_60() { return mAccessor->m_60; }
 
 } // namespace Kart
-#endif
 
 // Symbol: unk_80591624
 // PAL: 0x80591624..0x80591650
 MARK_BINARY_BLOB(unk_80591624, 0x80591624, 0x80591650);
-asm UNKNOWN_FUNCTION(unk_80591624){
+asm UNKNOWN_FUNCTION(unk_80591624) {
 #include "asm/80591624.s"
 }
 
-// Symbol: unk_80591650
-// PAL: 0x80591650..0x80591664
-MARK_BINARY_BLOB(unk_80591650, 0x80591650, 0x80591664);
-asm UNKNOWN_FUNCTION(unk_80591650){
-#include "asm/80591650.s"
+namespace Kart {
+
+bool KartObjectProxy::isSomeMoveFlagActive() {
+  return kartMove()->flags() & 1 << 2;
 }
+
+} // namespace Kart
 
 // Symbol: PlayerPointers_resetInertia
 // PAL: 0x80591664..0x8059170c
@@ -1315,23 +1214,19 @@ asm UNKNOWN_FUNCTION(unk_805918bc){
 // Symbol: unk_805918e0
 // PAL: 0x805918e0..0x80591904
 MARK_BINARY_BLOB(unk_805918e0, 0x805918e0, 0x80591904);
-asm UNKNOWN_FUNCTION(unk_805918e0){
+asm UNKNOWN_FUNCTION(unk_805918e0) {
 #include "asm/805918e0.s"
 }
 
-// Symbol: PlayerPointers_getPlayerZipper
-// PAL: 0x80591904..0x80591914
-MARK_BINARY_BLOB(PlayerPointers_getPlayerZipper, 0x80591904, 0x80591914);
-asm UNKNOWN_FUNCTION(PlayerPointers_getPlayerZipper){
-#include "asm/80591904.s"
+namespace Kart {
+
+const KartHalfPipe* KartObjectProxy::kartHalfPipe() {
+  return kartMove()->kartHalfPipe();
 }
 
-// Symbol: PlayerPointers_getPlayerTrick
-// PAL: 0x80591914..0x80591924
-MARK_BINARY_BLOB(PlayerPointers_getPlayerTrick, 0x80591914, 0x80591924);
-asm UNKNOWN_FUNCTION(PlayerPointers_getPlayerTrick){
-#include "asm/80591914.s"
-}
+const KartJump* KartObjectProxy::kartJump() { return kartMove()->kartJump(); }
+
+} // namespace Kart
 
 // Symbol: unk_80591924
 // PAL: 0x80591924..0x8059197c
