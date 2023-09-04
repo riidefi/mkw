@@ -6,6 +6,7 @@
 #pragma once
 
 #include <egg/math/eggMath.hpp>
+#include <nw4r/math/mathTypes.hpp>
 
 namespace EGG {
 
@@ -28,14 +29,8 @@ struct Vector2f {
   ~Vector2f();
 };
 
-struct Vector3f {
-  float x;
-  float y;
-  float z;
-
-  float dot() const {
-    return x*x + y*y + z*z;
-  }
+struct Vector3f : public nw4r::math::VEC3 {
+  float dot() const { return x * x + y * y + z * z; }
 
   float normalise();
   // uses fsqrt directly
@@ -47,8 +42,17 @@ struct Vector3f {
 
   // Header fns
 
-  inline Vector3f(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+  inline Vector3f(float _x, float _y, float _z) {
+    x = _x;
+    y = _y;
+    z = _z;
+  }
   inline Vector3f() {}
+  inline Vector3f(const nw4r::math::VEC3& v) {
+    x = v.x;
+    y = v.y;
+    z = v.z;
+  }
 
   // operator Vec*() { return reinterpret_cast<Vec*>(&x); }
 
