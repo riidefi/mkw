@@ -41,7 +41,7 @@ extern UNKNOWN_FUNCTION(getMaxSmtCharge__Q24Kart8KartMoveFv);
 // PAL: 0x8057eff8
 extern UNKNOWN_FUNCTION(getAppliedHopStickX__Q24Kart8KartMoveFv);
 // PAL: 0x80581720
-extern UNKNOWN_FUNCTION(setScale__Q24Kart8KartMoveFRCQ23EGG8Vector3f);
+extern UNKNOWN_FUNCTION(setScale__Q24Kart8KartMoveFQ23EGG8Vector3f);
 // PAL: 0x80581a24
 extern UNKNOWN_FUNCTION(empty__Q24Kart8KartMoveFl);
 // PAL: 0x805832e4
@@ -1065,8 +1065,7 @@ asm UNKNOWN_FUNCTION(unk_80591468) {
 namespace Kart {
 
 void KartObjectProxy::setScale(const EGG::Vector3f& scale) {
-  EGG::Vector3f scale_ = scale;
-  kartMove()->setScale(scale_);
+  kartMove()->setScale(scale);
 }
 
 const EGG::Vector3f& KartObjectProxy::getScale() { return kartMove()->scale(); }

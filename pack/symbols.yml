@@ -17532,7 +17532,7 @@ global:
     0x805813a4: 'unk_805813a4'
     0x805813e8: 'unk_805813e8'
     0x8058160c: 'unk_8058160c'
-    0x80581720: 'setScale__Q24Kart8KartMoveFRCQ23EGG8Vector3f'
+    0x80581720: 'setScale__Q24Kart8KartMoveFQ23EGG8Vector3f'
     0x8058173c: 'unk_8058173c'
     0x80581778: 'unk_80581778'
     0x80581824: 'unk_80581824'

@@ -201,7 +201,7 @@ UNKNOWN_FUNCTION(unk_805813e8);
 // PAL: 0x8058160c..0x80581720
 UNKNOWN_FUNCTION(unk_8058160c);
 // PAL: 0x80581720..0x8058173c
-UNKNOWN_FUNCTION(setScale__Q24Kart8KartMoveFRCQ23EGG8Vector3f);
+UNKNOWN_FUNCTION(setScale__Q24Kart8KartMoveFQ23EGG8Vector3f);
 // PAL: 0x8058173c..0x80581778
 UNKNOWN_FUNCTION(unk_8058173c);
 // PAL: 0x80581778..0x80581824
@@ -471,12 +471,14 @@ class KartJump;
 
 class KartMove : public KartObjectProxy {
 public:
-  enum DrivingDirection { DRIVING_DIRECTION_IDLE = 2 };
+  enum DrivingDirection {
+    DRIVING_DIRECTION_IDLE = 2,
+  };
 
   s16 getMaxMtCharge();
   s16 getMaxSmtCharge();
   s32 getAppliedHopStickX();
-  void setScale(const EGG::Vector3f& scale);
+  void setScale(const EGG::Vector3f scale);
   void empty(s32 arg);
   void clearBoost();
 
