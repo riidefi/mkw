@@ -195,7 +195,7 @@ extern UNKNOWN_FUNCTION(unk_805813e8);
 // PAL: 0x8058160c
 extern UNKNOWN_FUNCTION(unk_8058160c);
 // PAL: 0x80581720
-extern UNKNOWN_FUNCTION(setScale__Q24Kart8KartMoveFRCQ23EGG8Vector3f);
+extern UNKNOWN_FUNCTION(setScale__Q24Kart8KartMoveFQ23EGG8Vector3f);
 // PAL: 0x80581824
 extern UNKNOWN_FUNCTION(unk_80581824);
 // PAL: 0x80581b1c
@@ -1401,7 +1401,7 @@ asm UNKNOWN_FUNCTION(unk_8058160c) {
 
 namespace Kart {
 
-void KartMove::setScale(const EGG::Vector3f& scale) {
+void KartMove::setScale(const EGG::Vector3f scale) {
   // mScale = scale;
   mScale.x = scale.x;
   mScale.y = scale.y;
