@@ -449,15 +449,6 @@ def add_ppc2cpp_rules(orig_files, target_files, orig_out, target_out, n: Writer)
     )
 
 
-def create_ppc2cpp_proj(files, out, n: Writer, orig: bool):
-    rulename = "ppc2cppcreateorig" if orig else "ppc2cppcreatetarget"
-    n.build(
-        str(out),
-        rule=rulename,
-        inputs=list(str(pth) for pth in files)
-    )
-
-
 def configure(args):
     analyse_bins(args.force_analyse)
     gen_asm(args.regen_asm)
