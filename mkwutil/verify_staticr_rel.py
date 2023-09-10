@@ -159,8 +159,7 @@ def verify_rel(reference: Path, target: Path):
         orig_yaml = str(Path("mkwutil/ppcdis_adapter/rel.yaml"))
         good = load_binary_yml(orig_yaml)
         test = good.load_other(target)
-        reloc_match = diff_relocs(good, test, max_diffs=20)
-        reloc_match = True
+        reloc_match = not diff_relocs(good, test, max_diffs=20)
 
         if reloc_match:
             binary_diff_exitcode = check_dataflow_funcs(dataflow_funcs)
