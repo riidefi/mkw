@@ -32,9 +32,9 @@ source/game/host_system/RKSystem.cpp:
 source/platform/ansi_files.c:
     text: [0x8000c948, 0x8000cadc]
 
-source/platform/ansi_fp.c:
-    text: [0x8000cadc, 0x8000e418]
-    sdata2: [0x80387030, 0x80387050]
+#source/platform/ansi_fp.c:
+#    text: [0x8000cadc, 0x8000e434]
+#    sdata2: [0x80387030, 0x80387050]
 
 source/platform/float.c:
     text: [0x8000ef04, 0x8000eff8]
@@ -45,8 +45,8 @@ source/platform/mem.c:
 source/platform/mem_cpy.c:
     text: [0x8000f360, 0x8000f630]
 
-source/platform/printf.c:
-    text: [0x800100e4, 0x80011b00]
+#source/platform/printf.c:
+#    text: [0x800100e4, 0x80011b00]
 
 source/platform/qsort.c:
     text: [0x80011b00, 0x80011c70]
@@ -55,8 +55,8 @@ source/platform/rand.c:
     text: [0x80011c70, 0x80011c98]
     sdata: [0x80384c38, 0x80384c3c]
 
-source/platform/scanf.c:
-    text: [0x80011c98, 0x80013108]
+#source/platform/scanf.c:
+#    text: [0x80011c98, 0x80013108]
 
 source/platform/wchar.c:
     text: [0x80017998, 0x80017a48]
@@ -365,7 +365,7 @@ source/gamespy/qr2/qr2.c:
     strip: 1
     text: [0x8010ecac, 0x8011156c]
     data: [0x8027c2f0, 0x8027d21b]
-    bss: [0x802f34c0, 0x802f3624]
+    bss: [0x802f34c0, 0x802f3620]
     sdata: [0x80385520, 0x8038554a]
     sbss: [0x80386368, 0x8038636c]
     sdata2: [0x80388478, 0x8038847e]
@@ -604,8 +604,8 @@ source/rvl/bte/bta_api.c:
 source/rvl/bte/bta_dm_main.c:
     text: [0x80134cc8, 0x80134e28]
 
-source/rvl/bte/bta_dm_pm.c:
-    text: [0x80134e28, 0x80135844]
+#source/rvl/bte/bta_dm_pm.c:
+#    text: [0x80134e28, 0x80135844]
 
 source/rvl/bte/bta_hh_act.c:
     text: [0x80135844, 0x80136f8c]
@@ -613,8 +613,8 @@ source/rvl/bte/bta_hh_act.c:
 source/rvl/bte/bta_hh_api.c:
     text: [0x80136f8c, 0x8013735c]
 
-source/rvl/bte/bta_hh_main.c:
-    text: [0x8013735c, 0x801378b0]
+#source/rvl/bte/bta_hh_main.c:
+#    text: [0x8013735c, 0x801378b0]
 
 source/rvl/bte/bta_hh_utils.c:
     text: [0x801378b0, 0x80137c5c]
@@ -663,8 +663,8 @@ source/rvl/bte/gap_api.c:
 source/rvl/bte/gap_conn.c:
     text: [0x801434c0, 0x80143ffc]
 
-source/rvl/bte/gap_utils.c:
-    text: [0x80143ffc, 0x80144618]
+#source/rvl/bte/gap_utils.c:
+#    text: [0x80143ffc, 0x80144618]
 
 source/rvl/bte/hcicmds.c:
     text: [0x80144618, 0x80146d34]
@@ -690,14 +690,14 @@ source/rvl/bte/hidh_conn.c:
 source/rvl/bte/l2c_api.c:
     text: [0x8014a060, 0x8014ac2c]
 
-source/rvl/bte/l2c_csm.c:
-    text: [0x8014ac2c, 0x8014c108]
+#source/rvl/bte/l2c_csm.c:
+#    text: [0x8014ac2c, 0x8014c108]
 
 source/rvl/bte/l2c_link.c:
     text: [0x8014c108, 0x8014d294]
 
-source/rvl/bte/l2c_main.c:
-    text: [0x8014d294, 0x8014e2c4]
+#source/rvl/bte/l2c_main.c:
+#    text: [0x8014d294, 0x8014e2c4]
 
 source/rvl/bte/l2c_utils.c:
     text: [0x8014e2c4, 0x80150188]
@@ -714,11 +714,11 @@ source/rvl/bte/port_utils.c:
 source/rvl/bte/rfc_l2cap_if.c:
     text: [0x80151bac, 0x801524e0]
 
-source/rvl/bte/rfc_mx_fsm.c:
-    text: [0x801524e0, 0x80153124]
+#source/rvl/bte/rfc_mx_fsm.c:
+#    text: [0x801524e0, 0x80153124]
 
-source/rvl/bte/rfc_port_fsm.c:
-    text: [0x80153124, 0x801542c4]
+#source/rvl/bte/rfc_port_fsm.c:
+#    text: [0x80153124, 0x801542c4]
 
 source/rvl/bte/rfc_port_if.c:
     text: [0x801542c4, 0x801547f0]
@@ -729,14 +729,14 @@ source/rvl/bte/rfc_ts_frames.c:
 source/rvl/bte/rfc_utils.c:
     text: [0x80155e38, 0x80156618]
 
-source/rvl/bte/sdp_api.c:
-    text: [0x80156618, 0x80157480]
+#source/rvl/bte/sdp_api.c:
+#    text: [0x80156618, 0x80157480]
 
 source/rvl/bte/sdp_db.c:
     text: [0x80157480, 0x8015814c]
 
-source/rvl/bte/sdp_discovery.c:
-    text: [0x8015814c, 0x801593c4]
+#source/rvl/bte/sdp_discovery.c:
+#    text: [0x8015814c, 0x801593c4]
 
 source/rvl/bte/sdp_main.c:
     text: [0x801593c4, 0x80159f30]
@@ -744,8 +744,8 @@ source/rvl/bte/sdp_main.c:
 source/rvl/bte/sdp_server.c:
     text: [0x80159f30, 0x8015ac40]
 
-source/rvl/bte/sdp_utils.c:
-    text: [0x8015ac40, 0x8015bc80]
+#source/rvl/bte/sdp_utils.c:
+#    text: [0x8015ac40, 0x8015bc80]
 
 source/rvl/cnt/cnt.c:
     text: [0x8015bc80, 0x8015bef0]
@@ -781,8 +781,8 @@ source/rvl/dsp/dspTask.c:
 source/rvl/dvd/dvdFs.c:
     text: [0x8015df1c, 0x8015e964]
 
-source/rvl/dvd/dvdMain.c:
-    text: [0x8015e964, 0x801635bc]
+#source/rvl/dvd/dvdMain.c:
+#    text: [0x8015e964, 0x801635bc]
 
 source/rvl/dvd/dvdQueue.c:
     text: [0x801635bc, 0x80163818]
@@ -835,8 +835,8 @@ source/rvl/gx/gxInit.c:
 source/rvl/gx/gxFifo.c:
     text: [0x8016c668, 0x8016d3a4]
 
-source/rvl/gx/gxAttr.c:
-    text: [0x8016d3a4, 0x8016e5c8]
+#source/rvl/gx/gxAttr.c:
+#    text: [0x8016d3a4, 0x8016e5c8]
 
 source/rvl/gx/gxMisc.c:
     text: [0x8016e5c8, 0x8016ee78]
@@ -847,11 +847,11 @@ source/rvl/gx/gxGeometry.c:
 source/rvl/gx/gxFrameBuf.c:
     text: [0x8016f438, 0x8016ff04]
 
-source/rvl/gx/gxLight.c:
-    text: [0x8016ff04, 0x80170614]
+#source/rvl/gx/gxLight.c:
+#    text: [0x8016ff04, 0x80170614]
 
-source/rvl/gx/gxTexture.c:
-    text: [0x80170614, 0x801717ac]
+#source/rvl/gx/gxTexture.c:
+#    text: [0x80170614, 0x801717ac]
 
 source/rvl/gx/gxBump.c:
     text: [0x801717ac, 0x80171c4c]
@@ -871,8 +871,8 @@ source/rvl/gx/gxDisplayList.c:
 source/rvl/gx/gxTransform.c:
     text: [0x80172fd8, 0x801735cc]
 
-source/rvl/gx/gxPerf.c:
-    text: [0x801735cc, 0x80173e08]
+#source/rvl/gx/gxPerf.c:
+#    text: [0x801735cc, 0x80173e08]
 
 source/rvl/ipc/ipcMain.c:
     text: [0x80192f7c, 0x80193048]
@@ -971,9 +971,9 @@ source/rvl/os/osContext.c:
     text: [0x801a1c1c, 0x801a25d0]
     data: [0x8028f320, 0x8028f4d8]
 
-source/rvl/os/osError.c:
-    text: [0x801a25d0, 0x801a2e84]
-    sdata: [0x80385aa8, 0x80385aac]
+#source/rvl/os/osError.c:
+#    text: [0x801a25d0, 0x801a2e84]
+#    sdata: [0x80385aa8, 0x80385aac]
 
 source/rvl/os/osFatal.c:
     strip: 1
@@ -995,18 +995,18 @@ source/rvl/os/osLink.c:
 source/rvl/os/osMessage.c:
     text: [0x801a72fc, 0x801a75d0]
 
-source/rvl/os/osMemory.c:
-    text: [0x801a75d0, 0x801a7eac]
+#source/rvl/os/osMemory.c:
+#    text: [0x801a75d0, 0x801a7eac]
 
-source/rvl/os/osMutex.c:
-    text: [0x801a7eac, 0x801a81b8]
+#source/rvl/os/osMutex.c:
+#    text: [0x801a7eac, 0x801a81b8]
 
 source/rvl/os/osReboot.c:
     text: [0x801a81b8, 0x801a8238]
     sbss: [0x80386900, 0x80386908]
 
-source/rvl/os/osReset.c:
-    text: [0x801a8238, 0x801a8a80]
+#source/rvl/os/osReset.c:
+#    text: [0x801a8238, 0x801a8a80]
 
 source/rvl/os/osRtc.c:
     text: [0x801a8a9c, 0x801a9528]
@@ -1110,7 +1110,7 @@ source/egg/core/eggDvdFile.cpp:
     strip: 1
     text: [0x8022231c, 0x802226d8]
     data: [0x802a2da0, 0x802a2dc8]
-    bss: [0x80384190, 0x803841a0]
+    bss: [0x80384190, 0x8038419c]
     sbss: [0x80386e18, 0x80386e20]
 
 source/egg/core/eggDvdRipper.cpp:
@@ -1131,12 +1131,12 @@ source/egg/core/eggExpHeap.cpp:
     rodata: [0x80257700, 0x8025771a]
     data: [0x802a2ff8, 0x802a3024]
 
-source/egg/gfx/eggFog.cpp:
-    text: [0x80226f04, 0x802271bc]
-    sdata2: [0x80388d00, 0x80388d08]
+#source/egg/gfx/eggFog.cpp:
+#    text: [0x80226f04, 0x802271bc]
+#    sdata2: [0x80388d00, 0x80388d08]
 
-source/egg/gfx/eggFogManager.cpp:
-    text: [0x802271bc, 0x802276c0]
+#source/egg/gfx/eggFogManager.cpp:
+#    text: [0x802271bc, 0x802276c0]
 
 source/egg/core/eggGraphicsFifo.cpp:
     text: [0x80229540, 0x802296a8]
@@ -1154,8 +1154,8 @@ source/egg/core/eggHeap.cpp:
 source/egg/gfx/eggIScnProc.cpp:
     text: [0x80229fac, 0x8022a38c]
 
-source/egg/gfx/eggLightManager.cpp:
-    text: [0x8022a38c, 0x8022b6d4]
+#source/egg/gfx/eggLightManager.cpp:
+#    text: [0x8022a38c, 0x8022b6d4]
 
 #source/egg/gfx/eggLightObject.cpp:
 #    text: [0x8022b6d4, 0x8022d0f8]
@@ -1184,8 +1184,8 @@ source/egg/core/eggSceneManager.cpp:
     sbss: [0x80386f00, 0x80386f10]
     sdata2: [0x80389008, 0x80389014]
 
-source/egg/gfx/eggScnRenderer.cpp:
-    text: [0x8023b980, 0x8023c694]
+#source/egg/gfx/eggScnRenderer.cpp:
+#    text: [0x8023b980, 0x8023c694]
 
 source/egg/util/eggStream.cpp:
     text: [0x80241b60, 0x80242498]
@@ -1239,5 +1239,5 @@ source/egg/core/eggXfb.cpp:
 source/egg/core/eggXfbManager.cpp:
     text: [0x80244200, 0x802443ac]
 
-source/egg/core/g3d_scnrfl.cpp:
-    text: [0x802443ac, 0x80244dd4]
+#source/egg/core/g3d_scnrfl.cpp:
+#    text: [0x802443ac, 0x80244dd4]

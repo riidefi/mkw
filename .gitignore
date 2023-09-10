@@ -80,3 +80,8 @@ expected
 build.ninja
 .ninja_deps
 .ninja_log
+
+# ppc2cpp
+*.ppc2cpp
+ppc2cpp
+ppc2cpp.zip
