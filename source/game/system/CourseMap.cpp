@@ -3400,12 +3400,8 @@ MapdataAreaBase::MapdataAreaBase(const SData* data) : mIndex(-1) {
   mZAxis.x = 0.0f;
 }
 
-} // namespace System
-
 // Regswap - https://decomp.me/scratch/1tQoj
-#ifdef NON_MATCHING
-namespace System {
-
+MARK_FLOW_CHECK(0x805160b0);
 bool MapdataAreaBase::isInside(const EGG::Vector3f& pos) const {
   f32 x = mpData->position.x - pos.x;
   f32 y = mpData->position.y - pos.y;
@@ -3414,57 +3410,6 @@ bool MapdataAreaBase::isInside(const EGG::Vector3f& pos) const {
   EGG::Vector3f pos_(x, y, z);
   return pos_.dot() > mBoundingSphereRadiusSq ? false : isInsideShape(pos);
 }
-
-} // namespace System
-#else
-// Symbol: isInside__Q26System15MapdataAreaBaseCFRCQ23EGG8Vector3f
-// PAL: 0x805160b0..0x80516138
-MARK_BINARY_BLOB(isInside__Q26System15MapdataAreaBaseCFRCQ23EGG8Vector3f,
-                 0x805160b0, 0x80516138);
-asm UNKNOWN_FUNCTION(isInside__Q26System15MapdataAreaBaseCFRCQ23EGG8Vector3f) {
-  // clang-format off
-  nofralloc
-  /* 805160B0 9421FFE0 */ stwu        r1, -0x20(r1)
-  /* 805160B4 7C0802A6 */ mflr        r0
-  /* 805160B8 90010024 */ stw         r0, 0x24(r1)
-  /* 805160BC 80A30004 */ lwz         r5, 4(r3)
-  /* 805160C0 C0240000 */ lfs         f1, 0(r4)
-  /* 805160C4 C0650004 */ lfs         f3, 4(r5)
-  /* 805160C8 C0850008 */ lfs         f4, 8(r5)
-  /* 805160CC EC430828 */ fsubs       f2, f3, f1
-  /* 805160D0 C0040004 */ lfs         f0, 4(r4)
-  /* 805160D4 C0A5000C */ lfs         f5, 0xc(r5)
-  /* 805160D8 ECE40028 */ fsubs       f7, f4, f0
-  /* 805160DC C0240008 */ lfs         f1, 8(r4)
-  /* 805160E0 EC4200B2 */ fmuls       f2, f2, f2
-  /* 805160E4 ECC50828 */ fsubs       f6, f5, f1
-  /* 805160E8 D0610008 */ stfs        f3, 8(r1)
-  /* 805160EC EC2701F2 */ fmuls       f1, f7, f7
-  /* 805160F0 C0030040 */ lfs         f0, 0x40(r3)
-  /* 805160F4 EC6601B2 */ fmuls       f3, f6, f6
-  /* 805160F8 D081000C */ stfs        f4, 0xc(r1)
-  /* 805160FC EC22082A */ fadds       f1, f2, f1
-  /* 80516100 D0A10010 */ stfs        f5, 0x10(r1)
-  /* 80516104 EC23082A */ fadds       f1, f3, f1
-  /* 80516108 FC010040 */ opword      0xfc010040
-  /* 8051610C 4081000C */ ble-        lbl_80516118
-  /* 80516110 38600000 */ li          r3, 0x0
-  /* 80516114 48000014 */ b           lbl_80516128
-  lbl_80516118:
-  /* 80516118 81830000 */ lwz         r12, 0(r3)
-  /* 8051611C 818C0008 */ lwz         r12, 8(r12)
-  /* 80516120 7D8903A6 */ mtctr       r12
-  /* 80516124 4E800421 */ bctrl
-  lbl_80516128:
-  /* 80516128 80010024 */ lwz         r0, 0x24(r1)
-  /* 8051612C 7C0803A6 */ mtlr        r0
-  /* 80516130 38210020 */ addi        r1, r1, 0x20
-  /* 80516134 4E800020 */ blr
-  // clang-format on
-}
-#endif
-
-namespace System {
 
 s32 MapdataAreaBase::getRouteId() const {
   // Of course it uses r0

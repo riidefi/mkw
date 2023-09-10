@@ -97,6 +97,8 @@ GAS = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as"))
 GCC = __native_binary(os.path.join(DEVKITPPC, "bin", "powerpc-eabi-gcc"))
 
 MWLD = os.path.join("tools", "mwldeppc.exe")
+PPC2CPP = __native_binary(os.path.join("tools", "ppc2cpp", "bin", "ppc2cpp"))
+ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
 
 CWCC_PATHS = {
     "default": os.path.join(".", "tools", "4199_60831", "mwcceppc.exe"),
@@ -287,7 +289,6 @@ def add_compile_rules(args, n: Writer):
     n.variable("gcc", GCC)
     n.variable("asflags", "-mgekko -Iasm")
 
-    ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
     n.rule(
         "as",
         command = ALLOW_CHAIN + "$as $in $asflags -o $out && python -m mkwutil.postprocess -fno-ctor_realign -fsymbol-fixup -fprologue-fixup=none $out",
@@ -354,7 +355,6 @@ def link_dol(dol_objects_path: Path, n: Writer):
     link(elf_path, dol_objects, dst_lcf_path, map_path, n)
     # Convert ELF to DOL.
     dol_path = dest_dir / "main.dol"
-    ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
     n.rule(
         "pack_dol",
         command = ALLOW_CHAIN + "python -m mkwutil.mkw_binary_patch $in && python -m mkwutil.pack_main_dol -o $out $in",
@@ -365,7 +365,7 @@ def link_dol(dol_objects_path: Path, n: Writer):
         rule = "pack_dol",
         inputs = str(elf_path)
     )
-    return dol_path
+    return dol_path, elf_path
 
 
 def link_rel(rel_objects_path: Path, n: Writer):
@@ -400,7 +400,62 @@ def link_rel(rel_objects_path: Path, n: Writer):
             "dolelf" : str(dol_elf_path),
         }
     )
-    return rel_path
+    return rel_path, elf_path
+
+
+def provide_ppc2cpp():
+    if not os.path.exists(PPC2CPP):
+        import urllib.request
+        import zipfile
+        ppc2cpp_zip = "ppc2cpp.zip"
+        print("Downloading ppc2cpp...")
+        urllib.request.urlretrieve("https://github.com/em-eight/ppc2cpp/releases/download/0.1/ppc2cpp-Linux.zip", ppc2cpp_zip)
+        with zipfile.ZipFile(ppc2cpp_zip, 'r') as zip_ref:
+            zip_ref.extractall("tools/ppc2cpp")
+            print(PPC2CPP)
+            st = os.stat(str(PPC2CPP))
+            import stat
+            os.chmod(str(PPC2CPP), st.st_mode | stat.S_IEXEC)
+
+
+
+def add_ppc2cpp_rules(orig_files, target_files, orig_out, target_out, n: Writer):
+    provide_ppc2cpp()
+    n.variable("ppc2cpp", str(PPC2CPP))
+    n.variable("ppcdis_dir", "mkwutil/ppcdis_adapter")
+    symmap = Path("pack/symbols.yml")
+    n.variable("symmap", str(symmap))
+    importcmd = "$ppc2cpp importppcdis -s $symmap -i $out -p $ppcdis_dir/dol.yaml $ppcdis_dir/dol_labels.pickle $ppcdis_dir/dol_relocs.pickle -p $ppcdis_dir/rel.yaml $ppcdis_dir/rel_labels.pickle $ppcdis_dir/rel_relocs.pickle"
+    n.rule(
+        "ppc2cppcreateorig",
+        command=ALLOW_CHAIN + "$ppc2cpp create -o $out $in && " + importcmd,
+        description="PPC2CPP CREATE ORIG"
+    )
+    n.rule(
+        "ppc2cppcreatetarget",
+        command="$ppc2cpp create -o $out $in",
+        description="PPC2CPP CREATE TARGET"
+    )
+    n.build(
+        str(orig_out),
+        rule="ppc2cppcreateorig",
+        inputs=list(str(pth) for pth in orig_files),
+        implicit=[str(symmap)]
+    )
+    n.build(
+        str(target_out),
+        rule="ppc2cppcreatetarget",
+        inputs=list(str(pth) for pth in target_files)
+    )
+
+
+def create_ppc2cpp_proj(files, out, n: Writer, orig: bool):
+    rulename = "ppc2cppcreateorig" if orig else "ppc2cppcreatetarget"
+    n.build(
+        str(out),
+        rule=rulename,
+        inputs=list(str(pth) for pth in files)
+    )
 
 
 def configure(args):
@@ -434,8 +489,12 @@ def configure(args):
             command = "$ld $in $ldflags -o $out",
             description = "LD $out"
         )
-        target_dol_path = link_dol(dol_objects_path, n)
-        target_rel_path = link_rel(rel_objects_path, n)
+        target_dol_path, target_dol_elf_path = link_dol(dol_objects_path, n)
+        target_rel_path, target_rel_elf_path = link_rel(rel_objects_path, n)
+
+        orig_ppc2cpp_proj = Path("artifacts", "orig", "pal", "orig.ppc2cpp")
+        target_ppc2cpp_proj = Path("artifacts", "orig", "pal", "target.ppc2cpp")
+        add_ppc2cpp_rules([orig_dol_path, orig_rel_path], [target_dol_elf_path, target_rel_elf_path], orig_ppc2cpp_proj, target_ppc2cpp_proj, n)
 
         n.rule(
             "verify",
@@ -447,6 +506,7 @@ def configure(args):
             dol_ok,
             rule = "verify",
             inputs = str(target_dol_path),
+            implicit = [str(orig_ppc2cpp_proj), str(target_ppc2cpp_proj), str(target_dol_elf_path)],
             variables = {
                 "verifyscript" : "mkwutil.verify_main_dol",
                 "ref" : str(orig_dol_path),
@@ -457,6 +517,7 @@ def configure(args):
             rel_ok,
             rule = "verify",
             inputs = str(target_rel_path),
+            implicit = [str(orig_ppc2cpp_proj), str(target_ppc2cpp_proj), str(target_rel_elf_path)],
             variables = {
                 "verifyscript" : "mkwutil.verify_staticr_rel",
                 "ref" : str(orig_rel_path),

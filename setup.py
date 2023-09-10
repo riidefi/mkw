@@ -22,7 +22,7 @@ setup(
         'packaging',
         'pathvalidate',
         'pluggy',
-        'ppcdis @ git+https://github.com/SeekyCt/ppcdis.git@c644c1c0abc1152cd931b4be7f51dfde6e67ab64',
+        'ppcdis-protobuf',
         'pre-commit',
         'py',
         'pyelftools',

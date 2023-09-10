@@ -18,6 +18,12 @@
       "BINARY_BLOB: " #name "\t" #start "\t" #stop "\n"                        \
       __attribute__((force_export))
 
+#pragma section RW "flow_check"
+#define SECTION_FLOW_CHECK __declspec(section "flow_check")
+#define MARK_FLOW_CHECK(start)                                                 \
+  SECTION_FLOW_CHECK u32 __flow_check_##start = start             \
+      __attribute__((force_export))
+
 struct __mkw_patch {
   void* ptr;
   unsigned int len;
@@ -91,6 +97,39 @@ typedef struct {
   __declspec(section "relsymdef")                                              \
       __RelSymbolDef rel_sym_##name = {addr, (const void*)&name};              \
   FORCEACTIVE_DATA(rel_sym_##name)
+
+#define cr0lt 0
+#define cr0gt 1
+#define cr0eq 2
+#define cr0un 3
+#define cr1lt 4
+#define cr1gt 5
+#define cr1eq 6
+#define cr1un 7
+#define cr2lt 8
+#define cr2gt 9
+#define cr2eq 10
+#define cr2un 11
+#define cr3lt 12
+#define cr3gt 13
+#define cr3eq 14
+#define cr3un 15
+#define cr4lt 16
+#define cr4gt 17
+#define cr4eq 18
+#define cr4un 19
+#define cr5lt 20
+#define cr5gt 21
+#define cr5eq 22
+#define cr5un 23
+#define cr6lt 24
+#define cr6gt 25
+#define cr6eq 26
+#define cr6un 27
+#define cr7lt 28
+#define cr7gt 29
+#define cr7eq 30
+#define cr7un 31
 
 //// end of macros from ppcdis
 
