@@ -22,7 +22,7 @@ setup(
         'packaging',
         'pathvalidate',
         'pluggy',
-        'ppcdis-protobuf',
+        'ppcdis-protobuf==0.0.2',
         'pre-commit',
         'py',
         'pyelftools',

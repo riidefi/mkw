@@ -16,7 +16,7 @@ ninja-syntax==1.7.2
 packaging==23.1
 pathvalidate==2.4.1
 pluggy==0.13.1
-ppcdis-protobuf==0.0.1
+ppcdis-protobuf==0.0.2
 pre-commit==2.19.0
 py==1.11.0
 pyelftools==0.29
