@@ -31,154 +31,10 @@ jinja_env = jinja2.Environment(
 jinja_env.filters["addr"] = lambda x: "0x%08x" % (x)
 
 
-def addr_in_sym(addr, sym):
-    return sym.addr <= addr < sym.addr + sym.size
-
-
 def is_text_addr(addr):
     # could be less hardcoded using mkwutil.lib
     return (0x805103b4<=addr and addr<0x8088f400) or (0x80004000<=addr and addr<0x80006460) or (0x800072c0<=addr and addr<0x80244de0)
 
-class AsmGenerator:
-    """Generates assembly files."""
-
-    def __init__(self, data, _slice, symbols, output, extra_labels, rel=False):
-        self.data = data
-        self.slice = _slice
-        self.symbols = symbols
-        self.output = output
-        self.extra_labels = extra_labels
-        extras = [addr for addr in extra_labels if addr not in symbols]
-        self.symbol_locs = sorted([sym.addr for sym in symbols] + \
-            [addr for addr in extra_labels if addr not in symbols])
-        self.is_rel = rel
-
-
-    # TODO Define symbols in ASM
-
-    def emit_symbol(self, address):
-        """Maybe emits a symbol, if there is one."""
-        if address not in self.symbols:  # probably slow
-            # TODO: maybe add to symbol map (this includes lots of data though)
-            if address in self.extra_labels: # labels referenced by code not in symbol map
-                if self.extra_labels[address] == 'DATA':
-                    name = f'lbl_{address:08x}'
-                    print(f'.global "{name}"\n"{name}":', file=self.output)
-                elif self.extra_labels[address] == 'FUNCTION':
-                    name = f'fun_{address:08x}'
-                    print(f'.global "{name}"\n"{name}":', file=self.output)
-
-            return
-        name = self.symbols[address].name
-        print(f'.global "{name}"\n"{name}":', file=self.output)
-
-    def dump_bss(self):
-        """Writes a bss segment."""
-        for part in self.slice.split(self.symbol_locs):
-            self.emit_symbol(part.start)
-            print(".skip 0x%x" % len(part), file=self.output)
-
-    def dump_data(self):
-        """Writes a data segment."""
-        for part in self.slice.split(self.symbol_locs):
-            self.emit_data_words(part)
-
-    def emit_data_words(self, part: Slice):
-        """Emits a bunch of data segment words."""
-        for address, chunk in self.iter_data_chunks(part, 4):
-            if len(chunk) == 4:
-                self.emit_symbol(address)
-                print(".4byte 0x%08X" % struct.unpack(">I", chunk), file=self.output)
-            else:
-                self.emit_data_bytes(address, chunk)
-
-    def emit_data_bytes(self, address, data):
-        """Emits a few data segment bytes."""
-        while len(data) > 0:
-            self.emit_symbol(address)
-            byte_val = data[0]
-            print(".byte 0x%02x" % (byte_val), file=self.output)
-            data = data[1:]
-            address += 1
-
-    def get_data_chunk(self, part: Slice) -> bytes:
-        view = memoryview(self.data)
-        view = view[part.start - self.slice.start :]
-        view = view[: len(part)]
-        return bytes(view)
-
-    def iter_data_chunks(
-        self, part: Slice, chunk_size: int
-    ) -> Iterator[tuple[int, bytes]]:
-        offset = part.start - self.slice.start
-        # Use memoryview to scan over data efficiently.
-        view = memoryview(self.data)
-        view = view[offset : part.stop - self.slice.start]
-        # Align first word.
-        if offset % chunk_size != 0 and len(view) > chunk_size:
-            cut = chunk_size - offset
-            left, view = view[:cut], view[cut:]
-            yield self.slice.start + offset, bytes(left)
-            offset += len(left)
-        while len(view) > 0:
-            if len(view) > chunk_size:
-                bs = len(view)
-            else:
-                bs = chunk_size
-            left, view = view[:bs], view[bs:]
-            yield self.slice.start + offset, bytes(left)
-            offset += len(left)
-
-    def dump_text(self):
-        """Writes a disassembled text segment."""
-        for part in self.slice.split(self.symbol_locs):
-            assert part.start % 4 == 0, "misaligned text"
-            self.emit_symbol(part.start)
-            for ins in disasm_iter(self.get_data_chunk(part), part.start, self.symbols):
-                print(ins.disassemble(dont_use_labels=self.is_rel), file=self.output)
-
-    def dump_section_body(self):
-        name = self.slice.section
-        if "bss" in name:
-            self.dump_bss()
-        elif name == "text":
-            self.dump_text()
-        else:
-            self.dump_data()
-
-    def format_segname(self, name):
-        if name in ("extab", "extabindex"):
-            # The linker is supposed to auto-generate those.
-            # It will crash if we try to feed it those sections with object files.
-            return name + "_"
-        return "." + name
-
-    def dump_section_header(self):
-        """Writes the header to output."""
-        # section permissions
-        perm = self.compute_perm()
-        print(
-            f""".include "macros.inc"
-.section {self.format_segname(self.slice.section)}, "{perm}" # {self.slice}""",
-            file=self.output,
-        )
-
-    def compute_perm(self):
-        """Computes the memory permissions."""
-        name = self.slice.section
-        perm = "wa"
-        if name == "text":
-            perm = "ax"
-        # if "bss" in name:
-        #     perm = "ba"
-        if name == "rodata" or "2" in name:
-            perm = perm.replace("w", "")
-        return perm
-
-    def dump_section(self):
-        """Writes unit header and body to output."""
-        self.dump_section_header()
-        self.dump_section_body()
 
 class CAsmGenerator:
     """Generates C files with assembly functions."""
@@ -300,111 +156,6 @@ def get_asm_path(folder, _slice):
     return folder / ("%s_%08x_%08x.s" % (_slice.section, _slice.start, _slice.stop))
 
 
-INLINE_ASM_RE = '// Symbol: \S+(:?[^\n]*\n){1,3}MARK_BINARY_BLOB\([\s\n]*(\w+),[\s\n]*(\w+),[\s\n]*(\w+)[\s\n]*\);.*?}'
-def replace_inline_asm(filestr, disaser, symbols):
-    new_filestr = ""
-    # The list of seen extern declarations
-    extern_addrs = set()
-    extern_functions = []
-    extern_data = []
-    template = jinja_env.get_template("source_fun.j2")
-    prev_fn_end = 0
-    for match in re.finditer(INLINE_ASM_RE, filestr, flags=re.DOTALL):
-        assert len(match.groups()) == 4, "Unexpected inline function matching groups"
-        print(match.group(0))
-        fn_start = match.start()
-        fn_end = match.end()
-        fn_name = match.group(2)
-        fn_start_vma = literal_eval(match.group(3))
-        fn_end_vma = literal_eval(match.group(4))
-
-        sym = symbols[fn_start_vma]
-        if sym.size != fn_end_vma-fn_start_vma:
-            ans = input(f"Detected size change " + \
-                f"in inline ASM replacement of symbol {sym} " + \
-                f"marked as 0x{fn_start_vma:x}-0x{fn_end_vma:x}, " + \
-                f"in symbol map as 0x{sym.addr:x}-0x{(sym.addr+sym.size):x}." + \
-                f"Do you want to update anyway? [y/n]")
-            if ans != "y":
-                continue
-
-        print(f"Updating {sym.name}: L{fn_start}-L{fn_end} (0x{fn_start_vma:08x}-0x{fn_end_vma:08x})")
-        inline_asm, refs = disaser.function_to_text_with_referenced(fn_start_vma, inline=True, \
-            declare_mangled=False, end_addr=fn_end_vma)
-        for (addr, name) in refs:
-            if addr not in extern_addrs:
-                extern_addrs.add(addr)
-                if is_text_addr(addr):
-                    extern_functions.append({"addr": addr, "name": name})
-                else:
-                    extern_data.append({"addr": addr, "name": name})
-        new_asm_lines = inline_asm.split("\n")
-        function = {"addr": fn_start_vma,
-                    "size": fn_end_vma-fn_start_vma,
-                    "name": fn_name,
-                    "inline_asm": new_asm_lines}
-        func_str = template.render(function=function)
-
-        new_filestr += filestr[prev_fn_end:fn_start]
-        new_filestr += func_str
-        prev_fn_end = fn_end
-
-    new_filestr += filestr[prev_fn_end:]
-    return new_filestr, extern_functions, extern_data
-
-
-def replace_source_extern_decls(filestr, extern_functions, extern_data, cpp_mode):
-    template = jinja_env.get_template("source_decls.j2")
-    decl_str = template.render(extern_functions=extern_functions, extern_data=extern_data, cpp=cpp_mode)
-    new_filestr, count = re.subn(r'// --- EXTERN DECLARATIONS BEGIN ---\n.*' + \
-        r'// --- EXTERN DECLARATIONS END ---\n', decl_str, filestr, count=1, flags=re.DOTALL)
-
-    if count == 1:
-        return new_filestr
-
-    print(f"Warning: declarations not found, using old heuristics to add them")
-    lines = filestr.split("\n")
-    i = 0
-    # search for extern "C" block. If it contains and UNKOWN_FUNCTION and // PAL, mark it to be replaced
-    decl_str_lines = decl_str.split("\n")
-    decls_start, decls_end = None, None
-    unk_fun = True
-    pal = True
-    while i < len(lines):
-        if decls_start is None:
-            res = re.search(r'extern "C" {', lines[i])
-            if res is not None:
-                decls_start = i
-        elif not unk_fun and re.search(r'extern UNKNOWN_FUNCTION(', lines[i]) is not None:
-            unk_fun = True
-        elif not pal and re.search(r'// PAL: ', lines[i]) is not None:
-            pal = True
-        else:
-            res = re.search(r'}', lines[i])
-            if res is not None and unk_fun and pal:
-                decls_end = i
-                break
-            elif res is not None:
-                decls_start, decls_end = None, None
-                unk_fun = False
-                pal = False
-
-        i = i+1
-
-    if decls_start is not None and decls_end is not None:
-        del lines[decls_start:decls_end+1]
-        for i,line in enumerate(decl_str_lines):
-            lines.insert(decls_start+i, line)
-        new_filestr = "\n".join(lines)
-        return new_filestr
-    else:
-        print(f"Warning: old heuristics failed, just pasting new decls at file beginning")
-        for i,line in enumerate(decl_str_lines):
-            lines.insert(i, line)
-        new_filestr = "\n".join(lines)
-        return new_filestr
-
-
 INLINE_ASM_RE = r'#include "asm\/([0-9a-f]{8})\.s"'
 
 class DOLSrcGenerator:
@@ -421,7 +172,6 @@ class DOLSrcGenerator:
         source_dir: Path,
         pack_dir: Path,
         regen_asm: bool,
-        regen_inline: bool,
     ):
         self.slices = slices
         self.slices.set_sections(DOL_SECTIONS)
@@ -433,14 +183,8 @@ class DOLSrcGenerator:
         self.source_dir = source_dir
         self.pack_dir = pack_dir
         self.regen_asm = regen_asm
-        self.regen_inline = regen_inline
         self.dol_asm_sources = set()
         self.inline_asm_pattern = re.compile(INLINE_ASM_RE)
-
-        dol_labels_path = Path("./mkwutil/ppcdis_adapter/externs.pickle")
-        with open(dol_labels_path, 'rb') as dol_labels_file:
-            self.extra_labels = pickle.load(dol_labels_file)
-            self.extra_labels = self.extra_labels['labels']
 
 
     def run(self):
@@ -518,19 +262,7 @@ class DOLSrcGenerator:
         if not self.regen_asm and asm_path.exists():
             return
         # print(f"    => {asm_path}")
-        asm_path = get_asm_path(self.dol_asm_dir, _slice)
-        self.dol_asm_sources.add(asm_path.stem)
-        if not self.regen_asm and asm_path.exists():
-            return
-        # print(f"    => {asm_path}")
-        with open(asm_path, "w") as asm_file:
-            data = (
-                self.dol.virtual_read(_slice.start, len(_slice))
-                if "bss" not in section
-                else None
-            )
-            gen = AsmGenerator(data, _slice, self.symbols, asm_file, self.extra_labels)
-            gen.dump_section()
+        self.disaser.output_slice(asm_path, _slice.start, _slice.start+len(_slice))
 
     def __gen_includes(self, c_source_name: str, out_path: Path):
         c_path = Path(c_source_name)
@@ -560,7 +292,6 @@ class RELSrcGenerator:
         source_dir: Path,
         pack_dir: Path,
         regen_asm: bool,
-        regen_inline: bool,
     ):
         self.slices = slices
         self.slices.set_sections(REL_SECTIONS)
@@ -572,7 +303,6 @@ class RELSrcGenerator:
         self.source_dir = source_dir
         self.pack_dir = pack_dir
         self.regen_asm = regen_asm
-        self.regen_inline = regen_inline
         self.rel_asm_sources = set()
         self.inline_asm_pattern = re.compile(INLINE_ASM_RE)
 
@@ -666,7 +396,7 @@ class RELSrcGenerator:
                     asm_file.write(inline_asm)
 
 
-def gen_asm(regen_asm=False, regen_inline=False):
+def gen_asm(regen_asm=False):
     asm_dir = Path("./asm")
     pack_dir = Path("./pack")
     source_dir = Path("./source")
@@ -689,7 +419,7 @@ def gen_asm(regen_asm=False, regen_inline=False):
     dol_asm_dir = asm_dir / "dol"
     dol_asm_dir.mkdir(exist_ok=True)
     dol_gen = DOLSrcGenerator(
-        dol_slices, dol, dol_disaser, symbols, dol_asm_dir, dol_bin_dir, source_dir, pack_dir, regen_asm, regen_inline
+        dol_slices, dol, dol_disaser, symbols, dol_asm_dir, dol_bin_dir, source_dir, pack_dir, regen_asm
     )
     dol_gen.run()
 
@@ -704,7 +434,7 @@ def gen_asm(regen_asm=False, regen_inline=False):
     rel_asm_dir = asm_dir / "rel"
     rel_asm_dir.mkdir(exist_ok=True)
     rel_gen = RELSrcGenerator(
-        rel_slices, rel, rel_disaser, symbols, rel_asm_dir, rel_bin_dir, source_dir, pack_dir, regen_asm, regen_inline
+        rel_slices, rel, rel_disaser, symbols, rel_asm_dir, rel_bin_dir, source_dir, pack_dir, regen_asm
     )
     rel_gen.run()
 
@@ -714,6 +444,5 @@ if __name__ == "__main__":
         description="Generate ASM blobs and linker object lists."
     )
     parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM files")
-    parser.add_argument("--regen_inline", action="store_true", help="Regenerate all inline ASM")
     args = parser.parse_args()
-    gen_asm(args.regen_asm, args.regen_inline)
+    gen_asm(args.regen_asm)
