@@ -25,9 +25,10 @@ def chunks(lst, n):
     for i in range(0, len(lst), n):
         yield lst[i:i + n]
 
+# returns whether the section was equal or not. If not equal, the second return value contains the region that failed
 def compare_section_data(good_section: RelSection, bad_section: RelSection, info: Section, dataflow_funcs):
     if info.name != "text":
-        return good_section.data == bad_section.data
+        return good_section.data == bad_section.data, (info.start, info.start + len(info))
     else:
         # check all section regions except those occupied by function to be checked by the flow-checker
         match = True
@@ -35,11 +36,18 @@ def compare_section_data(good_section: RelSection, bad_section: RelSection, info
         for addr, size, name in dataflow_funcs:
             assert info.start <= addr and addr+size <= info.stop, "Can't dataflow-compare region outside .text!"
             func_off = addr - info.start
-            assert func_off > reg_start, "dataflow-checked functions must be non-overlapping and in incresing order"
-            match = good_section.data[reg_start:func_off] == bad_section.data[reg_start:func_off] and match
-            reg_start = func_off + size
+            assert func_off >= reg_start, "dataflow-checked functions must be non-overlapping and in incresing order"
 
-        return match
+            match = good_section.data[reg_start:func_off] == bad_section.data[reg_start:func_off] and match
+            if not match:
+                return match, (info.start + reg_start, info.start + func_off)
+
+            reg_start = func_off + size
+        
+        func_off = len(info)
+        match = good_section.data[reg_start:func_off] == bad_section.data[reg_start:func_off] and match
+
+        return match, (info.start + reg_start, info.start + func_off)
 
 
 def __native_binary(path):
@@ -67,7 +75,8 @@ def check_dataflow_funcs(dataflow_funcs):
         orig_ppc2cpp_proj = Path("artifacts", "orig", "pal", "orig.ppc2cpp")
         target_ppc2cpp_proj = Path("artifacts", "orig", "pal", "target.ppc2cpp")
         import subprocess
-        completedProc = subprocess.run([str(PPC2CPP), "checkflow",  str(orig_ppc2cpp_proj), str(target_ppc2cpp_proj)] + dataflow_func_names)
+        ppc2cpp_args = [str(PPC2CPP), "checkflow",  str(orig_ppc2cpp_proj), str(target_ppc2cpp_proj)] + dataflow_func_names
+        completedProc = subprocess.run(ppc2cpp_args)
         return completedProc.returncode
 
 
@@ -121,7 +130,7 @@ def verify_rel(reference: Path, target: Path):
         good_section = good.section_info[idx]
         bad_section = bad.section_info[idx]
         info = REL_SECTIONS[idx - 1]
-        match = compare_section_data(good_section, bad_section, info, dataflow_funcs)
+        match, region = compare_section_data(good_section, bad_section, info, dataflow_funcs)
         section_match = section_match and match
         tag = "OK" if match else "FAIL"
         if good_section.length != bad_section.length:
@@ -145,6 +154,8 @@ def verify_rel(reference: Path, target: Path):
             for i, (good_bytes, bad_bytes) in enumerate(paired_data):
                 vaddr = info.start + i * 4
 
+                if vaddr < region[0] or vaddr > region[1]:
+                    continue
                 if good_bytes == bad_bytes or amount_printed > 10:
                     continue
                 print("%x: Good=%x Bad=%x" % (vaddr, struct.unpack(">I", good_bytes)[0], struct.unpack(">I", bad_bytes)[0]))

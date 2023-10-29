@@ -137,7 +137,8 @@ class CAsmGenerator:
         txt, refs = self.disaser.data_to_text_with_referenced(addr, const=const)
         self.collect_refs(refs)
         # Remove duplicate extern declaration
-        self.extern_data.remove((addr, self.disaser._sym.get_name(addr)))
+        if (addr, self.disaser._sym.get_name(addr)) in self.extern_data:
+            self.extern_data.remove((addr, self.disaser._sym.get_name(addr)))
         return txt
 
     def collect_refs(self, refs):
