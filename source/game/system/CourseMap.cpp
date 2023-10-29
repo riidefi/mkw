@@ -23,7 +23,7 @@ extern UNKNOWN_FUNCTION(__dla__FPv);
 // PAL: 0x80239f58
 extern UNKNOWN_FUNCTION(setRPY__Q23EGG5QuatfFfff);
 // PAL: 0x8023a2d0
-extern UNKNOWN_FUNCTION(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3f);
+extern UNKNOWN_FUNCTION(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3fRQ23EGG8Vector3f);
 // PAL: 0x80243a00
 extern UNKNOWN_FUNCTION(normalise__Q23EGG8Vector2fFv);
 // PAL: 0x80511e00
@@ -170,7 +170,7 @@ extern UNKNOWN_FUNCTION(unk_8054d114);
 // PAL: 0x802a4118
 extern UNKNOWN_DATA(RKSystem_ex);
 // PAL: 0x802a4130
-extern UNKNOWN_DATA(lbl_802a4130);
+extern UNKNOWN_DATA(RKSystem_ey);
 // PAL: 0x802a4148
 extern UNKNOWN_DATA(lbl_802a4148);
 // PAL: 0x8088f8e8
@@ -1537,7 +1537,7 @@ asm void VEC3_fromQuaternionRotated(EGG::Vector3f& dst, const EGG::Quatf& q,
   /* 80514800 7C832378 */ mr          r3, r4
   /* 80514804 7CA42B78 */ mr          r4, r5
   /* 80514808 7C050378 */ mr          r5, r0
-  /* 8051480C 4BD25AC4 */ b           rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3f
+  /* 8051480C 4BD25AC4 */ b           rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3fRQ23EGG8Vector3f
     // clang-format on
 }
 
@@ -1644,10 +1644,10 @@ asm UNKNOWN_FUNCTION(unk_805148a0) {
   /* 8051491C 38810048 */ addi        r4, r1, 0x48
   /* 80514920 38A54118 */ addi        r5, r5, RKSystem_ex@l
   /* 80514924 4BFFFED9 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
-  /* 80514928 3CA0802A */ lis         r5, lbl_802a4130@ha
+  /* 80514928 3CA0802A */ lis         r5, RKSystem_ey@ha
   /* 8051492C 38610020 */ addi        r3, r1, 0x20
   /* 80514930 38810048 */ addi        r4, r1, 0x48
-  /* 80514934 38A54130 */ addi        r5, r5, lbl_802a4130@l
+  /* 80514934 38A54130 */ addi        r5, r5, RKSystem_ey@l
   /* 80514938 4BFFFEC5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051493C C03E017C */ lfs         f1, 0x17c(r30)
   /* 80514940 4BB70841 */ bl          CosFIdx__Q24nw4r4mathFf
@@ -3399,9 +3399,17 @@ MapdataAreaBase::MapdataAreaBase(const SData* data) : mIndex(-1) {
   mZAxis.y = 0.0f;
   mZAxis.x = 0.0f;
 }
+}
 
-// Regswap - https://decomp.me/scratch/1tQoj
-MARK_FLOW_CHECK(0x805160b0);
+#ifndef NON_MATCHING
+// Symbol: isInside__Q26System15MapdataAreaBaseCFRCQ23EGG8Vector3f
+MARK_BINARY_BLOB(isInside__Q26System15MapdataAreaBaseCFRCQ23EGG8Vector3f, 0x805160b0, 0x80516138);
+asm UNKNOWN_FUNCTION(isInside__Q26System15MapdataAreaBaseCFRCQ23EGG8Vector3f) {
+  #include "asm/805160b0.s"
+}
+#else
+// Stack + regswap - https://decomp.me/scratch/1tQoj
+//MARK_FLOW_CHECK(0x805160b0);
 bool MapdataAreaBase::isInside(const EGG::Vector3f& pos) const {
   f32 x = mpData->position.x - pos.x;
   f32 y = mpData->position.y - pos.y;
@@ -3410,7 +3418,9 @@ bool MapdataAreaBase::isInside(const EGG::Vector3f& pos) const {
   EGG::Vector3f pos_(x, y, z);
   return pos_.dot() > mBoundingSphereRadiusSq ? false : isInsideShape(pos);
 }
+#endif
 
+namespace System {
 s32 MapdataAreaBase::getRouteId() const {
   // Of course it uses r0
   return CourseMap::instance()->getVersion() >= 2200 ? (s8)mpData->railID : -1;
@@ -3595,11 +3605,11 @@ asm UNKNOWN_FUNCTION(AreaBox_construct) {
   /* 80516324 38A54118 */ addi        r5, r5, RKSystem_ex@l
   /* 80516328 4BFFE4D5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051632C C0010020 */ lfs         f0, 0x20(r1)
-  /* 80516330 3CA0802A */ lis         r5, lbl_802a4130@ha
+  /* 80516330 3CA0802A */ lis         r5, RKSystem_ey@ha
   /* 80516334 D01F0008 */ stfs        f0, 8(r31)
   /* 80516338 38610014 */ addi        r3, r1, 0x14
   /* 8051633C 38810030 */ addi        r4, r1, 0x30
-  /* 80516340 38A54130 */ addi        r5, r5, lbl_802a4130@l
+  /* 80516340 38A54130 */ addi        r5, r5, RKSystem_ey@l
   /* 80516344 C0010024 */ lfs         f0, 0x24(r1)
   /* 80516348 D01F000C */ stfs        f0, 0xc(r31)
   /* 8051634C C0010028 */ lfs         f0, 0x28(r1)
@@ -3812,11 +3822,11 @@ asm UNKNOWN_FUNCTION(AreaCylinder_construct) {
   /* 805165F8 38A54118 */ addi        r5, r5, RKSystem_ex@l
   /* 805165FC 4BFFE201 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80516600 C0010020 */ lfs         f0, 0x20(r1)
-  /* 80516604 3CA0802A */ lis         r5, lbl_802a4130@ha
+  /* 80516604 3CA0802A */ lis         r5, RKSystem_ey@ha
   /* 80516608 D01F0008 */ stfs        f0, 8(r31)
   /* 8051660C 38610014 */ addi        r3, r1, 0x14
   /* 80516610 38810030 */ addi        r4, r1, 0x30
-  /* 80516614 38A54130 */ addi        r5, r5, lbl_802a4130@l
+  /* 80516614 38A54130 */ addi        r5, r5, RKSystem_ey@l
   /* 80516618 C0010024 */ lfs         f0, 0x24(r1)
   /* 8051661C D01F000C */ stfs        f0, 0xc(r31)
   /* 80516620 C0010028 */ lfs         f0, 0x28(r1)
@@ -6295,10 +6305,10 @@ asm UNKNOWN_FUNCTION(unk_805184fc) {
   /* 80518578 38810060 */ addi        r4, r1, 0x60
   /* 8051857C 38A54118 */ addi        r5, r5, RKSystem_ex@l
   /* 80518580 4BFFC27D */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
-  /* 80518584 3CA0802A */ lis         r5, lbl_802a4130@ha
+  /* 80518584 3CA0802A */ lis         r5, RKSystem_ey@ha
   /* 80518588 38610038 */ addi        r3, r1, 0x38
   /* 8051858C 38810060 */ addi        r4, r1, 0x60
-  /* 80518590 38A54130 */ addi        r5, r5, lbl_802a4130@l
+  /* 80518590 38A54130 */ addi        r5, r5, RKSystem_ey@l
   /* 80518594 4BFFC269 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80518598 C03F0194 */ lfs         f1, 0x194(r31)
   /* 8051859C 4BB6CBE5 */ bl          CosFIdx__Q24nw4r4mathFf
