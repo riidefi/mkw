@@ -75,7 +75,7 @@ extern UNKNOWN_FUNCTION(unk_805a6ab8);
 // PAL: 0x805a6dcc
 extern UNKNOWN_FUNCTION(unk_805a6dcc);
 // PAL: 0x805b4e84
-extern UNKNOWN_FUNCTION(PlayerPhysics_initInertia1);
+extern UNKNOWN_FUNCTION(setInertia__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x808646f0
 extern UNKNOWN_FUNCTION(unk_808646f0); // Extern data references.
 // PAL: 0x80891c58

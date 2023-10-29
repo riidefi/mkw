@@ -26,7 +26,7 @@ def set_symbol(address, symbolname, symbolmap):
     os.replace(temp_filename, symbolmap)
 
     if old_name != symbolname:
-        command = f"find asm source -type f \( -name \"*.hpp\" -o -name \"*.cpp\" -o -name \"*.s\" \) -exec sed -i 's/\<{old_name}\>/{symbolname}/g' {{}} +"
+        command = f"find asm source pack/*.lcf* -type f \( -name \"*.hpp\" -o -name \"*.cpp\" -o -name \"*.s\" \) -exec sed -i 's/\<{old_name}\>/{symbolname}/g' {{}} +"
         print(command)
         os.system(command)
 
