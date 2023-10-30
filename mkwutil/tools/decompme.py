@@ -66,7 +66,7 @@ req = {
     "context" : ctx,
     "platform" : "gc_wii",
 # TODO: Different compiler for DOL
-    "compiler" : "mwcc_42_127",
+    "compiler" : 89,
     "compiler_flags" : flags,
     "preset" : preset,
     "diff_label" : diff_label
