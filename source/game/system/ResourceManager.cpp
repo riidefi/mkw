@@ -186,7 +186,7 @@ extern UNKNOWN_FUNCTION(clear__Q26System15MultiDvdArchiveFv);
 // PAL: 0x8052ae08
 extern UNKNOWN_FUNCTION(rippedArchiveCount__Q26System15MultiDvdArchiveFv);
 // PAL: 0x805553b0
-extern UNKNOWN_FUNCTION(unk_805553b0);
+extern UNKNOWN_FUNCTION(_unresolved);
 }
 
 namespace System {

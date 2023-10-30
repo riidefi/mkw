@@ -52,7 +52,7 @@ const u32 lbl_8088f8e0[] = {0x43300000, 0x00000000};
 
 // .bss
 
-// Symbol: unk_80510b84
+// Symbol: checkSector__Q26System17MapdataCheckPointCFRCQ26System16LinkedCheckpointRCQ23EGG8Vector2fRCQ23EGG8Vector2f
 namespace System {
 bool MapdataCheckPoint::checkSector(const LinkedCheckpoint& next,
                                     const EGG::Vector2f& p0,
