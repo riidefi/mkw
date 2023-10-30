@@ -427,11 +427,11 @@ extern UNKNOWN_FUNCTION(VEC3_rejUnit);
 // PAL: 0x805aec24
 extern UNKNOWN_FUNCTION(VEC3_projAndRej);
 // PAL: 0x805b4d24
-extern UNKNOWN_FUNCTION(reset__Q24kart12KartDynamicsFv);
+extern UNKNOWN_FUNCTION(reset__Q24Kart12KartDynamicsFv);
 // PAL: 0x805b5ce8
-extern UNKNOWN_FUNCTION(unk_805b5ce8);
+extern UNKNOWN_FUNCTION(applyWrenchScaled__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff);
 // PAL: 0x805b6388
-extern UNKNOWN_FUNCTION(addForce__Q24kart12KartDynamicsFRCQ23EGG8Vector3f);
+extern UNKNOWN_FUNCTION(addForce__Q24Kart12KartDynamicsFRCQ23EGG8Vector3f);
 // PAL: 0x806a1808
 extern UNKNOWN_FUNCTION(unk_806a1808);
 // PAL: 0x806a3948

@@ -9,7 +9,7 @@ extern "C" {
 #endif
 
 // PAL: 0x80510b84..0x80510bf0
-UNKNOWN_FUNCTION(unk_80510b84);
+UNKNOWN_FUNCTION(checkSector__Q26System17MapdataCheckPointCFRCQ26System16LinkedCheckpointRCQ23EGG8Vector2fRCQ23EGG8Vector2f);
 // PAL: 0x80510bf0..0x80510c74
 UNKNOWN_FUNCTION(unk_80510bf0);
 // PAL: 0x80510c74..0x80510d7c
