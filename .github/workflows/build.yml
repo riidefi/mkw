@@ -31,6 +31,9 @@ jobs:
       - run: pip install -r requirements.txt
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
+      - name: Install Ninja
+        run: choco install -y ninja
+
       - name: Extract tooling
         env:
           TOOLS_URL: 'https://www.dropbox.com/s/4b0hwciadfk8yuo/tools.zip?dl=1'

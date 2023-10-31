@@ -21,7 +21,7 @@ char __GSIACGamename[64] = {0};
 char GSIACHostname[64] = {0};
 
 // used to keep state during the check
-static struct {
+struct {
   SOCKET sock;
   SOCKADDR_IN address;
   char packet[64];

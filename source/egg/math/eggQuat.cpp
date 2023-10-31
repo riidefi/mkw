@@ -433,11 +433,12 @@ lbl_8023a2c8:
   // clang-format on
 }
 
-// Symbol: rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3f
+// Symbol: rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3fRQ23EGG8Vector3f
 // PAL: 0x8023a2d0..0x8023a404
-MARK_BINARY_BLOB(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3f, 0x8023a2d0,
+MARK_BINARY_BLOB(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3fRQ23EGG8Vector3f, 0x8023a2d0,
                  0x8023a404);
-asm void Quatf::rotateVector(const Vector3f& v) {
+
+asm void Quatf::rotateVector(const Vector3f& v, Vector3f& out) {
   // clang-format off
   nofralloc;
   stwu r1, -0x50(r1);
@@ -520,11 +521,11 @@ asm void Quatf::rotateVector(const Vector3f& v) {
   // clang-format on
 }
 
-// Symbol: rotateVectorInv__Q23EGG5QuatfFRCQ23EGG8Vector3f
+// Symbol: rotateVectorInv__Q23EGG5QuatfFRCQ23EGG8Vector3fRQ23EGG8Vector3f
 // PAL: 0x8023a404..0x8023a540
-MARK_BINARY_BLOB(rotateVectorInv__Q23EGG5QuatfFRCQ23EGG8Vector3f, 0x8023a404,
+MARK_BINARY_BLOB(rotateVectorInv__Q23EGG5QuatfFRCQ23EGG8Vector3fRQ23EGG8Vector3f, 0x8023a404,
                  0x8023a540);
-asm void Quatf::rotateVectorInv(const Vector3f& v) {
+asm void Quatf::rotateVectorInv(const Vector3f& v, Vector3f& out) {
   // clang-format off
   nofralloc;
   stwu r1, -0x50(r1);

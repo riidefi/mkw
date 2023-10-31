@@ -12,15 +12,15 @@ const char* __SO_VERSION =
     "<< RVL_SDK - SO \trelease build: Dec 10 2007 10:02:35 (0x4199_60831) >>";
 
 // PAL: 0x80386d30 @sbss
-static u8 soState = 0;
+u8 soState = 0;
 // PAL: 0x80357220 @bss
-static SOSysWork soWork;
+SOSysWork soWork;
 // PAL: 0x80386d34 @sbss
-static s32 soError = 0;
+s32 soError = 0;
 // ???
 static int soRegistered = false;
 // PAL: 0x80385ee4 @sdata
-static int soBufAddrCheck = true;
+int soBufAddrCheck = true;
 // PAL: 0x802a2360 @data
 static char NET_RM_SOCK[] = "/dev/net/ip/top";
 

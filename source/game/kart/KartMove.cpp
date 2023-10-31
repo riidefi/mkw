@@ -52,7 +52,7 @@ extern UNKNOWN_FUNCTION(setAxisRotation__Q23EGG5QuatfFRCQ23EGG8Vector3ff);
 // PAL: 0x8023a168
 extern UNKNOWN_FUNCTION(normalise__Q23EGG5QuatfFv);
 // PAL: 0x8023a2d0
-extern UNKNOWN_FUNCTION(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3f);
+extern UNKNOWN_FUNCTION(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3fRQ23EGG8Vector3f);
 // PAL: 0x8023a5c4
 extern UNKNOWN_FUNCTION(slerpTo__Q23EGG5QuatfCFRCQ23EGG5QuatffRQ23EGG5Quatf);
 // PAL: 0x8023a788
@@ -427,11 +427,11 @@ extern UNKNOWN_FUNCTION(VEC3_rejUnit);
 // PAL: 0x805aec24
 extern UNKNOWN_FUNCTION(VEC3_projAndRej);
 // PAL: 0x805b4d24
-extern UNKNOWN_FUNCTION(PlayerPhysics_reset);
+extern UNKNOWN_FUNCTION(reset__Q24kart12KartDynamicsFv);
 // PAL: 0x805b5ce8
 extern UNKNOWN_FUNCTION(unk_805b5ce8);
 // PAL: 0x805b6388
-extern UNKNOWN_FUNCTION(unk_805b6388);
+extern UNKNOWN_FUNCTION(addForce__Q24kart12KartDynamicsFRCQ23EGG8Vector3f);
 // PAL: 0x806a1808
 extern UNKNOWN_FUNCTION(unk_806a1808);
 // PAL: 0x806a3948
@@ -521,7 +521,7 @@ extern UNKNOWN_DATA(lbl_802a4100);
 // PAL: 0x802a4118
 extern UNKNOWN_DATA(lbl_802a4118);
 // PAL: 0x802a4130
-extern UNKNOWN_DATA(lbl_802a4130);
+extern UNKNOWN_DATA(RKSystem_ey);
 // PAL: 0x802a4148
 extern UNKNOWN_DATA(lbl_802a4148);
 // PAL: 0x80384ba0

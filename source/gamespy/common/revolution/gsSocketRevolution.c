@@ -14,9 +14,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // static variables
 // PAL: 0x80386354 @sbss
-static int GSIRevolutionErrno;
-extern int _pad_80386350;
-int _pad_80386350; // FIXME does not exist but required as sbss padding.
+int GSIRevolutionErrno;
+extern int lbl_80386350;
+int lbl_80386350; // FIXME does not exist but required as sbss padding.
 
 // prototypes of static functions
 static int CheckRcode(int rcode, int errCode);
