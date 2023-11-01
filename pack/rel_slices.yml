@@ -89,10 +89,26 @@ source/game/kart/KartObjectProxy.cpp:
     rodata: [0x80891c58, 0x80891c80]
     bss: [0x809c1900, 0x809c1910]
 
+source/game/kart/KartPhysics.cpp:
+    text: [0x8059f5bc, 0x805a0550]
+    rodata: [0x80892010, 0x80892028]
+    data: [0x808b69e8, 0x808b6a10]
+    bss: [0x809c1990, 0x809c1998]
+
+#source/game/system/RKDemoCamera.cpp:
+#    text: [0x805a0550, 0x805a14f0]
+#    rodata: [0x80892028, 0x808921c2]
+#    data: [0x808b6a10, 0x808b6ae8]
+#    bss: [0x809c1998, 0x809c19a0]
+
 source/game/kart/KartDynamics.cpp:
     text: [0x805b4af8, 0x805b6724]
     rodata: [0x80892750, 0x80892788]
     data: [0x808b7300, 0x808b7328]
+
+source/game/kart/KartCollision.cpp:
+    text: [0x805b7f48, 0x805b8984]
+    rodata: [0x808927a8, 0x808927c8]
 
 source/game/ui/ControlGroup.cpp:
     text: [0x805c23e4, 0x805c2c18]
