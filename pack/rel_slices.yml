@@ -90,10 +90,15 @@ source/game/kart/KartObjectProxy.cpp:
     bss: [0x809c1900, 0x809c1910]
 
 source/game/kart/KartPhysics.cpp:
-    text: [0x8059f5bc, 0x805a0550]
+    text: [0x8059f5bc, 0x805a0480]
     rodata: [0x80892010, 0x80892028]
-    data: [0x808b69e8, 0x808b6a10]
-    bss: [0x809c1990, 0x809c1998]
+    data: [0x808b69e8, 0x808b6a08]
+
+# forced to be separate TU because of variable data after vtables
+source/game/kart/KartPhysicsInstance.cpp:
+    text: [0x805a0480, 0x805a0550]
+    data: [0x808b6a08, 0x808b6a0c]
+    bss: [0x809c1990, 0x809c1996]
 
 #source/game/system/RKDemoCamera.cpp:
 #    text: [0x805a0550, 0x805a14f0]
@@ -106,7 +111,7 @@ source/game/kart/KartDynamics.cpp:
     rodata: [0x80892750, 0x80892788]
     data: [0x808b7300, 0x808b7328]
 
-source/game/kart/KartCollision.cpp:
+source/game/kart/KartHitbox.cpp:
     text: [0x805b7f48, 0x805b8984]
     rodata: [0x808927a8, 0x808927c8]
 

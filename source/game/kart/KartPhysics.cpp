@@ -18,13 +18,13 @@ extern UNKNOWN_FUNCTION(slerpTo__Q23EGG5QuatfCFRCQ23EGG5QuatffRQ23EGG5Quatf);
 // PAL: 0x80243adc
 extern UNKNOWN_FUNCTION(normalise__Q23EGG8Vector3fFv);
 // PAL: 0x8059f5bc
-extern UNKNOWN_FUNCTION(PlayerPhysicsHolder_construct);
+extern UNKNOWN_FUNCTION(__ct__Q24Kart11KartPhysicsFb);
 // PAL: 0x8059f6b8
-extern UNKNOWN_FUNCTION(__dt__Q24Kart11KartPhysics);
+extern UNKNOWN_FUNCTION(__dt__Q24Kart12KartDynamicsFv);
 // PAL: 0x8059f6f8
-extern UNKNOWN_FUNCTION(unk_8059f6f8);
+extern UNKNOWN_FUNCTION(__dt__Q24Kart11KartPhysicsFv);
 // PAL: 0x805b4af8
-extern UNKNOWN_FUNCTION(__ct__Q24Kart12KartDynamicsFv);
+extern UNKNOWN_FUNCTION(__ct__Q24Kart16KartDynamicsKartFv);
 // PAL: 0x805b4dc0
 extern UNKNOWN_FUNCTION(init__Q24Kart12KartDynamicsFv);
 // PAL: 0x805b4dc4
@@ -40,7 +40,7 @@ extern UNKNOWN_FUNCTION(applyWrenchScaled__Q24kart12KartDynamicsFRCQ23EGG8Vector
 // PAL: 0x805b6388
 extern UNKNOWN_FUNCTION(addForce__Q24Kart12KartDynamicsFRCQ23EGG8Vector3f);
 // PAL: 0x805b82bc
-extern UNKNOWN_FUNCTION(CollisionGroup_construct);
+extern UNKNOWN_FUNCTION(__ct__Q24Kart11HitboxGroupFv);
 // PAL: 0x805b8330
 extern UNKNOWN_FUNCTION(HitboxGroup_reset);
 // PAL: 0x805b84c0
@@ -53,10 +53,70 @@ extern UNKNOWN_DATA(__vt__Q24Kart16KartDynamicsBike);
 
 // --- EXTERN DECLARATIONS END ---
 
-// .rodata
+
+#ifndef SHIFTABLE
+extern UNKNOWN_DATA(lbl_80892010);
+REL_SYMBOL_AT(lbl_80892010, 0x80892010)
+#else
 const u32 lbl_80892010[] = {
     0x42480000
 };
+#endif
+
+// .data
+#pragma explicit_zero_data on
+// How to match all KartPhysics and KartDynamics vtables (two more in KartDynamics.cpp)
+// 1) match KartDynamics::calc, stabilize and forceUpright
+// 2) place stabilize and forceUpright inline in KartDynamics.hpp
+// 3) Remove WIP decomp that implements KartPhysic's dtor
+// 4) Remove the dummy vtable definitions (don't forget the ones in KartDynamics.cpp)
+// 5) Watch how all vtables are put in place perfectly
+u32 __vt__Q24Kart11KartPhysics[] = {
+    0x00000000, 0x00000000, (u32)&__dt__Q24Kart11KartPhysicsFv
+};
+extern u32 __vt__Q24Kart12KartDynamics[];
+u32 __vt__Q24Kart12KartDynamics[] = {
+    0x00000000,
+    0x00000000, (u32)&__dt__Q24Kart12KartDynamicsFv, (u32)&stabilize__Q24Kart12KartDynamicsFv, (u32)&forceUpright__Q24Kart12KartDynamicsFv
+};
+#pragma explicit_zero_data off
+
+namespace Kart {
+KartPhysics::KartPhysics(bool isBike) {
+  this->pose.makeIdentity();
+  KartDynamics* dynamics;
+  if (!isBike) {
+    dynamics = new KartDynamicsKart();
+  } else {
+    dynamics = new KartDynamicsBike();
+  }
+  this->mpDynamics = dynamics;
+  this->mpHitboxGroup = new HitboxGroup();
+  this->_fc = 50.0f;
+}
+}
+
+#ifndef WIP_DECOMP
+// see "How to match all KartPhysics and KartDynamics vtables" above
+// Symbol: __dt__Q24Kart11KartPhysicsFv
+// PAL: 0x8059f6f8..0x8059f788
+MARK_BINARY_BLOB(__dt__Q24Kart11KartPhysicsFv, 0x8059f6f8, 0x8059f788);
+asm UNKNOWN_FUNCTION(__dt__Q24Kart11KartPhysicsFv) {
+  #include "asm/8059f6f8.s"
+}
+#else
+namespace Kart
+void KartPhysics::~KartPhysics() {
+  delete mpDynamics;
+  delete mpHitboxGroup;
+}
+}
+#endif
+
+// .rodata
+/*const u32 lbl_80892010[] = {
+    0x42480000
+};*/
 const u32 lbl_80892014[] = {
     0x3f800000
 };
@@ -66,50 +126,6 @@ const u32 lbl_80892018[] = {
 const u32 lbl_80892020[] = {
     0x34000000, 0x00000000
 };
-
-// .data
-#pragma explicit_zero_data on
-u32 __vt__Q24Kart11KartPhysics[] = {
-    0x00000000, 0x00000000, (u32)&unk_8059f6f8, 0x00000000,
-    0x00000000, (u32)&__dt__Q24Kart11KartPhysics, (u32)&stabilize__Q24Kart12KartDynamicsFv, (u32)&forceUpright__Q24Kart12KartDynamicsFv
-};
-u32 lbl_808b6a08[] = {
-    0x3fc00000, 0x00000000
-};
-#pragma explicit_zero_data off
-
-// .bss
-u8 lbl_809c1990[4];
-u8 lbl_809c1994[4];
-
-
-// Symbol: PlayerPhysicsHolder_construct
-// PAL: 0x8059f5bc..0x8059f678
-MARK_BINARY_BLOB(PlayerPhysicsHolder_construct, 0x8059f5bc, 0x8059f678);
-asm UNKNOWN_FUNCTION(PlayerPhysicsHolder_construct) {
-  #include "asm/8059f5bc.s"
-}
-
-// Symbol: __dt__Q24Kart12KartDynamicsFv
-// PAL: 0x8059f678..0x8059f6b8
-MARK_BINARY_BLOB(__dt__Q24Kart12KartDynamicsFv, 0x8059f678, 0x8059f6b8);
-asm UNKNOWN_FUNCTION(__dt__Q24Kart12KartDynamicsFv) {
-  #include "asm/8059f678.s"
-}
-
-// Symbol: __dt__Q24Kart11KartPhysics
-// PAL: 0x8059f6b8..0x8059f6f8
-MARK_BINARY_BLOB(__dt__Q24Kart11KartPhysics, 0x8059f6b8, 0x8059f6f8);
-asm UNKNOWN_FUNCTION(__dt__Q24Kart11KartPhysics) {
-  #include "asm/8059f6b8.s"
-}
-
-// Symbol: unk_8059f6f8
-// PAL: 0x8059f6f8..0x8059f788
-MARK_BINARY_BLOB(unk_8059f6f8, 0x8059f6f8, 0x8059f788);
-asm UNKNOWN_FUNCTION(unk_8059f6f8) {
-  #include "asm/8059f6f8.s"
-}
 
 // Symbol: unk_8059f788
 // PAL: 0x8059f788..0x8059f7c8
@@ -243,18 +259,3 @@ MARK_BINARY_BLOB(PlayerPhysicsHolder_resetQuaternions, 0x805a0410, 0x805a0480);
 asm UNKNOWN_FUNCTION(PlayerPhysicsHolder_resetQuaternions) {
   #include "asm/805a0410.s"
 }
-
-// Symbol: unk_805a0480
-// PAL: 0x805a0480..0x805a04a0
-MARK_BINARY_BLOB(unk_805a0480, 0x805a0480, 0x805a04a0);
-asm UNKNOWN_FUNCTION(unk_805a0480) {
-  #include "asm/805a0480.s"
-}
-
-// Symbol: unk_805a04a0
-// PAL: 0x805a04a0..0x805a0550
-MARK_BINARY_BLOB(unk_805a04a0, 0x805a04a0, 0x805a0550);
-asm UNKNOWN_FUNCTION(unk_805a04a0) {
-  #include "asm/805a04a0.s"
-}
-

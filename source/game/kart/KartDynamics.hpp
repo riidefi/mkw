@@ -24,11 +24,11 @@ namespace Kart {
 
 class KartDynamics {
 public:
-  virtual ~KartDynamics();
+  virtual ~KartDynamics() {}
   virtual void stabilize();
   virtual void forceUpright();
 
-  KartDynamics();
+  //KartDynamics();
   void setDefault();
   // clears state
   void reset();
@@ -105,7 +105,13 @@ public:
   EGG::Vector3f scale;
 };
 
-class KartDynamicsBike : KartDynamics {
+class KartDynamicsKart : public KartDynamics {
+public:
+  KartDynamicsKart();
+  //virtual ~KartDynamicsKart() {}
+};
+
+class KartDynamicsBike : public KartDynamicsKart {
 public:
   virtual ~KartDynamicsBike();
   virtual void stabilize() override;

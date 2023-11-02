@@ -54,15 +54,16 @@ out/rel/bss_809bd73c_809c1900.o
 out/KartObjectProxy.o
 out/rel/text_805919f4_8059f5bc.o
 out/rel/rodata_80891c80_80892010.o
-out/rel/bss_809c1910_809c1990.o
 out/KartPhysics.o
-out/rel/text_805a0550_805b4af8.o
 out/rel/rodata_80892028_80892750.o
-out/rel/data_808b6a10_808b7300.o
+out/rel/bss_809c1910_809c1990.o
+out/KartPhysicsInstance.o
+out/rel/text_805a0550_805b4af8.o
+out/rel/data_808b6a0c_808b7300.o
 out/KartDynamics.o
 out/rel/text_805b6724_805b7f48.o
 out/rel/rodata_80892788_808927a8.o
-out/KartCollision.o
+out/KartHitbox.o
 out/rel/text_805b8984_805c23e4.o
 out/ControlGroup.o
 out/rel/text_805c2c18_805f8b34.o
@@ -94,4 +95,4 @@ out/BoxColUnit.o
 out/rel/text_80786f98_8088f400.o
 out/rel/rodata_808a4804_808b2bd0.o
 out/rel/data_808bcfd0_808dd3d4.o
-out/rel/bss_809c1998_809c4f90.o
+out/rel/bss_809c1996_809c4f90.o
