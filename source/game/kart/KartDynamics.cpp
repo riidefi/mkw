@@ -42,7 +42,7 @@ extern UNKNOWN_FUNCTION(PlayerPhysics_destroy);
 extern UNKNOWN_FUNCTION(VEC3_projAndRej);
 // PAL: 0x805b4b54
 extern UNKNOWN_FUNCTION(setDefault__Q24Kart12KartDynamicsFv);
-extern UNKNOWN_FUNCTION(__dt__Q24Kart12KartDynamicsFv);
+extern UNKNOWN_FUNCTION(__dt__Q24Kart16KartDynamicsKartFv);
 // PAL: 0x805b5b64
 extern UNKNOWN_FUNCTION(forceUpright__Q24Kart12KartDynamicsFv);
 // PAL: 0x805b5b68
@@ -88,14 +88,15 @@ extern const u32 __vt__Q24Kart16KartDynamicsBike[];
 const u32 __vt__Q24Kart16KartDynamicsBike[] = {
     0x0, 0x0, (u32)&__dt__Q24Kart16KartDynamicsBikeFv, (u32)&stabilize__Q24Kart16KartDynamicsBikeFv, (u32)&forceUpright__Q24Kart16KartDynamicsBikeFv
 };
-extern const u32 __vt__Q24Kart12KartDynamics[];
-const u32 __vt__Q24Kart12KartDynamics[] = {
-    0x0, 0x0, (u32)&__dt__Q24Kart12KartDynamicsFv, (u32)&stabilize__Q24Kart12KartDynamicsFv, (u32)&forceUpright__Q24Kart12KartDynamicsFv
+void __dt__Q24Kart16KartDynamicsKartFv();
+extern const u32 __vt__Q24Kart16KartDynamicsKart[];
+const u32 __vt__Q24Kart16KartDynamicsKart[] = {
+    0x0, 0x0, (u32)&__dt__Q24Kart16KartDynamicsKartFv, (u32)&stabilize__Q24Kart12KartDynamicsFv, (u32)&forceUpright__Q24Kart12KartDynamicsFv
 };
 }
 
 namespace Kart {
-KartDynamics::KartDynamics() {
+KartDynamicsKart::KartDynamicsKart() {
   0.0f; // to make 0.0f appear before 1.0f in rodata
   this->angVel0Factor = 1.0f;
   this->inertiaTensor.makeIdentity();
@@ -199,10 +200,10 @@ void KartDynamics::updateInertiaTensorInverse() {
 }
 }
 
-// Symbol: unk_805b4f44__Fv
+// Symbol: unk_805b4f44__Fv__Fv
 // PAL: 0x805b4f44..0x805b50f8
-MARK_BINARY_BLOB(unk_805b4f44__Fv, 0x805b4f44, 0x805b50f8);
-asm UNKNOWN_FUNCTION(unk_805b4f44__Fv) {
+MARK_BINARY_BLOB(unk_805b4f44__Fv__Fv, 0x805b4f44, 0x805b50f8);
+asm UNKNOWN_FUNCTION(unk_805b4f44__Fv__Fv) {
   #include "asm/805b4f44.s"
 }
 
@@ -343,7 +344,7 @@ void KartDynamics::forceUpright() {
 // Symbol: stabilize__Q24Kart12KartDynamicsFv
 // PAL: 0x805b5b68..0x805b5ce8
 MARK_BINARY_BLOB(stabilize__Q24Kart12KartDynamicsFv, 0x805b5b68, 0x805b5ce8);
-asm void Kart::KartDynamics::stabilize() {
+asm void stabilize__Q24Kart12KartDynamicsFv() {
   #include "asm/805b5b68.s"
 }
 
@@ -376,8 +377,8 @@ void KartDynamics::applyWrenchScaled(const EGG::Vector3f& r, const EGG::Vector3f
 
 #ifndef EQUIVALENT
 // Stack issues. Can be proven with checkflow with better stack analysis
-MARK_BINARY_BLOB(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv, 0x805b5e40, 0x805b5f44);
-asm UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv) {
+MARK_BINARY_BLOB(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv, 0x805b5e40, 0x805b5f44);
+asm UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv) {
   #include "asm/805b5e40.s"
 }
 #else
@@ -405,10 +406,10 @@ void KartDynamics::addTorque(const EGG::Vector3f& t) {
 }
 }
 
-// Symbol: unk_805b5f78__Fv
+// Symbol: unk_805b5f78__Fv__Fv
 // PAL: 0x805b5f78..0x805b6150
-MARK_BINARY_BLOB(unk_805b5f78__Fv, 0x805b5f78, 0x805b6150);
-asm UNKNOWN_FUNCTION(unk_805b5f78__Fv) {
+MARK_BINARY_BLOB(unk_805b5f78__Fv__Fv, 0x805b5f78, 0x805b6150);
+asm UNKNOWN_FUNCTION(unk_805b5f78__Fv__Fv) {
   #include "asm/805b5f78.s"
 }
 
@@ -469,7 +470,7 @@ asm void Kart::KartDynamicsBike::stabilize() {
 // Symbol: __dt__Q24kart16KartDynamicsBikeFv
 // PAL: 0x805b66e4..0x805b6724
 MARK_BINARY_BLOB(__dt__Q24kart16KartDynamicsBikeFv, 0x805b66e4, 0x805b6724);
-asm void __dt__Q24Kart16KartDynamicsBikeFv() {
+asm Kart::KartDynamicsBike::~KartDynamicsBike() {
   #include "asm/805b66e4.s"
 }
 

@@ -4,16 +4,13 @@
 
 #include <decomp.h>
 
-#ifdef __cplusplus
 extern "C" {
-#endif
-
 // PAL: 0x805b7fbc..0x805b80a8
 UNKNOWN_FUNCTION(Hitbox_update);
 // PAL: 0x805b80a8..0x805b8158
 UNKNOWN_FUNCTION(unk_805b80a8);
 // PAL: 0x805b82bc..0x805b8330
-UNKNOWN_FUNCTION(CollisionGroup_construct);
+UNKNOWN_FUNCTION(__ct__Q24Kart11HitboxGroupFv);
 // PAL: 0x805b8330..0x805b83d8
 UNKNOWN_FUNCTION(HitboxGroup_reset);
 // PAL: 0x805b83d8..0x805b8420
@@ -24,6 +21,7 @@ UNKNOWN_FUNCTION(astruct_1_init_bsp_params);
 UNKNOWN_FUNCTION(unk_805b86a8);
 // PAL: 0x805b875c..0x805b883c
 UNKNOWN_FUNCTION(astruct_1_init_bsp_params_single);
+}
 
 #include <egg/math/eggVector.hpp>
 #include <egg/math/eggQuat.hpp>
@@ -53,7 +51,7 @@ class Hitbox {
 
 public:
   Hitbox();
-  // ~Hitbox() {}
+  //~Hitbox() {}
   void init();
   void update(const EGG::Vector3f& scale, const EGG::Quatf& rot, const EGG::Vector3f& pos, f32 totalScale, f32 hitboxElevation);
   void setLastPos(const EGG::Vector3f& scale, const EGG::Matrix34f& pose);
@@ -98,6 +96,7 @@ class HitboxGroup {
 
 public:
   HitboxGroup();
+  ~HitboxGroup() {}
   void reset();
   void setHitboxScale(f32 scale);
   void createHitboxes(u32 n);
@@ -108,7 +107,3 @@ public:
 };
 static_assert(sizeof(HitboxGroup) == 0x9c);
 }
-
-#ifdef __cplusplus
-}
-#endif

@@ -1,4 +1,4 @@
-#include "KartCollision.hpp"
+#include "KartHitbox.hpp"
 
 // --- EXTERN DECLARATIONS BEGIN ---
 
@@ -45,10 +45,10 @@ asm UNKNOWN_FUNCTION(hitbox_init) {
   #include "asm/805b7f48.s"
 }
 
-// Symbol: unk_805b7f84
+// Symbol: unk_805b7f84__Fv
 // PAL: 0x805b7f84..0x805b7fbc
-MARK_BINARY_BLOB(unk_805b7f84, 0x805b7f84, 0x805b7fbc);
-asm UNKNOWN_FUNCTION(unk_805b7f84) {
+MARK_BINARY_BLOB(unk_805b7f84__Fv, 0x805b7f84, 0x805b7fbc);
+asm UNKNOWN_FUNCTION(unk_805b7f84__Fv) {
   #include "asm/805b7f84.s"
 }
 
@@ -66,24 +66,24 @@ asm UNKNOWN_FUNCTION(unk_805b80a8) {
   #include "asm/805b80a8.s"
 }
 
-// Symbol: unk_805b8158
+// Symbol: unk_805b8158__Fv
 // PAL: 0x805b8158..0x805b81d0
-MARK_BINARY_BLOB(unk_805b8158, 0x805b8158, 0x805b81d0);
-asm UNKNOWN_FUNCTION(unk_805b8158) {
+MARK_BINARY_BLOB(unk_805b8158__Fv, 0x805b8158, 0x805b81d0);
+asm UNKNOWN_FUNCTION(unk_805b8158__Fv) {
   #include "asm/805b8158.s"
 }
 
-// Symbol: unk_805b81d0
+// Symbol: unk_805b81d0__Fv
 // PAL: 0x805b81d0..0x805b81e4
-MARK_BINARY_BLOB(unk_805b81d0, 0x805b81d0, 0x805b81e4);
-asm UNKNOWN_FUNCTION(unk_805b81d0) {
+MARK_BINARY_BLOB(unk_805b81d0__Fv, 0x805b81d0, 0x805b81e4);
+asm UNKNOWN_FUNCTION(unk_805b81d0__Fv) {
   #include "asm/805b81d0.s"
 }
 
-// Symbol: unk_805b81e4
+// Symbol: unk_805b81e4__Fv
 // PAL: 0x805b81e4..0x805b821c
-MARK_BINARY_BLOB(unk_805b81e4, 0x805b81e4, 0x805b821c);
-asm UNKNOWN_FUNCTION(unk_805b81e4) {
+MARK_BINARY_BLOB(unk_805b81e4__Fv, 0x805b81e4, 0x805b821c);
+asm UNKNOWN_FUNCTION(unk_805b81e4__Fv) {
   #include "asm/805b81e4.s"
 }
 
@@ -94,10 +94,10 @@ asm UNKNOWN_FUNCTION(CollisionData_init) {
   #include "asm/805b821c.s"
 }
 
-// Symbol: CollisionGroup_construct
+// Symbol: __ct__Q24Kart11HitboxGroupFv
 // PAL: 0x805b82bc..0x805b8330
-MARK_BINARY_BLOB(CollisionGroup_construct, 0x805b82bc, 0x805b8330);
-asm UNKNOWN_FUNCTION(CollisionGroup_construct) {
+MARK_BINARY_BLOB(__ct__Q24Kart11HitboxGroupFv, 0x805b82bc, 0x805b8330);
+asm UNKNOWN_FUNCTION(__ct__Q24Kart11HitboxGroupFv) {
   #include "asm/805b82bc.s"
 }
 
@@ -115,10 +115,10 @@ asm UNKNOWN_FUNCTION(unk_805b83d8) {
   #include "asm/805b83d8.s"
 }
 
-// Symbol: unk_805b8420
+// Symbol: unk_805b8420__Fv
 // PAL: 0x805b8420..0x805b8480
-MARK_BINARY_BLOB(unk_805b8420, 0x805b8420, 0x805b8480);
-asm UNKNOWN_FUNCTION(unk_805b8420) {
+MARK_BINARY_BLOB(unk_805b8420__Fv, 0x805b8420, 0x805b8480);
+asm UNKNOWN_FUNCTION(unk_805b8420__Fv) {
   #include "asm/805b8420.s"
 }
 
