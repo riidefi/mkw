@@ -42,9 +42,9 @@ extern UNKNOWN_FUNCTION(addForce__Q24Kart12KartDynamicsFRCQ23EGG8Vector3f);
 // PAL: 0x805b82bc
 extern UNKNOWN_FUNCTION(__ct__Q24Kart11HitboxGroupFv);
 // PAL: 0x805b8330
-extern UNKNOWN_FUNCTION(HitboxGroup_reset);
+extern UNKNOWN_FUNCTION(reset__Q24Kart11HitboxGroupFv);
 // PAL: 0x805b84c0
-extern UNKNOWN_FUNCTION(astruct_1_init_bsp_params);// Extern data references.
+extern UNKNOWN_FUNCTION(initHitboxes__Q24Kart11HitboxGroupFPQ24Kart9BspHitboxPvl);// Extern data references.
 // PAL: 0x802a4130
 extern UNKNOWN_DATA(RKSystem_ey);
 // PAL: 0x808b7300

@@ -9,17 +9,12 @@ void destroyPhysicsInstance(f32 idk) {
   gKartPhysics = nullptr;
   _809c1994 = 0;
 }
-}
 
-extern "C" {
-extern u8 gKartPhysics__4Kart;
-extern UNKNOWN_FUNCTION(setBspParams__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3fbf);
-extern UNKNOWN_FUNCTION(__nw__FUl);
+KartPhysics* createPhysicsInstance(bool isBike, const KartParam& kartParam, void* unk, s32 tireCount) {
+  gKartPhysics = new KartPhysics(isBike);
+  f32 idk = gKartPhysics->mpHitboxGroup->initHitboxes(kartParam.bsp->hitboxes, unk, tireCount);
+  gKartPhysics->_fc = idk;
+  gKartPhysics->mpDynamics->setBspParams(kartParam.bsp->cuboids[0], kartParam.bsp->cuboids[1], false, kartParam.bsp->angVel0Factor);
+  return gKartPhysics;
 }
-
-// Symbol: unk_805a04a0
-// PAL: 0x805a04a0..0x805a0550
-MARK_BINARY_BLOB(unk_805a04a0, 0x805a04a0, 0x805a0550);
-asm UNKNOWN_FUNCTION(unk_805a04a0) {
-  #include "asm/805a04a0.s"
 }

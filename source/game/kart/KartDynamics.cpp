@@ -200,10 +200,10 @@ void KartDynamics::updateInertiaTensorInverse() {
 }
 }
 
-// Symbol: unk_805b4f44__Fv__Fv
+// Symbol: unk_805b4f44__Fv__Fv__Fv__Fv
 // PAL: 0x805b4f44..0x805b50f8
-MARK_BINARY_BLOB(unk_805b4f44__Fv__Fv, 0x805b4f44, 0x805b50f8);
-asm UNKNOWN_FUNCTION(unk_805b4f44__Fv__Fv) {
+MARK_BINARY_BLOB(unk_805b4f44__Fv__Fv__Fv__Fv, 0x805b4f44, 0x805b50f8);
+asm UNKNOWN_FUNCTION(unk_805b4f44__Fv__Fv__Fv__Fv) {
   #include "asm/805b4f44.s"
 }
 
@@ -377,8 +377,8 @@ void KartDynamics::applyWrenchScaled(const EGG::Vector3f& r, const EGG::Vector3f
 
 #ifndef EQUIVALENT
 // Stack issues. Can be proven with checkflow with better stack analysis
-MARK_BINARY_BLOB(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv, 0x805b5e40, 0x805b5f44);
-asm UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv) {
+MARK_BINARY_BLOB(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv__Fv__Fv, 0x805b5e40, 0x805b5f44);
+asm UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv__Fv__Fv) {
   #include "asm/805b5e40.s"
 }
 #else
@@ -406,10 +406,10 @@ void KartDynamics::addTorque(const EGG::Vector3f& t) {
 }
 }
 
-// Symbol: unk_805b5f78__Fv__Fv
+// Symbol: unk_805b5f78__Fv__Fv__Fv__Fv
 // PAL: 0x805b5f78..0x805b6150
-MARK_BINARY_BLOB(unk_805b5f78__Fv__Fv, 0x805b5f78, 0x805b6150);
-asm UNKNOWN_FUNCTION(unk_805b5f78__Fv__Fv) {
+MARK_BINARY_BLOB(unk_805b5f78__Fv__Fv__Fv__Fv, 0x805b5f78, 0x805b6150);
+asm UNKNOWN_FUNCTION(unk_805b5f78__Fv__Fv__Fv__Fv) {
   #include "asm/805b5f78.s"
 }
 
@@ -445,9 +445,9 @@ void KartDynamics::addForce(const EGG::Vector3f& f) {
 
 void KartDynamics::getAngAcc(EGG::Vector3f& out, const EGG::Vector3f& v) {
   const EGG::Matrix34f& M = this->invInertiaTensor;
-  float outZ = (M.tbl[2][0] * v.x) + (M.tbl[2][1] * v.y) + (M.tbl[2][2] * v.z);
-  float outY = (M.tbl[1][0] * v.x) + (M.tbl[1][1] * v.y) + (M.tbl[1][2] * v.z);
-  float outX = (M.tbl[0][0] * v.x) + (M.tbl[0][1] * v.y) + (M.tbl[0][2] * v.z);
+  float outZ = (M.mtx[2][0] * v.x) + (M.mtx[2][1] * v.y) + (M.mtx[2][2] * v.z);
+  float outY = (M.mtx[1][0] * v.x) + (M.mtx[1][1] * v.y) + (M.mtx[1][2] * v.z);
+  float outX = (M.mtx[0][0] * v.x) + (M.mtx[0][1] * v.y) + (M.mtx[0][2] * v.z);
   out.z = outZ;
   out.y = outY;
   out.x = outX;

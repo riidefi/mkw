@@ -16,7 +16,7 @@ namespace EGG
         f32 tbl[3][3];
     };
 
-    struct Matrix34f
+    struct Matrix34f : public nw4r::math::MTX34
     {
         Matrix34f() {}
         Matrix34f(f32, f32, f32, f32,
@@ -27,7 +27,7 @@ namespace EGG
         {
 	    for(int i = 0; i < 3; i++) {
                 for(int j = 0; j < 4; j++) {
-                    tbl[i][j] = 0.0f;
+                    mtx[i][j] = 0.0f;
                 }
             }
         }
@@ -39,20 +39,20 @@ namespace EGG
         void setAxisRotation(const Vector3f &, f32);
         void loadPosMtx(u32);
 
-        f32& operator()(int i, int j) { return tbl[i][j]; }
+        f32& operator()(int i, int j) { return mtx[i][j]; }
 
 	friend Vector3f operator*(const Matrix34f& M, const Vector3f& v) {
 	    Vector3f out;
 	    const float vecX = v.x;
 	    const float vecY = v.y;
 	    const float vecZ = v.z;
-	    out.x = (vecX * M.tbl[0][0]) + (vecY * M.tbl[0][1]) + (vecZ * M.tbl[0][2]);
-	    out.y = (vecX * M.tbl[1][0]) + (vecY * M.tbl[1][1]) + (vecZ * M.tbl[1][2]);
-	    out.z = (vecX * M.tbl[2][0]) + (vecY * M.tbl[2][1]) + (vecZ * M.tbl[2][2]);
+	    out.x = (vecX * M.mtx[0][0]) + (vecY * M.mtx[0][1]) + (vecZ * M.mtx[0][2]);
+	    out.y = (vecX * M.mtx[1][0]) + (vecY * M.mtx[1][1]) + (vecZ * M.mtx[1][2]);
+	    out.z = (vecX * M.mtx[2][0]) + (vecY * M.mtx[2][1]) + (vecZ * M.mtx[2][2]);
 	    return out;
 	}
 
-        f32 tbl[3][4];
+        //f32 tbl[3][4];
 
         static Matrix34f ident;
     };

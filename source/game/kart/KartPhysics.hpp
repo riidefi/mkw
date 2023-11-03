@@ -50,7 +50,7 @@ UNKNOWN_FUNCTION(PlayerPhysicsHolder_resetQuaternions);
 // PAL: 0x805a0480..0x805a04a0
 UNKNOWN_FUNCTION(destroyPhysicsInstance__4KartFf);
 // PAL: 0x805a04a0..0x805a0550
-UNKNOWN_FUNCTION(unk_805a04a0);
+UNKNOWN_FUNCTION(createPhysicsInstance__4KartFbRCQ24Kart9KartParamPvl);
 }
 
 #include <egg/math/eggVector.hpp>
@@ -67,7 +67,7 @@ public:
 
   KartPhysics(bool isBike);
 
-private:
+public:
   KartDynamics* mpDynamics;
   HitboxGroup* mpHitboxGroup;
 
