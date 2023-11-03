@@ -23,6 +23,11 @@ inline f32 sqrtf(f32 x) { return (f32)sqrt(x); }
 f64 acos(f64);
 inline f32 acosf(f32 x) { return (f32)acos(x); }
 
+f32 fabsf(f32);
+inline f32 fabsf(f32 x) { return __fabsf(x); }
+f64 fabs(f64);
+inline f64 fabs(f64 x) { return __fabs(x); }
+
 double frexp(double x, int* eptr);
 double ldexp(double x, int exp);
 

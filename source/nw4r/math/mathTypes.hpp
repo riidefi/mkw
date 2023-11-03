@@ -153,5 +153,8 @@ MTX34* MTX34RotAxisFIdx(MTX34*, const VEC3*, f32);
 // PAL: 0x80085b80
 MTX44* MTX44Copy(MTX44*, MTX44*);
 
+inline VEC3*
+VEC3Transform(VEC3* pOut, const MTX34* pM, const VEC3* pV) { PSMTXMultVec(*pM, *pV, *pOut); return pOut; }
+
 } // namespace math
 } // namespace nw4r

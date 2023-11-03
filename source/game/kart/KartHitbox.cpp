@@ -1,159 +1,205 @@
+
 #include "KartHitbox.hpp"
 
-// --- EXTERN DECLARATIONS BEGIN ---
+#include <math.h>
+#include <rvl/mtx/mtx.h>
 
-extern "C" {
-
-// Extern function references.
-// PAL: 0x80020e34
-extern UNKNOWN_FUNCTION(__construct_new_array);
-// PAL: 0x80229dcc
-extern UNKNOWN_FUNCTION(__nw__FUl);
-// PAL: 0x80229df0
-extern UNKNOWN_FUNCTION(__nwa__FUl);
-// PAL: 0x8023a2d0
-extern UNKNOWN_FUNCTION(rotateVector__Q23EGG5QuatfFRCQ23EGG8Vector3fRQ23EGG8Vector3f);
-// PAL: 0x805b7f48
-extern UNKNOWN_FUNCTION(hitbox_init);
-// PAL: 0x805b821c
-extern UNKNOWN_FUNCTION(CollisionData_init);
-// PAL: 0x805b8480
-extern UNKNOWN_FUNCTION(unk_805b8480);
-// PAL: 0x805b883c
-extern UNKNOWN_FUNCTION(astruct_1_init_max);
+namespace Kart {
+Hitbox::Hitbox() {
+  this->bsp = nullptr;
+  this->reset();
 }
 
-// --- EXTERN DECLARATIONS END ---
+void Hitbox::reset() {
+  this->_8 = 0;
+  this->pos.setZero();
+  this->lastPos.setZero();
+  this->relPos.setZero();
+}
 
-// .rodata
-const u32 lbl_808927a8[] = {
-    0x00000000
-};
-const u32 lbl_808927ac[] = {
-    0x3f800000
-};
+MARK_FLOW_CHECK(0x805b7fbc);
+void Hitbox::update(const EGG::Vector3f& scale, const EGG::Quatf& rot, const EGG::Vector3f& pos, f32 totalScale, f32 hitboxElevation) {
+  f32 postScaleHitboxElevation = 0.0f;
+  if (scale.y < totalScale) {
+    float dist = totalScale - scale.y;
+    postScaleHitboxElevation = (dist) * this->bsp->radius;
+  }
+
+  EGG::Vector3f scaledPos = this->bsp->pos;
+
+  scaledPos.x *= scale.x;
+  scaledPos.z *= scale.z;
+  float sum = (scaledPos.y + hitboxElevation);
+  float summult = sum * scale.y;
+  scaledPos.y = (summult) + postScaleHitboxElevation;
+  const_cast<EGG::Quatf&>(rot).rotateVector(scaledPos, this->relPos);
+    
+  this->pos.x = this->relPos.x + pos.x;
+  this->pos.y = this->relPos.y + pos.y;
+  this->pos.z = this->relPos.z + pos.z;
+}
+
+MARK_FLOW_CHECK(0x805b80a8);
+void Hitbox::setLastPos(const EGG::Vector3f& scale, const EGG::Matrix34f& pose) {
+  float yScaleFactor = scale.y;
+  EGG::Vector3f scaledPos = this->bsp->pos;
+  scaledPos.x *= scale.x;
+  scaledPos.z *= scale.z;
+  if (scale.y != scale.z && scale.y < 1.0f) {
+    scaledPos.y += (1.0f - scale.y) * this->radius;
+    yScaleFactor = scale.z;
+  }
+  scaledPos.y *= yScaleFactor;
+  VEC3Transform(&this->lastPos, &pose, &scaledPos);
+}
+
+MARK_FLOW_CHECK(0x805b8158);
+BspHitbox* Hitbox::create(const EGG::Vector3f& pos, f32 radius) {
+  BspHitbox* bspData = new BspHitbox;
+  this->bsp = bspData;
+  this->bsp->pos = pos;
+  BspHitbox* tmp = this->bsp;
+  tmp->radius = radius;
+  this->radius = radius;
+  return tmp;
+}
+
+void Hitbox::setScale(f32 scale) {
+  this->radius = this->bsp->radius * scale;
+}
+
+CollisionInfo* CollisionInfo::initStatus() {
+  this->flags = 0;
+  this->reset();
+  return this;
+}
+
+void CollisionInfo::reset() {
+  this->flags = 0;
+  this->nrm.setZero();
+  this->floorDir.setZero();
+  this->maybeLastWallDir.setZero();
+  this->_28.setZero();
+  this->vel.setZero();
+  this->relPos.setZero();
+  this->movement.setZero();
+  this->_58.setZero();
+  this->speedFactor = 1.0f;
+  this->rotFactor = 0.0f;
+  this->closestFloorFlags = 0;
+  this->closestFloorSettings = -1;
+  this->_74 = 0;
+  this->_78 = -1;
+  this->intensity = 0;
+  this->_80 = 0.0f;
+}
+
+HitboxGroup::HitboxGroup() {
+  CollisionInfo& collisionInfo = this->colInfo;
+  this->hitboxCount = 0;
+  collisionInfo.initStatus();
+  this->hitboxes = nullptr;
+  this->_90 = 0;
+  this->hitboxScale = 1.0f;
+  this->_98 = 0.0f;
+  this->colInfo.reset();
+}
+
+void HitboxGroup::reset() {
+  this->colInfo.reset();
+  for (s32 i = 0; (u16)i < this->hitboxCount; i++) {
+    this->getHitbox(i).reset();
+    this->getHitbox(i).setScale(this->hitboxScale);
+  }
+}
+
+void HitboxGroup::setHitboxScale(f32 scale) {
+  this->hitboxScale = scale;
+  for (s32 i = 0; (u16)i < this->hitboxCount; i++) {
+    this->getHitbox(i).setScale(this->hitboxScale);
+  }
+}
+
+void HitboxGroup::createHitboxes(s32 n) {
+  this->hitboxes = new Hitbox[n];
+}
+
+f32 HitboxGroup::initHitboxes(BspHitbox* bspHitboxes, void* unused, s32 wheelCount) {
+  u16 count = 0;
+  this->_90 = 2;
+  for (s32 i = 0; i < BSP_HITBOX_COUNT; i++) {
+    if ((bspHitboxes + i)->enabled) {
+      count++;
+    }
+  }
+  this->hitboxCount = count;
+  this->createHitboxes(this->hitboxCount);
+  return this->setHitboxes(bspHitboxes);
+}
+
+f32 HitboxGroup::setHitboxes(BspHitbox* bspHitboxes) {
+  BspHitbox* bspIt = bspHitboxes;
+  s32 hitboxIdx = 0;
+  for (s32 i = 0; i < BSP_HITBOX_COUNT; i++) {
+    if (bspIt->enabled) {
+      this->getHitbox(hitboxIdx).bsp = (bspHitboxes + i);
+      hitboxIdx++;
+    }
+    bspIt++;
+  }
+  return this->computeCollisionLimits();
+}
+
+void HitboxGroup::createSingleHitbox(const EGG::Vector3f& pos, f32 radius) {
+  this->_90 = 1;
+  this->hitboxCount = 1;
+
+  Hitbox* hitbox = new Hitbox;
+  this->hitboxes = hitbox;
+  hitbox->create(pos, radius);
+
+  this->boundingRadius = radius;
+}
+
+f32 HitboxGroup::computeCollisionLimits() {
+  BspHitbox* bspData; 
+  EGG::Vector3f max(0.0f, 0.0f, 0.0f);
+  float _meme[6];
+  _meme[0] = 0.0f;
+  _meme[1] = 0.0f;
+  _meme[2] = 0.0f;
+  _meme[3] = 0.0f;
+  _meme[4] = 0.0f;
+  _meme[5] = 0.0f;
+
+  for (s32 i = 0; (u16)i < this->hitboxCount; i++) {
+    bspData = this->getHitbox(i).bsp;
+    if (bspData->enabled) {
+      float r = bspData->radius;
+      EGG::Vector3f bspPos(bspData->pos);
+      f32 bboxx = r + fabsf(bspPos.x);
+      max.x = bboxx > max.x ? bboxx : max.x;
+    
+      f32 bboxy = r + fabsf(bspPos.y);
+      max.y = bboxy > max.y ? bboxy : max.y;
+    
+      f32 bboxz = r + fabsf(bspPos.z);
+      max.z = bboxz > max.z ? bboxz : max.z;
+    } 
+  }
+
+  f32 z = max.z;
+  f32 y = max.y;
+  f32 x = max.x;
+
+  float maxAll = x > y ? (x > z ? x : z) : (y > z ? y : z);
+  this->boundingRadius = maxAll;
+  return 0.5f * max.z;
+}
+}
+
+extern const u32 lbl_808927b0[];
 const u32 lbl_808927b0[] = {
-    0x3f000000, 0x00000000, 0x3f800000, 0x00000000,
+    0x00000000, 0x3f800000, 0x00000000,
     0x3f800000, 0x00000000
 };
-
-
-// Symbol: hitbox_init
-// PAL: 0x805b7f48..0x805b7f84
-MARK_BINARY_BLOB(hitbox_init, 0x805b7f48, 0x805b7f84);
-asm UNKNOWN_FUNCTION(hitbox_init) {
-  #include "asm/805b7f48.s"
-}
-
-// Symbol: unk_805b7f84__Fv
-// PAL: 0x805b7f84..0x805b7fbc
-MARK_BINARY_BLOB(unk_805b7f84__Fv, 0x805b7f84, 0x805b7fbc);
-asm UNKNOWN_FUNCTION(unk_805b7f84__Fv) {
-  #include "asm/805b7f84.s"
-}
-
-// Symbol: Hitbox_update
-// PAL: 0x805b7fbc..0x805b80a8
-MARK_BINARY_BLOB(Hitbox_update, 0x805b7fbc, 0x805b80a8);
-asm UNKNOWN_FUNCTION(Hitbox_update) {
-  #include "asm/805b7fbc.s"
-}
-
-// Symbol: unk_805b80a8
-// PAL: 0x805b80a8..0x805b8158
-MARK_BINARY_BLOB(unk_805b80a8, 0x805b80a8, 0x805b8158);
-asm UNKNOWN_FUNCTION(unk_805b80a8) {
-  #include "asm/805b80a8.s"
-}
-
-// Symbol: unk_805b8158__Fv
-// PAL: 0x805b8158..0x805b81d0
-MARK_BINARY_BLOB(unk_805b8158__Fv, 0x805b8158, 0x805b81d0);
-asm UNKNOWN_FUNCTION(unk_805b8158__Fv) {
-  #include "asm/805b8158.s"
-}
-
-// Symbol: unk_805b81d0__Fv
-// PAL: 0x805b81d0..0x805b81e4
-MARK_BINARY_BLOB(unk_805b81d0__Fv, 0x805b81d0, 0x805b81e4);
-asm UNKNOWN_FUNCTION(unk_805b81d0__Fv) {
-  #include "asm/805b81d0.s"
-}
-
-// Symbol: unk_805b81e4__Fv
-// PAL: 0x805b81e4..0x805b821c
-MARK_BINARY_BLOB(unk_805b81e4__Fv, 0x805b81e4, 0x805b821c);
-asm UNKNOWN_FUNCTION(unk_805b81e4__Fv) {
-  #include "asm/805b81e4.s"
-}
-
-// Symbol: CollisionData_init
-// PAL: 0x805b821c..0x805b82bc
-MARK_BINARY_BLOB(CollisionData_init, 0x805b821c, 0x805b82bc);
-asm UNKNOWN_FUNCTION(CollisionData_init) {
-  #include "asm/805b821c.s"
-}
-
-// Symbol: __ct__Q24Kart11HitboxGroupFv
-// PAL: 0x805b82bc..0x805b8330
-MARK_BINARY_BLOB(__ct__Q24Kart11HitboxGroupFv, 0x805b82bc, 0x805b8330);
-asm UNKNOWN_FUNCTION(__ct__Q24Kart11HitboxGroupFv) {
-  #include "asm/805b82bc.s"
-}
-
-// Symbol: HitboxGroup_reset
-// PAL: 0x805b8330..0x805b83d8
-MARK_BINARY_BLOB(HitboxGroup_reset, 0x805b8330, 0x805b83d8);
-asm UNKNOWN_FUNCTION(HitboxGroup_reset) {
-  #include "asm/805b8330.s"
-}
-
-// Symbol: unk_805b83d8
-// PAL: 0x805b83d8..0x805b8420
-MARK_BINARY_BLOB(unk_805b83d8, 0x805b83d8, 0x805b8420);
-asm UNKNOWN_FUNCTION(unk_805b83d8) {
-  #include "asm/805b83d8.s"
-}
-
-// Symbol: unk_805b8420__Fv
-// PAL: 0x805b8420..0x805b8480
-MARK_BINARY_BLOB(unk_805b8420__Fv, 0x805b8420, 0x805b8480);
-asm UNKNOWN_FUNCTION(unk_805b8420__Fv) {
-  #include "asm/805b8420.s"
-}
-
-// Symbol: unk_805b8480
-// PAL: 0x805b8480..0x805b84c0
-MARK_BINARY_BLOB(unk_805b8480, 0x805b8480, 0x805b84c0);
-asm UNKNOWN_FUNCTION(unk_805b8480) {
-  #include "asm/805b8480.s"
-}
-
-// Symbol: astruct_1_init_bsp_params
-// PAL: 0x805b84c0..0x805b86a8
-MARK_BINARY_BLOB(astruct_1_init_bsp_params, 0x805b84c0, 0x805b86a8);
-asm UNKNOWN_FUNCTION(astruct_1_init_bsp_params) {
-  #include "asm/805b84c0.s"
-}
-
-// Symbol: unk_805b86a8
-// PAL: 0x805b86a8..0x805b875c
-MARK_BINARY_BLOB(unk_805b86a8, 0x805b86a8, 0x805b875c);
-asm UNKNOWN_FUNCTION(unk_805b86a8) {
-  #include "asm/805b86a8.s"
-}
-
-// Symbol: astruct_1_init_bsp_params_single
-// PAL: 0x805b875c..0x805b883c
-MARK_BINARY_BLOB(astruct_1_init_bsp_params_single, 0x805b875c, 0x805b883c);
-asm UNKNOWN_FUNCTION(astruct_1_init_bsp_params_single) {
-  #include "asm/805b875c.s"
-}
-
-// Symbol: astruct_1_init_max
-// PAL: 0x805b883c..0x805b8984
-MARK_BINARY_BLOB(astruct_1_init_max, 0x805b883c, 0x805b8984);
-asm UNKNOWN_FUNCTION(astruct_1_init_max) {
-  #include "asm/805b883c.s"
-}
-
