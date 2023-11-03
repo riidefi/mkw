@@ -40,10 +40,10 @@ else:
 
 # Get flags for binary
 if addr < 0x8050_0000:
-    preset = "Mario Kart Wii (DOL)"
+    preset = 83
     disaser = get_dol_disaser()
 else:
-    preset = "Mario Kart Wii (REL)"
+    preset = 89
     disaser = get_rel_disaser()
 
 # Disassemble function
@@ -66,7 +66,6 @@ req = {
     "context" : ctx,
     "platform" : "gc_wii",
 # TODO: Different compiler for DOL
-    "compiler" : 89,
     "compiler_flags" : flags,
     "preset" : preset,
     "diff_label" : diff_label
