@@ -91,7 +91,7 @@ source/game/kart/KartObjectProxy.cpp:
 
 source/game/kart/KartPhysics.cpp:
     text: [0x8059f5bc, 0x805a0480]
-    rodata: [0x80892010, 0x80892028]
+    rodata: [0x80892010, 0x80892024]
     data: [0x808b69e8, 0x808b6a08]
 
 # forced to be separate TU because of variable data after vtables

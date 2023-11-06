@@ -415,7 +415,7 @@ extern UNKNOWN_FUNCTION(unk_8059fc48);
 // PAL: 0x8059fd0c
 extern UNKNOWN_FUNCTION(unk_8059fd0c);
 // PAL: 0x805a0410
-extern UNKNOWN_FUNCTION(PlayerPhysicsHolder_resetQuaternions);
+extern UNKNOWN_FUNCTION(resetPendingOrientations__Q24Kart11KartPhysicsFv);
 // PAL: 0x805ae7b4
 extern UNKNOWN_FUNCTION(unk_805ae7b4);
 // PAL: 0x805ae9ec
@@ -429,7 +429,7 @@ extern UNKNOWN_FUNCTION(VEC3_projAndRej);
 // PAL: 0x805b4d24
 extern UNKNOWN_FUNCTION(reset__Q24Kart12KartDynamicsFv);
 // PAL: 0x805b5ce8
-extern UNKNOWN_FUNCTION(applyWrenchScaled__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff);
+extern UNKNOWN_FUNCTION(applyWrenchScaled__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff);
 // PAL: 0x805b6388
 extern UNKNOWN_FUNCTION(addForce__Q24Kart12KartDynamicsFRCQ23EGG8Vector3f);
 // PAL: 0x806a1808

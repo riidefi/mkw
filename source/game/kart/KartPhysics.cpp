@@ -1,5 +1,7 @@
 #include "KartPhysics.hpp"
 
+#include <float.h>
+
 // --- EXTERN DECLARATIONS BEGIN ---
 
 extern "C" {
@@ -46,22 +48,12 @@ extern UNKNOWN_FUNCTION(reset__Q24Kart11HitboxGroupFv);
 // PAL: 0x805b84c0
 extern UNKNOWN_FUNCTION(initHitboxes__Q24Kart11HitboxGroupFPQ24Kart9BspHitboxPvl);// Extern data references.
 // PAL: 0x802a4130
-extern UNKNOWN_DATA(RKSystem_ey);
+//extern UNKNOWN_DATA(RKSystem_ey);
 // PAL: 0x808b7300
 extern UNKNOWN_DATA(__vt__Q24Kart16KartDynamicsBike);
 }
 
 // --- EXTERN DECLARATIONS END ---
-
-
-#ifndef SHIFTABLE
-extern UNKNOWN_DATA(lbl_80892010);
-REL_SYMBOL_AT(lbl_80892010, 0x80892010)
-#else
-const u32 lbl_80892010[] = {
-    0x42480000
-};
-#endif
 
 // .data
 #pragma explicit_zero_data on
@@ -113,19 +105,26 @@ void KartPhysics::~KartPhysics() {
 }
 #endif
 
-// .rodata
-/*const u32 lbl_80892010[] = {
-    0x42480000
-};*/
-const u32 lbl_80892014[] = {
-    0x3f800000
-};
-const u32 lbl_80892018[] = {
-    0x00000000, 0x3dcccccd
-};
-const u32 lbl_80892020[] = {
-    0x34000000, 0x00000000
-};
+#define UPDATE_AXES_INLINE {\
+  float _00 = this->pose(0, 0); \
+  float _10 = this->pose(1, 0); \
+  float _20 = this->pose(2, 0); \
+  float _01 = this->pose(0, 1); \
+  float _11 = this->pose(1, 1); \
+  float _21 = this->pose(2, 1); \
+  float _02 = this->pose(0, 2); \
+  float _12 = this->pose(1, 2); \
+  float _22 = this->pose(2, 2); \
+  this->xAxis.x = _00; \
+  this->xAxis.y = _10; \
+  this->xAxis.z = _20; \
+  this->yAxis.x = _01; \
+  this->yAxis.y = _11; \
+  this->yAxis.z = _21; \
+  this->zAxis.x = _02; \
+  this->zAxis.y = _12; \
+  this->zAxis.z = _22; \
+}
 
 // Symbol: unk_8059f788
 // PAL: 0x8059f788..0x8059f7c8
@@ -134,39 +133,54 @@ asm UNKNOWN_FUNCTION(unk_8059f788) {
   #include "asm/8059f788.s"
 }
 
-// Symbol: unk_8059f7c8
-// PAL: 0x8059f7c8..0x8059f968
-MARK_BINARY_BLOB(unk_8059f7c8, 0x8059f7c8, 0x8059f968);
-asm UNKNOWN_FUNCTION(unk_8059f7c8) {
-  #include "asm/8059f7c8.s"
+extern "C" EGG::Vector3f RKSystem_ey;
+namespace Kart {
+void KartPhysics::reset() {
+  this->mpDynamics->init();
+  this->mpHitboxGroup->reset();
+  this->up = RKSystem_ey;
+  this->decayingSpecialRot.setIdentity();
+  this->instantaneousSpecialRot.setIdentity();
+  this->specialRot.setIdentity();
+  this->decayingExtraRot.setIdentity();
+  this->instantaneousExtraRot.setIdentity();
+  this->extraRot.setIdentity();
+  this->movingRoadVel.setZero();
+  this->movingWaterVel.setZero();
+  this->pose.makeIdentity();
+
+  UPDATE_AXES_INLINE
+
+  this->pos = mpDynamics->pos;
+  this->speed = mpDynamics->speed;
 }
 
-// Symbol: PlayerPhysicsHolder_update
-// PAL: 0x8059f968..0x8059fc08
-MARK_BINARY_BLOB(PlayerPhysicsHolder_update, 0x8059f968, 0x8059fc08);
-asm UNKNOWN_FUNCTION(PlayerPhysicsHolder_update) {
-  #include "asm/8059f968.s"
+void KartPhysics::calc(f32 dt, f32 maxSpeed, const EGG::Vector3f& scale, u32 airtime) {
+  EGG::Quatf::quatMul(this->specialRot, this->instantaneousSpecialRot, this->decayingSpecialRot);
+  EGG::Quatf::quatMul(this->extraRot, this->instantaneousExtraRot, this->decayingExtraRot);
+  this->mpDynamics->specialRot = this->specialRot;
+  this->mpDynamics->extraRot = this->extraRot;
+  this->mpDynamics->scale = scale;
+  this->mpDynamics->calc(dt, maxSpeed, airtime);
+  EGG::Quatf unit;
+  unit.setIdentity();
+  this->decayingSpecialRot.slerpTo(unit, 0.1f, this->decayingSpecialRot);
+  this->decayingExtraRot.slerpTo(unit, 0.1f, this->decayingExtraRot);
+  this->instantaneousSpecialRot.setIdentity();
+  this->instantaneousExtraRot.setIdentity();
 }
 
-// Symbol: unk_8059fc08
-// PAL: 0x8059fc08..0x8059fc30
-MARK_BINARY_BLOB(unk_8059fc08, 0x8059fc08, 0x8059fc30);
-asm UNKNOWN_FUNCTION(unk_8059fc08) {
-  #include "asm/8059fc08.s"
+void KartPhysics::updateDynamicsSpecialRot(const EGG::Quatf& rot) {
+  this->mpDynamics->specialRot = rot;
 }
 
-// Symbol: unk_8059fc30
-// PAL: 0x8059fc30..0x8059fc38
-MARK_BINARY_BLOB(unk_8059fc30, 0x8059fc30, 0x8059fc38);
-asm UNKNOWN_FUNCTION(unk_8059fc30) {
-  #include "asm/8059fc30.s"
+void KartPhysics::addForce(const EGG::Vector3f& f) {
+  this->mpDynamics->addForce(f);
 }
 
-// Symbol: unk_8059fc38
-// PAL: 0x8059fc38..0x8059fc48
-MARK_BINARY_BLOB(unk_8059fc38, 0x8059fc38, 0x8059fc48);
-asm UNKNOWN_FUNCTION(unk_8059fc38) {
-  #include "asm/8059fc38.s"
+void KartPhysics::applyWrench(const EGG::Vector3f& r, const EGG::Vector3f& f) {
+  this->mpDynamics->applyWrenchScaled(r, f, 1.0f);
+}
 }
 
 // Symbol: unk_8059fc48
@@ -225,37 +239,42 @@ asm UNKNOWN_FUNCTION(unk_805a014c) {
   #include "asm/805a014c.s"
 }
 
-// Symbol: unk_805a01cc
-// PAL: 0x805a01cc..0x805a02b8
-MARK_BINARY_BLOB(unk_805a01cc, 0x805a01cc, 0x805a02b8);
-asm UNKNOWN_FUNCTION(unk_805a01cc) {
-  #include "asm/805a01cc.s"
+namespace Kart {
+void KartPhysics::shiftDecayMovingWaterVel(const EGG::Vector3f& amount, f32 rate) {
+  this->movingWaterVel += amount;
+
+  if (!this->movingWaterVel.isSmall()) {
+    f32 norm = this->movingWaterVel.normalise();
+    if (rate < norm) {
+      norm = rate;
+    }
+
+    this->movingWaterVel *= norm;
+    this->mpDynamics->movingWaterVel = this->movingWaterVel;
+  }
+
 }
 
-// Symbol: unk_805a02b8
-// PAL: 0x805a02b8..0x805a0340
-MARK_BINARY_BLOB(unk_805a02b8, 0x805a02b8, 0x805a0340);
-asm UNKNOWN_FUNCTION(unk_805a02b8) {
-  #include "asm/805a02b8.s"
+void KartPhysics::decayMovingWaterVel(f32 normalRate, f32 airRate, bool touchingGround) {
+  this->movingWaterVel.x *= touchingGround ? normalRate : airRate;
+  this->movingWaterVel.y *= touchingGround ? normalRate : airRate;
+  this->movingWaterVel.z *= touchingGround ? normalRate : airRate;
+  this->movingWaterVel.y = 0.0f;
+
+  this->mpDynamics->movingWaterVel = this->movingWaterVel;
 }
 
-// Symbol: PlayerPhysicsHolder_updateMat
-// PAL: 0x805a0340..0x805a03c4
-MARK_BINARY_BLOB(PlayerPhysicsHolder_updateMat, 0x805a0340, 0x805a03c4);
-asm UNKNOWN_FUNCTION(PlayerPhysicsHolder_updateMat) {
-  #include "asm/805a0340.s"
+void KartPhysics::updatePose() {
+  this->pose.makeQT(mpDynamics->fullRot, mpDynamics->pos);
+  UPDATE_AXES_INLINE
 }
 
-// Symbol: unk_805a03c4
-// PAL: 0x805a03c4..0x805a0410
-MARK_BINARY_BLOB(unk_805a03c4, 0x805a03c4, 0x805a0410);
-asm UNKNOWN_FUNCTION(unk_805a03c4) {
-  #include "asm/805a03c4.s"
+void KartPhysics::updateAxes() {
+  UPDATE_AXES_INLINE
 }
 
-// Symbol: PlayerPhysicsHolder_resetQuaternions
-// PAL: 0x805a0410..0x805a0480
-MARK_BINARY_BLOB(PlayerPhysicsHolder_resetQuaternions, 0x805a0410, 0x805a0480);
-asm UNKNOWN_FUNCTION(PlayerPhysicsHolder_resetQuaternions) {
-  #include "asm/805a0410.s"
+void KartPhysics::resetPendingOrientations() {
+  this->decayingSpecialRot.setIdentity();
+  this->decayingExtraRot.setIdentity();
+}
 }

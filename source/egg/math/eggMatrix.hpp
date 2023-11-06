@@ -9,11 +9,9 @@
 
 namespace EGG
 {
-    struct Matrix33f
+    struct Matrix33f : public nw4r::math::MTX33
     {
-        f32& operator()(int i, int j) { return tbl[i][j]; }
-
-        f32 tbl[3][3];
+        f32& operator()(int i, int j) { return mtx[i][j]; }
     };
 
     struct Matrix34f : public nw4r::math::MTX34
@@ -35,6 +33,7 @@ namespace EGG
         void inverseToC(Matrix34f& inv) const;
         void makeIdentity();
         void makeQ(const Quatf&);
+        void makeQT(const Quatf&, const Vector3f&);
         void makeS(const Vector3f&);
         void setAxisRotation(const Vector3f &, f32);
         void loadPosMtx(u32);

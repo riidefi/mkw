@@ -29,6 +29,14 @@ public:
     set(1.0f, 0.0f, 0.0f, 0.0f);
   }
 
+  inline Quatf& operator=(const Quatf& rhs) {
+    _[0] = rhs._[0];
+    _[1] = rhs._[1];
+    _[2] = rhs._[2];
+    _[3] = rhs._[3];
+    return *this;
+  }
+
   inline Quatf& operator*(float f) {
     _[0] *= f;
     _[1] *= f;
@@ -42,21 +50,15 @@ public:
     _[1] += rhs._[1];
     _[2] += rhs._[2];
     _[3] += rhs._[3];
+    return *this;
   }
 
   inline static void quatMul(Quatf& dst, const Quatf& q1, const Quatf& q2) {
-    float x1 = q1._[0];
-    float x2 = q2._[0];
-    float y1 = q1._[1];
-    float y2 = q2._[1];
-    float z1 = q1._[2];
-    float z2 = q2._[2];
-    float w1 = q1._[3];
     dst.set(
-      -(x1*x2 + y1*y2 + z1*z2),
-      y1*z2 + w1*x2 - z1*y2,
-      z1*x2 + w1*y2 - x1*z2,
-      w1*z2 + x1*y2 - y1*x2
+      q1._[3]*q2._[3] - q1._[0]*q2._[0] - q1._[1]*q2._[1] - q1._[2]*q2._[2],
+      q1._[0]*q2._[3] + q1._[3]*q2._[0] + q1._[1]*q2._[2] - q1._[2]*q2._[1],
+      q1._[1]*q2._[3] + q1._[3]*q2._[1] + q1._[2]*q2._[0] - q1._[0]*q2._[2],
+      q1._[2]*q2._[3] + q1._[3]*q2._[2] + q1._[0]*q2._[1] - q1._[1]*q2._[0]
     );
   }
   inline static void quatMul(Quatf& dst, const Quatf& q1, const Vector3f& v) {

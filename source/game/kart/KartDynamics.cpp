@@ -2,6 +2,7 @@
 #include "KartDynamics.hpp"
 
 #include <math.h>
+#include <float.h>
 
 // --- EXTERN DECLARATIONS BEGIN ---
 
@@ -62,8 +63,6 @@ extern UNKNOWN_DATA(lbl_808b6588);
 }
 
 // --- EXTERN DECLARATIONS END ---
-
-#define FLT_EPSILON 1e-7
 
 // .rodata
 #ifndef SHIFTABLE
@@ -200,17 +199,17 @@ void KartDynamics::updateInertiaTensorInverse() {
 }
 }
 
-// Symbol: unk_805b4f44__Fv__Fv__Fv__Fv
+// Symbol: unk_805b4f44__Fv__Fv__Fv__Fv__Fv__Fv
 // PAL: 0x805b4f44..0x805b50f8
-MARK_BINARY_BLOB(unk_805b4f44__Fv__Fv__Fv__Fv, 0x805b4f44, 0x805b50f8);
-asm UNKNOWN_FUNCTION(unk_805b4f44__Fv__Fv__Fv__Fv) {
+MARK_BINARY_BLOB(unk_805b4f44__Fv__Fv__Fv__Fv__Fv__Fv, 0x805b4f44, 0x805b50f8);
+asm UNKNOWN_FUNCTION(unk_805b4f44__Fv__Fv__Fv__Fv__Fv__Fv) {
   #include "asm/805b4f44.s"
 }
 
 namespace Kart {
 MARK_FLOW_CHECK(0x805b50f8);
-void KartDynamics::composeQuat(EGG::Quatf& dst, const EGG::Quatf& q1, const EGG::Quatf& q2) {
-  EGG::Quatf::quatMul(dst, q1, q2);
+void KartDynamics::composeQuat(EGG::Quatf& dst, const EGG::Quatf& q1, const EGG::Vector3f& v) {
+  EGG::Quatf::quatMul(dst, q1, v);
 }
 }
 
@@ -218,7 +217,7 @@ void KartDynamics::composeQuat(EGG::Quatf& dst, const EGG::Quatf& q1, const EGG:
 // Symbol: calc__Q24kart12KartDynamicsFffi
 // PAL: 0x805b5170..0x805b5b64
 MARK_BINARY_BLOB(calc__Q24Kart12KartDynamicsFffi, 0x805b5170, 0x805b5b64);
-asm UNKNOWN_FUNCTION(calc__Q24kart12KartDynamicsFffi) {
+asm void Kart::KartDynamics::calc(float dt, float maxSpeed, int air) {
   #include "asm/805b5170.s"
 }
 #else
@@ -325,8 +324,8 @@ void KartDynamics::calc(float dt, float maxSpeed, int air) {
     this->mainRot.normalise();
   }
 
-  this->composeQuat(this->fullRot, this->mainRot, this->extraRot);
-  this->composeQuat(this->fullRot, this->fullRot, this->specialRot);
+  EGG::Quatf::quatMul(this->fullRot, this->mainRot, this->extraRot);
+  EGG::Quatf::quatMul(this->fullRot, this->fullRot, this->specialRot);
   this->fullRot.normalise();
   this->mainRot.rotateVectorInv(externalVel, externalVelBody);
   this->totalForce.setZero();
@@ -352,8 +351,8 @@ asm void stabilize__Q24Kart12KartDynamicsFv() {
 // https://decomp.me/scratch/d96Z7, can be proven with stack analysis
 // Symbol: applyWrenchScaled__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff
 // PAL: 0x805b5ce8..0x805b5e40
-MARK_BINARY_BLOB(applyWrenchScaled__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff, 0x805b5ce8, 0x805b5e40);
-asm UNKNOWN_FUNCTION(applyWrenchScaled__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff) {
+MARK_BINARY_BLOB(applyWrenchScaled__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff, 0x805b5ce8, 0x805b5e40);
+asm void Kart::KartDynamics::applyWrenchScaled(const EGG::Vector3f& r, const EGG::Vector3f& F, float bumpDeviation) {
   #include "asm/805b5ce8.s"
 }
 #else
@@ -377,8 +376,8 @@ void KartDynamics::applyWrenchScaled(const EGG::Vector3f& r, const EGG::Vector3f
 
 #ifndef EQUIVALENT
 // Stack issues. Can be proven with checkflow with better stack analysis
-MARK_BINARY_BLOB(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv__Fv__Fv, 0x805b5e40, 0x805b5f44);
-asm UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv__Fv__Fv) {
+MARK_BINARY_BLOB(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv__Fv__Fv__Fv__Fv, 0x805b5e40, 0x805b5f44);
+asm UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv__Fv__Fv__Fv__Fv) {
   #include "asm/805b5e40.s"
 }
 #else
@@ -406,10 +405,10 @@ void KartDynamics::addTorque(const EGG::Vector3f& t) {
 }
 }
 
-// Symbol: unk_805b5f78__Fv__Fv__Fv__Fv
+// Symbol: unk_805b5f78__Fv__Fv__Fv__Fv__Fv__Fv
 // PAL: 0x805b5f78..0x805b6150
-MARK_BINARY_BLOB(unk_805b5f78__Fv__Fv__Fv__Fv, 0x805b5f78, 0x805b6150);
-asm UNKNOWN_FUNCTION(unk_805b5f78__Fv__Fv__Fv__Fv) {
+MARK_BINARY_BLOB(unk_805b5f78__Fv__Fv__Fv__Fv__Fv__Fv, 0x805b5f78, 0x805b6150);
+asm UNKNOWN_FUNCTION(unk_805b5f78__Fv__Fv__Fv__Fv__Fv__Fv) {
   #include "asm/805b5f78.s"
 }
 
