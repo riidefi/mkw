@@ -37,7 +37,7 @@ public:
   void setBspParams(const EGG::Vector3f& m, const EGG::Vector3f& n, bool skipInertia, float angVel0Factor);
   void setInertia(const EGG::Vector3f& m, const EGG::Vector3f& n);
   void updateInertiaTensorInverse();
-  void composeQuat(EGG::Quatf& dst, const EGG::Quatf& q1, const EGG::Quatf& q2);
+  void composeQuat(EGG::Quatf& dst, const EGG::Quatf& q1, const EGG::Vector3f& v);
   void calc(float dt, float maxSpeed, int air);
   void applyWrenchScaled(const EGG::Vector3f& r, const EGG::Vector3f& F, float bumpDeviation);
   void applyTorqueWorld(const EGG::Vector3f& r, const EGG::Vector3f& F);

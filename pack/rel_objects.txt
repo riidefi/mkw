@@ -55,7 +55,7 @@ out/KartObjectProxy.o
 out/rel/text_805919f4_8059f5bc.o
 out/rel/rodata_80891c80_80892010.o
 out/KartPhysics.o
-out/rel/rodata_80892028_80892750.o
+out/rel/rodata_80892024_80892750.o
 out/rel/bss_809c1910_809c1990.o
 out/KartPhysicsInstance.o
 out/rel/text_805a0550_805b4af8.o

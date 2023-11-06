@@ -18,6 +18,7 @@ using EGG::Mathf::cos;
 using EGG::Mathf::sin;
 using EGG::Mathf::sqrt;
 
+#undef FLT_EPSILON
 #define FLT_EPSILON 1.192092896e-07F
 
 float _() {

@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <float.h>
+
 #include <egg/math/eggMath.hpp>
 #include <nw4r/math/mathTypes.hpp>
 
@@ -33,6 +35,8 @@ struct Vector2f {
 struct Vector3f : public nw4r::math::VEC3 {
   float dot() const { return x * x + y * y + z * z; }
   static float dot(const Vector3f& v1, const Vector3f& v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
+
+  bool isSmall() const { return dot() <= FLT_EPSILON; }
 
   float normalise();
   // uses fsqrt directly
