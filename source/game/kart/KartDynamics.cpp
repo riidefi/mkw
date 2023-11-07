@@ -199,10 +199,9 @@ void KartDynamics::updateInertiaTensorInverse() {
 }
 }
 
-// Symbol: unk_805b4f44__Fv__Fv__Fv__Fv__Fv__Fv
 // PAL: 0x805b4f44..0x805b50f8
-MARK_BINARY_BLOB(unk_805b4f44__Fv__Fv__Fv__Fv__Fv__Fv, 0x805b4f44, 0x805b50f8);
-asm UNKNOWN_FUNCTION(unk_805b4f44__Fv__Fv__Fv__Fv__Fv__Fv) {
+MARK_BINARY_BLOB(lbl_805b4f44, 0x805b4f44, 0x805b50f8);
+asm UNKNOWN_FUNCTION(lbl_805b4f44) {
   #include "asm/805b4f44.s"
 }
 
@@ -376,8 +375,8 @@ void KartDynamics::applyWrenchScaled(const EGG::Vector3f& r, const EGG::Vector3f
 
 #ifndef EQUIVALENT
 // Stack issues. Can be proven with checkflow with better stack analysis
-MARK_BINARY_BLOB(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv__Fv__Fv__Fv__Fv, 0x805b5e40, 0x805b5f44);
-asm UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f__Fv__Fv__Fv__Fv__Fv__Fv) {
+MARK_BINARY_BLOB(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f, 0x805b5e40, 0x805b5f44);
+asm UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f) {
   #include "asm/805b5e40.s"
 }
 #else
@@ -405,10 +404,9 @@ void KartDynamics::addTorque(const EGG::Vector3f& t) {
 }
 }
 
-// Symbol: unk_805b5f78__Fv__Fv__Fv__Fv__Fv__Fv
 // PAL: 0x805b5f78..0x805b6150
-MARK_BINARY_BLOB(unk_805b5f78__Fv__Fv__Fv__Fv__Fv__Fv, 0x805b5f78, 0x805b6150);
-asm UNKNOWN_FUNCTION(unk_805b5f78__Fv__Fv__Fv__Fv__Fv__Fv) {
+MARK_BINARY_BLOB(lbl_805b5f78, 0x805b5f78, 0x805b6150);
+asm UNKNOWN_FUNCTION(lbl_805b5f78) {
   #include "asm/805b5f78.s"
 }
 

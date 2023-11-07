@@ -2,58 +2,17 @@
 
 #include <float.h>
 
-// --- EXTERN DECLARATIONS BEGIN ---
-
 extern "C" {
-
 // Extern function references.
-// PAL: 0x80229dcc
-extern UNKNOWN_FUNCTION(__nw__FUl);
-// PAL: 0x8022fac4
-extern UNKNOWN_FUNCTION(makeIdentity__Q23EGG9Matrix34fFv);
-// PAL: 0x80230118
-extern UNKNOWN_FUNCTION(makeSQT__Q23EGG9Matrix34fFRCQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f);
-// PAL: 0x80239dfc
-extern UNKNOWN_FUNCTION(set__Q23EGG5QuatfFffff);
-// PAL: 0x8023a5c4
-extern UNKNOWN_FUNCTION(slerpTo__Q23EGG5QuatfCFRCQ23EGG5QuatffRQ23EGG5Quatf);
-// PAL: 0x80243adc
-extern UNKNOWN_FUNCTION(normalise__Q23EGG8Vector3fFv);
-// PAL: 0x8059f5bc
-extern UNKNOWN_FUNCTION(__ct__Q24Kart11KartPhysicsFb);
 // PAL: 0x8059f6b8
 extern UNKNOWN_FUNCTION(__dt__Q24Kart12KartDynamicsFv);
 // PAL: 0x8059f6f8
 extern UNKNOWN_FUNCTION(__dt__Q24Kart11KartPhysicsFv);
-// PAL: 0x805b4af8
-extern UNKNOWN_FUNCTION(__ct__Q24Kart16KartDynamicsKartFv);
-// PAL: 0x805b4dc0
-extern UNKNOWN_FUNCTION(init__Q24Kart12KartDynamicsFv);
-// PAL: 0x805b4dc4
-extern UNKNOWN_FUNCTION(setBspParams__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3fbf);
-// PAL: 0x805b5170
-extern UNKNOWN_FUNCTION(calc__Q24kart12KartDynamicsFffi);
 // PAL: 0x805b5b64
 extern UNKNOWN_FUNCTION(forceUpright__Q24Kart12KartDynamicsFv);
 // PAL: 0x805b5b68
 extern UNKNOWN_FUNCTION(stabilize__Q24Kart12KartDynamicsFv);
-// PAL: 0x805b5ce8
-extern UNKNOWN_FUNCTION(applyWrenchScaled__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff);
-// PAL: 0x805b6388
-extern UNKNOWN_FUNCTION(addForce__Q24Kart12KartDynamicsFRCQ23EGG8Vector3f);
-// PAL: 0x805b82bc
-extern UNKNOWN_FUNCTION(__ct__Q24Kart11HitboxGroupFv);
-// PAL: 0x805b8330
-extern UNKNOWN_FUNCTION(reset__Q24Kart11HitboxGroupFv);
-// PAL: 0x805b84c0
-extern UNKNOWN_FUNCTION(initHitboxes__Q24Kart11HitboxGroupFPQ24Kart9BspHitboxPvl);// Extern data references.
-// PAL: 0x802a4130
-//extern UNKNOWN_DATA(RKSystem_ey);
-// PAL: 0x808b7300
-extern UNKNOWN_DATA(__vt__Q24Kart16KartDynamicsBike);
 }
-
-// --- EXTERN DECLARATIONS END ---
 
 // .data
 #pragma explicit_zero_data on
@@ -181,65 +140,52 @@ void KartPhysics::addForce(const EGG::Vector3f& f) {
 void KartPhysics::applyWrench(const EGG::Vector3f& r, const EGG::Vector3f& f) {
   this->mpDynamics->applyWrenchScaled(r, f, 1.0f);
 }
+
+void KartPhysics::addInstantaneousSpecialRot(const EGG::Quatf& q) {
+  EGG::Quatf::quatMul(this->instantaneousSpecialRot, this->instantaneousSpecialRot, q);
 }
 
-// Symbol: unk_8059fc48
-// PAL: 0x8059fc48..0x8059fd0c
-MARK_BINARY_BLOB(unk_8059fc48, 0x8059fc48, 0x8059fd0c);
-asm UNKNOWN_FUNCTION(unk_8059fc48) {
-  #include "asm/8059fc48.s"
+void KartPhysics::addInstantaneousExtraRot(const EGG::Quatf& q) {
+  EGG::Quatf::quatMul(this->instantaneousExtraRot, this->instantaneousExtraRot, q);
 }
 
-// Symbol: unk_8059fd0c
-// PAL: 0x8059fd0c..0x8059fdd0
-MARK_BINARY_BLOB(unk_8059fd0c, 0x8059fd0c, 0x8059fdd0);
-asm UNKNOWN_FUNCTION(unk_8059fd0c) {
-  #include "asm/8059fd0c.s"
+void KartPhysics::addDecayingSpecialRot(const EGG::Quatf& q) {
+  EGG::Quatf::quatMul(this->decayingSpecialRot, this->decayingSpecialRot, q);
 }
 
-// Symbol: unk_8059fdd0
-// PAL: 0x8059fdd0..0x8059fe94
-MARK_BINARY_BLOB(unk_8059fdd0, 0x8059fdd0, 0x8059fe94);
-asm UNKNOWN_FUNCTION(unk_8059fdd0) {
-  #include "asm/8059fdd0.s"
+void KartPhysics::addDecayingExtraRot(const EGG::Quatf& q) {
+  EGG::Quatf::quatMul(this->decayingExtraRot, this->decayingExtraRot, q);
 }
 
-// Symbol: unk_8059fe94
-// PAL: 0x8059fe94..0x8059ff58
-MARK_BINARY_BLOB(unk_8059fe94, 0x8059fe94, 0x8059ff58);
-asm UNKNOWN_FUNCTION(unk_8059fe94) {
-  #include "asm/8059fe94.s"
+void KartPhysics::addMainRot(const EGG::Quatf& q) {
+  EGG::Quatf res;
+  // not quite rotation composition nintendo... no wonder this func is unused
+  EGG::Quatf::quatMul(res, q, this->mpDynamics->mainRot);
+  this->mpDynamics->mainRot = res;
 }
 
-// Symbol: unk_8059ff58
-// PAL: 0x8059ff58..0x805a0050
-MARK_BINARY_BLOB(unk_8059ff58, 0x8059ff58, 0x805a0050);
-asm UNKNOWN_FUNCTION(unk_8059ff58) {
-  #include "asm/8059ff58.s"
-}
-
-// Symbol: unk_805a0050
+// Symbol: setMovingRoadVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff
 // PAL: 0x805a0050..0x805a00d0
-MARK_BINARY_BLOB(unk_805a0050, 0x805a0050, 0x805a00d0);
-asm UNKNOWN_FUNCTION(unk_805a0050) {
+MARK_BINARY_BLOB(setMovingRoadVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff, 0x805a0050, 0x805a00d0);
+asm void KartPhysics::setMovingRoadVel(const EGG::Vector3f& vel, f32 rate) {
   #include "asm/805a0050.s"
 }
 
-// Symbol: unk_805a00d0
-// PAL: 0x805a00d0..0x805a014c
-MARK_BINARY_BLOB(unk_805a00d0, 0x805a00d0, 0x805a014c);
-asm UNKNOWN_FUNCTION(unk_805a00d0) {
-  #include "asm/805a00d0.s"
+void KartPhysics::decayMovingRoadVel(f32 normalRate, f32 airRate, bool touchingGround) {
+  this->movingRoadVel.x *= touchingGround ? normalRate : airRate;
+  this->movingRoadVel.y *= touchingGround ? normalRate : airRate;
+  this->movingRoadVel.z *= touchingGround ? normalRate : airRate;
+
+  this->mpDynamics->movingRoadVel = this->movingRoadVel;
 }
 
-// Symbol: unk_805a014c
+// Symbol: setMovingWaterVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff
 // PAL: 0x805a014c..0x805a01cc
-MARK_BINARY_BLOB(unk_805a014c, 0x805a014c, 0x805a01cc);
-asm UNKNOWN_FUNCTION(unk_805a014c) {
+MARK_BINARY_BLOB(setMovingWaterVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff, 0x805a014c, 0x805a01cc);
+asm void KartPhysics::setMovingWaterVel(const EGG::Vector3f& vel, f32 rate) {
   #include "asm/805a014c.s"
 }
 
-namespace Kart {
 void KartPhysics::shiftDecayMovingWaterVel(const EGG::Vector3f& amount, f32 rate) {
   this->movingWaterVel += amount;
 

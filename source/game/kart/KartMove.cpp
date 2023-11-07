@@ -411,9 +411,9 @@ extern UNKNOWN_FUNCTION(cancelBullet);
 // PAL: 0x8059d0c0
 extern UNKNOWN_FUNCTION(unk_8059d0c0);
 // PAL: 0x8059fc48
-extern UNKNOWN_FUNCTION(unk_8059fc48);
+extern UNKNOWN_FUNCTION(addInstantaneousSpecialRot__Q24Kart11KartPhysicsFRCQ23EGG5Quatf);
 // PAL: 0x8059fd0c
-extern UNKNOWN_FUNCTION(unk_8059fd0c);
+extern UNKNOWN_FUNCTION(addInstantaneousExtraRot__Q24Kart11KartPhysicsFRCQ23EGG5Quatf);
 // PAL: 0x805a0410
 extern UNKNOWN_FUNCTION(resetPendingOrientations__Q24Kart11KartPhysicsFv);
 // PAL: 0x805ae7b4
