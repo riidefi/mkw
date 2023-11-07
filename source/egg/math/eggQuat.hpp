@@ -80,6 +80,4 @@ public:
   f32 _[4];
 };
 
-Quatf operator*(const Quatf&, const Vector3f&);
-
 } // namespace EGG

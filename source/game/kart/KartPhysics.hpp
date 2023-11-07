@@ -4,55 +4,6 @@
 
 #include <decomp.h>
 
-extern "C" {
-// PAL: 0x8059f5bc..0x8059f678
-UNKNOWN_FUNCTION(__ct__Q24Kart11KartPhysicsFb);
-// PAL: 0x8059f6f8..0x8059f788
-UNKNOWN_FUNCTION(__dt__Q24Kart11KartPhysicsFv);
-// PAL: 0x8059f788..0x8059f7c8
-UNKNOWN_FUNCTION(unk_8059f788);
-// PAL: 0x8059f7c8..0x8059f968
-UNKNOWN_FUNCTION(reset__Q24Kart11KartPhysicsFv);
-// PAL: 0x8059f968..0x8059fc08
-UNKNOWN_FUNCTION(calc__Q24Kart11KartPhysicsFffRCQ23EGG8Vector3fUl);
-// PAL: 0x8059fc08..0x8059fc30
-UNKNOWN_FUNCTION(updateDynamicsSpecialRot__Q24Kart11KartPhysicsFRCQ23EGG5Quatf);
-// PAL: 0x8059fc30..0x8059fc38
-UNKNOWN_FUNCTION(unk_8059fc30);
-// PAL: 0x8059fc38..0x8059fc48
-UNKNOWN_FUNCTION(unk_8059fc38);
-// PAL: 0x8059fc48..0x8059fd0c
-UNKNOWN_FUNCTION(unk_8059fc48);
-// PAL: 0x8059fd0c..0x8059fdd0
-UNKNOWN_FUNCTION(unk_8059fd0c);
-// PAL: 0x8059fdd0..0x8059fe94
-UNKNOWN_FUNCTION(unk_8059fdd0);
-// PAL: 0x8059fe94..0x8059ff58
-UNKNOWN_FUNCTION(unk_8059fe94);
-// PAL: 0x8059ff58..0x805a0050
-UNKNOWN_FUNCTION(unk_8059ff58);
-// PAL: 0x805a0050..0x805a00d0
-UNKNOWN_FUNCTION(unk_805a0050);
-// PAL: 0x805a00d0..0x805a014c
-UNKNOWN_FUNCTION(unk_805a00d0);
-// PAL: 0x805a014c..0x805a01cc
-UNKNOWN_FUNCTION(unk_805a014c);
-// PAL: 0x805a01cc..0x805a02b8
-UNKNOWN_FUNCTION(shiftDecayMovingWaterVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff);
-// PAL: 0x805a02b8..0x805a0340
-UNKNOWN_FUNCTION(decayMovingWaterVel__Q24Kart11KartPhysicsFffb);
-// PAL: 0x805a0340..0x805a03c4
-UNKNOWN_FUNCTION(PlayerPhysicsHolder_updateMat);
-// PAL: 0x805a03c4..0x805a0410
-UNKNOWN_FUNCTION(updateAxes__Q24Kart11KartPhysicsFv);
-// PAL: 0x805a0410..0x805a0480
-UNKNOWN_FUNCTION(resetPendingOrientations__Q24Kart11KartPhysicsFv);
-// PAL: 0x805a0480..0x805a04a0
-UNKNOWN_FUNCTION(destroyPhysicsInstance__4KartFf);
-// PAL: 0x805a04a0..0x805a0550
-UNKNOWN_FUNCTION(createPhysicsInstance__4KartFbRCQ24Kart9KartParamPvl);
-}
-
 #include <egg/math/eggVector.hpp>
 #include <egg/math/eggQuat.hpp>
 #include <egg/math/eggMatrix.hpp>
@@ -72,12 +23,24 @@ public:
   void updateDynamicsSpecialRot(const EGG::Quatf& rot);
   void addForce(const EGG::Vector3f& f);
   void applyWrench(const EGG::Vector3f& r, const EGG::Vector3f& f);
+
+  void addInstantaneousSpecialRot(const EGG::Quatf& q);
+  void addInstantaneousExtraRot(const EGG::Quatf& q);
+  void addDecayingSpecialRot(const EGG::Quatf& q);
+  void addDecayingExtraRot(const EGG::Quatf& q);
+  void addMainRot(const EGG::Quatf& q);
+
+  void setMovingRoadVel(const EGG::Vector3f& vel, f32 rate);
+  void decayMovingRoadVel(f32 airRate, f32 normalRate, bool touchingGround);
+  void setMovingWaterVel(const EGG::Vector3f& vel, f32 rate);
   void shiftDecayMovingWaterVel(const EGG::Vector3f& amount, f32 rate);
   void decayMovingWaterVel(f32 airRate, f32 normalRate, bool touchingGround);
+
   void updatePose();
   void updateAxes();
   // Zeros decaying rotations (e.g. to cancel trick or itemhit rotation when entering cannon)
   void resetPendingOrientations();
+
   #define UPDATE_AXES_INLINE {\
     float _00 = this->pose(0, 0); \
     float _10 = this->pose(1, 0); \
