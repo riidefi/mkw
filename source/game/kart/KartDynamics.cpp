@@ -200,7 +200,7 @@ void KartDynamics::updateInertiaTensorInverse() {
 }
 
 // PAL: 0x805b4f44..0x805b50f8
-MARK_BINARY_BLOB(lbl_805b4f44, 0x805b4f44, 0x805b50f8);
+MARK_BINARY_BLOB(lbl_805b4f44__Fv, 0x805b4f44, 0x805b50f8);
 asm UNKNOWN_FUNCTION(lbl_805b4f44) {
   #include "asm/805b4f44.s"
 }

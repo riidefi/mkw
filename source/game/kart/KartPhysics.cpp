@@ -85,7 +85,7 @@ void KartPhysics::~KartPhysics() {
   this->zAxis.z = _22; \
 }
 
-// Symbol: unk_8059f788
+// Symbol: unk_8059f788__Fv__Fv
 // PAL: 0x8059f788..0x8059f7c8
 MARK_BINARY_BLOB(unk_8059f788, 0x8059f788, 0x8059f7c8);
 asm UNKNOWN_FUNCTION(unk_8059f788) {

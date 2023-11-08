@@ -15,6 +15,13 @@ UNKNOWN_FUNCTION(applyWrenchScaled__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23
 // PAL: 0x805b6150..0x805b629c
 UNKNOWN_FUNCTION(applySuspensionWrench__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fb);
 // PAL: 0x805b629c..0x805b6388
+UNKNOWN_FUNCTION(lbl_805b4f44);
+UNKNOWN_FUNCTION(applyTorqueWorld__Q24kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
+UNKNOWN_FUNCTION(lbl_805b5f78);
+
+#ifdef __cplusplus
+}
+#endif
 
 #include "egg/math/eggMatrix.hpp"
 #include "egg/math/eggVector.hpp"
@@ -119,7 +126,3 @@ public:
 };
 
 } // ns
-
-#ifdef __cplusplus
-}
-#endif
