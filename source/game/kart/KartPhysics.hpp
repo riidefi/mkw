@@ -11,6 +11,8 @@
 #include "KartHitbox.hpp"
 #include "KartDynamics.hpp"
 
+extern "C" UNKNOWN_FUNCTION(unk_8059f788);
+
 namespace Kart {
 class KartPhysics {
 public:
