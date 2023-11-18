@@ -131,11 +131,11 @@ UNKNOWN_FUNCTION(unk_80590864);
 // PAL: 0x80590874..0x80590888
 UNKNOWN_FUNCTION(PlayerPointers_getPlayerStats);
 // PAL: 0x80590888..0x8059089c
-UNKNOWN_FUNCTION(PlayerPointers_getBsp);
+UNKNOWN_FUNCTION(bsp__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x8059089c..0x805908b4
-UNKNOWN_FUNCTION(unk_8059089c);
+UNKNOWN_FUNCTION(bspHitboxes__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x805908b4..0x805908d4
-UNKNOWN_FUNCTION(PlayerPointers_getBspWheel);
+UNKNOWN_FUNCTION(bspWheel__Q24Kart15KartObjectProxyCFl);
 // PAL: 0x805908d4..0x805908e4
 UNKNOWN_FUNCTION(unk_805908d4);
 // PAL: 0x805908e4..0x805908f4
@@ -391,6 +391,8 @@ UNKNOWN_FUNCTION(unk_805919e8);
 
 #include <nw4r/ut/utList.hpp>
 
+#include "KartSettings.hpp"
+
 namespace Kart {
 
 class KartBody;
@@ -421,7 +423,8 @@ class KartHalfPipe;
 class KartJump;
 
 struct KartAccessor {
-  u8 _00[0x08 - 0x00];
+  KartSettings* kartSettings;
+  u8 _00[0x08 - 0x04];
   KartBody* mBody;
   KartSus** mSus;
   KartTire** mTires;
@@ -467,6 +470,11 @@ public:
   MaybeShadow* maybeShadow();
   KartCollide* kartCollide();
   const KartCollide* kartCollide() const;
+
+  BSP* bsp() const;
+  BspHitbox* bspHitboxes() const;
+  BspWheel* bspWheel(s32 idx) const;
+
   KartModel* kartModel();
   KartAction* kartAction();
   const KartAction* kartAction() const;

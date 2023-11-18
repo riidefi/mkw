@@ -291,7 +291,7 @@ extern UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590874
 extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerStats);
 // PAL: 0x80590888
-extern UNKNOWN_FUNCTION(PlayerPointers_getBsp);
+extern UNKNOWN_FUNCTION(bsp__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590a10
 extern UNKNOWN_FUNCTION(PlayerPointers_getVehicleType);
 // PAL: 0x80590a40

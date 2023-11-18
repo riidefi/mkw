@@ -50,7 +50,7 @@ extern UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590874
 extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerStats);
 // PAL: 0x805908b4
-extern UNKNOWN_FUNCTION(PlayerPointers_getBspWheel);
+extern UNKNOWN_FUNCTION(bspWheel__Q24Kart15KartObjectProxyCFl);
 // PAL: 0x80590a5c
 extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerIdx);
 // PAL: 0x80590c44
@@ -67,10 +67,6 @@ extern UNKNOWN_FUNCTION(WheelPhysics_updateCollision);
 extern UNKNOWN_FUNCTION(WheelPhysics_realign);
 // PAL: 0x8059a4f8
 extern UNKNOWN_FUNCTION(vec3_from_mat33_mul);
-// PAL: 0x8059a9c4
-extern UNKNOWN_FUNCTION(WheelPhysics_destroy);
-// PAL: 0x8059aa04
-extern UNKNOWN_FUNCTION(unk_8059aa04);
 // PAL: 0x805aeb88
 extern UNKNOWN_FUNCTION(Vec3_projUnit);
 // PAL: 0x805b6150
@@ -81,8 +77,6 @@ extern UNKNOWN_FUNCTION(unk_805b6f4c);
 extern UNKNOWN_FUNCTION(unk_805b7928);
 // PAL: 0x805b821c
 extern UNKNOWN_FUNCTION(reset__Q24Kart13CollisionInfoFv);
-// PAL: 0x805b82bc
-extern UNKNOWN_FUNCTION(__ct__Q24Kart11HitboxGroupFv);
 // PAL: 0x805b8330
 extern UNKNOWN_FUNCTION(reset__Q24Kart11HitboxGroupFv);
 // PAL: 0x805b83d8
@@ -96,19 +90,11 @@ extern UNKNOWN_DATA(lbl_808b6590);
 // --- EXTERN DECLARATIONS END ---
 
 // .rodata
-const u32 lbl_80891f68[] = {
+/*const u32 lbl_80891f68[] = {
     0x00000000
-};
-const u32 lbl_80891f6c[] = {
-    0x41200000
-};
-const u32 lbl_80891f70[] = {
-    0x40a00000
-};
-const u32 lbl_80891f74[] = {
-    0x3dcccccd
-};
-extern "C" const u32 lbl_80891f88[];
+};*/
+extern "C" const u32 lbl_80891f68;
+REL_SYMBOL_AT(lbl_80891f68, 0x80891f68);
 
 // .data
 #pragma explicit_zero_data on
@@ -134,28 +120,44 @@ KartWheelPhysics::KartWheelPhysics(u32 wheelIdx, s32 bspWheelIdx) : KartObjectPr
 	bspWheelIdx(bspWheelIdx), bspWheel(nullptr) {
 
 }
+
+void KartWheelPhysics::init() {
+  this->hitboxGroup = new HitboxGroup;
+  EGG::Vector3f pos(0.0f, 0.0f, 0.0f);
+  this->hitboxGroup->createSingleHitbox(pos, 10.0f);
 }
 
-// Symbol: TirePhysics_init
-// PAL: 0x80599470..0x805994d4
-MARK_BINARY_BLOB(TirePhysics_init, 0x80599470, 0x805994d4);
-asm UNKNOWN_FUNCTION(TirePhysics_init) {
-  #include "asm/80599470.s"
+void KartWheelPhysics::setBsp() {
+  this->bspWheel = this->KartObjectProxy::bspWheel(this->bspWheelIdx);
 }
 
-// Symbol: TirePhysics_initBsp
-// PAL: 0x805994d4..0x80599508
-MARK_BINARY_BLOB(TirePhysics_initBsp, 0x805994d4, 0x80599508);
-asm UNKNOWN_FUNCTION(TirePhysics_initBsp) {
-  #include "asm/805994d4.s"
+void KartWheelPhysics::reset() {
+  this->hitboxGroup->reset();
+  this->realPos.setZero();
+  this->lastPos.setZero();
+  this->lastPosDiff.setZero();
+  this->susTravel = 0.0f;
+  this->_48.setZero();
+  this->speed.setZero();
+  this->aPos.setZero();
+  this->effectiveRadius = 0.0f;
+  this->targetEffectiveRadius = 0.0f;
+  this->isAtSuspTopLimit = 0.0f;
+  this->topmostPos.setZero();
+  if (this->bspWheel) {
+    this->susTravel = bspWheel->maxTravel;
+    this->effectiveRadius = bspWheel->wheelRadius;
+  }
+}
 }
 
-// Symbol: unk_80599508
-// PAL: 0x80599508..0x805995c0
-MARK_BINARY_BLOB(unk_80599508, 0x80599508, 0x805995c0);
-asm UNKNOWN_FUNCTION(unk_80599508) {
-  #include "asm/80599508.s"
-}
+const u32 lbl_80891f70[] = {
+    0x40a00000
+};
+const u32 lbl_80891f74[] = {
+    0x3dcccccd
+};
+extern "C" const u32 lbl_80891f88[];
 
 // Symbol: unk_805995c0
 // PAL: 0x805995c0..0x80599690
@@ -213,14 +215,6 @@ asm UNKNOWN_FUNCTION(WheelPhysics_getCollisionData) {
   #include "asm/80599ec8.s"
 }
 
-#ifdef NON_MATCHING
-// Symbol: __ct__Q24Kart14KartSusPhysicsFUlll
-// PAL: 0x80599ed4..0x80599f54
-MARK_BINARY_BLOB(__ct__Q24Kart14KartSusPhysicsFUlll, 0x80599ed4, 0x80599f54);
-asm UNKNOWN_FUNCTION(__ct__Q24Kart14KartSusPhysicsFUlll) {
-  #include "asm/80599ed4.s"
-}
-#else
 namespace Kart {
 KartSusPhysics::KartSusPhysics(u32 wheelIdx, s32 wheelType, s32 bspWheelIdx) : KartObjectProxy() {
   this->wheelPhysics = nullptr;
@@ -230,7 +224,6 @@ KartSusPhysics::KartSusPhysics(u32 wheelIdx, s32 wheelType, s32 bspWheelIdx) : K
   this->_38 = 1.0f;
 }
 }
-#endif
 
 #ifndef SHIFTABLE
 extern "C" UNKNOWN_DATA(lbl_80891f78);
