@@ -89,6 +89,9 @@ source/game/kart/KartObjectProxy.cpp:
     rodata: [0x80891c58, 0x80891c80]
     bss: [0x809c1900, 0x809c1910]
 
+source/game/kart/KartSettings.cpp:
+    text: [0x80592fc0, 0x8059308c]
+
 #source/game/kart/KartState.cpp:
 #    text: [0x805943b4, 0x80595d04]
 #    rodata: [0x80891ef0, 0x80891f18]

@@ -52,7 +52,9 @@ out/rel/rodata_80891380_80891c58.o
 out/rel/data_808b42ec_808b65b0.o
 out/rel/bss_809bd73c_809c1900.o
 out/KartObjectProxy.o
-out/rel/text_805919f4_80598b08.o
+out/rel/text_805919f4_80592fc0.o
+out/KartSettings.o
+out/rel/text_8059308c_80598b08.o
 out/rel/rodata_80891c80_80891f60.o
 out/KartSus.o
 out/KartWheelPhysics.o

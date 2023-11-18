@@ -482,6 +482,7 @@ SOURCES_REL = [
     Source(src="source/game/util/Random.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartMove.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartObjectProxy.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartSettings.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartSus.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartWheelPhysics.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartPhysics.cpp", cc='4201_127', opts=REL_OPTS),
