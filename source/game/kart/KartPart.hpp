@@ -1,8 +1,9 @@
 
 #pragma once
 
+#include "KartSettings.hpp"
+
 namespace Kart {
-class KartSettings;
 class KartPart {
   u8 todo[0x90];
 

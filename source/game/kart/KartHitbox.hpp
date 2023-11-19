@@ -83,6 +83,7 @@ public:
   f32 computeCollisionLimits();
 
   inline Hitbox& getHitbox(u16 i) const { return hitboxes[i]; }
+  inline const CollisionInfo* getCollisionInfo() const { return &colInfo; }
 };
 static_assert(sizeof(HitboxGroup) == 0x9c);
 }
