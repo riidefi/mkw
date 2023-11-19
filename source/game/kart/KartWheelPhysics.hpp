@@ -93,19 +93,23 @@ private:
   u32 bspWheelIdx;
   BspWheel* bspWheel;
   HitboxGroup* hitboxGroup;
-  // not fully understood, names not final
-  EGG::Vector3f realPos;
-  EGG::Vector3f lastPos;
-  EGG::Vector3f lastPosDiff;
+  // Positions wrt world unless specified otherwise
+  // wheel center position
+  EGG::Vector3f wheelPos;
+  EGG::Vector3f prevWheelPos;
+  // previous wheel offset wrt suspension top
+  EGG::Vector3f prevWheelOffset;
   f32 susTravel;
   EGG::Vector3f _48;
   EGG::Vector3f speed;
-  EGG::Vector3f aPos;
+  // position of the bottom part of the wheel (where it contacts the ground)
+  EGG::Vector3f wheelEdgePos;
   // Tires get squished a little on hard floor collisions
   f32 effectiveRadius;
   f32 targetEffectiveRadius;
   f32 isAtSuspTopLimit;
-  EGG::Vector3f topmostPos;
+  // topmost point of the suspension the wheel can reach
+  EGG::Vector3f suspTop;
 };
 static_assert(sizeof(KartWheelPhysics) == 0x84);
 }
