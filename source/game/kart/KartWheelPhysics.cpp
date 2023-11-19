@@ -132,17 +132,17 @@ void KartWheelPhysics::setBsp() {
 
 void KartWheelPhysics::reset() {
   this->hitboxGroup->reset();
-  this->realPos.setZero();
-  this->lastPos.setZero();
-  this->lastPosDiff.setZero();
+  this->wheelPos.setZero();
+  this->prevWheelPos.setZero();
+  this->prevWheelOffset.setZero();
   this->susTravel = 0.0f;
   this->_48.setZero();
   this->speed.setZero();
-  this->aPos.setZero();
+  this->wheelEdgePos.setZero();
   this->effectiveRadius = 0.0f;
   this->targetEffectiveRadius = 0.0f;
   this->isAtSuspTopLimit = 0.0f;
-  this->topmostPos.setZero();
+  this->suspTop.setZero();
   if (this->bspWheel) {
     this->susTravel = bspWheel->maxTravel;
     this->effectiveRadius = bspWheel->wheelRadius;
