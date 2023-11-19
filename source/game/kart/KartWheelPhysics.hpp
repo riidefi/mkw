@@ -15,19 +15,11 @@ UNKNOWN_FUNCTION(WheelPhysics_updateCollision);
 // PAL: 0x80599ad0..0x80599d9c
 UNKNOWN_FUNCTION(WheelPhysics_realign);
 // PAL: 0x80599d9c..0x80599dc0
-UNKNOWN_FUNCTION(unk_80599d9c);
+UNKNOWN_FUNCTION(updateEffectiveRadius__Q24Kart16KartWheelPhysicsFv);
 // PAL: 0x80599dc0..0x80599eac
 UNKNOWN_FUNCTION(unk_80599dc0);
 // PAL: 0x80599eac..0x80599ebc
 UNKNOWN_FUNCTION(WheelPhysics_hasFloorCollision);
-// PAL: 0x80599ebc..0x80599ec8
-UNKNOWN_FUNCTION(unk_80599ebc);
-// PAL: 0x80599ec8..0x80599ed4
-UNKNOWN_FUNCTION(WheelPhysics_getCollisionData);
-// PAL: 0x80599f54..0x80599fa0
-UNKNOWN_FUNCTION(KartSusPhysics_reset);
-// PAL: 0x80599fa0..0x8059a02c
-UNKNOWN_FUNCTION(KartSusPhysics_init);
 // PAL: 0x8059a02c..0x8059a278
 UNKNOWN_FUNCTION(unk_8059a02c);
 // PAL: 0x8059a278..0x8059a4f8
@@ -71,7 +63,8 @@ private:
   EGG::Vector3f suspTop;
   // bsp max suspension travel after vehicle scale is applied
   f32 maxTravelScaled;
-  u8 unk[0x38 - 0x34];
+  u8 _34;
+  u16 _36;
   f32 _38;
   EGG::Vector3f downDir;
 };
@@ -89,9 +82,11 @@ public:
   void setSuspState(f32 idk, f32 travel, const EGG::Vector3f& colVel);
   void updateCollision(const EGG::Vector3f& bottom, const EGG::Vector3f& topmostPos);
   void reallign(const EGG::Vector3f& down, const EGG::Vector3f& vehicleMovement);
-  void update_6c();
+  void updateEffectiveRadius();
   // unused
   void unk80599dc0(const EGG::Vector3f& front);
+  const EGG::Vector3f* getCollisionFloorDir() const;
+  const CollisionInfo* getCollisionInfo() const;
 
 private:
   u32 wheelIdx;

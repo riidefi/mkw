@@ -57,7 +57,7 @@ extern UNKNOWN_FUNCTION(PlayerSub1c_startOobWipe);
 // PAL: 0x80599eac
 extern UNKNOWN_FUNCTION(WheelPhysics_hasFloorCollision);
 // PAL: 0x80599ec8
-extern UNKNOWN_FUNCTION(WheelPhysics_getCollisionData);
+extern UNKNOWN_FUNCTION(getCollisionInfo__Q24Kart16KartWheelPhysicsCFv);
 // PAL: 0x8059c0b8
 extern UNKNOWN_FUNCTION(unk_8059c0b8);
 // PAL: 0x805a49bc
@@ -337,10 +337,10 @@ const KartSus* KartObjectProxy::kartSus(s32 idx) const {
   return mAccessor->mSus[idx];
 }
 
-KartTire* KartObjectProxy::kartTire(s32 idx) { return mAccessor->mTires[idx]; }
+KartWheel* KartObjectProxy::kartWheel(s32 idx) { return mAccessor->mWheels[idx]; }
 
-const KartTire* KartObjectProxy::kartTire(s32 idx) const {
-  return mAccessor->mTires[idx];
+const KartWheel* KartObjectProxy::kartWheel(s32 idx) const {
+  return mAccessor->mWheels[idx];
 }
 
 } // namespace Kart

@@ -38,7 +38,7 @@ extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysics);
 // PAL: 0x8059069c
 extern UNKNOWN_FUNCTION(kartBody__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805906dc
-extern UNKNOWN_FUNCTION(kartTire__Q24Kart15KartObjectProxyFl);
+extern UNKNOWN_FUNCTION(kartWheel__Q24Kart15KartObjectProxyFl);
 // PAL: 0x80590764
 extern UNKNOWN_FUNCTION(kartSub__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059077c
@@ -112,8 +112,7 @@ u32 lbl_808b6694[] = {
 };
 #pragma explicit_zero_data off
 
-// .bss
-
+#include "KartWheel.hpp"
 
 namespace Kart {
 KartWheelPhysics::KartWheelPhysics(u32 wheelIdx, s32 bspWheelIdx) : KartObjectProxy(), wheelIdx(wheelIdx), 
@@ -180,11 +179,10 @@ asm UNKNOWN_FUNCTION(WheelPhysics_realign) {
   #include "asm/80599ad0.s"
 }
 
-// Symbol: unk_80599d9c
-// PAL: 0x80599d9c..0x80599dc0
-MARK_BINARY_BLOB(unk_80599d9c, 0x80599d9c, 0x80599dc0);
-asm UNKNOWN_FUNCTION(unk_80599d9c) {
-  #include "asm/80599d9c.s"
+namespace Kart {
+void KartWheelPhysics::updateEffectiveRadius() {
+  this->effectiveRadius += (targetEffectiveRadius - effectiveRadius) * 0.1f;
+}
 }
 
 // Symbol: unk_80599dc0
@@ -201,27 +199,36 @@ asm UNKNOWN_FUNCTION(WheelPhysics_hasFloorCollision) {
   #include "asm/80599eac.s"
 }
 
-// Symbol: unk_80599ebc
-// PAL: 0x80599ebc..0x80599ec8
-MARK_BINARY_BLOB(unk_80599ebc, 0x80599ebc, 0x80599ec8);
-asm UNKNOWN_FUNCTION(unk_80599ebc) {
-  #include "asm/80599ebc.s"
-}
-
-// Symbol: WheelPhysics_getCollisionData
-// PAL: 0x80599ec8..0x80599ed4
-MARK_BINARY_BLOB(WheelPhysics_getCollisionData, 0x80599ec8, 0x80599ed4);
-asm UNKNOWN_FUNCTION(WheelPhysics_getCollisionData) {
-  #include "asm/80599ec8.s"
-}
-
 namespace Kart {
+const EGG::Vector3f* KartWheelPhysics::getCollisionFloorDir() const {
+  return &this->getCollisionInfo()->floorDir;
+}
+
+const CollisionInfo* KartWheelPhysics::getCollisionInfo() const {
+  return this->hitboxGroup->getCollisionInfo();
+}
+
 KartSusPhysics::KartSusPhysics(u32 wheelIdx, s32 wheelType, s32 bspWheelIdx) : KartObjectProxy() {
   this->wheelPhysics = nullptr;
   this->wheelType = wheelType;
   this->bspWheelIdx = bspWheelIdx;
   this->wheelIdx = wheelIdx;
   this->_38 = 1.0f;
+}
+
+void KartSusPhysics::reset() {
+  this->_38 = 1.0f / this->bspWheel->maxTravel;
+  this->suspTop.setZero();
+  this->maxTravelScaled = 0.0f;
+  this->_34 = 0;
+  this->_36 = 0;
+  this->downDir.setZero();
+}
+
+void KartSusPhysics::init() {
+  this->wheelPhysics = this->KartObjectProxy::kartWheel(this->wheelIdx)->getWheelPhysics();
+  this->bspWheel = this->KartObjectProxy::bspWheel(this->bspWheelIdx);
+  this->reset();
 }
 }
 
@@ -242,20 +249,6 @@ const u32 lbl_80891f88[] = {
 const u32 lbl_80891f8c[] = {
     0xbf800000, 0x3c8efa35, 0xc1700000
 };
-
-// Symbol: KartSusPhysics_reset
-// PAL: 0x80599f54..0x80599fa0
-MARK_BINARY_BLOB(KartSusPhysics_reset, 0x80599f54, 0x80599fa0);
-asm UNKNOWN_FUNCTION(KartSusPhysics_reset) {
-  #include "asm/80599f54.s"
-}
-
-// Symbol: KartSusPhysics_init
-// PAL: 0x80599fa0..0x8059a02c
-MARK_BINARY_BLOB(KartSusPhysics_init, 0x80599fa0, 0x8059a02c);
-asm UNKNOWN_FUNCTION(KartSusPhysics_init) {
-  #include "asm/80599fa0.s"
-}
 
 // Symbol: unk_8059a02c
 // PAL: 0x8059a02c..0x8059a278

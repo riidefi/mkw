@@ -82,10 +82,6 @@ UNKNOWN_FUNCTION(kartBody__Q24Kart15KartObjectProxyCFv);
 UNKNOWN_FUNCTION(kartSus__Q24Kart15KartObjectProxyFl);
 // PAL: 0x805906c8..0x805906dc
 UNKNOWN_FUNCTION(kartSus__Q24Kart15KartObjectProxyCFl);
-// PAL: 0x805906dc..0x805906f0
-UNKNOWN_FUNCTION(kartTire__Q24Kart15KartObjectProxyFl);
-// PAL: 0x805906f0..0x80590704
-UNKNOWN_FUNCTION(kartTire__Q24Kart15KartObjectProxyCFl);
 // PAL: 0x80590704..0x8059071c
 UNKNOWN_FUNCTION(PlayerPointers_getWheelPhysicsHolder);
 // PAL: 0x8059071c..0x80590734
@@ -397,7 +393,7 @@ namespace Kart {
 
 class KartBody;
 class KartSus;
-class KartTire;
+class KartWheel;
 class KartSub;
 class KartMove;
 class KartSnd;
@@ -427,7 +423,7 @@ struct KartAccessor {
   u8 _00[0x08 - 0x04];
   KartBody* mBody;
   KartSus** mSus;
-  KartTire** mTires;
+  KartWheel** mWheels;
   KartModel* mModel;
   KartSub* mSub;
   KartSnd* mSnd;
@@ -459,8 +455,8 @@ public:
   const KartBody* kartBody() const;
   KartSus* kartSus(s32 idx);
   const KartSus* kartSus(s32 idx) const;
-  KartTire* kartTire(s32 idx);
-  const KartTire* kartTire(s32 idx) const;
+  KartWheel* kartWheel(s32 idx);
+  const KartWheel* kartWheel(s32 idx) const;
   KartSub* kartSub();
   const KartSub* kartSub() const;
   KartMove* kartMove();
