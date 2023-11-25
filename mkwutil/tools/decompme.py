@@ -72,4 +72,4 @@ req = {
 }
 r = requests.post(args.host + "/api/scratch", json=req)
 assert r.status_code == 201, f"Bad status code {r.status_code}"
-print(args.host + r.json()["html_url"])
+print(args.host + '/scratch/' + r.json()["slug"])
