@@ -4,6 +4,8 @@
 
 #include "rvl/mtx/mtx.h"
 
+#include "nw4r/math/config.h"
+
 namespace nw4r {
 namespace math {
 
@@ -130,6 +132,29 @@ public:
   operator Mtx44Ptr() { return (Mtx44Ptr)&arr[0]; }
   operator ConstMtx44Ptr() const { return (ConstMtx44Ptr)&arr[0]; }
 };
+
+inline f32
+VEC3Dot(const register VEC3* p1, const register VEC3* p2)
+{
+#if defined(NW4R_MATH_BROADWAY)
+    register f32 _v1, _v2, _v3, _v4, _v5;
+    asm
+    {
+        psq_l   _v2, 4(p1), 0, 0;
+        psq_l   _v3, 4(p2), 0, 0;
+        ps_mul  _v2, _v2, _v3;
+
+        psq_l   _v5, 0(p1), 1, 0;
+        psq_l   _v4, 0(p2), 1, 0;
+
+        ps_madd _v3, _v5, _v4, _v2;
+        ps_sum0 _v1, _v3, _v2, _v2;
+    }
+    return _v1;
+#else
+    return p1->x * p2->x + p1->y * p2->y + p1->z * p2->z;
+#endif
+}
 
 // PAL: 0x80085600
 MTX33* MTX33Identity(MTX33*);

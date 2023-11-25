@@ -51,6 +51,7 @@ DOL_LIBS = [
     Slice(name="DOL/DWC", start=0x800CC7E4, stop=0x800EF378, section="text"),
     Slice(name="DOL/SPY", start=0x800EF378, stop=0x80123F88, section="text"),
     Slice(name="DOL/RVL", start=0x80123F88, stop=0x8020F62C, section="text"),
+    #Slice(name="DOL/HBM", start=0x80173E08, stop=0x80192F7C, section="text"), # part of RVL
     Slice(name="DOL/EGG", start=0x8020F62C, stop=0x80244DD4, section="text"),
 ]
 
@@ -78,7 +79,8 @@ REL_DIRS = [
     Slice(name="REL/SND", start=0x806F62FC, stop=0x8071B808, section="text"),
     Slice(name="REL/AI", start=0x80725FDC, stop=0x8074BB34, section="text"),
     Slice(name="REL/GEO/2", start=0x807519C8, stop=0x8077EE80, section="text"),
-    Slice(name="REL/ITEM", start=0x8079754C, stop=0x807BD1D0, section="text"),
+    Slice(name="REL/ITEM", start=0x8079754C, stop=0x807BD96C, section="text"),
+    Slice(name="REL/FIELD", start=0x807BD96C, stop=0x807DC8C8, section="text"),
     Slice(name="REL/UI/CTRL", start=0x807E093C, stop=0x807F9278, section="text"),
     Slice(name="REL/GEO/3", start=0x807F9278, stop=0x8081A690, section="text"),
     Slice(name="REL/GEO", start=0x8081A690, stop=0x8082F3C8, section="text"),
