@@ -15,6 +15,7 @@ SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 RFL_OPTS = RVL_OPTS + " -O4,p"
 EGG_OPTS = ' -lang=c99 -use_lmw_stmw=on -ipa function -rostr'
 REL_OPTS = HOSTSYS_OPTS + " -sdata 0 -sdata2 0 -lang=c++ -pragma \"legacy_struct_alignment on\" -DREL"
+REL_GEKKO_OPTS = REL_OPTS + " -DGEKKO"
 
 
 @dataclass
@@ -500,4 +501,5 @@ SOURCES_REL = [
     Source(src="source/game/geo/ObjTaimatsu.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/BoxColManager.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/BoxColUnit.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/field/KCollisionOctree.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
 ]

@@ -99,7 +99,10 @@ out/ObjTaimatsu.o
 out/rel/text_806deb40_80786e60.o
 out/BoxColManager.o
 out/BoxColUnit.o
-out/rel/text_80786f98_8088f400.o
-out/rel/rodata_808a4804_808b2bd0.o
+out/rel/text_80786f98_807bdc5c.o
+out/rel/rodata_808a4804_808a66d8.o
+out/KCollisionOctree.o
+out/rel/text_807c25cc_8088f400.o
+out/rel/rodata_808a66fc_808b2bd0.o
 out/rel/data_808bcfd0_808dd3d4.o
 out/rel/bss_809c1996_809c4f90.o
