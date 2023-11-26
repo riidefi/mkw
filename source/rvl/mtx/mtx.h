@@ -132,6 +132,7 @@ void PSVECNormalize(const Vec*, Vec*);
 f32 PSVECMag(const Vec*);
 // PAL: 0x8019acac
 f32 PSVECDotProduct(const Vec*, const Vec*);
+void C_VECCrossProduct(const Vec*, const Vec*, Vec*);
 // PAL: 0x8019accc
 void PSVECCrossProduct(const Vec*, const Vec*, Vec*);
 // PAL: 0x8019ad08

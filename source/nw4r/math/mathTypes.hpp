@@ -60,13 +60,34 @@ struct MTX44;
 
 struct VEC3 : public _VEC3 {
 public:
+  typedef VEC3 self_type;
+  typedef f32  value_type;
+
   VEC3() {}
+  VEC3(const f32* p) { x = p[0]; y = p[1]; z = p[2]; }
+  VEC3(f32 fx, f32 fy, f32 fz) { x = fx; y = fy; z = fz; }
+  VEC3(const _VEC3& v) { x = v.x; y = v.y; z = v.z; }
+  VEC3(const Vec& v) { x = v.x; y = v.y; z = v.z; }
 
   operator f32*() { return &x; }
   operator const f32*() const { return &x; }
 
   operator Vec*() { return (Vec*)&x; }
   operator const Vec*() const { return (const Vec*)&x; }
+
+  self_type& operator+=(const self_type& rhs);
+  self_type& operator-=(const self_type& rhs);
+  self_type& operator*=(f32 f);
+  self_type& operator/=(f32 f) { return operator*=(1.f / f); }
+
+  self_type operator+() const { return *this; }
+  self_type operator-() const { return self_type(-x, -y, -z); }
+
+  // The optimal implementation of binary operators depends on whether the return value is optimized.
+  self_type operator+(const self_type& rhs) const;
+  self_type operator-(const self_type& rhs) const;
+  self_type operator*(f32 f) const;
+  self_type operator/(f32 f) const { f32 r = 1.f / f; return operator*(r); }
 
   bool operator==(const VEC3& o) const {
     return x == o.x && y == o.y && z == o.z;
@@ -133,8 +154,77 @@ public:
   operator ConstMtx44Ptr() const { return (ConstMtx44Ptr)&arr[0]; }
 };
 
-inline f32
-VEC3Dot(const register VEC3* p1, const register VEC3* p2)
+inline VEC3* VEC3Add(register VEC3* pOut, const register VEC3* p1, const register VEC3* p2)
+{
+#if defined(NW4R_MATH_BROADWAY)
+    register f32 a, b, c;
+    asm
+    {
+        psq_l a, 0(p1), 0, 0;
+        psq_l b, 0(p2), 0, 0;
+        ps_add c, a, b;
+        psq_st c, 0(pOut), 0, 0;
+
+        psq_l a, 8(p1), 1, 0;
+        psq_l b, 8(p2), 1, 0;
+        ps_add c, a, b;
+        psq_st c, 8(pOut), 1, 0;
+    }
+#else
+    pOut->x = p1->x + p2->x;
+    pOut->y = p1->y + p2->y;
+    pOut->z = p1->z + p2->z;
+#endif
+    return pOut;
+}
+
+inline VEC3* VEC3Sub(register VEC3* pOut, const register VEC3* p1, const register VEC3* p2)
+{
+#if defined(NW4R_MATH_BROADWAY)
+    register f32 a, b, c;
+    asm
+    {
+        psq_l a, 0(p1), 0, 0;
+        psq_l b, 0(p2), 0, 0;
+        ps_sub c, a, b;
+        psq_st c, 0(pOut), 0, 0;
+
+        psq_l a, 8(p1), 1, 0;
+        psq_l b, 8(p2), 1, 0;
+        ps_sub c, a, b;
+        psq_st c, 8(pOut), 1, 0;
+    }
+#else
+    pOut->x = p1->x - p2->x;
+    pOut->y = p1->y - p2->y;
+    pOut->z = p1->z - p2->z;
+#endif
+    return pOut;
+}
+
+inline VEC3* VEC3Scale(register VEC3* pOut, const register VEC3* p, register f32 scale)
+{
+#if defined(NW4R_MATH_BROADWAY)
+    register f32 a, b;
+    asm
+    {
+        psq_l    a, 0(p), 0, 0;
+        ps_muls0 b, a, scale;
+        psq_st   b, 0(pOut), 0, 0;
+
+        psq_l    a, 8(p), 1, 0;
+        ps_muls0 b, a, scale;
+        psq_st   b, 8(pOut), 1, 0;
+    }
+#else
+    pOut->x = p->x * scale;
+    pOut->y = p->y * scale;
+    pOut->z = p->z * scale;
+#endif
+    return pOut;
+}
+
+inline f32 VEC3Dot(const register VEC3* p1, const register VEC3* p2)
 {
 #if defined(NW4R_MATH_BROADWAY)
     register f32 _v1, _v2, _v3, _v4, _v5;
@@ -155,6 +245,50 @@ VEC3Dot(const register VEC3* p1, const register VEC3* p2)
     return p1->x * p2->x + p1->y * p2->y + p1->z * p2->z;
 #endif
 }
+
+inline f32 VEC3LenSq(const register VEC3* p)
+{
+#if defined(NW4R_MATH_BROADWAY)
+    register f32 vxy, vzz, sqmag;
+
+    asm
+    {
+        // load X | Y
+        psq_l       vxy, 0(p), 0, 0
+        // XX | YY
+        ps_mul      vxy, vxy, vxy
+        // load Z | Z
+        lfs         vzz, 8(p)
+        // XX + ZZ | YY + ZZ
+        ps_madd     sqmag, vzz, vzz, vxy
+        ps_sum0     sqmag, sqmag, vxy, vxy
+    }
+
+    return sqmag;
+#else
+    return p->x * p->x + p->y * p->y + p->z * p->z;
+#endif
+}
+
+#if defined(NW4R_MATH_BROADWAY)
+#define NW4R_VECCROSS      PSVECCrossProduct
+#define NW4R_VECMAG        PSVECMag
+#define NW4R_VECNORMALIZE  PSVECNormalize
+#define NW4R_VECSQDIST     PSVECSquareDistance
+#else
+#define NW4R_VECCROSS      C_VECCrossProduct
+#define NW4R_VECMAG        C_VECMag
+#define NW4R_VECNORMALIZE  C_VECNormalize
+#define NW4R_VECSQDIST     C_VECSquareDistance
+#endif
+
+inline VEC3* VEC3Cross(VEC3* pOut, const VEC3* p1, const VEC3* p2) { NW4R_VECCROSS(*p1, *p2, *pOut); return pOut; }
+
+inline VEC3& VEC3::operator+=(const VEC3& rhs) { (void)VEC3Add(this, this, &rhs); return *this; }
+inline VEC3& VEC3::operator-=(const VEC3& rhs) { (void)VEC3Sub(this, this, &rhs); return *this; }
+inline VEC3& VEC3::operator*=(f32 f) { (void)VEC3Scale(this, this, f); return *this; }
+inline VEC3 VEC3::operator+(const VEC3& rhs) const { VEC3 tmp; (void)VEC3Add(&tmp, this, &rhs); return tmp; }
+inline VEC3 VEC3::operator-(const VEC3& rhs) const { VEC3 tmp; (void)VEC3Sub(&tmp, this, &rhs); return tmp; }
 
 // PAL: 0x80085600
 MTX33* MTX33Identity(MTX33*);
