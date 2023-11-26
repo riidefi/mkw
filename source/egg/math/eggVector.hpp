@@ -33,10 +33,10 @@ struct Vector2f {
 };
 
 struct Vector3f : public nw4r::math::VEC3 {
-  float dot() const { return x * x + y * y + z * z; }
-  static float dot(const Vector3f& v1, const Vector3f& v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
+  float lenSq() const { return VEC3LenSq(this); }
+  static float dot(const Vector3f& v1, const Vector3f& v2) { return VEC3Dot(&v1, &v2); }
 
-  bool isSmall() const { return dot() <= FLT_EPSILON; }
+  bool isSmall() const { return lenSq() <= FLT_EPSILON; }
 
   float normalise();
   // uses fsqrt directly
@@ -49,18 +49,12 @@ struct Vector3f : public nw4r::math::VEC3 {
   static const Vector3f ex, ey, ez;
 
   // Header fns
-
   inline Vector3f(float _x, float _y, float _z) {
     x = _x;
     y = _y;
     z = _z;
   }
   inline Vector3f() {}
-  inline Vector3f(const nw4r::math::VEC3& v) {
-    x = v.x;
-    y = v.y;
-    z = v.z;
-  }
 
   inline void setZero() {
     x = y = z = 0.0f;
@@ -76,31 +70,11 @@ struct Vector3f : public nw4r::math::VEC3 {
     z = 0.0f;
   }
 
-  Vector3f operator-() const { return Vector3f(-x, -y, -z); }
+  Vector3f& operator+=(const Vector3f& rhs);
+  Vector3f& operator*=(f32 rhs);
+  Vector3f operator+(const Vector3f& rhs) const;
   Vector3f operator-(const Vector3f& rhs) const;
-  Vector3f& operator+=(const Vector3f& rhs) {
-    this->x += rhs.x;
-    this->y += rhs.y;
-    this->z += rhs.z;
-    return *this;
-  }
-  friend Vector3f operator+(Vector3f lhs, const Vector3f& rhs) {
-    lhs += rhs;
-    return lhs;
-  }
-  Vector3f& operator*=(float rhs) {
-    this->x *= rhs;
-    this->y *= rhs;
-    this->z *= rhs;
-    return *this;
-  }
-  friend Vector3f operator*(Vector3f lhs, float rhs) {
-    lhs *= rhs;
-    return lhs;
-  }
-  /*Vector3f operator*(float scalar) const {
-    return Vector3f(x * scalar, y * scalar, z * scalar);
-  }*/
+  Vector3f operator*(f32) const;
   Vector3f cross(const EGG::Vector3f& rhs) const {
     return Vector3f(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z,
                     x * rhs.y - y * rhs.x);
@@ -116,15 +90,10 @@ struct Vector3f : public nw4r::math::VEC3 {
 #endif
 };
 
-inline Vector3f VEC3Sub(const Vector3f& lhs, const Vector3f& rhs) {
-    Vector3f out;
-    out.x = lhs.x - rhs.x;
-    out.y = lhs.y - rhs.y;
-    out.z = lhs.z - rhs.z;
-  return out;
-}
-inline Vector3f Vector3f::operator-(const Vector3f& rhs) const {
-    return VEC3Sub(*this, rhs);
-}
+inline Vector3f& Vector3f::operator+=(const Vector3f& rhs) { this->x += rhs.x; this->y += rhs.y; this->z += rhs.z; return *this; }
+inline Vector3f& Vector3f::operator*=(f32 rhs) { this->x *= rhs; this->y *= rhs; this->z *= rhs; return *this; }
+inline Vector3f Vector3f::operator+(const Vector3f& rhs) const { return Vector3f(x + rhs.x, y + rhs.y, z + rhs.z); }
+inline Vector3f Vector3f::operator-(const Vector3f& rhs) const { Vector3f tmp; (void)VEC3Sub(&tmp, this, &rhs); return tmp; }
+inline Vector3f Vector3f::operator*(f32 rhs) const { return Vector3f(x * rhs, y * rhs, z * rhs); }
 
 } // namespace EGG
