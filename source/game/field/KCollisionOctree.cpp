@@ -156,7 +156,7 @@ EGG::Vector3f KCollisionOctree::getVertex(f32 height, const EGG::Vector3f& verte
 #endif
 
 namespace Field {
-s32* KCollisionOctree::searchBlock(const EGG::Vector3f& point) {
+u16* KCollisionOctree::searchBlock(const EGG::Vector3f& point) {
   // Calculate the x, y, and z offsets of the point from the minimum
   // corner of the tree's bounding box.
   const int x = point.x - this->area_min_pos.x;
@@ -208,7 +208,7 @@ s32* KCollisionOctree::searchBlock(const EGG::Vector3f& point) {
   }
 
   // Return the address of the leaf node containing the input point.
-  return reinterpret_cast<s32*>(curBlock + (offset & 0x7FFFFFFF));
+  return reinterpret_cast<u16*>(curBlock + (offset & 0x7FFFFFFF));
 }
 }
 
@@ -261,18 +261,29 @@ asm UNKNOWN_FUNCTION(kcl_triangle_collides_one_point) {
   #include "asm/807c1514.s"
 }
 
-// Symbol: unk_807c1b0c
-// PAL: 0x807c1b0c..0x807c1bb4
-MARK_BINARY_BLOB(unk_807c1b0c, 0x807c1b0c, 0x807c1bb4);
-asm UNKNOWN_FUNCTION(unk_807c1b0c) {
-  #include "asm/807c1b0c.s"
+namespace Field {
+void KCollisionOctree::prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask) {
+  this->prismIndexes = searchBlock(pos);
+  this->pos = pos;
+  this->prevPos = prevPos;
+  VEC3Sub(&this->movement, &pos, &prevPos);
+  //this->movement = pos - prevPos; can't inline VEC3Sub in an operator without messing the stack
+  this->typeMask = typeMask;
 }
 
-// Symbol: kcl_find_tri_list_and_prepare
-// PAL: 0x807c1bb4..0x807c1c8c
-MARK_BINARY_BLOB(kcl_find_tri_list_and_prepare, 0x807c1bb4, 0x807c1c8c);
-asm UNKNOWN_FUNCTION(kcl_find_tri_list_and_prepare) {
-  #include "asm/807c1bb4.s"
+void KCollisionOctree::prepareCollisionTestSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius) {
+  f32 radiusClamped = radius;
+  if (radius > this->sphere_radius) {
+    radiusClamped = this->sphere_radius;
+  }
+  this->prismIndexes = searchBlock(pos);
+  this->pos = pos;
+  this->prevPos = prevPos;
+  VEC3Sub(&this->movement, &pos, &prevPos);
+  //this->movement = pos - prevPos; can't inline VEC3Sub in an operator without messing the stack
+  this->radius = radiusClamped;
+  this->typeMask = typeMask;
+}
 }
 
 // Symbol: unk_807c1c8c
