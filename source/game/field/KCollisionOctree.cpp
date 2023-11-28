@@ -52,9 +52,9 @@ extern UNKNOWN_FUNCTION(getVertex__Q25Field16KCollisionOctreeFfRCQ23EGG8Vector3f
 // PAL: 0x807be030
 extern UNKNOWN_FUNCTION(searchBlock__Q25Field16KCollisionOctreeFRCQ23EGG8Vector3f);
 // PAL: 0x807be12c
-extern UNKNOWN_FUNCTION(unk_807be12c);
+extern UNKNOWN_FUNCTION(applyFunctionForPrismsInBox__Q25Field16KCollisionOctreeFRCQ23EGG8Vector3ffMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x807be3c4
-extern UNKNOWN_FUNCTION(unk_807be3c4);
+extern UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
 // PAL: 0x807bf4c0
 extern UNKNOWN_FUNCTION(unk_807bf4c0);
 // PAL: 0x807c0884
@@ -210,19 +210,76 @@ u16* KCollisionOctree::searchBlock(const EGG::Vector3f& point) {
   // Return the address of the leaf node containing the input point.
   return reinterpret_cast<u16*>(curBlock + (offset & 0x7FFFFFFF));
 }
+
+void KCollisionOctree::applyFunctionForPrismsInBox(const EGG::Vector3f& point, f32 radius, PrismListVisitor prismListVisitor) {
+  s32 xmin = ((point.x - radius) - this->area_min_pos.x);
+  s32 ymin = ((point.y - radius) - this->area_min_pos.y);
+  s32 zmin = ((point.z - radius) - this->area_min_pos.z);
+
+  if (xmin < 0) {
+    xmin = 0;
+  }
+  if (ymin < 0) {
+    ymin = 0;
+  }
+  if (zmin < 0) {
+    zmin = 0;
+  }
+
+  s32 xmax = ((point.x + radius) - this->area_min_pos.x);
+  s32 ymax = ((point.y + radius) - this->area_min_pos.y);
+  s32 zmax = ((point.z + radius) - this->area_min_pos.z);
+
+  if (xmax > (s32)~this->area_x_width_mask) {
+    xmax = ~this->area_x_width_mask;
+  }
+  if (ymax > (s32)~this->area_y_width_mask) {
+    ymax = ~this->area_y_width_mask;
+  }
+  if (zmax > (s32)~this->area_z_width_mask) {
+    zmax = ~this->area_z_width_mask;
+  }
+
+  if (xmin >= xmax || ymin >= ymax || zmin >= zmax) {
+    return;
+  }
+
+  u8* blockData = this->block_data;
+  u32 xminBlock = (u32)xmin >> this->block_width_shift;
+  u32 xmaxBlock = (u32)xmax >> this->block_width_shift;
+  u32 yminBlock = (u32)ymin >> this->block_width_shift;
+  u32 ymaxBlock = (u32)ymax >> this->block_width_shift;
+  u32 zminBlock = (u32)zmin >> this->block_width_shift;
+  u32 zmaxBlock = (u32)zmax >> this->block_width_shift;
+
+  xmin = xmin << (0x1f - this->block_width_shift);
+  ymin = ymin << (0x1f - this->block_width_shift);
+  zmin = zmin << (0x1f - this->block_width_shift);
+  xmax = xmax << (0x1f - this->block_width_shift);
+  ymax = ymax << (0x1f - this->block_width_shift);
+  zmax = zmax << (0x1f - this->block_width_shift);
+
+  for (s32 x = xminBlock; x <= xmaxBlock; x++) {
+    for (s32 y = yminBlock; y <= ymaxBlock; y++) {
+      for (s32 z = zminBlock; z <= zmaxBlock; z++) {
+
+        u32 index = 4 * (z << this->area_xy_blocks_shift
+              | y << this->area_x_blocks_shift
+              | x);
+
+        this->applyFunctionForPrismsInBlock(blockData, index, prismListVisitor,
+            x == xminBlock ? xmin : 0, y == yminBlock ? ymin : 0, z == zminBlock ? zmin : 0,
+            x == xmaxBlock ? xmax : -1, y == ymaxBlock ? ymax : -1, z == zmaxBlock ? zmax : -1);
+      }
+    }
+  }
+}
 }
 
-// Symbol: unk_807be12c
-// PAL: 0x807be12c..0x807be3c4
-MARK_BINARY_BLOB(unk_807be12c, 0x807be12c, 0x807be3c4);
-asm UNKNOWN_FUNCTION(unk_807be12c) {
-  #include "asm/807be12c.s"
-}
-
-// Symbol: unk_807be3c4
+// Symbol: applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll
 // PAL: 0x807be3c4..0x807bf4c0
-MARK_BINARY_BLOB(unk_807be3c4, 0x807be3c4, 0x807bf4c0);
-asm UNKNOWN_FUNCTION(unk_807be3c4) {
+MARK_BINARY_BLOB(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll, 0x807be3c4, 0x807bf4c0);
+asm UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll) {
   #include "asm/807be3c4.s"
 }
 
