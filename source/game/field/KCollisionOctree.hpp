@@ -17,9 +17,9 @@ UNKNOWN_FUNCTION(unk_807bddbc);
 // PAL: 0x807bddfc..0x807bdf54
 UNKNOWN_FUNCTION(unk_807bddfc);
 // PAL: 0x807be12c..0x807be3c4
-UNKNOWN_FUNCTION(unk_807be12c);
+UNKNOWN_FUNCTION(applyFunctionForPrismsInBox__Q25Field16KCollisionOctreeFRCQ23EGG8Vector3ffMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x807be3c4..0x807bf4c0
-UNKNOWN_FUNCTION(unk_807be3c4);
+UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
 // PAL: 0x807bf4c0..0x807c01e4
 UNKNOWN_FUNCTION(unk_807bf4c0);
 // PAL: 0x807c01e4..0x807c0884
@@ -63,11 +63,18 @@ public:
 		  const EGG::Vector3f& enrm3, const EGG::Vector3f& enrm);
   // finds block that contains position
   u16* searchBlock(const EGG::Vector3f& pos);
+
+  typedef void (KCollisionOctree::*PrismListVisitor) (u16*);
+  void applyFunctionForPrismsInBox(const EGG::Vector3f& pos, f32 radius, PrismListVisitor prismListVisitor);
+
   // Sets sphere-octree-collision detection parameters
   void prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask);
   void prepareCollisionTestSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius);
 
 private:
+  void applyFunctionForPrismsInBlock(u8* prismArray, u32 index, PrismListVisitor prismListVisitor, s32, s32, s32, s32, s32, s32);
+  void applyFunctionForPrismsRecurse(u8* prismArray, u32 index, PrismListVisitor prismListVisitor);
+
   EGG::Vector3f* pos_data;
   EGG::Vector3f* nrm_data;
   KCollisionPrism* prism_data;
