@@ -18,7 +18,7 @@ from ast import literal_eval
 
 # Get arguments
 parser = ArgumentParser()
-parser.add_argument("sym", type=str, help="Symbol name or address")
+parser.add_argument("sym", nargs='+', help="Symbol name or address")
 parser.add_argument("-m", "--match", type=str, help="String contained in desired context header file")
 parser.add_argument("--host", default="https://decomp.me")
 args = parser.parse_args()
@@ -26,20 +26,26 @@ args = parser.parse_args()
 # Find address and diff_label
 symbols = read_symbol_map(Path("pack") / "symbols.yml")
 symbols.derive_sizes(0x8100_0000)
-try:
-    addr = literal_eval(args.sym)
-    sym = symbols.get(addr)
-except:
-    sym = symbols.get_by_name(args.sym)
-if sym is not None:
-    addr = sym.addr
-    diff_label = sym.name
-else:
-    print(f"Could not find symbol with name/address {args.sym}")
-    exit(-1)
+
+addrs = []
+syms = []
+diff_label = ""
+for sm in args.sym:
+    try:
+        addr = literal_eval(sm)
+        sym = symbols.get(addr)
+    except:
+        sym = symbols.get_by_name(sm)
+    if sym is not None:
+        syms.append(sym)
+        addrs.append(sym.addr)
+        diff_label += sym.name
+    else:
+        print(f"Could not find symbol with name/address {sm}")
+        exit(-1)
 
 # Get flags for binary
-if addr < 0x8050_0000:
+if max(addrs) < 0x8050_0000:
     preset = 83
     disaser = get_dol_disaser()
 else:
@@ -47,10 +53,12 @@ else:
     disaser = get_rel_disaser()
 
 # Disassemble function
-fn_start_vma = addr
-fn_end_vma = fn_start_vma + sym.size
-asm = disaser.function_to_text(fn_start_vma, inline=False, extra=True,
-            hashable=False, declare_mangled=False)
+asm = ""
+for sym in syms:
+    fn_start_vma = sym.addr
+    fn_end_vma = fn_start_vma + sym.size
+    asm += '\n' + disaser.function_to_text(fn_start_vma, inline=False, extra=True,
+                hashable=False, declare_mangled=False)
 
 # Get context
 tmpfile = Path("ctx.hpp")

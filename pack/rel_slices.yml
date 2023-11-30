@@ -194,3 +194,4 @@ source/game/geo/BoxColUnit.cpp:
 source/game/field/KCollisionOctree.cpp:
     text: [0x807bdc5c, 0x807c25cc]
     rodata: [0x808a66d8, 0x808a66fc]
+    data: [0x808d27f8, 0x808d2804]

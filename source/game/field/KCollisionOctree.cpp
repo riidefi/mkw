@@ -51,16 +51,14 @@ extern UNKNOWN_FUNCTION(unk_807bddfc);
 extern UNKNOWN_FUNCTION(getVertex__Q25Field16KCollisionOctreeFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x807be030
 extern UNKNOWN_FUNCTION(searchBlock__Q25Field16KCollisionOctreeFRCQ23EGG8Vector3f);
-// PAL: 0x807be12c
-extern UNKNOWN_FUNCTION(applyFunctionForPrismsInBox__Q25Field16KCollisionOctreeFRCQ23EGG8Vector3ffMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x807be3c4
 extern UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
 // PAL: 0x807bf4c0
-extern UNKNOWN_FUNCTION(unk_807bf4c0);
+extern UNKNOWN_FUNCTION(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x807c0884
 extern UNKNOWN_FUNCTION(kcl_triangle_collides_two_points);
 // PAL: 0x807c0f00
-extern UNKNOWN_FUNCTION(unk_807c0f00);
+extern UNKNOWN_FUNCTION(checkSphere__Q25Field16KCollisionOctreeFlll);
 // PAL: 0x807c1514
 extern UNKNOWN_FUNCTION(kcl_triangle_collides_one_point);
 // PAL: 0x807c1fac
@@ -211,7 +209,7 @@ u16* KCollisionOctree::searchBlock(const EGG::Vector3f& point) {
   return reinterpret_cast<u16*>(curBlock + (offset & 0x7FFFFFFF));
 }
 
-void KCollisionOctree::applyFunctionForPrismsInBox(const EGG::Vector3f& point, f32 radius, PrismListVisitor prismListVisitor) {
+void KCollisionOctree::searchMultiBlock(const EGG::Vector3f& point, f32 radius, PrismListVisitor prismListVisitor) {
   s32 xmin = ((point.x - radius) - this->area_min_pos.x);
   s32 ymin = ((point.y - radius) - this->area_min_pos.y);
   s32 zmin = ((point.z - radius) - this->area_min_pos.z);
@@ -283,12 +281,35 @@ asm UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFP
   #include "asm/807be3c4.s"
 }
 
-// Symbol: unk_807bf4c0
+#ifndef EQUIVALENT
+// Symbol: applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v
 // PAL: 0x807bf4c0..0x807c01e4
-MARK_BINARY_BLOB(unk_807bf4c0, 0x807bf4c0, 0x807c01e4);
-asm UNKNOWN_FUNCTION(unk_807bf4c0) {
+MARK_BINARY_BLOB(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v, 0x807bf4c0, 0x807c01e4);
+asm UNKNOWN_FUNCTION(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v) {
   #include "asm/807bf4c0.s"
 }
+#else
+namespace Field {
+// MARK_FLOW_CHECK(0x807bf4c0); Takes too long to flow-check
+// regswap: https://decomp.me/scratch/o1f1W
+void KCollisionOctree::applyFunctionForPrismsRecurse(u8* prismArray, const u32 index, PrismListVisitor prismListVisitor) {
+  s32 offset = *(u32*)(prismArray + index);
+  if ((offset & 0x80000000) != 0) {
+    (this->*prismListVisitor)(reinterpret_cast<u16*>(prismArray + (offset & 0x7FFFFFFF)));
+  } else {
+    u8* curBlock = prismArray + offset;
+    applyFunctionForPrismsRecurse(curBlock, 4*0, prismListVisitor);
+    applyFunctionForPrismsRecurse(curBlock, 4*1, prismListVisitor);
+    applyFunctionForPrismsRecurse(curBlock, 4*2, prismListVisitor);
+    applyFunctionForPrismsRecurse(curBlock, 4*3, prismListVisitor);
+    applyFunctionForPrismsRecurse(curBlock, 4*4, prismListVisitor);
+    applyFunctionForPrismsRecurse(curBlock, 4*5, prismListVisitor);
+    applyFunctionForPrismsRecurse(curBlock, 4*6, prismListVisitor);
+    applyFunctionForPrismsRecurse(curBlock, 4*7, prismListVisitor);
+  }
+}
+}
+#endif
 
 // Symbol: unk_807c01e4
 // PAL: 0x807c01e4..0x807c0884
@@ -304,10 +325,10 @@ asm UNKNOWN_FUNCTION(kcl_triangle_collides_two_points) {
   #include "asm/807c0884.s"
 }
 
-// Symbol: unk_807c0f00
+// Symbol: checkSphere__Q25Field16KCollisionOctreeFlll
 // PAL: 0x807c0f00..0x807c1514
-MARK_BINARY_BLOB(unk_807c0f00, 0x807c0f00, 0x807c1514);
-asm UNKNOWN_FUNCTION(unk_807c0f00) {
+MARK_BINARY_BLOB(checkSphere__Q25Field16KCollisionOctreeFlll, 0x807c0f00, 0x807c1514);
+asm UNKNOWN_FUNCTION(checkSphere__Q25Field16KCollisionOctreeFlll) {
   #include "asm/807c0f00.s"
 }
 
@@ -385,17 +406,37 @@ asm UNKNOWN_FUNCTION(kcl_triangle_collides) {
   #include "asm/807c2410.s"
 }
 
-// Symbol: unk_807c243c
-// PAL: 0x807c243c..0x807c24c0
-MARK_BINARY_BLOB(unk_807c243c, 0x807c243c, 0x807c24c0);
-asm UNKNOWN_FUNCTION(unk_807c243c) {
-  #include "asm/807c243c.s"
+#define ARRAY_END(X) (&X + 1)
+namespace Field {
+void KCollisionOctree::narrowPolygon_EachBlock(u16* prismArray) {
+  this->prismIndexes = prismArray;
+
+  u16* prismIt = prismCacheTop;
+  while (checkSphere(0, 0, 0)) {
+    prismIt = prismCacheTop;
+    *prismIt = *this->prismIndexes;
+    prismCacheTop = prismIt + 1;
+    if (prismIt + 1 >= (u16*)ARRAY_END(prismCache)) {
+      prismCacheTop--;
+      return;
+    }
+  }
 }
 
-// Symbol: unk_807c24c0
-// PAL: 0x807c24c0..0x807c25cc
-MARK_BINARY_BLOB(unk_807c24c0, 0x807c24c0, 0x807c25cc);
-asm UNKNOWN_FUNCTION(unk_807c24c0) {
-  #include "asm/807c24c0.s"
+void KCollisionOctree::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 typeMask) {
+  this->prismCacheTop = this->prismCache;
+  this->pos = pos;
+  this->radius = radius;
+  this->typeMask = typeMask;
+  this->cachedPos = pos;
+  this->cachedRadius = radius;
+
+  if (radius > this->sphere_radius) {
+     this->searchMultiBlock(pos, radius, KCollisionOctree::narrowPolygon_EachBlock);
+  } else {
+     this->narrowPolygon_EachBlock(searchBlock(pos));
+  }
+  *this->prismCacheTop = nullptr;
+}
 }
 
