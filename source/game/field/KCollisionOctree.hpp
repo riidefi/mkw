@@ -16,18 +16,16 @@ UNKNOWN_FUNCTION(unk_807bdd7c);
 UNKNOWN_FUNCTION(unk_807bddbc);
 // PAL: 0x807bddfc..0x807bdf54
 UNKNOWN_FUNCTION(unk_807bddfc);
-// PAL: 0x807be12c..0x807be3c4
-UNKNOWN_FUNCTION(applyFunctionForPrismsInBox__Q25Field16KCollisionOctreeFRCQ23EGG8Vector3ffMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x807be3c4..0x807bf4c0
 UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
 // PAL: 0x807bf4c0..0x807c01e4
-UNKNOWN_FUNCTION(unk_807bf4c0);
+UNKNOWN_FUNCTION(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x807c01e4..0x807c0884
 UNKNOWN_FUNCTION(unk_807c01e4);
 // PAL: 0x807c0884..0x807c0f00
 UNKNOWN_FUNCTION(kcl_triangle_collides_two_points);
 // PAL: 0x807c0f00..0x807c1514
-UNKNOWN_FUNCTION(unk_807c0f00);
+UNKNOWN_FUNCTION(checkSphere__Q25Field16KCollisionOctreeFlll);
 // PAL: 0x807c1514..0x807c1b0c
 UNKNOWN_FUNCTION(kcl_triangle_collides_one_point);
 // PAL: 0x807c1c8c..0x807c1de8
@@ -42,10 +40,6 @@ UNKNOWN_FUNCTION(unk_807c1fac);
 UNKNOWN_FUNCTION(unk_807c21f4);
 // PAL: 0x807c2410..0x807c243c
 UNKNOWN_FUNCTION(kcl_triangle_collides);
-// PAL: 0x807c243c..0x807c24c0
-UNKNOWN_FUNCTION(unk_807c243c);
-// PAL: 0x807c24c0..0x807c25cc
-UNKNOWN_FUNCTION(unk_807c24c0);
 
 #ifdef __cplusplus
 }
@@ -65,15 +59,19 @@ public:
   u16* searchBlock(const EGG::Vector3f& pos);
 
   typedef void (KCollisionOctree::*PrismListVisitor) (u16*);
-  void applyFunctionForPrismsInBox(const EGG::Vector3f& pos, f32 radius, PrismListVisitor prismListVisitor);
+  void searchMultiBlock(const EGG::Vector3f& pos, f32 radius, PrismListVisitor prismListVisitor);
 
   // Sets sphere-octree-collision detection parameters
   void prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask);
   void prepareCollisionTestSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius);
 
+  void narrowScopeLocal(const EGG::Vector3f&, f32 radius, u32 typeMask);
+
 private:
   void applyFunctionForPrismsInBlock(u8* prismArray, u32 index, PrismListVisitor prismListVisitor, s32, s32, s32, s32, s32, s32);
   void applyFunctionForPrismsRecurse(u8* prismArray, u32 index, PrismListVisitor prismListVisitor);
+  bool checkSphere(s32, s32, s32);
+  void narrowPolygon_EachBlock(u16* prismArray);
 
   EGG::Vector3f* pos_data;
   EGG::Vector3f* nrm_data;
@@ -101,8 +99,13 @@ private:
   // index of prisms near pos (collision candidates). They exist in the same octree leaf block as pos
   u16* prismIndexes;
 
-  u8 _[0x290 - 0x6c];
+  u32 triangleCount;
+  KCollisionPrism* prisms;
+  EGG::Vector3f bboxHigh;
+  EGG::Vector3f bboxLow;
 
+  u16 prismCache[0x100];
+  u16* prismCacheTop;
   u16* cachedPrismIndexes;
   EGG::Vector3f cachedPos;
   f32 cachedRadius;
