@@ -5,16 +5,20 @@
 enum BoxColFlag {
   BOXCOL_FLAG_DRIVER = 0x1,
   BOXCOL_FLAG_ITEM = 0x2,
-  BOXCOL_FLAG_4 = 0x4,
-  BOXCOL_FLAG_8 = 0x8,
-  BOXCOL_FLAG_OBJECT = 0xC,
+  BOXCOL_FLAG_OBJECT_TYPE_1 = 0x4,
+  BOXCOL_FLAG_OBJECT_TYPE_2 = 0x8,
   BOXCOL_FLAG_DRIVABLE = 0x10,
   BOXCOL_FLAG_100 = 0x100,
   BOXCOL_FLAG_DISABLED = 0x200,
   BOXCOL_FLAG_STATIC = 0x400,
-  BOXCOL_FLAG_800 = 0x800,
+  BOXCOL_FLAG_CHANGE_SIZE = 0x800,
 };
 
+/**
+ * An item inside a BoxColManager.
+ *
+ * A box described by its BoxColUnit::position and BoxColUnit::radius. @see BoxColManager for details
+ */
 struct BoxColUnit {
   BoxColUnit();
   ~BoxColUnit();
