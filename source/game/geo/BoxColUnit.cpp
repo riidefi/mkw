@@ -23,5 +23,5 @@ void BoxColUnit::makeDynamic() { this->flags &= ~BOXCOL_FLAG_STATIC; }
 void BoxColUnit::resizeSphere(float radius, float thickness) {
   this->radius = radius;
   this->range = radius + thickness;
-  this->flags |= BOXCOL_FLAG_800;
+  this->flags |= BOXCOL_FLAG_CHANGE_SIZE;
 }
