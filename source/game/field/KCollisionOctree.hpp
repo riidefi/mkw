@@ -16,10 +16,6 @@ UNKNOWN_FUNCTION(unk_807bdd7c);
 UNKNOWN_FUNCTION(unk_807bddbc);
 // PAL: 0x807bddfc..0x807bdf54
 UNKNOWN_FUNCTION(unk_807bddfc);
-// PAL: 0x807be3c4..0x807bf4c0
-UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
-// PAL: 0x807bf4c0..0x807c01e4
-UNKNOWN_FUNCTION(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x807c01e4..0x807c0884
 UNKNOWN_FUNCTION(unk_807c01e4);
 // PAL: 0x807c0884..0x807c0f00
@@ -68,8 +64,8 @@ public:
   void narrowScopeLocal(const EGG::Vector3f&, f32 radius, u32 typeMask);
 
 private:
-  void applyFunctionForPrismsInBlock(u8* prismArray, u32 index, PrismListVisitor prismListVisitor, s32, s32, s32, s32, s32, s32);
-  void applyFunctionForPrismsRecurse(u8* prismArray, u32 index, PrismListVisitor prismListVisitor);
+  void searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor, s32, s32, s32, s32, s32, s32);
+  void searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVisitor prismListVisitor);
   bool checkSphere(s32, s32, s32);
   void narrowPolygon_EachBlock(u16* prismArray);
 
