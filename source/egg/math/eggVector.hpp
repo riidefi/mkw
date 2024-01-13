@@ -96,4 +96,7 @@ inline Vector3f Vector3f::operator+(const Vector3f& rhs) const { return Vector3f
 inline Vector3f Vector3f::operator-(const Vector3f& rhs) const { Vector3f tmp; (void)VEC3Sub(&tmp, this, &rhs); return tmp; }
 inline Vector3f Vector3f::operator*(f32 rhs) const { return Vector3f(x * rhs, y * rhs, z * rhs); }
 
+// likely inline, I'll just put it here for now
+bool isSphereContainedInOther(const EGG::Vector3f& p1, f32 r1, const EGG::Vector3f& p2, f32 r2);
+
 } // namespace EGG

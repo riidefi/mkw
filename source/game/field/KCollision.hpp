@@ -34,7 +34,7 @@ struct KCollisionPrism {
   u16 attribute;
 };
 
-#define KCL_ATTRIBUTE_TYPE(x) ((x) & 0x3f)
+#define KCL_ATTRIBUTE_TYPE(x) ((x) & 0x1f)
 #define KCL_TYPE_BIT(x) (1 << (x))
 #define KCL_ATTRIBUTE_TYPE_BIT(x) KCL_TYPE_BIT(KCL_ATTRIBUTE_TYPE(x))
 }
