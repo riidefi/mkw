@@ -51,8 +51,6 @@ extern UNKNOWN_FUNCTION(unk_807bddfc);
 extern UNKNOWN_FUNCTION(getVertex__Q25Field16KCollisionOctreeFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x807be030
 extern UNKNOWN_FUNCTION(searchBlock__Q25Field16KCollisionOctreeFRCQ23EGG8Vector3f);
-// PAL: 0x807be3c4
-extern UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
 // PAL: 0x807bf4c0
 extern UNKNOWN_FUNCTION(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x807c0884
@@ -64,7 +62,9 @@ extern UNKNOWN_FUNCTION(kcl_triangle_collides_one_point);
 // PAL: 0x807c1fac
 extern UNKNOWN_FUNCTION(unk_807c1fac);
 // PAL: 0x807c21f4
-extern UNKNOWN_FUNCTION(unk_807c21f4);// Extern data references.
+extern UNKNOWN_FUNCTION(unk_807c21f4);
+extern UNKNOWN_FUNCTION(searchMultiBlockRecursiveAll__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
+extern UNKNOWN_FUNCTION(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x808b56d0
 extern UNKNOWN_DATA(lbl_808b56d0);
 // PAL: 0x808b56f4
@@ -265,7 +265,7 @@ void KCollisionOctree::searchMultiBlock(const EGG::Vector3f& point, f32 radius, 
               | y << this->area_x_blocks_shift
               | x);
 
-        this->applyFunctionForPrismsInBlock(blockData, index, prismListVisitor,
+        this->searchMultiBlockRecursiveAll(blockData, index, prismListVisitor,
             x == xminBlock ? xmin : 0, y == yminBlock ? ymin : 0, z == zminBlock ? zmin : 0,
             x == xmaxBlock ? xmax : -1, y == ymaxBlock ? ymax : -1, z == zmaxBlock ? zmax : -1);
       }
@@ -274,38 +274,85 @@ void KCollisionOctree::searchMultiBlock(const EGG::Vector3f& point, f32 radius, 
 }
 }
 
-// Symbol: applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll
+#ifndef NON_MATCHING
 // PAL: 0x807be3c4..0x807bf4c0
-MARK_BINARY_BLOB(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll, 0x807be3c4, 0x807bf4c0);
-asm UNKNOWN_FUNCTION(applyFunctionForPrismsInBlock__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll) {
+MARK_BINARY_BLOB(searchMultiBlockRecursiveAll__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll, 0x807be3c4, 0x807bf4c0);
+asm void Field::KCollisionOctree::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor, s32, s32, s32, s32, s32, s32) {
   #include "asm/807be3c4.s"
 }
-
-#ifndef EQUIVALENT
 // Symbol: applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v
 // PAL: 0x807bf4c0..0x807c01e4
-MARK_BINARY_BLOB(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v, 0x807bf4c0, 0x807c01e4);
-asm UNKNOWN_FUNCTION(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v) {
+MARK_BINARY_BLOB(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v, 0x807bf4c0, 0x807c01e4);
+asm UNKNOWN_FUNCTION(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v) {
   #include "asm/807bf4c0.s"
 }
 #else
+// searchMultiBlockRecursiveAll: nonmatching: https://decomp.me/scratch/5gxb6
+// searchMultiBlockRecursive: regswap+inswap: https://decomp.me/scratch/5gxb6
+#define MIN_EDGE_CHILD(x) (x & 0x80000000) == 0 ? x : -1
+#define MAX_EDGE_CHILD(x) (x & 0x80000000) == 0 ? x : -1
+
 namespace Field {
-// MARK_FLOW_CHECK(0x807bf4c0); Takes too long to flow-check
-// regswap: https://decomp.me/scratch/o1f1W
-void KCollisionOctree::applyFunctionForPrismsRecurse(u8* prismArray, const u32 index, PrismListVisitor prismListVisitor) {
+void KCollisionOctree::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor,
+        s32 xmin, s32 ymin, s32 zmin, s32 xmax, s32 ymax, s32 zmax) {
+  if ((xmin | ymin | zmin) == 0 && (xmax & ymax & zmax) == 0xffffffff) {
+    searchMultiBlockRecursive(prismArray, index, prismListVisitor);
+  }
+
+  /*if (xmin == 0xffffffff || ymin == 0xffffffff || zmin == 0xffffffff || xmax == 0 || ymax == 0 || zmax == 0) {
+    return;
+  }*/
+
+  else if (xmin != 0xffffffff && ymin != 0xffffffff && zmin != 0xffffffff && xmax != 0 && ymax != 0 && zmax != 0) {
   s32 offset = *(u32*)(prismArray + index);
   if ((offset & 0x80000000) != 0) {
     (this->*prismListVisitor)(reinterpret_cast<u16*>(prismArray + (offset & 0x7FFFFFFF)));
+    return;
   } else {
     u8* curBlock = prismArray + offset;
-    applyFunctionForPrismsRecurse(curBlock, 4*0, prismListVisitor);
-    applyFunctionForPrismsRecurse(curBlock, 4*1, prismListVisitor);
-    applyFunctionForPrismsRecurse(curBlock, 4*2, prismListVisitor);
-    applyFunctionForPrismsRecurse(curBlock, 4*3, prismListVisitor);
-    applyFunctionForPrismsRecurse(curBlock, 4*4, prismListVisitor);
-    applyFunctionForPrismsRecurse(curBlock, 4*5, prismListVisitor);
-    applyFunctionForPrismsRecurse(curBlock, 4*6, prismListVisitor);
-    applyFunctionForPrismsRecurse(curBlock, 4*7, prismListVisitor);
+
+    s32 nextxmin = xmin << 1;
+    s32 nextymin = ymin << 1;
+    s32 nextzmin = zmin << 1;
+    s32 nextxmax = xmax << 1;
+    s32 nextymax = ymax << 1;
+    s32 nextzmax = zmax << 1;
+
+    s32 nextxminedge = MIN_EDGE_CHILD(nextxmin);
+    s32 nextyminedge = MIN_EDGE_CHILD(nextymin);
+    s32 nextzminedge = MIN_EDGE_CHILD(nextzmin);
+
+    s32 nextxmaxedge = MAX_EDGE_CHILD(nextxmax);
+    s32 nextymaxedge = MAX_EDGE_CHILD(nextymax);
+    s32 nextzmaxedge = MAX_EDGE_CHILD(nextzmax);
+
+    searchMultiBlockRecursiveAll(curBlock, 4*0, prismListVisitor, nextxminedge, nextyminedge, nextzminedge, nextxmaxedge, nextymaxedge, nextzmaxedge);
+    searchMultiBlockRecursiveAll(curBlock, 4*1, prismListVisitor, nextxmin, nextyminedge, nextzminedge, nextxmax, nextymaxedge, nextzmaxedge);
+    searchMultiBlockRecursiveAll(curBlock, 4*2, prismListVisitor, nextxminedge, nextymin, nextzminedge, nextymaxedge, nextymax, nextzmaxedge);
+    searchMultiBlockRecursiveAll(curBlock, 4*3, prismListVisitor, nextxmin, nextymin, nextzminedge, nextxmax, nextymax, nextzmaxedge);
+    searchMultiBlockRecursiveAll(curBlock, 4*4, prismListVisitor, nextxminedge, nextyminedge, nextzmin, nextymaxedge, nextymaxedge, nextzmax);
+    searchMultiBlockRecursiveAll(curBlock, 4*5, prismListVisitor, nextxmin, nextyminedge, nextzmin, nextxmax, nextymaxedge, nextzmax);
+    searchMultiBlockRecursiveAll(curBlock, 4*6, prismListVisitor, nextxminedge, nextymin, nextzmin, nextymaxedge, nextymax, nextzmax);
+    searchMultiBlockRecursiveAll(curBlock, 4*7, prismListVisitor, nextxmin, nextymin, nextzmin, nextxmax, nextymax, nextzmax);
+  }
+  }
+}
+
+// MARK_FLOW_CHECK(0x807bf4c0); Takes too long to flow-check
+void KCollisionOctree::searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVisitor prismListVisitor) {
+  u32* nextBlock = (u32*)(prismArray + index);
+  if ((*nextBlock & 0x80000000) != 0) {
+    (this->*prismListVisitor)(reinterpret_cast<u16*>(prismArray + (*nextBlock & 0x7FFFFFFF)));
+  } else {
+    u8* curBlock = prismArray + *nextBlock;
+    searchMultiBlockRecursive(curBlock, 4*0, prismListVisitor);
+    searchMultiBlockRecursive(curBlock, 4*1, prismListVisitor);
+    searchMultiBlockRecursive(curBlock, 4*2, prismListVisitor);
+    searchMultiBlockRecursive(curBlock, 4*3, prismListVisitor);
+    searchMultiBlockRecursive(curBlock, 4*4, prismListVisitor);
+    searchMultiBlockRecursive(curBlock, 4*5, prismListVisitor);
+    searchMultiBlockRecursive(curBlock, 4*6, prismListVisitor);
+    searchMultiBlockRecursive(curBlock, 4*7, prismListVisitor);
   }
 }
 }
@@ -325,12 +372,160 @@ asm UNKNOWN_FUNCTION(kcl_triangle_collides_two_points) {
   #include "asm/807c0884.s"
 }
 
+#ifdef NON_MATCHING
+// https://decomp.me/scratch/l1qiN
+namespace Field {
+static inline f32 cornerLenSq(const EGG::Vector3f& v1, const EGG::Vector3f& v2, f32 cos, f32 edge_dist, f32 other_dist) {
+  f32 w1 = (cos * edge_dist - other_dist) / (cos * cos - 1.0f);
+  f32 w2 = edge_dist - w1 * cos;
+
+  EGG::Vector3f sth;
+  sth.y = v1.y * w1 + v2.y * w2;
+  sth.x = v1.x * w1 + v2.x * w2;
+  sth.z = v1.z * w1 + v2.z * w2;
+
+  return sth.lenSq();
+}
+
+bool isPositive(f32 x) { return x>= 0; }
+
+bool KCollisionOctree::checkSphere(s32, s32, s32) {
+  f32 radius = this->radius;
+  EGG::Vector3f* nrm_data = this->nrm_data;
+  bool cacheNotEmpty = prismCacheNotEmpty();
+  if (prismIndexes == nullptr) return false;
+
+  while (*++prismIndexes != nullptr) {
+    // skip if in cache
+    if (cacheNotEmpty) {
+      u16* prismIt = prismCacheTop;
+      while (--prismIt >= prismCache) {
+        if (*prismIndexes == *prismIt) break;
+      }
+      if (prismIt >= prismCache) continue;
+    }
+
+    // 807c0fe4 - 807c14b0
+        KCollisionPrism& prism = this->prism_data[*prismIndexes];
+        EGG::Vector3f& vertex = this->pos_data[prism.pos_i];
+        EGG::Vector3f relPos = this->pos - vertex;
+        EGG::Vector3f& enrm1 = nrm_data[prism.enrm1_i];
+
+        f32 enrm1dist = EGG::Vector3f::dot(relPos, enrm1);
+        if (enrm1dist >= radius) continue;
+
+        EGG::Vector3f& enrm2 = nrm_data[prism.enrm2_i];
+        f32 enrm2dist = EGG::Vector3f::dot(relPos, enrm2);
+        if (enrm2dist >= radius) continue;
+
+        EGG::Vector3f& enrm3 = nrm_data[prism.enrm3_i];
+        f32 enrm3dist = EGG::Vector3f::dot(relPos, enrm3) - prism.height;
+        if (enrm3dist >= radius) continue;
+
+        EGG::Vector3f& fnrm = nrm_data[prism.fnrm_i];
+        f32 dist = radius - EGG::Vector3f::dot(relPos, fnrm);
+        if (dist <= 0.0f) continue;
+
+        if (!(dist <= this->prism_thickness) || this->prism_thickness + radius <= dist) {
+          continue;
+        }
+
+        if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & this->typeMask) == 0) continue;
+
+        f32 sqDist;
+        f32 radiusSq = radius * radius;
+        f32 cornerDistSq;
+        f32 cos;
+        if (enrm1dist > enrm2dist) {
+          if (enrm1dist > enrm3dist) {
+            goto m1154;
+          } else {
+            goto m122c;
+          }
+        } else {
+          if (enrm2dist > enrm3dist) {
+            goto m11c0;
+          } else {
+            goto m122c;
+          }
+        }
+m1154:
+            if (enrm1dist <= 0) goto collisionTrue;
+            if (enrm2dist > enrm3dist) {
+              cos = EGG::Vector3f::dot(enrm1, enrm2);
+              if (cos * enrm1dist > enrm2dist) goto edge1;
+              else goto corner1;
+            } else {
+              cos = EGG::Vector3f::dot(enrm1, enrm3);
+              if (cos * enrm1dist > enrm3dist) goto edge1;
+              else goto corner2;
+            }
+m11c0:
+            if (enrm2dist <= 0) goto collisionTrue;
+            if (enrm3dist > enrm1dist) {
+              cos = EGG::Vector3f::dot(enrm2, enrm3);
+              if (cos * enrm2dist > enrm3dist) goto edge2;
+              else goto corner3;
+            } else {
+              cos = EGG::Vector3f::dot(enrm2, enrm1);
+              if (cos * enrm2dist > enrm1dist) goto edge2;
+              else goto corner1;
+            }
+m122c:
+            if (enrm3dist <= 0) goto collisionTrue;
+            if (enrm1dist > enrm2dist) {
+              cos = EGG::Vector3f::dot(enrm3, enrm1);
+              if (cos * enrm3dist > enrm1dist) goto edge3;
+              else goto corner2;
+            } else {
+              cos = EGG::Vector3f::dot(enrm3, enrm2);
+              if (cos * enrm3dist > enrm2dist) goto edge3;
+              else goto corner3;
+            }
+edge1:
+            sqDist = radiusSq - enrm1dist * enrm1dist;
+            goto distCheck;
+edge2:
+             sqDist = radiusSq - enrm2dist * enrm2dist;
+            goto distCheck;
+edge3:
+             sqDist = radiusSq - enrm3dist * enrm3dist;
+            goto distCheck;
+
+corner1:
+            cornerDistSq = cornerLenSq(enrm1, enrm2, cos, enrm1dist, enrm2dist);
+            goto cornerDistCheck;
+corner2:
+            cornerDistSq = cornerLenSq(enrm2, enrm3, cos, enrm2dist, enrm3dist);
+            goto cornerDistCheck;
+corner3:
+            cornerDistSq = cornerLenSq(enrm3, enrm1, cos, enrm3dist, enrm1dist);
+            goto cornerDistCheck;
+
+cornerDistCheck:
+             sqDist = radiusSq - cornerDistSq;
+             if (sqDist <= 0) continue;
+distCheck:
+        if (sqDist < dist*dist || isPositive(sqDist)) continue;
+        f32 someDist = nw4r::math::FSqrt(sqDist);
+        if (someDist - dist <= 0) continue;
+
+collisionTrue:
+        return true;
+    }
+
+  prismIndexes = nullptr;
+  return false;
+}
+}
+#else
 // Symbol: checkSphere__Q25Field16KCollisionOctreeFlll
 // PAL: 0x807c0f00..0x807c1514
 MARK_BINARY_BLOB(checkSphere__Q25Field16KCollisionOctreeFlll, 0x807c0f00, 0x807c1514);
 asm UNKNOWN_FUNCTION(checkSphere__Q25Field16KCollisionOctreeFlll) {
   #include "asm/807c0f00.s"
 }
+#endif
 
 // Symbol: kcl_triangle_collides_one_point
 // PAL: 0x807c1514..0x807c1b0c
