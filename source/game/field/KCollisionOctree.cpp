@@ -1,5 +1,7 @@
 #include "KCollisionOctree.hpp"
 
+#include <math.h>
+
 // --- EXTERN DECLARATIONS BEGIN ---
 
 extern "C" {
@@ -43,26 +45,11 @@ extern UNKNOWN_FUNCTION(FrSqrt);
 extern UNKNOWN_FUNCTION(VEC3Maximize);
 // PAL: 0x800855c0
 extern UNKNOWN_FUNCTION(VEC3Minimize);
-// PAL: 0x8051a07c
-extern UNKNOWN_FUNCTION(kcl_can_reuse_last_tri_list);
 // PAL: 0x807bddfc
 extern UNKNOWN_FUNCTION(unk_807bddfc);
 // PAL: 0x807bdf54
 extern UNKNOWN_FUNCTION(getVertex__Q25Field16KCollisionOctreeFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
-// PAL: 0x807be030
-extern UNKNOWN_FUNCTION(searchBlock__Q25Field16KCollisionOctreeFRCQ23EGG8Vector3f);
 // PAL: 0x807bf4c0
-extern UNKNOWN_FUNCTION(applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
-// PAL: 0x807c0884
-extern UNKNOWN_FUNCTION(kcl_triangle_collides_two_points);
-// PAL: 0x807c0f00
-extern UNKNOWN_FUNCTION(checkSphere__Q25Field16KCollisionOctreeFlll);
-// PAL: 0x807c1514
-extern UNKNOWN_FUNCTION(kcl_triangle_collides_one_point);
-// PAL: 0x807c1fac
-extern UNKNOWN_FUNCTION(unk_807c1fac);
-// PAL: 0x807c21f4
-extern UNKNOWN_FUNCTION(unk_807c21f4);
 extern UNKNOWN_FUNCTION(searchMultiBlockRecursiveAll__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
 extern UNKNOWN_FUNCTION(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x808b56d0
@@ -75,10 +62,46 @@ extern UNKNOWN_DATA(lbl_808d27f8);
 
 // --- EXTERN DECLARATIONS END ---
 
-// .rodata
-const u32 lbl_808a66d8[] = {
-    0x00000000
-};
+namespace Field {
+KCollisionOctree::KCollisionOctree(const KCollisionHeader& header) {
+  s32 pos_off = header.pos_data_offset;
+  this->pos_data = (EGG::Vector3f*) header.pos_data_offset;
+  s32 nrm_off = header.nrm_data_offset;
+  this->nrm_data = (EGG::Vector3f*) header.nrm_data_offset;
+  s32 prism_off = header.prism_data_offset;
+  this->prism_data = (KCollisionPrism*) header.prism_data_offset;
+  s32 block_off = header.block_data_offset;
+  this->block_data = (u8*)header.block_data_offset;
+
+  this->prism_thickness = header.prism_thickness;
+  this->area_min_pos = header.area_min_pos;
+  this->area_x_width_mask = header.area_x_width_mask;
+  this->area_y_width_mask = header.area_y_width_mask;
+  this->area_z_width_mask = header.area_z_width_mask;
+  this->block_width_shift = header.block_width_shift;
+  this->area_x_blocks_shift = header.area_x_blocks_shift;
+  this->area_xy_blocks_shift = header.area_xy_blocks_shift;
+  this->sphere_radius = header.sphere_radius;
+  this->pos_data = (EGG::Vector3f*) ((const u8*)&header + pos_off);
+  this->nrm_data = (EGG::Vector3f*) ((const u8*)&header + nrm_off);
+  this->prism_data = (KCollisionPrism*) ((const u8*)&header + prism_off);
+  this->block_data = (u8*) ((const u8*)&header + block_off);
+
+  this->pos.setZero();
+  this->prevPos.setZero();
+  this->movement.setZero();
+  this->radius = 0.0f;
+  this->prismArrayIt = nullptr;
+  this->cachedPrismArrayIt = (u16 *)&this->prismCache - 1; // wtf
+  this->prisms = this->prism_data + 1;
+  this->prismCount = ((s32)this->block_data - (s32)this->prisms) / (s32)sizeof(KCollisionPrism);
+  this->computeBbox();
+}
+}
+
+extern "C" UNKNOWN_DATA(lbl_808a66d8);
+REL_SYMBOL_AT(lbl_808a66d8, 0x808a66d8);
+inline void dummy_order() {0.0f;}
 const u32 lbl_808a66dc[] = {
     0x497423f0
 };
@@ -88,25 +111,8 @@ const u32 lbl_808a66e0[] = {
 const u32 lbl_808a66e4[] = {
     0x3f800000
 };
-const u32 lbl_808a66e8[] = {
-    0x3c23d70a
-};
-const u32 lbl_808a66ec[] = {
-    0x7f800000, 0x3ca3d70a, 0x00000000, 0x00000000
-};
-
-// .data
-
-
-// .bss
-
-
-// Symbol: kcl_header_init
-// PAL: 0x807bdc5c..0x807bdd7c
-MARK_BINARY_BLOB(kcl_header_init, 0x807bdc5c, 0x807bdd7c);
-asm UNKNOWN_FUNCTION(kcl_header_init) {
-  #include "asm/807bdc5c.s"
-}
+extern "C" UNKNOWN_DATA(lbl_808a66e8);
+REL_SYMBOL_AT(lbl_808a66e8, 0x808a66e8);
 
 // Symbol: unk_807bdd7c
 // PAL: 0x807bdd7c..0x807bddbc
@@ -125,7 +131,7 @@ asm UNKNOWN_FUNCTION(unk_807bddbc) {
 // Symbol: unk_807bddfc
 // PAL: 0x807bddfc..0x807bdf54
 MARK_BINARY_BLOB(unk_807bddfc, 0x807bddfc, 0x807bdf54);
-asm UNKNOWN_FUNCTION(unk_807bddfc) {
+asm void Field::KCollisionOctree::computeBbox() {
   #include "asm/807bddfc.s"
 }
 
@@ -365,10 +371,10 @@ asm UNKNOWN_FUNCTION(unk_807c01e4) {
   #include "asm/807c01e4.s"
 }
 
-// Symbol: kcl_triangle_collides_two_points
+// Symbol: checkSphereMovement__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs
 // PAL: 0x807c0884..0x807c0f00
-MARK_BINARY_BLOB(kcl_triangle_collides_two_points, 0x807c0884, 0x807c0f00);
-asm UNKNOWN_FUNCTION(kcl_triangle_collides_two_points) {
+MARK_BINARY_BLOB(checkSphereMovement__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs, 0x807c0884, 0x807c0f00);
+asm bool Field::KCollisionOctree::checkSphereMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   #include "asm/807c0884.s"
 }
 
@@ -389,154 +395,154 @@ static inline f32 cornerLenSq(const EGG::Vector3f& v1, const EGG::Vector3f& v2, 
 
 bool isPositive(f32 x) { return x>= 0; }
 
-bool KCollisionOctree::checkSphere(s32, s32, s32) {
+bool KCollisionOctree::checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   f32 radius = this->radius;
   EGG::Vector3f* nrm_data = this->nrm_data;
   bool cacheNotEmpty = prismCacheNotEmpty();
-  if (prismIndexes == nullptr) return false;
+  if (prismArrayIt == nullptr) return false;
 
-  while (*++prismIndexes != nullptr) {
+  while (*++prismArrayIt != nullptr) {
     // skip if in cache
     if (cacheNotEmpty) {
-      u16* prismIt = prismCacheTop;
-      while (--prismIt >= prismCache) {
-        if (*prismIndexes == *prismIt) break;
+      u16* prismCacheIt = prismCacheTop;
+      while (--prismCacheIt >= prismCache) {
+        if (*prismArrayIt == *prismCacheIt) break;
       }
-      if (prismIt >= prismCache) continue;
+      if (prismCacheIt >= prismCache) continue;
     }
 
     // 807c0fe4 - 807c14b0
-        KCollisionPrism& prism = this->prism_data[*prismIndexes];
-        EGG::Vector3f& vertex = this->pos_data[prism.pos_i];
-        EGG::Vector3f relPos = this->pos - vertex;
-        EGG::Vector3f& enrm1 = nrm_data[prism.enrm1_i];
+    KCollisionPrism& prism = this->prism_data[*prismArrayIt];
+    EGG::Vector3f& vertex = this->pos_data[prism.pos_i];
+    EGG::Vector3f relPos = this->pos - vertex;
+    EGG::Vector3f& enrm1 = nrm_data[prism.enrm1_i];
 
-        f32 enrm1dist = EGG::Vector3f::dot(relPos, enrm1);
-        if (enrm1dist >= radius) continue;
+    f32 enrm1dist = EGG::Vector3f::dot(relPos, enrm1);
+    if (enrm1dist >= radius) continue;
 
-        EGG::Vector3f& enrm2 = nrm_data[prism.enrm2_i];
-        f32 enrm2dist = EGG::Vector3f::dot(relPos, enrm2);
-        if (enrm2dist >= radius) continue;
+    EGG::Vector3f& enrm2 = nrm_data[prism.enrm2_i];
+    f32 enrm2dist = EGG::Vector3f::dot(relPos, enrm2);
+    if (enrm2dist >= radius) continue;
 
-        EGG::Vector3f& enrm3 = nrm_data[prism.enrm3_i];
-        f32 enrm3dist = EGG::Vector3f::dot(relPos, enrm3) - prism.height;
-        if (enrm3dist >= radius) continue;
+    EGG::Vector3f& enrm3 = nrm_data[prism.enrm3_i];
+    f32 enrm3dist = EGG::Vector3f::dot(relPos, enrm3) - prism.height;
+    if (enrm3dist >= radius) continue;
 
-        EGG::Vector3f& fnrm = nrm_data[prism.fnrm_i];
-        f32 dist = radius - EGG::Vector3f::dot(relPos, fnrm);
-        if (dist <= 0.0f) continue;
+    EGG::Vector3f& fnrm = nrm_data[prism.fnrm_i];
+    f32 dist = radius - EGG::Vector3f::dot(relPos, fnrm);
+    if (dist <= 0.0f) continue;
 
-        if (!(dist <= this->prism_thickness) || this->prism_thickness + radius <= dist) {
-          continue;
-        }
-
-        if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & this->typeMask) == 0) continue;
-
-        f32 sqDist;
-        f32 radiusSq = radius * radius;
-        f32 cornerDistSq;
-        f32 cos;
-        if (enrm1dist > enrm2dist) {
-          if (enrm1dist > enrm3dist) {
-            goto m1154;
-          } else {
-            goto m122c;
-          }
-        } else {
-          if (enrm2dist > enrm3dist) {
-            goto m11c0;
-          } else {
-            goto m122c;
-          }
-        }
-m1154:
-            if (enrm1dist <= 0) goto collisionTrue;
-            if (enrm2dist > enrm3dist) {
-              cos = EGG::Vector3f::dot(enrm1, enrm2);
-              if (cos * enrm1dist > enrm2dist) goto edge1;
-              else goto corner1;
-            } else {
-              cos = EGG::Vector3f::dot(enrm1, enrm3);
-              if (cos * enrm1dist > enrm3dist) goto edge1;
-              else goto corner2;
-            }
-m11c0:
-            if (enrm2dist <= 0) goto collisionTrue;
-            if (enrm3dist > enrm1dist) {
-              cos = EGG::Vector3f::dot(enrm2, enrm3);
-              if (cos * enrm2dist > enrm3dist) goto edge2;
-              else goto corner3;
-            } else {
-              cos = EGG::Vector3f::dot(enrm2, enrm1);
-              if (cos * enrm2dist > enrm1dist) goto edge2;
-              else goto corner1;
-            }
-m122c:
-            if (enrm3dist <= 0) goto collisionTrue;
-            if (enrm1dist > enrm2dist) {
-              cos = EGG::Vector3f::dot(enrm3, enrm1);
-              if (cos * enrm3dist > enrm1dist) goto edge3;
-              else goto corner2;
-            } else {
-              cos = EGG::Vector3f::dot(enrm3, enrm2);
-              if (cos * enrm3dist > enrm2dist) goto edge3;
-              else goto corner3;
-            }
-edge1:
-            sqDist = radiusSq - enrm1dist * enrm1dist;
-            goto distCheck;
-edge2:
-             sqDist = radiusSq - enrm2dist * enrm2dist;
-            goto distCheck;
-edge3:
-             sqDist = radiusSq - enrm3dist * enrm3dist;
-            goto distCheck;
-
-corner1:
-            cornerDistSq = cornerLenSq(enrm1, enrm2, cos, enrm1dist, enrm2dist);
-            goto cornerDistCheck;
-corner2:
-            cornerDistSq = cornerLenSq(enrm2, enrm3, cos, enrm2dist, enrm3dist);
-            goto cornerDistCheck;
-corner3:
-            cornerDistSq = cornerLenSq(enrm3, enrm1, cos, enrm3dist, enrm1dist);
-            goto cornerDistCheck;
-
-cornerDistCheck:
-             sqDist = radiusSq - cornerDistSq;
-             if (sqDist <= 0) continue;
-distCheck:
-        if (sqDist < dist*dist || isPositive(sqDist)) continue;
-        f32 someDist = nw4r::math::FSqrt(sqDist);
-        if (someDist - dist <= 0) continue;
-
-collisionTrue:
-        return true;
+    if (!(dist <= this->prism_thickness) || this->prism_thickness + radius <= dist) {
+      continue;
     }
 
-  prismIndexes = nullptr;
+    if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & this->typeMask) == 0) continue;
+
+    f32 sqDist;
+    f32 radiusSq = radius * radius;
+    f32 cornerDistSq;
+    f32 cos;
+    if (enrm1dist > enrm2dist) {
+      if (enrm1dist > enrm3dist) {
+        goto m1154;
+      } else {
+        goto m122c;
+      }
+    } else {
+      if (enrm2dist > enrm3dist) {
+        goto m11c0;
+      } else {
+        goto m122c;
+      }
+    }
+m1154:
+    if (enrm1dist <= 0) goto collisionTrue;
+    if (enrm2dist > enrm3dist) {
+      cos = EGG::Vector3f::dot(enrm1, enrm2);
+      if (cos * enrm1dist > enrm2dist) goto edge1;
+      else goto corner1;
+    } else {
+      cos = EGG::Vector3f::dot(enrm1, enrm3);
+      if (cos * enrm1dist > enrm3dist) goto edge1;
+      else goto corner2;
+    }
+m11c0:
+    if (enrm2dist <= 0) goto collisionTrue;
+    if (enrm3dist > enrm1dist) {
+      cos = EGG::Vector3f::dot(enrm2, enrm3);
+      if (cos * enrm2dist > enrm3dist) goto edge2;
+      else goto corner3;
+    } else {
+      cos = EGG::Vector3f::dot(enrm2, enrm1);
+      if (cos * enrm2dist > enrm1dist) goto edge2;
+      else goto corner1;
+    }
+m122c:
+    if (enrm3dist <= 0) goto collisionTrue;
+    if (enrm1dist > enrm2dist) {
+      cos = EGG::Vector3f::dot(enrm3, enrm1);
+      if (cos * enrm3dist > enrm1dist) goto edge3;
+      else goto corner2;
+    } else {
+      cos = EGG::Vector3f::dot(enrm3, enrm2);
+      if (cos * enrm3dist > enrm2dist) goto edge3;
+      else goto corner3;
+    }
+edge1:
+    sqDist = radiusSq - enrm1dist * enrm1dist;
+    goto distCheck;
+edge2:
+    sqDist = radiusSq - enrm2dist * enrm2dist;
+    goto distCheck;
+edge3:
+    sqDist = radiusSq - enrm3dist * enrm3dist;
+    goto distCheck;
+
+corner1:
+    cornerDistSq = cornerLenSq(enrm1, enrm2, cos, enrm1dist, enrm2dist);
+    goto cornerDistCheck;
+corner2:
+    cornerDistSq = cornerLenSq(enrm2, enrm3, cos, enrm2dist, enrm3dist);
+    goto cornerDistCheck;
+corner3:
+    cornerDistSq = cornerLenSq(enrm3, enrm1, cos, enrm3dist, enrm1dist);
+    goto cornerDistCheck;
+
+cornerDistCheck:
+    sqDist = radiusSq - cornerDistSq;
+    if (sqDist <= 0) continue;
+distCheck:
+    if (sqDist < dist*dist || isPositive(sqDist)) continue;
+    f32 someDist = nw4r::math::FSqrt(sqDist);
+    if (someDist - dist <= 0) continue;
+
+collisionTrue:
+    return true;
+  }
+
+  prismArrayIt = nullptr;
   return false;
 }
 }
 #else
-// Symbol: checkSphere__Q25Field16KCollisionOctreeFlll
+// Symbol: checkSphereSingle__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs
 // PAL: 0x807c0f00..0x807c1514
-MARK_BINARY_BLOB(checkSphere__Q25Field16KCollisionOctreeFlll, 0x807c0f00, 0x807c1514);
-asm UNKNOWN_FUNCTION(checkSphere__Q25Field16KCollisionOctreeFlll) {
+MARK_BINARY_BLOB(checkSphereSingle__Q25Field16KCollisionOctreeFlll, 0x807c0f00, 0x807c1514);
+asm bool Field::KCollisionOctree::checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   #include "asm/807c0f00.s"
 }
 #endif
 
-// Symbol: kcl_triangle_collides_one_point
+// Symbol: checkSphere__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs
 // PAL: 0x807c1514..0x807c1b0c
-MARK_BINARY_BLOB(kcl_triangle_collides_one_point, 0x807c1514, 0x807c1b0c);
-asm UNKNOWN_FUNCTION(kcl_triangle_collides_one_point) {
+MARK_BINARY_BLOB(checkSphere__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs, 0x807c1514, 0x807c1b0c);
+asm bool Field::KCollisionOctree::checkSphere(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   #include "asm/807c1514.s"
 }
 
 namespace Field {
 void KCollisionOctree::prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask) {
-  this->prismIndexes = searchBlock(pos);
+  this->prismArrayIt = searchBlock(pos);
   this->pos = pos;
   this->prevPos = prevPos;
   VEC3Sub(&this->movement, &pos, &prevPos);
@@ -549,7 +555,7 @@ void KCollisionOctree::prepareCollisionTestSphere(const EGG::Vector3f& pos, cons
   if (radius > this->sphere_radius) {
     radiusClamped = this->sphere_radius;
   }
-  this->prismIndexes = searchBlock(pos);
+  this->prismArrayIt = searchBlock(pos);
   this->pos = pos;
   this->prevPos = prevPos;
   VEC3Sub(&this->movement, &pos, &prevPos);
@@ -557,61 +563,168 @@ void KCollisionOctree::prepareCollisionTestSphere(const EGG::Vector3f& pos, cons
   this->radius = radiusClamped;
   this->typeMask = typeMask;
 }
+
+void KCollisionOctree::lookupPointCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, u32 typeMask) {
+  EGG::Vector3f c1 = p1;
+  EGG::Vector3f c2 = this->cachedPos;
+  bool cacheMiss = EGG::isSphereContainedInOther(c1, 0.01f, c2, this->cachedRadius) == false;
+  if (cacheMiss) {
+    prepareCollisionTest(p1, p2, typeMask);
+  } else {
+    this->pos = p1;
+    this->prevPos = p2;
+    VEC3Sub(&this->movement, &p1, &p2);
+    this->radius = 0.01f;
+    this->typeMask = typeMask;
+
+    this->prismArrayIt = this->cachedPrismArrayIt;
+  }
 }
 
-// Symbol: unk_807c1c8c
-// PAL: 0x807c1c8c..0x807c1de8
-MARK_BINARY_BLOB(unk_807c1c8c, 0x807c1c8c, 0x807c1de8);
-asm UNKNOWN_FUNCTION(unk_807c1c8c) {
-  #include "asm/807c1c8c.s"
+void KCollisionOctree::lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, f32 radius, u32 typeMask) {
+  f32 r = radius;
+  EGG::Vector3f c1 = p1;
+  EGG::Vector3f c2 = this->cachedPos;
+  bool cacheMiss = EGG::isSphereContainedInOther(c1, radius, c2, this->cachedRadius) == false;
+  if (cacheMiss) {
+    if (r > this->sphere_radius)
+      r = this->sphere_radius;
+    prepareCollisionTestSphere(p1, p2, typeMask, r);
+  } else {
+    this->pos = p1;
+    this->prevPos = p2;
+    VEC3Sub(&this->movement, &p1, &p2);
+    this->radius = radius;
+    this->typeMask = typeMask;
+
+    this->prismArrayIt = this->cachedPrismArrayIt;
+  }
+
 }
 
-// Symbol: kcl_find_tri_list_and_prepare_cached
-// PAL: 0x807c1de8..0x807c1f80
-MARK_BINARY_BLOB(kcl_find_tri_list_and_prepare_cached, 0x807c1de8, 0x807c1f80);
-asm UNKNOWN_FUNCTION(kcl_find_tri_list_and_prepare_cached) {
-  #include "asm/807c1de8.s"
+bool KCollisionOctree::checkPointCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+  return isfinite(this->prevPos.y)                          ?
+	 checkPointMovement(distOut, fnrmOut, attributeOut) :
+         checkPoint        (distOut, fnrmOut, attributeOut);
 }
 
-// Symbol: unk_807c1f80
-// PAL: 0x807c1f80..0x807c1fac
-MARK_BINARY_BLOB(unk_807c1f80, 0x807c1f80, 0x807c1fac);
-asm UNKNOWN_FUNCTION(unk_807c1f80) {
-  #include "asm/807c1f80.s"
+bool KCollisionOctree::checkPointMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+  f32 radius = 0.01f;
+  EGG::Vector3f* nrm_data = this->nrm_data;
+  bool cacheNotEmpty = prismCacheNotEmpty();
+  if (prismArrayIt == nullptr) return false;
+
+  while (*++prismArrayIt != nullptr) {
+    KCollisionPrism& prism = this->prism_data[*prismArrayIt];
+    EGG::Vector3f& vertex = this->pos_data[prism.pos_i];
+    EGG::Vector3f relPos;
+    nw4r::math::VEC3Sub(&relPos, &this->pos, &vertex);
+    EGG::Vector3f& enrm1 = nrm_data[prism.enrm1_i];
+
+    f32 enrm1dist = nw4r::math::VEC3Dot(&relPos, &enrm1);
+    if (enrm1dist >= 0.01f) continue;
+
+    EGG::Vector3f& enrm2 = nrm_data[prism.enrm2_i];
+    f32 enrm2dist = nw4r::math::VEC3Dot(&relPos, &enrm2);
+    if (enrm2dist >= 0.01f) continue;
+
+    EGG::Vector3f& enrm3 = nrm_data[prism.enrm3_i];
+    f32 enrm3dist = nw4r::math::VEC3Dot(&relPos, &enrm3) - prism.height;
+    if (enrm3dist >= 0.01f) continue;
+
+    EGG::Vector3f fnrm = nrm_data[prism.fnrm_i];
+    f32 dist = 0.01f - nw4r::math::VEC3Dot(&relPos, &fnrm);
+    if (dist <= 0.0f) continue;
+
+    if (this->prism_thickness <= dist && this->prism_thickness + 0.02f <= dist) {
+      continue;
+    }
+
+    if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & this->typeMask) == 0) continue;
+
+    if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & 0x5070000) != 0 && nw4r::math::VEC3Dot(&this->movement, &fnrm) > 0.0f) continue;
+
+    if (distOut != nullptr) {
+      *distOut = dist;
+    }
+    if (fnrmOut != nullptr) {
+      *fnrmOut = fnrm;
+    }
+    if (attributeOut != nullptr) {
+      *attributeOut = prism.attribute;
+    }
+    return true;
+  }
+  this->prismArrayIt = nullptr;
+  return false;
 }
 
-// Symbol: unk_807c1fac
-// PAL: 0x807c1fac..0x807c21f4
-MARK_BINARY_BLOB(unk_807c1fac, 0x807c1fac, 0x807c21f4);
-asm UNKNOWN_FUNCTION(unk_807c1fac) {
-  #include "asm/807c1fac.s"
+bool KCollisionOctree::checkPoint(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+  f32 radius = 0.01f;
+  EGG::Vector3f* nrm_data = this->nrm_data;
+  bool cacheNotEmpty = prismCacheNotEmpty();
+  if (prismArrayIt == nullptr) return false;
+
+  while (*++prismArrayIt != nullptr) {
+    KCollisionPrism& prism = this->prism_data[*prismArrayIt];
+    EGG::Vector3f& vertex = this->pos_data[prism.pos_i];
+    EGG::Vector3f relPos;
+    nw4r::math::VEC3Sub(&relPos, &this->pos, &vertex);
+        EGG::Vector3f& enrm1 = nrm_data[prism.enrm1_i];
+
+    f32 enrm1dist = nw4r::math::VEC3Dot(&relPos, &enrm1);
+    if (enrm1dist >= 0.01f) continue;
+
+    EGG::Vector3f& enrm2 = nrm_data[prism.enrm2_i];
+    f32 enrm2dist = nw4r::math::VEC3Dot(&relPos, &enrm2);
+    if (enrm2dist >= 0.01f) continue;
+
+    EGG::Vector3f& enrm3 = nrm_data[prism.enrm3_i];
+    f32 enrm3dist = nw4r::math::VEC3Dot(&relPos, &enrm3) - prism.height;
+    if (enrm3dist >= 0.01f) continue;
+
+    EGG::Vector3f fnrm = nrm_data[prism.fnrm_i];
+    f32 dist = 0.01f - nw4r::math::VEC3Dot(&relPos, &fnrm);
+    if (dist <= 0.0f) continue;
+
+    if (this->prism_thickness <= dist && this->prism_thickness + 0.02f <= dist) {
+      continue;
+    }
+
+    if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & this->typeMask) == 0) continue;
+
+    if (distOut != nullptr) {
+      *distOut = dist;
+    }
+    if (fnrmOut != nullptr) {
+      *fnrmOut = fnrm;
+    }
+    if (attributeOut != nullptr) {
+      *attributeOut = prism.attribute;
+    }
+    return true;
+  }
+  this->prismArrayIt = nullptr;
+  return false;
 }
 
-// Symbol: unk_807c21f4
-// PAL: 0x807c21f4..0x807c2410
-MARK_BINARY_BLOB(unk_807c21f4, 0x807c21f4, 0x807c2410);
-asm UNKNOWN_FUNCTION(unk_807c21f4) {
-  #include "asm/807c21f4.s"
-}
-
-// Symbol: kcl_triangle_collides
-// PAL: 0x807c2410..0x807c243c
-MARK_BINARY_BLOB(kcl_triangle_collides, 0x807c2410, 0x807c243c);
-asm UNKNOWN_FUNCTION(kcl_triangle_collides) {
-  #include "asm/807c2410.s"
+bool KCollisionOctree::checkSphereCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+  return isfinite(this->prevPos.y)                          ?
+	 checkSphereMovement(distOut, fnrmOut, attributeOut) :
+         checkSphere        (distOut, fnrmOut, attributeOut);
 }
 
 #define ARRAY_END(X) (&X + 1)
-namespace Field {
 void KCollisionOctree::narrowPolygon_EachBlock(u16* prismArray) {
-  this->prismIndexes = prismArray;
+  this->prismArrayIt = prismArray;
 
-  u16* prismIt = prismCacheTop;
-  while (checkSphere(0, 0, 0)) {
-    prismIt = prismCacheTop;
-    *prismIt = *this->prismIndexes;
-    prismCacheTop = prismIt + 1;
-    if (prismIt + 1 >= (u16*)ARRAY_END(prismCache)) {
+  u16* prismCacheIt = prismCacheTop;
+  while (checkSphereSingle(nullptr, nullptr, nullptr)) {
+    // Add colliding prism to cache
+    prismCacheIt = prismCacheTop;
+    *prismCacheIt = *this->prismArrayIt;
+    prismCacheTop = prismCacheIt + 1;
+    if (prismCacheIt + 1 >= (u16*)ARRAY_END(prismCache)) {
       prismCacheTop--;
       return;
     }
@@ -627,11 +740,15 @@ void KCollisionOctree::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u3
   this->cachedRadius = radius;
 
   if (radius > this->sphere_radius) {
-     this->searchMultiBlock(pos, radius, KCollisionOctree::narrowPolygon_EachBlock);
+    this->searchMultiBlock(pos, radius, KCollisionOctree::narrowPolygon_EachBlock);
   } else {
-     this->narrowPolygon_EachBlock(searchBlock(pos));
+    this->narrowPolygon_EachBlock(searchBlock(pos));
   }
   *this->prismCacheTop = nullptr;
 }
 }
 
+extern const u32 lbl_808a66ec[];
+const u32 lbl_808a66ec[] = {
+    0x00000000, 0x00000000
+};

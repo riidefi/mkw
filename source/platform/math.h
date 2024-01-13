@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#define INFINITY 1.0f/0.0f
+
 MW_PRAG_NO_WARN_10216
 
 f64 sin(f64);
@@ -38,6 +40,9 @@ double copysign(double x, double y);
 int __fpclassifyf(float);
 int __fpclassifyd(double);
 int __signbitd(double);
+
+int isfinite(f32 x);
+inline int isfinite(f32 x) { f32 inf = INFINITY; return inf != x; }
 
 MW_PRAG_END
 
