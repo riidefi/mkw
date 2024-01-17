@@ -60,6 +60,10 @@ struct Vector3f : public nw4r::math::VEC3 {
     x = y = z = 0.0f;
   }
 
+  inline void set(f32 val) {
+    x = y = z = val;
+  }
+
   inline void setOne() {
     x = y = z = 1.0f;
   }

@@ -284,6 +284,9 @@ inline f32 VEC3LenSq(const register VEC3* p)
 
 inline VEC3* VEC3Cross(VEC3* pOut, const VEC3* p1, const VEC3* p2) { NW4R_VECCROSS(*p1, *p2, *pOut); return pOut; }
 
+VEC3* VEC3Maximize(VEC3* pOut, const VEC3* p1, const VEC3* p2);
+VEC3* VEC3Minimize(VEC3* pOut, const VEC3* p1, const VEC3* p2);
+
 inline VEC3& VEC3::operator+=(const VEC3& rhs) { (void)VEC3Add(this, this, &rhs); return *this; }
 inline VEC3& VEC3::operator-=(const VEC3& rhs) { (void)VEC3Sub(this, this, &rhs); return *this; }
 inline VEC3& VEC3::operator*=(f32 f) { (void)VEC3Scale(this, this, f); return *this; }

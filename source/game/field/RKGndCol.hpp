@@ -4,29 +4,13 @@
 
 #include <decomp.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// PAL: 0x807bdd7c..0x807bddbc
-UNKNOWN_FUNCTION(unk_807bdd7c);
-// PAL: 0x807bddbc..0x807bddfc
-UNKNOWN_FUNCTION(unk_807bddbc);
-// PAL: 0x807bddfc..0x807bdf54
-UNKNOWN_FUNCTION(unk_807bddfc);
-// PAL: 0x807c01e4..0x807c0884
-UNKNOWN_FUNCTION(unk_807c01e4);
-
-#ifdef __cplusplus
-}
-#endif
-
 #include "KCollision.hpp"
 
 namespace Field {
-class KCollisionOctree {
+class RKGndCol {
 public:
-  KCollisionOctree(const KCollisionHeader& header);
+  RKGndCol(const KCollisionHeader& header);
+  ~RKGndCol();
   void computeBbox();
   /* Given the KCL representation of a prism, this function can compute the prism vertex
    positions. Vertex1 is already known, and this function computes vertex2 if enrm is enrm2 and
@@ -36,7 +20,7 @@ public:
   // finds block that contains position
   u16* searchBlock(const EGG::Vector3f& pos);
 
-  typedef void (KCollisionOctree::*PrismListVisitor) (u16*);
+  typedef void (RKGndCol::*PrismListVisitor) (u16*);
   void searchMultiBlock(const EGG::Vector3f& pos, f32 radius, PrismListVisitor prismListVisitor);
 
   // Perform lookup and set sphere-octree-collision detection parameters
@@ -86,10 +70,10 @@ private:
   // Iterator for the array of prisms to be checked by e.g. checkSphere. It gets set after searchBlock/searchMultiBlock lookup
   u16* prismArrayIt;
 
-  u32 prismCount;
+  s32 prismCount;
   KCollisionPrism* prisms;
-  EGG::Vector3f bboxHigh;
   EGG::Vector3f bboxLow;
+  EGG::Vector3f bboxHigh;
 
   // prismCache is the list of prisms that are verified that are colliding by e.g. checkSphere (so not really a cache tbh)
   u16 prismCache[0x100];
