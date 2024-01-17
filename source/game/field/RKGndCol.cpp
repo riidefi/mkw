@@ -1,6 +1,8 @@
-#include "KCollisionOctree.hpp"
+#include "RKGndCol.hpp"
 
 #include <math.h>
+
+#include "nw4r/math/mathTypes.hpp"
 
 // --- EXTERN DECLARATIONS BEGIN ---
 
@@ -41,29 +43,24 @@ extern UNKNOWN_FUNCTION(_restgpr_27);
 extern UNKNOWN_FUNCTION(VWarning);
 // PAL: 0x80085040
 extern UNKNOWN_FUNCTION(FrSqrt);
-// PAL: 0x80085580
-extern UNKNOWN_FUNCTION(VEC3Maximize);
-// PAL: 0x800855c0
-extern UNKNOWN_FUNCTION(VEC3Minimize);
-// PAL: 0x807bddfc
-extern UNKNOWN_FUNCTION(unk_807bddfc);
 // PAL: 0x807bdf54
-extern UNKNOWN_FUNCTION(getVertex__Q25Field16KCollisionOctreeFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
+extern UNKNOWN_FUNCTION(getVertex__Q25Field8RKGndColFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x807bf4c0
-extern UNKNOWN_FUNCTION(searchMultiBlockRecursiveAll__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll);
+extern UNKNOWN_FUNCTION(searchMultiBlockRecursiveAll__Q25Field8RKGndColFPUcUlMQ25Field8RKGndColFPCvPvPUs_vllllll);
 extern UNKNOWN_FUNCTION(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
 // PAL: 0x808b56d0
 extern UNKNOWN_DATA(lbl_808b56d0);
 // PAL: 0x808b56f4
 extern UNKNOWN_DATA(lbl_808b56f4);
-// PAL: 0x808d27f8
-extern UNKNOWN_DATA(lbl_808d27f8);
 }
 
 // --- EXTERN DECLARATIONS END ---
 
+extern "C" UNKNOWN_DATA(lbl_808a66d8);
+REL_SYMBOL_AT(lbl_808a66d8, 0x808a66d8);
+
 namespace Field {
-KCollisionOctree::KCollisionOctree(const KCollisionHeader& header) {
+RKGndCol::RKGndCol(const KCollisionHeader& header) {
   s32 pos_off = header.pos_data_offset;
   this->pos_data = (EGG::Vector3f*) header.pos_data_offset;
   s32 nrm_off = header.nrm_data_offset;
@@ -97,55 +94,52 @@ KCollisionOctree::KCollisionOctree(const KCollisionHeader& header) {
   this->prismCount = ((s32)this->block_data - (s32)this->prisms) / (s32)sizeof(KCollisionPrism);
   this->computeBbox();
 }
+
+struct DummyB { ~DummyB(); };
+DummyB::~DummyB() {}
+
+RKGndCol::~RKGndCol() {}
+
+
+void RKGndCol::computeBbox() {
+  this->bboxLow.set(999999.0f);
+  this->bboxHigh.set(-999999.0f);
+
+  for (s32 i = 0; i < this->prismCount; i++) {
+    KCollisionPrism& prism = this->prisms[i];
+    EGG::Vector3f* nrm_data = this->nrm_data;
+    EGG::Vector3f& fnrm = nrm_data[prism.fnrm_i];
+    EGG::Vector3f& enrm3 = nrm_data[prism.enrm1_i];
+    EGG::Vector3f& enrm2 = nrm_data[prism.enrm2_i];
+    EGG::Vector3f& enrm1 = nrm_data[prism.enrm3_i];
+    EGG::Vector3f& vtx1 = this->pos_data[prism.pos_i];
+    EGG::Vector3f vtx3 = getVertex(prism.height, vtx1, fnrm, enrm1, enrm3);
+    EGG::Vector3f vtx2 = getVertex(prism.height, vtx1, fnrm, enrm1, enrm2);
+    nw4r::math::VEC3Minimize(&this->bboxLow, &this->bboxLow, &vtx1);
+    nw4r::math::VEC3Minimize(&this->bboxLow, &this->bboxLow, &vtx3);
+    nw4r::math::VEC3Minimize(&this->bboxLow, &this->bboxLow, &vtx2);
+    nw4r::math::VEC3Maximize(&this->bboxHigh, &this->bboxHigh, &vtx1);
+    nw4r::math::VEC3Maximize(&this->bboxHigh, &this->bboxHigh, &vtx3);
+    nw4r::math::VEC3Maximize(&this->bboxHigh, &this->bboxHigh, &vtx2);
+  }
+}
 }
 
-extern "C" UNKNOWN_DATA(lbl_808a66d8);
-REL_SYMBOL_AT(lbl_808a66d8, 0x808a66d8);
-inline void dummy_order() {0.0f;}
-const u32 lbl_808a66dc[] = {
-    0x497423f0
-};
-const u32 lbl_808a66e0[] = {
-    0xc97423f0
-};
 const u32 lbl_808a66e4[] = {
     0x3f800000
 };
-extern "C" UNKNOWN_DATA(lbl_808a66e8);
-REL_SYMBOL_AT(lbl_808a66e8, 0x808a66e8);
-
-// Symbol: unk_807bdd7c
-// PAL: 0x807bdd7c..0x807bddbc
-MARK_BINARY_BLOB(unk_807bdd7c, 0x807bdd7c, 0x807bddbc);
-asm UNKNOWN_FUNCTION(unk_807bdd7c) {
-  #include "asm/807bdd7c.s"
-}
-
-// Symbol: unk_807bddbc
-// PAL: 0x807bddbc..0x807bddfc
-MARK_BINARY_BLOB(unk_807bddbc, 0x807bddbc, 0x807bddfc);
-asm UNKNOWN_FUNCTION(unk_807bddbc) {
-  #include "asm/807bddbc.s"
-}
-
-// Symbol: unk_807bddfc
-// PAL: 0x807bddfc..0x807bdf54
-MARK_BINARY_BLOB(unk_807bddfc, 0x807bddfc, 0x807bdf54);
-asm void Field::KCollisionOctree::computeBbox() {
-  #include "asm/807bddfc.s"
-}
 
 #ifndef EQUIVALENT
-// Symbol: getVertex__Q25Field16KCollisionOctreeFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f
+// Symbol: getVertex__Q25Field16RKGndColFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f
 // PAL: 0x807bdf54..0x807be030
-MARK_BINARY_BLOB(getVertex__Q25Field16KCollisionOctreeFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f, 0x807bdf54, 0x807be030);
-asm UNKNOWN_FUNCTION(getVertex__Q25Field16KCollisionOctreeFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f) {
+MARK_BINARY_BLOB(getVertex__Q25Field8RKGndColFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f, 0x807bdf54, 0x807be030);
+asm UNKNOWN_FUNCTION(getVertex__Q25Field8RKGndColFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f) {
   #include "asm/807bdf54.s"
 }
 #else
 // https://decomp.me/scratch/byfkO
 namespace Field {
-EGG::Vector3f KCollisionOctree::getVertex(f32 height, const EGG::Vector3f& vertex1, const EGG::Vector3f& fnrm,
+EGG::Vector3f RKGndCol::getVertex(f32 height, const EGG::Vector3f& vertex1, const EGG::Vector3f& fnrm,
     	const EGG::Vector3f& enrm3, const EGG::Vector3f& enrm) {
   EGG::Vector3f cross;
 
@@ -160,7 +154,7 @@ EGG::Vector3f KCollisionOctree::getVertex(f32 height, const EGG::Vector3f& verte
 #endif
 
 namespace Field {
-u16* KCollisionOctree::searchBlock(const EGG::Vector3f& point) {
+u16* RKGndCol::searchBlock(const EGG::Vector3f& point) {
   // Calculate the x, y, and z offsets of the point from the minimum
   // corner of the tree's bounding box.
   const int x = point.x - this->area_min_pos.x;
@@ -215,7 +209,7 @@ u16* KCollisionOctree::searchBlock(const EGG::Vector3f& point) {
   return reinterpret_cast<u16*>(curBlock + (offset & 0x7FFFFFFF));
 }
 
-void KCollisionOctree::searchMultiBlock(const EGG::Vector3f& point, f32 radius, PrismListVisitor prismListVisitor) {
+void RKGndCol::searchMultiBlock(const EGG::Vector3f& point, f32 radius, PrismListVisitor prismListVisitor) {
   s32 xmin = ((point.x - radius) - this->area_min_pos.x);
   s32 ymin = ((point.y - radius) - this->area_min_pos.y);
   s32 zmin = ((point.z - radius) - this->area_min_pos.z);
@@ -282,8 +276,8 @@ void KCollisionOctree::searchMultiBlock(const EGG::Vector3f& point, f32 radius, 
 
 #ifndef NON_MATCHING
 // PAL: 0x807be3c4..0x807bf4c0
-MARK_BINARY_BLOB(searchMultiBlockRecursiveAll__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_vllllll, 0x807be3c4, 0x807bf4c0);
-asm void Field::KCollisionOctree::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor, s32, s32, s32, s32, s32, s32) {
+MARK_BINARY_BLOB(searchMultiBlockRecursiveAll__Q25Field8RKGndColFPUcUlMQ25Field8RKGndColFPCvPvPUs_vllllll, 0x807be3c4, 0x807bf4c0);
+asm void Field::RKGndCol::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor, s32, s32, s32, s32, s32, s32) {
   #include "asm/807be3c4.s"
 }
 // Symbol: applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v
@@ -299,7 +293,7 @@ asm UNKNOWN_FUNCTION(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUl
 #define MAX_EDGE_CHILD(x) (x & 0x80000000) == 0 ? x : -1
 
 namespace Field {
-void KCollisionOctree::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor,
+void RKGndCol::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor,
         s32 xmin, s32 ymin, s32 zmin, s32 xmax, s32 ymax, s32 zmax) {
   if ((xmin | ymin | zmin) == 0 && (xmax & ymax & zmax) == 0xffffffff) {
     searchMultiBlockRecursive(prismArray, index, prismListVisitor);
@@ -345,7 +339,7 @@ void KCollisionOctree::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, P
 }
 
 // MARK_FLOW_CHECK(0x807bf4c0); Takes too long to flow-check
-void KCollisionOctree::searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVisitor prismListVisitor) {
+void RKGndCol::searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVisitor prismListVisitor) {
   u32* nextBlock = (u32*)(prismArray + index);
   if ((*nextBlock & 0x80000000) != 0) {
     (this->*prismListVisitor)(reinterpret_cast<u16*>(prismArray + (*nextBlock & 0x7FFFFFFF)));
@@ -364,17 +358,17 @@ void KCollisionOctree::searchMultiBlockRecursive(u8* prismArray, u32 index, Pris
 }
 #endif
 
-// Symbol: unk_807c01e4
+// Symbol: unk_807c01e4__Fv
 // PAL: 0x807c01e4..0x807c0884
-MARK_BINARY_BLOB(unk_807c01e4, 0x807c01e4, 0x807c0884);
-asm UNKNOWN_FUNCTION(unk_807c01e4) {
+MARK_BINARY_BLOB(unk_807c01e4__Fv, 0x807c01e4, 0x807c0884);
+asm UNKNOWN_FUNCTION(unk_807c01e4__Fv) {
   #include "asm/807c01e4.s"
 }
 
-// Symbol: checkSphereMovement__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs
+// Symbol: checkSphereMovement__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs
 // PAL: 0x807c0884..0x807c0f00
-MARK_BINARY_BLOB(checkSphereMovement__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs, 0x807c0884, 0x807c0f00);
-asm bool Field::KCollisionOctree::checkSphereMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+MARK_BINARY_BLOB(checkSphereMovement__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs, 0x807c0884, 0x807c0f00);
+asm bool Field::RKGndCol::checkSphereMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   #include "asm/807c0884.s"
 }
 
@@ -395,7 +389,7 @@ static inline f32 cornerLenSq(const EGG::Vector3f& v1, const EGG::Vector3f& v2, 
 
 bool isPositive(f32 x) { return x>= 0; }
 
-bool KCollisionOctree::checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+bool RKGndCol::checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   f32 radius = this->radius;
   EGG::Vector3f* nrm_data = this->nrm_data;
   bool cacheNotEmpty = prismCacheNotEmpty();
@@ -525,23 +519,23 @@ collisionTrue:
 }
 }
 #else
-// Symbol: checkSphereSingle__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs
+// Symbol: checkSphereSingle__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs
 // PAL: 0x807c0f00..0x807c1514
 MARK_BINARY_BLOB(checkSphereSingle__Q25Field16KCollisionOctreeFlll, 0x807c0f00, 0x807c1514);
-asm bool Field::KCollisionOctree::checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+asm bool Field::RKGndCol::checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   #include "asm/807c0f00.s"
 }
 #endif
 
-// Symbol: checkSphere__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs
+// Symbol: checkSphere__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs
 // PAL: 0x807c1514..0x807c1b0c
-MARK_BINARY_BLOB(checkSphere__Q25Field16KCollisionOctreeFPfPQ23EGG8Vector3fPUs, 0x807c1514, 0x807c1b0c);
-asm bool Field::KCollisionOctree::checkSphere(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+MARK_BINARY_BLOB(checkSphere__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs, 0x807c1514, 0x807c1b0c);
+asm bool Field::RKGndCol::checkSphere(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   #include "asm/807c1514.s"
 }
 
 namespace Field {
-void KCollisionOctree::prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask) {
+void RKGndCol::prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask) {
   this->prismArrayIt = searchBlock(pos);
   this->pos = pos;
   this->prevPos = prevPos;
@@ -550,7 +544,7 @@ void KCollisionOctree::prepareCollisionTest(const EGG::Vector3f& pos, const EGG:
   this->typeMask = typeMask;
 }
 
-void KCollisionOctree::prepareCollisionTestSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius) {
+void RKGndCol::prepareCollisionTestSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius) {
   f32 radiusClamped = radius;
   if (radius > this->sphere_radius) {
     radiusClamped = this->sphere_radius;
@@ -564,7 +558,7 @@ void KCollisionOctree::prepareCollisionTestSphere(const EGG::Vector3f& pos, cons
   this->typeMask = typeMask;
 }
 
-void KCollisionOctree::lookupPointCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, u32 typeMask) {
+void RKGndCol::lookupPointCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, u32 typeMask) {
   EGG::Vector3f c1 = p1;
   EGG::Vector3f c2 = this->cachedPos;
   bool cacheMiss = EGG::isSphereContainedInOther(c1, 0.01f, c2, this->cachedRadius) == false;
@@ -581,7 +575,7 @@ void KCollisionOctree::lookupPointCached(const EGG::Vector3f& p1, const EGG::Vec
   }
 }
 
-void KCollisionOctree::lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, f32 radius, u32 typeMask) {
+void RKGndCol::lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, f32 radius, u32 typeMask) {
   f32 r = radius;
   EGG::Vector3f c1 = p1;
   EGG::Vector3f c2 = this->cachedPos;
@@ -602,13 +596,13 @@ void KCollisionOctree::lookupSphereCached(const EGG::Vector3f& p1, const EGG::Ve
 
 }
 
-bool KCollisionOctree::checkPointCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+bool RKGndCol::checkPointCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   return isfinite(this->prevPos.y)                          ?
 	 checkPointMovement(distOut, fnrmOut, attributeOut) :
          checkPoint        (distOut, fnrmOut, attributeOut);
 }
 
-bool KCollisionOctree::checkPointMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+bool RKGndCol::checkPointMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   f32 radius = 0.01f;
   EGG::Vector3f* nrm_data = this->nrm_data;
   bool cacheNotEmpty = prismCacheNotEmpty();
@@ -659,7 +653,7 @@ bool KCollisionOctree::checkPointMovement(f32* distOut, EGG::Vector3f* fnrmOut, 
   return false;
 }
 
-bool KCollisionOctree::checkPoint(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+bool RKGndCol::checkPoint(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   f32 radius = 0.01f;
   EGG::Vector3f* nrm_data = this->nrm_data;
   bool cacheNotEmpty = prismCacheNotEmpty();
@@ -708,14 +702,14 @@ bool KCollisionOctree::checkPoint(f32* distOut, EGG::Vector3f* fnrmOut, u16* att
   return false;
 }
 
-bool KCollisionOctree::checkSphereCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
+bool RKGndCol::checkSphereCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   return isfinite(this->prevPos.y)                          ?
 	 checkSphereMovement(distOut, fnrmOut, attributeOut) :
          checkSphere        (distOut, fnrmOut, attributeOut);
 }
 
 #define ARRAY_END(X) (&X + 1)
-void KCollisionOctree::narrowPolygon_EachBlock(u16* prismArray) {
+void RKGndCol::narrowPolygon_EachBlock(u16* prismArray) {
   this->prismArrayIt = prismArray;
 
   u16* prismCacheIt = prismCacheTop;
@@ -731,7 +725,7 @@ void KCollisionOctree::narrowPolygon_EachBlock(u16* prismArray) {
   }
 }
 
-void KCollisionOctree::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 typeMask) {
+void RKGndCol::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 typeMask) {
   this->prismCacheTop = this->prismCache;
   this->pos = pos;
   this->radius = radius;
@@ -740,7 +734,7 @@ void KCollisionOctree::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u3
   this->cachedRadius = radius;
 
   if (radius > this->sphere_radius) {
-    this->searchMultiBlock(pos, radius, KCollisionOctree::narrowPolygon_EachBlock);
+    this->searchMultiBlock(pos, radius, RKGndCol::narrowPolygon_EachBlock);
   } else {
     this->narrowPolygon_EachBlock(searchBlock(pos));
   }

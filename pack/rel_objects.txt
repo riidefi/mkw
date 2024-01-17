@@ -102,7 +102,7 @@ out/BoxColUnit.o
 out/rel/text_80786f98_807bdc5c.o
 out/rel/rodata_808a4804_808a66d8.o
 out/rel/data_808bcfd0_808d27f8.o
-out/KCollisionOctree.o
+out/RKGndCol.o
 out/rel/text_807c25cc_8088f400.o
 out/rel/rodata_808a66fc_808b2bd0.o
 out/rel/data_808d2804_808dd3d4.o
