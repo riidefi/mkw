@@ -100,7 +100,6 @@ DummyB::~DummyB() {}
 
 RKGndCol::~RKGndCol() {}
 
-
 void RKGndCol::computeBbox() {
   this->bboxLow.set(999999.0f);
   this->bboxHigh.set(-999999.0f);
@@ -358,10 +357,10 @@ void RKGndCol::searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVis
 }
 #endif
 
-// Symbol: unk_807c01e4__Fv
+// Symbol: unk_807c01e4__Fv__Fv
 // PAL: 0x807c01e4..0x807c0884
-MARK_BINARY_BLOB(unk_807c01e4__Fv, 0x807c01e4, 0x807c0884);
-asm UNKNOWN_FUNCTION(unk_807c01e4__Fv) {
+MARK_BINARY_BLOB(unk_807c01e4__Fv__Fv, 0x807c01e4, 0x807c0884);
+asm UNKNOWN_FUNCTION(unk_807c01e4__Fv__Fv) {
   #include "asm/807c01e4.s"
 }
 
@@ -725,7 +724,7 @@ void RKGndCol::narrowPolygon_EachBlock(u16* prismArray) {
   }
 }
 
-void RKGndCol::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 typeMask) {
+void RKGndCol::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 typeMask, u32 unused) {
   this->prismCacheTop = this->prismCache;
   this->pos = pos;
   this->radius = radius;

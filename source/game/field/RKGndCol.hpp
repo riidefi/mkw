@@ -29,7 +29,9 @@ public:
   void lookupPointCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, u32 typeMask);
   void lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, f32 radius, u32 typeMask);
 
-  void narrowScopeLocal(const EGG::Vector3f&, f32 radius, u32 typeMask);
+  void narrowScopeLocal(const EGG::Vector3f&, f32 radius, u32 typeMask, u32 unused);
+
+  f32 getPrismThickness() { return this->prism_thickness; }
 
 private:
   inline bool prismCacheNotEmpty() const { return prismCache != prismCacheTop; }
