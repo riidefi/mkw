@@ -1,8 +1,9 @@
 # mkw
 
-![build badge](https://github.com/riidefi/mkw/actions/workflows/build.yml/badge.svg?branch=master)
-[![dol progress badge](https://us-central1-mkw-re.cloudfunctions.net/GenBadgeHTTP?repo=riidefi/mkw&branch=master&run=build&badge=dol_progress&subject=DOL)](https://riidefi.github.io/mkw)
-[![rel progress badge](https://us-central1-mkw-re.cloudfunctions.net/GenBadgeHTTP?repo=riidefi/mkw&branch=master&run=build&badge=rel_progress&subject=REL)](https://riidefi.github.io/mkw)
+![build badge](https://github.com/em-eight/mkw/actions/workflows/build.yml/badge.svg?branch=master)
+[![dol progress badge](https://em-eight.github.io/mkw/dol.svg)](https://em-eight.github.io/mkw)
+[![rel progress badge](https://em-eight.github.io/mkw/rel.svg)](https://em-eight.github.io/mkw)
+[![total progress badge](https://em-eight.github.io/mkw/total.svg)](https://em-eight.github.io/mkw)
 
 A matching decompilation of Mario Kart Wii. All code in this repository will compile 1:1 to the original game.
 It produces the following files:
@@ -20,7 +21,7 @@ I have written code to be as readable and maintainable as possible. While the or
 While the original game was written and compiled as C++03, several modern C++ features have been used to aid readability and increase code quality. All are define'd out when compiling for C++03. For example: strongly typed null pointers with `nullptr` and the `override` specifier.
 
 ## Documentation
-Every fully understood piece of reverse engineered data has been documented in a consistent doxygen style, [here](https://riidefi.github.io/mkw/docs/html/index.html).
+Every fully understood piece of reverse engineered data has been documented in a consistent doxygen style, [here](https://em-eight.github.io/mkw/docs/html/index.html).
 
 ## Dependencies
 - DevKitPro (for the ppc-eabi assembler, and gcc dependency files)
