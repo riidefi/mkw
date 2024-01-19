@@ -1,6 +1,7 @@
 import argparse
 from copy import copy
 from pathlib import Path
+import subprocess
 
 import pytablewriter
 from pytablewriter.style import Style
@@ -57,6 +58,15 @@ def analyze(
     return cells
 
 
+
+def get_git_commit_timestamp() -> int:
+    return int(subprocess.check_output(['git', 'show', '-s', '--format=%ct']).decode('ascii').rstrip())
+
+
+def get_git_commit_sha() -> str:
+    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
+
+
 @dataclass
 class Stats:
     matrix: list
@@ -64,6 +74,11 @@ class Stats:
     dol_total_code: int
     rel_decomp_code: int
     rel_total_code: int
+
+    dol_decomp_data: int
+    dol_total_data: int
+    rel_decomp_data: int
+    rel_total_data: int
 
     def print(self):
         # Make last row bold.
@@ -104,6 +119,41 @@ class Stats:
             "1 VR = %s lines of asm code."
             % (0.1 * round(10 * self.rel_total_code / 4999 / 4))
         )
+
+    def post_frogress(self, api_key: str):
+        import requests
+        url = "https://progress.deco.mp/data/mkw/pal/"
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        dol_metrics = {
+            "code": self.dol_decomp_code,
+            "code/total": self.dol_total_code,
+            "data": self.dol_decomp_data,
+            "data/total": self.dol_total_data,
+        }
+        rel_metrics = {
+            "code": self.rel_decomp_code,
+            "code/total": self.rel_total_code,
+            "data": self.rel_decomp_data,
+            "data/total": self.rel_total_data,
+        }
+        all_metrics = {
+            "code": self.dol_decomp_code + self.rel_decomp_code,
+            "code/total": self.dol_total_code + self.rel_total_code,
+            "data": self.dol_decomp_data + self.rel_decomp_data,
+            "data/total": self.dol_total_data + self.rel_total_data,
+        }
+        cats = {"dol": dol_metrics, "rel": rel_metrics, "all": all_metrics}
+        entries = []
+        entries.append({
+            "timestamp": get_git_commit_timestamp(),
+            "git_hash": get_git_commit_sha(),
+            "categories": cats,
+        })
+        data = {"api_key": api_key, "entries": entries}
+        print(data)
+        r = requests.post(url, json=data)
+        r.raise_for_status()
+        print("Done!")
 
 
 def build_stats(dir: Path) -> Stats:
@@ -193,7 +243,7 @@ def build_stats(dir: Path) -> Stats:
         )
     )
     return Stats(
-        matrix, dol_decomp_code, dol_total_code, rel_decomp_code, rel_total_code
+        matrix, dol_decomp_code, dol_total_code, rel_decomp_code, rel_total_code, dol_decomp_data, dol_total_data, rel_decomp_data, rel_total_data
     )
 
 
@@ -205,6 +255,12 @@ def __main():
     parser.add_argument(
         "-r", "--svg", action="store_true", help="Generate SVG image"
     )
+    parser.add_argument(
+        "-f", "--frogress", action="store_true", help="Post to frogress"
+    )
+    parser.add_argument(
+        "-a", "--api_key", help="API key for --frogress"
+    )
     parser.add_argument("--part", choices=["DOL", "REL"], default=None)
     args = parser.parse_args()
     stats = build_stats(Path())
@@ -213,7 +269,7 @@ def __main():
         description = "main.dol"
         progress = stats.dol_decomp_code / stats.dol_total_code
     elif args.part == "REL":
-        description = "StaticR.elf"
+        description = "StaticR.rel"
         progress = stats.rel_decomp_code / stats.rel_total_code
     else:
         description = "total"
@@ -227,6 +283,8 @@ def __main():
         import requests
         url = 'https://badgen.net/static/' + description + '/' + __to_percent(progress).strip()
         print(requests.get(url).text)
+    elif args.frogress:
+        stats.post_frogress(args.api_key)
     else:
         stats.print()
 
