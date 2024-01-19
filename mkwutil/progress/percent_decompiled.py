@@ -11,7 +11,6 @@ from mkwutil.sections import Section, DOL_SECTIONS, DOL_LIBS, REL_SECTIONS, REL_
 
 from mkwutil.project import *
 
-
 def simple_count(slices: SliceTable) -> tuple[int, int]:
     """Returns the number of code and data bytes part of named slices."""
     code_total, data_total = 0, 0
@@ -203,19 +202,31 @@ def __main():
     parser.add_argument(
         "-s", "--short", action="store_true", help="Only print percentage"
     )
+    parser.add_argument(
+        "-r", "--svg", action="store_true", help="Generate SVG image"
+    )
     parser.add_argument("--part", choices=["DOL", "REL"], default=None)
     args = parser.parse_args()
     stats = build_stats(Path())
+
+    if args.part == "DOL":
+        description = "main.dol"
+        progress = stats.dol_decomp_code / stats.dol_total_code
+    elif args.part == "REL":
+        description = "StaticR.elf"
+        progress = stats.rel_decomp_code / stats.rel_total_code
+    else:
+        description = "total"
+        decomp_code = stats.dol_decomp_code + stats.rel_decomp_code
+        total_code = stats.dol_total_code + stats.rel_total_code
+        progress = decomp_code / total_code
+
     if args.short:
-        if args.part == "DOL":
-            progress = stats.dol_decomp_code / stats.dol_total_code
-        elif args.part == "REL":
-            progress = stats.rel_decomp_code / stats.rel_total_code
-        else:
-            decomp_code = stats.dol_decomp_code + stats.rel_decomp_code
-            total_code = stats.dol_total_code + stats.rel_total_code
-            progress = decomp_code / total_code
         print(__to_percent(progress).strip())
+    elif args.svg:
+        import requests
+        url = 'https://badgen.net/static/' + description + '/' + __to_percent(progress).strip()
+        print(requests.get(url).text)
     else:
         stats.print()
 

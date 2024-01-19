@@ -66,27 +66,21 @@ jobs:
         shell: bash
         run: ninja
 
-      - name: Get DOL progress
-        run: python -m mkwutil.progress.percent_decompiled --short --part DOL > badge_dol_progress.txt
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: badge_dol_progress
-          path: badge_dol_progress.txt
-
-      - name: Get REL progress
-        run: python -m mkwutil.progress.percent_decompiled --short --part REL > badge_rel_progress.txt
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: badge_rel_progress
-          path: badge_rel_progress.txt
-
       - name: Make docs folder
         run: md out/website -ea 0
 
       - name: Run graphic.py
+        # outputs to /out/website
         run: python -m mkwutil.progress.graphic --silent
+
+      - name: Get DOL progress
+        run: python -m mkwutil.progress.percent_decompiled --svg --part DOL > ./out/website/dol.svg
+
+      - name: Get REL progress
+        run: python -m mkwutil.progress.percent_decompiled --svg --part REL > ./out/website/rel.svg
+
+      - name: Get REL progress
+        run: python -m mkwutil.progress.percent_decompiled --svg > ./out/website/total.svg
 
       - name: Upload Website Artifacts
         uses: actions/upload-artifact@v3
