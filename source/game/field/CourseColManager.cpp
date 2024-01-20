@@ -24,9 +24,9 @@ extern UNKNOWN_FUNCTION(VEC3Maximize__Q24nw4r4mathFPQ34nw4r4math4VEC3PCQ34nw4r4m
 // PAL: 0x800855c0
 extern UNKNOWN_FUNCTION(VEC3Minimize__Q24nw4r4mathFPQ34nw4r4math4VEC3PCQ34nw4r4math4VEC3PCQ34nw4r4math4VEC3);
 // PAL: 0x80085ab0
-extern UNKNOWN_FUNCTION(VEC3TransformNormal);
+extern UNKNOWN_FUNCTION(VEC3TransformNormal__Q24nw4r4mathFPQ34nw4r4math4VEC3PCQ34nw4r4math5MTX34PCQ34nw4r4math4VEC3);
 // PAL: 0x807bda9c
-extern UNKNOWN_FUNCTION(pushCollisionEntry);
+extern UNKNOWN_FUNCTION(pushCollisionEntry__FfPUlUlUs);
 // PAL: 0x807bdc5c
 extern UNKNOWN_FUNCTION(__ct__Q25Field8RKGndColFRCQ25Field16KCollisionHeader);
 // PAL: 0x807bddbc
@@ -44,13 +44,13 @@ extern UNKNOWN_FUNCTION(checkPointCollision__Q25Field8RKGndColFPfPQ23EGG8Vector3
 // PAL: 0x807c2410
 extern UNKNOWN_FUNCTION(checkSphereCollision__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs);
 // PAL: 0x807c2bd8
-extern UNKNOWN_FUNCTION(unk_807c2bd8);
+extern UNKNOWN_FUNCTION(doCheckWithPartialInfo__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field14ColInfoPartialPUl);
 // PAL: 0x807c2f18
-extern UNKNOWN_FUNCTION(unk_807c2f18);
+extern UNKNOWN_FUNCTION(doCheckWithPartialInfoPush__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field14ColInfoPartialPUl);
 // PAL: 0x807c3258
-extern UNKNOWN_FUNCTION(unk_807c3258);
+extern UNKNOWN_FUNCTION(doCheckWithFullInfo__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field11ColInfoFullPUl);
 // PAL: 0x807c36cc
-extern UNKNOWN_FUNCTION(unk_807c36cc);
+extern UNKNOWN_FUNCTION(doCheckWithFullInfoPush__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field11ColInfoFullPUl);
 }
 
 // --- EXTERN DECLARATIONS END ---
@@ -63,6 +63,8 @@ const u32 lbl_808a6710 = 0;
 };*/
 extern "C" const f32 lbl_808a6714; //1.0f
 REL_SYMBOL_AT(lbl_808a6714, 0x808a6714);
+extern "C" const f32 lbl_808a6718; //-FLT_MIN
+REL_SYMBOL_AT(lbl_808a6718, 0x808a6718);
 
 // .data
 #pragma explicit_zero_data on
@@ -210,9 +212,9 @@ CourseColManager::CourseColManager() {
 CourseColManager::~CourseColManager() { delete colMgr; }
 }
 
-const u32 lbl_808a6718[] = {
+/*const u32 lbl_808a6718[] = {
     0x80800000
-};
+};*/
 
 // Symbol: unk_807c2a60
 // PAL: 0x807c2a60..0x807c2bd8
@@ -221,11 +223,44 @@ asm UNKNOWN_FUNCTION(unk_807c2a60) {
   #include "asm/807c2a60.s"
 }
 
-// Symbol: unk_807c2bd8
-// PAL: 0x807c2bd8..0x807c2da0
-MARK_BINARY_BLOB(unk_807c2bd8, 0x807c2bd8, 0x807c2da0);
-asm UNKNOWN_FUNCTION(unk_807c2bd8) {
-  #include "asm/807c2bd8.s"
+namespace Field {
+bool CourseColManager::doCheckWithPartialInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoPartial* colInfoPartial, u32* typeMask) {
+  f32 dist;
+  EGG::Vector3f fnrm;
+  u16 attribute;
+
+  bool hasCol = false;
+
+  while((colMgr->*collisionCheckFunc)(&dist, &fnrm, &attribute)) {
+    dist *= this->kclScale;
+    EGG::Vector3f offset;
+
+    if (this->softWallColInfo != nullptr && (attribute & KCL_SOFT_WALL_MASK) != 0) {
+      if (this->localMtx != nullptr) {
+        nw4r::math::VEC3TransformNormal(&fnrm, this->localMtx, &fnrm);
+      }
+
+      nw4r::math::VEC3Scale(&offset, &fnrm, dist);
+      this->softWallColInfo->update(dist, offset, fnrm);
+
+      hasCol = true;
+    } else {
+      u32 kclAttributeTypeBit = KCL_ATTRIBUTE_TYPE_BIT(attribute);
+      if (typeMask != nullptr) {
+        *typeMask |= kclAttributeTypeBit;
+      }
+      if ((kclAttributeTypeBit & KCL_TYPE_SOLID_SURFACE) != 0) {
+        nw4r::math::VEC3Scale(&offset, &fnrm, dist);
+        nw4r::math::VEC3Minimize(&colInfoPartial->bboxLow, &colInfoPartial->bboxLow, &offset);
+        nw4r::math::VEC3Maximize(&colInfoPartial->bboxHigh, &colInfoPartial->bboxHigh, &offset);
+      }
+      hasCol = true;
+    }
+  }
+  this->localMtx = nullptr;
+
+  return hasCol;
+}
 }
 
 // Symbol: unk_807c2da0
@@ -235,11 +270,43 @@ asm UNKNOWN_FUNCTION(unk_807c2da0) {
   #include "asm/807c2da0.s"
 }
 
-// Symbol: unk_807c2f18
-// PAL: 0x807c2f18..0x807c30e0
-MARK_BINARY_BLOB(unk_807c2f18, 0x807c2f18, 0x807c30e0);
-asm UNKNOWN_FUNCTION(unk_807c2f18) {
-  #include "asm/807c2f18.s"
+namespace Field {
+bool CourseColManager::doCheckWithPartialInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoPartial* colInfoPartial, u32* typeMask) {
+  f32 dist;
+  EGG::Vector3f fnrm;
+  u16 attribute;
+
+  bool hasCol = false;
+
+  while((colMgr->*collisionCheckFunc)(&dist, &fnrm, &attribute)) {
+    dist *= this->kclScale;
+    EGG::Vector3f offset;
+
+    if (this->softWallColInfo != nullptr && (attribute & KCL_SOFT_WALL_MASK) != 0) {
+      if (this->localMtx != nullptr) {
+        nw4r::math::VEC3TransformNormal(&fnrm, this->localMtx, &fnrm);
+      }
+      nw4r::math::VEC3Scale(&offset, &fnrm, dist);
+      this->softWallColInfo->update(dist, offset, fnrm);
+
+      hasCol = true;
+    } else {
+      u32 kclAttributeTypeBit = KCL_ATTRIBUTE_TYPE_BIT(attribute);
+      if (typeMask != nullptr) {
+        pushCollisionEntry(dist, typeMask, kclAttributeTypeBit, attribute);
+      }
+      if ((kclAttributeTypeBit & KCL_TYPE_SOLID_SURFACE) != 0) {
+        nw4r::math::VEC3Scale(&offset, &fnrm, dist);
+        nw4r::math::VEC3Minimize(&colInfoPartial->bboxLow, &colInfoPartial->bboxLow, &offset);
+        nw4r::math::VEC3Maximize(&colInfoPartial->bboxHigh, &colInfoPartial->bboxHigh, &offset);
+      }
+      hasCol = true;
+    }
+  }
+  this->localMtx = nullptr;
+
+  return hasCol;
+}
 }
 
 // Symbol: unk_807c30e0
@@ -249,11 +316,48 @@ asm UNKNOWN_FUNCTION(unk_807c30e0) {
   #include "asm/807c30e0.s"
 }
 
-// Symbol: unk_807c3258
+/*// Symbol: doCheckWithFullInfo__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field11ColInfoFullPUl
 // PAL: 0x807c3258..0x807c3554
-MARK_BINARY_BLOB(unk_807c3258, 0x807c3258, 0x807c3554);
-asm UNKNOWN_FUNCTION(unk_807c3258) {
+MARK_BINARY_BLOB(doCheckWithFullInfo__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field11ColInfoFullPUl, 0x807c3258, 0x807c3554);
+asm UNKNOWN_FUNCTION(doCheckWithFullInfo__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field11ColInfoFullPUl) {
   #include "asm/807c3258.s"
+}*/
+namespace Field {
+bool CourseColManager::doCheckWithFullInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoFull* colInfo, u32* typeMask) {
+  f32 dist;
+  EGG::Vector3f fnrm;
+  u16 attribute;
+
+  bool hasCol = false;
+
+  while((colMgr->*collisionCheckFunc)(&dist, &fnrm, &attribute)) {
+    dist *= this->kclScale;
+    EGG::Vector3f offset;
+
+    if (this->softWallColInfo != nullptr && (attribute & KCL_SOFT_WALL_MASK) != 0) {
+      if (this->localMtx != nullptr) {
+        nw4r::math::VEC3TransformNormal(&fnrm, this->localMtx, &fnrm);
+      }
+
+      nw4r::math::VEC3Scale(&offset, &fnrm, dist);
+      this->softWallColInfo->update(dist, offset, fnrm);
+
+      hasCol = true;
+    } else {
+      u32 kclAttributeTypeBit = KCL_ATTRIBUTE_TYPE_BIT(attribute);
+      if (typeMask != nullptr) {
+        *typeMask |= kclAttributeTypeBit;
+      }
+      if ((kclAttributeTypeBit & KCL_TYPE_SOLID_SURFACE) != 0) {
+        nw4r::math::VEC3Scale(&offset, &fnrm, dist);
+        colInfo->update(dist, offset, fnrm, kclAttributeTypeBit);
+      }
+      hasCol = true;
+    }
+  }
+  this->localMtx = nullptr;
+  return hasCol;
+}
 }
 
 // Symbol: unk_807c3554
@@ -263,11 +367,42 @@ asm UNKNOWN_FUNCTION(unk_807c3554) {
   #include "asm/807c3554.s"
 }
 
-// Symbol: unk_807c36cc
-// PAL: 0x807c36cc..0x807c39c8
-MARK_BINARY_BLOB(unk_807c36cc, 0x807c36cc, 0x807c39c8);
-asm UNKNOWN_FUNCTION(unk_807c36cc) {
-  #include "asm/807c36cc.s"
+namespace Field {
+bool CourseColManager::doCheckWithFullInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoFull* colInfo, u32* typeMask) {
+  f32 dist;
+  EGG::Vector3f fnrm;
+  u16 attribute;
+
+  bool hasCol = false;
+
+  while((colMgr->*collisionCheckFunc)(&dist, &fnrm, &attribute)) {
+    dist *= this->kclScale;
+    EGG::Vector3f offset;
+
+    if (this->softWallColInfo != nullptr && (attribute & KCL_SOFT_WALL_MASK) != 0) {
+      if (this->localMtx != nullptr) {
+        nw4r::math::VEC3TransformNormal(&fnrm, this->localMtx, &fnrm);
+      }
+
+      nw4r::math::VEC3Scale(&offset, &fnrm, dist);
+      this->softWallColInfo->update(dist, offset, fnrm);
+
+      hasCol = true;
+    } else {
+      u32 kclAttributeTypeBit = KCL_ATTRIBUTE_TYPE_BIT(attribute);
+      if (typeMask != nullptr) {
+        pushCollisionEntry(dist, typeMask, kclAttributeTypeBit, attribute);
+      }
+      if ((kclAttributeTypeBit & KCL_TYPE_SOLID_SURFACE) != 0) {
+        nw4r::math::VEC3Scale(&offset, &fnrm, dist);
+        colInfo->update(dist, offset, fnrm, kclAttributeTypeBit);
+      }
+      hasCol = true;
+    }
+  }
+  this->localMtx = nullptr;
+  return hasCol;
+}
 }
 
 // Symbol: unk_807c39c8

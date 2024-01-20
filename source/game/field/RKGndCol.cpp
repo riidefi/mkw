@@ -108,12 +108,14 @@ void RKGndCol::computeBbox() {
     KCollisionPrism& prism = this->prisms[i];
     EGG::Vector3f* nrm_data = this->nrm_data;
     EGG::Vector3f& fnrm = nrm_data[prism.fnrm_i];
-    EGG::Vector3f& enrm3 = nrm_data[prism.enrm1_i];
+    EGG::Vector3f& enrm1 = nrm_data[prism.enrm1_i];
     EGG::Vector3f& enrm2 = nrm_data[prism.enrm2_i];
-    EGG::Vector3f& enrm1 = nrm_data[prism.enrm3_i];
+    EGG::Vector3f& enrm3 = nrm_data[prism.enrm3_i];
     EGG::Vector3f& vtx1 = this->pos_data[prism.pos_i];
-    EGG::Vector3f vtx3 = getVertex(prism.height, vtx1, fnrm, enrm1, enrm3);
-    EGG::Vector3f vtx2 = getVertex(prism.height, vtx1, fnrm, enrm1, enrm2);
+
+    EGG::Vector3f vtx3 = getVertex(prism.height, vtx1, fnrm, enrm3, enrm1);
+    EGG::Vector3f vtx2 = getVertex(prism.height, vtx1, fnrm, enrm3, enrm2);
+
     nw4r::math::VEC3Minimize(&this->bboxLow, &this->bboxLow, &vtx1);
     nw4r::math::VEC3Minimize(&this->bboxLow, &this->bboxLow, &vtx3);
     nw4r::math::VEC3Minimize(&this->bboxLow, &this->bboxLow, &vtx2);
@@ -357,10 +359,10 @@ void RKGndCol::searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVis
 }
 #endif
 
-// Symbol: unk_807c01e4__Fv__Fv
+// Symbol: unk_807c01e4
 // PAL: 0x807c01e4..0x807c0884
-MARK_BINARY_BLOB(unk_807c01e4__Fv__Fv, 0x807c01e4, 0x807c0884);
-asm UNKNOWN_FUNCTION(unk_807c01e4__Fv__Fv) {
+MARK_BINARY_BLOB(unk_807c01e4, 0x807c01e4, 0x807c0884);
+asm UNKNOWN_FUNCTION(unk_807c01e4) {
   #include "asm/807c01e4.s"
 }
 
@@ -635,7 +637,7 @@ bool RKGndCol::checkPointMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* att
 
     if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & this->typeMask) == 0) continue;
 
-    if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & 0x5070000) != 0 && nw4r::math::VEC3Dot(&this->movement, &fnrm) > 0.0f) continue;
+    if ((KCL_ATTRIBUTE_TYPE_BIT(prism.attribute) & KCL_TYPE_DIRECTIONAL) != 0 && nw4r::math::VEC3Dot(&this->movement, &fnrm) > 0.0f) continue;
 
     if (distOut != nullptr) {
       *distOut = dist;

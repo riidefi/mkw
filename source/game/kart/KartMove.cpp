@@ -5,8 +5,6 @@
 extern "C" {
 
 // Extern function references.
-// PAL: 0x8001bbdc
-extern UNKNOWN_FUNCTION(acos);
 // PAL: 0x80021584
 extern UNKNOWN_FUNCTION(_savegpr_20);
 // PAL: 0x80021598
