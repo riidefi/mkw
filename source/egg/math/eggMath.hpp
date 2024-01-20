@@ -7,6 +7,7 @@
 #pragma once
 
 #include <rk_types.h>
+#include <math.h>
 
 #define DEG2RAD(X) 0.017453292f * X
 //#define RAD2DEG(X) 57.2957795131f * X
@@ -35,6 +36,8 @@ float frsqrt(float);
 
 float sin(float);
 float cos(float);
+
+inline bool isNonNegative(f32 x) {return x > -FLT_MIN;}
 } // namespace Mathf
 
 } // namespace EGG
