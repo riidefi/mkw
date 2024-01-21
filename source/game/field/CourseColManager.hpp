@@ -135,6 +135,11 @@ public:
   void scaledNarrowScopeLocal(RKGndCol* maybeColMgr, const EGG::Vector3f& pos, u32 typeMask, f32 scale, f32 radius, u32 unused);
 
   // public collision query functions
+  // Naming:
+  // -Point/-Sphere - Point or sphere collision algorithm
+  // -Cached        - Use previously looked up prisms
+  // -Partial/-Full - Fill partial (ColInfoPartial) or full (ColInfoFull) collision information
+  // -Push          - Push collision entry to global collision array
   bool checkPointPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
   bool checkPointPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
   bool checkPointFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
