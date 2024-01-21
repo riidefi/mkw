@@ -9,6 +9,7 @@
 extern "C" {
 
 // Extern function references.
+extern UNKNOWN_FUNCTION(unk_807c01e4);
 // PAL: 0x80021450
 extern UNKNOWN_FUNCTION(__ptmf_scall);
 // PAL: 0x8002156c
@@ -362,7 +363,7 @@ void RKGndCol::searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVis
 // Symbol: unk_807c01e4
 // PAL: 0x807c01e4..0x807c0884
 MARK_BINARY_BLOB(unk_807c01e4, 0x807c01e4, 0x807c0884);
-asm UNKNOWN_FUNCTION(unk_807c01e4) {
+asm void unk_807c01e4() {
   #include "asm/807c01e4.s"
 }
 
@@ -536,7 +537,7 @@ asm bool Field::RKGndCol::checkSphere(f32* distOut, EGG::Vector3f* fnrmOut, u16*
 }
 
 namespace Field {
-void RKGndCol::prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask) {
+void RKGndCol::lookupPoint(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask) {
   this->prismArrayIt = searchBlock(pos);
   this->pos = pos;
   this->prevPos = prevPos;
@@ -545,7 +546,7 @@ void RKGndCol::prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3
   this->typeMask = typeMask;
 }
 
-void RKGndCol::prepareCollisionTestSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius) {
+void RKGndCol::lookupSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius) {
   f32 radiusClamped = radius;
   if (radius > this->sphere_radius) {
     radiusClamped = this->sphere_radius;
@@ -564,7 +565,7 @@ void RKGndCol::lookupPointCached(const EGG::Vector3f& p1, const EGG::Vector3f& p
   EGG::Vector3f c2 = this->cachedPos;
   bool cacheMiss = EGG::isSphereContainedInOther(c1, 0.01f, c2, this->cachedRadius) == false;
   if (cacheMiss) {
-    prepareCollisionTest(p1, p2, typeMask);
+    lookupPoint(p1, p2, typeMask);
   } else {
     this->pos = p1;
     this->prevPos = p2;
@@ -576,7 +577,7 @@ void RKGndCol::lookupPointCached(const EGG::Vector3f& p1, const EGG::Vector3f& p
   }
 }
 
-void RKGndCol::lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, f32 radius, u32 typeMask) {
+void RKGndCol::lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, u32 typeMask, f32 radius) {
   f32 r = radius;
   EGG::Vector3f c1 = p1;
   EGG::Vector3f c2 = this->cachedPos;
@@ -584,7 +585,7 @@ void RKGndCol::lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& 
   if (cacheMiss) {
     if (r > this->sphere_radius)
       r = this->sphere_radius;
-    prepareCollisionTestSphere(p1, p2, typeMask, r);
+    lookupSphere(p1, p2, typeMask, r);
   } else {
     this->pos = p1;
     this->prevPos = p2;

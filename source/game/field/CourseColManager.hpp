@@ -4,55 +4,6 @@
 
 #include <decomp.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// PAL: 0x807c2a60..0x807c2bd8
-UNKNOWN_FUNCTION(unk_807c2a60);
-// PAL: 0x807c2bd8..0x807c2da0
-UNKNOWN_FUNCTION(doCheckWithPartialInfo__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field14ColInfoPartialPUl);
-// PAL: 0x807c2da0..0x807c2f18
-UNKNOWN_FUNCTION(unk_807c2da0);
-// PAL: 0x807c2f18..0x807c30e0
-UNKNOWN_FUNCTION(doCheckWithPartialInfoPush__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field14ColInfoPartialPUl);
-// PAL: 0x807c30e0..0x807c3258
-UNKNOWN_FUNCTION(unk_807c30e0);
-// PAL: 0x807c3258..0x807c3554
-UNKNOWN_FUNCTION(doCheckWithFullInfo__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field11ColInfoFullPUl);
-// PAL: 0x807c3554..0x807c36cc
-UNKNOWN_FUNCTION(unk_807c3554);
-// PAL: 0x807c36cc..0x807c39c8
-UNKNOWN_FUNCTION(doCheckWithFullInfoPush__Q25Field16CourseColManagerFPQ25Field8RKGndColMQ25Field8RKGndColFPCvPvPfPQ23EGG8Vector3fPUs_bPQ25Field11ColInfoFullPUl);
-// PAL: 0x807c39c8..0x807c3b5c
-UNKNOWN_FUNCTION(unk_807c39c8);
-// PAL: 0x807c3b5c..0x807c3cf0
-UNKNOWN_FUNCTION(unk_807c3b5c);
-// PAL: 0x807c3cf0..0x807c3e84
-UNKNOWN_FUNCTION(unk_807c3cf0);
-// PAL: 0x807c3e84..0x807c4018
-UNKNOWN_FUNCTION(unk_807c3e84);
-// PAL: 0x807c4018..0x807c41a4
-UNKNOWN_FUNCTION(unk_807c4018);
-// PAL: 0x807c41a4..0x807c4330
-UNKNOWN_FUNCTION(unk_807c41a4);
-// PAL: 0x807c4330..0x807c44bc
-UNKNOWN_FUNCTION(unk_807c4330);
-// PAL: 0x807c44bc..0x807c4648
-UNKNOWN_FUNCTION(unk_807c44bc);
-// PAL: 0x807c4648..0x807c47f0
-UNKNOWN_FUNCTION(unk_807c4648);
-// PAL: 0x807c47f0..0x807c4998
-UNKNOWN_FUNCTION(unk_807c47f0);
-// PAL: 0x807c4998..0x807c4b40
-UNKNOWN_FUNCTION(unk_807c4998);
-// PAL: 0x807c4b40..0x807c4ce8
-UNKNOWN_FUNCTION(unk_807c4b40);
-
-#ifdef __cplusplus
-}
-#endif
-
 #include "RKGndCol.hpp"
 #include "CollisionEntries.hpp"
 #include "egg/math/eggMatrix.hpp"
@@ -182,11 +133,73 @@ public:
   void init(const KCollisionHeader& header);
   f32 setThickness(RKGndCol* colMgr);
   void scaledNarrowScopeLocal(RKGndCol* maybeColMgr, const EGG::Vector3f& pos, u32 typeMask, f32 scale, f32 radius, u32 unused);
+
+  // public collision query functions
+  bool checkPointPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
+
+  bool checkPointCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointCachedFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointCachedFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
+
+  bool checkSpherePartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSpherePartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+
+  bool checkSphereCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereCachedFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereCachedFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+
 private:
   bool doCheckWithPartialInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoPartial* colInfoPartial, u32* typeMask);
   bool doCheckWithPartialInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoPartial* colInfoPartial, u32* typeMask);
   bool doCheckWithFullInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoFull* colInfoPartial, u32* typeMask);
   bool doCheckWithFullInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoFull* colInfoPartial, u32* typeMask);
+  bool doCheckMaskOnly(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, u32* typeMaskOut) {
+    bool hasCol = false;
+    f32 dist;
+    u16 attribute;
+
+    while((colMgr->*collisionCheckFunc)(&dist, nullptr, &attribute)) {
+      if (this->softWallColInfo != nullptr && (attribute & KCL_SOFT_WALL_MASK) != 0) {
+        hasCol = true;
+      } else {
+        u32 kclAttributeTypeBit = KCL_ATTRIBUTE_TYPE_BIT(attribute);
+          
+        if (typeMaskOut != nullptr) {
+          *typeMaskOut |= kclAttributeTypeBit;
+        }
+        hasCol = true;
+      }
+    }
+
+    return hasCol;
+  }
+  bool doCheckMaskOnlyPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, u32* typeMaskOut) {
+    bool hasCol = false;
+    f32 dist;
+    u16 attribute;
+
+    while((colMgr->*collisionCheckFunc)(&dist, nullptr, &attribute)) {
+      if (this->softWallColInfo != nullptr && (attribute & KCL_SOFT_WALL_MASK) != 0) {
+        hasCol = true;
+      } else {
+        u32 kclAttributeTypeBit = KCL_ATTRIBUTE_TYPE_BIT(attribute);
+          
+        if (typeMaskOut != nullptr) {
+          pushCollisionEntry(dist, typeMaskOut, kclAttributeTypeBit, attribute);
+        }
+        hasCol = true;
+      }
+    }
+
+    return hasCol;
+  }
 
   // KCL handle
   RKGndCol* colMgr;

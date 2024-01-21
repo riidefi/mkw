@@ -24,14 +24,19 @@ public:
   void searchMultiBlock(const EGG::Vector3f& pos, f32 radius, PrismListVisitor prismListVisitor);
 
   // Perform lookup and set sphere-octree-collision detection parameters
-  void prepareCollisionTest(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask);
-  void prepareCollisionTestSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius);
+  void lookupPoint(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask);
+  void lookupSphere(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, f32 radius);
   void lookupPointCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, u32 typeMask);
-  void lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, f32 radius, u32 typeMask);
+  void lookupSphereCached(const EGG::Vector3f& p1, const EGG::Vector3f& p2, u32 typeMask, f32 radius);
+
+  // Perform prism-sphere/point collision check on looked up prisms
+  bool checkPointCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
+  bool checkSphereCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
 
   void narrowScopeLocal(const EGG::Vector3f&, f32 radius, u32 typeMask, u32 unused);
 
-  f32 getPrismThickness() { return this->prism_thickness; }
+  f32 getPrismThickness() const { return this->prism_thickness; }
+  u16 getPrismCache(u32 i) const { return this->prismCache[i]; }
 
 private:
   inline bool prismCacheNotEmpty() const { return prismCache != prismCacheTop; }
@@ -40,9 +45,7 @@ private:
   bool checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
   bool checkSphere(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
   bool checkSphereMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
-  bool checkSphereCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
   bool checkPointMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
-  bool checkPointCollision(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
   bool checkPoint(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut);
   void narrowPolygon_EachBlock(u16* prismArray);
 
