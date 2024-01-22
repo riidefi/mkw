@@ -191,6 +191,11 @@ source/game/geo/BoxColUnit.cpp:
     text: [0x80786ed0, 0x80786f98]
     rodata: [0x808a4800, 0x808a4804]
 
+source/game/field/CollisionEntries.cpp:
+    text: [0x807bd96c, 0x807bdc5c]
+    rodata: [0x808a66d0, 0x808a66d8]
+    bss: [0x809c38d8, 0x809c3be4]
+
 source/game/field/RKGndCol.cpp:
     text: [0x807bdc5c, 0x807c25cc]
     rodata: [0x808a66d8, 0x808a66fc]

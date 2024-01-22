@@ -501,6 +501,7 @@ SOURCES_REL = [
     Source(src="source/game/geo/ObjTaimatsu.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/BoxColManager.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/BoxColUnit.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/field/CollisionEntries.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
     Source(src="source/game/field/RKGndCol.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
     Source(src="source/game/field/CourseColManager.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
 ]
