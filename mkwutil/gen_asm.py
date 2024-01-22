@@ -97,7 +97,8 @@ class CAsmGenerator:
                     data.append(data_c)
                 elif _slice.section == "bss":
                     # Remove duplicate extern declaration
-                    self.extern_data.remove((addr, sym.name))
+                    if (addr, sym.name) in self.extern_data:
+                        self.extern_data.remove((addr, sym.name))
                     bss.append({
                         "size": sym.size,
                         "name": sym.name,

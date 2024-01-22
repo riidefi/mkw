@@ -493,7 +493,7 @@ extern UNKNOWN_FUNCTION(unk_80798b28);
 // PAL: 0x807b99d4
 extern UNKNOWN_FUNCTION(unk_807b99d4);
 // PAL: 0x807bd96c
-extern UNKNOWN_FUNCTION(findClosestCollisionEntry);
+extern UNKNOWN_FUNCTION(findClosestCollisionEntry__5FieldFPUlUl);
 // PAL: 0x807c6a14
 extern UNKNOWN_FUNCTION(unk_807c6a14);
 // PAL: 0x807d396c
@@ -709,7 +709,7 @@ extern UNKNOWN_DATA(lbl_809c2f44);
 // PAL: 0x809c3618
 extern UNKNOWN_DATA(lbl_809c3618);
 // PAL: 0x809c3bdc
-extern UNKNOWN_DATA(lbl_809c3bdc);
+extern UNKNOWN_DATA(closestCollisionEntry__5Field);
 // PAL: 0x809c3c04
 extern UNKNOWN_DATA(lbl_809c3c04);
 // PAL: 0x809c4330
