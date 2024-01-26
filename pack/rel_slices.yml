@@ -206,3 +206,9 @@ source/game/field/CourseColManager.cpp:
     rodata: [0x808a6710, 0x808a671c]
     data: [0x808d2808, 0x808d2988]
     bss: [0x809c3c10, 0x809c3c14]
+
+source/game/geo2/ObjDrivableManager.cpp:
+    text: [0x8081b324, 0x8081cae8]
+    rodata: [0x808ab558, 0x808ab55c]
+    data: [0x808d6c48, 0x808d6c54]
+    bss: [0x809c4310, 0x809c4314]
