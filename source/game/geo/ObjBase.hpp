@@ -4,9 +4,9 @@
 namespace GeoObj {
 
 /// has its update function called each frame
-#define GEOOBJ_KIND_1 1
+#define GEOOBJ_KIND_UPDATE 1
 /// has its update function called each frame
-#define GEOOBJ_KIND_UPDATE 2
+#define GEOOBJ_KIND_DEBUG_DRAW 2
 #define GEOOBJ_KIND_4 4
 
 class ObjBase {
@@ -65,7 +65,7 @@ public:
   virtual void vfac();
   virtual void getDrawType();
  
-protected:
-  u8 _4[0xa8 - 0x4];
+  u8 _4[0xa4 - 0x4];
+  u32 managerIdx;
 };
 }
