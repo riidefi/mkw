@@ -13,10 +13,6 @@ extern UNKNOWN_FUNCTION(_savegpr_24);
 extern UNKNOWN_FUNCTION(_restgpr_23);
 // PAL: 0x800215e0
 extern UNKNOWN_FUNCTION(_restgpr_24);
-// PAL: 0x80229dcc
-extern UNKNOWN_FUNCTION(__nw__FUl);
-// PAL: 0x80229df0
-extern UNKNOWN_FUNCTION(__nwa__FUl);
 // PAL: 0x80785ec4
 extern UNKNOWN_FUNCTION(unk_80785ec4);
 // PAL: 0x80785f2c
@@ -25,8 +21,6 @@ extern UNKNOWN_FUNCTION(unk_80785f2c);
 extern UNKNOWN_FUNCTION(unk_80786b14);
 // PAL: 0x80786e60
 extern UNKNOWN_FUNCTION(isSomeSphereExist__13BoxColManagerCFRCQ23EGG8Vector3fUlf);
-// PAL: 0x8081b380
-extern UNKNOWN_FUNCTION(__dt__Q26GeoObj17ObjDrivableHolderFv);
 // PAL: 0x8081b870
 extern UNKNOWN_FUNCTION(unk_8081b870);
 // PAL: 0x8081b940
@@ -87,34 +81,61 @@ void ObjDrivableHolder::destroyInstance() {
     spInstance = nullptr;
   }
 }
+
+void ObjDrivableHolder::initObjs() {
+  for (u16 i = 0; i < this->objCount; i++) {
+    if (this->objs[i] != nullptr) {
+      this->objs[i]->loadRoute();
+      this->objs[i]->setup();
+      this->objs[i]->update();
+    }
+  }
 }
 
-// Symbol: unk_8081b500
-// PAL: 0x8081b500..0x8081b5a8
-MARK_BINARY_BLOB(unk_8081b500, 0x8081b500, 0x8081b5a8);
-asm UNKNOWN_FUNCTION(unk_8081b500) {
-  #include "asm/8081b500.s"
+void ObjDrivableHolder::debugDraw() {
+  for (u16 i = 0; i < this->drawDebugCount; i++) {
+    if (this->drawDebug[i] != nullptr) {
+      this->drawDebug[i]->drawDebug();
+    }
+  }
 }
 
-// Symbol: unk_8081b5a8
-// PAL: 0x8081b5a8..0x8081b618
-MARK_BINARY_BLOB(unk_8081b5a8, 0x8081b5a8, 0x8081b618);
-asm UNKNOWN_FUNCTION(unk_8081b5a8) {
-  #include "asm/8081b5a8.s"
+void ObjDrivableHolder::update() {
+  for (u16 i = 0; i < this->needUpdateCount; i++) {
+    if (this->needUpdate[i] != nullptr) {
+      this->needUpdate[i]->calc();
+    }
+  }
+
+  for (u16 i = 0; i < this->needUpdateCount; i++) {
+    if (this->needUpdate[i] != nullptr) {
+      this->needUpdate[i]->update();
+    }
+  }
 }
 
-// Symbol: unk_8081b618
-// PAL: 0x8081b618..0x8081b6c8
-MARK_BINARY_BLOB(unk_8081b618, 0x8081b618, 0x8081b6c8);
-asm UNKNOWN_FUNCTION(unk_8081b618) {
-  #include "asm/8081b618.s"
-}
+s32 ObjDrivableHolder::push(ObjDrivable* obj) {
+  for (u16 i = 0; i < this->objCount; i++) {
+    if (this->objs[i] == obj) {
+      return -1;
+    }
+  }
 
-// Symbol: ObjectKclManager_push
-// PAL: 0x8081b6c8..0x8081b7cc
-MARK_BINARY_BLOB(ObjectKclManager_push, 0x8081b6c8, 0x8081b7cc);
-asm UNKNOWN_FUNCTION(ObjectKclManager_push) {
-  #include "asm/8081b6c8.s"
+  if ((obj->getKindFlags() & GEOOBJ_KIND_UPDATE) != 0) {
+    this->needUpdate[this->needUpdateCount++] = obj;
+
+  }
+
+  if ((obj->getKindFlags() & GEOOBJ_KIND_DEBUG_DRAW) != 0) {
+    this->drawDebug[this->drawDebugCount++] = obj;
+  }
+
+  this->objs[this->objCount] = obj;
+  obj->managerIdx = this->objCount + 1000;
+  this->objCount++;
+
+  return this->objCount - 1;
+}
 }
 
 // Symbol: unk_8081b7cc
