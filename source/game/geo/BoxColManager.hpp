@@ -1,6 +1,7 @@
 #pragma once
 
 #include <game/geo/BoxColUnit.hpp>
+#include <game/geo/ObjDrivable.hpp>
 #include <egg/core/eggDisposer.hpp>
 
 extern "C" const float flt_808A47EC;
@@ -49,8 +50,12 @@ struct BoxColLeftPoint {
  */
 class BoxColManager : public EGG::Disposer {
 public:
-  bool isSomeSphereExist(const EGG::Vector3f& pos, u32 flag,
-                         float radius) const;
+  static BoxColManager* spInstance;
+
+  bool isSphereInSpatialCache(const EGG::Vector3f& pos, float radius, u32 flag) const;
+  void initIterators(const EGG::Vector3f& pos, f32 radius, u32 boxColFlag);
+  void resetIterators();
+  GeoObj::ObjDrivable* nextDrivable();
 
 private:
   // right point of each box unit in the pool
