@@ -39,13 +39,8 @@ struct SoftWallColInfo {
   }
 };
 
-struct ColInfoPartial {
-  EGG::Vector3f bboxLow;
-  EGG::Vector3f bboxHigh;
-};
-
-// not 100% sure if it's a distinct struct from the one above
-struct ColInfoFull {
+struct DrivableColInfo;
+struct ColInfo {
   EGG::Vector3f bboxLow;
   EGG::Vector3f bboxHigh;
   EGG::Vector3f tangentOff;
@@ -60,8 +55,7 @@ struct ColInfoFull {
   f32 wallDist;
   f32 _50;
   f32 colPerpendicularity;
-  // astruct7* ??
-
+  DrivableColInfo* drivableColInfo;
 
   void updateFloor(f32 dist, const EGG::Vector3f& fnrm) {
     bool updateNrm;
@@ -138,33 +132,33 @@ public:
   // Naming:
   // -Point/-Sphere - Point or sphere collision algorithm
   // -Cached        - Use previously looked up prisms
-  // -Partial/-Full - Fill partial (ColInfoPartial) or full (ColInfoFull) collision information
+  // -Partial/-Full - Fill partial or full collision information
   // -Push          - Push collision entry to global collision array
-  bool checkPointPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
-  bool checkPointPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
-  bool checkPointFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
-  bool checkPointFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale);
 
-  bool checkPointCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
-  bool checkPointCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale);
-  bool checkPointCachedFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
-  bool checkPointCachedFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointCachedFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale);
+  bool checkPointCachedFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale);
 
-  bool checkSpherePartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
-  bool checkSpherePartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
-  bool checkSphereFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
-  bool checkSphereFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSpherePartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSpherePartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
 
-  bool checkSphereCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
-  bool checkSphereCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
-  bool checkSphereCachedFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
-  bool checkSphereCachedFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoFull* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereCachedFull(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
+  bool checkSphereCachedFullPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius);
 
 private:
-  bool doCheckWithPartialInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoPartial* colInfoPartial, u32* typeMask);
-  bool doCheckWithPartialInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoPartial* colInfoPartial, u32* typeMask);
-  bool doCheckWithFullInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoFull* colInfoPartial, u32* typeMask);
-  bool doCheckWithFullInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoFull* colInfoPartial, u32* typeMask);
+  bool doCheckWithPartialInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfo* colInfoPartial, u32* typeMask);
+  bool doCheckWithPartialInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfo* colInfoPartial, u32* typeMask);
+  bool doCheckWithFullInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfo* colInfoPartial, u32* typeMask);
+  bool doCheckWithFullInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfo* colInfoPartial, u32* typeMask);
   bool doCheckMaskOnly(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, u32* typeMaskOut) {
     bool hasCol = false;
     f32 dist;

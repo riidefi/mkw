@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include <rk_types.h>
 
 namespace GeoObj {

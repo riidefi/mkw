@@ -4,60 +4,22 @@
 
 #include <decomp.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// PAL: 0x8081b7cc..0x8081b870
-UNKNOWN_FUNCTION(unk_8081b7cc);
-// PAL: 0x8081b870..0x8081b940
-UNKNOWN_FUNCTION(unk_8081b870);
-// PAL: 0x8081b940..0x8081ba10
-UNKNOWN_FUNCTION(unk_8081b940);
-// PAL: 0x8081ba10..0x8081bb54
-UNKNOWN_FUNCTION(unk_8081ba10);
-// PAL: 0x8081bb54..0x8081bc98
-UNKNOWN_FUNCTION(unk_8081bb54);
-// PAL: 0x8081bc98..0x8081bd70
-UNKNOWN_FUNCTION(unk_8081bc98);
-// PAL: 0x8081bd70..0x8081be48
-UNKNOWN_FUNCTION(unk_8081bd70);
-// PAL: 0x8081be48..0x8081bfa0
-UNKNOWN_FUNCTION(unk_8081be48);
-// PAL: 0x8081bfa0..0x8081c0f8
-UNKNOWN_FUNCTION(unk_8081bfa0);
-// PAL: 0x8081c0f8..0x8081c1e8
-UNKNOWN_FUNCTION(unk_8081c0f8);
-// PAL: 0x8081c1e8..0x8081c2d8
-UNKNOWN_FUNCTION(unk_8081c1e8);
-// PAL: 0x8081c2d8..0x8081c43c
-UNKNOWN_FUNCTION(unk_8081c2d8);
-// PAL: 0x8081c43c..0x8081c5a0
-UNKNOWN_FUNCTION(unk_8081c43c);
-// PAL: 0x8081c5a0..0x8081c6b4
-UNKNOWN_FUNCTION(unk_8081c5a0);
-// PAL: 0x8081c6b4..0x8081c7c8
-UNKNOWN_FUNCTION(unk_8081c6b4);
-// PAL: 0x8081c7c8..0x8081c958
-UNKNOWN_FUNCTION(unk_8081c7c8);
-// PAL: 0x8081c958..0x8081cae8
-UNKNOWN_FUNCTION(unk_8081c958);
-
-#ifdef __cplusplus
-}
-#endif
+#include "egg/math/eggVector.hpp"
 
 #include "game/geo/ObjDrivable.hpp"
+#include "game/geo/BoxColManager.hpp"
+#include "game/field/DrivableColInfo.hpp"
+#include "game/field/CourseColManager.hpp"
 
 namespace GeoObj {
-class ObjDrivableHolder {
+class ObjDrivableManager {
 public:
-  static ObjDrivableHolder* spInstance;
-  static ObjDrivableHolder* createInstance();
+  static ObjDrivableManager* spInstance;
+  static ObjDrivableManager* createInstance();
   static void destroyInstance();
 
-  ObjDrivableHolder();
-  virtual ~ObjDrivableHolder();
+  ObjDrivableManager();
+  virtual ~ObjDrivableManager();
 
   void initObjs();
   /// Draws debug shapes for objects if the need to. Unused, but potentially used during development, since some objects implement such functionallity
@@ -67,6 +29,29 @@ public:
   void update();
   /// Adds drivable to list
   s32 push(ObjDrivable* obj);
+
+  // Collision funcs
+  void narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 colTypeMask, u32 unused);
+
+  bool checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) NEVER_INLINE;
+  bool checkPointPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) NEVER_INLINE;
+  bool checkPointFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) NEVER_INLINE;
+  bool checkPointFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) NEVER_INLINE;
+
+  bool checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
+  bool checkSpherePartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
+  bool checkSphereFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
+  bool checkSphereFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
+
+  bool checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut);
+  bool checkPointCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut);
+  bool checkPointCachedFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut);
+  bool checkPointCachedFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut);
+
+  bool checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start);
+  bool checkSphereCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start);
+  bool checkSphereCachedFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start);
+  bool checkSphereCachedFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start);
 
 private:
   u16 objCount;

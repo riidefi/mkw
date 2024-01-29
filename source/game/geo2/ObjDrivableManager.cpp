@@ -1,64 +1,17 @@
 #include "ObjDrivableManager.hpp"
 
-// --- EXTERN DECLARATIONS BEGIN ---
-
-extern "C" {
-
-// Extern function references.
-// PAL: 0x80021590
-extern UNKNOWN_FUNCTION(_savegpr_23);
-// PAL: 0x80021594
-extern UNKNOWN_FUNCTION(_savegpr_24);
-// PAL: 0x800215dc
-extern UNKNOWN_FUNCTION(_restgpr_23);
-// PAL: 0x800215e0
-extern UNKNOWN_FUNCTION(_restgpr_24);
-// PAL: 0x80785ec4
-extern UNKNOWN_FUNCTION(unk_80785ec4);
-// PAL: 0x80785f2c
-extern UNKNOWN_FUNCTION(unk_80785f2c);
-// PAL: 0x80786b14
-extern UNKNOWN_FUNCTION(unk_80786b14);
-// PAL: 0x80786e60
-extern UNKNOWN_FUNCTION(isSomeSphereExist__13BoxColManagerCFRCQ23EGG8Vector3fUlf);
-// PAL: 0x8081b870
-extern UNKNOWN_FUNCTION(unk_8081b870);
-// PAL: 0x8081b940
-extern UNKNOWN_FUNCTION(unk_8081b940);
-// PAL: 0x8081ba10
-extern UNKNOWN_FUNCTION(unk_8081ba10);
-// PAL: 0x8081bb54
-extern UNKNOWN_FUNCTION(unk_8081bb54);
-// PAL: 0x8081bc98
-extern UNKNOWN_FUNCTION(unk_8081bc98);
-// PAL: 0x8081bd70
-extern UNKNOWN_FUNCTION(unk_8081bd70);
-// PAL: 0x8081be48
-extern UNKNOWN_FUNCTION(unk_8081be48);
-// PAL: 0x8081bfa0
-extern UNKNOWN_FUNCTION(unk_8081bfa0);// Extern data references.
-// PAL: 0x809c2ef0
-extern UNKNOWN_DATA(lbl_809c2ef0);
-}
-
-// --- EXTERN DECLARATIONS END ---
-
-// .rodata
-const u32 lbl_808ab558[] = {
-    0x00000000
-};
 
 namespace GeoObj {
-ObjDrivableHolder* ObjDrivableHolder::spInstance;
+ObjDrivableManager* ObjDrivableManager::spInstance;
 
 #define DRIVABLE_HOLDER_MAX_OBJ_COUNT 100
-ObjDrivableHolder::ObjDrivableHolder() {
+ObjDrivableManager::ObjDrivableManager() {
   this->objs       = new ObjDrivable*[DRIVABLE_HOLDER_MAX_OBJ_COUNT];
   this->needUpdate = new ObjDrivable*[DRIVABLE_HOLDER_MAX_OBJ_COUNT];
   this->drawDebug  = new ObjDrivable*[DRIVABLE_HOLDER_MAX_OBJ_COUNT];
 }
 
-ObjDrivableHolder::~ObjDrivableHolder() {
+ObjDrivableManager::~ObjDrivableManager() {
   for (u16 i = 0; i < this->objCount; i++) {
     if (this->objs[i]) {
       delete this->objs[i];
@@ -67,22 +20,22 @@ ObjDrivableHolder::~ObjDrivableHolder() {
   }
 }
 
-ObjDrivableHolder* ObjDrivableHolder::createInstance() {
+ObjDrivableManager* ObjDrivableManager::createInstance() {
   if (!spInstance) {
-    spInstance = new ObjDrivableHolder();
+    spInstance = new ObjDrivableManager();
   }
 
   return spInstance;
 }
 
-void ObjDrivableHolder::destroyInstance() {
+void ObjDrivableManager::destroyInstance() {
   if (spInstance) {
     delete spInstance;
     spInstance = nullptr;
   }
 }
 
-void ObjDrivableHolder::initObjs() {
+void ObjDrivableManager::initObjs() {
   for (u16 i = 0; i < this->objCount; i++) {
     if (this->objs[i] != nullptr) {
       this->objs[i]->loadRoute();
@@ -92,7 +45,7 @@ void ObjDrivableHolder::initObjs() {
   }
 }
 
-void ObjDrivableHolder::debugDraw() {
+void ObjDrivableManager::debugDraw() {
   for (u16 i = 0; i < this->drawDebugCount; i++) {
     if (this->drawDebug[i] != nullptr) {
       this->drawDebug[i]->drawDebug();
@@ -100,7 +53,7 @@ void ObjDrivableHolder::debugDraw() {
   }
 }
 
-void ObjDrivableHolder::update() {
+void ObjDrivableManager::update() {
   for (u16 i = 0; i < this->needUpdateCount; i++) {
     if (this->needUpdate[i] != nullptr) {
       this->needUpdate[i]->calc();
@@ -114,7 +67,7 @@ void ObjDrivableHolder::update() {
   }
 }
 
-s32 ObjDrivableHolder::push(ObjDrivable* obj) {
+s32 ObjDrivableManager::push(ObjDrivable* obj) {
   for (u16 i = 0; i < this->objCount; i++) {
     if (this->objs[i] == obj) {
       return -1;
@@ -136,124 +89,410 @@ s32 ObjDrivableHolder::push(ObjDrivable* obj) {
 
   return this->objCount - 1;
 }
+
+void ObjDrivableManager::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 colTypeMask, u32 unused) {
+  if (objCount != 0) {
+    BoxColManager::spInstance->initIterators(pos, radius, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      drivable->narrowScopeLocal(pos, radius, colTypeMask, unused);
+    }
+  }
 }
 
-// Symbol: unk_8081b7cc
-// PAL: 0x8081b7cc..0x8081b870
-MARK_BINARY_BLOB(unk_8081b7cc, 0x8081b7cc, 0x8081b870);
-asm UNKNOWN_FUNCTION(unk_8081b7cc) {
-  #include "asm/8081b7cc.s"
+bool ObjDrivableManager::checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+  if (objCount == 0) {
+    return false;
+  } else {
+    bool hasCol = false;
+
+    BoxColManager::spInstance->initIterators(pos, 0.0f, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != nullptr) {
+        hasCol = drivable->checkPointPartial(pos, prevPos, typeMask, colInfo, typeMaskOut) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081b870
-// PAL: 0x8081b870..0x8081b940
-MARK_BINARY_BLOB(unk_8081b870, 0x8081b870, 0x8081b940);
-asm UNKNOWN_FUNCTION(unk_8081b870) {
-  #include "asm/8081b870.s"
+bool ObjDrivableManager::checkPointPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+  if (objCount == 0) {
+    return false;
+  } else {
+    bool hasCol = false;
+
+    BoxColManager::spInstance->initIterators(pos, 0.0f, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != nullptr) {
+        hasCol = drivable->checkPointPartialPush(pos, prevPos, typeMask, colInfo, typeMaskOut) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081b940
-// PAL: 0x8081b940..0x8081ba10
-MARK_BINARY_BLOB(unk_8081b940, 0x8081b940, 0x8081ba10);
-asm UNKNOWN_FUNCTION(unk_8081b940) {
-  #include "asm/8081b940.s"
+bool ObjDrivableManager::checkPointFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+  if (objCount == 0) {
+    return false;
+  } else {
+    bool hasCol = false;
+
+    ObjDrivable* obj = nullptr;
+    if (colInfo) {
+      Field::DrivableColInfo* drivableColInfo = colInfo->drivableColInfo;
+      if (drivableColInfo) {
+        obj = drivableColInfo->getDrivable();
+        if (obj) {
+          hasCol = true;
+          if (obj->checkPointFull(pos, prevPos, typeMask, colInfo, typeMaskOut) == 0) {
+            hasCol = false;
+          }
+        }
+      }
+    }
+
+    BoxColManager::spInstance->initIterators(pos, 0.0f, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != obj) {
+        hasCol = drivable->checkPointFull(pos, prevPos, typeMask, colInfo, typeMaskOut) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081ba10
-// PAL: 0x8081ba10..0x8081bb54
-MARK_BINARY_BLOB(unk_8081ba10, 0x8081ba10, 0x8081bb54);
-asm UNKNOWN_FUNCTION(unk_8081ba10) {
-  #include "asm/8081ba10.s"
+bool ObjDrivableManager::checkPointFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+  if (objCount == 0) {
+    return false;
+  } else {
+    bool hasCol = false;
+
+    ObjDrivable* obj = nullptr;
+    if (colInfo) {
+      Field::DrivableColInfo* drivableColInfo = colInfo->drivableColInfo;
+      if (drivableColInfo) {
+        obj = drivableColInfo->getDrivable();
+        if (obj) {
+          hasCol = true;
+          if (obj->checkPointFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut) == 0) {
+            hasCol = false;
+          }
+        }
+      }
+    }
+
+    BoxColManager::spInstance->initIterators(pos, 0.0f, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != obj) {
+        hasCol = drivable->checkPointFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081bb54
-// PAL: 0x8081bb54..0x8081bc98
-MARK_BINARY_BLOB(unk_8081bb54, 0x8081bb54, 0x8081bc98);
-asm UNKNOWN_FUNCTION(unk_8081bb54) {
-  #include "asm/8081bb54.s"
+bool ObjDrivableManager::checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+  if (objCount == 0) {
+    return false;
+  } else {
+    bool hasCol = false;
+
+    BoxColManager::spInstance->initIterators(pos, radius, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != nullptr) {
+        hasCol = drivable->checkSpherePartial(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081bc98
-// PAL: 0x8081bc98..0x8081bd70
-MARK_BINARY_BLOB(unk_8081bc98, 0x8081bc98, 0x8081bd70);
-asm UNKNOWN_FUNCTION(unk_8081bc98) {
-  #include "asm/8081bc98.s"
+bool ObjDrivableManager::checkSpherePartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+  if (objCount == 0) {
+    return false;
+  } else {
+    bool hasCol = false;
+
+    BoxColManager::spInstance->initIterators(pos, radius, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != nullptr) {
+        hasCol = drivable->checkSpherePartialPush(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081bd70
-// PAL: 0x8081bd70..0x8081be48
-MARK_BINARY_BLOB(unk_8081bd70, 0x8081bd70, 0x8081be48);
-asm UNKNOWN_FUNCTION(unk_8081bd70) {
-  #include "asm/8081bd70.s"
+bool ObjDrivableManager::checkSphereFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+  if (objCount == 0) {
+    return false;
+  } else {
+    bool hasCol = false;
+
+    ObjDrivable* obj = nullptr;
+    if (colInfo) {
+      Field::DrivableColInfo* drivableColInfo = colInfo->drivableColInfo;
+      if (drivableColInfo) {
+        obj = drivableColInfo->getDrivable();
+        if (obj) {
+          hasCol = true;
+          if (obj->checkSphereFull(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) == 0) {
+            hasCol = false;
+          }
+        }
+      }
+    }
+
+    BoxColManager::spInstance->initIterators(pos, radius, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != obj) {
+        hasCol = drivable->checkSphereFull(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081be48
-// PAL: 0x8081be48..0x8081bfa0
-MARK_BINARY_BLOB(unk_8081be48, 0x8081be48, 0x8081bfa0);
-asm UNKNOWN_FUNCTION(unk_8081be48) {
-  #include "asm/8081be48.s"
+bool ObjDrivableManager::checkSphereFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+  if (objCount == 0) {
+    return false;
+  } else {
+    bool hasCol = false;
+
+    ObjDrivable* obj = nullptr;
+    if (colInfo) {
+      Field::DrivableColInfo* drivableColInfo = colInfo->drivableColInfo;
+      if (drivableColInfo) {
+        obj = drivableColInfo->getDrivable();
+        if (obj) {
+          hasCol = true;
+          if (obj->checkSphereFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) == 0) {
+            hasCol = false;
+          }
+        }
+      }
+    }
+
+    BoxColManager::spInstance->initIterators(pos, radius, BOXCOL_FLAG_DRIVABLE);
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != obj) {
+        hasCol = drivable->checkSphereFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081bfa0
-// PAL: 0x8081bfa0..0x8081c0f8
-MARK_BINARY_BLOB(unk_8081bfa0, 0x8081bfa0, 0x8081c0f8);
-asm UNKNOWN_FUNCTION(unk_8081bfa0) {
-  #include "asm/8081bfa0.s"
+bool ObjDrivableManager::checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+  bool hasCol = false;
+  if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, 0.0f, BOXCOL_FLAG_DRIVABLE)) {
+    return this->checkPointPartial(pos, prevPos, typeMask, colInfo, typeMaskOut);
+  } else {
+    BoxColManager::spInstance->resetIterators();
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != nullptr) {
+        hasCol = drivable->checkPointCachedPartial(pos, prevPos, typeMask, colInfo, typeMaskOut) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081c0f8
-// PAL: 0x8081c0f8..0x8081c1e8
-MARK_BINARY_BLOB(unk_8081c0f8, 0x8081c0f8, 0x8081c1e8);
-asm UNKNOWN_FUNCTION(unk_8081c0f8) {
-  #include "asm/8081c0f8.s"
+bool ObjDrivableManager::checkPointCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+  bool hasCol = false;
+  if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, 0.0f, BOXCOL_FLAG_DRIVABLE)) {
+    return this->checkPointPartialPush(pos, prevPos, typeMask, colInfo, typeMaskOut);
+  } else {
+    BoxColManager::spInstance->resetIterators();
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != nullptr) {
+        hasCol = drivable->checkPointCachedPartialPush(pos, prevPos, typeMask, colInfo, typeMaskOut) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081c1e8
-// PAL: 0x8081c1e8..0x8081c2d8
-MARK_BINARY_BLOB(unk_8081c1e8, 0x8081c1e8, 0x8081c2d8);
-asm UNKNOWN_FUNCTION(unk_8081c1e8) {
-  #include "asm/8081c1e8.s"
+bool ObjDrivableManager::checkPointCachedFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+  bool hasCol = false;
+  if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, 0.0f, BOXCOL_FLAG_DRIVABLE)) {
+    return this->checkPointFull(pos, prevPos, typeMask, colInfo, typeMaskOut);
+  } else {
+    ObjDrivable* obj = nullptr;
+    if (colInfo) {
+      Field::DrivableColInfo* drivableColInfo = colInfo->drivableColInfo;
+      if (drivableColInfo) {
+        obj = drivableColInfo->getDrivable();
+        if (obj) {
+          hasCol = true;
+          if (obj->checkPointCachedFull(pos, prevPos, typeMask, colInfo, typeMaskOut) == 0) {
+            hasCol = false;
+          }
+        }
+      }
+    }
+
+    BoxColManager::spInstance->resetIterators();
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != obj) {
+        hasCol = drivable->checkPointCachedFull(pos, prevPos, typeMask, colInfo, typeMaskOut) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081c2d8
-// PAL: 0x8081c2d8..0x8081c43c
-MARK_BINARY_BLOB(unk_8081c2d8, 0x8081c2d8, 0x8081c43c);
-asm UNKNOWN_FUNCTION(unk_8081c2d8) {
-  #include "asm/8081c2d8.s"
+bool ObjDrivableManager::checkPointCachedFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+  bool hasCol = false;
+  if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, 0.0f, BOXCOL_FLAG_DRIVABLE)) {
+    return this->checkPointFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut);
+  } else {
+    ObjDrivable* obj = nullptr;
+    if (colInfo) {
+      Field::DrivableColInfo* drivableColInfo = colInfo->drivableColInfo;
+      if (drivableColInfo) {
+        obj = drivableColInfo->getDrivable();
+        if (obj) {
+          hasCol = true;
+          if (obj->checkPointCachedFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut) == 0) {
+            hasCol = false;
+          }
+        }
+      }
+    }
+
+    BoxColManager::spInstance->resetIterators();
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != obj) {
+        hasCol = drivable->checkPointCachedFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081c43c
-// PAL: 0x8081c43c..0x8081c5a0
-MARK_BINARY_BLOB(unk_8081c43c, 0x8081c43c, 0x8081c5a0);
-asm UNKNOWN_FUNCTION(unk_8081c43c) {
-  #include "asm/8081c43c.s"
+bool ObjDrivableManager::checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+  if (this->objCount == 0) return false;
+  bool hasCol = false;
+  if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, radius, BOXCOL_FLAG_DRIVABLE)) {
+    return this->checkSpherePartial(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start);
+  } else {
+    BoxColManager::spInstance->resetIterators();
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != nullptr) {
+        hasCol = drivable->checkSphereCachedPartial(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081c5a0
-// PAL: 0x8081c5a0..0x8081c6b4
-MARK_BINARY_BLOB(unk_8081c5a0, 0x8081c5a0, 0x8081c6b4);
-asm UNKNOWN_FUNCTION(unk_8081c5a0) {
-  #include "asm/8081c5a0.s"
+bool ObjDrivableManager::checkSphereCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+  if (this->objCount == 0) return false;
+  bool hasCol = false;
+  if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, radius, BOXCOL_FLAG_DRIVABLE)) {
+    return this->checkSpherePartialPush(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start);
+  } else {
+    BoxColManager::spInstance->resetIterators();
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != nullptr) {
+        hasCol = drivable->checkSphereCachedPartialPush(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081c6b4
-// PAL: 0x8081c6b4..0x8081c7c8
-MARK_BINARY_BLOB(unk_8081c6b4, 0x8081c6b4, 0x8081c7c8);
-asm UNKNOWN_FUNCTION(unk_8081c6b4) {
-  #include "asm/8081c6b4.s"
+bool ObjDrivableManager::checkSphereCachedFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+  if (this->objCount == 0) return false;
+  bool hasCol = false;
+  if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, radius, BOXCOL_FLAG_DRIVABLE)) {
+    return this->checkSphereFull(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start);
+  } else {
+    ObjDrivable* obj = nullptr;
+    if (colInfo) {
+      Field::DrivableColInfo* drivableColInfo = colInfo->drivableColInfo;
+      if (drivableColInfo) {
+        obj = drivableColInfo->getDrivable();
+        if (obj) {
+          hasCol = true;
+          if (obj->checkSphereCachedFull(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) == 0) {
+            hasCol = false;
+          }
+        }
+      }
+    }
+
+    BoxColManager::spInstance->resetIterators();
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != obj) {
+        hasCol = drivable->checkSphereCachedFull(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) || hasCol;
+      }
+    }
+
+    return hasCol;
+  }
 }
 
-// Symbol: unk_8081c7c8
-// PAL: 0x8081c7c8..0x8081c958
-MARK_BINARY_BLOB(unk_8081c7c8, 0x8081c7c8, 0x8081c958);
-asm UNKNOWN_FUNCTION(unk_8081c7c8) {
-  #include "asm/8081c7c8.s"
-}
+bool ObjDrivableManager::checkSphereCachedFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+  if (this->objCount == 0) return false;
+  bool hasCol = false;
+  if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, radius, BOXCOL_FLAG_DRIVABLE)) {
+    return this->checkSphereFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start);
+  } else {
+    ObjDrivable* obj = nullptr;
+    if (colInfo) {
+      Field::DrivableColInfo* drivableColInfo = colInfo->drivableColInfo;
+      if (drivableColInfo) {
+        obj = drivableColInfo->getDrivable();
+        if (obj) {
+          hasCol = true;
+          if (obj->checkSphereCachedFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) == 0) {
+            hasCol = false;
+          }
+        }
+      }
+    }
 
-// Symbol: unk_8081c958
-// PAL: 0x8081c958..0x8081cae8
-MARK_BINARY_BLOB(unk_8081c958, 0x8081c958, 0x8081cae8);
-asm UNKNOWN_FUNCTION(unk_8081c958) {
-  #include "asm/8081c958.s"
-}
+    BoxColManager::spInstance->resetIterators();
+    ObjDrivable* drivable;
+    while ((drivable = BoxColManager::spInstance->nextDrivable()) != nullptr) {
+      if (drivable != obj) {
+        hasCol = drivable->checkSphereCachedFullPush(pos, prevPos, typeMask, colInfo, typeMaskOut, radius, start) || hasCol;
+      }
+    }
 
+    return hasCol;
+  }
+}
+}
