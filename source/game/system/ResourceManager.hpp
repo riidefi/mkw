@@ -298,6 +298,7 @@ public:
     ResourceManager* nonvol;
   };
   static ResMgrInstance spInstance;
+  static inline ResourceManager* getInstance() { return spInstance.nonvol; }
   // static volatile ResourceManager* spInstance;
   // static ResourceManager* spInstance_REAL;
 
