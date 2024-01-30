@@ -368,7 +368,7 @@ extern UNKNOWN_DATA(lbl_809c1e38);
 // PAL: 0x809c1f50
 extern UNKNOWN_DATA(lbl_809c1f50);
 // PAL: 0x809c2f44
-extern UNKNOWN_DATA(lbl_809c2f44);
+extern UNKNOWN_DATA(spInstance__Q25Field11CourseModel);
 // PAL: 0x809c3c04
 extern UNKNOWN_DATA(lbl_809c3c04);
 // PAL: 0x809c4330
@@ -7766,12 +7766,12 @@ asm UNKNOWN_FUNCTION(unk_80537cd4) {
   /* 80537D6C 4BFDCAA5 */ bl          Vec3_scale
   /* 80537D70 C3FD0000 */ lfs         f31, 0(r29)
   /* 80537D74 3B800000 */ li          r28, 0x0
-  /* 80537D78 3FC0809C */ lis         r30, lbl_809c2f44@ha
+  /* 80537D78 3FC0809C */ lis         r30, spInstance__Q25Field11CourseModel@ha
   /* 80537D7C 3FE0809C */ lis         r31, lbl_809c3c04@ha
   /* 80537D80 480001B0 */ b           lbl_80537f30
   lbl_80537d84:
   /* 80537D84 FC20F090 */ fmr         f1, f30
-  /* 80537D88 807E2F44 */ lwz         r3, lbl_809c2f44@l(r30)
+  /* 80537D88 807E2F44 */ lwz         r3, spInstance__Q25Field11CourseModel@l(r30)
   /* 80537D8C 7EC4B378 */ mr          r4, r22
   /* 80537D90 7F06C378 */ mr          r6, r24
   /* 80537D94 7F27CB78 */ mr          r7, r25
@@ -7787,7 +7787,7 @@ asm UNKNOWN_FUNCTION(unk_80537cd4) {
   /* 80537DBC 3BC00000 */ li          r30, 0x0
   /* 80537DC0 4BFDCA51 */ bl          Vec3_scale
   /* 80537DC4 C0410020 */ lfs         f2, 0x20(r1)
-  /* 80537DC8 3FE0809C */ lis         r31, lbl_809c2f44@ha
+  /* 80537DC8 3FE0809C */ lis         r31, spInstance__Q25Field11CourseModel@ha
   /* 80537DCC C0210024 */ lfs         f1, 0x24(r1)
   /* 80537DD0 C0010028 */ lfs         f0, 0x28(r1)
   /* 80537DD4 D0410038 */ stfs        f2, 0x38(r1)
@@ -7803,7 +7803,7 @@ asm UNKNOWN_FUNCTION(unk_80537cd4) {
   /* 80537DF8 38A10038 */ addi        r5, r1, 0x38
   /* 80537DFC 4BFDCA3D */ bl          Vec3_add
   /* 80537E00 FC20F090 */ fmr         f1, f30
-  /* 80537E04 807F2F44 */ lwz         r3, lbl_809c2f44@l(r31)
+  /* 80537E04 807F2F44 */ lwz         r3, spInstance__Q25Field11CourseModel@l(r31)
   /* 80537E08 7EC5B378 */ mr          r5, r22
   /* 80537E0C 7F06C378 */ mr          r6, r24
   /* 80537E10 7F27CB78 */ mr          r7, r25

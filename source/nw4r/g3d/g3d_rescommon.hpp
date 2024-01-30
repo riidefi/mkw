@@ -70,6 +70,12 @@ struct ResName {
   bool operator==(ResName) const;
 };
 
+struct ResBlockHeaderData
+{
+  char kind[4];
+  u32  size;
+};
+
 namespace detail {
 typedef u8 CPCmd[6];
 typedef u8 BPCmd[5];

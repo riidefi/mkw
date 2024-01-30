@@ -705,7 +705,7 @@ extern UNKNOWN_DATA(lbl_809c27f0);
 // PAL: 0x809c28b8
 extern UNKNOWN_DATA(lbl_809c28b8);
 // PAL: 0x809c2f44
-extern UNKNOWN_DATA(lbl_809c2f44);
+extern UNKNOWN_DATA(spInstance__Q25Field11CourseModel);
 // PAL: 0x809c3618
 extern UNKNOWN_DATA(lbl_809c3618);
 // PAL: 0x809c3bdc
