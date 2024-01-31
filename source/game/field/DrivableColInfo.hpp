@@ -16,5 +16,8 @@ struct DrivableColInfo {
     if ((flags & 0x100) != 0) return drivable;
     else return nullptr;
   }
+
+  u32 unk_807bd930();
+  u32 unk_807bd954();
 };
 }

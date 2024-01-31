@@ -57,6 +57,10 @@ struct ColInfo {
   f32 colPerpendicularity;
   DrivableColInfo* drivableColInfo;
 
+  void calcTangentOff() {
+    nw4r::math::VEC3Add(&this->tangentOff, &this->bboxLow, &this->bboxHigh);
+  }
+
   void updateFloor(f32 dist, const EGG::Vector3f& fnrm) {
     bool updateNrm;
     if (dist > this->floorDist) {
@@ -126,6 +130,7 @@ public:
 
   void init(const KCollisionHeader& header);
   f32 setThickness(RKGndCol* colMgr);
+  void setSoftWallColInfo(SoftWallColInfo* swColInfo) { this->softWallColInfo = swColInfo; }
   void scaledNarrowScopeLocal(RKGndCol* maybeColMgr, const EGG::Vector3f& pos, u32 typeMask, f32 scale, f32 radius, u32 unused);
 
   // public collision query functions

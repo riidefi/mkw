@@ -99,13 +99,14 @@ out/ObjTaimatsu.o
 out/rel/text_806deb40_80786e60.o
 out/BoxColManager.o
 out/BoxColUnit.o
-out/rel/text_80786f98_8078dfe8.o
-out/rel/rodata_808a4804_808a4be0.o
-out/rel/data_808bcfd0_808d27f8.o
+out/rel/text_80786f98_8078de04.o
+out/rel/rodata_808a4804_808a4b58.o
+out/rel/data_808bcfd0_808d1860.o
 out/rel/bss_809c1996_809c2f40.o
 out/CourseModel.o
 out/rel/text_80790ad8_807bd96c.o
 out/rel/rodata_808a4cbe_808a66d0.o
+out/rel/data_808d18c8_808d27f8.o
 out/rel/bss_809c2f48_809c38d8.o
 out/CollisionEntries.o
 out/RKGndCol.o

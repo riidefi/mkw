@@ -477,11 +477,11 @@ extern UNKNOWN_FUNCTION(unk_807263b0);
 // PAL: 0x80787d50
 extern UNKNOWN_FUNCTION(unk_80787d50);
 // PAL: 0x8078f320
-extern UNKNOWN_FUNCTION(unk_8078f320);
+extern UNKNOWN_FUNCTION(checkSpherePartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
 // PAL: 0x8078f500
-extern UNKNOWN_FUNCTION(unk_8078f500);
+extern UNKNOWN_FUNCTION(checkSphereFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
 // PAL: 0x8078f784
-extern UNKNOWN_FUNCTION(unk_8078f784);
+extern UNKNOWN_FUNCTION(checkSphereFullPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
 // PAL: 0x8079870c
 extern UNKNOWN_FUNCTION(unk_8079870c);
 // PAL: 0x80798848
@@ -559,7 +559,7 @@ extern UNKNOWN_DATA(lbl_80891ad0);
 // PAL: 0x80891ad4
 extern UNKNOWN_DATA(lbl_80891ad4);
 // PAL: 0x808a6700
-extern UNKNOWN_DATA(lbl_808a6700);
+extern UNKNOWN_DATA(gColInfo);
 // PAL: 0x808b5818
 extern UNKNOWN_DATA(lbl_808b5818);
 // PAL: 0x808b5844
@@ -711,7 +711,7 @@ extern UNKNOWN_DATA(lbl_809c3618);
 // PAL: 0x809c3bdc
 extern UNKNOWN_DATA(closestCollisionEntry__5Field);
 // PAL: 0x809c3c04
-extern UNKNOWN_DATA(lbl_809c3c04);
+extern UNKNOWN_DATA(VEC_INFINITY);
 // PAL: 0x809c4330
 extern UNKNOWN_DATA(lbl_809c4330);
 // PAL: 0x809c4748
