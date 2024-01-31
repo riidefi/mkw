@@ -60,7 +60,7 @@ extern UNKNOWN_FUNCTION(unk_806dcddc);
 // PAL: 0x806dd128
 extern UNKNOWN_FUNCTION(unk_806dd128);
 // PAL: 0x8078f500
-extern UNKNOWN_FUNCTION(unk_8078f500);
+extern UNKNOWN_FUNCTION(checkSphereFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
 // PAL: 0x80799fbc
 extern UNKNOWN_FUNCTION(unk_80799fbc);
 // PAL: 0x8081efec
@@ -114,7 +114,7 @@ extern UNKNOWN_DATA(spInstance__Q25Field11CourseModel);
 // PAL: 0x809c3618
 extern UNKNOWN_DATA(lbl_809c3618);
 // PAL: 0x809c3c04
-extern UNKNOWN_DATA(lbl_809c3c04);
+extern UNKNOWN_DATA(VEC_INFINITY);
 // PAL: 0x809c4330
 extern UNKNOWN_DATA(lbl_809c4330);
 }

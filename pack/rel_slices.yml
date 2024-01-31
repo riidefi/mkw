@@ -192,8 +192,9 @@ source/game/geo/BoxColUnit.cpp:
     rodata: [0x808a4800, 0x808a4804]
 
 source/game/field/CourseModel.cpp:
-    text: [0x8078dfe8, 0x80790ad8]
-    rodata: [0x808a4be0, 0x808a4cbe]
+    text: [0x8078de04, 0x80790ad8]
+    rodata: [0x808a4b58, 0x808a4cbe]
+    data: [0x808d1860, 0x808d18c8]
     bss: [0x809c2f40, 0x809c2f48]
 
 source/game/field/CollisionEntries.cpp:
