@@ -92,8 +92,8 @@ jobs:
       - name: Lint inline ASM
         run: python -m mkwutil.tools.lint_inline_asm --pretty ./source/**/*.c*
 
-      #- name: Upload frogress
-      #  run: python -m mkwutil.progress.percent_decompiled --frogress -a ${{secrets.PROGRESS_API_KEY}}
+      - name: Upload frogress
+        run: python -m mkwutil.progress.percent_decompiled --frogress -a ${{secrets.PROGRESS_API_KEY}}
 
   publish:
     runs-on: ubuntu-latest
