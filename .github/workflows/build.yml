@@ -94,7 +94,6 @@ jobs:
 
       - name: Upload frogress
         run: python -m mkwutil.progress.percent_decompiled --frogress -a ${{secrets.PROGRESS_API_KEY}}
-        continue-on-error: true
 
   publish:
     runs-on: ubuntu-latest
