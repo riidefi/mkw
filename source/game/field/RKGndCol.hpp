@@ -37,6 +37,9 @@ public:
 
   f32 getPrismThickness() const { return this->prism_thickness; }
   u16 getPrismCache(u32 i) const { return this->prismCache[i]; }
+  bool cacheEmpty() const { return this->prismCache[0] == 0; }
+  const EGG::Vector3f& getBboxLow() const { return this->bboxLow; }
+  const EGG::Vector3f& getBboxHigh() const { return this->bboxHigh; }
 
 private:
   inline bool prismCacheNotEmpty() const { return prismCache != prismCacheTop; }

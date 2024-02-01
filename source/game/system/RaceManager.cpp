@@ -322,7 +322,7 @@ extern UNKNOWN_FUNCTION(SectionManager_startReinit);
 // PAL: 0x806545dc
 extern UNKNOWN_FUNCTION(unk_806545dc);
 // PAL: 0x8078f140
-extern UNKNOWN_FUNCTION(checkSpherePartial__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
+extern UNKNOWN_FUNCTION(checkSpherePartial__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field14ColInfoPartialPUlfUl);
 // PAL: 0x8082b3d4
 extern UNKNOWN_FUNCTION(unk_8082b3d4);
 // PAL: 0x8082b420

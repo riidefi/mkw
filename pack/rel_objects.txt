@@ -114,8 +114,9 @@ out/rel/text_807c25cc_807c2824.o
 out/rel/rodata_808a66fc_808a6710.o
 out/rel/bss_809c3be4_809c3c10.o
 out/CourseColManager.o
-out/rel/text_807c4ce8_8081b324.o
-out/rel/rodata_808a671c_808ab558.o
+out/ObjColManager.o
+out/rel/text_807c6a0c_8081b324.o
+out/rel/rodata_808a6730_808ab558.o
 out/rel/data_808d2988_808d6c48.o
 out/rel/bss_809c3c14_809c4310.o
 out/ObjDrivableManager.o

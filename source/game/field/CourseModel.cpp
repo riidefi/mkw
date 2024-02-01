@@ -265,7 +265,7 @@ struct SoftWallColInfoNuller {
 
 SoftWallColInfoNuller::SoftWallColInfoNuller() { }
 
-bool CourseModel::checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut) {
+bool CourseModel::checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut) {
   SoftWallColInfoNuller nuller;
   nuller.accessor = nullptr;
   if (this->softWallColInfo) {
@@ -302,7 +302,7 @@ bool CourseModel::checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3
   return hasCol;
 }
 
-bool CourseModel::checkPointPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut) {
+bool CourseModel::checkPointPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut) {
   SoftWallColInfoNuller nuller;
   nuller.accessor = nullptr;
   if (this->softWallColInfo) {
@@ -457,7 +457,7 @@ bool CourseModel::checkPointFullPush(const EGG::Vector3f& pos, const EGG::Vector
   return hasCol;
 }
 
-bool CourseModel::checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+bool CourseModel::checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
   SoftWallColInfoNuller nuller;
   nuller.accessor = nullptr;
   if (this->softWallColInfo) {
@@ -494,7 +494,7 @@ bool CourseModel::checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector
   return hasCol;
 }
 
-bool CourseModel::checkSpherePartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+bool CourseModel::checkSpherePartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
   SoftWallColInfoNuller nuller;
   nuller.accessor = nullptr;
   if (this->softWallColInfo) {
@@ -649,7 +649,7 @@ bool CourseModel::checkSphereFullPush(const EGG::Vector3f& pos, const EGG::Vecto
   return hasCol;
 }
 
-bool CourseModel::checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut) {
+bool CourseModel::checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut) {
   SoftWallColInfoNuller nuller;
   nuller.accessor = nullptr;
   if (this->softWallColInfo) {
@@ -686,7 +686,7 @@ bool CourseModel::checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::V
   return hasCol;
 }
 
-bool CourseModel::checkPointCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut) {
+bool CourseModel::checkPointCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut) {
   SoftWallColInfoNuller nuller;
   nuller.accessor = nullptr;
   if (this->softWallColInfo) {
@@ -841,7 +841,7 @@ bool CourseModel::checkPointCachedFullPush(const EGG::Vector3f& pos, const EGG::
   return hasCol;
 }
 
-bool CourseModel::checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+bool CourseModel::checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
   SoftWallColInfoNuller nuller;
   nuller.accessor = nullptr;
   if (this->softWallColInfo) {
@@ -878,7 +878,7 @@ bool CourseModel::checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::
   return hasCol;
 }
 
-bool CourseModel::checkSphereCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+bool CourseModel::checkSphereCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
   SoftWallColInfoNuller nuller;
   nuller.accessor = nullptr;
   if (this->softWallColInfo) {
@@ -1033,62 +1033,6 @@ bool CourseModel::checkSphereCachedFullPush(const EGG::Vector3f& pos, const EGG:
   return hasCol;
 }
 }
-
-/*// Symbol: checkPointCachedPartial__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl
-// PAL: 0x8078fa08..0x8078fbb0
-MARK_BINARY_BLOB(checkPointCachedPartial__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl, 0x8078fa08, 0x8078fbb0);
-asm UNKNOWN_FUNCTION(checkPointCachedPartial__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl) {
-  #include "asm/8078fa08.s"
-}
-
-// Symbol: checkPointCachedPartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl
-// PAL: 0x8078fbb0..0x8078fd58
-MARK_BINARY_BLOB(checkPointCachedPartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl, 0x8078fbb0, 0x8078fd58);
-asm UNKNOWN_FUNCTION(checkPointCachedPartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl) {
-  #include "asm/8078fbb0.s"
-}
-
-// Symbol: checkPointCachedFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl
-// PAL: 0x8078fd58..0x8078ffa4
-MARK_BINARY_BLOB(checkPointCachedFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl, 0x8078fd58, 0x8078ffa4);
-asm UNKNOWN_FUNCTION(checkPointCachedFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl) {
-  #include "asm/8078fd58.s"
-}
-
-// Symbol: checkPointCachedFullPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl
-// PAL: 0x8078ffa4..0x807901f0
-MARK_BINARY_BLOB(checkPointCachedFullPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl, 0x8078ffa4, 0x807901f0);
-asm UNKNOWN_FUNCTION(checkPointCachedFullPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUl) {
-  #include "asm/8078ffa4.s"
-}
-
-// Symbol: checkSphereCachedPartial__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl
-// PAL: 0x807901f0..0x807903bc
-MARK_BINARY_BLOB(checkSphereCachedPartial__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl, 0x807901f0, 0x807903bc);
-asm UNKNOWN_FUNCTION(checkSphereCachedPartial__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl) {
-  #include "asm/807901f0.s"
-}
-
-// Symbol: checkSphereCachedPartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl
-// PAL: 0x807903bc..0x80790588
-MARK_BINARY_BLOB(checkSphereCachedPartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl, 0x807903bc, 0x80790588);
-asm UNKNOWN_FUNCTION(checkSphereCachedPartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl) {
-  #include "asm/807903bc.s"
-}
-
-// Symbol: checkSphereCachedFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl
-// PAL: 0x80790588..0x807907f8
-MARK_BINARY_BLOB(checkSphereCachedFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl, 0x80790588, 0x807907f8);
-asm UNKNOWN_FUNCTION(checkSphereCachedFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl) {
-  #include "asm/80790588.s"
-}
-
-// Symbol: checkSphereCachedFullPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl
-// PAL: 0x807907f8..0x80790a68
-MARK_BINARY_BLOB(checkSphereCachedFullPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl, 0x807907f8, 0x80790a68);
-asm UNKNOWN_FUNCTION(checkSphereCachedFullPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl) {
-  #include "asm/807907f8.s"
-}*/
 
 // Symbol: unk_80790a68
 // PAL: 0x80790a68..0x80790ac0

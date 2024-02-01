@@ -505,5 +505,6 @@ SOURCES_REL = [
     Source(src="source/game/field/CollisionEntries.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
     Source(src="source/game/field/RKGndCol.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
     Source(src="source/game/field/CourseColManager.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
+    Source(src="source/game/field/ObjColManager.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
     Source(src="source/game/geo2/ObjDrivableManager.cpp", cc='4201_127', opts=REL_OPTS),
 ]
