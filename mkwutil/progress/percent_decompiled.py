@@ -122,7 +122,7 @@ class Stats:
 
     def post_frogress(self, api_key: str):
         import requests
-        url = "https://progress.deco.club/data/mkw/pal/"
+        url = "https://progress.decomp.club/data/mkw/pal/"
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         dol_metrics = {
             "code": self.dol_decomp_code,
