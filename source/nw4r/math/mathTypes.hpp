@@ -317,6 +317,8 @@ MTX44* MTX44Copy(MTX44*, MTX44*);
 
 inline VEC3*
 VEC3Transform(VEC3* pOut, const MTX34* pM, const VEC3* pV) { PSMTXMultVec(*pM, *pV, *pOut); return pOut; }
+inline VEC3*
+VEC3TransformSR(VEC3* pOut, const MTX34* pM, const VEC3* pV) { MTXMultVecSR(*pM, *pV, *pOut); return pOut; }
 
 VEC3* VEC3TransformNormal(VEC3* pOut, const MTX34* pM, const VEC3* pV);
 

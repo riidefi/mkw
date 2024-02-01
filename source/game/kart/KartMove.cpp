@@ -477,7 +477,7 @@ extern UNKNOWN_FUNCTION(unk_807263b0);
 // PAL: 0x80787d50
 extern UNKNOWN_FUNCTION(unk_80787d50);
 // PAL: 0x8078f320
-extern UNKNOWN_FUNCTION(checkSpherePartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
+extern UNKNOWN_FUNCTION(checkSpherePartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field14ColInfoPartialPUlfUl);
 // PAL: 0x8078f500
 extern UNKNOWN_FUNCTION(checkSphereFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
 // PAL: 0x8078f784

@@ -33,23 +33,23 @@ public:
   // Collision funcs
   void narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 colTypeMask, u32 unused);
 
-  bool checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) NEVER_INLINE;
-  bool checkPointPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) NEVER_INLINE;
+  bool checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut) NEVER_INLINE;
+  bool checkPointPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut) NEVER_INLINE;
   bool checkPointFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) NEVER_INLINE;
   bool checkPointFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) NEVER_INLINE;
 
-  bool checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
-  bool checkSpherePartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
+  bool checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
+  bool checkSpherePartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
   bool checkSphereFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
   bool checkSphereFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) NEVER_INLINE;
 
-  bool checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut);
-  bool checkPointCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut);
+  bool checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut);
+  bool checkPointCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut);
   bool checkPointCachedFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut);
   bool checkPointCachedFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut);
 
-  bool checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start);
-  bool checkSphereCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start);
+  bool checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start);
+  bool checkSphereCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start);
   bool checkSphereCachedFull(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start);
   bool checkSphereCachedFullPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start);
 

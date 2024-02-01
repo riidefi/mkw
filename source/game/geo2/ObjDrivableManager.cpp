@@ -100,7 +100,7 @@ void ObjDrivableManager::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, 
   }
 }
 
-bool ObjDrivableManager::checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+bool ObjDrivableManager::checkPointPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut) {
   if (objCount == 0) {
     return false;
   } else {
@@ -118,7 +118,7 @@ bool ObjDrivableManager::checkPointPartial(const EGG::Vector3f& pos, const EGG::
   }
 }
 
-bool ObjDrivableManager::checkPointPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+bool ObjDrivableManager::checkPointPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut) {
   if (objCount == 0) {
     return false;
   } else {
@@ -200,7 +200,7 @@ bool ObjDrivableManager::checkPointFullPush(const EGG::Vector3f& pos, const EGG:
   }
 }
 
-bool ObjDrivableManager::checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+bool ObjDrivableManager::checkSpherePartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
   if (objCount == 0) {
     return false;
   } else {
@@ -218,7 +218,7 @@ bool ObjDrivableManager::checkSpherePartial(const EGG::Vector3f& pos, const EGG:
   }
 }
 
-bool ObjDrivableManager::checkSpherePartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+bool ObjDrivableManager::checkSpherePartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
   if (objCount == 0) {
     return false;
   } else {
@@ -300,7 +300,7 @@ bool ObjDrivableManager::checkSphereFullPush(const EGG::Vector3f& pos, const EGG
   }
 }
 
-bool ObjDrivableManager::checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+bool ObjDrivableManager::checkPointCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut) {
   bool hasCol = false;
   if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, 0.0f, BOXCOL_FLAG_DRIVABLE)) {
     return this->checkPointPartial(pos, prevPos, typeMask, colInfo, typeMaskOut);
@@ -317,7 +317,7 @@ bool ObjDrivableManager::checkPointCachedPartial(const EGG::Vector3f& pos, const
   }
 }
 
-bool ObjDrivableManager::checkPointCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut) {
+bool ObjDrivableManager::checkPointCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut) {
   bool hasCol = false;
   if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, 0.0f, BOXCOL_FLAG_DRIVABLE)) {
     return this->checkPointPartialPush(pos, prevPos, typeMask, colInfo, typeMaskOut);
@@ -396,7 +396,7 @@ bool ObjDrivableManager::checkPointCachedFullPush(const EGG::Vector3f& pos, cons
   }
 }
 
-bool ObjDrivableManager::checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+bool ObjDrivableManager::checkSphereCachedPartial(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
   if (this->objCount == 0) return false;
   bool hasCol = false;
   if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, radius, BOXCOL_FLAG_DRIVABLE)) {
@@ -414,7 +414,7 @@ bool ObjDrivableManager::checkSphereCachedPartial(const EGG::Vector3f& pos, cons
   }
 }
 
-bool ObjDrivableManager::checkSphereCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfo* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
+bool ObjDrivableManager::checkSphereCachedPartialPush(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, Field::ColInfoPartial* colInfo, u32* typeMaskOut, f32 radius, u32 start) {
   if (this->objCount == 0) return false;
   bool hasCol = false;
   if (!BoxColManager::spInstance->isSphereInSpatialCache(pos, radius, BOXCOL_FLAG_DRIVABLE)) {

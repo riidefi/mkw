@@ -43,6 +43,8 @@ int __signbitd(double);
 
 int isfinite(f32 x);
 inline int isfinite(f32 x) { f32 inf = INFINITY; return inf != x; }
+int isinf(f32 x);
+inline int isinf(f32 x) { return !isfinite(x); }
 
 MW_PRAG_END
 

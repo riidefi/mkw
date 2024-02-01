@@ -46,7 +46,7 @@ CourseColManager::CourseColManager() {
 
 CourseColManager::~CourseColManager() { delete colMgr; }
 
-bool CourseColManager::checkPointPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale) {
+bool CourseColManager::checkPointPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale) {
   if (colMgr == nullptr) {
     colMgr = this->colMgr;
   }
@@ -66,7 +66,7 @@ bool CourseColManager::checkPointPartial(RKGndCol* colMgr, const EGG::Vector3f& 
   }
 }
 
-bool CourseColManager::doCheckWithPartialInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfo* colInfoPartial, u32* typeMask) {
+bool CourseColManager::doCheckWithPartialInfo(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoPartial* colInfoPartial, u32* typeMask) {
   f32 dist;
   EGG::Vector3f fnrm;
   u16 attribute;
@@ -104,7 +104,7 @@ bool CourseColManager::doCheckWithPartialInfo(RKGndCol* colMgr, CollisionCheckFu
   return hasCol;
 }
 
-bool CourseColManager::checkPointPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale) {
+bool CourseColManager::checkPointPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale) {
   if (colMgr == nullptr) {
     colMgr = this->colMgr;
   }
@@ -124,7 +124,7 @@ bool CourseColManager::checkPointPartialPush(RKGndCol* colMgr, const EGG::Vector
   }
 }
 
-bool CourseColManager::doCheckWithPartialInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfo* colInfoPartial, u32* typeMask) {
+bool CourseColManager::doCheckWithPartialInfoPush(RKGndCol* colMgr, CollisionCheckFunc collisionCheckFunc, ColInfoPartial* colInfoPartial, u32* typeMask) {
   f32 dist;
   EGG::Vector3f fnrm;
   u16 attribute;
@@ -273,7 +273,7 @@ bool CourseColManager::doCheckWithFullInfoPush(RKGndCol* colMgr, CollisionCheckF
   return hasCol;
 }
 
-bool CourseColManager::checkSpherePartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius) {
+bool CourseColManager::checkSpherePartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius) {
   if (colMgr == nullptr) {
     colMgr = this->colMgr;
   }
@@ -294,7 +294,7 @@ bool CourseColManager::checkSpherePartial(RKGndCol* colMgr, const EGG::Vector3f&
   }
 }
 
-bool CourseColManager::checkSpherePartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius) {
+bool CourseColManager::checkSpherePartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius) {
   if (colMgr == nullptr) {
     colMgr = this->colMgr;
   }
@@ -357,7 +357,7 @@ bool CourseColManager::checkSphereFullPush(RKGndCol* colMgr, const EGG::Vector3f
   }
 }
 
-bool CourseColManager::checkPointCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale) {
+bool CourseColManager::checkPointCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale) {
   if (colMgr == nullptr) {
     colMgr = this->colMgr;
   }
@@ -380,7 +380,7 @@ bool CourseColManager::checkPointCachedPartial(RKGndCol* colMgr, const EGG::Vect
   }
 }
 
-bool CourseColManager::checkPointCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale) {
+bool CourseColManager::checkPointCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale) {
   if (colMgr == nullptr) {
     colMgr = this->colMgr;
   }
@@ -449,7 +449,7 @@ bool CourseColManager::checkPointCachedFullPush(RKGndCol* colMgr, const EGG::Vec
   }
 }
 
-bool CourseColManager::checkSphereCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius) {
+bool CourseColManager::checkSphereCachedPartial(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius) {
   if (colMgr == nullptr) {
     colMgr = this->colMgr;
   }
@@ -473,7 +473,7 @@ bool CourseColManager::checkSphereCachedPartial(RKGndCol* colMgr, const EGG::Vec
   }
 }
 
-bool CourseColManager::checkSphereCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfo* colInfo, u32* typeMaskOut, f32 scale, f32 radius) {
+bool CourseColManager::checkSphereCachedPartialPush(RKGndCol* colMgr, const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask, ColInfoPartial* colInfo, u32* typeMaskOut, f32 scale, f32 radius) {
   if (colMgr == nullptr) {
     colMgr = this->colMgr;
   }
