@@ -30,7 +30,7 @@ def get_ctx(match: str, out: Path, verbose=True):
     source_header = Path(source.src).with_suffix(".hpp")
     if verbose:
         print(f"Generating context for {source_header} at {out}")
-    command = f"{CWCC_PATHS[source.cc]} {CWCC_OPT} {source_header} -o {out}"
+    command = f"{CWCC_PATHS[source.cc]} {CWCC_OPT} {source.opts} {source_header} -o {out}"
     lines, retcode = run_windows_cmd(command)
     return source
 
