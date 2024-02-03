@@ -4,6 +4,7 @@
  */
 
 #include <decomp.h>
+#define VEC3_DTOR_INLINE
 #include <egg/math/eggQuat.hpp>
 
 extern "C" {
@@ -32,227 +33,38 @@ float _() {
 
 // Symbol: set__Q23EGG5QuatfFffff
 void Quatf::set(float a, float b, float c, float d) {
-  _[3] = a;
-  _[0] = b;
-  _[1] = c;
-  _[2] = d;
+  w = a;
+  x = b;
+  y = c;
+  z = d;
 }
 
-#ifdef NON_MATCHING
-void Quatf::setRPY(register const Vector3f& euler) {
-  float cy = EGG::Mathf::cos(0.5f * euler->z);
-  float cp = EGG::Mathf::cos(0.5f * euler->y);
-  float cr = EGG::Mathf::cos(0.5f * euler->x);
-  float sy = EGG::Mathf::sin(0.5f * euler->z);
-  float sp = EGG::Mathf::sin(0.5f * euler->y);
-  float sr = EGG::Mathf::sin(0.5f * euler->x);
+void Quatf::setRPY(const Vector3f& euler) {
+  f32 cosZ = EGG::Mathf::cos(0.5f * euler.z);
+  f32 cosY = EGG::Mathf::cos(0.5f * euler.y);
+  f32 cosX = EGG::Mathf::cos(0.5f * euler.x);
 
-  float x1 = (cy * cp) * sr;
-  float x2 = (sy * sp) * cr;
+  f32 sinZ = EGG::Mathf::sin(0.5f * euler.z);
+  f32 sinY = EGG::Mathf::sin(0.5f * euler.y);
+  f32 sinX = EGG::Mathf::sin(0.5f * euler.x);
 
-  float y1 = (cy * sp) * cr;
-  float y2 = (sy * cp) * sr;
-  float x = x1 - x2;
-  float y = y1 + y2;
-
-  float z1 = (sy * cp) * cr;
-  float w1 = (cy * cp) * cr;
-
-  float z2 = (cy * sp) * sr;
-  float w2 = (sy * sp) * sr;
-
-  float w = w1 + w2;
-  float z = z1 - z2;
-
-  _[3] = w;
-  _[0] = x;
-  _[1] = y;
-  _[2] = z;
-  // set(w, x, y, z);
+  f32 cZcY = cosZ * cosY;
+  f32 sZsY = sinZ * sinY;
+  this->w = cZcY * cosX + sZsY * sinX;
+  this->x = cZcY * sinX - sZsY * cosX;
+  f32 cZsY = cosZ * sinY;
+  f32 sZcY = sinZ * cosY;
+  this->y = cZsY * cosX + sZcY * sinX;
+  this->z = sZcY * cosX - cZsY * sinX;
 }
-#else
-// Symbol: setRPY__Q23EGG5QuatfFRCQ23EGG8Vector3f
-// PAL: 0x80239e10..0x80239f58
-MARK_BINARY_BLOB(setRPY__Q23EGG5QuatfFRCQ23EGG8Vector3f, 0x80239e10,
-                 0x80239f58);
-asm void Quatf::setRPY(const Vector3f& euler) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x60(r1);
-  mflr r0;
-  stw r0, 0x64(r1);
-  stfd f31, 0x50(r1);
-  psq_st f31, 88(r1), 0, 0;
-  stfd f30, 0x40(r1);
-  psq_st f30, 72(r1), 0, 0;
-  stfd f29, 0x30(r1);
-  psq_st f29, 56(r1), 0, 0;
-  stfd f28, 0x20(r1);
-  psq_st f28, 40(r1), 0, 0;
-  stfd f27, 0x10(r1);
-  psq_st f27, 24(r1), 0, 0;
-  lfs f1, 0.5f;
-  stw r31, 0xc(r1);
-  mr r31, r4;
-  lfs f0, 8(r4);
-  stw r30, 8(r1);
-  mr r30, r3;
-  fmuls f1, f1, f0;
-  bl cos;
-  lfs f2, 0.5f;
-  fmr f27, f1;
-  lfs f0, 4(r31);
-  fmuls f1, f2, f0;
-  bl cos;
-  lfs f2, 0.5f;
-  fmr f28, f1;
-  lfs f0, 0(r31);
-  fmuls f1, f2, f0;
-  bl cos;
-  lfs f2, 0.5f;
-  fmr f29, f1;
-  lfs f0, 8(r31);
-  fmuls f1, f2, f0;
-  bl sin;
-  lfs f2, 0.5f;
-  fmr f30, f1;
-  lfs f0, 4(r31);
-  fmuls f1, f2, f0;
-  bl sin;
-  lfs f2, 0.5f;
-  fmr f31, f1;
-  lfs f0, 0(r31);
-  fmuls f1, f2, f0;
-  bl sin;
-  fmuls f0, f27, f28;
-  fmuls f5, f30, f31;
-  fmuls f6, f27, f31;
-  fmuls f4, f0, f29;
-  fmuls f3, f5, f1;
-  fmuls f2, f0, f1;
-  fmuls f0, f5, f29;
-  fadds f5, f4, f3;
-  fmuls f7, f30, f28;
-  stfs f5, 0xc(r30);
-  fsubs f5, f2, f0;
-  fmuls f4, f6, f29;
-  fmuls f3, f7, f1;
-  stfs f5, 0(r30);
-  fmuls f0, f6, f1;
-  fmuls f2, f7, f29;
-  fadds f1, f4, f3;
-  fsubs f0, f2, f0;
-  stfs f1, 4(r30);
-  stfs f0, 8(r30);
-  psq_l f31, 88(r1), 0, 0;
-  lfd f31, 0x50(r1);
-  psq_l f30, 72(r1), 0, 0;
-  lfd f30, 0x40(r1);
-  psq_l f29, 56(r1), 0, 0;
-  lfd f29, 0x30(r1);
-  psq_l f28, 40(r1), 0, 0;
-  lfd f28, 0x20(r1);
-  psq_l f27, 24(r1), 0, 0;
-  lfd f27, 0x10(r1);
-  lwz r31, 0xc(r1);
-  lwz r30, 8(r1);
-  lwz r0, 0x64(r1);
-  mtlr r0;
-  addi r1, r1, 0x60;
-  blr;
-  // clang-format on
-}
-#endif
 
-// Symbol: setRPY__Q23EGG5QuatfFfff
-// PAL: 0x80239f58..0x8023a0a0
-MARK_BINARY_BLOB(setRPY__Q23EGG5QuatfFfff, 0x80239f58, 0x8023a0a0);
-asm void Quatf::setRPY(float r, float p, float y) {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x70(r1);
-  mflr r0;
-  stw r0, 0x74(r1);
-  stfd f31, 0x60(r1);
-  psq_st f31, 104(r1), 0, 0;
-  stfd f30, 0x50(r1);
-  psq_st f30, 88(r1), 0, 0;
-  stfd f29, 0x40(r1);
-  psq_st f29, 72(r1), 0, 0;
-  stfd f28, 0x30(r1);
-  psq_st f28, 56(r1), 0, 0;
-  stfd f27, 0x20(r1);
-  psq_st f27, 40(r1), 0, 0;
-  frsp f0, f3;
-  lfs f4, 0.5f;
-  stfs f1, 8(r1);
-  fmuls f1, f4, f0;
-  stw r31, 0x1c(r1);
-  mr r31, r3;
-  stfs f2, 0xc(r1);
-  stfs f3, 0x10(r1);
-  bl cos;
-  lfs f2, 0.5f;
-  fmr f27, f1;
-  lfs f0, 0xc(r1);
-  fmuls f1, f2, f0;
-  bl cos;
-  lfs f2, 0.5f;
-  fmr f28, f1;
-  lfs f0, 8(r1);
-  fmuls f1, f2, f0;
-  bl cos;
-  lfs f2, 0.5f;
-  fmr f29, f1;
-  lfs f0, 0x10(r1);
-  fmuls f1, f2, f0;
-  bl sin;
-  lfs f2, 0.5f;
-  fmr f30, f1;
-  lfs f0, 0xc(r1);
-  fmuls f1, f2, f0;
-  bl sin;
-  lfs f2, 0.5f;
-  fmr f31, f1;
-  lfs f0, 8(r1);
-  fmuls f1, f2, f0;
-  bl sin;
-  fmuls f2, f27, f28;
-  fmuls f0, f30, f31;
-  fmuls f7, f27, f31;
-  fmuls f4, f2, f29;
-  fmuls f3, f0, f1;
-  fmuls f6, f30, f28;
-  fmuls f2, f2, f1;
-  fadds f5, f4, f3;
-  fmuls f0, f0, f29;
-  stfs f5, 0xc(r31);
-  fmuls f4, f7, f29;
-  fmuls f3, f6, f1;
-  fsubs f5, f2, f0;
-  fmuls f0, f7, f1;
-  fmuls f2, f6, f29;
-  stfs f5, 0(r31);
-  fadds f1, f4, f3;
-  fsubs f0, f2, f0;
-  stfs f1, 4(r31);
-  stfs f0, 8(r31);
-  psq_l f31, 104(r1), 0, 0;
-  lfd f31, 0x60(r1);
-  psq_l f30, 88(r1), 0, 0;
-  lfd f30, 0x50(r1);
-  psq_l f29, 72(r1), 0, 0;
-  lfd f29, 0x40(r1);
-  psq_l f28, 56(r1), 0, 0;
-  lfd f28, 0x30(r1);
-  psq_l f27, 40(r1), 0, 0;
-  lfd f27, 0x20(r1);
-  lwz r31, 0x1c(r1);
-  lwz r0, 0x74(r1);
-  mtlr r0;
-  addi r1, r1, 0x70;
-  blr;
-  // clang-format on
+void Quatf::setRPY(float x, float y, float z) {
+  // doesn't match without inlining the function above
+  Vector3f vec;
+  vec.x = x;
+  vec.y = y;
+  vec.z = z;
+  this->setRPY(vec);
 }
 
 // Symbol: setAxisRotation__Q23EGG5QuatfFRCQ23EGG8Vector3ff
@@ -303,24 +115,8 @@ asm void Quatf::setAxisRotation(const Vector3f& axis, float angle) {
   // clang-format on
 }
 
-// Symbol: squareNorm__Q23EGG5QuatfFv
-// PAL: 0x8023a138..0x8023a168
-MARK_BINARY_BLOB(squareNorm__Q23EGG5QuatfFv, 0x8023a138, 0x8023a168);
-asm float Quatf::squareNorm() {
-  // clang-format off
-  lfs f1, 0(r3);
-  lfs f0, 4(r3);
-  fmuls f2, f1, f1;
-  lfs f3, 8(r3);
-  fmuls f1, f0, f0;
-  lfs f0, 0xc(r3);
-  fmuls f3, f3, f3;
-  fmuls f0, f0, f0;
-  fadds f1, f2, f1;
-  fadds f1, f3, f1;
-  fadds f1, f0, f1;
-  blr;
-  // clang-format on
+float Quatf::squareNorm() {
+  return axisSquareNorm() + w*w;
 }
 
 // Symbol: normalise__Q23EGG5QuatfFv
@@ -654,136 +450,43 @@ asm Quatf operator*(const Quatf&, const Vector3f&) {
   // clang-format on
 }
 
-// Symbol: slerpTo__Q23EGG5QuatfCFRCQ23EGG5QuatffRQ23EGG5Quatf
-// PAL: 0x8023a5c4..0x8023a788
-MARK_BINARY_BLOB(slerpTo__Q23EGG5QuatfCFRCQ23EGG5QuatffRQ23EGG5Quatf,
-                 0x8023a5c4, 0x8023a788);
-asm void Quatf::slerpTo(const Quatf& r4, float, Quatf& r5) const {
-  // clang-format off
-  nofralloc;
-  stwu r1, -0x50(r1);
-  mflr r0;
-  stw r0, 0x54(r1);
-  stfd f31, 0x40(r1);
-  psq_st f31, 72(r1), 0, 0;
-  stfd f30, 0x30(r1);
-  psq_st f30, 56(r1), 0, 0;
-  stfd f29, 0x20(r1);
-  psq_st f29, 40(r1), 0, 0;
-  fmr f31, f1;
-  lfs f3, 0(r3);
-  lfs f2, 0(r4);
-  lfs f1, 4(r3);
-  lfs f0, 4(r4);
-  fmuls f2, f3, f2;
-  lfs f3, 8(r3);
-  fmuls f0, f1, f0;
-  lfs f1, 8(r4);
-  stw r31, 0x1c(r1);
-  fmuls f3, f3, f1;
-  lfs f5, 0xc(r3);
-  fadds f1, f2, f0;
-  stw r30, 0x18(r1);
-  mr r30, r5;
-  lfs f4, 0xc(r4);
-  stw r29, 0x14(r1);
-  fadds f1, f3, f1;
-  fmuls f2, f5, f4;
-  lfs f0, 1.0f;
-  stw r28, 0x10(r1);
-  mr r28, r3;
-  mr r29, r4;
-  fadds f1, f2, f1;
-  fcmpo cr0, f1, f0;
-  ble lbl_8023a658;
-  fmr f1, f0;
-  b lbl_8023a668;
-lbl_8023a658:
-  lfs f0, -1.0f;
-  fcmpo cr0, f1, f0;
-  bge lbl_8023a668;
-  fmr f1, f0;
-lbl_8023a668:
-  lfd f0, 0.0;
-  fcmpo cr0, f1, f0;
-  bge lbl_8023a680;
-  fneg f1, f1;
-  li r31, 1;
-  b lbl_8023a684;
-lbl_8023a680:
-  li r31, 0;
-lbl_8023a684:
-  bl unk_8022f8c0;
-  fmr f30, f1;
-  bl sin;
-  lfs f0, 0.0f;
-  fmr f2, f1;
-  fcmpo cr0, f1, f0;
-  ble lbl_8023a6a4;
-  b lbl_8023a6a8;
-lbl_8023a6a4:
-  fneg f2, f1;
-lbl_8023a6a8:
-  lfs f0, 1.0e-5f;
-  fcmpo cr0, f2, f0;
-  bge lbl_8023a6c0;
-  lfs f0, 1.0f;
-  fsubs f30, f0, f31;
-  b lbl_8023a6e4;
-lbl_8023a6c0:
-  lfs f0, 1.0f;
-  fmuls f29, f31, f30;
-  fdivs f31, f0, f1;
-  fsubs f1, f30, f29;
-  bl sin;
-  fmuls f30, f31, f1;
-  fmr f1, f29;
-  bl sin;
-  fmuls f31, f31, f1;
-lbl_8023a6e4:
-  cmpwi r31, 0;
-  beq lbl_8023a6f0;
-  fneg f31, f31;
-lbl_8023a6f0:
-  lfs f0, 0(r28);
-  lfs f2, 0(r29);
-  lfs f1, 4(r28);
-  fmuls f7, f30, f0;
-  lfs f0, 4(r29);
-  fmuls f6, f31, f2;
-  lfs f3, 8(r28);
-  fmuls f5, f30, f1;
-  fmuls f4, f31, f0;
-  lfs f2, 8(r29);
-  fmuls f3, f30, f3;
-  lfs f1, 0xc(r28);
-  fadds f6, f7, f6;
-  lfs f0, 0xc(r29);
-  fmuls f2, f31, f2;
-  stfs f6, 0(r30);
-  fadds f4, f5, f4;
-  fmuls f1, f30, f1;
-  fmuls f0, f31, f0;
-  stfs f4, 4(r30);
-  fadds f2, f3, f2;
-  fadds f0, f1, f0;
-  stfs f2, 8(r30);
-  stfs f0, 0xc(r30);
-  psq_l f31, 72(r1), 0, 0;
-  lfd f31, 0x40(r1);
-  psq_l f30, 56(r1), 0, 0;
-  lfd f30, 0x30(r1);
-  psq_l f29, 40(r1), 0, 0;
-  lfd f29, 0x20(r1);
-  lwz r31, 0x1c(r1);
-  lwz r30, 0x18(r1);
-  lwz r29, 0x14(r1);
-  lwz r28, 0x10(r1);
-  lwz r0, 0x54(r1);
-  mtlr r0;
-  addi r1, r1, 0x50;
-  blr;
-  // clang-format on
+void Quatf::slerpTo(const EGG::Quatf &q1, f32 t, EGG::Quatf &dst) const {
+  f32 dot = x * q1.x + y * q1.y + z * q1.z + w * q1.w;
+
+  if (dot > 1.0f) {
+    dot = 1.0f;
+  } else if (dot < -1.0f) {
+    dot = -1.0f;
+  }
+
+  bool bDot;
+  if (dot < 0.0) {
+    dot = -dot;
+    bDot = true;
+  } else {
+    dot = dot;
+    bDot = false;
+  }
+
+  f32 acos = Mathf::acos(dot);
+  f32 sin = Mathf::sin(acos);
+
+  f32 s;
+  f32 recip;
+  if (Mathf::abs(sin) < 0.00001f) {
+    s = 1.0f - t;
+  } else {
+    f32 invSin = 1.0f / sin;
+    f32 tmp0 = t * acos;
+    s = invSin * Mathf::sin(acos - tmp0);
+    recip = invSin * Mathf::sin(tmp0);
+  }
+
+  if (bDot) recip = -recip;
+  dst.x = s * x + recip * q1.x;
+  dst.y = s * y + recip * q1.y;
+  dst.z = s * z + recip * q1.z;
+  dst.w = s * w + recip * q1.w;
 }
 
 // Symbol: makeVectorRotation__Q23EGG5QuatfFRQ23EGG8Vector3fRQ23EGG8Vector3f

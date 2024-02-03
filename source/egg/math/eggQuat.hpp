@@ -17,6 +17,7 @@ public:
   void setRPY(const Vector3f& euler);
   void setRPY(float r, float p, float y);
   void setAxisRotation(const Vector3f& axis, float angle);
+  float axisSquareNorm() const { return x*x + y*y + z*z; }; // maybe Vector3f subobj
   float squareNorm();
   void normalise();
   Quatf inverse();
@@ -30,45 +31,45 @@ public:
   }
 
   inline Quatf& operator=(const Quatf& rhs) {
-    _[0] = rhs._[0];
-    _[1] = rhs._[1];
-    _[2] = rhs._[2];
-    _[3] = rhs._[3];
+    x = rhs.x;
+    y = rhs.y;
+    z = rhs.z;
+    w = rhs.w;
     return *this;
   }
 
   inline Quatf& operator*(float f) {
-    _[0] *= f;
-    _[1] *= f;
-    _[2] *= f;
-    _[3] *= f;
+    x *= f;
+    y *= f;
+    z *= f;
+    w *= f;
     return *this;
   }
 
   inline Quatf& operator+=(const Quatf& rhs) {
-    _[0] += rhs._[0];
-    _[1] += rhs._[1];
-    _[2] += rhs._[2];
-    _[3] += rhs._[3];
+    x += rhs.x;
+    y += rhs.y;
+    z += rhs.z;
+    w += rhs.w;
     return *this;
   }
 
   inline static void quatMul(Quatf& dst, const Quatf& q1, const Quatf& q2) {
     dst.set(
-      q1._[3]*q2._[3] - q1._[0]*q2._[0] - q1._[1]*q2._[1] - q1._[2]*q2._[2],
-      q1._[0]*q2._[3] + q1._[3]*q2._[0] + q1._[1]*q2._[2] - q1._[2]*q2._[1],
-      q1._[1]*q2._[3] + q1._[3]*q2._[1] + q1._[2]*q2._[0] - q1._[0]*q2._[2],
-      q1._[2]*q2._[3] + q1._[3]*q2._[2] + q1._[0]*q2._[1] - q1._[1]*q2._[0]
+      q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z,
+      q1.x*q2.w + q1.w*q2.x + q1.y*q2.z - q1.z*q2.y,
+      q1.y*q2.w + q1.w*q2.y + q1.z*q2.x - q1.x*q2.z,
+      q1.z*q2.w + q1.w*q2.z + q1.x*q2.y - q1.y*q2.x
     );
   }
   inline static void quatMul(Quatf& dst, const Quatf& q1, const Vector3f& v) {
-    float x1 = q1._[0];
+    float x1 = q1.x;
     float x2 = v.x;
-    float y1 = q1._[1];
+    float y1 = q1.y;
     float y2 = v.y;
-    float z1 = q1._[2];
+    float z1 = q1.z;
     float z2 = v.z;
-    float w1 = q1._[3];
+    float w1 = q1.w;
     dst.set(
       -(x1*x2 + y1*y2 + z1*z2),
       y1*z2 + w1*x2 - z1*y2,
@@ -77,7 +78,10 @@ public:
     );
   }
 
-  f32 _[4];
+  f32 x;
+  f32 y;
+  f32 z;
+  f32 w;
 };
 
 } // namespace EGG

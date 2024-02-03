@@ -89,8 +89,10 @@ struct Vector3f : public nw4r::math::VEC3 {
 
   // for now
 #ifndef REL
+#ifndef VEC3_DTOR_INLINE
   // projection and rejection of v0 onto v1
   ~Vector3f();
+#endif
 #endif
 };
 
