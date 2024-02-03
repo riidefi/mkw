@@ -34,8 +34,14 @@ namespace Mathf {
 float sqrt(float);
 float frsqrt(float);
 
+inline f32 abs(f32 t) { return t > (f32)0 ? t : -t;}
+
 float sin(float);
 float cos(float);
+float tan(float);
+float asin(float);
+float acos(float);
+float atan2(float, float);
 
 inline bool isNonNegative(f32 x) {return x > -FLT_MIN;}
 } // namespace Mathf
