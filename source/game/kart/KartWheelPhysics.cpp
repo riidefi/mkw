@@ -76,7 +76,7 @@ extern UNKNOWN_FUNCTION(unk_805b6f4c);
 // PAL: 0x805b7928
 extern UNKNOWN_FUNCTION(unk_805b7928);
 // PAL: 0x805b821c
-extern UNKNOWN_FUNCTION(reset__Q24Kart13CollisionInfoFv);
+extern UNKNOWN_FUNCTION(reset__Q24Kart17KartCollisionInfoFv);
 // PAL: 0x805b8330
 extern UNKNOWN_FUNCTION(reset__Q24Kart11HitboxGroupFv);
 // PAL: 0x805b83d8
@@ -200,12 +200,12 @@ asm UNKNOWN_FUNCTION(WheelPhysics_hasFloorCollision) {
 }
 
 namespace Kart {
-const EGG::Vector3f* KartWheelPhysics::getCollisionFloorDir() const {
-  return &this->getCollisionInfo()->floorDir;
+const EGG::Vector3f* KartWheelPhysics::getCollisionFloorNrm() const {
+  return &this->getKartCollisionInfo()->floorNrm;
 }
 
-const CollisionInfo* KartWheelPhysics::getCollisionInfo() const {
-  return this->hitboxGroup->getCollisionInfo();
+const KartCollisionInfo* KartWheelPhysics::getKartCollisionInfo() const {
+  return this->hitboxGroup->getKartCollisionInfo();
 }
 
 KartSusPhysics::KartSusPhysics(u32 wheelIdx, s32 wheelType, s32 bspWheelIdx) : KartObjectProxy() {

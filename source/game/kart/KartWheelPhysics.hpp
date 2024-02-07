@@ -85,8 +85,8 @@ public:
   void updateEffectiveRadius();
   // unused
   void unk80599dc0(const EGG::Vector3f& front);
-  const EGG::Vector3f* getCollisionFloorDir() const;
-  const CollisionInfo* getCollisionInfo() const;
+  const EGG::Vector3f* getCollisionFloorNrm() const;
+  const KartCollisionInfo* getKartCollisionInfo() const;
 
 private:
   u32 wheelIdx;

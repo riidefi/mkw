@@ -17,6 +17,11 @@ void setCurrentColTrickable(u32* typeMask, u32 value);
 void setCurrentColRejectRoad(u32* typeMask, u32 value);
 void setCurrentColSoftWall(u32* typeMask, u32 value);
 
+inline bool lookupCollisionEntry(u32* typeMask, u32 type) {
+  if ((*typeMask & type) != 0) return findClosestCollisionEntry(typeMask, type);
+  return false;
+}
+
 struct CollisionEntry {
   u32 typeMask;
   u16 attribute;

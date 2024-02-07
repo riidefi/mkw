@@ -78,6 +78,13 @@ source/game/util/Random.cpp:
     rodata: [0x80891370, 0x80891380]
     data: [0x808b42e0, 0x808b42ec]
 
+source/game/kart/KartCollide.cpp:
+    text: [0x8056e56c, 0x80574030]
+    rodata: [0x80891730, 0x808917b0]
+    data: [0x808b56a8, 0x808b56c0]
+
+# KartHalfPipe starts after KartCollide
+
 source/game/kart/KartMove.cpp:
     text: [0x80577fc4, 0x8058985c]
     # rodata: [0x80891a00, 0x80891b08]

@@ -2,6 +2,7 @@
 #include <cstddef>
 
 #include <game/kart/KartMove.hpp>
+#include <game/kart/KartBody.hpp>
 
 // --- EXTERN DECLARATIONS BEGIN ---
 
@@ -57,7 +58,7 @@ extern UNKNOWN_FUNCTION(PlayerSub1c_startOobWipe);
 // PAL: 0x80599eac
 extern UNKNOWN_FUNCTION(WheelPhysics_hasFloorCollision);
 // PAL: 0x80599ec8
-extern UNKNOWN_FUNCTION(getCollisionInfo__Q24Kart16KartWheelPhysicsCFv);
+extern UNKNOWN_FUNCTION(getKartCollisionInfo__Q24Kart16KartWheelPhysicsCFv);
 // PAL: 0x8059c0b8
 extern UNKNOWN_FUNCTION(unk_8059c0b8);
 // PAL: 0x805a49bc
@@ -407,21 +408,11 @@ KartAccessor_34* KartObjectProxy::kartAccessor_34() { return mAccessor->m_34; }
 
 MaybeShadow* KartObjectProxy::maybeShadow() { return mAccessor->mMaybeShadow; }
 
+HitboxGroup* KartObjectProxy::hitboxGroup() { return kartBody()->getPhysics()->mpHitboxGroup; }
+
+const HitboxGroup* KartObjectProxy::hitboxGroup() const { return kartBody()->getPhysics()->mpHitboxGroup; }
+
 } // namespace Kart
-
-// Symbol: PlayerPointers_getCollisionGroup
-// PAL: 0x805907d8..0x805907ec
-MARK_BINARY_BLOB(PlayerPointers_getCollisionGroup, 0x805907d8, 0x805907ec);
-asm UNKNOWN_FUNCTION(PlayerPointers_getCollisionGroup){
-#include "asm/805907d8.s"
-}
-
-// Symbol: unk_805907ec
-// PAL: 0x805907ec..0x80590800
-MARK_BINARY_BLOB(unk_805907ec, 0x805907ec, 0x80590800);
-asm UNKNOWN_FUNCTION(unk_805907ec){
-#include "asm/805907ec.s"
-}
 
 // Symbol: unk_80590800
 // PAL: 0x80590800..0x8059081c
