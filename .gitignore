@@ -69,7 +69,9 @@ pack/new_symbols.yml
 *.bndb
 .~lock.*
 
+# Docs and web
 doxygen
+web
 
 # diff.py expected
 expected

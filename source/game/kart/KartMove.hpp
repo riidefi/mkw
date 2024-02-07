@@ -492,6 +492,7 @@ public:
   s16 smtCharge() const { return mSmtCharge; }
   const EGG::Vector3f& scale() const { return mScale; }
   s16 someTimer() const { return _someTimer; }
+  f32 hitboxScale() const { return mHitboxScale; }
   s16 respawnTimer() const { return mRespawnTimer; }
   DrivingDirection drivingDirection() const { return mDrivingDirection; }
   s16 backwardsAllowCounter() const { return mBackwardsAllowCounter; }
@@ -515,7 +516,9 @@ private:
   s16 mSmtCharge;
   u8 _102[0x164 - 0x102];
   EGG::Vector3f mScale;
-  u8 _170[0x238 - 0x170];
+  f32 mTotalScale;
+  f32 mHitboxScale;
+  u8 _170[0x238 - 0x178];
   s16 _someTimer;
   s16 mRespawnTimer;
   u8 _23c[0x248 - 0x23c];

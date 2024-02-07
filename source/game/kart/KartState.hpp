@@ -4,8 +4,6 @@
 
 #include <decomp.h>
 
-#include <game/kart/KartObjectProxy.hpp>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -53,12 +51,14 @@ UNKNOWN_FUNCTION(PlayerSub1c_destroy);
 }
 #endif
 
+#include <game/kart/KartObjectProxy.hpp>
+#include <game/system/RKBitField.hpp>
+
 namespace Kart {
 
 namespace KartFlags {
 
-// We never reference this enum directly, we only reference the values
-enum _KartFlags {};
+#define KART_FLAG_CANNON_START 35
 
 } // namespace KartFlags
 
@@ -69,6 +69,15 @@ public:
   void resetOob();
   void startWipe(int wipeState);
   void resetCollisionFlags();
+
+  bool on(size_t n) const {
+    return mFlags.on(n);
+  }
+  void set(size_t n) { mFlags.set(n); }
+  void reset(size_t n) { mFlags.reset(n); }
+  u32& field(size_t n) { return mFlags.field(n); }
+
+  void setCannonPointId(u32 id) { mCannonPointId = id; }
 
 private:
   u8 _00[0x04 - 0x00];
@@ -88,8 +97,9 @@ private:
   u32 m_70;
   s32 mBoostRampType;
   s32 mJumpPadType;
-  u8 _7c[0x84 - 0x7c];
-  u16 m_84;
+  f32 _7c;
+  u32 mCannonPointId;
+  u8 _84[0x88 - 0x84];
   EGG::Vector2f mStick;
   int mWipeState;
   s16 mWipeFrame;

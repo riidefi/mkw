@@ -68,34 +68,34 @@ void Hitbox::setScale(f32 scale) {
   this->radius = this->bsp->radius * scale;
 }
 
-CollisionInfo* CollisionInfo::initStatus() {
+KartCollisionInfo* KartCollisionInfo::initStatus() {
   this->flags = 0;
   this->reset();
   return this;
 }
 
-void CollisionInfo::reset() {
+void KartCollisionInfo::reset() {
   this->flags = 0;
-  this->nrm.setZero();
-  this->floorDir.setZero();
-  this->maybeLastWallDir.setZero();
-  this->_28.setZero();
+  this->tangentOff.setZero();
+  this->floorNrm.setZero();
+  this->wallNrm.setZero();
+  this->softWallNrm.setZero();
   this->vel.setZero();
   this->relPos.setZero();
   this->movement.setZero();
   this->_58.setZero();
   this->speedFactor = 1.0f;
   this->rotFactor = 0.0f;
-  this->closestFloorFlags = 0;
-  this->closestFloorSettings = -1;
-  this->_74 = 0;
-  this->_78 = -1;
-  this->intensity = 0;
-  this->_80 = 0.0f;
+  this->floorKclTypeMask = 0;
+  this->floorKclVariant = -1;
+  this->wallKclType = 0;
+  this->wallKclVariant = -1;
+  this->sinkDepth = 0;
+  this->colPerpendicularity = 0.0f;
 }
 
 HitboxGroup::HitboxGroup() {
-  CollisionInfo& collisionInfo = this->colInfo;
+  KartCollisionInfo& collisionInfo = this->colInfo;
   this->hitboxCount = 0;
   collisionInfo.initStatus();
   this->hitboxes = nullptr;

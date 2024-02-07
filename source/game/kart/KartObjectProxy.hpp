@@ -109,9 +109,9 @@ UNKNOWN_FUNCTION(kartAccessor_34__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805907cc..0x805907d8
 UNKNOWN_FUNCTION(maybeShadow__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805907d8..0x805907ec
-UNKNOWN_FUNCTION(PlayerPointers_getCollisionGroup);
+UNKNOWN_FUNCTION(hitboxGroup__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805907ec..0x80590800
-UNKNOWN_FUNCTION(unk_805907ec);
+UNKNOWN_FUNCTION(hitboxGroup__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590800..0x8059081c
 UNKNOWN_FUNCTION(unk_80590800);
 // PAL: 0x8059081c..0x80590834
@@ -388,6 +388,7 @@ UNKNOWN_FUNCTION(unk_805919e8);
 #include <nw4r/ut/utList.hpp>
 
 #include "KartSettings.hpp"
+#include "KartHitbox.hpp"
 
 namespace Kart {
 
@@ -417,10 +418,11 @@ class KartAccessor_60;
 // Used outside of KartAccessor
 class KartHalfPipe;
 class KartJump;
+class KartState;
 
 struct KartAccessor {
   KartSettings* kartSettings;
-  u8 _00[0x08 - 0x04];
+  KartState* mKartState;
   KartBody* mBody;
   KartSus** mSus;
   KartWheel** mWheels;
@@ -464,8 +466,14 @@ public:
   KartSnd* kartSnd();
   KartAccessor_34* kartAccessor_34();
   MaybeShadow* maybeShadow();
+  HitboxGroup* hitboxGroup();
+  const HitboxGroup* hitboxGroup() const;
   KartCollide* kartCollide();
   const KartCollide* kartCollide() const;
+
+  // dunno why this specifically is inline, but that's what it appears
+  KartState* kartState() { return mAccessor->mKartState; }
+  const KartState* kartState() const { return mAccessor->mKartState; }
 
   BSP* bsp() const;
   BspHitbox* bspHitboxes() const;
