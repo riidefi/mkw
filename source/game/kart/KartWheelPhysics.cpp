@@ -68,7 +68,7 @@ extern UNKNOWN_FUNCTION(WheelPhysics_realign);
 // PAL: 0x8059a4f8
 extern UNKNOWN_FUNCTION(vec3_from_mat33_mul);
 // PAL: 0x805aeb88
-extern UNKNOWN_FUNCTION(Vec3_projUnit);
+extern UNKNOWN_FUNCTION(projUnit__6RKGeomFRQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x805b6150
 extern UNKNOWN_FUNCTION(applySuspensionWrench__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fb);
 // PAL: 0x805b6f4c

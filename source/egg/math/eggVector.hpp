@@ -83,6 +83,7 @@ struct Vector3f : public nw4r::math::VEC3 {
     return Vector3f(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z,
                     x * rhs.y - y * rhs.x);
   }
+  float dot(const Vector3f& other) const { return x*other.x + y*other.y + z*other.z; }
   static Vector3f cross(const EGG::Vector3f& lhs, const EGG::Vector3f& rhs) {
     return lhs.cross(rhs);
   }

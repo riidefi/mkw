@@ -204,9 +204,9 @@ extern UNKNOWN_FUNCTION(unk_80595ca4);
 // PAL: 0x805ae9ec
 extern UNKNOWN_FUNCTION(VEC3_perpInPlane);
 // PAL: 0x805aeb88
-extern UNKNOWN_FUNCTION(Vec3_projUnit);
+extern UNKNOWN_FUNCTION(projUnit__6RKGeomFRQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x805aebd0
-extern UNKNOWN_FUNCTION(VEC3_rejUnit);
+extern UNKNOWN_FUNCTION(rejUnit__6RKGeomFRQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x805b5ce8
 extern UNKNOWN_FUNCTION(applyWrenchScaled__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff);
 // PAL: 0x805b6388

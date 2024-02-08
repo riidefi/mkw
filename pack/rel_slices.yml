@@ -135,6 +135,12 @@ source/game/kart/KartPhysicsInstance.cpp:
 #    data: [0x808b6a10, 0x808b6ae8]
 #    bss: [0x809c1998, 0x809c19a0]
 
+source/game/kart/RKGeom.cpp:
+    text: [0x805ae7b4, 0x805af370]
+    rodata: [0x80892538, 0x80892558]
+    data: [0x808b6e70, 0x808b6e80]
+    bss: [0x809c19f0, 0x809c1af0]
+
 source/game/kart/KartDynamics.cpp:
     text: [0x805b4af8, 0x805b6724]
     rodata: [0x80892750, 0x80892788]

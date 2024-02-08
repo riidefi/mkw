@@ -40,7 +40,7 @@ extern UNKNOWN_FUNCTION(VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5Qu
 // PAL: 0x8059f678
 extern UNKNOWN_FUNCTION(PlayerPhysics_destroy);
 // PAL: 0x805aec24
-extern UNKNOWN_FUNCTION(VEC3_projAndRej);
+extern UNKNOWN_FUNCTION(projAndRej__6RKGeomFRQ23EGG8Vector3fRQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x805b4b54
 extern UNKNOWN_FUNCTION(setDefault__Q24Kart12KartDynamicsFv);
 extern UNKNOWN_FUNCTION(__dt__Q24Kart16KartDynamicsKartFv);
