@@ -489,6 +489,7 @@ SOURCES_REL = [
     Source(src="source/game/kart/KartWheelPhysics.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartPhysics.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartPhysicsInstance.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/RKGeom.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartDynamics.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartHitbox.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/ObjKoopaFigure64.cpp", cc='4201_127', opts=REL_OPTS),
