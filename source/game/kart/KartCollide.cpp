@@ -59,10 +59,8 @@ extern UNKNOWN_FUNCTION(VEC3_fromCross);
 extern UNKNOWN_FUNCTION(processBody__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUl);
 // PAL: 0x8056e8d4
 extern UNKNOWN_FUNCTION(processWheels__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUl);
-// PAL: 0x8056e930
-extern UNKNOWN_FUNCTION(processMovingWater__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoPUl);
 // PAL: 0x8056ea04
-extern UNKNOWN_FUNCTION(processFloor__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUlb);
+extern UNKNOWN_FUNCTION(kartStats__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x8056eef4
 extern UNKNOWN_FUNCTION(unk_8056eef4);
 // PAL: 0x8056f26c
@@ -107,8 +105,6 @@ extern UNKNOWN_FUNCTION(clearBoost__Q24Kart8KartMoveFv);
 extern UNKNOWN_FUNCTION(unk_80586db4);
 // PAL: 0x80590100
 extern UNKNOWN_FUNCTION(PlayerHolder_getPlayer);
-// PAL: 0x8059018c
-extern UNKNOWN_FUNCTION(__ct__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059020c
 extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPosition);
 // PAL: 0x80590264
@@ -116,7 +112,7 @@ extern UNKNOWN_FUNCTION(PlayerPointers_getMat);
 // PAL: 0x805903ac
 extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolder);
 // PAL: 0x805903cc
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysics);
+extern UNKNOWN_FUNCTION(kartDynamics__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059041c
 extern UNKNOWN_FUNCTION(unk_8059041c);
 // PAL: 0x80590650
@@ -139,8 +135,6 @@ extern UNKNOWN_FUNCTION(kartAccessor_34__Q24Kart15KartObjectProxyFv);
 extern UNKNOWN_FUNCTION(hitboxGroup__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059084c
 extern UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
-// PAL: 0x80590874
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerStats);
 // PAL: 0x80590888
 extern UNKNOWN_FUNCTION(bsp__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590a40
@@ -197,8 +191,6 @@ extern UNKNOWN_FUNCTION(unk_805918e0);
 extern UNKNOWN_FUNCTION(kartHalfPipe__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059197c
 extern UNKNOWN_FUNCTION(unk_8059197c);
-// PAL: 0x80593fa4
-extern UNKNOWN_FUNCTION(__ct__Q24Kart15KartCollideAreaFv);
 // PAL: 0x80595ca4
 extern UNKNOWN_FUNCTION(unk_80595ca4);
 // PAL: 0x805ae9ec
@@ -366,8 +358,8 @@ void KartCollide::init() {
   this->solidOobTimer = 0;
   this->someLightningTimer = 0;
   _50 = 0.0f;
-  this->suspBottomHeightNonSoftCol = 0.0f;
-  this->suspBottomHeightSoftCol = 0.0f;
+  this->suspBottomHeightNonSoftWall = 0.0f;
+  this->suspBottomHeightSoftWall = 0.0f;
   this->someNonSoftWallTimer = 0;
   this->someSoftWallTimer = 0;
   this->someAngVel3FrameTimer = 0;
@@ -404,6 +396,7 @@ namespace Kart {
 void KartCollide::processBody(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo, u32* colTypeMask) {
   this->processMovingWater(kartColInfo, colTypeMask);
 
+  //bool hasWallCol = this->processWall(kartColInfo, colInfo, colTypeMask); // regswap
   bool hasWallCol;
   if (Field::lookupCollisionEntry(colTypeMask, KCL_TYPE_PLAYER_WALL_CAT1)) {
     u32 wallKclType = KCL_ATTRIBUTE_TYPE(Field::closestCollisionEntry->attribute);
@@ -426,11 +419,7 @@ void KartCollide::processBody(KartCollisionInfo& kartColInfo, const Hitbox& hitb
     this->checkNeighborhood(kartColInfo, hitbox, colInfo);
   }
 
-  if (Field::lookupCollisionEntry(colTypeMask, KCL_CANNON_TRIGGER_MASK)) {
-    kartState()->setCannonPointId(KCL_ATTRIBUTE_VARIANT(Field::closestCollisionEntry->attribute));
-    kartState()->set(KART_FLAG_CANNON_START);
-  }
-
+  this->processCannon(colTypeMask);
 }
 
 void KartCollide::processWheels(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo, u32* colTypeMask) {
@@ -438,26 +427,115 @@ void KartCollide::processWheels(KartCollisionInfo& kartColInfo, const Hitbox& hi
   this->processFloor(kartColInfo, hitbox, colInfo, colTypeMask, true);
 }
 
-// Symbol: processMovingWater__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoPUl
-// PAL: 0x8056e930..0x8056ea04
-MARK_BINARY_BLOB(processMovingWater__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoPUl, 0x8056e930, 0x8056ea04);
-asm void KartCollide::processMovingWater(KartCollisionInfo& kartColInfo, u32* colTypeMask) {
-  #include "asm/8056e930.s"
+void KartCollide::processMovingWater(KartCollisionInfo& kartColInfo, u32* colTypeMask) {
+  if (Field::lookupCollisionEntry(colTypeMask, KCL_MOVING_WATER_MASK)) {
+    kartState()->set(KART_FLAG_STICKY_ROAD);
+    s32 variant = KCL_ATTRIBUTE_VARIANT(Field::closestCollisionEntry->attribute);
+    if (variant == 1) {
+      kartColInfo.flags |= (COL_FLAG_MOVING_WATER_V0 | COL_FLAG_MOVING_WATER_STRONG_CURRENT | COL_FLAG_MOVING_WATER_DISABLE_ACC);
+    } else if (variant == 2) {
+      kartColInfo.flags |= COL_FLAG_MOVING_WATER_V2;
+    } else if (variant == 3) {
+      kartColInfo.flags |= (COL_FLAG_MOVING_WATER_V2 | COL_FLAG_MOVING_WATER_DISABLE_ACC| COL_FLAG_MOVING_WATER_V3);
+    } else {
+      kartColInfo.flags |= COL_FLAG_MOVING_WATER_V0;
+    }
+  }
 }
 
-// Symbol: processFloor__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUlb
-// PAL: 0x8056ea04..0x8056ee24
-MARK_BINARY_BLOB(processFloor__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUlb, 0x8056ea04, 0x8056ee24);
-asm void KartCollide::processFloor(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo, u32* colTypeMask, bool isWheel) {
-  #include "asm/8056ea04.s"
-}
+void KartCollide::processFloor(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo, u32* colTypeMask, bool isWheel) {
+  if ((kartColInfo.flags & COL_FLAG_SOFT_WALL) != 0) {
+    this->someSoftWallTimer++;
+    f32 radius = hitbox.radius;
+    this->suspBottomHeightSoftWall += hitbox.pos.y - radius;
+  }
+
+  if (Field::lookupCollisionEntry(colTypeMask, KCL_TYPE_FLOOR)) {
+    if ((Field::closestCollisionEntry->attribute & KCL_TRICKABLE_MASK) != 0) {
+      kartColInfo.flags |= COL_FLAG_TRICKABLE;
+      this->surfaceFlags |= SURF_FLAG_TRICKABLE;
+    } else {
+      this->surfaceFlags |= SURF_FLAG_NOT_TRICKABLE;
+    }
+
+    kartColInfo.sinkDepth = KCL_ATTRIBUTE_SINK_DEPTH(Field::closestCollisionEntry->attribute);
+    f32 speedFactor = kartStats()->getSpeedFactor(KCL_ATTRIBUTE_TYPE(Field::closestCollisionEntry->attribute));
+    if (kartColInfo.speedFactor > speedFactor) {
+      kartColInfo.speedFactor = speedFactor;
+    }
+    kartColInfo.handlingFactor += kartStats()->getHandlingFactor(KCL_ATTRIBUTE_TYPE(Field::closestCollisionEntry->attribute));
+
+    if ((Field::closestCollisionEntry->attribute & KCL_REJECT_ROAD_MASK) != 0) {
+      kartMove()->kartState()->set(KART_FLAG_REJECT_ROAD);
+    }
+
+    kartColInfo.floorKclTypeMask = closestCollisionEntry->typeMask;
+    kartColInfo.floorKclVariant = KCL_ATTRIBUTE_VARIANT(closestCollisionEntry->attribute);
+
+    if ((*colTypeMask & KCL_TYPE_OFFROAD_ANY) != 0) {
+      this->surfaceFlags |= SURF_FLAG_OFFROAD;
+    }
+
+    if (isWheel && (*colTypeMask & KCL_BOOST_PAD_MASK) != 0) {
+      kartMove()->setPadType(PAD_TYPE_BOOST_PANEL);
+      this->surfaceFlags |= SURF_FLAG_BOOST_PANEL;
+    }
+
+    if (Field::lookupCollisionEntry(colTypeMask, KCL_BOOST_RAMP_MASK)) {
+      kartMove()->setPadType(PAD_TYPE_BOOST_RAMP);
+      kartState()->setBoostRampType(KCL_ATTRIBUTE_VARIANT(closestCollisionEntry->attribute));
+      this->surfaceFlags |= (SURF_FLAG_BOOST_PANEL | SURF_FLAG_BOOST_RAMP | SURF_FLAG_TRICKABLE);
+    } else {
+      kartState()->setBoostRampType(-1);
+      this->surfaceFlags |= SURF_FLAG_NOT_TRICKABLE;
+    }
+
+    if ((kartColInfo.flags & COL_FLAG_SOFT_WALL) == 0) {
+      this->someNonSoftWallTimer++;
+      f32 radius = hitbox.radius;
+      this->suspBottomHeightNonSoftWall += hitbox.pos.y - radius;
+    }
+
+    if ((*colTypeMask & KCL_STICKY_ROAD_MASK) != 0) {
+      kartMove()->kartState()->set(KART_FLAG_STICKY_ROAD);
+    }
+
+    if (Field::lookupCollisionEntry(colTypeMask, KCL_HALFPIPE_RAMP_MASK)) {
+      kartMove()->kartState()->set(KART_FLAG_HALFPIPE_RAMP);
+      if (!kartState()->on(KART_FLAG_ONLINE_REMOTE)) {
+        kartMove()->kartState()->set(KART_FLAG_HALFPIPE_RAMP_LOCAL);
+      }
+      this->surfaceFlags |= SURF_FLAG_HALFPIPE_RAMP;
+      kartState()->setHalfpipeInvisibilityTimer(2);
+      if (KCL_ATTRIBUTE_VARIANT(closestCollisionEntry->attribute) == 1) {
+        kartMove()->setPadType(PAD_TYPE_BOOST_PANEL);
+
+      }
+    }
+
+    if (Field::lookupCollisionEntry(colTypeMask, KCL_JUMP_PAD_MASK)) {
+      KartState* ks = kartState();
+      if ((!ks->on(KART_FLAG_TOUCHING_GROUND) || !ks->on(KART_FLAG_JUMPPAD)) && !ks->on(KART_FLAG_JUMPPAD_VELY_INCREASE)) {
+	kartMove()->setPadType(PAD_TYPE_JUMP_PAD);
+	kartState()->setJumpPadType(KCL_ATTRIBUTE_VARIANT(closestCollisionEntry->attribute));
+      }
+      kartColInfo.flags |= COL_FLAG_TRICKABLE;
+    }
+
+    if ((*colTypeMask & KCL_MOVING_ROAD_MASK) != 0) {
+      this->surfaceFlags |= SURF_FLAG_MOVING_ROAD;
+    }
+  }
 }
 
-// Symbol: unk_8056ee24
-// PAL: 0x8056ee24..0x8056eef4
-MARK_BINARY_BLOB(unk_8056ee24, 0x8056ee24, 0x8056eef4);
-asm UNKNOWN_FUNCTION(unk_8056ee24) {
-  #include "asm/8056ee24.s"
+void KartCollide::updateHitboxes() {
+  KartDynamics* dynamics = kartDynamics();
+  HitboxGroup* hGroup = hitboxGroup();
+  for (s32 i = 0; (u16)i < hGroup->getHitboxCount(); i++) {
+    Hitbox& hbox = hGroup->getHitbox(i);
+    hbox.update(getScale(), dynamics->fullRot, dynamics->pos, kartMove()->totalScale(), kartBody()->getSinkDepth());
+  }
+}
 }
 
 // Symbol: unk_8056eef4
@@ -467,11 +545,24 @@ asm UNKNOWN_FUNCTION(unk_8056eef4) {
   #include "asm/8056eef4.s"
 }
 
-// Symbol: unk_8056f184
-// PAL: 0x8056f184..0x8056f26c
-MARK_BINARY_BLOB(unk_8056f184, 0x8056f184, 0x8056f26c);
-asm UNKNOWN_FUNCTION(unk_8056f184) {
-  #include "asm/8056f184.s"
+namespace Kart {
+bool KartCollide::processWall(KartCollisionInfo& kartColInfo, const Field::ColInfo& colInfo, u32* colTypeMask) {
+  if (Field::lookupCollisionEntry(colTypeMask, KCL_TYPE_PLAYER_WALL_CAT1)) {
+    u32 wallKclType = KCL_ATTRIBUTE_TYPE(Field::closestCollisionEntry->attribute);
+    u32 wallKclVariant = KCL_ATTRIBUTE_VARIANT(Field::closestCollisionEntry->attribute);
+
+    if (Field::lookupCollisionEntry(colTypeMask, KCL_TYPE_PLAYER_WALL_CAT2)) {
+      kartColInfo.wallKclType = wallKclType;
+      kartColInfo.wallKclVariant = wallKclVariant;
+      if ((Field::closestCollisionEntry->attribute & KCL_SOFT_WALL_MASK) != 0) {
+        kartColInfo.flags |= COL_FLAG_SOFT_WALL;
+      }
+    }
+    return true;
+  } else {
+    return false;
+  }
+}
 }
 
 // Symbol: checkNeighborhood__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfo
@@ -481,12 +572,20 @@ asm void Kart::KartCollide::checkNeighborhood(KartCollisionInfo& kartColInfo, co
   #include "asm/8056f26c.s"
 }
 
-// Symbol: unk_8056f490
+namespace Kart {
+void KartCollide::processCannon(u32* colTypeMask) {
+  if (Field::lookupCollisionEntry(colTypeMask, KCL_CANNON_TRIGGER_MASK)) {
+    kartState()->setCannonPointId(KCL_ATTRIBUTE_VARIANT(Field::closestCollisionEntry->attribute));
+    kartState()->set(KART_FLAG_CANNON_START);
+  }
+}
+}
+/*// Symbol: unk_8056f490
 // PAL: 0x8056f490..0x8056f510
 MARK_BINARY_BLOB(unk_8056f490, 0x8056f490, 0x8056f510);
 asm UNKNOWN_FUNCTION(unk_8056f490) {
   #include "asm/8056f490.s"
-}
+}*/
 
 // Symbol: unk_8056f510
 // PAL: 0x8056f510..0x8056f73c

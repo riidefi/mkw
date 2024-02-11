@@ -469,6 +469,13 @@ namespace Kart {
 class KartHalfPipe;
 class KartJump;
 
+enum PadType {
+  PAD_TYPE_NONE        = 0x0,
+  PAD_TYPE_BOOST_PANEL = 0x1,
+  PAD_TYPE_BOOST_RAMP  = 0x2,
+  PAD_TYPE_JUMP_PAD    = 0x4,
+};
+
 class KartMove : public KartObjectProxy {
 public:
   enum DrivingDirection {
@@ -492,10 +499,12 @@ public:
   s16 smtCharge() const { return mSmtCharge; }
   const EGG::Vector3f& scale() const { return mScale; }
   s16 someTimer() const { return _someTimer; }
+  f32 totalScale() const { return mTotalScale; }
   f32 hitboxScale() const { return mHitboxScale; }
   s16 respawnTimer() const { return mRespawnTimer; }
   DrivingDirection drivingDirection() const { return mDrivingDirection; }
   s16 backwardsAllowCounter() const { return mBackwardsAllowCounter; }
+  void setPadType(u32 padType) { mPadType |= padType; }
   u16 flags() const { return mFlags; }
   const KartJump* kartJump() { return mJump; }
   const KartHalfPipe* kartHalfPipe() { return mHalfPipe; }
@@ -524,7 +533,8 @@ private:
   u8 _23c[0x248 - 0x23c];
   DrivingDirection mDrivingDirection;
   s16 mBackwardsAllowCounter;
-  u8 _24e[0x254 - 0x24e];
+  u8 _24e[0x250 - 0x24e];
+  u32 mPadType;
   // TODO
   u16 mFlags;
   u8 _256[0x258 - 0x256];

@@ -55,9 +55,9 @@ UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolder);
 // PAL: 0x805903bc..0x805903cc
 UNKNOWN_FUNCTION(unk_805903bc);
 // PAL: 0x805903cc..0x805903e0
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysics);
+UNKNOWN_FUNCTION(kartDynamics__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805903e0..0x805903f4
-UNKNOWN_FUNCTION(unk_805903e0);
+UNKNOWN_FUNCTION(kartDynamics__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x805903f4..0x8059041c
 UNKNOWN_FUNCTION(KartAccessor_getInput);
 // PAL: 0x8059041c..0x80590478
@@ -123,9 +123,9 @@ UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590858..0x80590864
 UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590864..0x80590874
-UNKNOWN_FUNCTION(unk_80590864);
+UNKNOWN_FUNCTION(kartParam__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590874..0x80590888
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerStats);
+UNKNOWN_FUNCTION(processFloor__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUlb);
 // PAL: 0x80590888..0x8059089c
 UNKNOWN_FUNCTION(bsp__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x8059089c..0x805908b4
@@ -393,6 +393,7 @@ UNKNOWN_FUNCTION(unk_805919e8);
 namespace Kart {
 
 class KartBody;
+class KartDynamics;
 class KartSus;
 class KartWheel;
 class KartSub;
@@ -453,6 +454,8 @@ class KartObjectProxy {
 public:
   KartObjectProxy();
 
+  KartDynamics* kartDynamics();
+  const KartDynamics* kartDynamics() const;
   KartBody* kartBody();
   const KartBody* kartBody() const;
   KartSus* kartSus(s32 idx);
@@ -475,6 +478,8 @@ public:
   KartState* kartState() { return mAccessor->mKartState; }
   const KartState* kartState() const { return mAccessor->mKartState; }
 
+  KartParam* kartParam() const;
+  KartStats* kartStats() const;
   BSP* bsp() const;
   BspHitbox* bspHitboxes() const;
   BspWheel* bspWheel(s32 idx) const;

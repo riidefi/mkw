@@ -48,6 +48,7 @@ static_assert(sizeof(Hitbox) == 0x30);
 #define COL_FLAG_MOVING_WATER_DISABLE_ACC    0x800
 #define COL_FLAG_WALL_AT_LEFT_CLOSER 	     0x2000
 #define COL_FLAG_WALL_AT_RIGHT_CLOSER        0x4000
+#define COL_FLAG_MOVING_WATER_V3             0x8000
 
 struct KartCollisionInfo {
   u32 flags;
@@ -60,7 +61,7 @@ struct KartCollisionInfo {
   EGG::Vector3f movement;
   EGG::Vector3f _58;
   f32 speedFactor;
-  f32 rotFactor;
+  f32 handlingFactor;
   // floor KCL attribute stuff
   u32 floorKclTypeMask;
   s32 floorKclVariant;
@@ -99,6 +100,7 @@ public:
   f32 computeCollisionLimits();
 
   inline Hitbox& getHitbox(u16 i) const { return hitboxes[i]; }
+  inline s32 getHitboxCount() const { return hitboxCount; }
   inline f32 getBoundingRadius() const { return boundingRadius; }
   inline const KartCollisionInfo* getKartCollisionInfo() const { return &colInfo; }
 };
