@@ -85,7 +85,7 @@ void KartCollisionInfo::reset() {
   this->movement.setZero();
   this->_58.setZero();
   this->speedFactor = 1.0f;
-  this->rotFactor = 0.0f;
+  this->handlingFactor = 0.0f;
   this->floorKclTypeMask = 0;
   this->floorKclVariant = -1;
   this->wallKclType = 0;

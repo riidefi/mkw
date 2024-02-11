@@ -259,7 +259,7 @@ extern UNKNOWN_FUNCTION(unk_80590390);
 // PAL: 0x805903ac
 extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolder);
 // PAL: 0x805903cc
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysics);
+extern UNKNOWN_FUNCTION(kartDynamics__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805903f4
 extern UNKNOWN_FUNCTION(KartAccessor_getInput);
 // PAL: 0x8059041c
@@ -287,7 +287,7 @@ extern UNKNOWN_FUNCTION(PlayerPointers_getVehicleBodyCollisionData);
 // PAL: 0x8059084c
 extern UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590874
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerStats);
+extern UNKNOWN_FUNCTION(kartStats__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590888
 extern UNKNOWN_FUNCTION(bsp__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590a10

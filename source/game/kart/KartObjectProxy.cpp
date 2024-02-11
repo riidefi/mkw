@@ -256,18 +256,10 @@ asm UNKNOWN_FUNCTION(unk_805903bc){
 #include "asm/805903bc.s"
 }
 
-// Symbol: PlayerPointers_getPlayerPhysics
-// PAL: 0x805903cc..0x805903e0
-MARK_BINARY_BLOB(PlayerPointers_getPlayerPhysics, 0x805903cc, 0x805903e0);
-asm UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysics){
-#include "asm/805903cc.s"
-}
+namespace Kart {
+KartDynamics* KartObjectProxy::kartDynamics() { return mAccessor->mBody->getPhysics()->mpDynamics; }
 
-// Symbol: unk_805903e0
-// PAL: 0x805903e0..0x805903f4
-MARK_BINARY_BLOB(unk_805903e0, 0x805903e0, 0x805903f4);
-asm UNKNOWN_FUNCTION(unk_805903e0){
-#include "asm/805903e0.s"
+const KartDynamics* KartObjectProxy::kartDynamics() const { return mAccessor->mBody->getPhysics()->mpDynamics; }
 }
 
 // Symbol: KartAccessor_getInput
@@ -444,23 +436,8 @@ const KartCollide* KartObjectProxy::kartCollide() const {
   return mAccessor->mCollide;
 }
 
-} // namespace Kart
-
-// Symbol: unk_80590864
-// PAL: 0x80590864..0x80590874
-MARK_BINARY_BLOB(unk_80590864, 0x80590864, 0x80590874);
-asm UNKNOWN_FUNCTION(unk_80590864){
-#include "asm/80590864.s"
-}
-
-// Symbol: PlayerPointers_getPlayerStats
-// PAL: 0x80590874..0x80590888
-MARK_BINARY_BLOB(PlayerPointers_getPlayerStats, 0x80590874, 0x80590888);
-asm UNKNOWN_FUNCTION(PlayerPointers_getPlayerStats){
-#include "asm/80590874.s"
-}
-
-namespace Kart {
+KartParam* KartObjectProxy::kartParam() const { return mAccessor->kartSettings->kartParam; }
+KartStats* KartObjectProxy::kartStats() const { return mAccessor->kartSettings->kartParam->stats; }
 BSP* KartObjectProxy::bsp() const { return mAccessor->kartSettings->kartParam->bsp; }
 BspHitbox* KartObjectProxy::bspHitboxes() const { return mAccessor->kartSettings->kartParam->bsp->hitboxes; }
 BspWheel* KartObjectProxy::bspWheel(s32 idx) const { return &mAccessor->kartSettings->kartParam->bsp->wheels[idx]; }

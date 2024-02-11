@@ -8,24 +8,8 @@
 extern "C" {
 #endif
 
-// PAL: 0x8056e56c..0x8056e5e4
-UNKNOWN_FUNCTION(__ct__Q24Kart11KartCollideFv);
-// PAL: 0x8056e5e4..0x8056e624
-UNKNOWN_FUNCTION(__dt__Q24Kart6_DummyFv);
-// PAL: 0x8056e624..0x8056e70c
-UNKNOWN_FUNCTION(init__Q24Kart11KartCollideFv);
-// PAL: 0x8056e70c..0x8056e764
-UNKNOWN_FUNCTION(updateBbox__Q24Kart11KartCollideFv);
-// PAL: 0x8056e764..0x8056e8d4
-UNKNOWN_FUNCTION(processBody__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUl);
-// PAL: 0x8056e8d4..0x8056e930
-UNKNOWN_FUNCTION(processWheels__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUl);
-// PAL: 0x8056e930..0x8056ea04
-UNKNOWN_FUNCTION(processMovingWater__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoPUl);
-// PAL: 0x8056ea04..0x8056ee24
-UNKNOWN_FUNCTION(processFloor__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfoPUlb);
 // PAL: 0x8056ee24..0x8056eef4
-UNKNOWN_FUNCTION(unk_8056ee24);
+UNKNOWN_FUNCTION(updateHitboxes__Q24Kart11KartCollideFv);
 // PAL: 0x8056eef4..0x8056f184
 UNKNOWN_FUNCTION(unk_8056eef4);
 // PAL: 0x8056f184..0x8056f26c
@@ -169,6 +153,7 @@ UNKNOWN_FUNCTION(__dt__Q24Kart11KartCollideFv);
 #include "KartHitbox.hpp"
 #include "KartMove.hpp"
 #include "KartState.hpp"
+#include "KartBody.hpp"
 #include "game/field/CourseColManager.hpp"
 #include "game/field/CollisionEntries.hpp"
 
@@ -205,6 +190,24 @@ public:
   virtual void processWheels(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo, u32* colTypeMask) = 0;
 };
 
+#define SURF_FLAG_WALL 		      0x1
+#define SURF_FLAG_SOLID_OOB 	      0x2
+#define SURF_FLAG_UNK_4 	      0x4
+#define SURF_FLAG_UNK_8 	      0x8
+// KCL boost ramps
+#define SURF_FLAG_BOOST_RAMP 	      0x10
+#define SURF_FLAG_GROUND_OFFROAD      0x20
+#define SURF_FLAG_OFFROAD 	      0x40
+// "boost panel" here includes KCL boost ramps
+#define SURF_FLAG_GROUND_BOOST_PANEL  0x80
+#define SURF_FLAG_BOOST_PANEL 	      0x100
+#define SURF_FLAG_HALFPIPE_RAMP       0x200
+#define SURF_FLAG_TRICKABLE 	      0x800
+#define SURF_FLAG_NOT_TRICKABLE       0x1000
+#define SURF_FLAG_FALL_BOUNDARY_SHORT 0x2000
+#define SURF_FLAG_MOVING_ROAD 	      0x8000
+#define SURF_FLAG_HALFPIPE_END 	      0x10000
+
 class KartCollide : public IKartCollide, public KartObjectProxy {
 public:
   KartCollide();
@@ -215,9 +218,12 @@ public:
   
   void init();
   void updateBbox();
-  void processMovingWater(KartCollisionInfo& kartColInfo, u32* colTypeMask);
+  void processMovingWater(KartCollisionInfo& kartColInfo, u32* colTypeMask) NEVER_INLINE;
   void processFloor(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo, u32* colTypeMask, bool isWheel);
   void checkNeighborhood(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo);
+  void updateHitboxes();
+  bool processWall(KartCollisionInfo& kartColInfo, const Field::ColInfo& colInfo, u32* colTypeMask);
+  void processCannon(u32* kclTypeMask);
 
 private:
   KartCollideArea* kartCollideArea;
@@ -226,6 +232,7 @@ private:
   s16 playerBumpTimer;
   f32 _1c;
   EGG::Vector3f _20;
+  /// Surface effects are determined by this flag
   u32 surfaceFlags;
   EGG::Vector3f tangentOff;
   EGG::Vector3f movement;
@@ -234,9 +241,9 @@ private:
   s16 solidOobTimer;
   s16 someLightningTimer;
   f32 _50;
-  f32 suspBottomHeightSoftCol;
+  f32 suspBottomHeightSoftWall;
   s16 someSoftWallTimer;
-  f32 suspBottomHeightNonSoftCol;
+  f32 suspBottomHeightNonSoftWall;
   s16 someNonSoftWallTimer;
   s16 someAngVel3FrameTimer;
   f32 someYawAngVel;

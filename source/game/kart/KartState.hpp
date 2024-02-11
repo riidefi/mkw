@@ -56,11 +56,18 @@ UNKNOWN_FUNCTION(PlayerSub1c_destroy);
 
 namespace Kart {
 
-namespace KartFlags {
-
-#define KART_FLAG_CANNON_START 35
-
-} // namespace KartFlags
+enum KartFlags {
+  KART_FLAG_STICKY_ROAD = 16,
+  KART_FLAG_TOUCHING_GROUND = 0x12,
+  KART_FLAG_JUMPPAD = 30,
+  KART_FLAG_CANNON_START = 35,
+  KART_FLAG_HALFPIPE_RAMP = 41,
+  /// Used for bouncy mushrooms
+  KART_FLAG_JUMPPAD_VELY_INCREASE = 55,
+  KART_FLAG_REJECT_ROAD = 59,
+  KART_FLAG_HALFPIPE_RAMP_LOCAL = 0x43,
+  KART_FLAG_ONLINE_REMOTE = 0x83,
+};
 
 class KartState {
 public:
@@ -77,7 +84,10 @@ public:
   void reset(size_t n) { mFlags.reset(n); }
   u32& field(size_t n) { return mFlags.field(n); }
 
-  void setCannonPointId(u32 id) { mCannonPointId = id; }
+  void setCannonPointId(s32 id) { mCannonPointId = id; }
+  void setBoostRampType(s32 type) { mBoostRampType = type; }
+  void setJumpPadType(s32 type) { mJumpPadType = type; }
+  void setHalfpipeInvisibilityTimer(s32 timer) { mHalfpipeInvisibilityTimer = timer; }
 
 private:
   u8 _00[0x04 - 0x00];
@@ -99,7 +109,8 @@ private:
   s32 mJumpPadType;
   f32 _7c;
   u32 mCannonPointId;
-  u8 _84[0x88 - 0x84];
+  u8 _84[0x86 - 0x84];
+  s16 mHalfpipeInvisibilityTimer;
   EGG::Vector2f mStick;
   int mWipeState;
   s16 mWipeFrame;

@@ -9,8 +9,12 @@ class KartBody : public KartPart {
 public:
   KartPhysics* getPhysics() { return mpPhysics; }
   const KartPhysics* getPhysics() const { return mpPhysics; }
+  f32 getSinkDepth() const { return sinkDepth; }
 private:
   KartPhysics* mpPhysics;
-  u8 _84[0x224 - -0x84];
+  f32 _94;
+  f32 _98;
+  f32 sinkDepth;
+  u8 _90[0x224 - -0xa0];
 };
 }
