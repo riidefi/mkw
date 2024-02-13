@@ -258,7 +258,7 @@ extern UNKNOWN_FUNCTION(unk_80865534);// Extern data references.
 // PAL: 0x802a4100
 extern UNKNOWN_DATA(lbl_802a4100);
 // PAL: 0x802a4118
-extern UNKNOWN_DATA(lbl_802a4118);
+//extern UNKNOWN_DATA(RKSystem_ex);
 // PAL: 0x802a4148
 extern UNKNOWN_DATA(lbl_802a4148);
 // PAL: 0x808a66cc
@@ -319,6 +319,8 @@ extern "C" UNKNOWN_DATA(lbl_80891738);
 REL_SYMBOL_AT(lbl_80891738, 0x80891738);
 extern "C" UNKNOWN_DATA(lbl_8089173c);
 REL_SYMBOL_AT(lbl_8089173c, 0x8089173c);
+
+extern "C" EGG::Vector3f RKSystem_ex;
 
 // .data
 #ifdef __CWCC__ // needed for matching padding
@@ -565,12 +567,64 @@ bool KartCollide::processWall(KartCollisionInfo& kartColInfo, const Field::ColIn
 }
 }
 
+# ifdef NON_MATCHING
+namespace Kart {
+void KartCollide::checkNeighborhood(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo) {
+  f32 colPerp = colInfo.colPerpendicularity;
+  if (colPerp> 0.0f) {
+    if (_68 < colPerp) {
+      _68 = colPerp;
+    }
+
+    if ((kartColInfo.flags & (COL_FLAG_WALL_AT_LEFT_CLOSER | COL_FLAG_WALL_AT_RIGHT_CLOSER)) != 0) {
+      if (fabs(hitbox.bsp->pos.x) > 10.0f) {
+        if (colPerp > 0.0f) {
+          kartColInfo.flags |= COL_FLAG_WALL_AT_LEFT_CLOSER;
+        } else {
+          kartColInfo.flags |= COL_FLAG_WALL_AT_RIGHT_CLOSER;
+        }
+        kartColInfo.colPerpendicularity = colInfo.colPerpendicularity;
+      } else {
+        EGG::Vector3f localRight;
+        kartDynamics()->mainRot.rotateVector(RKSystem_ex, localRight);
+        f32 offs[2];
+        f32 sign;
+        for (s32 i = 0; i < 2; i++) {
+          if (i == 1) {
+            sign = -1.0f;
+          } else {
+            sign = 1.0f;
+          }
+          sign *= hitbox.radius;
+          EGG::Vector3f offset = hitbox.pos + localRight * sign;
+          ColInfoPartial tmpInfo;
+          tmpInfo.bboxLow.setZero();
+          tmpInfo.bboxHigh.setZero();
+          if (CourseModel::spInstance->checkSphereCachedPartial(offset, hitbox.lastPos, KCL_TYPE_DRIVER_WALL, &tmpInfo, &lbl_808a66cc, hitbox.radius, 0)) {
+            offs[i] = colInfo.tangentOff.lenSq();
+          }
+        }
+
+        if (offs[0] > offs[1]) {
+          kartColInfo.flags |= COL_FLAG_WALL_AT_RIGHT_CLOSER;
+          kartColInfo.colPerpendicularity = colInfo.colPerpendicularity;
+        } else if (offs[1] > offs[0]) {
+          kartColInfo.flags |= COL_FLAG_WALL_AT_LEFT_CLOSER;
+          kartColInfo.colPerpendicularity = colInfo.colPerpendicularity;
+        }
+      }
+    }
+  }
+}
+}
+#else
 // Symbol: checkNeighborhood__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfo
 // PAL: 0x8056f26c..0x8056f490
 MARK_BINARY_BLOB(checkNeighborhood__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfo, 0x8056f26c, 0x8056f490);
 asm void Kart::KartCollide::checkNeighborhood(KartCollisionInfo& kartColInfo, const Hitbox& hitbox, const Field::ColInfo& colInfo) {
   #include "asm/8056f26c.s"
 }
+#endif
 
 namespace Kart {
 void KartCollide::processCannon(u32* colTypeMask) {
@@ -580,12 +634,6 @@ void KartCollide::processCannon(u32* colTypeMask) {
   }
 }
 }
-/*// Symbol: unk_8056f490
-// PAL: 0x8056f490..0x8056f510
-MARK_BINARY_BLOB(unk_8056f490, 0x8056f490, 0x8056f510);
-asm UNKNOWN_FUNCTION(unk_8056f490) {
-  #include "asm/8056f490.s"
-}*/
 
 // Symbol: unk_8056f510
 // PAL: 0x8056f510..0x8056f73c
