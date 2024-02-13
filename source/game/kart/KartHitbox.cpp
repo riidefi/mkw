@@ -39,14 +39,14 @@ void Hitbox::update(const EGG::Vector3f& scale, const EGG::Quatf& rot, const EGG
   this->pos.z = this->relPos.z + pos.z;
 }
 
-MARK_FLOW_CHECK(0x805b80a8);
 void Hitbox::setLastPos(const EGG::Vector3f& scale, const EGG::Matrix34f& pose) {
   float yScaleFactor = scale.y;
   EGG::Vector3f scaledPos = this->bsp->pos;
   scaledPos.x *= scale.x;
   scaledPos.z *= scale.z;
   if (scale.y != scale.z && scale.y < 1.0f) {
-    scaledPos.y += (1.0f - scale.y) * this->radius;
+    f32 rad = this->radius;
+    scaledPos.y += (1.0f - scale.y) * rad;
     yScaleFactor = scale.z;
   }
   scaledPos.y *= yScaleFactor;
