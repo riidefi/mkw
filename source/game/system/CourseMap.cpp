@@ -168,7 +168,7 @@ extern UNKNOWN_FUNCTION(getFile__Q26System15ResourceManagerFlPCcPUl);
 extern UNKNOWN_FUNCTION(unk_8054d114);
 // Extern data references.
 // PAL: 0x802a4118
-extern UNKNOWN_DATA(lbl_802a4118);
+extern UNKNOWN_DATA(RKSystem_ex);
 // PAL: 0x802a4130
 extern UNKNOWN_DATA(lbl_802a4130);
 // PAL: 0x802a4148
@@ -1241,11 +1241,11 @@ asm UNKNOWN_FUNCTION(unk_80514368) {
   /* 80514404 38A100B0 */ addi        r5, r1, 0xb0
   /* 80514408 480003F5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051440C C04100A4 */ lfs         f2, 0xa4(r1)
-  /* 80514410 3C80802A */ lis         r4, lbl_802a4118@ha
+  /* 80514410 3C80802A */ lis         r4, RKSystem_ex@ha
   /* 80514414 C02100A8 */ lfs         f1, 0xa8(r1)
   /* 80514418 38610098 */ addi        r3, r1, 0x98
   /* 8051441C C00100AC */ lfs         f0, 0xac(r1)
-  /* 80514420 38844118 */ addi        r4, r4, lbl_802a4118@l
+  /* 80514420 38844118 */ addi        r4, r4, RKSystem_ex@l
   /* 80514424 D04100EC */ stfs        f2, 0xec(r1)
   /* 80514428 D02100F0 */ stfs        f1, 0xf0(r1)
   /* 8051442C D00100F4 */ stfs        f0, 0xf4(r1)
@@ -1639,10 +1639,10 @@ asm UNKNOWN_FUNCTION(unk_805148a0) {
   /* 80514908 38810048 */ addi        r4, r1, 0x48
   /* 8051490C 38A54148 */ addi        r5, r5, lbl_802a4148@l
   /* 80514910 4BFFFEED */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
-  /* 80514914 3CA0802A */ lis         r5, lbl_802a4118@ha
+  /* 80514914 3CA0802A */ lis         r5, RKSystem_ex@ha
   /* 80514918 3861002C */ addi        r3, r1, 0x2c
   /* 8051491C 38810048 */ addi        r4, r1, 0x48
-  /* 80514920 38A54118 */ addi        r5, r5, lbl_802a4118@l
+  /* 80514920 38A54118 */ addi        r5, r5, RKSystem_ex@l
   /* 80514924 4BFFFED9 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80514928 3CA0802A */ lis         r5, lbl_802a4130@ha
   /* 8051492C 38610020 */ addi        r3, r1, 0x20
@@ -3644,10 +3644,10 @@ asm UNKNOWN_FUNCTION(AreaBox_construct) {
   /* 8051630C EC4300B2 */ fmuls       f2, f3, f2
   /* 80516310 EC630032 */ fmuls       f3, f3, f0
   /* 80516314 4BD23C45 */ bl          setRPY__Q23EGG5QuatfFfff
-  /* 80516318 3CA0802A */ lis         r5, lbl_802a4118@ha
+  /* 80516318 3CA0802A */ lis         r5, RKSystem_ex@ha
   /* 8051631C 38610020 */ addi        r3, r1, 0x20
   /* 80516320 38810030 */ addi        r4, r1, 0x30
-  /* 80516324 38A54118 */ addi        r5, r5, lbl_802a4118@l
+  /* 80516324 38A54118 */ addi        r5, r5, RKSystem_ex@l
   /* 80516328 4BFFE4D5 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 8051632C C0010020 */ lfs         f0, 0x20(r1)
   /* 80516330 3CA0802A */ lis         r5, lbl_802a4130@ha
@@ -3861,10 +3861,10 @@ asm UNKNOWN_FUNCTION(AreaCylinder_construct) {
   /* 805165E0 EC4300B2 */ fmuls       f2, f3, f2
   /* 805165E4 EC630032 */ fmuls       f3, f3, f0
   /* 805165E8 4BD23971 */ bl          setRPY__Q23EGG5QuatfFfff
-  /* 805165EC 3CA0802A */ lis         r5, lbl_802a4118@ha
+  /* 805165EC 3CA0802A */ lis         r5, RKSystem_ex@ha
   /* 805165F0 38610020 */ addi        r3, r1, 0x20
   /* 805165F4 38810030 */ addi        r4, r1, 0x30
-  /* 805165F8 38A54118 */ addi        r5, r5, lbl_802a4118@l
+  /* 805165F8 38A54118 */ addi        r5, r5, RKSystem_ex@l
   /* 805165FC 4BFFE201 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80516600 C0010020 */ lfs         f0, 0x20(r1)
   /* 80516604 3CA0802A */ lis         r5, lbl_802a4130@ha
@@ -6247,10 +6247,10 @@ asm UNKNOWN_FUNCTION(
   /* 8051840C 38A1002C */ addi        r5, r1, 0x2c
   /* 80518410 4BFFC3ED */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80518414 C0010020 */ lfs         f0, 0x20(r1)
-  /* 80518418 3C80802A */ lis         r4, lbl_802a4118@ha
+  /* 80518418 3C80802A */ lis         r4, RKSystem_ex@ha
   /* 8051841C D01F0010 */ stfs        f0, 0x10(r31)
   /* 80518420 38610014 */ addi        r3, r1, 0x14
-  /* 80518424 38844118 */ addi        r4, r4, lbl_802a4118@l
+  /* 80518424 38844118 */ addi        r4, r4, RKSystem_ex@l
   /* 80518428 C0010024 */ lfs         f0, 0x24(r1)
   /* 8051842C D01F0014 */ stfs        f0, 0x14(r31)
   /* 80518430 C0010028 */ lfs         f0, 0x28(r1)
@@ -6345,10 +6345,10 @@ asm UNKNOWN_FUNCTION(unk_805184fc) {
   /* 80518564 38810060 */ addi        r4, r1, 0x60
   /* 80518568 38A54148 */ addi        r5, r5, lbl_802a4148@l
   /* 8051856C 4BFFC291 */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
-  /* 80518570 3CA0802A */ lis         r5, lbl_802a4118@ha
+  /* 80518570 3CA0802A */ lis         r5, RKSystem_ex@ha
   /* 80518574 38610044 */ addi        r3, r1, 0x44
   /* 80518578 38810060 */ addi        r4, r1, 0x60
-  /* 8051857C 38A54118 */ addi        r5, r5, lbl_802a4118@l
+  /* 8051857C 38A54118 */ addi        r5, r5, RKSystem_ex@l
   /* 80518580 4BFFC27D */ bl          VEC3_fromQuaternionRotated__FRQ23EGG8Vector3fRCQ23EGG5QuatfRCQ23EGG8Vector3f
   /* 80518584 3CA0802A */ lis         r5, lbl_802a4130@ha
   /* 80518588 38610038 */ addi        r3, r1, 0x38

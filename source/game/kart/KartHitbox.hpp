@@ -46,8 +46,8 @@ static_assert(sizeof(Hitbox) == 0x30);
 #define COL_FLAG_SOFT_WALL 		     0x200
 #define COL_FLAG_MOVING_WATER_STRONG_CURRENT 0x400
 #define COL_FLAG_MOVING_WATER_DISABLE_ACC    0x800
-#define COL_FLAG_WALL_AT_LEFT_CLOSER 	     0x2000
-#define COL_FLAG_WALL_AT_RIGHT_CLOSER        0x4000
+#define COL_FLAG_WALL_AT_RIGHT_CLOSER 	     0x2000
+#define COL_FLAG_WALL_AT_LEFT_CLOSER         0x4000
 #define COL_FLAG_MOVING_WATER_V3             0x8000
 
 struct KartCollisionInfo {
@@ -70,7 +70,7 @@ struct KartCollisionInfo {
   s32 wallKclVariant;
   /// Causes the object to sink into the colliding surface by this amount (used for e.g. snow)
   u32 sinkDepth;
-  /// How perpendicular the wall collision was w.r.t. closest road from 0.0-1.0
+  /// Amount of angle between face normals of colliding wall from 0.0-1.0. Greater than 0.0 only when there is wall collision
   f32 colPerpendicularity;
 
   KartCollisionInfo* initStatus();

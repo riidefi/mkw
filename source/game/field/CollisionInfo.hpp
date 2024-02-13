@@ -81,7 +81,6 @@ struct ColInfo : public ColInfoPartial {
     if (dist > this->wallDist) {
       this->wallDist = dist;
       updateNrm = true;
-
     } else {
       updateNrm = false;
     }
@@ -97,22 +96,21 @@ struct ColInfo : public ColInfoPartial {
     if ((kclAttributeTypeBit & KCL_TYPE_FLOOR) != 0) {
       this->updateFloor(now_dist, fnrm);
     } else if ((kclAttributeTypeBit & KCL_TYPE_WALL) != 0) {
-
-    if (EGG::Mathf::isNonNegative(this->wallDist)) {
-      f32 perpendicularity = 1.0f - VEC3Dot(&this->wallNrm, &fnrm);
-      bool updatePerp;
-      if (perpendicularity > this->colPerpendicularity) {
-        this->colPerpendicularity = perpendicularity;
-        updatePerp = true;
-      } else {
-        updatePerp = false;
+      if (EGG::Mathf::isNonNegative(this->wallDist)) {
+        f32 perpendicularity = 1.0f - VEC3Dot(&this->wallNrm, &fnrm);
+        bool updatePerp;
+        if (perpendicularity > this->colPerpendicularity) {
+          this->colPerpendicularity = perpendicularity;
+          updatePerp = true;
+        } else {
+          updatePerp = false;
+        }
+        if (updatePerp && this->colPerpendicularity > 1.0f) {
+          this->colPerpendicularity = 1.0f;
+        }
       }
-      if (updatePerp && this->colPerpendicularity > 1.0f) {
-        this->colPerpendicularity = 1.0f;
-      }
-    }
 
-    this->updateWall(now_dist, fnrm);
+      this->updateWall(now_dist, fnrm);
     }
   }
 };

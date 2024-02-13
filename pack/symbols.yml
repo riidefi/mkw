@@ -11403,7 +11403,7 @@ global:
     0x802a4008: 'lbl_802a4008'
     0x802a4080: 'sInstance__Q26System8RKSystem'
     0x802a4100: 'lbl_802a4100'
-    0x802a4118: 'lbl_802a4118'
+    0x802a4118: 'RKSystem_ex'
     0x802a4130: 'RKSystem_ey'
     0x802a4148: 'lbl_802a4148'
     0x802a4178: 'lbl_802a4178'

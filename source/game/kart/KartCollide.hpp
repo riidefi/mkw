@@ -155,6 +155,7 @@ UNKNOWN_FUNCTION(__dt__Q24Kart11KartCollideFv);
 #include "KartState.hpp"
 #include "KartBody.hpp"
 #include "game/field/CourseColManager.hpp"
+#include "game/field/CourseModel.hpp"
 #include "game/field/CollisionEntries.hpp"
 
 namespace Kart {
