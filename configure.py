@@ -410,13 +410,12 @@ def provide_ppc2cpp():
         ppc2cpp_zip = "ppc2cpp.zip"
         print("Downloading ppc2cpp...")
         if sys.platform == "win32" or sys.platform == "msys":
-            ppc2cpp_url = "https://github.com/em-eight/ppc2cpp/releases/download/v1.0-rc2/ppc2cpp-Windows.zip"
+            ppc2cpp_url = "https://github.com/em-eight/ppc2cpp/releases/download/v1.1-rc1/ppc2cpp-Windows.zip"
         else:
-            ppc2cpp_url = "https://github.com/em-eight/ppc2cpp/releases/download/v1.0-rc2/ppc2cpp-Linux.zip"
+            ppc2cpp_url = "https://github.com/em-eight/ppc2cpp/releases/download/v1.1-rc1/ppc2cpp-Linux.zip"
         urllib.request.urlretrieve(ppc2cpp_url, ppc2cpp_zip)
         with zipfile.ZipFile(ppc2cpp_zip, 'r') as zip_ref:
             zip_ref.extractall("tools/ppc2cpp")
-            print(PPC2CPP)
             st = os.stat(str(PPC2CPP))
             import stat
             os.chmod(str(PPC2CPP), st.st_mode | stat.S_IEXEC)
