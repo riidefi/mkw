@@ -35,7 +35,11 @@ namespace EGG
         void makeQ(const Quatf&);
         void makeQT(const Quatf&, const Vector3f&);
         void makeS(const Vector3f&);
+        void makeR(const Vector3f&);
         void setAxisRotation(const Vector3f &, f32);
+	EGG::Vector3f multVector(const EGG::Vector3f&) const;
+	// Defined inline and emitted in KartWheelPhysics
+	EGG::Vector3f multVector33(const EGG::Vector3f&) const NEVER_INLINE;
         void loadPosMtx(u32);
 
         f32& operator()(int i, int j) { return mtx[i][j]; }
@@ -55,6 +59,9 @@ namespace EGG
 
         static Matrix34f ident;
     };
+inline Vector3f operator*(f32 lhs, const Vector3f& rhs) {return Vector3f(lhs*rhs.x, lhs*rhs.y, lhs*rhs.z);}
+
+class Matrix34f_aligned8 : public Matrix34f {} __attribute__ ((aligned (8)));;
 }
 
 #endif

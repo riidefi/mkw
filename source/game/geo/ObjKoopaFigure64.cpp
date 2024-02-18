@@ -19,7 +19,7 @@ extern UNKNOWN_FUNCTION(
 // PAL: 0x80590100
 extern UNKNOWN_FUNCTION(PlayerHolder_getPlayer);
 // PAL: 0x8059020c
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPosition);
+extern UNKNOWN_FUNCTION(getPos__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x8067dcc0
 extern UNKNOWN_FUNCTION(unk_8067dcc0);
 // PAL: 0x806c050c

@@ -306,7 +306,7 @@ extern UNKNOWN_FUNCTION(PlayerHolder_getPlayer);
 // PAL: 0x80590110
 extern UNKNOWN_FUNCTION(unk_80590110);
 // PAL: 0x8059020c
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPosition);
+extern UNKNOWN_FUNCTION(getPos__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590224
 extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolderPosition);
 // PAL: 0x8059077c
@@ -3109,7 +3109,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_init) {
   /* 80534234 889F0008 */ lbz         r4, 8(r31)
   /* 80534238 806318F8 */ lwz         r3, lbl_809c18f8@l(r3)
   /* 8053423C 4805BEC5 */ bl          PlayerHolder_getPlayer
-  /* 80534240 4805BFCD */ bl          PlayerPointers_getPlayerPosition
+  /* 80534240 4805BFCD */ bl          getPos__Q24Kart15KartObjectProxyCFv
   /* 80534244 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
   /* 80534248 7C651B78 */ mr          r5, r3
   /* 8053424C 8064D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r4)
@@ -3694,7 +3694,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endLap) {
   /* 80534A3C 807C18F8 */ lwz         r3, lbl_809c18f8@l(r28)
   /* 80534A40 889D0008 */ lbz         r4, 8(r29)
   /* 80534A44 4805B6BD */ bl          PlayerHolder_getPlayer
-  /* 80534A48 4805B7C5 */ bl          PlayerPointers_getPlayerPosition
+  /* 80534A48 4805B7C5 */ bl          getPos__Q24Kart15KartObjectProxyCFv
   /* 80534A4C 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
   /* 80534A50 7C651B78 */ mr          r5, r3
   /* 80534A54 8064D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r4)
@@ -4478,7 +4478,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_update) {
   /* 80535450 889E0008 */ lbz         r4, 8(r30)
   /* 80535454 806318F8 */ lwz         r3, lbl_809c18f8@l(r3)
   /* 80535458 4805ACA9 */ bl          PlayerHolder_getPlayer
-  /* 8053545C 4805ADB1 */ bl          PlayerPointers_getPlayerPosition
+  /* 8053545C 4805ADB1 */ bl          getPos__Q24Kart15KartObjectProxyCFv
   /* 80535460 3C80809C */ lis         r4, spInstance__Q26System9CourseMap@ha
   /* 80535464 7C651B78 */ mr          r5, r3
   /* 80535468 8064D6E8 */ lwz         r3, spInstance__Q26System9CourseMap@l(r4)

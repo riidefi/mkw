@@ -4,67 +4,58 @@
 
 #include <decomp.h>
 
-#ifdef __cplusplus
 extern "C" {
-#endif
-
-// PAL: 0x805995c0..0x80599690
-UNKNOWN_FUNCTION(unk_805995c0);
 // PAL: 0x80599690..0x80599ad0
-UNKNOWN_FUNCTION(WheelPhysics_updateCollision);
-// PAL: 0x80599ad0..0x80599d9c
-UNKNOWN_FUNCTION(WheelPhysics_realign);
-// PAL: 0x80599d9c..0x80599dc0
-UNKNOWN_FUNCTION(updateEffectiveRadius__Q24Kart16KartWheelPhysicsFv);
-// PAL: 0x80599dc0..0x80599eac
-UNKNOWN_FUNCTION(unk_80599dc0);
-// PAL: 0x80599eac..0x80599ebc
-UNKNOWN_FUNCTION(WheelPhysics_hasFloorCollision);
-// PAL: 0x8059a02c..0x8059a278
-UNKNOWN_FUNCTION(unk_8059a02c);
-// PAL: 0x8059a278..0x8059a4f8
-UNKNOWN_FUNCTION(WheelPhysicsHolder_update);
-// PAL: 0x8059a4f8..0x8059a574
-UNKNOWN_FUNCTION(vec3_from_mat33_mul);
+UNKNOWN_FUNCTION(calcCollision__Q24Kart16KartWheelPhysicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x8059a574..0x8059a9c4
 UNKNOWN_FUNCTION(WheelPhysicsHolder_applySuspensions);
-
-#ifdef __cplusplus
 }
-#endif
 
 #include "KartObjectProxy.hpp"
 #include "KartHitbox.hpp"
+#include "KartPhysicsEngine.hpp"
+#include "KartDynamics.hpp"
+#include "KartState.hpp"
+#include "KartCollide.hpp"
 #include "BSP.hpp"
+#include "RKGeom.hpp"
 
 #include "egg/math/eggVector.hpp"
 #include "egg/math/eggMatrix.hpp"
 
 namespace Kart {
+enum KartWheelType {
+  KART_WHEEL_KART_LEFT,
+  KART_WHEEL_KART_RIGHT,
+  KART_WHEEL_BIKE,
+};
+
 class KartWheelPhysics;
 class KartSusPhysics : public KartObjectProxy {
 public:
   virtual ~KartSusPhysics() {}
 
-  KartSusPhysics(u32 wheelIdx, s32 wheelType, s32 bspWheelIdx);
+  KartSusPhysics(u32 wheelIdx, KartWheelType wheelType, s32 bspWheelIdx);
   void reset();
   void init();
   void setInitialState();
-  void calc(EGG::Vector3f& gravity, const EGG::Matrix34f& mat, f32 factor);
-  void applySuspension(const EGG::Vector3f& forward, const EGG::Vector3f& vehicleMovement);
+  void calc(const EGG::Vector3f& forward, const EGG::Vector3f& vehicleMovement);
+  void calcCollision(const EGG::Vector3f& gravity, const EGG::Matrix34f& mtx, f32 dt);
 
 private:
+public:
   BspWheel* bspWheel;
   KartWheelPhysics* wheelPhysics;
-  s32 wheelType;
+private:
+  KartWheelType wheelType;
   u32 bspWheelIdx;
   u32 wheelIdx;
   // topmost point of the suspension the wheel can reach
   EGG::Vector3f suspTop;
   // bsp max suspension travel after vehicle scale is applied
   f32 maxTravelScaled;
-  u8 _34;
-  u16 _36;
+  bool hasFloorCol;
+  s16 _36;
   f32 _38;
   EGG::Vector3f downDir;
 };
@@ -78,17 +69,27 @@ public:
   void init();
   void setBsp();
   void reset();
-  // unused
-  void setSuspState(f32 idk, f32 travel, const EGG::Vector3f& colVel);
-  void updateCollision(const EGG::Vector3f& bottom, const EGG::Vector3f& topmostPos);
-  void reallign(const EGG::Vector3f& down, const EGG::Vector3f& vehicleMovement);
+  // inlined at SusPhysics::calcCollision
+  void setColState(f32 dt, f32 travel, const EGG::Vector3f& colForce);
+  void setInitialState();
+  void calcCollision(const EGG::Vector3f& bottom, const EGG::Vector3f& topmostPos);
+  void calc(const EGG::Vector3f& down, const EGG::Vector3f& vehicleMovement);
   void updateEffectiveRadius();
-  // unused
+  // inlined in SusPhysics::calc
   void unk80599dc0(const EGG::Vector3f& front);
-  const EGG::Vector3f* getCollisionFloorNrm() const;
-  const KartCollisionInfo* getKartCollisionInfo() const;
+
+  bool hasFloorCollision() const;
+  const EGG::Vector3f& getCollisionFloorNrm() const;
+  const KartCollisionInfo& getKartCollisionInfo() const;
+
+  f32 getSusTravel() const { return susTravel; }
+  void setWheelPos(const EGG::Vector3f& wheelPos) { this->wheelPos = wheelPos; }
+  inline f32 getYScale() { return kartPhysicsEngine()->getYScale(); }
+  inline const HitboxGroup* getHitbox() const { return hitboxGroup; }
+  inline HitboxGroup* getHitbox() { return hitboxGroup; }
 
 private:
+public:
   u32 wheelIdx;
   u32 bspWheelIdx;
   BspWheel* bspWheel;
@@ -97,17 +98,17 @@ private:
   // wheel center position
   EGG::Vector3f wheelPos;
   EGG::Vector3f prevWheelPos;
-  // previous wheel offset wrt suspension top
+  // previous wheel offset wrt current suspension top
   EGG::Vector3f prevWheelOffset;
   f32 susTravel;
-  EGG::Vector3f _48;
+  EGG::Vector3f colVel;
   EGG::Vector3f speed;
   // position of the bottom part of the wheel (where it contacts the ground)
   EGG::Vector3f wheelEdgePos;
   // Tires get squished a little on hard floor collisions
   f32 effectiveRadius;
   f32 targetEffectiveRadius;
-  f32 isAtSuspTopLimit;
+  f32 isAtSuspLimit;
   // topmost point of the suspension the wheel can reach
   EGG::Vector3f suspTop;
 };

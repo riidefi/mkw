@@ -6,7 +6,7 @@ extern "C" {
 
 // Extern function references.
 // PAL: 0x80590a5c
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerIdx);
+extern UNKNOWN_FUNCTION(getPlayerIdx__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x806ab33c
 extern UNKNOWN_FUNCTION(unk_806ab33c);
 // PAL: 0x8070010c

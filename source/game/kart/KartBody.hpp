@@ -7,6 +7,8 @@
 namespace Kart {
 class KartBody : public KartPart {
 public:
+  void requireSinkDepth(f32 sinkDepth);
+
   KartPhysics* getPhysics() { return mpPhysics; }
   const KartPhysics* getPhysics() const { return mpPhysics; }
   f32 getSinkDepth() const { return sinkDepth; }
