@@ -3,6 +3,9 @@
 
 #include <game/kart/KartMove.hpp>
 #include <game/kart/KartBody.hpp>
+#include <game/kart/KartDynamics.hpp>
+#include <game/kart/KartWheel.hpp>
+#include <game/kart/KartWheelPhysics.hpp>
 
 // --- EXTERN DECLARATIONS BEGIN ---
 
@@ -56,7 +59,7 @@ extern UNKNOWN_FUNCTION(unk_80590a9c);
 // PAL: 0x805946f4
 extern UNKNOWN_FUNCTION(PlayerSub1c_startOobWipe);
 // PAL: 0x80599eac
-extern UNKNOWN_FUNCTION(WheelPhysics_hasFloorCollision);
+extern UNKNOWN_FUNCTION(hasFloorCollision__Q24Kart16KartWheelPhysicsCFv);
 // PAL: 0x80599ec8
 extern UNKNOWN_FUNCTION(getKartCollisionInfo__Q24Kart16KartWheelPhysicsCFv);
 // PAL: 0x8059c0b8
@@ -129,11 +132,14 @@ asm UNKNOWN_FUNCTION(setupSingle){
 #include "asm/805901d0.s"
 }
 
-// Symbol: PlayerPointers_getPlayerPosition
+/*// Symbol: getPos__Q24Kart15KartObjectProxyCFv
 // PAL: 0x8059020c..0x80590224
-MARK_BINARY_BLOB(PlayerPointers_getPlayerPosition, 0x8059020c, 0x80590224);
-asm UNKNOWN_FUNCTION(PlayerPointers_getPlayerPosition){
+MARK_BINARY_BLOB(getPos__Q24Kart15KartObjectProxyCFv, 0x8059020c, 0x80590224);
+asm UNKNOWN_FUNCTION(getPos__Q24Kart15KartObjectProxyCFv){
 #include "asm/8059020c.s"
+}*/
+namespace Kart {
+const EGG::Vector3f& KartObjectProxy::getPos() const { return kartDynamics()->pos; }
 }
 
 // Symbol: PlayerPointers_getPlayerPhysicsHolderPosition
@@ -242,21 +248,11 @@ asm UNKNOWN_FUNCTION(unk_80590390){
 #include "asm/80590390.s"
 }
 
-// Symbol: PlayerPointers_getPlayerPhysicsHolder
-// PAL: 0x805903ac..0x805903bc
-MARK_BINARY_BLOB(PlayerPointers_getPlayerPhysicsHolder, 0x805903ac, 0x805903bc);
-asm UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolder){
-#include "asm/805903ac.s"
-}
-
-// Symbol: unk_805903bc
-// PAL: 0x805903bc..0x805903cc
-MARK_BINARY_BLOB(unk_805903bc, 0x805903bc, 0x805903cc);
-asm UNKNOWN_FUNCTION(unk_805903bc){
-#include "asm/805903bc.s"
-}
-
 namespace Kart {
+KartPhysics* KartObjectProxy::kartPhysics() { return mAccessor->mBody->getPhysics(); }
+
+const KartPhysics* KartObjectProxy::kartPhysics() const { return mAccessor->mBody->getPhysics(); }
+
 KartDynamics* KartObjectProxy::kartDynamics() { return mAccessor->mBody->getPhysics()->mpDynamics; }
 
 const KartDynamics* KartObjectProxy::kartDynamics() const { return mAccessor->mBody->getPhysics()->mpDynamics; }
@@ -368,9 +364,9 @@ asm UNKNOWN_FUNCTION(unk_8059074c) {
 
 namespace Kart {
 
-KartSub* KartObjectProxy::kartSub() { return mAccessor->mSub; }
+KartPhysicsEngine* KartObjectProxy::kartPhysicsEngine() { return mAccessor->mPhysicsEngine; }
 
-const KartSub* KartObjectProxy::kartSub() const { return mAccessor->mSub; }
+const KartPhysicsEngine* KartObjectProxy::kartPhysicsEngine() const { return mAccessor->mPhysicsEngine; }
 
 KartMove* KartObjectProxy::kartMove() { return mAccessor->mMove; }
 
@@ -404,31 +400,11 @@ HitboxGroup* KartObjectProxy::hitboxGroup() { return kartBody()->getPhysics()->m
 
 const HitboxGroup* KartObjectProxy::hitboxGroup() const { return kartBody()->getPhysics()->mpHitboxGroup; }
 
-} // namespace Kart
+const HitboxGroup* KartObjectProxy::wheelHitbox(s32 wheelIdx) const { return kartWheel(wheelIdx)->getPhysics()->getHitbox(); }
 
-// Symbol: unk_80590800
-// PAL: 0x80590800..0x8059081c
-MARK_BINARY_BLOB(unk_80590800, 0x80590800, 0x8059081c);
-asm UNKNOWN_FUNCTION(unk_80590800){
-#include "asm/80590800.s"
-}
+const KartCollisionInfo* KartObjectProxy::bodyColInfo() const { return &hitboxGroup()->getKartCollisionInfo(); }
 
-// Symbol: PlayerPointers_getVehicleBodyCollisionData
-// PAL: 0x8059081c..0x80590834
-MARK_BINARY_BLOB(PlayerPointers_getVehicleBodyCollisionData, 0x8059081c,
-                 0x80590834);
-asm UNKNOWN_FUNCTION(PlayerPointers_getVehicleBodyCollisionData){
-#include "asm/8059081c.s"
-}
-
-// Symbol: PlayerPointers_getWheelCollisionData
-// PAL: 0x80590834..0x8059084c
-MARK_BINARY_BLOB(PlayerPointers_getWheelCollisionData, 0x80590834, 0x8059084c);
-asm UNKNOWN_FUNCTION(PlayerPointers_getWheelCollisionData) {
-#include "asm/80590834.s"
-}
-
-namespace Kart {
+const KartCollisionInfo* KartObjectProxy::wheelColInfo(s32 idx) const { return &kartWheel(idx)->getPhysics()->getKartCollisionInfo(); }
 
 KartCollide* KartObjectProxy::kartCollide() { return mAccessor->mCollide; }
 
@@ -553,11 +529,8 @@ asm UNKNOWN_FUNCTION(unk_80590a4c){
 #include "asm/80590a4c.s"
 }
 
-// Symbol: PlayerPointers_getPlayerIdx
-// PAL: 0x80590a5c..0x80590a6c
-MARK_BINARY_BLOB(PlayerPointers_getPlayerIdx, 0x80590a5c, 0x80590a6c);
-asm UNKNOWN_FUNCTION(PlayerPointers_getPlayerIdx){
-#include "asm/80590a5c.s"
+namespace Kart {
+s8 KartObjectProxy::getPlayerIdx() const { return mAccessor->kartSettings->playerIdx; }
 }
 
 // Symbol: PlayerPointers_isBike

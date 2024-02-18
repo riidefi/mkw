@@ -13,11 +13,11 @@ UNKNOWN_FUNCTION(updateHitboxes__Q24Kart11KartCollideFv);
 // PAL: 0x8056eef4..0x8056f184
 UNKNOWN_FUNCTION(unk_8056eef4);
 // PAL: 0x8056f184..0x8056f26c
-UNKNOWN_FUNCTION(unk_8056f184);
+UNKNOWN_FUNCTION(processWall__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ25Field7ColInfoPUl);
 // PAL: 0x8056f26c..0x8056f490
 UNKNOWN_FUNCTION(checkNeighborhood__Q24Kart11KartCollideFRQ24Kart17KartCollisionInfoRCQ24Kart6HitboxRCQ25Field7ColInfo);
 // PAL: 0x8056f490..0x8056f510
-UNKNOWN_FUNCTION(unk_8056f490);
+UNKNOWN_FUNCTION(processCannon__Q24Kart11KartCollideFPUl);
 // PAL: 0x8056f510..0x8056f73c
 UNKNOWN_FUNCTION(unk_8056f510);
 // PAL: 0x8056f73c..0x8056f7f0
@@ -154,6 +154,7 @@ UNKNOWN_FUNCTION(__dt__Q24Kart11KartCollideFv);
 #include "KartMove.hpp"
 #include "KartState.hpp"
 #include "KartBody.hpp"
+#include "KartDynamics.hpp"
 #include "game/field/CourseColManager.hpp"
 #include "game/field/CourseModel.hpp"
 #include "game/field/CollisionEntries.hpp"
@@ -225,6 +226,14 @@ public:
   void updateHitboxes();
   bool processWall(KartCollisionInfo& kartColInfo, const Field::ColInfo& colInfo, u32* colTypeMask);
   void processCannon(u32* kclTypeMask);
+  void applySomeFloorMoment(KartDynamics* kartDynamics, HitboxGroup* hitboxGroup,
+		  const EGG::Vector3f& forward, const EGG::Vector3f& dir, const EGG::Vector3f& speed,
+		  f32 rateForward, f32 rateLateral, bool zeroUp, bool zeroPlane, bool affectAngVel);
+  void calcWheelCollision(s8 playerIdx, u32 wheelIdx, KartDynamics* kartDynamics, HitboxGroup* hitboxGroup, const EGG::Vector3f& colForce,
+		  const EGG::Vector3f& wheelPos, f32 radius);
+
+  const EGG::Vector3f& getMovement() const { return movement; }
+  f32 get1c() const { return _1c; }
 
 private:
   KartCollideArea* kartCollideArea;

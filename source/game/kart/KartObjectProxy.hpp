@@ -19,7 +19,7 @@ UNKNOWN_FUNCTION(__ct__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805901d0..0x8059020c
 UNKNOWN_FUNCTION(setupSingle);
 // PAL: 0x8059020c..0x80590224
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerPosition);
+UNKNOWN_FUNCTION(getPos__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590224..0x80590238
 UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolderPosition);
 // PAL: 0x80590238..0x80590264
@@ -51,9 +51,9 @@ UNKNOWN_FUNCTION(unk_80590380);
 // PAL: 0x80590390..0x805903ac
 UNKNOWN_FUNCTION(unk_80590390);
 // PAL: 0x805903ac..0x805903bc
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolder);
+UNKNOWN_FUNCTION(kartPhysics__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805903bc..0x805903cc
-UNKNOWN_FUNCTION(unk_805903bc);
+UNKNOWN_FUNCTION(kartPhysics__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x805903cc..0x805903e0
 UNKNOWN_FUNCTION(kartDynamics__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805903e0..0x805903f4
@@ -91,9 +91,9 @@ UNKNOWN_FUNCTION(PlayerPointers_getWheelPhysics);
 // PAL: 0x8059074c..0x80590764
 UNKNOWN_FUNCTION(unk_8059074c);
 // PAL: 0x80590764..0x80590770
-UNKNOWN_FUNCTION(kartSub__Q24Kart15KartObjectProxyFv);
+UNKNOWN_FUNCTION(kartPhysicsEngine__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590770..0x8059077c
-UNKNOWN_FUNCTION(kartSub__Q24Kart15KartObjectProxyCFv);
+UNKNOWN_FUNCTION(kartPhysicsEngine__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x8059077c..0x80590788
 UNKNOWN_FUNCTION(kartMove__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590788..0x80590794
@@ -113,11 +113,11 @@ UNKNOWN_FUNCTION(hitboxGroup__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805907ec..0x80590800
 UNKNOWN_FUNCTION(hitboxGroup__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590800..0x8059081c
-UNKNOWN_FUNCTION(unk_80590800);
+UNKNOWN_FUNCTION(wheelHitbox__Q24Kart15KartObjectProxyCFl);
 // PAL: 0x8059081c..0x80590834
-UNKNOWN_FUNCTION(PlayerPointers_getVehicleBodyCollisionData);
+UNKNOWN_FUNCTION(bodyColInfo__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590834..0x8059084c
-UNKNOWN_FUNCTION(PlayerPointers_getWheelCollisionData);
+UNKNOWN_FUNCTION(wheelColInfo__Q24Kart15KartObjectProxyCFl);
 // PAL: 0x8059084c..0x80590858
 UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590858..0x80590864
@@ -165,7 +165,7 @@ UNKNOWN_FUNCTION(kartModel__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590a4c..0x80590a5c
 UNKNOWN_FUNCTION(unk_80590a4c);
 // PAL: 0x80590a5c..0x80590a6c
-UNKNOWN_FUNCTION(PlayerPointers_getPlayerIdx);
+UNKNOWN_FUNCTION(getPlayerIdx__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590a6c..0x80590a7c
 UNKNOWN_FUNCTION(PlayerPointers_isBike);
 // PAL: 0x80590a7c..0x80590a8c
@@ -393,10 +393,11 @@ UNKNOWN_FUNCTION(unk_805919e8);
 namespace Kart {
 
 class KartBody;
+class KartPhysics;
 class KartDynamics;
 class KartSus;
 class KartWheel;
-class KartSub;
+class KartPhysicsEngine;
 class KartMove;
 class KartSnd;
 class KartAccessor_34;
@@ -428,7 +429,7 @@ struct KartAccessor {
   KartSus** mSus;
   KartWheel** mWheels;
   KartModel* mModel;
-  KartSub* mSub;
+  KartPhysicsEngine* mPhysicsEngine;
   KartSnd* mSnd;
   MaybeShadow* mMaybeShadow;
   KartCamera* mCamera;
@@ -454,6 +455,8 @@ class KartObjectProxy {
 public:
   KartObjectProxy();
 
+  KartPhysics* kartPhysics();
+  const KartPhysics* kartPhysics() const;
   KartDynamics* kartDynamics();
   const KartDynamics* kartDynamics() const;
   KartBody* kartBody();
@@ -462,8 +465,8 @@ public:
   const KartSus* kartSus(s32 idx) const;
   KartWheel* kartWheel(s32 idx);
   const KartWheel* kartWheel(s32 idx) const;
-  KartSub* kartSub();
-  const KartSub* kartSub() const;
+  KartPhysicsEngine* kartPhysicsEngine();
+  const KartPhysicsEngine* kartPhysicsEngine() const;
   KartMove* kartMove();
   const KartMove* kartMove() const;
   KartSnd* kartSnd();
@@ -471,6 +474,9 @@ public:
   MaybeShadow* maybeShadow();
   HitboxGroup* hitboxGroup();
   const HitboxGroup* hitboxGroup() const;
+  const HitboxGroup* wheelHitbox(s32 idx) const;
+  const KartCollisionInfo* bodyColInfo() const;
+  const KartCollisionInfo* wheelColInfo(s32 idx) const;
   KartCollide* kartCollide();
   const KartCollide* kartCollide() const;
 
@@ -485,6 +491,7 @@ public:
   BspWheel* bspWheel(s32 idx) const;
 
   KartModel* kartModel();
+  s8 getPlayerIdx() const;
   KartAction* kartAction();
   const KartAction* kartAction() const;
   bool hasCamera();
@@ -505,6 +512,8 @@ public:
   const KartHalfPipe* kartHalfPipe();
   const KartJump* kartJump();
 
+  const EGG::Vector3f& getPos() const;
+  void getBodyForward(EGG::Vector3f& out);
   s32 getHopStickX();
   s32 getAppliedHopStickX();
   f32 getVehicleSpeed();

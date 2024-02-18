@@ -88,13 +88,13 @@ extern UNKNOWN_FUNCTION(unk_8059938c);
 // PAL: 0x805993cc
 extern UNKNOWN_FUNCTION(unk_805993cc);
 // PAL: 0x80599ed4
-extern UNKNOWN_FUNCTION(__ct__Q24Kart14KartSusPhysicsFUlll);
+extern UNKNOWN_FUNCTION(__ct__Q24Kart14KartSusPhysicsFUlQ24Kart13KartWheelTypel);
 // PAL: 0x80599f54
 extern UNKNOWN_FUNCTION(reset__Q24Kart14KartSusPhysicsFv);
 // PAL: 0x80599fa0
 extern UNKNOWN_FUNCTION(init__Q24Kart14KartSusPhysicsFv);
 // PAL: 0x8059a02c
-extern UNKNOWN_FUNCTION(unk_8059a02c);
+extern UNKNOWN_FUNCTION(setInitialState__Q24Kart14KartSusPhysicsFv);
 }
 
 // --- EXTERN DECLARATIONS END ---

@@ -19,6 +19,7 @@ public:
   u32 _8;
   // position in world coordinates
   EGG::Vector3f pos;
+  /// 99% not actually last pos
   EGG::Vector3f lastPos;
   // position in kart coordinates
   EGG::Vector3f relPos;
@@ -99,10 +100,12 @@ public:
   void createSingleHitbox(const EGG::Vector3f& pos, f32 radius);
   f32 computeCollisionLimits();
 
-  inline Hitbox& getHitbox(u16 i) const { return hitboxes[i]; }
+  inline const Hitbox& getHitbox(u16 i) const { return hitboxes[i]; }
+  inline Hitbox& getHitbox(u16 i) { return hitboxes[i]; }
   inline s32 getHitboxCount() const { return hitboxCount; }
   inline f32 getBoundingRadius() const { return boundingRadius; }
-  inline const KartCollisionInfo* getKartCollisionInfo() const { return &colInfo; }
+  inline const KartCollisionInfo& getKartCollisionInfo() const { return colInfo; }
+  inline KartCollisionInfo& getKartCollisionInfo() { return colInfo; }
 };
 static_assert(sizeof(HitboxGroup) == 0x9c);
 }

@@ -482,6 +482,22 @@ public:
     DRIVING_DIRECTION_IDLE = 2,
   };
 
+  virtual ~KartMove();
+  // signatures not final
+  virtual void createComponents();
+  virtual void setTurnParams();
+  virtual void init();
+  virtual void activateStar();
+  virtual void activateMega();
+  virtual void activateGesso();
+  virtual void clear();
+  virtual void initOob();
+  virtual void vf2c();
+  virtual void vf30();
+  virtual f32 getLeanRot();
+  virtual bool canWheelie();
+  // ...more
+
   s16 getMaxMtCharge();
   s16 getMaxSmtCharge();
   s32 getAppliedHopStickX();
@@ -491,6 +507,7 @@ public:
 
   f32 baseSpeed() const { return mBaseSpeed; }
   f32 speed() const { return mSpeed; }
+  const EGG::Vector3f& dir() const { return mDir; }
   f32 speedRatioCapped() const { return mSpeedRatioCapped; }
   f32 speedRatio() const { return mSpeedRatio; }
   s32 hopStickX() const { return mHopStickX; }
@@ -510,11 +527,13 @@ public:
   const KartHalfPipe* kartHalfPipe() { return mHalfPipe; }
 
 private:
-  u8 _00c[0x014 - 0x00c];
+  u8 _00c[0x014 - 0x010];
   f32 mBaseSpeed;
   u8 _018[0x020 - 0x018];
   f32 mSpeed;
-  u8 _024[0x0b0 - 0x024];
+  u8 _024[0x5c - 0x24];
+  EGG::Vector3f mDir;
+  u8 _068[0x0b0 - 0x68];
   f32 mSpeedRatioCapped;
   f32 mSpeedRatio;
   u8 _0b8[0x0cc - 0x0b8];
