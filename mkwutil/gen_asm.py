@@ -39,11 +39,10 @@ def is_text_addr(addr):
 class CAsmGenerator:
     """Generates C files with assembly functions."""
 
-    def __init__(self, disaser, _slices, symbols, out_h, out_c, cpp_mode):
+    def __init__(self, disaser, _slices, symbols, out_c, cpp_mode):
         self.disaser = disaser
         self.slices = _slices
         self.symbols = symbols
-        self.out_h = out_h
         self.out_c = out_c
         self.cpp_mode = cpp_mode
         # The list of seen extern declarations.
@@ -114,7 +113,6 @@ class CAsmGenerator:
         # Write out to C file.
         template = jinja_env.get_template("source.c.j2")
         template.stream(
-            header=Path(self.out_h.name).name,
             cpp=self.cpp_mode,
             functions=functions,
             rodata=rodata,
@@ -123,9 +121,6 @@ class CAsmGenerator:
             extern_functions=list({"name": a[1], "addr": a[0]} for a in self.extern_functions),
             extern_data=list({"name": a[1], "addr": a[0]} for a in self.extern_data),
         ).dump(self.out_c)
-        # Write out to H file.
-        template = jinja_env.get_template("source.h.j2")
-        template.stream(functions=functions).dump(self.out_h)
 
 
     def disassemble_function(self, fn_start_vma):
@@ -242,15 +237,13 @@ class DOLSrcGenerator:
 
     def __gen_c(self, c_source_name: str, _slices: list[Slice]):
         c_path = Path(c_source_name)
-        h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
-        if not (c_path.exists() or h_path.exists()):
+        if not c_path.exists():
             c_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
+            with open(c_path, "w") as c_file:
                 gen = CAsmGenerator(
                     self.disaser,
                     _slices,
                     self.symbols,
-                    h_file,
                     c_file,
                     not str(c_path).endswith(".c"),
                 )
@@ -361,15 +354,13 @@ class RELSrcGenerator:
 
     def __gen_c(self, c_source_name: str, _slices: list[Slice]):
         c_path = Path(c_source_name)
-        h_path = c_path.with_suffix(".h" if str(c_path).endswith(".c") else ".hpp")
-        if not (c_path.exists() or h_path.exists()):
+        if not c_path.exists():
             c_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(h_path, "w") as h_file, open(c_path, "w") as c_file:
+            with open(c_path, "w") as c_file:
                 gen = CAsmGenerator(
                     self.disaser,
                     _slices,
                     self.symbols,
-                    h_file,
                     c_file,
                     not str(c_path).endswith(".c"),
                 )
