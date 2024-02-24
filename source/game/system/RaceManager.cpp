@@ -43,14 +43,10 @@ extern UNKNOWN_FUNCTION(__cvt_ull_flt);
 extern UNKNOWN_FUNCTION(__cvt_dbl_ull);
 // PAL: 0x800850b0
 extern UNKNOWN_FUNCTION(unk_800850b0);
-// PAL: 0x801aad74
-extern UNKNOWN_FUNCTION(OSGetTick);
 // PAL: 0x80229dcc
 extern UNKNOWN_FUNCTION(__nw__FUl);
 // PAL: 0x80229df0
 extern UNKNOWN_FUNCTION(__nwa__FUl);
-// PAL: 0x80229e14
-// extern UNKNOWN_FUNCTION(__dl__FPv);
 // PAL: 0x80229ee0
 extern UNKNOWN_FUNCTION(__dla__FPv);
 // PAL: 0x8022f80c

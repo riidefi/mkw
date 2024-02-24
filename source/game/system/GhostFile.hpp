@@ -48,6 +48,12 @@ public:
     mSeconds = seconds;
     mMilliseconds = milliseconds;
   }
+  void set2(u16 minutes, u8 seconds, u16 milliseconds, bool isValid) {
+    mMinutes = minutes;
+    mSeconds = seconds;
+    mMilliseconds = milliseconds;
+    mIsValid = isValid;
+  }
 
 private:
   u16 mMinutes;
