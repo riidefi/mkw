@@ -1157,8 +1157,8 @@ source/egg/gfx/eggIScnProc.cpp:
 source/egg/gfx/eggLightManager.cpp:
     text: [0x8022a38c, 0x8022b6d4]
 
-source/egg/gfx/eggLightObject.cpp:
-    text: [0x8022b6d4, 0x8022d0f8]
+#source/egg/gfx/eggLightObject.cpp:
+#    text: [0x8022b6d4, 0x8022d0f8]
 
 source/egg/core/eggProcessMeter.cpp:
     strip: 1

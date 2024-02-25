@@ -548,8 +548,7 @@ out/dol/sdata2_80388d08_80388d68.o
 out/eggHeap.o
 out/eggIScnProc.o
 out/eggLightManager.o
-out/eggLightObject.o
-out/dol/text_8022d0f8_802386dc.o
+out/dol/text_8022b6d4_802386dc.o
 out/dol/rodata_80257824_802582b0.o
 out/dol/data_802a30ec_802a3d48.o
 out/eggProcessMeter.o
