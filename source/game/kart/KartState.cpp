@@ -4,9 +4,8 @@
 
 extern "C" {
 
-
 // PAL: 0x805943b4..0x8059455c
-UNKNOWN_FUNCTION(PlayerSub1c_construct);
+UNKNOWN_FUNCTION(__ct__Q24Kart9KartStateFPQ24Kart12KartSettings);
 // PAL: 0x8059455c..0x80594594
 UNKNOWN_FUNCTION(init__Q24Kart9KartStateFv);
 // PAL: 0x80594594..0x80594634
@@ -145,13 +144,13 @@ extern UNKNOWN_DATA(RKSystem_ey);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd730
-extern UNKNOWN_DATA(lbl_809bd730);
+extern UNKNOWN_DATA(spInstance__Q26System11RaceManager);
 // PAL: 0x809c18f8
 extern UNKNOWN_DATA(lbl_809c18f8);
 // PAL: 0x809c1950
-extern UNKNOWN_DATA(lbl_809c1950);
+extern UNKNOWN_DATA(isPlayerOnlineLocal__4Kart);
 // PAL: 0x809c1951
-extern UNKNOWN_DATA(lbl_809c1951);
+extern UNKNOWN_DATA(isPlayerOnlineRemote__4Kart);
 }
 
 // --- EXTERN DECLARATIONS END ---
@@ -160,13 +159,7 @@ extern UNKNOWN_DATA(lbl_809c1951);
 const u32 lbl_80891ef0[] = {
     0x00000000
 };
-const u32 lbl_80891ef4[] = {
-    0x3f800000
-};
-const u32 lbl_80891ef8[] = {
-    0x43300000, 0x80000000, 0x41200000, 0x3f4ccccd,
-    0x3f59999a, 0x3d4ccccd, 0xc1b00000, 0xc0e00000
-};
+//DEFINE_REL_DATA(lbl_80891ef0, 0x80891ef0, const f32, 0.0f);
 
 // .data
 #pragma explicit_zero_data on
@@ -181,18 +174,83 @@ u32 lbl_808b64f8[] = {
 u32 lbl_808b6528[] = {
     0x00b40000, 0x0000000a, 0x42200000
 };
-u32 lbl_808b6534[] = {
+u32 __vt__Q24Kart9KartState[] = {
     0x00000000, 0x00000000, (u32)&PlayerSub1c_destroy
 };
 #pragma explicit_zero_data off
 
-// .bss
 
+#include "KartState.hpp"
 
-// Symbol: PlayerSub1c_construct
+/*
+ * https://decomp.me/scratch/7prZZ
+namespace Kart {
+extern bool isPlayerOnlineLocal;
+extern bool isPlayerOnlineRemote;
+
+MARK_FLOW_CHECK(0x805943b4);
+KartState::KartState(KartSettings* settings) {
+  using namespace System;
+
+  mAirtime = 0;
+  _24 = 0.0f;
+  mCannonPointId = 0;
+  mStartBoostIdx = 0;
+  mUp.setZero();
+  mProxy = new KartObjectProxy;
+
+  RaceConfig::Player::Type playerType = RaceConfig::spInstance->mRaceScenario.mPlayers[settings->playerIdx].mPlayerType;
+  switch (playerType) {
+  case RaceConfig::Player::TYPE_REAL_LOCAL:
+    set(KART_FLAG_LOCAL);
+    break;
+  case RaceConfig::Player::TYPE_CPU:
+    set(KART_FLAG_CPU);
+    break;
+  case RaceConfig::Player::TYPE_GHOST:
+    set(KART_FLAG_GHOST);
+    break;
+  }
+
+  if (isPlayerOnlineLocal) {
+    set(KART_FLAG_ONLINE_LOCAL);
+  } else if (isPlayerOnlineRemote) {
+    set(KART_FLAG_ONLINE_REMOTE);
+  }
+
+  KPadController* controller = RaceManager::spInstance->players[settings->playerIdx]->kpadPlayer->mController;
+  bool isAuto;
+  if (!controller) {
+    isAuto = false;
+  } else {
+    isAuto = controller->mDriftIsAuto;
+  }
+
+  if (isAuto) {
+    set(KART_FLAG_AUTOMATIC_DRIFT);
+  }
+
+  if (RaceConfig::spInstance->mRaceScenario.mSettings.mGameMode == RaceConfig::Settings::GAMEMODE_AWARDS &&
+      RaceConfig::spInstance->mRaceScenario.mSettings.mCameraMode == RaceConfig::Settings::CAMERA_MODE_LOSS) {
+    set(KART_FLAG_SET_SPEED_ZERO);
+    set(KART_FLAG_DEMO_LOSS);
+  }
+}
+}
+*/
+
+const u32 lbl_80891ef4[] = {
+    0x3f800000
+};
+const u32 lbl_80891ef8[] = {
+    0x43300000, 0x80000000, 0x41200000, 0x3f4ccccd,
+    0x3f59999a, 0x3d4ccccd, 0xc1b00000, 0xc0e00000
+};
+
+// Symbol: __ct__Q24Kart9KartStateFPQ24Kart12KartSettings
 // PAL: 0x805943b4..0x8059455c
-MARK_BINARY_BLOB(PlayerSub1c_construct, 0x805943b4, 0x8059455c);
-asm UNKNOWN_FUNCTION(PlayerSub1c_construct) {
+MARK_BINARY_BLOB(__ct__Q24Kart9KartStateFPQ24Kart12KartSettings, 0x805943b4, 0x8059455c);
+asm UNKNOWN_FUNCTION(__ct__Q24Kart9KartStateFPQ24Kart12KartSettings) {
   #include "asm/805943b4.s"
 }
 

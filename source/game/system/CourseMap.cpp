@@ -177,7 +177,7 @@ extern UNKNOWN_DATA(lbl_802a4148);
 extern UNKNOWN_DATA(lbl_8088f8e8);
 // PAL: 0x8088fa38
 extern UNKNOWN_DATA(TWENTY_FIVE__6System);
-extern UNKNOWN_DATA(ZERO_FLOAT2__6System);
+extern UNKNOWN_DATA(ZERO_FLOAT2);
 // PAL: 0x8088fa44
 extern UNKNOWN_DATA(lbl_8088fa44);
 // PAL: 0x8088fa48
@@ -225,13 +225,7 @@ namespace System {
 // .rodata
 extern const f32 TWENTY_FIVE;
 const f32 TWENTY_FIVE = 25.0f;
-
-#ifndef SHIFTABLE
-extern f32 ZERO_FLOAT2;
-REL_SYMBOL_AT(ZERO_FLOAT2, 0x8088fa3c)
-#else
-static const f32 ZERO_FLOAT2 = 0.0f;
-#endif
+DEFINE_REL_DATA(ZERO_FLOAT2, 0x8088fa3c, const f32, 0.0f);
 
 // .bss
 CourseMap* CourseMap::spInstance;
@@ -1827,12 +1821,12 @@ asm UNKNOWN_FUNCTION(unk_80514c30) {
   /* 80514C30 3CA08089 */ lis         r5, lbl_8088fa6c@ha
   /* 80514C34 9421FFE0 */ stwu        r1, -0x20(r1)
   /* 80514C38 C005FA6C */ lfs         f0, lbl_8088fa6c@l(r5)
-  /* 80514C3C 3C808089 */ lis         r4, ZERO_FLOAT2__6System@ha
+  /* 80514C3C 3C808089 */ lis         r4, ZERO_FLOAT2@ha
   /* 80514C40 D0030004 */ stfs        f0, 4(r3)
   /* 80514C44 3CC0809C */ lis         r6, spInstance__Q26System9CourseMap@ha
   /* 80514C48 80A30000 */ lwz         r5, 0(r3)
   /* 80514C4C D0030008 */ stfs        f0, 8(r3)
-  /* 80514C50 C044FA3C */ lfs         f2, ZERO_FLOAT2__6System@l(r4)
+  /* 80514C50 C044FA3C */ lfs         f2, ZERO_FLOAT2@l(r4)
   /* 80514C54 89050000 */ lbz         r8, 0(r5)
   /* 80514C58 480000B8 */ b           lbl_80514d10
   lbl_80514c5c:
@@ -2862,9 +2856,9 @@ asm UNKNOWN_FUNCTION(unk_80515624) {
   /* 80515988 90830038 */ stw         r4, 0x38(r3)
   /* 8051598C B0030004 */ sth         r0, 4(r3)
   lbl_80515990:
-  /* 80515990 3C608089 */ lis         r3, ZERO_FLOAT2__6System@ha
+  /* 80515990 3C608089 */ lis         r3, ZERO_FLOAT2@ha
   /* 80515994 7FFEFB78 */ mr          r30, r31
-  /* 80515998 C3E3FA3C */ lfs         f31, ZERO_FLOAT2__6System@l(r3)
+  /* 80515998 C3E3FA3C */ lfs         f31, ZERO_FLOAT2@l(r3)
   /* 8051599C 3BA00000 */ li          r29, 0x0
   lbl_805159a0:
   /* 805159A0 A01F0004 */ lhz         r0, 4(r31)
@@ -3744,8 +3738,8 @@ asm bool System::MapdataAreaBox::isInsideShape(const EGG::Vector3f& pos) const {
   /* 8051644C EC22082A */ fadds       f1, f2, f1
   /* 80516450 FC010040 */ opword      0xfc010040
   /* 80516454 41810014 */ bgt-        lbl_80516468
-  /* 80516458 3C808089 */ lis         r4, ZERO_FLOAT2__6System@ha
-  /* 8051645C C004FA3C */ lfs         f0, ZERO_FLOAT2__6System@l(r4)
+  /* 80516458 3C808089 */ lis         r4, ZERO_FLOAT2@ha
+  /* 8051645C C004FA3C */ lfs         f0, ZERO_FLOAT2@l(r4)
   /* 80516460 FC010040 */ opword      0xfc010040
   /* 80516464 4080000C */ bge-        lbl_80516470
   lbl_80516468:

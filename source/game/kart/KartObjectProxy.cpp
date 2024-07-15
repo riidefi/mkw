@@ -87,7 +87,7 @@ extern UNKNOWN_FUNCTION(unk_808646f0); // Extern data references.
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd730
-extern UNKNOWN_DATA(lbl_809bd730);
+extern UNKNOWN_DATA(spInstance__Q26System11RaceManager);
 // PAL: 0x809c18f8
 extern UNKNOWN_DATA(lbl_809c18f8);
 }
@@ -530,7 +530,7 @@ asm UNKNOWN_FUNCTION(unk_80590a4c){
 }
 
 namespace Kart {
-s8 KartObjectProxy::getPlayerIdx() const { return mAccessor->kartSettings->playerIdx; }
+u8 KartObjectProxy::getPlayerIdx() const { return mAccessor->kartSettings->playerIdx; }
 }
 
 // Symbol: PlayerPointers_isBike

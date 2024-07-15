@@ -9,7 +9,7 @@ extern "C" {
 #endif
 
 // PAL: 0x805943b4..0x8059455c
-UNKNOWN_FUNCTION(PlayerSub1c_construct);
+UNKNOWN_FUNCTION(__ct__Q24Kart9KartStateFPQ24Kart12KartSettings);
 // PAL: 0x8059455c..0x80594594
 UNKNOWN_FUNCTION(init__Q24Kart9KartStateFv);
 // PAL: 0x80594594..0x80594634
@@ -53,6 +53,8 @@ UNKNOWN_FUNCTION(PlayerSub1c_destroy);
 
 #include <game/kart/KartObjectProxy.hpp>
 #include <game/system/RKBitField.hpp>
+#include <game/system/RaceConfig.hpp>
+#include <game/system/RaceManager.hpp>
 
 namespace Kart {
 
@@ -78,11 +80,20 @@ enum KartFlags {
   KART_FLAG_STH_61 = 0x61,
   KART_FLAG_STH_WALL_COL = 0x63,
   KART_FLAG_STH_KILLER = 0x6a,
+  KART_FLAG_CPU = 0x80,
+  KART_FLAG_LOCAL = 0x81,
+  KART_FLAG_ONLINE_LOCAL = 0x82,
   KART_FLAG_ONLINE_REMOTE = 0x83,
+  KART_FLAG_AUTOMATIC_DRIFT = 0x84,
+  KART_FLAG_GHOST = 0x86,
+  KART_FLAG_SET_SPEED_ZERO = 0x89,
+  KART_FLAG_DEMO_LOSS = 0x8b,
 };
 
 class KartState {
 public:
+  KartState(KartSettings* settings);
+  virtual ~KartState();
   void init();
   void reset();
   void resetOob();
@@ -102,16 +113,15 @@ public:
   void setHalfpipeInvisibilityTimer(s32 timer) { mHalfpipeInvisibilityTimer = timer; }
 
 private:
-  u8 _00[0x04 - 0x00];
   RKBitField<160> mFlags;
   KartObjectProxy* mProxy;
   u32 mAirtime;
   u8 _20[0x24 - 0x20];
-  f32 m_24;
-  EGG::Vector3f mTop;
+  f32 _24;
+  EGG::Vector3f mUp;
   u8 _34[0x40 - 0x34];
   EGG::Vector3f _40;
-  EGG::Vector3f m_4c;
+  EGG::Vector3f _4c;
   u32 _58;
   u32 _5c;
   u8 _60[0x6c - 0x60];
@@ -128,9 +138,9 @@ private:
   s16 mWipeFrame;
   u8 _96[0x9c - 0x96];
   f32 mStartBoostCharge;
-  u8 _a0[0xa4 - 0xa0];
-  u16 m_a4;
-  u16 m_a6;
+  s32 mStartBoostIdx;
+  u16 _a4;
+  u16 _a6;
   EGG::Vector3f m_a8;
   u8 _b4[0xc0 - 0xb4];
 };
