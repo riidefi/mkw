@@ -141,7 +141,7 @@ REL_SYMBOL_AT(DIVIDE_BY_SEVEN_F, 0x8088fcd0)
 static const f32 ZERO_F = 0.f;
 static const f32 MINUS_ONE_F = 1.f;
 static const f32 SEVEN_F = 7.f;
-static const f64 DIVIDE_BY_SEVEN_F = reinterpret_cast<f64>(0x433ULL << 52);
+static const f64 DIVIDE_BY_SEVEN_F = 4503599627370496.0;
 #endif
 
 // .data
