@@ -101,7 +101,7 @@ extern UNKNOWN_DATA(spInstance__Q26System9InitScene);
 // PAL: 0x80890030
 extern UNKNOWN_DATA(VS_POINT_DISTRIBUTION__6System);
 // PAL: 0x809bd730
-extern UNKNOWN_DATA(lbl_809bd730);
+extern UNKNOWN_DATA(spInstance__Q26System11RaceManager);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd70c
@@ -406,14 +406,14 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052E9A8 38840030 */ addi        r4, r4, VS_POINT_DISTRIBUTION__6System@l
   /* 8052E9AC 7E840214 */ add         r20, r4, r0
   /* 8052E9B0 3A200000 */ li          r17, 0x0
-  /* 8052E9B4 3FC0809C */ lis         r30, lbl_809bd730@ha
+  /* 8052E9B4 3FC0809C */ lis         r30, spInstance__Q26System11RaceManager@ha
   /* 8052E9B8 3BA00001 */ li          r29, 0x1
   /* 8052E9BC 3FE04330 */ lis         r31, 0x4330
   /* 8052E9C0 3B400000 */ li          r26, 0x0
   /* 8052E9C4 3DC08089 */ lis         r14, lbl_8088ffa8@ha
   /* 8052E9C8 48000284 */ b           lbl_8052ec4c
   lbl_8052e9cc:
-  /* 8052E9CC 807ED730 */ lwz         r3, lbl_809bd730@l(r30)
+  /* 8052E9CC 807ED730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r30)
   /* 8052E9D0 563315BA */ rlwinm      r19, r17, 2, 0x16, 0x1d
   /* 8052E9D4 80D5D728 */ lwz         r6, spInstance__Q26System10RaceConfig@l(r21)
   /* 8052E9D8 38800000 */ li          r4, 0x0
@@ -473,7 +473,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   lbl_8052ea9c:
   /* 8052EA9C 2C050000 */ cmpwi       r5, 0x0
   /* 8052EAA0 41820034 */ beq-        lbl_8052ead4
-  /* 8052EAA4 80BED730 */ lwz         r5, lbl_809bd730@l(r30)
+  /* 8052EAA4 80BED730 */ lwz         r5, spInstance__Q26System11RaceManager@l(r30)
   /* 8052EAA8 560415BA */ rlwinm      r4, r16, 2, 0x16, 0x1d
   /* 8052EAAC 80A5000C */ lwz         r5, 0xc(r5)
   /* 8052EAB0 7C85202E */ lwzx        r4, r5, r4
@@ -487,7 +487,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EACC 38600001 */ li          r3, 0x1
   /* 8052EAD0 48000030 */ b           lbl_8052eb00
   lbl_8052ead4:
-  /* 8052EAD4 80BED730 */ lwz         r5, lbl_809bd730@l(r30)
+  /* 8052EAD4 80BED730 */ lwz         r5, spInstance__Q26System11RaceManager@l(r30)
   /* 8052EAD8 560415BA */ rlwinm      r4, r16, 2, 0x16, 0x1d
   /* 8052EADC 80A5000C */ lwz         r5, 0xc(r5)
   /* 8052EAE0 7C85202E */ lwzx        r4, r5, r4
@@ -580,7 +580,7 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EC18 2C000003 */ cmpwi       r0, 0x3
   /* 8052EC1C 40820018 */ bne-        lbl_8052ec34
   lbl_8052ec20:
-  /* 8052EC20 807ED730 */ lwz         r3, lbl_809bd730@l(r30)
+  /* 8052EC20 807ED730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r30)
   /* 8052EC24 8063000C */ lwz         r3, 0xc(r3)
   /* 8052EC28 7C63982E */ lwzx        r3, r3, r19
   /* 8052EC2C A0630022 */ lhz         r3, 0x22(r3)
@@ -617,9 +617,9 @@ asm UNKNOWN_FUNCTION(unk_8052e950) {
   /* 8052EC90 800F0B50 */ lwz         r0, 0xb50(r15)
   /* 8052EC94 2C000000 */ cmpwi       r0, 0x0
   /* 8052EC98 40820058 */ bne-        lbl_8052ecf0
-  /* 8052EC9C 3C60809C */ lis         r3, lbl_809bd730@ha
+  /* 8052EC9C 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
   /* 8052ECA0 3A000000 */ li          r16, 0x0
-  /* 8052ECA4 81E3D730 */ lwz         r15, lbl_809bd730@l(r3)
+  /* 8052ECA4 81E3D730 */ lwz         r15, spInstance__Q26System11RaceManager@l(r3)
   /* 8052ECA8 3DC0809C */ lis         r14, spInstance__Q26System10RaceConfig@ha
   /* 8052ECAC 48000030 */ b           lbl_8052ecdc
   lbl_8052ecb0:

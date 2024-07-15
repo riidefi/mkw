@@ -491,7 +491,7 @@ public:
   BspWheel* bspWheel(s32 idx) const;
 
   KartModel* kartModel();
-  s8 getPlayerIdx() const;
+  u8 getPlayerIdx() const;
   KartAction* kartAction();
   const KartAction* kartAction() const;
   bool hasCamera();

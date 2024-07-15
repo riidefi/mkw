@@ -478,7 +478,7 @@ u32 lbl_808b34d8[] = {0x00000000, 0x00000000, (u32)&unk_805371a8,
 #pragma explicit_zero_data off
 
 // .bss
-u8 lbl_809bd730[8];
+u8 spInstance__Q26System11RaceManager[8];
 
 // Symbol: Raceinfo_initStaticInstance
 // PAL: 0x80532084..0x805320d4
@@ -488,9 +488,9 @@ asm UNKNOWN_FUNCTION(Raceinfo_initStaticInstance) {
   nofralloc
   /* 80532084 9421FFF0 */ stwu        r1, -0x10(r1)
   /* 80532088 7C0802A6 */ mflr        r0
-  /* 8053208C 3C60809C */ lis         r3, lbl_809bd730@ha
+  /* 8053208C 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
   /* 80532090 90010014 */ stw         r0, 0x14(r1)
-  /* 80532094 8003D730 */ lwz         r0, lbl_809bd730@l(r3)
+  /* 80532094 8003D730 */ lwz         r0, spInstance__Q26System11RaceManager@l(r3)
   /* 80532098 2C000000 */ cmpwi       r0, 0x0
   /* 8053209C 40820020 */ bne-        lbl_805320bc
   /* 805320A0 3860004C */ li          r3, 0x4c
@@ -499,12 +499,12 @@ asm UNKNOWN_FUNCTION(Raceinfo_initStaticInstance) {
   /* 805320AC 41820008 */ beq-        lbl_805320b4
   /* 805320B0 480006F1 */ bl          Raceinfo_construct
   lbl_805320b4:
-  /* 805320B4 3C80809C */ lis         r4, lbl_809bd730@ha
-  /* 805320B8 9064D730 */ stw         r3, lbl_809bd730@l(r4)
+  /* 805320B4 3C80809C */ lis         r4, spInstance__Q26System11RaceManager@ha
+  /* 805320B8 9064D730 */ stw         r3, spInstance__Q26System11RaceManager@l(r4)
   lbl_805320bc:
   /* 805320BC 80010014 */ lwz         r0, 0x14(r1)
-  /* 805320C0 3C60809C */ lis         r3, lbl_809bd730@ha
-  /* 805320C4 8063D730 */ lwz         r3, lbl_809bd730@l(r3)
+  /* 805320C0 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
+  /* 805320C4 8063D730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r3)
   /* 805320C8 7C0803A6 */ mtlr        r0
   /* 805320CC 38210010 */ addi        r1, r1, 0x10
   /* 805320D0 4E800020 */ blr // clang-format on
@@ -518,9 +518,9 @@ asm UNKNOWN_FUNCTION(Raceinfo_destroyStaticInstance) {
   nofralloc
   /* 805320D4 9421FFF0 */ stwu        r1, -0x10(r1)
   /* 805320D8 7C0802A6 */ mflr        r0
-  /* 805320DC 3C60809C */ lis         r3, lbl_809bd730@ha
+  /* 805320DC 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
   /* 805320E0 90010014 */ stw         r0, 0x14(r1)
-  /* 805320E4 8063D730 */ lwz         r3, lbl_809bd730@l(r3)
+  /* 805320E4 8063D730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r3)
   /* 805320E8 2C030000 */ cmpwi       r3, 0x0
   /* 805320EC 4182001C */ beq-        lbl_80532108
   /* 805320F0 41820018 */ beq-        lbl_80532108
@@ -530,9 +530,9 @@ asm UNKNOWN_FUNCTION(Raceinfo_destroyStaticInstance) {
   /* 80532100 7D8903A6 */ mtctr       r12
   /* 80532104 4E800421 */ bctrl
   lbl_80532108:
-  /* 80532108 3C60809C */ lis         r3, lbl_809bd730@ha
+  /* 80532108 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
   /* 8053210C 38000000 */ li          r0, 0x0
-  /* 80532110 9003D730 */ stw         r0, lbl_809bd730@l(r3)
+  /* 80532110 9003D730 */ stw         r0, spInstance__Q26System11RaceManager@l(r3)
   /* 80532114 80010014 */ lwz         r0, 0x14(r1)
   /* 80532118 7C0803A6 */ mtlr        r0
   /* 8053211C 38210010 */ addi        r1, r1, 0x10
@@ -2248,7 +2248,7 @@ asm UNKNOWN_FUNCTION(unk_805336d8) {
   /* 805336EC 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
   /* 805336F0 3CC08089 */ lis         r6, lbl_80890170@ha
   /* 805336F4 80E4D728 */ lwz         r7, spInstance__Q26System10RaceConfig@l(r4)
-  /* 805336F8 3C80809C */ lis         r4, lbl_809bd730@ha
+  /* 805336F8 3C80809C */ lis         r4, spInstance__Q26System11RaceManager@ha
   /* 805336FC 3CA08089 */ lis         r5, lbl_80890160@ha
   /* 80533700 3D008089 */ lis         r8, lbl_80890168@ha
   /* 80533704 8BE70024 */ lbz         r31, 0x24(r7)
@@ -2257,7 +2257,7 @@ asm UNKNOWN_FUNCTION(unk_805336d8) {
   /* 80533710 38C10008 */ addi        r6, r1, 0x8
   /* 80533714 C8650160 */ lfd         f3, lbl_80890160@l(r5)
   /* 80533718 38A00000 */ li          r5, 0x0
-  /* 8053371C 8084D730 */ lwz         r4, lbl_809bd730@l(r4)
+  /* 8053371C 8084D730 */ lwz         r4, spInstance__Q26System11RaceManager@l(r4)
   /* 80533720 3D404330 */ lis         r10, 0x4330
   /* 80533724 C8280168 */ lfd         f1, lbl_80890168@l(r8)
   /* 80533728 480000E0 */ b           lbl_80533808
@@ -2682,10 +2682,10 @@ asm UNKNOWN_FUNCTION(unk_80533c6c) {
   /* 80533CB8 4BFF0915 */ bl          endGhostProxy__Q26System12KPadDirectorFUc
   lbl_80533cbc:
   /* 80533CBC 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
-  /* 80533CC0 3C60809C */ lis         r3, lbl_809bd730@ha
+  /* 80533CC0 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
   /* 80533CC4 80A4D728 */ lwz         r5, spInstance__Q26System10RaceConfig@l(r4)
   /* 80533CC8 3BC00000 */ li          r30, 0x0
-  /* 80533CCC 8083D730 */ lwz         r4, lbl_809bd730@l(r3)
+  /* 80533CCC 8083D730 */ lwz         r4, spInstance__Q26System11RaceManager@l(r3)
   /* 80533CD0 38C00000 */ li          r6, 0x0
   /* 80533CD4 88A50024 */ lbz         r5, 0x24(r5)
   /* 80533CD8 4800002C */ b           lbl_80533d04
@@ -2785,14 +2785,14 @@ asm UNKNOWN_FUNCTION(unk_80533dd4) {
   /* 80533DFC 80C3000C */ lwz         r6, 0xc(r3)
   /* 80533E00 38870001 */ addi        r4, r7, 0x1
   /* 80533E04 9883001D */ stb         r4, 0x1d(r3)
-  /* 80533E08 3C80809C */ lis         r4, lbl_809bd730@ha
+  /* 80533E08 3C80809C */ lis         r4, spInstance__Q26System11RaceManager@ha
   /* 80533E0C 38E00000 */ li          r7, 0x0
   /* 80533E10 7CC6002E */ lwzx        r6, r6, r0
   /* 80533E14 80060038 */ lwz         r0, 0x38(r6)
   /* 80533E18 60000010 */ ori         r0, r0, 0x10
   /* 80533E1C 90060038 */ stw         r0, 0x38(r6)
   /* 80533E20 80C5D728 */ lwz         r6, spInstance__Q26System10RaceConfig@l(r5)
-  /* 80533E24 80A4D730 */ lwz         r5, lbl_809bd730@l(r4)
+  /* 80533E24 80A4D730 */ lwz         r5, spInstance__Q26System11RaceManager@l(r4)
   /* 80533E28 88C60024 */ lbz         r6, 0x24(r6)
   /* 80533E2C 4800002C */ b           lbl_80533e58
   lbl_80533e30:
@@ -3060,14 +3060,14 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_init) {
   nofralloc
   /* 80534194 9421FFE0 */ stwu        r1, -0x20(r1)
   /* 80534198 7C0802A6 */ mflr        r0
-  /* 8053419C 3C80809C */ lis         r4, lbl_809bd730@ha
+  /* 8053419C 3C80809C */ lis         r4, spInstance__Q26System11RaceManager@ha
   /* 805341A0 90010024 */ stw         r0, 0x24(r1)
   /* 805341A4 93E1001C */ stw         r31, 0x1c(r1)
   /* 805341A8 7C7F1B78 */ mr          r31, r3
   /* 805341AC 93C10018 */ stw         r30, 0x18(r1)
   /* 805341B0 3BC00000 */ li          r30, 0x0
   /* 805341B4 B3C30022 */ sth         r30, 0x22(r3)
-  /* 805341B8 8064D730 */ lwz         r3, lbl_809bd730@l(r4)
+  /* 805341B8 8064D730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r4)
   /* 805341BC 3880000A */ li          r4, 0xa
   /* 805341C0 80630008 */ lwz         r3, 8(r3)
   /* 805341C4 48021409 */ bl          nextU32__Q24Util6RandomFUl
@@ -3206,8 +3206,8 @@ asm UNKNOWN_FUNCTION(unk_805342e8) {
   /* 80534394 EC21102A */ fadds       f1, f1, f2
   /* 80534398 40810044 */ ble-        lbl_805343dc
   /* 8053439C EC210024 */ fdivs       f1, f1, f0
-  /* 805343A0 3C60809C */ lis         r3, lbl_809bd730@ha
-  /* 805343A4 8083D730 */ lwz         r4, lbl_809bd730@l(r3)
+  /* 805343A0 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
+  /* 805343A4 8083D730 */ lwz         r4, spInstance__Q26System11RaceManager@l(r3)
   /* 805343A8 38610014 */ addi        r3, r1, 0x14
   /* 805343AC 80840014 */ lwz         r4, 0x14(r4)
   /* 805343B0 38840004 */ addi        r4, r4, 0x4
@@ -3335,12 +3335,12 @@ asm UNKNOWN_FUNCTION(unk_805342e8) {
   /* 80534570 B0A10034 */ sth         r5, 0x34(r1)
   /* 80534574 480000E0 */ b           lbl_80534654
   lbl_80534578:
-  /* 80534578 3FA0809C */ lis         r29, lbl_809bd730@ha
+  /* 80534578 3FA0809C */ lis         r29, spInstance__Q26System11RaceManager@ha
   /* 8053457C 38800010 */ li          r4, 0x10
-  /* 80534580 807DD730 */ lwz         r3, lbl_809bd730@l(r29)
+  /* 80534580 807DD730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r29)
   /* 80534584 80630008 */ lwz         r3, 8(r3)
   /* 80534588 48021045 */ bl          nextU32__Q24Util6RandomFUl
-  /* 8053458C 80BDD730 */ lwz         r5, lbl_809bd730@l(r29)
+  /* 8053458C 80BDD730 */ lwz         r5, spInstance__Q26System11RaceManager@l(r29)
   /* 80534590 3C808089 */ lis         r4, lbl_80890170@ha
   /* 80534594 9061003C */ stw         r3, 0x3c(r1)
   /* 80534598 38E00000 */ li          r7, 0x0
@@ -3519,7 +3519,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endRace) {
   /* 805347F4 9421FFF0 */ stwu        r1, -0x10(r1)
   /* 805347F8 7C0802A6 */ mflr        r0
   /* 805347FC 39800000 */ li          r12, 0x0
-  /* 80534800 3D60809C */ lis         r11, lbl_809bd730@ha
+  /* 80534800 3D60809C */ lis         r11, spInstance__Q26System11RaceManager@ha
   /* 80534804 90010014 */ stw         r0, 0x14(r1)
   /* 80534808 38000000 */ li          r0, 0x0
   /* 8053480C 39400001 */ li          r10, 0x1
@@ -3529,7 +3529,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endRace) {
   /* 8053481C B0030050 */ sth         r0, 0x50(r3)
   /* 80534820 48000040 */ b           lbl_80534860
   lbl_80534824:
-  /* 80534824 80EBD730 */ lwz         r7, lbl_809bd730@l(r11)
+  /* 80534824 80EBD730 */ lwz         r7, spInstance__Q26System11RaceManager@l(r11)
   /* 80534828 558015BA */ rlwinm      r0, r12, 2, 0x16, 0x1d
   /* 8053482C 80E7000C */ lwz         r7, 0xc(r7)
   /* 80534830 7CE7002E */ lwzx        r7, r7, r0
@@ -3552,9 +3552,9 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endRace) {
   /* 80534868 88070024 */ lbz         r0, 0x24(r7)
   /* 8053486C 7C090040 */ cmplw       r9, r0
   /* 80534870 4180FFB4 */ blt+        lbl_80534824
-  /* 80534874 3CE0809C */ lis         r7, lbl_809bd730@ha
+  /* 80534874 3CE0809C */ lis         r7, spInstance__Q26System11RaceManager@ha
   /* 80534878 80030038 */ lwz         r0, 0x38(r3)
-  /* 8053487C 80E7D730 */ lwz         r7, lbl_809bd730@l(r7)
+  /* 8053487C 80E7D730 */ lwz         r7, spInstance__Q26System11RaceManager@l(r7)
   /* 80534880 2C050000 */ cmpwi       r5, 0x0
   /* 80534884 60000002 */ ori         r0, r0, 2
   /* 80534888 81030040 */ lwz         r8, 0x40(r3)
@@ -3593,9 +3593,9 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endRace) {
   lbl_80534908:
   /* 80534908 88630008 */ lbz         r3, 8(r3)
   /* 8053490C 4805B805 */ bl          unk_80590110
-  /* 80534910 3C60809C */ lis         r3, lbl_809bd730@ha
+  /* 80534910 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
   /* 80534914 889F0008 */ lbz         r4, 8(r31)
-  /* 80534918 8063D730 */ lwz         r3, lbl_809bd730@l(r3)
+  /* 80534918 8063D730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r3)
   /* 8053491C 4BFFF351 */ bl          unk_80533c6c
   /* 80534920 80010014 */ lwz         r0, 0x14(r1)
   /* 80534924 83E1000C */ lwz         r31, 0xc(r1)
@@ -3662,8 +3662,8 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endLap) {
   /* 805349CC 3BE00000 */ li          r31, 0x0
   /* 805349D0 9BE30028 */ stb         r31, 0x28(r3)
   /* 805349D4 80A30038 */ lwz         r5, 0x38(r3)
-  /* 805349D8 3CC0809C */ lis         r6, lbl_809bd730@ha
-  /* 805349DC 8086D730 */ lwz         r4, lbl_809bd730@l(r6)
+  /* 805349D8 3CC0809C */ lis         r6, spInstance__Q26System11RaceManager@ha
+  /* 805349DC 8086D730 */ lwz         r4, spInstance__Q26System11RaceManager@l(r6)
   /* 805349E0 7C7D1B78 */ mr          r29, r3
   /* 805349E4 54A007BD */ rlwinm.     r0, r5, 0, 0x1e, 0x1e
   /* 805349E8 83C40014 */ lwz         r30, 0x14(r4)
@@ -3673,7 +3673,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_endLap) {
   /* 805349F8 A8830024 */ lha         r4, 0x24(r3)
   /* 805349FC 38A40001 */ addi        r5, r4, 0x1
   /* 80534A00 B0A30024 */ sth         r5, 0x24(r3)
-  /* 80534A04 8086D730 */ lwz         r4, lbl_809bd730@l(r6)
+  /* 80534A04 8086D730 */ lwz         r4, spInstance__Q26System11RaceManager@l(r6)
   /* 80534A08 88040030 */ lbz         r0, 0x30(r4)
   /* 80534A0C 2C000000 */ cmpwi       r0, 0x0
   /* 80534A10 41820250 */ beq-        lbl_80534c60
@@ -4714,8 +4714,8 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_getLapSplit) {
   /* 80535754 9805000A */ stb         r0, 0xa(r5)
   /* 80535758 4E800020 */ blr
   lbl_8053575c:
-  /* 8053575C 3CC0809C */ lis         r6, lbl_809bd730@ha
-  /* 80535760 80C6D730 */ lwz         r6, lbl_809bd730@l(r6)
+  /* 8053575C 3CC0809C */ lis         r6, spInstance__Q26System11RaceManager@ha
+  /* 80535760 80C6D730 */ lwz         r6, spInstance__Q26System11RaceManager@l(r6)
   /* 80535764 80C60014 */ lwz         r6, 0x14(r6)
   /* 80535768 88060040 */ lbz         r0, 0x40(r6)
   /* 8053576C 2C000000 */ cmpwi       r0, 0x0
@@ -5167,10 +5167,10 @@ asm UNKNOWN_FUNCTION(TimeAttackGamemode_canEndRace) {
   /* 80535D74 4E800020 */ blr
   lbl_80535d78:
   /* 80535D78 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
-  /* 80535D7C 3C60809C */ lis         r3, lbl_809bd730@ha
+  /* 80535D7C 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
   /* 80535D80 80C4D728 */ lwz         r6, spInstance__Q26System10RaceConfig@l(r4)
   /* 80535D84 38E00000 */ li          r7, 0x0
-  /* 80535D88 8083D730 */ lwz         r4, lbl_809bd730@l(r3)
+  /* 80535D88 8083D730 */ lwz         r4, spInstance__Q26System11RaceManager@l(r3)
   /* 80535D8C 88A60024 */ lbz         r5, 0x24(r6)
   /* 80535D90 38C60028 */ addi        r6, r6, 0x28
   /* 80535D94 48000040 */ b           lbl_80535dd4
@@ -5211,14 +5211,14 @@ asm UNKNOWN_FUNCTION(unk_80535de8) {
   /* 80535DF4 93E1001C */ stw         r31, 0x1c(r1)
   /* 80535DF8 3FE0809C */ lis         r31, spInstance__Q26System10RaceConfig@ha
   /* 80535DFC 93C10018 */ stw         r30, 0x18(r1)
-  /* 80535E00 3FC0809C */ lis         r30, lbl_809bd730@ha
+  /* 80535E00 3FC0809C */ lis         r30, spInstance__Q26System11RaceManager@ha
   /* 80535E04 93A10014 */ stw         r29, 0x14(r1)
   /* 80535E08 3BA00000 */ li          r29, 0x0
   /* 80535E0C 93810010 */ stw         r28, 0x10(r1)
   /* 80535E10 7C7C1B78 */ mr          r28, r3
   /* 80535E14 4800003C */ b           lbl_80535e50
   lbl_80535e18:
-  /* 80535E18 807ED730 */ lwz         r3, lbl_809bd730@l(r30)
+  /* 80535E18 807ED730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r30)
   /* 80535E1C 57A615BA */ rlwinm      r6, r29, 2, 0x16, 0x1d
   /* 80535E20 8063000C */ lwz         r3, 0xc(r3)
   /* 80535E24 7C63302E */ lwzx        r3, r3, r6
@@ -5361,9 +5361,9 @@ asm UNKNOWN_FUNCTION(unk_80535f28) {
   /* 80535FB0 38600000 */ li          r3, 0x0
   /* 80535FB4 48000020 */ b           lbl_80535fd4
   lbl_80535fb8:
-  /* 80535FB8 3C80809C */ lis         r4, lbl_809bd730@ha
+  /* 80535FB8 3C80809C */ lis         r4, spInstance__Q26System11RaceManager@ha
   /* 80535FBC 546015BA */ rlwinm      r0, r3, 2, 0x16, 0x1d
-  /* 80535FC0 8064D730 */ lwz         r3, lbl_809bd730@l(r4)
+  /* 80535FC0 8064D730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r4)
   /* 80535FC4 8063000C */ lwz         r3, 0xc(r3)
   /* 80535FC8 7C63002E */ lwzx        r3, r3, r0
   /* 80535FCC 80030038 */ lwz         r0, 0x38(r3)
@@ -5468,9 +5468,9 @@ asm UNKNOWN_FUNCTION(unk_80536054) {
   /* 805360E8 38600000 */ li          r3, 0x0
   /* 805360EC 4800010C */ b           lbl_805361f8
   lbl_805360f0:
-  /* 805360F0 3C80809C */ lis         r4, lbl_809bd730@ha
+  /* 805360F0 3C80809C */ lis         r4, spInstance__Q26System11RaceManager@ha
   /* 805360F4 546015BA */ rlwinm      r0, r3, 2, 0x16, 0x1d
-  /* 805360F8 8064D730 */ lwz         r3, lbl_809bd730@l(r4)
+  /* 805360F8 8064D730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r4)
   /* 805360FC 8063000C */ lwz         r3, 0xc(r3)
   /* 80536100 7C63002E */ lwzx        r3, r3, r0
   /* 80536104 80030038 */ lwz         r0, 0x38(r3)
@@ -5482,17 +5482,17 @@ asm UNKNOWN_FUNCTION(unk_80536054) {
   /* 80536118 39400000 */ li          r10, 0x0
   /* 8053611C 28060001 */ cmplwi      r6, 1
   /* 80536120 40820020 */ bne-        lbl_80536140
-  /* 80536124 3C60809C */ lis         r3, lbl_809bd730@ha
-  /* 80536128 8063D730 */ lwz         r3, lbl_809bd730@l(r3)
+  /* 80536124 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
+  /* 80536128 8063D730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r3)
   /* 8053612C 8063000C */ lwz         r3, 0xc(r3)
   /* 80536130 80630000 */ lwz         r3, 0(r3)
   /* 80536134 80030038 */ lwz         r0, 0x38(r3)
   /* 80536138 5403FFFE */ rlwinm      r3, r0, 0x1f, 0x1f, 0x1f
   /* 8053613C 480000BC */ b           lbl_805361f8
   lbl_80536140:
-  /* 80536140 3C80809C */ lis         r4, lbl_809bd730@ha
+  /* 80536140 3C80809C */ lis         r4, spInstance__Q26System11RaceManager@ha
   /* 80536144 38E30028 */ addi        r7, r3, 0x28
-  /* 80536148 8104D730 */ lwz         r8, lbl_809bd730@l(r4)
+  /* 80536148 8104D730 */ lwz         r8, spInstance__Q26System11RaceManager@l(r4)
   /* 8053614C 39600000 */ li          r11, 0x0
   /* 80536150 7CC903A6 */ mtctr       r6
   /* 80536154 2C060000 */ cmpwi       r6, 0x0
@@ -6145,7 +6145,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore) {
   /* 805368F8 9421FFC0 */ stwu        r1, -0x40(r1)
   /* 805368FC 7C0802A6 */ mflr        r0
   /* 80536900 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
-  /* 80536904 3CA0809C */ lis         r5, lbl_809bd730@ha
+  /* 80536904 3CA0809C */ lis         r5, spInstance__Q26System11RaceManager@ha
   /* 80536908 90010044 */ stw         r0, 0x44(r1)
   /* 8053690C 93E1003C */ stw         r31, 0x3c(r1)
   /* 80536910 93C10038 */ stw         r30, 0x38(r1)
@@ -6153,7 +6153,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore) {
   /* 80536918 93A10034 */ stw         r29, 0x34(r1)
   /* 8053691C 7C7D1B78 */ mr          r29, r3
   /* 80536920 80E4D728 */ lwz         r7, spInstance__Q26System10RaceConfig@l(r4)
-  /* 80536924 8085D730 */ lwz         r4, lbl_809bd730@l(r5)
+  /* 80536924 8085D730 */ lwz         r4, spInstance__Q26System11RaceManager@l(r5)
   /* 80536928 80070B70 */ lwz         r0, 0xb70(r7)
   /* 8053692C 2C000000 */ cmpwi       r0, 0x0
   /* 80536930 4182000C */ beq-        lbl_8053693c
