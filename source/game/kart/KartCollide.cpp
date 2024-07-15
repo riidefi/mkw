@@ -302,23 +302,10 @@ extern UNKNOWN_DATA(lbl_809c4330);
 // --- EXTERN DECLARATIONS END ---
 
 // .rodata
-/*const u32 lbl_80891730[] = {
-    0x00000000
-};
-const u32 lbl_80891734[] = {
-    0x3f800000
-};*/
-/*const u32 lbl_80891738[] = {
-    0x42c80000
-};*/
-extern "C" UNKNOWN_DATA(lbl_80891730);
-REL_SYMBOL_AT(lbl_80891730, 0x80891730);
-extern "C" UNKNOWN_DATA(lbl_80891734);
-REL_SYMBOL_AT(lbl_80891734, 0x80891734);
-extern "C" UNKNOWN_DATA(lbl_80891738);
-REL_SYMBOL_AT(lbl_80891738, 0x80891738);
-extern "C" UNKNOWN_DATA(lbl_8089173c);
-REL_SYMBOL_AT(lbl_8089173c, 0x8089173c);
+DEFINE_REL_DATA(lbl_80891730, 0x80891730, const f32, 0.0f);
+DEFINE_REL_DATA(lbl_80891734, 0x80891734, const f32, 1.0f);
+DEFINE_REL_DATA(lbl_80891738, 0x80891738, const f32, 100.0f);
+DEFINE_REL_DATA(lbl_8089173c, 0x8089173c, const f32, 0.8f);
 
 extern "C" EGG::Vector3f RKSystem_ex;
 

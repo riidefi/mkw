@@ -8,7 +8,7 @@ extern "C" {
 extern System::unkStruct defColor__6System;
 REL_SYMBOL_AT(defColor__6System, 0x8088fd60)
 #else
-static const System::unkStruct defColor = (unkStruct){0xB8, 0x40, 0x30, 0xFF};
+static const System::unkStruct defColor = (System::unkStruct){0xB8, 0x40, 0x30, 0xFF};
 #endif
 }
 

@@ -73,10 +73,10 @@ REL_SYMBOL_AT(lbl_80892754, 0x80892754)
 extern f32 lbl_80892760;
 REL_SYMBOL_AT(lbl_80892760, 0x80892750)
 #else
-const u32 lbl_80892750[] = {
+static const u32 lbl_80892750[] = {
     0x00000000
 };
-const u32 lbl_80892754[] = {
+static const u32 lbl_80892754[] = {
     0x3f800000, 0xbf800000, 0x3dcccccd
 };
 #endif
