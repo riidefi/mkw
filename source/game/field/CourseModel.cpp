@@ -74,15 +74,14 @@ extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // --- EXTERN DECLARATIONS END ---
 
 // .rodata
-extern "C" UNKNOWN_DATA(lbl_808a4be0);
-REL_SYMBOL_AT(lbl_808a4be0, 0x808a4be0)
+DEFINE_REL_DATA(lbl_808a4be0, 0x808a4be0, const f32, 1.0f);
 
 #pragma push
 #pragma force_active on
 void FORCESTRIP _orderfloat() {f32 x = 0.0f;}
 #pragma pop
-extern "C" UNKNOWN_DATA(lbl_808a4b58);
-REL_SYMBOL_AT(lbl_808a4b58, 0x808a4b58)
+
+DEFINE_REL_DATA(lbl_808a4b58, 0x808a4b58, const f32, 0.0f);
 
 const u32 lbl_808a4b5c[] = {
     0x302b2800

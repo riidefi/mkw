@@ -57,8 +57,7 @@ extern UNKNOWN_DATA(lbl_808b56f4);
 
 // --- EXTERN DECLARATIONS END ---
 
-extern "C" UNKNOWN_DATA(lbl_808a66d8);
-REL_SYMBOL_AT(lbl_808a66d8, 0x808a66d8);
+DEFINE_REL_DATA(lbl_808a66d8, 0x808a66d8, const f32, 0.0f)
 
 namespace Field {
 RKGndCol::RKGndCol(const KCollisionHeader& header) {

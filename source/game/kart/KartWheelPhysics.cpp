@@ -62,17 +62,8 @@ extern UNKNOWN_DATA(lbl_808b6590);
 extern "C" const u32 forwardFactor__4Kart;
 extern "C" const u32 rateForward__4Kart;
 
-extern "C" const u32 lbl_80891f68;
-REL_SYMBOL_AT(lbl_80891f68, 0x80891f68);
-extern "C" const u32 lbl_80891f88[];
-
-#ifndef SHIFTABLE
-extern "C" UNKNOWN_DATA(lbl_80891f78);
-REL_SYMBOL_AT(lbl_80891f78, 0x80891f78);
-#else
-extern "C" f32 lbl_80891f78[];
-const f32 lbl_80891f78[] = 1.0f;
-#endif
+DEFINE_REL_DATA(lbl_80891f68, 0x80891f68, const f32, 0.0f);
+DEFINE_REL_DATA(lbl_80891f78, 0x80891f78, const f32, 1.0f);
 
 namespace Kart {
 f32 rateForward = 0.1f;

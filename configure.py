@@ -40,6 +40,7 @@ from mkwutil.ppcdis_adapter.ppcdis_analyse import analyse_bins
 def parse_args():
     parser = argparse.ArgumentParser(description="Build main.dol and StaticR.rel.")
     parser.add_argument("--regen_asm", action="store_true", help="Regenerate all ASM")
+    parser.add_argument("--shiftable", action="store_true", help="Attempt to make a shiftable build. Useful for mods, although will probably cause the output to not match")
     parser.add_argument("--force_analyse", action="store_true", help="Force run original binary analysis")
     parser.add_argument("--link_only", action="store_true", help="Link only, don't build")
     parser.add_argument("--full_errors", action="store_true", help="Show full error log")
@@ -315,7 +316,7 @@ def add_compile_rules(args, n: Writer):
             inputs = src.src,
             variables = {
                 "cc" : get_compat_cmd(CWCC_PATHS[src.cc]),
-                "cflags" : CWCC_OPT + f' -maxerrors {error_cap} ' + src.opts,
+                "cflags" : CWCC_OPT + f' -maxerrors {error_cap} ' + src.opts + (" -DSHIFTABLE" if args.shiftable else ""),
             }
         )
 
