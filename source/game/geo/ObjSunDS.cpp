@@ -48,7 +48,7 @@ extern UNKNOWN_DATA(lbl_808c6310);
 // PAL: 0x808c6410
 extern UNKNOWN_DATA(lbl_808c6410);
 // PAL: 0x809bd730
-extern UNKNOWN_DATA(lbl_809bd730);
+extern UNKNOWN_DATA(spInstance__Q26System11RaceManager);
 // PAL: 0x809c19b8
 extern UNKNOWN_DATA(lbl_809c19b8);
 }

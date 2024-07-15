@@ -17,7 +17,7 @@ extern "C" u8 getLapCount();
 extern "C" UNKNOWN_FUNCTION(RaceinfoPlayer_getLapSplit);
 // PAL: 0x8054a9b8
 extern "C" UNKNOWN_FUNCTION(SaveManager_getLocation);
-extern "C" UNKNOWN_DATA(lbl_809bd730);
+extern "C" UNKNOWN_DATA(spInstance__Q26System11RaceManager);
 extern "C" UNKNOWN_DATA(__vt__Q26System4Time);
 extern "C" UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 extern "C" UNKNOWN_DATA(spInstance__Q26System12KPadDirector);
@@ -405,10 +405,10 @@ asm void GhostFile::init(u8 playerId) {
 /* 8051CB20 7C0802A6 */ mflr        r0
 /* 8051CB24 90010074 */ stw         r0, 0x74(r1)
 /* 8051CB28 BF61005C */ stmw        r27, 0x5c(r1)
-/* 8051CB2C 3FE0809C */ lis         r31, lbl_809bd730@ha
+/* 8051CB2C 3FE0809C */ lis         r31, spInstance__Q26System11RaceManager@ha
 /* 8051CB30 7C7D1B78 */ mr          r29, r3
 /* 8051CB34 7C9E2378 */ mr          r30, r4
-/* 8051CB38 807FD730 */ lwz         r3, lbl_809bd730@l(r31)
+/* 8051CB38 807FD730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r31)
 /* 8051CB3C 48016B69 */ bl          getLapCount
 /* 8051CB40 987D0064 */ stb         r3, 0x64(r29)
 /* 8051CB44 38000000 */ li          r0, 0x0
@@ -428,7 +428,7 @@ asm void GhostFile::init(u8 playerId) {
 /* 8051CB7C 3B600000 */ li          r27, 0x0
 /* 8051CB80 48000050 */ b           lbl_8051cbd0
 lbl_8051cb84:
-/* 8051CB84 807FD730 */ lwz         r3, lbl_809bd730@l(r31)
+/* 8051CB84 807FD730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r31)
 /* 8051CB88 381B0001 */ addi        r0, r27, 0x1
 /* 8051CB8C 5404063E */ clrlwi      r4, r0, 0x18
 /* 8051CB90 38A10018 */ addi        r5, r1, 0x18
@@ -453,9 +453,9 @@ lbl_8051cbd0:
 /* 8051CBD8 7C030040 */ cmplw       r3, r0
 /* 8051CBDC 4180FFA8 */ blt+        lbl_8051cb84
 lbl_8051cbe0:
-/* 8051CBE0 3C60809C */ lis         r3, lbl_809bd730@ha
+/* 8051CBE0 3C60809C */ lis         r3, spInstance__Q26System11RaceManager@ha
 /* 8051CBE4 57C015BA */ rlwinm      r0, r30, 2, 0x16, 0x1d
-/* 8051CBE8 8063D730 */ lwz         r3, lbl_809bd730@l(r3)
+/* 8051CBE8 8063D730 */ lwz         r3, spInstance__Q26System11RaceManager@l(r3)
 /* 8051CBEC 1FFE00F0 */ mulli       r31, r30, 0xf0
 /* 8051CBF0 3CA0809C */ lis         r5, spInstance__Q26System10RaceConfig@ha
 /* 8051CBF4 8083000C */ lwz         r4, 0xc(r3)

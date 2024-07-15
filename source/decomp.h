@@ -98,6 +98,15 @@ typedef struct {
       __RelSymbolDef rel_sym_##name = {addr, (const void*)&name};              \
   FORCEACTIVE_DATA(rel_sym_##name)
 
+#ifndef SHIFTABLE
+#define DEFINE_REL_DATA(name, addr, type, val)  \
+    extern "C" UNKNOWN_DATA(name);		\
+    REL_SYMBOL_AT(name, addr);
+#else
+#define DEFINE_REL_DATA(name, addr, type, val)  \
+    static type name = val;
+#endif
+
 #define cr0lt 0
 #define cr0gt 1
 #define cr0eq 2

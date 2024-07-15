@@ -19,7 +19,7 @@ public:
   System::CharacterId character;
   u16 susCount;
   u16 wheelCount;
-  s8 playerIdx;
+  u8 playerIdx;
   KartParam* kartParam;
   void* _18;
   KartDriverDispParams* kartDriverDispParams;

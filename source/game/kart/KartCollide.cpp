@@ -278,7 +278,7 @@ extern UNKNOWN_DATA(spInstance__Q26System9CourseMap);
 // PAL: 0x809bd728
 extern UNKNOWN_DATA(spInstance__Q26System10RaceConfig);
 // PAL: 0x809bd730
-extern UNKNOWN_DATA(lbl_809bd730);
+extern UNKNOWN_DATA(spInstance__Q26System11RaceManager);
 // PAL: 0x809c18d8
 extern UNKNOWN_DATA(lbl_809c18d8);
 // PAL: 0x809c18f8
