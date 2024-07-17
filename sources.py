@@ -15,6 +15,7 @@ SPY_OPTS = RVL_OPTS + " -w nounusedexpr -w nounusedarg"
 RFL_OPTS = RVL_OPTS + " -O4,p"
 EGG_OPTS = ' -lang=c99 -use_lmw_stmw=on -ipa function -rostr'
 REL_OPTS = HOSTSYS_OPTS + " -sdata 0 -sdata2 0 -lang=c++ -pragma \"legacy_struct_alignment on\" -DREL"
+REL_GEKKO_OPTS = REL_OPTS + " -DGEKKO"
 
 
 @dataclass
@@ -480,8 +481,18 @@ SOURCES_REL = [
     Source(src="source/game/system/ResourceManagerUnk80542868.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/util/ModuleSymbols.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/util/Random.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartCollide.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartMove.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/kart/KartObjectProxy.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartSettings.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartState.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartSus.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartWheelPhysics.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartPhysics.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartPhysicsInstance.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/RKGeom.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartDynamics.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/kart/KartHitbox.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/ObjKoopaFigure64.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/ObjKuribo.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/ObjFloat.cpp", cc='4201_127', opts=REL_OPTS),
@@ -493,4 +504,10 @@ SOURCES_REL = [
     Source(src="source/game/geo/ObjTaimatsu.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/BoxColManager.cpp", cc='4201_127', opts=REL_OPTS),
     Source(src="source/game/geo/BoxColUnit.cpp", cc='4201_127', opts=REL_OPTS),
+    Source(src="source/game/field/CourseModel.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
+    Source(src="source/game/field/CollisionEntries.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
+    Source(src="source/game/field/RKGndCol.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
+    Source(src="source/game/field/CourseColManager.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
+    Source(src="source/game/field/ObjColManager.cpp", cc='4201_127', opts=REL_GEKKO_OPTS),
+    Source(src="source/game/geo2/ObjDrivableManager.cpp", cc='4201_127', opts=REL_OPTS),
 ]

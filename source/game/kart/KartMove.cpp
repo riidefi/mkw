@@ -5,8 +5,6 @@
 extern "C" {
 
 // Extern function references.
-// PAL: 0x8001bbdc
-extern UNKNOWN_FUNCTION(acos);
 // PAL: 0x80021584
 extern UNKNOWN_FUNCTION(_savegpr_20);
 // PAL: 0x80021598
@@ -36,7 +34,7 @@ extern UNKNOWN_FUNCTION(__nw__FUl);
 // PAL: 0x8022f80c
 extern UNKNOWN_FUNCTION(sqrt__Q23EGG5MathfFf);
 // PAL: 0x8022f8e4
-extern UNKNOWN_FUNCTION(atan2_Q23EGG5MathfFf);
+extern UNKNOWN_FUNCTION(atan2_Q23EGG5MathfFff);
 // PAL: 0x8022ff98
 extern UNKNOWN_FUNCTION(makeR__Q23EGG9Matrix34fFRCQ23EGG8Vector3f);
 // PAL: 0x802303bc
@@ -243,7 +241,7 @@ extern UNKNOWN_FUNCTION(PlayerHolder_getPlayer);
 // PAL: 0x8059018c
 extern UNKNOWN_FUNCTION(__ct__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059020c
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPosition);
+extern UNKNOWN_FUNCTION(getPos__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590238
 extern UNKNOWN_FUNCTION(various_stuff_set_player_position);
 // PAL: 0x80590264
@@ -259,9 +257,9 @@ extern UNKNOWN_FUNCTION(unk_8059031c);
 // PAL: 0x80590390
 extern UNKNOWN_FUNCTION(unk_80590390);
 // PAL: 0x805903ac
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysicsHolder);
+extern UNKNOWN_FUNCTION(kartPhysics__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805903cc
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerPhysics);
+extern UNKNOWN_FUNCTION(kartDynamics__Q24Kart15KartObjectProxyFv);
 // PAL: 0x805903f4
 extern UNKNOWN_FUNCTION(KartAccessor_getInput);
 // PAL: 0x8059041c
@@ -275,7 +273,7 @@ extern UNKNOWN_FUNCTION(PlayerPointers_isGhost);
 // PAL: 0x805906b4
 extern UNKNOWN_FUNCTION(kartSus__Q24Kart15KartObjectProxyFl);
 // PAL: 0x80590764
-extern UNKNOWN_FUNCTION(kartSub__Q24Kart15KartObjectProxyFv);
+extern UNKNOWN_FUNCTION(kartPhysicsEngine__Q24Kart15KartObjectProxyFv);
 // PAL: 0x8059077c
 extern UNKNOWN_FUNCTION(kartMove__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590794
@@ -285,13 +283,13 @@ extern UNKNOWN_FUNCTION(unk_805907a0);
 // PAL: 0x805907b0
 extern UNKNOWN_FUNCTION(unk_805907b0);
 // PAL: 0x8059081c
-extern UNKNOWN_FUNCTION(PlayerPointers_getVehicleBodyCollisionData);
+extern UNKNOWN_FUNCTION(bodyColInfo__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x8059084c
 extern UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590874
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerStats);
+extern UNKNOWN_FUNCTION(kartStats__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590888
-extern UNKNOWN_FUNCTION(PlayerPointers_getBsp);
+extern UNKNOWN_FUNCTION(bsp__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590a10
 extern UNKNOWN_FUNCTION(PlayerPointers_getVehicleType);
 // PAL: 0x80590a40
@@ -299,7 +297,7 @@ extern UNKNOWN_FUNCTION(kartModel__Q24Kart15KartObjectProxyFv);
 // PAL: 0x80590a4c
 extern UNKNOWN_FUNCTION(unk_80590a4c);
 // PAL: 0x80590a5c
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerIdx);
+extern UNKNOWN_FUNCTION(getPlayerIdx__Q24Kart15KartObjectProxyCFv);
 // PAL: 0x80590a6c
 extern UNKNOWN_FUNCTION(PlayerPointers_isBike);
 // PAL: 0x80590a8c
@@ -411,27 +409,27 @@ extern UNKNOWN_FUNCTION(cancelBullet);
 // PAL: 0x8059d0c0
 extern UNKNOWN_FUNCTION(unk_8059d0c0);
 // PAL: 0x8059fc48
-extern UNKNOWN_FUNCTION(unk_8059fc48);
+extern UNKNOWN_FUNCTION(addInstantaneousSpecialRot__Q24Kart11KartPhysicsFRCQ23EGG5Quatf);
 // PAL: 0x8059fd0c
-extern UNKNOWN_FUNCTION(unk_8059fd0c);
+extern UNKNOWN_FUNCTION(addInstantaneousExtraRot__Q24Kart11KartPhysicsFRCQ23EGG5Quatf);
 // PAL: 0x805a0410
-extern UNKNOWN_FUNCTION(PlayerPhysicsHolder_resetQuaternions);
+extern UNKNOWN_FUNCTION(resetPendingOrientations__Q24Kart11KartPhysicsFv);
 // PAL: 0x805ae7b4
 extern UNKNOWN_FUNCTION(unk_805ae7b4);
 // PAL: 0x805ae9ec
 extern UNKNOWN_FUNCTION(VEC3_perpInPlane);
 // PAL: 0x805aeb88
-extern UNKNOWN_FUNCTION(Vec3_projUnit);
+extern UNKNOWN_FUNCTION(projUnit__6RKGeomFRQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x805aebd0
-extern UNKNOWN_FUNCTION(VEC3_rejUnit);
+extern UNKNOWN_FUNCTION(rejUnit__6RKGeomFRQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x805aec24
-extern UNKNOWN_FUNCTION(VEC3_projAndRej);
+extern UNKNOWN_FUNCTION(projAndRej__6RKGeomFRQ23EGG8Vector3fRQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
 // PAL: 0x805b4d24
-extern UNKNOWN_FUNCTION(reset__Q24kart12KartDynamicsFv);
+extern UNKNOWN_FUNCTION(reset__Q24Kart12KartDynamicsFv);
 // PAL: 0x805b5ce8
-extern UNKNOWN_FUNCTION(unk_805b5ce8);
+extern UNKNOWN_FUNCTION(applyWrenchScaled__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3ff);
 // PAL: 0x805b6388
-extern UNKNOWN_FUNCTION(addForce__Q24kart12KartDynamicsFRCQ23EGG8Vector3f);
+extern UNKNOWN_FUNCTION(addForce__Q24Kart12KartDynamicsFRCQ23EGG8Vector3f);
 // PAL: 0x806a1808
 extern UNKNOWN_FUNCTION(unk_806a1808);
 // PAL: 0x806a3948
@@ -479,11 +477,11 @@ extern UNKNOWN_FUNCTION(unk_807263b0);
 // PAL: 0x80787d50
 extern UNKNOWN_FUNCTION(unk_80787d50);
 // PAL: 0x8078f320
-extern UNKNOWN_FUNCTION(unk_8078f320);
+extern UNKNOWN_FUNCTION(checkSpherePartialPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field14ColInfoPartialPUlfUl);
 // PAL: 0x8078f500
-extern UNKNOWN_FUNCTION(unk_8078f500);
+extern UNKNOWN_FUNCTION(checkSphereFull__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
 // PAL: 0x8078f784
-extern UNKNOWN_FUNCTION(unk_8078f784);
+extern UNKNOWN_FUNCTION(checkSphereFullPush__Q25Field11CourseModelFRCQ23EGG8Vector3fRCQ23EGG8Vector3fUlPQ25Field7ColInfoPUlfUl);
 // PAL: 0x8079870c
 extern UNKNOWN_FUNCTION(unk_8079870c);
 // PAL: 0x80798848
@@ -495,7 +493,7 @@ extern UNKNOWN_FUNCTION(unk_80798b28);
 // PAL: 0x807b99d4
 extern UNKNOWN_FUNCTION(unk_807b99d4);
 // PAL: 0x807bd96c
-extern UNKNOWN_FUNCTION(findClosestCollisionEntry);
+extern UNKNOWN_FUNCTION(findClosestCollisionEntry__5FieldFPUlUl);
 // PAL: 0x807c6a14
 extern UNKNOWN_FUNCTION(unk_807c6a14);
 // PAL: 0x807d396c
@@ -561,7 +559,7 @@ extern UNKNOWN_DATA(lbl_80891ad0);
 // PAL: 0x80891ad4
 extern UNKNOWN_DATA(lbl_80891ad4);
 // PAL: 0x808a6700
-extern UNKNOWN_DATA(lbl_808a6700);
+extern UNKNOWN_DATA(gColInfo);
 // PAL: 0x808b5818
 extern UNKNOWN_DATA(lbl_808b5818);
 // PAL: 0x808b5844
@@ -707,13 +705,13 @@ extern UNKNOWN_DATA(lbl_809c27f0);
 // PAL: 0x809c28b8
 extern UNKNOWN_DATA(lbl_809c28b8);
 // PAL: 0x809c2f44
-extern UNKNOWN_DATA(lbl_809c2f44);
+extern UNKNOWN_DATA(spInstance__Q25Field11CourseModel);
 // PAL: 0x809c3618
 extern UNKNOWN_DATA(lbl_809c3618);
 // PAL: 0x809c3bdc
-extern UNKNOWN_DATA(lbl_809c3bdc);
+extern UNKNOWN_DATA(closestCollisionEntry__5Field);
 // PAL: 0x809c3c04
-extern UNKNOWN_DATA(lbl_809c3c04);
+extern UNKNOWN_DATA(VEC_INFINITY);
 // PAL: 0x809c4330
 extern UNKNOWN_DATA(lbl_809c4330);
 // PAL: 0x809c4748

@@ -2,11 +2,11 @@ source/game/system/CourseCheckpoints.cpp:
     text: [0x80510b84, 0x80512694]
     rodata: [0x8088f8d0, 0x8088f8e8]
 
-#source/game/system/CourseMap.cpp:
-#    text: [0x80512694, 0x80518cc0]
-#    rodata: [0x8088fa38, 0x8088fa40]
-#    data: [0x808b2c30, 0x808b2c78]
-#    bss: [0x809bd6e8, 0x809bd6ec]
+source/game/system/CourseMap.cpp:
+    text: [0x80512694, 0x80518cc0]
+    rodata: [0x8088fa38, 0x8088fa40]
+    data: [0x808b2c30, 0x808b2c78]
+    bss: [0x809bd6e8, 0x809bd6ec]
 
 source/game/system/DvdArchive.cpp:
     text: [0x80518cc0, 0x80519670]
@@ -141,14 +141,14 @@ source/game/kart/RKGeom.cpp:
     data: [0x808b6e70, 0x808b6e80]
     bss: [0x809c19f0, 0x809c1af0]
 
-#source/game/kart/KartDynamics.cpp:
-#    text: [0x805b4af8, 0x805b6724]
-#    rodata: [0x80892750, 0x80892788]
-#    data: [0x808b7300, 0x808b7328]
+source/game/kart/KartDynamics.cpp:
+    text: [0x805b4af8, 0x805b6724]
+    rodata: [0x80892750, 0x80892788]
+    data: [0x808b7300, 0x808b7328]
 
-#source/game/kart/KartHitbox.cpp:
-#    text: [0x805b7f48, 0x805b8984]
-#    rodata: [0x808927a8, 0x808927c8]
+source/game/kart/KartHitbox.cpp:
+    text: [0x805b7f48, 0x805b8984]
+    rodata: [0x808927a8, 0x808927c8]
 
 source/game/ui/ControlGroup.cpp:
     text: [0x805c23e4, 0x805c2c18]
