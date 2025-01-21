@@ -240,6 +240,7 @@ UNKNOWN_FUNCTION(unk_80538344);
 #include "ElineControlManager.hpp"
 #include "game/util/Random.hpp"
 #include "ResourceManager.hpp"
+#include "RaceMode.hpp"
 
 namespace System {
 enum RaceStage {
@@ -380,6 +381,14 @@ public:
 };
 static_assert(sizeof(RaceManagerPlayer) == 0x54);
 
+struct KrtFile {
+    u32 magic;
+    u32 rankTimeDeltaFactor;
+    u16 numEntries;
+    u16 headerSize;
+    u16 entries[32][4];
+};
+
 class RaceMode; // todo in another file
 class RaceManager {
 public:
@@ -394,6 +403,7 @@ public:
   RaceMode* initGamemode(RaceConfig::Settings::GameMode mode);
   RaceMode* createCompetitionMode();
   u16 getBattleTimeLimit();
+  KrtFile** getKrtFile();
 
   Util::Random* random1;
   Util::Random* random2;

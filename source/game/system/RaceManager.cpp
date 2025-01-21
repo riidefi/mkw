@@ -6114,28 +6114,111 @@ asm UNKNOWN_FUNCTION(unk_80536828) {
   /* 805368C0 4E800020 */ blr // clang-format on
 }
 
-// Symbol: unk_805368c4
-// PAL: 0x805368c4..0x805368f8
-MARK_BINARY_BLOB(unk_805368c4, 0x805368c4, 0x805368f8);
-asm UNKNOWN_FUNCTION(unk_805368c4) {
-  // clang-format off
-  nofralloc
-  /* 805368C4 3C80809C */ lis         r4, spInstance__Q26System10RaceConfig@ha
-  /* 805368C8 8084D728 */ lwz         r4, spInstance__Q26System10RaceConfig@l(r4)
-  /* 805368CC 80040B70 */ lwz         r0, 0xb70(r4)
-  /* 805368D0 2C000000 */ cmpwi       r0, 0x0
-  /* 805368D4 4182000C */ beq-        lbl_805368e0
-  /* 805368D8 38600000 */ li          r3, 0x0
-  /* 805368DC 4E800020 */ blr
-  lbl_805368e0:
-  /* 805368E0 80630010 */ lwz         r3, 0x10(r3)
-  /* 805368E4 84030008 */ lwzu        r0, 8(r3)
-  /* 805368E8 2C000000 */ cmpwi       r0, 0x0
-  /* 805368EC 4C820020 */ bnelr-
-  /* 805368F0 38600000 */ li          r3, 0x0
-  /* 805368F4 4E800020 */ blr // clang-format on
+namespace System {
+KrtFile** RaceManager::getKrtFile() {
+    KrtFile** files;
+
+    if (RaceConfig::spInstance->mRaceScenario.mSettings.mGameMode != RaceConfig::Settings::GAMEMODE_GRAND_PRIX) {
+        return nullptr;
+    }
+    else {
+        RaceModeGrandPrix* raceModeGP = (RaceModeGrandPrix*) raceMode;
+        files = raceModeGP->krtFile;
+        return (files[0] != nullptr) ? files : nullptr;
+    }
+}
 }
 
+#ifdef WIP_DECOMP
+namespace System {
+void RaceManagerPlayer::updateGpRankScore() {
+    s32 raceStarRankScore = 0;
+    s32 krtTime = 0;
+    KrtFile** krtFile = nullptr;
+    
+    // Get ranktimeGP.krt
+    krtFile = RaceManager::spInstance->getKrtFile();
+
+    if ((krtFile == nullptr) || (RaceConfig::spInstance->mRaceScenario.getPlayer(m_idx).getPlayerType() != RaceConfig::Player::TYPE_REAL_LOCAL)) {
+        unk34 = 7;
+    }
+    else {
+        // Get course time limit from ranktimeGP
+        s32 engineClass = RaceConfig::spInstance->mRaceScenario.mSettings.getEngineClass();
+        s32 courseId = RaceConfig::spInstance->mRaceScenario.mSettings.getCourseId();
+        krtTime = (*krtFile != nullptr) ? (*krtFile)->entries[courseId][RaceConfig::spInstance->mRaceScenario.mSettings.getEngineClass()] : 0;
+
+        // Calculate time bonus
+        // s32 raceStarRankScore = 0;
+         raceStarRankScore += 1000.0f * (krtTime - m_frameCounter) / krtTime;
+        // Calculate time bonus corresponding to the time spent in 1st place
+        s32 firstPlaceTimeBonus = m_framesInFirstPlace * 150 / krtTime;
+        // Add time bonus
+        raceStarRankScore += firstPlaceTimeBonus;
+
+        // Add bonus for successfull rocket start
+        if (Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->gpStats->startBoostSuccessful) {
+            raceStarRankScore += 25;
+        }
+        
+        u16 miniturbos = Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->gpStats->miniturbos;
+        raceStarRankScore += (miniturbos * 2);
+        
+        u16 hitOthersWithItemsCount = Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->raceStats->hitOthersWithItemsCount;
+        raceStarRankScore += (hitOthersWithItemsCount * 5);
+        
+        // u32 offroad = Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->gpStats->offroad;
+        raceStarRankScore -= (Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->gpStats->offroad / 3);
+        
+        u16 numWallCollision = Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->gpStats->numWallCollision;
+        raceStarRankScore -= (numWallCollision * 20);
+        
+        u16 numObjectCollision = Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->gpStats->numObjectCollision;
+        raceStarRankScore -= (numObjectCollision * 30);
+        
+        u16 outOfBounds = Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->gpStats->outOfBounds;
+        raceStarRankScore -= (outOfBounds * 70);
+
+        s8 playerInputIdx = RaceConfig::spInstance->mRaceScenario.getPlayer(m_idx).getPlayerInputIdx();
+        
+        // Add bonus for playing using the Wii Wheel
+        if (playerInputIdx != -1) {
+            Controller* controller = InputManager::spInstance->playerInputs[(u8) playerInputIdx].raceController;
+
+            u32 controllerType = (controller != nullptr) ? controller->getType() : CONTROLLER_TYPE_UNKNOWN;
+            if (controllerType == CONTROLLER_TYPE_WII_WHEEL) {
+                raceStarRankScore += 10;
+            }
+        }
+
+        // Add bonus for using Automatic drift
+        if (playerInputIdx != -1) {
+            Controller* controller = InputManager::spInstance->playerInputs[(u8) playerInputIdx].raceController;
+
+            bool usingAutomaticDrift = (controller != nullptr) ? controller->driftIsAuto : false;
+            if (usingAutomaticDrift) {
+                raceStarRankScore += 25;
+            }
+        }
+
+        // Add unknown bonus
+        u16 field_0x18 = Kart::KartObjectManager::spInstance->getObject(m_idx)->mAccessor->settings->gpStats->field_0x18;
+        raceStarRankScore += field_0x18;
+
+        // Clamp the start rank score
+        if (raceStarRankScore < -50) {
+            raceStarRankScore = -50;
+        }
+        if (raceStarRankScore > 250) {
+            raceStarRankScore = 250;
+        }
+
+        // Save the new star rank score
+        RaceConfig::spInstance->mMenuScenario.getPlayer(m_idx).mGpStarRankScore += (s16) raceStarRankScore;
+    }
+}
+}
+#else
 // Symbol: RaceinfoPlayer_updateGpRankScore
 // PAL: 0x805368f8..0x80536c84
 MARK_BINARY_BLOB(RaceinfoPlayer_updateGpRankScore, 0x805368f8, 0x80536c84);
@@ -6387,6 +6470,7 @@ asm UNKNOWN_FUNCTION(RaceinfoPlayer_updateGpRankScore) {
   /* 80536C7C 38210040 */ addi        r1, r1, 0x40
   /* 80536C80 4E800020 */ blr // clang-format on
 }
+#endif
 
 // Symbol: unk_80536c84
 // PAL: 0x80536c84..0x80537190
