@@ -10,16 +10,16 @@ CourseCheckpoints.o:
 	.text       start:0x000007D0 end:0x000022E0
 	.rodata     start:0x000001B0 end:0x000001C8
 
-CourseMap.o:
+game/system/CourseMap.cpp:
 	.text       start:0x000022E0 end:0x0000890C
-	.rodata     start:0x00000318 end:0x00000320
+	.rodata     start:0x00000300 end:0x00000328
 	.data       start:0x00000060 end:0x000000A8
-	.bss        start:0x00000008 end:0x0000000C
+	.bss        start:0x00000008 end:0x00000018
 
-DvdArchive.o:
+game/system/DvdArchive.cpp:
 	.text       start:0x0000890C end:0x000092BC
 	.rodata     start:0x00000380 end:0x00000398
-	.data       start:0x000000A8 end:0x000000B4
+	.data       start:0x000000A8 end:0x000000B8
 
 GhostFile.o:
 	.text       start:0x0000BCD4 end:0x0000D120
@@ -36,14 +36,14 @@ KPadDirector.o:
 
 Mii.o:
 	.text       start:0x00015BD4 end:0x00015C40
-	.rodata     start:0x00000640 end:0x00000644
+	.rodata     start:0x00000640 end:0x00000648
 
-LocalizedArchive.o:
+game/system/LocalizedArchive.cpp:
 	.text       start:0x00019CE4 end:0x0001A184
 	.rodata     start:0x000006A0 end:0x000006E0
 	.data       start:0x000005B8 end:0x00000608
 
-MultiDvdArchive.o:
+game/system/MultiDvdArchive.cpp:
 	.text       start:0x0001A184 end:0x0001AAA8
 	.rodata     start:0x000006E0 end:0x00000708
 	.data       start:0x00000608 end:0x00000618
@@ -72,21 +72,21 @@ ResourceManager.o:
 	.text       start:0x0002F898 end:0x000324B4
 	.rodata     start:0x00000D70 end:0x000015F0
 	.data       start:0x00000D90 end:0x00001060
-	.bss        start:0x00000058 end:0x0000005C
+	.bss        start:0x00000058 end:0x00000060
 
 ResourceManagerUnk80542868.o:
 	.text       start:0x000324B4 end:0x000324C4
 	.rodata     start:0x000015F0 end:0x00001600
 	.data       start:0x00001060 end:0x00001078
 
-ModuleSymbols.o:
+game/util/ModuleSymbols.cpp:
 	.text       start:0x00044F68 end:0x000450B0
 	.rodata     start:0x00001BD0 end:0x00001C40
 
 Random.o:
 	.text       start:0x000450B0 end:0x00045378
 	.rodata     start:0x00001C50 end:0x00001C60
-	.data       start:0x00001710 end:0x0000171C
+	.data       start:0x00001710 end:0x00001720
 
 KartCollide.o:
 	.text       start:0x0005E1B8 end:0x00063C7C
@@ -117,16 +117,16 @@ KartSus.o:
 KartWheelPhysics.o:
 	.text       start:0x00089058 end:0x0008A690
 	.rodata     start:0x00002848 end:0x00002878
-	.data       start:0x00003AB8 end:0x00003AEC
+	.data       start:0x00003AB8 end:0x00003AF0
 
 KartPhysics.o:
 	.text       start:0x0008F208 end:0x000900CC
-	.rodata     start:0x000028F0 end:0x00002904
+	.rodata     start:0x000028F0 end:0x00002908
 	.data       start:0x00003E18 end:0x00003E38
 
 KartPhysicsInstance.o:
 	.text       start:0x000900CC end:0x0009019C
-	.data       start:0x00003E38 end:0x00003E3C
+	.data       start:0x00003E38 end:0x00003E40
 	.bss        start:0x000042B0 end:0x000042B8
 
 RKGeom.o:
@@ -196,7 +196,7 @@ BoxColManager.o:
 
 BoxColUnit.o:
 	.text       start:0x00276B1C end:0x00276BE4
-	.rodata     start:0x000150E0 end:0x000150E4
+	.rodata     start:0x000150E0 end:0x000150E8
 
 CourseModel.o:
 	.text       start:0x0027DA50 end:0x00280724
@@ -208,18 +208,18 @@ CourseModel.o:
 CollisionEntries.o:
 	.text       start:0x002AD5B8 end:0x002AD8A8
 	.rodata     start:0x00016FB0 end:0x00016FB8
-	.bss        start:0x000061F8 end:0x00006504
+	.bss        start:0x000061F8 end:0x00006508
 
 RKGndCol.o:
 	.text       start:0x002AD8A8 end:0x002B2218
-	.rodata     start:0x00016FB8 end:0x00016FDC
+	.rodata     start:0x00016FB8 end:0x00016FE0
 	.data       start:0x0001FC28 end:0x0001FC38
 
 CourseColManager.o:
 	.text       start:0x002B2470 end:0x002B4934
 	.rodata     start:0x00016FF0 end:0x00017000
 	.data       start:0x0001FC38 end:0x0001FDB8
-	.bss        start:0x00006530 end:0x00006534
+	.bss        start:0x00006530 end:0x00006538
 
 ObjColManager.o:
 	.text       start:0x002B4934 end:0x002B6658
@@ -227,6 +227,11 @@ ObjColManager.o:
 
 ObjDrivableManager.o:
 	.text       start:0x0030AF70 end:0x0030C734
-	.rodata     start:0x0001BE38 end:0x0001BE3C
-	.data       start:0x00024078 end:0x00024084
-	.bss        start:0x00006C30 end:0x00006C34
+	.rodata     start:0x0001BE38 end:0x0001BE40
+	.data       start:0x00024078 end:0x00024088
+	.bss        start:0x00006C30 end:0x00006C38
+
+game/global_destructor_chain.c:
+	.text       start:0x0037EF80 end:0x0037F04C
+	.dtors      start:0x00000000 end:0x00000008
+	.bss        start:0x000075A8 end:0x000075B0

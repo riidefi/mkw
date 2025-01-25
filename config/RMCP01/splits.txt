@@ -13,59 +13,59 @@ Sections:
 	.sdata2     type:rodata align:32
 	.sbss2      type:bss align:8
 
-trkHeader.o:
+trkHeader.c:
 	.init       start:0x80004000 end:0x80004100
 
-ppc_eabi_exception_handlers.o:
+ppc_eabi_exception_handlers.c:
 	.init       start:0x80004100 end:0x80005F34
 
-__mem.o:
-	.init       start:0x80005F34 end:0x80006068
-
-SystemResource.o:
+platform/SystemResource.o:
 	.text       start:0x80007F50 end:0x80007F7C
 	.rodata     start:0x80245010 end:0x802450B0
 
-RKSystem.o:
+platform/RKSystem.o:
 	.text       start:0x80008E84 end:0x80009BC0
 	.ctors      start:0x80244DE4 end:0x80244DE8
 	.rodata     start:0x80245938 end:0x80245A18
-	.data       start:0x80270C68 end:0x80270C94
-	.sbss       start:0x80385FC8 end:0x80385FCC
+	.data       start:0x80270C68 end:0x80270C98
+	.sbss       start:0x80385FC8 end:0x80385FD0
 	.sdata2     start:0x80386FF8 end:0x80387000
 
-ansi_files.o:
+platform/ansi_files.c:
 	.text       start:0x8000C948 end:0x8000CADC
 
-float.o:
+platform/float.c:
 	.text       start:0x8000EF04 end:0x8000EFF8
 
-mem.o:
+platform/mem.c:
 	.text       start:0x8000F1F0 end:0x8000F360
 
-mem_cpy.o:
+platform/mem_cpy.c:
 	.text       start:0x8000F360 end:0x8000F630
 
-qsort.o:
+platform/qsort.c:
 	.text       start:0x80011B00 end:0x80011C70
 
-rand.o:
+platform/rand.c:
 	.text       start:0x80011C70 end:0x80011C98
-	.sdata      start:0x80384C38 end:0x80384C3C
+	.sdata      start:0x80384C38 end:0x80384C40
 
-wchar.o:
+platform/wchar.c:
 	.text       start:0x80017998 end:0x80017A48
 
-ExceptionPPC.o:
-	.text       start:0x80020DD8 end:0x80020E34
-	.bss        start:0x802A6968 end:0x802A6974
+__mem.c:
+	.init       start:0x80005F34 end:0x80006068
 
-Runtime.PPCEABI.H/__init_cpp_exceptions.o:
+Runtime.PPCEABI.H/ExceptionPPC.cpp:
+	.text       start:0x80020DD8 end:0x80020E34
+	.bss        start:0x802A6968 end:0x802A6978
+
+Runtime.PPCEABI.H/__init_cpp_exceptions.cpp:
 	.text       start:0x800211E4 end:0x80021254
 	.ctors      start:0x80244DE0 end:0x80244DE4 rename:.ctors$10
 	.dtors      start:0x80244EA0 end:0x80244EA4 rename:.dtors$10
 	.dtors      start:0x80244EA4 end:0x80244EA8 rename:.dtors$15
-	.sdata      start:0x80384C48 end:0x80384C4C
+	.sdata      start:0x80384C48 end:0x80384C50
 
 va_arg.o:
 	.text       start:0x80021270 end:0x80021338
@@ -84,12 +84,12 @@ g3d_camera.o:
 
 g3d_fog.o:
 	.text       start:0x800774D0 end:0x800775D0
-	.sdata2     start:0x80387D58 end:0x80387D5C
+	.sdata2     start:0x80387D58 end:0x80387D60
 
 lyt_init.o:
 	.text       start:0x80078920 end:0x80078974
 	.data       start:0x802733F0 end:0x80273438
-	.sdata      start:0x80384D90 end:0x80384D94
+	.sdata      start:0x80384D90 end:0x80384D98
 
 lyt_textBox.o:
 	.text       start:0x8007C670 end:0x8007C6B0
@@ -122,36 +122,36 @@ ut_CharStrmReader.o:
 ut_IOStream.o:
 	.text       start:0x800AFEE0 end:0x800AFEEC
 	.ctors      start:0x80244E2C end:0x80244E30
-	.sbss       start:0x80386240 end:0x80386244
+	.sbss       start:0x80386240 end:0x80386248
 
 ut_fileStream.o:
 	.text       start:0x800AFEF0 end:0x800B006C
 	.ctors      start:0x80244E30 end:0x80244E34
-	.sbss       start:0x80386248 end:0x8038624C
+	.sbss       start:0x80386248 end:0x80386250
 
 ut_dvdFileStream.o:
 	.text       start:0x800B0070 end:0x800B06AC
 	.ctors      start:0x80244E34 end:0x80244E38
-	.data       start:0x80274C40 end:0x80274CA4
-	.sbss       start:0x80386250 end:0x80386254
+	.data       start:0x80274C40 end:0x80274CA8
+	.sbss       start:0x80386250 end:0x80386258
 
 ut_dvdLockedFileStream.o:
 	.text       start:0x800B06B0 end:0x800B0A9C
 	.ctors      start:0x80244E38 end:0x80244E3C
-	.data       start:0x80274CA8 end:0x80274D0C
+	.data       start:0x80274CA8 end:0x80274D10
 	.bss        start:0x802F12E8 end:0x802F1300
 	.sbss       start:0x80386258 end:0x80386270
 
 ut_nandFileStream.o:
 	.text       start:0x800B0AA0 end:0x800B178C
 	.ctors      start:0x80244E3C end:0x80244E40
-	.data       start:0x80274D10 end:0x80274D6C
-	.sbss       start:0x80386270 end:0x80386274
+	.data       start:0x80274D10 end:0x80274D70
+	.sbss       start:0x80386270 end:0x80386278
 
 ut_lockedCache.o:
 	.text       start:0x800B1790 end:0x800B1968
-	.ctors      start:0x80244E40 end:0x80244E44
-	.bss        start:0x802F1300 end:0x802F131C
+	.ctors      start:0x80244E40 end:0x80244E48
+	.bss        start:0x802F1300 end:0x802F1320
 
 ut_font.o:
 	.text       start:0x800B1970 end:0x800B1A14
@@ -168,7 +168,7 @@ ut_resFontBase.o:
 
 ut_resFont.o:
 	.text       start:0x800B2830 end:0x800B2B2C
-	.data       start:0x80274ED0 end:0x80274F2C
+	.data       start:0x80274ED0 end:0x80274F30
 
 ut_charWriter.o:
 	.text       start:0x800B2B30 end:0x800B4374
@@ -200,7 +200,7 @@ hashtable.o:
 
 md5c.o:
 	.text       start:0x800F0264 end:0x800F118C
-	.rodata     start:0x8024C6B8 end:0x8024C6C9
+	.rodata     start:0x8024C6B8 end:0x8024C6D0
 	.data       start:0x8027ACA0 end:0x8027ACE0
 
 gsSocketRevolution.o:
@@ -212,58 +212,58 @@ gsUtilRevolution.o:
 
 gsAvailable.o:
 	.text       start:0x800F38A4 end:0x800F3A20
-	.data       start:0x8027AD58 end:0x8027AD79
+	.data       start:0x8027AD58 end:0x8027AD80
 	.bss        start:0x802F2338 end:0x802F2410
-	.sbss       start:0x80386358 end:0x8038635C
+	.sbss       start:0x80386358 end:0x80386360
 
 gsUdpEngine.o:
 	.text       start:0x800F489C end:0x800F5A6C
-	.bss        start:0x802F2440 end:0x802F247C
+	.bss        start:0x802F2440 end:0x802F2480
 
 gsXML.o:
 	.text       start:0x800F5A6C end:0x800FB828
 	.data       start:0x8027AD80 end:0x8027AF18
-	.sdata      start:0x803850A0 end:0x80385105
+	.sdata      start:0x803850A0 end:0x80385108
 
 gp.o:
 	.text       start:0x800FB828 end:0x800FC7D4
-	.data       start:0x8027AF18 end:0x8027B289
+	.data       start:0x8027AF18 end:0x8027B290
 	.sdata      start:0x80385108 end:0x80385118
 
 gpi.o:
 	.text       start:0x800FC7D4 end:0x800FD160
-	.data       start:0x8027B290 end:0x8027B30F
+	.data       start:0x8027B290 end:0x8027B310
 	.sdata      start:0x80385118 end:0x80385150
 
 gpiBuddy.o:
 	.text       start:0x800FD160 end:0x800FEE90
-	.data       start:0x8027B310 end:0x8027B453
-	.sdata      start:0x80385150 end:0x803851EA
+	.data       start:0x8027B310 end:0x8027B458
+	.sdata      start:0x80385150 end:0x803851F0
 
 gpiBuffer.o:
 	.text       start:0x800FEE90 end:0x800FF8C4
-	.data       start:0x8027B458 end:0x8027B4BA
-	.sdata      start:0x803851F0 end:0x80385206
+	.data       start:0x8027B458 end:0x8027B4C0
+	.sdata      start:0x803851F0 end:0x80385208
 
 gpiCallback.o:
 	.text       start:0x800FF8C4 end:0x800FFE28
-	.data       start:0x8027B4C0 end:0x8027B4CF
+	.data       start:0x8027B4C0 end:0x8027B4D0
 
 gpiConnect.o:
 	.text       start:0x800FFE28 end:0x80101470
-	.data       start:0x8027B4D0 end:0x8027B876
-	.sdata      start:0x80385208 end:0x8038529B
+	.data       start:0x8027B4D0 end:0x8027B878
+	.sdata      start:0x80385208 end:0x803852A0
 
 gpiInfo.o:
 	.text       start:0x80101470 end:0x80103908
-	.data       start:0x8027B878 end:0x8027BBCE
-	.sdata      start:0x803852A0 end:0x80385355
-	.sdata2     start:0x80388470 end:0x80388474
+	.data       start:0x8027B878 end:0x8027BBD0
+	.sdata      start:0x803852A0 end:0x80385358
+	.sdata2     start:0x80388470 end:0x80388478
 
 gpiKeys.o:
 	.text       start:0x80103908 end:0x80103F70
-	.data       start:0x8027BBD0 end:0x8027BC11
-	.sdata      start:0x80385358 end:0x8038535A
+	.data       start:0x8027BBD0 end:0x8027BC18
+	.sdata      start:0x80385358 end:0x80385360
 
 gpiOperation.o:
 	.text       start:0x80103F70 end:0x80104648
@@ -271,37 +271,37 @@ gpiOperation.o:
 
 gpiPeer.o:
 	.text       start:0x80104648 end:0x80105D54
-	.data       start:0x8027BC60 end:0x8027BD2A
-	.sdata      start:0x80385360 end:0x803853B9
+	.data       start:0x8027BC60 end:0x8027BD30
+	.sdata      start:0x80385360 end:0x803853C0
 
 gpiProfile.o:
 	.text       start:0x80105D54 end:0x8010669C
-	.data       start:0x8027BD30 end:0x8027BEE5
-	.sdata      start:0x803853C0 end:0x803853CE
+	.data       start:0x8027BD30 end:0x8027BEE8
+	.sdata      start:0x803853C0 end:0x803853D0
 
 gpiSearch.o:
 	.text       start:0x8010669C end:0x80108B38
-	.data       start:0x8027BEE8 end:0x8027C203
-	.sdata      start:0x803853D0 end:0x803854BB
+	.data       start:0x8027BEE8 end:0x8027C208
+	.sdata      start:0x803853D0 end:0x803854C0
 
 gpiTransfer.o:
 	.text       start:0x80108B38 end:0x80108C20
-	.data       start:0x8027C208 end:0x8027C229
-	.sdata      start:0x803854C0 end:0x803854CB
+	.data       start:0x8027C208 end:0x8027C230
+	.sdata      start:0x803854C0 end:0x803854D0
 
 gpiUnique.o:
 	.text       start:0x80108C20 end:0x80108E78
-	.data       start:0x8027C230 end:0x8027C26F
-	.sdata      start:0x803854D0 end:0x803854DD
+	.data       start:0x8027C230 end:0x8027C270
+	.sdata      start:0x803854D0 end:0x803854E0
 
 gpiUtility.o:
 	.text       start:0x80108E78 end:0x8010945C
-	.data       start:0x8027C270 end:0x8027C2C5
+	.data       start:0x8027C270 end:0x8027C2C8
 	.sdata      start:0x803854E0 end:0x803854F8
 
 gt2Auth.o:
 	.text       start:0x8010945C end:0x80109820
-	.data       start:0x8027C2C8 end:0x8027C2E9
+	.data       start:0x8027C2C8 end:0x8027C2F0
 
 gt2Buffer.o:
 	.text       start:0x80109820 end:0x801099C4
@@ -320,26 +320,26 @@ gt2Socket.o:
 
 gt2Utility.o:
 	.text       start:0x8010E9C0 end:0x8010ECAC
-	.bss        start:0x802F3480 end:0x802F34AC
-	.sdata      start:0x80385508 end:0x80385519
-	.sbss       start:0x80386360 end:0x80386364
+	.bss        start:0x802F3480 end:0x802F34C0
+	.sdata      start:0x80385508 end:0x80385520
+	.sbss       start:0x80386360 end:0x80386368
 
 qr2.o:
 	.text       start:0x8010ECAC end:0x8011156C
-	.data       start:0x8027C2F0 end:0x8027D21B
+	.data       start:0x8027C2F0 end:0x8027D220
 	.bss        start:0x802F34C0 end:0x802F3620
-	.sdata      start:0x80385520 end:0x8038554A
-	.sbss       start:0x80386368 end:0x8038636C
-	.sdata2     start:0x80388478 end:0x8038847E
+	.sdata      start:0x80385520 end:0x80385550
+	.sbss       start:0x80386368 end:0x80386370
+	.sdata2     start:0x80388478 end:0x80388480
 
 qr2regkeys.o:
 	.text       start:0x8011156C end:0x801115FC
 	.data       start:0x8027D220 end:0x8027D6F8
-	.sdata      start:0x80385550 end:0x803855C7
+	.sdata      start:0x80385550 end:0x803855C8
 
 ghttpBuffer.o:
 	.text       start:0x801115FC end:0x80111DE8
-	.sdata      start:0x803855C8 end:0x803855D3
+	.sdata      start:0x803855C8 end:0x803855D8
 
 ghttpCallbacks.o:
 	.text       start:0x80111F0C end:0x8011202C
@@ -351,30 +351,30 @@ ghttpCommon.o:
 
 ghttpConnection.o:
 	.text       start:0x801125C8 end:0x80112D14
-	.data       start:0x8027D6F8 end:0x8027D701
+	.data       start:0x8027D6F8 end:0x8027D708
 	.sbss       start:0x80386378 end:0x80386388
 
 ghttpEncryption.o:
 	.text       start:0x80112D14 end:0x8011312C
-	.data       start:0x8027D708 end:0x8027D711
+	.data       start:0x8027D708 end:0x8027D718
 
 ghttpMain.o:
 	.text       start:0x8011312C end:0x801139B0
-	.data       start:0x8027D718 end:0x8027D731
-	.sbss       start:0x80386388 end:0x8038638C
+	.data       start:0x8027D718 end:0x8027D738
+	.sbss       start:0x80386388 end:0x80386390
 
 ghttpPost.o:
 	.text       start:0x801139B0 end:0x80115384
-	.data       start:0x8027D738 end:0x8027D974
-	.sdata      start:0x803855E0 end:0x803855FF
-	.sbss       start:0x80386390 end:0x803863A4
-	.sdata2     start:0x80388480 end:0x80388484
+	.data       start:0x8027D738 end:0x8027D978
+	.sdata      start:0x803855E0 end:0x80385600
+	.sbss       start:0x80386390 end:0x803863A8
+	.sdata2     start:0x80388480 end:0x80388488
 
 ghttpProcess.o:
 	.text       start:0x80115384 end:0x80116DD4
 	.rodata     start:0x8024C6D0 end:0x8024C6E0
-	.data       start:0x8027D978 end:0x8027DA43
-	.sdata      start:0x80385600 end:0x80385655
+	.data       start:0x8027D978 end:0x8027DA48
+	.sdata      start:0x80385600 end:0x80385658
 
 gbucket.o:
 	.text       start:0x80116DD4 end:0x80117F6C
@@ -458,7 +458,7 @@ rvlAxOut.o:
 
 rvlAxSpb.o:
 	.text       start:0x80126E30 end:0x80127250
-	.bss        start:0x802F8240 end:0x802F82B8
+	.bss        start:0x802F8240 end:0x802F82C0
 	.sbss       start:0x80386540 end:0x80386590
 
 rvlAxVpb.o:
@@ -750,7 +750,7 @@ rvlKpad.o:
 
 rvlMemHeap.o:
 	.text       start:0x801981EC end:0x80198798
-	.bss        start:0x80346CF0 end:0x80346D18
+	.bss        start:0x80346CF0 end:0x80346D20
 	.sbss       start:0x80386838 end:0x80386840
 
 rvlMemExpHeap.o:
@@ -780,11 +780,11 @@ rvlMtx2.o:
 
 rvlVec.o:
 	.text       start:0x8019ABE4 end:0x8019AE08
-	.sdata2     start:0x803888A8 end:0x803888B4
+	.sdata2     start:0x803888A8 end:0x803888B8
 
 rvlQuat.o:
 	.text       start:0x8019AE08 end:0x8019B314
-	.rodata     start:0x80252C78 end:0x80252C84
+	.rodata     start:0x80252C78 end:0x80252C88
 	.sdata2     start:0x803888B8 end:0x803888D0
 
 rvlNand1.o:
@@ -877,7 +877,7 @@ rvlPadClamp.o:
 rvlPad.o:
 	.text       start:0x801AE880 end:0x801B0180
 	.data       start:0x8029CC80 end:0x8029CCD8
-	.bss        start:0x803481B0 end:0x80348230
+	.bss        start:0x803481B0 end:0x80348260
 	.sdata      start:0x80385B08 end:0x80385B28
 	.sbss       start:0x80386998 end:0x803869C8
 
@@ -908,7 +908,7 @@ eggAllocator.o:
 
 eggArchive.o:
 	.text       start:0x8020F6EC end:0x8020FCC4
-	.data       start:0x802A2680 end:0x802A2690
+	.data       start:0x802A2680 end:0x802A26A0
 	.bss        start:0x803832D8 end:0x803832E8
 	.sbss       start:0x80386D80 end:0x80386D88
 
@@ -934,11 +934,11 @@ eggDecomp.o:
 eggDisplay.o:
 	.text       start:0x80219E68 end:0x8021A0F0
 	.data       start:0x802A2B28 end:0x802A2B48
-	.sdata2     start:0x80388B18 end:0x80388B28
+	.sdata2     start:0x80388B18 end:0x80388B40
 
 eggDisposer.o:
 	.text       start:0x8021A0F0 end:0x8021A1B8
-	.data       start:0x802A2B48 end:0x802A2B58
+	.data       start:0x802A2B48 end:0x802A2B60
 
 eggDvdFile.o:
 	.text       start:0x8022231C end:0x802226D8

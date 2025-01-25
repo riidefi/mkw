@@ -183,6 +183,7 @@ cflags_base = [
     "-nodefaults",
     "-proc gekko",
     "-align powerpc",
+    "-func_align 4",
     "-enum int",
     "-fp hardware",
     "-Cpp_exceptions off",
@@ -196,8 +197,9 @@ cflags_base = [
     "-RTTI off",
     "-fp_contract on",
     "-str reuse",
-    "-multibyte",  # For Wii compilers, replace with `-enc SJIS`
-    "-i include",
+    "-enc SJIS",
+    "-i ./src/ -i ./src/platform -i ./include",
+    "-gccinc",
     f"-i build/{config.version}/include",
     f"-DBUILD_VERSION={version_num}",
     f"-DVERSION_{config.version}",
@@ -215,9 +217,57 @@ cflags_runtime = [
     *cflags_base,
     "-use_lmw_stmw on",
     "-str reuse,pool,readonly",
-    "-gccinc",
     "-common off",
     "-inline auto",
+]
+
+# MSL flags
+cflags_msl = [
+    *cflags_base,
+    "-lang=c99",
+    "-ipa file",
+]
+
+# RVL flags
+cflags_rvl = [
+    *cflags_base,
+    "-lang=c99",
+    "-ipa file",
+]
+
+# RFL flags
+cflags_rfl = cflags_rvl
+
+# SPY flags
+cflags_spy = [
+    *cflags_rvl,
+    "-w nounusedexpr -w nounusedarg",
+]
+
+# NW4R flags
+cflags_nw4r = [
+    *cflags_base,
+#    "-lang=c99", # needed?
+    "-ipa file",
+    "-pragma \"legacy_struct_alignment on\"",
+]
+
+# EGG flags
+cflags_egg = [
+    *cflags_base,
+#    "-lang=c99", # needed?
+    "-ipa function",
+    "-rostr",
+    "-use_lmw_stmw=on",
+]
+
+# DOL flags
+cflags_dol = [
+    *cflags_base,
+    "-ipa file",
+    "-rostr",
+    "-str noreuse",
+    "-use_lmw_stmw=on"
 ]
 
 # REL flags
@@ -227,15 +277,27 @@ cflags_rel = [
     "-sdata2 0",
 ]
 
-config.linker_version = "GC/1.3.2"
+# StaticR flags
+cflags_staticr = [
+    *cflags_rel,
+    "-ipa file",
+    "-rostr",
+    "-str noreuse",
+    "-use_lmw_stmw=on",
+    "-lang=c++",
+    "-pragma \"legacy_struct_alignment on\"",
+    "-DREL",
+]
+
+config.linker_version = "Wii/0x4201_127"
 
 
-# Helper function for Dolphin libraries
-def DolphinLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
+# Helper function for Revolution libraries
+def RevolutionLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
-        "mw_version": "GC/1.2.5n",
-        "cflags": cflags_base,
+        "mw_version": "Wii/4.1",
+        "cflags": cflags_rvl,
         "progress_category": "sdk",
         "objects": objects,
     }
@@ -245,7 +307,7 @@ def DolphinLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
 def Rel(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
-        "mw_version": "GC/1.3.2",
+        "mw_version": "Wii/0x4201_127",
         "cflags": cflags_rel,
         "progress_category": "game",
         "objects": objects,
@@ -272,7 +334,42 @@ config.libs = [
         "progress_category": "sdk",  # str | List[str]
         "objects": [
             Object(NonMatching, "Runtime.PPCEABI.H/global_destructor_chain.c"),
-            Object(NonMatching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
+            Object(Matching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
+            Object(NonMatching, "Runtime.PPCEABI.H/ExceptionPPC.cpp"),
+        ],
+    },
+    {
+        "lib": "MSL_C",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_msl,
+        "progress_category": "sdk",
+        "objects": [
+            Object(NonMatching, "platform/ansi_files.c"),
+#           Object("platform/ansi_fp.c"),
+            Object(NonMatching, "platform/float.c"),
+            Object(NonMatching, "platform/mem.c"),
+            Object(NonMatching, "platform/mem_cpy.c"),
+#           Object("platform/printf.c"),
+            Object(NonMatching, "platform/qsort.c"),
+            Object(NonMatching, "platform/rand.c"),
+#           Object("platform/scanf.c"),
+            Object(NonMatching, "platform/wchar.c"),
+            Object(NonMatching, "platform/va_arg.c"),
+            Object(NonMatching, "platform/eabi.c"),
+        ],
+    },
+    {
+        "lib": "StaticR",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_staticr,
+        "progress_category": "game",
+        "objects": [
+            Object(NonMatching, "game/global_destructor_chain.c"),
+            Object(NonMatching, "game/util/ModuleSymbols.cpp"),
+            Object(NonMatching, "game/system/CourseMap.cpp"),
+            Object(NonMatching, "game/system/DvdArchive.cpp"),
+            Object(NonMatching, "game/system/LocalizedArchive.cpp"),
+            Object(NonMatching, "game/system/MultiDvdArchive.cpp"),
         ],
     },
 ]
