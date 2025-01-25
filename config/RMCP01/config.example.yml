@@ -1,0 +1,177 @@
+# NOTE: All paths in this file can utilize decomp-toolkit's VFS (virtual file system).
+# This allows you to directly reference files inside of containers (disc images, .arc, etc.).
+# Files compressed with Yaz0 (SZS), Yay0 (SZP) are automatically decompressed.
+# Files compressed with NLZSS (Nintendo LZSS) can use a `:nlzss` suffix to decompress.
+# See https://github.com/encounter/decomp-toolkit#vfs-ls for more information on the VFS.
+
+# (optional) Main module name. Defaults to "main".
+name: main
+# Path to the main.dol file.
+object: sys/main.dol
+# (optional) SHA-1 hash of the main.dol file for verification.
+hash: 0123456789abcdef0123456789abcdef01234567
+# (optional) If set, all object paths will be relative to this directory.
+# If not set, all object paths will be relative to the root of the project.
+# decomp-toolkit will search the root of this directory for any disc images. (ISO, RVZ, WBFS, etc.)
+# If a disc image is found, decomp-toolkit will fetch all objects from the disc image instead of the filesystem.
+# For example, if `game.iso` exists in the `object_base`, the object path would become the VFS path
+# `orig/GAMEID/game.iso:sys/main.dol`. See information on the VFS above.
+object_base: orig/GAMEID
+# (optional) If true, objects will be extracted from a disc image into `object_base`.
+# This allows users to delete the disc image after the initial build to save space.
+# Enabled by default if `object_base` is set.
+extract_objects: true
+
+# (optional) Path to the symbols.txt file.
+# This file will be created if it does not exist.
+# See docs/symbols.md for more information.
+symbols: config/GAMEID/symbols.txt
+# (optional) Path to the splits.txt file.
+# This file will be created if it does not exist.
+# See docs/splits.md for more information.
+splits: config/GAMEID/splits.txt
+
+# (optional) Path to the DOL's .map file.
+# This path is relative to the root of the project, and is _not_ affected by `object_base`.
+# This should only used for initial analysis, and generating the symbols and splits files.
+# Once those files are generated, remove this to avoid conflicts.
+map: orig/GAMEID/files/main.MAP
+# (optional) Start address of common BSS symbols, if any.
+# Useful along with `map`, but not required otherwise, since common BSS
+# is marked in the splits file.
+common_start: 0x80001234
+
+# (optional) Version used to generate `.comment` sections in the split objects.
+# If not specified, no `.comment` sections will be generated.
+# See docs/comment_section.md for more information.
+# Known versions:
+# 8 - CodeWarrior for GameCube 1.0+
+# 10 - CodeWarrior for GameCube 1.3.2+
+# 11 - CodeWarrior for GameCube 2.7+
+# 14 - CodeWarrior for GameCube 3.0a3+
+mw_comment_version: 8
+
+# (optional) Path to `selfile.sel` for Wii games with RSO files.
+# Relative to `object_base` if set, otherwise relative to the root of the project.
+selfile: files/selfile.sel
+# (optional) SHA-1 hash of the `selfile.sel` file for verification.
+selfile_hash: 0123456789abcdef0123456789abcdef01234567
+
+# (optional) When enabled, function boundary analysis will be skipped.
+# Only valid _after_ initial analysis has been performed and
+# the symbols and splits files have been generated. 
+quick_analysis: false
+
+# (optional) When enabled, the analyzer will attempt to detect sizes
+# and data types of objects based on code usage and alignment.
+detect_objects: true
+
+# (optional) When enabled, the analyzer will attempt to detect strings,
+# wide strings, and string tables.
+detect_strings: true
+
+# (optional) Whether to write disassembly to the split output directory.
+# While not used in the build process, the disassembly is useful
+# for reading and usage with other tools, like decomp.me.
+write_asm: true
+
+# (optional) If symbols are _fully_ known (e.g. from a complete map file),
+# this can be set to true to skip most analysis steps, and ensure new
+# symbols are not created by the analyzer.
+# If you're not sure, leave this false.
+symbols_known: false
+
+# (optional) Whether to create `gap_` symbols to prevent the linker from
+# adjusting the alignment / address of symbols.
+# When alignments are fully known (e.g. from a complete map file),
+# this can be set to false.
+fill_gaps: true
+
+# (optional) By default, emitted objects will "export" all symbols (force active).
+# This is useful to prevent the linker from removing any symbols.
+# Individual symbols can be excluded using `noexport` in the symbols file.
+export_all: true
+
+# (optional) Custom template for `ldscript.lcf`. Avoid unless necessary.
+# See https://github.com/encounter/decomp-toolkit/blob/main/assets/ldscript.lcf
+ldscript_template: config/GAMEID/module/ldscript.tpl
+
+# (optional) Configuration for modules.
+modules:
+
+- # Path to the module.
+  # Relative to `object_base` if set, otherwise relative to the root of the project.
+  object: files/module.rel
+
+  # (optional) SHA-1 hash of the module for verification.
+  hash: 0123456789abcdef0123456789abcdef01234567
+
+  # (optional) Name of the module. Defaults to the module's filename.
+  name: module
+
+  # (optional) Path to the module's symbols.txt file.
+  # This file will be created if it does not exist.
+  # See docs/symbols.md for more information.
+  symbols: config/GAMEID/module/symbols.txt
+  # (optional) Path to the module's splits.txt file.
+  # This file will be created if it does not exist.
+  # See docs/splits.md for more information.
+  splits: config/GAMEID/module/splits.txt
+
+  # (optional) Path to the module's .map file.
+  # See `map` above for more information.
+  map: orig/GAMEID/files/module.MAP
+
+  # (optional) Mark symbols as "force active" / "exported".
+  force_active: []
+
+  # (optional) Custom template for `ldscript.lcf`, if needed.
+  # See https://github.com/encounter/decomp-toolkit/blob/main/assets/ldscript_partial.lcf
+  ldscript_template: config/GAMEID/module/ldscript.tpl
+
+  # (optional) By default, every REL is linked with every other REL.
+  # Some games link RELs individually, so the module IDs are not unique.
+  # To support this, `links` overrides which other modules are included in this module's analysis.
+  # The DOL is always included, and does not need to be specified.
+  links: [module2] # This module will be linked with the DOL and "module2".
+
+# (optional) Configuration for asset extraction.
+# For modules, this goes in the module's configuration above.
+extract:
+
+- # The symbol name to extract.
+  # To disambiguate local symbols with the same name, use:
+  # `SomeSymbol!.section:0x80001234`
+  symbol: SomeSymbol
+
+  # (optional) The path to extract raw binary data to.
+  # Path is relative to `build/GAMEID/bin`.
+  binary: Lib/SomeSymbol.bin
+
+  # (optional) The path to extract a C array representation to.
+  # In a C/C++ file, the symbol can be included with `#include "Lib/SomeSymbol.inc"`.
+  # Path is relative to `build/GAMEID/include`.
+  header: Lib/SomeSymbol.inc
+
+# (optional) Block relocations from or to specific addresses.
+# For modules, this goes in the module's configuration above.
+block_relocations:
+
+# Block any relocation pointing _to_ this address.
+- target: .data:0x80130140
+
+# Block any relocation originating _from_ this address.
+- source: .text:0x80047160
+  # (optional) End address to make it a range.
+  end: .text:0x800471A8
+
+# (optional) Add or replace relocations if they were detected incorrectly.
+# For modules, this goes in the module's configuration above.
+add_relocations:
+
+# From: `subi r3, r3, 0x7657`
+# To: `li r3, mesWInsert-0x1@sda21`
+- source: .text:0x800473F4
+  type: sda21
+  target: mesWInsert # Supports `symbol` or `symbol!.section:0x80001234`
+  addend: -1

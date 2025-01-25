@@ -1,82 +1,35 @@
-# Prerequisites
-*.d
+# IDE folders
+.idea/
+.vs/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Caches
+__pycache__
+.mypy_cache
+.cache/
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Auto-generated linker scripts
-/pack/dol.lcf
-
-# Auto-generated assembly
-/source/asm/
-/asm/dol/
-/asm/rel/
-
-# Executables
-**/bin/*
-*.exe
-*.dll
-*.out
-*.app
-
-*.elf
+# Original files
+orig/*/*
+!orig/*/.gitkeep
 *.dol
-
-compiler_log.txt
-.vs
-out
-
-# Python cache/compiled modules
-*.pyc
-__pycache__/
-/env/
-.pytest_cache
-*.egg-info
-.venv
-
-tmp
 *.rel
-/artifacts/orig/pal/rel/*.bin
+*.elf
+*.o
 *.map
-out.html
-tools.zip
-pack/new_symbols.yml
+*.MAP
 
-# Editors
-.vscode/
-*.bndb
-.~lock.*
-
-# Docs and web
-doxygen
-web
-
-# diff.py expected
-expected
-
-# ninja
+# Build files
+build/
+.ninja_*
 build.ninja
-.ninja_deps
-.ninja_log
+
+# decompctx output
+ctx.*
+*.ctx
+
+# Generated configs
+objdiff.json
+compile_commands.json
+
+# Miscellaneous
+/*.txt
+*.exe

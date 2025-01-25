@@ -1,101 +1,120 @@
-# mkw
+Some Game  
+[![Build Status]][actions] ![Progress] ![DOL Progress] ![RELs Progress] [![Discord Badge]][discord]
+=============
 
-![build badge](https://github.com/em-eight/mkw/actions/workflows/build.yml/badge.svg?branch=master)
-[![dol progress badge](https://em-eight.github.io/mkw/dol.svg)](https://em-eight.github.io/mkw)
-[![rel progress badge](https://em-eight.github.io/mkw/rel.svg)](https://em-eight.github.io/mkw)
-[![total progress badge](https://em-eight.github.io/mkw/total.svg)](https://em-eight.github.io/mkw)
+<!--
+Replace with your repository's URL.
+-->
+[Build Status]: https://github.com/zeldaret/tww/actions/workflows/build.yml/badge.svg
+[actions]: https://github.com/zeldaret/tww/actions/workflows/build.yml
+<!---
+Code progress URL:
+https://progress.decomp.club/data/[project]/[version]/all/?mode=shield&measure=code
+URL encoded then appended to: https://img.shields.io/endpoint?label=Code&url=
+-->
+[Progress]: https://img.shields.io/endpoint?label=Code&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fall%2F%3Fmode%3Dshield%26measure%3Dcode
+<!---
+DOL progress URL:
+https://progress.decomp.club/data/[project]/[version]/dol/?mode=shield&measure=code
+URL encoded then appended to: https://img.shields.io/endpoint?label=DOL&url=
+-->
+[DOL Progress]: https://img.shields.io/endpoint?label=DOL&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fdol%2F%3Fmode%3Dshield%26measure%3Dcode
+<!--
+REL progress URL:
+https://progress.decomp.club/data/[project]/[version]/modules/?mode=shield&measure=code
+URL encoded then appended to: https://img.shields.io/endpoint?label=RELs&url=
+-->
+[RELs Progress]: https://img.shields.io/endpoint?label=RELs&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fmodules%2F%3Fmode%3Dshield%26measure%3Dcode
+<!--
+Replace with your Discord server's ID and invite URL.
+-->
+[Discord Badge]: https://img.shields.io/discord/727908905392275526?color=%237289DA&logo=discord&logoColor=%23FFFFFF
+[discord]: https://discord.gg/hKx3FJJgrV
 
-A matching decompilation of Mario Kart Wii. All code in this repository will compile 1:1 to the original game.
-It produces the following files:
-mkw_pal.dol: `sha1: ac7d72448630ade7655fc8bc5fd7a6543cb53a49`
-StaticR.rel: `sha1: 887bcc076781f5b005cc317a6e3cc8fd5f911300`
+A work-in-progress decompilation of Some Game.
 
+This repository does **not** contain any game assets or assembly whatsoever. An existing copy of the game is required.
 
-## Accuracy
-The primary priority is to maintain absolute code accuracy. To automate verification of this, a special linker setup is used to emplace compiled code back into the original executable, forming a new executable. This new executable is hashed to ensure it matches the original. Once all code is decompiled, this setup will build a new executable from scratch, sampling none of the original.
+Supported versions:
 
-## Code Quality
-I have written code to be as readable and maintainable as possible. While the original access modifiers and trivial encapsulations have been lost to the optimizer, I have reconstructed both to minimize unsafe data exposure. Common sense debug assertions have been added, enforcing unchecked preconditions.
+- `GAMEID`: Rev 0 (USA)
 
-### Modern C++isms
-While the original game was written and compiled as C++03, several modern C++ features have been used to aid readability and increase code quality. All are define'd out when compiling for C++03. For example: strongly typed null pointers with `nullptr` and the `override` specifier.
+Dependencies
+============
 
-## Documentation
-Every fully understood piece of reverse engineered data has been documented in a consistent doxygen style, [here](https://em-eight.github.io/mkw/docs/html/index.html).
+Windows
+--------
 
-## Dependencies
-- DevKitPro (for the ppc-eabi assembler, and gcc dependency files)
-- CodeWarrior compilers (in `tools`)
-- Ninja
-- Python 3
-- Place a copy of Mario Kart Wii's PAL binaries:
-  - `artifacts/orig/pal/main.dol`
-  - `artifacts/orig/pal/StaticR.rel`
+On Windows, it's **highly recommended** to use native tooling. WSL or msys2 are **not** required.  
+When running under WSL, [objdiff](#diffing) is unable to get filesystem notifications for automatic rebuilds.
 
-## Python Workspace
-This build system assumes that a `python` command is available that points to a compatibly python 3 interpreter
+- Install [Python](https://www.python.org/downloads/) and add it to `%PATH%`.
+  - Also available from the [Windows Store](https://apps.microsoft.com/store/detail/python-311/9NRWMJP3717K).
+- Download [ninja](https://github.com/ninja-build/ninja/releases) and add it to `%PATH%`.
+  - Quick install via pip: `pip install ninja`
 
-### venv
-It is recommended to setup a Python virtual environment to simplify workspace setup.
-A venv saves you from installing dependencies system- or user-wide.
+macOS
+------
 
-Run the setup steps once:
+- Install [ninja](https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages):
 
-```ps1
-# Initialize your venv in the ./env dir.
-python3 -m venv env
-# (Windows only) Allow executing the Activate script.
-powershell -ExecutionPolicy Bypass -File ".\env\Scripts\Activate.ps1"
+  ```sh
+  brew install ninja
+  ```
+
+- Install [wine-crossover](https://github.com/Gcenx/homebrew-wine):
+
+  ```sh
+  brew install --cask --no-quarantine gcenx/wine/wine-crossover
+  ```
+
+After OS upgrades, if macOS complains about `Wine Crossover.app` being unverified, you can unquarantine it using:
+
+```sh
+sudo xattr -rd com.apple.quarantine '/Applications/Wine Crossover.app'
 ```
 
-Then, each time you open a terminal, enter the venv:
-* Windows: `.\env\Scripts\Activate.ps1`
-* Good OSes: `source ./env/bin/activate`
+Linux
+------
 
-### Install dependencies
+- Install [ninja](https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages).
+- For non-x86(_64) platforms: Install wine from your package manager.
+  - For x86(_64), [wibo](https://github.com/decompals/wibo), a minimal 32-bit Windows binary wrapper, will be automatically downloaded and used.
 
-```shell
-pip install -r requirements.txt
-```
+Building
+========
 
-## Building
-If you're building the repository for the first time or any changes were made to the slice definitions, run `configure.py --regen_asm` to generate the build system. Otherwise, just run `ninja`. Final results:
-  - `artifacts/target/pal/main.dol`
-  - `artifacts/target/pal/StaticR.rel`
+- Clone the repository:
 
-### Unit testing
-We use [pytest](https://pytest.org).
+  ```sh
+  git clone https://github.com/my/repo.git
+  ```
 
-### Symbol dead-stripping
+- Copy your game's disc image to `orig/GAMEID`.
+  - Supported formats: ISO (GCM), RVZ, WIA, WBFS, CISO, NFS, GCZ, TGC
+  - After the initial build, the disc image can be deleted to save space.
 
-By default, the CodeWarrior linker wants to remove any symbols (e.g. functions) that it considers unused.
-Due to the unique nature of this build system, this would fail and result in all functions being removed.
+- Configure:
 
-To fix this, the `gen_lcf.py` script places all objects into the `FORCEFILES` linker directive.
-This prevents any content from being dead-stripped.
+  ```sh
+  python configure.py
+  ```
 
-In edge cases require carefully controlled use of the dead-stripping feature.
-For example: Symbols that were stripped in the initial build retain all string literals.
-This is very hard to replicate without dead-stripping:
-Simply commenting out the stripped function would result the string literals from vanishing too.
+  To use a version other than `GAMEID` (USA), specify it with `--version`.
 
-The dead-stripping feature can be re-enabled by:
-- Setting `strip` to 1 in the slices CSV
-- Listing all symbols that will _not_ be stripped in the `FORCEACTIVE` directive in `dol.base.lcf` (all other symbols get thrown out)
+- Build:
 
-## Contributing
-Read CONTRIBUTING.md for an in-depth guide for a guide on how this decompilation project works and how to contribute.
+  ```sh
+  ninja
+  ```
 
-### pre-commit
+Diffing
+=======
 
-This project uses [pre-commit](https://pre-commit.com/) ensure code adheres to formatting rules.
+Once the initial build succeeds, an `objdiff.json` should exist in the project root.
 
-To enable, run:
+Download the latest release from [encounter/objdiff](https://github.com/encounter/objdiff). Under project settings, set `Project directory`. The configuration should be loaded automatically.
 
-```
-pre-commit install
-pre-commit run --all-files
-```
+Select an object from the left sidebar to begin diffing. Changes to the project will rebuild automatically: changes to source files, headers, `configure.py`, `splits.txt` or `symbols.txt`.
 
-## .rel support
-Most of Mario Kart Wii's game code is located inside a relocatable module (StaticR.rel for release builds). The decompilation builds this.
+![](assets/objdiff.png)

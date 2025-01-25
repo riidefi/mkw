@@ -1,0 +1,232 @@
+Sections:
+	.text       type:code align:4
+	.ctors      type:rodata align:4
+	.dtors      type:rodata align:4
+	.rodata     type:rodata align:32
+	.data       type:data align:8
+	.bss        type:bss align:32
+
+CourseCheckpoints.o:
+	.text       start:0x000007D0 end:0x000022E0
+	.rodata     start:0x000001B0 end:0x000001C8
+
+CourseMap.o:
+	.text       start:0x000022E0 end:0x0000890C
+	.rodata     start:0x00000318 end:0x00000320
+	.data       start:0x00000060 end:0x000000A8
+	.bss        start:0x00000008 end:0x0000000C
+
+DvdArchive.o:
+	.text       start:0x0000890C end:0x000092BC
+	.rodata     start:0x00000380 end:0x00000398
+	.data       start:0x000000A8 end:0x000000B4
+
+GhostFile.o:
+	.text       start:0x0000BCD4 end:0x0000D120
+	.data       start:0x00000168 end:0x00000180
+
+KPadController.o:
+	.text       start:0x0000E4A8 end:0x00012D2C
+	.ctors      start:0x00000000 end:0x00000004
+	.rodata     start:0x000005A0 end:0x000005B8
+
+KPadDirector.o:
+	.text       start:0x00012D2C end:0x00014710
+	.ctors      start:0x00000004 end:0x00000008
+
+Mii.o:
+	.text       start:0x00015BD4 end:0x00015C40
+	.rodata     start:0x00000640 end:0x00000644
+
+LocalizedArchive.o:
+	.text       start:0x00019CE4 end:0x0001A184
+	.rodata     start:0x000006A0 end:0x000006E0
+	.data       start:0x000005B8 end:0x00000608
+
+MultiDvdArchive.o:
+	.text       start:0x0001A184 end:0x0001AAA8
+	.rodata     start:0x000006E0 end:0x00000708
+	.data       start:0x00000608 end:0x00000618
+
+NandUtil.o:
+	.text       start:0x0001AAA8 end:0x0001B9A8
+	.data       start:0x00000618 end:0x00000658
+
+Rating.o:
+	.text       start:0x0001CB44 end:0x0001CEE4
+	.rodata     start:0x00000840 end:0x00000878
+
+RaceConfig.o:
+	.text       start:0x0001D5B8 end:0x00021CD0
+	.rodata     start:0x00000888 end:0x00000A28
+	.data       start:0x00000690 end:0x000006E0
+	.bss        start:0x00000048 end:0x00000050
+
+RaceManager.o:
+	.text       start:0x00021CD0 end:0x00028064
+	.rodata     start:0x00000A28 end:0x00000AF8
+	.data       start:0x000006E0 end:0x00000920
+	.bss        start:0x00000050 end:0x00000058
+
+ResourceManager.o:
+	.text       start:0x0002F898 end:0x000324B4
+	.rodata     start:0x00000D70 end:0x000015F0
+	.data       start:0x00000D90 end:0x00001060
+	.bss        start:0x00000058 end:0x0000005C
+
+ResourceManagerUnk80542868.o:
+	.text       start:0x000324B4 end:0x000324C4
+	.rodata     start:0x000015F0 end:0x00001600
+	.data       start:0x00001060 end:0x00001078
+
+ModuleSymbols.o:
+	.text       start:0x00044F68 end:0x000450B0
+	.rodata     start:0x00001BD0 end:0x00001C40
+
+Random.o:
+	.text       start:0x000450B0 end:0x00045378
+	.rodata     start:0x00001C50 end:0x00001C60
+	.data       start:0x00001710 end:0x0000171C
+
+KartCollide.o:
+	.text       start:0x0005E1B8 end:0x00063C7C
+	.rodata     start:0x00002010 end:0x00002090
+	.data       start:0x00002AD8 end:0x00002AF0
+
+KartMove.o:
+	.text       start:0x00067C10 end:0x000794A8
+
+KartObjectProxy.o:
+	.text       start:0x0007FD74 end:0x00081640
+	.rodata     start:0x00002538 end:0x00002568
+	.bss        start:0x00004220 end:0x00004230
+
+KartSettings.o:
+	.text       start:0x00082C0C end:0x00082CD8
+
+KartState.o:
+	.text       start:0x00084000 end:0x00085950
+	.rodata     start:0x000027D0 end:0x000027F8
+	.data       start:0x00003918 end:0x00003970
+
+KartSus.o:
+	.text       start:0x00088754 end:0x00089058
+	.rodata     start:0x00002840 end:0x00002848
+	.data       start:0x000039E0 end:0x00003AB8
+
+KartWheelPhysics.o:
+	.text       start:0x00089058 end:0x0008A690
+	.rodata     start:0x00002848 end:0x00002878
+	.data       start:0x00003AB8 end:0x00003AEC
+
+KartPhysics.o:
+	.text       start:0x0008F208 end:0x000900CC
+	.rodata     start:0x000028F0 end:0x00002904
+	.data       start:0x00003E18 end:0x00003E38
+
+KartPhysicsInstance.o:
+	.text       start:0x000900CC end:0x0009019C
+	.data       start:0x00003E38 end:0x00003E3C
+	.bss        start:0x000042B0 end:0x000042B8
+
+RKGeom.o:
+	.text       start:0x0009E400 end:0x0009EFBC
+	.rodata     start:0x00002E18 end:0x00002E38
+	.data       start:0x000042A0 end:0x000042B0
+	.bss        start:0x00004310 end:0x00004410
+
+KartDynamics.o:
+	.text       start:0x000A4744 end:0x000A6370
+	.rodata     start:0x00003030 end:0x00003068
+	.data       start:0x00004730 end:0x00004758
+
+KartHitbox.o:
+	.text       start:0x000A7B94 end:0x000A85D0
+	.rodata     start:0x00003088 end:0x000030A8
+
+ControlGroup.o:
+	.text       start:0x000B2030 end:0x000B2864
+
+MessageGroup.o:
+	.text       start:0x000E8780 end:0x000E89A8
+	.rodata     start:0x00006A28 end:0x00006A38
+
+Page.o:
+	.text       start:0x000F15C8 end:0x000F2978
+
+Section.o:
+	.text       start:0x00111958 end:0x001142DC
+
+SectionAutogens.o:
+	.text       start:0x0011BFF0 end:0x00122058
+	.data       start:0x00009C40 end:0x0000A400
+
+SectionDirector.o:
+	.text       start:0x001247CC end:0x00125B04
+
+ObjKoopaFigure64.o:
+	.text       start:0x001CA560 end:0x001CADD0
+
+ObjKuribo.o:
+	.text       start:0x001CADD0 end:0x001CCF24
+
+ObjFloat.o:
+	.text       start:0x001CCF24 end:0x001CD580
+
+ObjOilSFC.o:
+	.text       start:0x001CD580 end:0x001CD6D0
+
+MapObjSniper.o:
+	.text       start:0x001CD6D0 end:0x001CD8FC
+
+ObjSound.o:
+	.text       start:0x001CD8FC end:0x001CDA24
+
+ObjSunDS.o:
+	.text       start:0x001CDA24 end:0x001CE270
+
+ObjSunDSManager.o:
+	.text       start:0x001CE270 end:0x001CE448
+
+ObjTaimatsu.o:
+	.text       start:0x001CE448 end:0x001CE78C
+
+BoxColManager.o:
+	.text       start:0x00276AAC end:0x00276B1C
+
+BoxColUnit.o:
+	.text       start:0x00276B1C end:0x00276BE4
+	.rodata     start:0x000150E0 end:0x000150E4
+
+CourseModel.o:
+	.text       start:0x0027DA50 end:0x00280724
+	.ctors      start:0x0000017C end:0x00000180
+	.rodata     start:0x00015438 end:0x000155A0
+	.data       start:0x0001EC90 end:0x0001ECF8
+	.bss        start:0x00005860 end:0x00005868
+
+CollisionEntries.o:
+	.text       start:0x002AD5B8 end:0x002AD8A8
+	.rodata     start:0x00016FB0 end:0x00016FB8
+	.bss        start:0x000061F8 end:0x00006504
+
+RKGndCol.o:
+	.text       start:0x002AD8A8 end:0x002B2218
+	.rodata     start:0x00016FB8 end:0x00016FDC
+	.data       start:0x0001FC28 end:0x0001FC38
+
+CourseColManager.o:
+	.text       start:0x002B2470 end:0x002B4934
+	.rodata     start:0x00016FF0 end:0x00017000
+	.data       start:0x0001FC38 end:0x0001FDB8
+	.bss        start:0x00006530 end:0x00006534
+
+ObjColManager.o:
+	.text       start:0x002B4934 end:0x002B6658
+	.rodata     start:0x00017000 end:0x00017010
+
+ObjDrivableManager.o:
+	.text       start:0x0030AF70 end:0x0030C734
+	.rodata     start:0x0001BE38 end:0x0001BE3C
+	.data       start:0x00024078 end:0x00024084
+	.bss        start:0x00006C30 end:0x00006C34
