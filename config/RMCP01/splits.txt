@@ -1,17 +1,17 @@
 Sections:
-	.init       type:code
-	extab_      type:rodata
-	extabindex_ type:rodata
-	.text       type:code
-	.ctors      type:rodata
-	.dtors      type:rodata
-	.rodata     type:rodata
-	.data       type:data
-	.bss        type:bss
-	.sdata      type:data
-	.sbss       type:bss
-	.sdata2     type:rodata
-	.sbss2      type:bss
+	.init       type:code align:4
+	extab       type:rodata align:32
+	extabindex  type:rodata align:4
+	.text       type:code align:32
+	.ctors      type:rodata align:16
+	.dtors      type:rodata align:32
+	.rodata     type:rodata align:32
+	.data       type:data align:32
+	.bss        type:bss align:128
+	.sdata      type:data align:16
+	.sbss       type:bss align:4
+	.sdata2     type:rodata align:32
+	.sbss2      type:bss align:8
 
 trkHeader.o:
 	.init       start:0x80004000 end:0x80004100
@@ -28,6 +28,7 @@ SystemResource.o:
 
 RKSystem.o:
 	.text       start:0x80008E84 end:0x80009BC0
+	.ctors      start:0x80244DE4 end:0x80244DE8
 	.rodata     start:0x80245938 end:0x80245A18
 	.data       start:0x80270C68 end:0x80270C94
 	.sbss       start:0x80385FC8 end:0x80385FCC
@@ -87,7 +88,7 @@ g3d_fog.o:
 
 lyt_init.o:
 	.text       start:0x80078920 end:0x80078974
-	.data       start:0x802733F0 end:0x80273436
+	.data       start:0x802733F0 end:0x80273438
 	.sdata      start:0x80384D90 end:0x80384D94
 
 lyt_textBox.o:
@@ -97,7 +98,7 @@ mathTriangular.o:
 	.text       start:0x80085110 end:0x80085578
 	.rodata     start:0x80248010 end:0x80249020
 	.data       start:0x80274148 end:0x80274250
-	.sdata2     start:0x80387E80 end:0x80387EA4
+	.sdata2     start:0x80387E80 end:0x80387EA8
 
 mathTypes.o:
 	.text       start:0x80085600 end:0x80085938
@@ -159,7 +160,7 @@ ut_font.o:
 ut_romFont.o:
 	.text       start:0x800B1A20 end:0x800B1F90
 	.data       start:0x80274DA0 end:0x80274E08
-	.sdata      start:0x80384DC8 end:0x80384DCA
+	.sdata      start:0x80384DC8 end:0x80384DD0
 
 ut_resFontBase.o:
 	.text       start:0x800B1F90 end:0x800B2828
@@ -176,10 +177,14 @@ ut_charWriter.o:
 	.sdata2     start:0x803882E0 end:0x80388300
 
 rfl_init.o:
+	extab       start:0x800064A8 end:0x800064B0
+	extabindex  start:0x80006A5C end:0x80006A68
 	.text       start:0x800BBB80 end:0x800BBF08
 	.data       start:0x80274F30 end:0x80274F78
 
 rfl_icon.o:
+	extab       start:0x800066D0 end:0x800066D8
+	extabindex  start:0x80006D98 end:0x80006DA4
 	.text       start:0x800C4E00 end:0x800C4E74
 
 dwc_error.o:
@@ -367,7 +372,7 @@ ghttpPost.o:
 
 ghttpProcess.o:
 	.text       start:0x80115384 end:0x80116DD4
-	.rodata     start:0x8024C6D0 end:0x8024C6DB
+	.rodata     start:0x8024C6D0 end:0x8024C6E0
 	.data       start:0x8027D978 end:0x8027DA43
 	.sdata      start:0x80385600 end:0x80385655
 
@@ -380,63 +385,63 @@ gstats.o:
 	.text       start:0x80117F6C end:0x8011A054
 	.data       start:0x8027DA48 end:0x8027DCA0
 	.bss        start:0x802F3820 end:0x802F3A20
-	.sdata      start:0x80385658 end:0x803856BE
-	.sbss       start:0x803863C0 end:0x803863DC
+	.sdata      start:0x80385658 end:0x803856C0
+	.sbss       start:0x803863C0 end:0x803863E0
 
 sb_crypt.o:
 	.text       start:0x8011C10C end:0x8011C540
 
 sb_queryengine.o:
 	.text       start:0x8011C540 end:0x8011D024
-	.data       start:0x8027DDC0 end:0x8027DDE5
+	.data       start:0x8027DDC0 end:0x8027DDE8
 	.sdata      start:0x803856F0 end:0x803856F8
 
 sb_server.o:
 	.text       start:0x8011D024 end:0x8011DD04
-	.data       start:0x8027DDE8 end:0x8027DDF1
-	.sdata      start:0x803856F8 end:0x80385721
-	.sbss       start:0x80386430 end:0x8038643C
+	.data       start:0x8027DDE8 end:0x8027DDF8
+	.sdata      start:0x803856F8 end:0x80385728
+	.sbss       start:0x80386430 end:0x80386440
 	.sdata2     start:0x80388490 end:0x80388498
 
 sb_serverbrowsing.o:
 	.text       start:0x8011DD04 end:0x8011E518
 	.data       start:0x8027DDF8 end:0x8027DE18
-	.sdata      start:0x80385728 end:0x8038572C
+	.sdata      start:0x80385728 end:0x80385730
 
 sb_serverlist.o:
 	.text       start:0x8011E518 end:0x80121EEC
-	.data       start:0x8027DE18 end:0x8027DE44
+	.data       start:0x8027DE18 end:0x8027DE48
 	.sdata      start:0x80385730 end:0x80385740
 	.sbss       start:0x80386440 end:0x80386448
-	.sdata2     start:0x80388498 end:0x803884A4
+	.sdata2     start:0x80388498 end:0x803884A8
 
 sakeMain.o:
 	.text       start:0x80121EEC end:0x8012249C
-	.data       start:0x8027DE48 end:0x8027DF3E
+	.data       start:0x8027DE48 end:0x8027DF40
 	.bss        start:0x802F3F40 end:0x802F4040
-	.sdata      start:0x80385740 end:0x80385744
+	.sdata      start:0x80385740 end:0x80385748
 
 rvlArchive.o:
 	.text       start:0x80124500 end:0x80124E80
-	.data       start:0x8027E708 end:0x8027E772
-	.sdata      start:0x803857F0 end:0x803857F6
+	.data       start:0x8027E708 end:0x8027E778
+	.sdata      start:0x803857F0 end:0x803857F8
 
 rvlAx.o:
 	.text       start:0x80124E80 end:0x80124EDC
-	.data       start:0x8027E778 end:0x8027E7BF
-	.sdata      start:0x803857F8 end:0x803857FC
-	.sbss       start:0x80386488 end:0x8038648C
+	.data       start:0x8027E778 end:0x8027E7C0
+	.sdata      start:0x803857F8 end:0x80385800
+	.sbss       start:0x80386488 end:0x80386490
+
+rvlAxDspCode.o:
+	.sdata      start:0x80385800 end:0x80385808
 
 rvlAxComp.o:
 	.data       start:0x8027E860 end:0x8027F820
 
-rvlAxDspCode.o:
-	.sdata      start:0x80385800 end:0x80385806
-
 rvlAxAlloc.o:
 	.text       start:0x80124EDC end:0x80125394
 	.bss        start:0x802F40C0 end:0x802F41C0
-	.sbss       start:0x80386490 end:0x80386494
+	.sbss       start:0x80386490 end:0x80386498
 
 rvlAxAux.o:
 	.text       start:0x80125394 end:0x80125BAC
@@ -445,11 +450,11 @@ rvlAxAux.o:
 rvlAxCl.o:
 	.text       start:0x80125BAC end:0x80126638
 	.bss        start:0x802F7340 end:0x802F7440
-	.sbss       start:0x803864E0 end:0x803864FC
+	.sbss       start:0x803864E0 end:0x80386500
 
 rvlAxOut.o:
 	.text       start:0x80126638 end:0x80126E30
-	.sbss       start:0x80386500 end:0x8038653C
+	.sbss       start:0x80386500 end:0x80386540
 
 rvlAxSpb.o:
 	.text       start:0x80126E30 end:0x80127250
@@ -458,7 +463,7 @@ rvlAxSpb.o:
 
 rvlAxVpb.o:
 	.text       start:0x80127250 end:0x80127FEC
-	.sbss       start:0x80386590 end:0x803865AC
+	.sbss       start:0x80386590 end:0x803865B0
 	.sdata2     start:0x803884A8 end:0x803884C8
 
 rvlAxProf.o:
@@ -476,7 +481,7 @@ rvlAxFxReverbHiExp.o:
 
 rvlAxFxReverbHiExpDpl2.o:
 	.text       start:0x801290A0 end:0x8012A154
-	.data       start:0x802819C0 end:0x80281B7C
+	.data       start:0x802819C0 end:0x80281B80
 	.sdata2     start:0x80388510 end:0x80388550
 
 rvlAxFxReverbStdExp.o:
@@ -490,53 +495,11 @@ rvlAxFx.o:
 
 ppcArch.o:
 	.text       start:0x8012E564 end:0x8012E6D4
-	.data       start:0x802826A0 end:0x802826D7
-
-gki_buffer.o:
-	.text       start:0x8012E6D4 end:0x8012FB18
-
-gki_time.o:
-	.text       start:0x8012FB18 end:0x80130070
-
-gki_ppc.o:
-	.text       start:0x80130070 end:0x80130300
-
-hcisu_h2.o:
-	.text       start:0x80130300 end:0x8013099C
-
-uusb_ppc.o:
-	.text       start:0x8013099C end:0x801315A0
-
-bte_hcisu.o:
-	.text       start:0x801315A0 end:0x80131658
-
-bte_init.o:
-	.text       start:0x80131658 end:0x80131684
-
-bte_logmsg.o:
-	.text       start:0x80131684 end:0x801317E8
-
-bte_main.o:
-	.text       start:0x801317E8 end:0x80131940
-
-bte_task1.o:
-	.text       start:0x80131940 end:0x80131D90
-
-bd.o:
-	.text       start:0x80131D90 end:0x80131E64
-
-bta_sys.o:
-	.text       start:0x80131E64 end:0x801322FC
-
-ptim.o:
-	.text       start:0x801322FC end:0x801324DC
-
-utl.o:
-	.text       start:0x801324DC end:0x80132520
+	.data       start:0x802826A0 end:0x802826D8
 
 bta_dm_int.o:
 	.text       start:0x80132520 end:0x8013485C
-	.sdata2     start:0x80388678 end:0x8038867C
+	.sdata2     start:0x80388678 end:0x80388680
 
 bta_api.o:
 	.text       start:0x8013485C end:0x80134CC8
@@ -579,7 +542,7 @@ btm_sco.o:
 
 btm_sec.o:
 	.text       start:0x8013F0E8 end:0x801420AC
-	.sdata2     start:0x803886A8 end:0x803886AE
+	.sdata2     start:0x803886A8 end:0x803886B0
 
 btu_hcif.o:
 	.text       start:0x801420AC end:0x80143308
@@ -667,18 +630,18 @@ cxUncompression.o:
 
 darch.o:
 	.text       start:0x8015C320 end:0x8015D314
-	.sbss       start:0x803865F8 end:0x803865FC
+	.sbss       start:0x803865F8 end:0x80386600
 
 db.o:
 	.text       start:0x8015D314 end:0x8015D3AC
-	.sbss       start:0x80386600 end:0x80386604
+	.sbss       start:0x80386600 end:0x80386608
 
 dbPrintf.o:
 	.text       start:0x8015D3AC end:0x8015D3FC
 
 dsp.o:
 	.text       start:0x8015D3FC end:0x8015D638
-	.sbss       start:0x80386608 end:0x8038660C
+	.sbss       start:0x80386608 end:0x80386610
 
 dspPrintf.o:
 	.text       start:0x8015D638 end:0x8015D688
@@ -701,7 +664,7 @@ dvdUtils.o:
 
 dvdFatal.o:
 	.text       start:0x80164294 end:0x801643EC
-	.sdata2     start:0x803886B8 end:0x803886BC
+	.sdata2     start:0x803886B8 end:0x803886C0
 
 dvdDeviceError.o:
 	.text       start:0x801643EC end:0x80164684
@@ -711,7 +674,7 @@ dvdBroadway.o:
 
 encUtility.o:
 	.text       start:0x80166AD0 end:0x80166D0C
-	.sbss       start:0x80386740 end:0x80386744
+	.sbss       start:0x80386740 end:0x80386748
 
 esp.o:
 	.text       start:0x801671D0 end:0x80167B08
@@ -728,7 +691,7 @@ exiUart.o:
 
 exiCommon.o:
 	.text       start:0x80169A40 end:0x80169BCC
-	.sdata2     start:0x803886C0 end:0x803886C4
+	.sdata2     start:0x803886C0 end:0x803886C8
 
 fs.o:
 	.text       start:0x80169BCC end:0x8016B49C
@@ -788,7 +751,7 @@ rvlKpad.o:
 rvlMemHeap.o:
 	.text       start:0x801981EC end:0x80198798
 	.bss        start:0x80346CF0 end:0x80346D18
-	.sbss       start:0x80386838 end:0x8038683C
+	.sbss       start:0x80386838 end:0x80386840
 
 rvlMemExpHeap.o:
 	.text       start:0x80198798 end:0x80199430
@@ -830,14 +793,14 @@ rvlNand1.o:
 
 rvlNand2.o:
 	.text       start:0x8019C6EC end:0x8019DAA0
-	.data       start:0x8028E9F0 end:0x8028EA1F
+	.data       start:0x8028E9F0 end:0x8028EA20
 	.sdata      start:0x80385A18 end:0x80385A28
 	.sbss       start:0x80386840 end:0x80386844
 
 rvlNand3.o:
 	.text       start:0x8019DAA0 end:0x8019F1A8
-	.data       start:0x8028EA20 end:0x8028EC3B
-	.sdata      start:0x80385A28 end:0x80385A64
+	.data       start:0x8028EA20 end:0x8028EC68
+	.sdata      start:0x80385A28 end:0x80385A68
 	.sbss       start:0x80386848 end:0x80386858
 
 osAlarm.o:
@@ -847,7 +810,7 @@ osAlarm.o:
 
 osAlloc.o:
 	.text       start:0x801A0D9C end:0x801A10A4
-	.sdata      start:0x80385A98 end:0x80385A9C
+	.sdata      start:0x80385A98 end:0x80385AA0
 	.sbss       start:0x803868A8 end:0x803868B8
 
 osArena.o:
@@ -867,7 +830,7 @@ osContext.o:
 
 osFatal.o:
 	.text       start:0x801A4AA4 end:0x801A56DC
-	.sdata      start:0x80385AC8 end:0x80385ACC
+	.sdata      start:0x80385AC8 end:0x80385AD0
 	.sdata2     start:0x803888D8 end:0x80388918
 
 osFont.o:
@@ -876,7 +839,7 @@ osFont.o:
 osInterrupt.o:
 	.text       start:0x801A65AC end:0x801A6D30
 	.data       start:0x80290600 end:0x80290630
-	.sbss       start:0x803868E8 end:0x803868FC
+	.sbss       start:0x803868E8 end:0x80386900
 
 osLink.o:
 	.text       start:0x801A6D30 end:0x801A72FC
@@ -896,25 +859,19 @@ osSync.o:
 
 osThread.o:
 	.text       start:0x801A95AC end:0x801AAD5C
-	.sdata      start:0x80385AE0 end:0x80385AE4
-	.sbss       start:0x80386918 end:0x80386924
+	.sdata      start:0x80385AE0 end:0x80385AE8
+	.sbss       start:0x80386918 end:0x80386928
 
 __start.o:
 	.init       start:0x80006068 end:0x80006348
-	.sbss       start:0x80386950 end:0x80386951
+	.sbss       start:0x80386950 end:0x80386958
 
 __ppc_eabi_init.o:
 	.init       start:0x80006348 end:0x800063A0
 
-dol_sections.o:
-	.init       start:0x800063A0 end:0x80006444
-	.text       start:0x801AE5D8 end:0x801AE5D8
-	.data       start:0x8029CC80 end:0x8029CC80
-	.bss        start:0x803481B0 end:0x803481B0
-
 rvlPadClamp.o:
 	.text       start:0x801AE5D8 end:0x801AE880
-	.rodata     start:0x80252DD0 end:0x80252DE6
+	.rodata     start:0x80252DD0 end:0x80252DE8
 	.sdata2     start:0x80388930 end:0x80388938
 
 rvlPad.o:
@@ -922,38 +879,38 @@ rvlPad.o:
 	.data       start:0x8029CC80 end:0x8029CCD8
 	.bss        start:0x803481B0 end:0x80348230
 	.sdata      start:0x80385B08 end:0x80385B28
-	.sbss       start:0x80386998 end:0x803869C4
+	.sbss       start:0x80386998 end:0x803869C8
 
 siBios.o:
 	.sbss       start:0x803869F0 end:0x803869F8
 
 tpl.o:
 	.text       start:0x801B7410 end:0x801B7624
-	.data       start:0x8029D058 end:0x8029D083
-	.sdata      start:0x80385C68 end:0x80385C6E
+	.data       start:0x8029D058 end:0x8029D088
+	.sdata      start:0x80385C68 end:0x80385C70
 	.sdata2     start:0x80388958 end:0x80388960
 
 soCommon.o:
 	.text       start:0x801EC088 end:0x801ECF20
-	.data       start:0x802A2318 end:0x802A24F4
+	.data       start:0x802A2318 end:0x802A24F8
 	.bss        start:0x80357220 end:0x80357238
 	.sdata      start:0x80385EE0 end:0x80385EE8
 	.sbss       start:0x80386D30 end:0x80386D38
 
 soBasic.o:
 	.text       start:0x801ECF20 end:0x801ECFF4
-	.data       start:0x802A24F8 end:0x802A2543
-	.sdata      start:0x80385EE8 end:0x80385EEC
+	.data       start:0x802A24F8 end:0x802A2550
+	.sdata      start:0x80385EE8 end:0x80385EF0
 
 eggAllocator.o:
 	.text       start:0x8020F62C end:0x8020F6EC
-	.data       start:0x802A2668 end:0x802A267C
+	.data       start:0x802A2668 end:0x802A2680
 
 eggArchive.o:
 	.text       start:0x8020F6EC end:0x8020FCC4
-	.data       start:0x802A2680 end:0x802A268C
-	.bss        start:0x803832D8 end:0x803832E4
-	.sbss       start:0x80386D80 end:0x80386D81
+	.data       start:0x802A2680 end:0x802A2690
+	.bss        start:0x803832D8 end:0x803832E8
+	.sbss       start:0x80386D80 end:0x80386D88
 
 eggAsyncDisplay.o:
 	.text       start:0x8020FCD4 end:0x802104EC
@@ -964,39 +921,39 @@ eggAudioArcPlayerMgr.o:
 eggCntFile.o:
 	.text       start:0x80214E68 end:0x80215168
 	.data       start:0x802A2A08 end:0x802A2A28
-	.bss        start:0x80383500 end:0x8038350C
-	.sbss       start:0x80386DC8 end:0x80386DCC
+	.bss        start:0x80383500 end:0x80383510
+	.sbss       start:0x80386DC8 end:0x80386DD0
 
 eggCompress.o:
 	.text       start:0x802156AC end:0x80215CBC
 
 eggDecomp.o:
 	.text       start:0x80218BA4 end:0x80219E68
-	.sbss       start:0x80386DE8 end:0x80386E0C
+	.sbss       start:0x80386DE8 end:0x80386E10
 
 eggDisplay.o:
 	.text       start:0x80219E68 end:0x8021A0F0
-	.data       start:0x802A2B28 end:0x802A2B44
+	.data       start:0x802A2B28 end:0x802A2B48
 	.sdata2     start:0x80388B18 end:0x80388B28
 
 eggDisposer.o:
 	.text       start:0x8021A0F0 end:0x8021A1B8
-	.data       start:0x802A2B48 end:0x802A2B54
+	.data       start:0x802A2B48 end:0x802A2B58
 
 eggDvdFile.o:
 	.text       start:0x8022231C end:0x802226D8
 	.data       start:0x802A2DA0 end:0x802A2DC8
-	.bss        start:0x80384190 end:0x8038419C
+	.bss        start:0x80384190 end:0x803841A0
 	.sbss       start:0x80386E18 end:0x80386E20
 
 eggDvdRipper.o:
 	.text       start:0x802226D8 end:0x80222CCC
-	.sdata      start:0x80385F88 end:0x80385F89
-	.sbss       start:0x80386E20 end:0x80386E24
+	.sdata      start:0x80385F88 end:0x80385F90
+	.sbss       start:0x80386E20 end:0x80386E28
 
 eggEffect.o:
 	.text       start:0x80222CCC end:0x80224348
-	.ctors      start:0x80244E70 end:0x80244E74
+	.ctors      start:0x80244E70 end:0x80244E78
 
 eggEffectCreator.o:
 	.text       start:0x80224348 end:0x802246EC
@@ -1004,18 +961,18 @@ eggEffectCreator.o:
 
 eggExpHeap.o:
 	.text       start:0x802269A8 end:0x80226F04
-	.rodata     start:0x80257700 end:0x8025771A
-	.data       start:0x802A2FF8 end:0x802A3024
+	.rodata     start:0x80257700 end:0x80257720
+	.data       start:0x802A2FF8 end:0x802A3028
 
 eggGraphicsFifo.o:
 	.text       start:0x80229540 end:0x802296A8
-	.data       start:0x802A30B0 end:0x802A30BC
-	.sbss       start:0x80386E90 end:0x80386E99
+	.data       start:0x802A30B0 end:0x802A30C0
+	.sbss       start:0x80386E90 end:0x80386EA0
 
 eggHeap.o:
 	.text       start:0x802296A8 end:0x80229FAC
-	.rodata     start:0x80257740 end:0x80257824
-	.data       start:0x802A30C0 end:0x802A30EC
+	.rodata     start:0x80257740 end:0x80257828
+	.data       start:0x802A30C0 end:0x802A30F0
 	.bss        start:0x80384320 end:0x80384348
 	.sbss       start:0x80386EA0 end:0x80386EC0
 	.sdata2     start:0x80388D68 end:0x80388D80
@@ -1029,7 +986,7 @@ eggProcessMeter.o:
 
 eggQuat.o:
 	.text       start:0x80239DFC end:0x8023A884
-	.sdata2     start:0x80388FE0 end:0x80389004
+	.sdata2     start:0x80388FE0 end:0x80389008
 
 eggSaveBanner.o:
 	.text       start:0x8023A884 end:0x8023AD10
@@ -1040,9 +997,9 @@ eggScene.o:
 
 eggSceneManager.o:
 	.text       start:0x8023ADDC end:0x8023B980
-	.data       start:0x802A3E08 end:0x802A3E2C
+	.data       start:0x802A3E08 end:0x802A3E30
 	.sbss       start:0x80386F00 end:0x80386F10
-	.sdata2     start:0x80389008 end:0x80389014
+	.sdata2     start:0x80389008 end:0x80389018
 
 eggStream.o:
 	.text       start:0x80241B60 end:0x80242498
@@ -1054,7 +1011,7 @@ eggStreamDecomp.o:
 eggSystem.o:
 	.text       start:0x80242504 end:0x802428E8
 	.rodata     start:0x802582B0 end:0x802582E0
-	.sbss       start:0x80386F60 end:0x80386F64
+	.sbss       start:0x80386F60 end:0x80386F68
 
 eggTaskThread.o:
 	.text       start:0x802428E8 end:0x80242F1C
@@ -1066,18 +1023,18 @@ eggTextureBuffer.o:
 eggThread.o:
 	.text       start:0x802432E0 end:0x80243754
 	.data       start:0x802A3FC0 end:0x802A3FD8
-	.bss        start:0x80384B60 end:0x80384B6C
+	.bss        start:0x80384B60 end:0x80384B70
 
 eggUnitHeap.o:
 	.text       start:0x80243754 end:0x80243A00
-	.data       start:0x802A3FD8 end:0x802A4004
+	.data       start:0x802A3FD8 end:0x802A4008
 
 eggVector.o:
 	.text       start:0x80243A00 end:0x80243D18
 	.ctors      start:0x80244E88 end:0x80244E8C
 	.bss        start:0x80384B70 end:0x80384BF4
 	.sbss       start:0x80386F78 end:0x80386F90
-	.sdata2     start:0x803890F8 end:0x80389104
+	.sdata2     start:0x803890F8 end:0x80389108
 
 eggVideo.o:
 	.text       start:0x80243D18 end:0x80244074
@@ -1093,4 +1050,3 @@ eggXfb.o:
 
 eggXfbManager.o:
 	.text       start:0x80244200 end:0x802443AC
-
