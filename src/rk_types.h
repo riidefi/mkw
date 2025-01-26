@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <macros.h>
 
 #ifndef NULL
 #define NULL 0
@@ -100,11 +101,8 @@ typedef double f64;
 typedef volatile f32 vf32;
 typedef volatile f64 vf64;
 
-#define ROUND_UP(x, n) (((u32)(x) + n - 1) & ~(n - 1))
-#define ROUND_DOWN(x, n) (((u32)(x)) & ~(n - 1))
-#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
-
-inline u32 min32(u32 a, u32 b) { return a <= b ? a : b; }
+enum { FALSE, TRUE };
+typedef int BOOL;
 
 #ifdef __cplusplus
 #define restrict

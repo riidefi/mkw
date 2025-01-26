@@ -18,6 +18,12 @@
       "BINARY_BLOB: " #name "\t" #start "\t" #stop "\n"                        \
       __attribute__((force_export))
 
+#pragma section RW "flow_check"
+#define SECTION_FLOW_CHECK __declspec(section "flow_check")
+#define MARK_FLOW_CHECK(start)                                                 \
+  SECTION_FLOW_CHECK u32 __flow_check_##start = start             \
+      __attribute__((force_export))
+
 struct __mkw_patch {
   void* ptr;
   unsigned int len;

@@ -38,7 +38,7 @@ struct RawCompetitionFile {
   u16 field24_0x46;
   u16 field25_0x48;
   u16 field26_0x4a;
-  inline u16 getSize() { return min32(11, cpuCount); }
+  inline u16 getSize() { return MIN(11, cpuCount); }
 };
 
 struct CompetitionWrapper {
