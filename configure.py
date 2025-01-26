@@ -163,7 +163,9 @@ config.asflags = [
 config.ldflags = [
     "-fp hardware",
     "-nodefaults",
+    "-linkmode moreram",
 ]
+config.rel_strip_partial = False
 if args.debug:
     config.ldflags.append("-g")  # Or -gdwarf-2 for Wii linkers
 if args.map:
@@ -366,7 +368,7 @@ config.libs = [
             Object(NonMatching, "game/system/CourseMap.cpp"),
             Object(NonMatching, "game/system/DvdArchive.cpp"),
             Object(NonMatching, "game/system/LocalizedArchive.cpp"),
-            Object(NonMatching, "game/system/MultiDvdArchive.cpp"),
+            Object(Matching, "game/system/MultiDvdArchive.cpp"),
         ],
     },
 ]
