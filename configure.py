@@ -332,8 +332,8 @@ config.libs = [
         "progress_category": "sdk",  # str | List[str]
         "objects": [
             Object(NonMatching, "Runtime.PPCEABI.H/global_destructor_chain.c"),
-            Object(Matching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
-            Object(NonMatching, "Runtime.PPCEABI.H/ExceptionPPC.cpp"),
+            Object(NonMatching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
+#            Object(NonMatching, "Runtime.PPCEABI.H/ExceptionPPC.cpp"),
         ],
     },
     {
@@ -362,7 +362,6 @@ config.libs = [
         "cflags": cflags_staticr,
         "progress_category": "game",
         "objects": [
-            Object(NonMatching, "game/global_destructor_chain.c"),
             Object(NonMatching, "game/util/ModuleSymbols.cpp"),
             Object(NonMatching, "game/system/CourseMap.cpp"),
             Object(NonMatching, "game/system/DvdArchive.cpp"),
