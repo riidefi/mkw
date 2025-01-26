@@ -181,28 +181,29 @@ config.scratch_preset_id = None
 # Generally leave untouched, with overrides added below.
 cflags_base = [
     "-nodefaults",
-    "-proc gekko",
     "-align powerpc",
-    "-func_align 4",
+    "-enc SJIS",
+    # "-I-",
+    "-gccinc",
+    "-i ./include -i ./src/ -i ./src/platform",
+    # "-inline deferred",
+    "-proc gekko",
     "-enum int",
-    "-fp hardware",
-    "-Cpp_exceptions off",
-    # "-W all",
     "-O4,p",
     "-inline auto",
-    '-pragma "cats off"',
-    '-pragma "warn_notinlined off"',
-    "-maxerrors 1",
-    "-nosyspath",
+#    "-W all",
+    "-fp hardware",
+    "-Cpp_exceptions off",
     "-RTTI off",
-    "-fp_contract on",
-    "-str reuse",
-    "-enc SJIS",
-    "-i ./src/ -i ./src/platform -i ./include",
-    "-gccinc",
-    f"-i build/{config.version}/include",
-    f"-DBUILD_VERSION={version_num}",
-    f"-DVERSION_{config.version}",
+    #'-pragma "cats off"',  # ???
+    # "-pragma \"aggressive_inline on\"",
+    # "-pragma \"auto_inline on\"",
+    "-inline auto",
+#    "-w notinlined -W noimplicitconv -w nounwanted",
+    "-nostdinc",
+    "-DREVOKART",
+    "-func_align 4",
+    #"-sym dwarf-2",
 ]
 
 # Debug flags
@@ -215,9 +216,6 @@ else:
 # Metrowerks library flags
 cflags_runtime = [
     *cflags_base,
-    "-use_lmw_stmw on",
-    "-str reuse,pool,readonly",
-    "-common off",
     "-inline auto",
 ]
 
@@ -296,7 +294,7 @@ config.linker_version = "Wii/0x4201_127"
 def RevolutionLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
-        "mw_version": "Wii/4.1",
+        "mw_version": "Wii/0x4201_127",
         "cflags": cflags_rvl,
         "progress_category": "sdk",
         "objects": objects,
