@@ -187,7 +187,6 @@ cflags_base = [
     "-enc SJIS",
     # "-I-",
     "-gccinc",
-    "-i ./include -i ./src/ -i ./src/platform",
     # "-inline deferred",
     "-proc gekko",
     "-enum int",
@@ -226,6 +225,7 @@ cflags_msl = [
     *cflags_base,
     "-lang=c99",
     "-ipa file",
+    "-i lib/MSL/include"
 ]
 
 # RVL flags
@@ -286,6 +286,11 @@ cflags_staticr = [
     "-use_lmw_stmw=on",
     "-lang=c++",
     "-pragma \"legacy_struct_alignment on\"",
+
+    " -i lib/MSL/include "
+    " -i lib " # just for now, individual include directories for each lib is tidier
+    " -i ./include -i ./src ",
+
     "-DREL",
 ]
 
@@ -332,9 +337,10 @@ config.libs = [
         "mw_version": config.linker_version,
         "cflags": cflags_runtime,
         "progress_category": "sdk",  # str | List[str]
+        "src_dir": "lib/Runtime.PPCEABI.H",
         "objects": [
-            Object(NonMatching, "Runtime.PPCEABI.H/global_destructor_chain.c"),
-            Object(NonMatching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
+            Object(NonMatching, "global_destructor_chain.c"),
+            Object(NonMatching, "__init_cpp_exceptions.cpp"),
 #            Object(NonMatching, "Runtime.PPCEABI.H/ExceptionPPC.cpp"),
         ],
     },
@@ -343,19 +349,16 @@ config.libs = [
         "mw_version": "Wii/0x4201_127",
         "cflags": cflags_msl,
         "progress_category": "sdk",
+        "src_dir": "lib/MSL/src",
         "objects": [
-            Object(NonMatching, "platform/ansi_files.c"),
-#           Object("platform/ansi_fp.c"),
-            Object(NonMatching, "platform/float.c"),
-            Object(NonMatching, "platform/mem.c"),
-            Object(NonMatching, "platform/mem_cpy.c"),
-#           Object("platform/printf.c"),
-            Object(NonMatching, "platform/qsort.c"),
-            Object(Matching, "platform/rand.c"),
-#           Object("platform/scanf.c"),
-            Object(Matching, "platform/wchar.c"),
-            Object(NonMatching, "platform/va_arg.c"),
-            Object(Matching, "platform/eabi.c"),
+            Object(NonMatching, "ansi_files.c"),
+            Object(NonMatching, "float.c"),
+            Object(NonMatching, "mem.c"),
+            Object(NonMatching, "mem_cpy.c"),
+            Object(NonMatching, "qsort.c"),
+            Object(Matching, "rand.c"),
+            Object(Matching, "wchar.c"),
+            Object(NonMatching, "va_arg.c"),
         ],
     },
     {
@@ -363,12 +366,13 @@ config.libs = [
         "mw_version": "Wii/0x4201_127",
         "cflags": cflags_staticr,
         "progress_category": "game",
+        "src_dir": "src",
         "objects": [
-            Object(Matching, "game/util/ModuleSymbols.cpp"),
-            Object(NonMatching, "game/system/CourseMap.cpp"),
-            Object(Matching, "game/system/DvdArchive.cpp"),
-            Object(Matching, "game/system/LocalizedArchive.cpp"),
-            Object(Matching, "game/system/MultiDvdArchive.cpp"),
+            Object(Matching, "util/ModuleSymbols.cpp"),
+            Object(NonMatching, "system/CourseMap.cpp"),
+            Object(Matching, "system/DvdArchive.cpp"),
+            Object(Matching, "system/LocalizedArchive.cpp"),
+            Object(Matching, "system/MultiDvdArchive.cpp"),
         ],
     },
 ]

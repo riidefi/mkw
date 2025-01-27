@@ -10,13 +10,13 @@ CourseCheckpoints.o:
 	.text       start:0x000007D0 end:0x000022E0
 	.rodata     start:0x000001B0 end:0x000001C8
 
-game/system/CourseMap.cpp:
+system/CourseMap.cpp:
 	.text       start:0x000022E0 end:0x0000890C
 	.rodata     start:0x00000300 end:0x00000328
 	.data       start:0x00000060 end:0x000000A8
 	.bss        start:0x00000008 end:0x00000018
 
-game/system/DvdArchive.cpp:
+system/DvdArchive.cpp:
 	.text       start:0x0000890C end:0x000092BC
 	.rodata     start:0x00000380 end:0x00000398
 	.data       start:0x000000A8 end:0x000000B8
@@ -38,12 +38,12 @@ Mii.o:
 	.text       start:0x00015BD4 end:0x00015C40
 	.rodata     start:0x00000640 end:0x00000648
 
-game/system/LocalizedArchive.cpp:
+system/LocalizedArchive.cpp:
 	.text       start:0x00019CE4 end:0x0001A184
 	.rodata     start:0x000006A0 end:0x000006E0
 	.data       start:0x000005B8 end:0x00000608
 
-game/system/MultiDvdArchive.cpp:
+system/MultiDvdArchive.cpp:
 	.text       start:0x0001A184 end:0x0001AAA8
 	.rodata     start:0x000006E0 end:0x00000708
 	.data       start:0x00000608 end:0x00000618
@@ -79,7 +79,7 @@ ResourceManagerUnk80542868.o:
 	.rodata     start:0x000015F0 end:0x00001600
 	.data       start:0x00001060 end:0x00001078
 
-game/util/ModuleSymbols.cpp:
+util/ModuleSymbols.cpp:
 	.text       start:0x00044F68 end:0x000450B0
 	.rodata     start:0x00001BD0 end:0x00001C40
 

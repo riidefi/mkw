@@ -19,11 +19,14 @@ trkHeader.c:
 ppc_eabi_exception_handlers.c:
 	.init       start:0x80004100 end:0x80005F34
 
-platform/SystemResource.o:
+__mem.c:
+	.init       start:0x80005F34 end:0x80006068
+
+SystemResource.o:
 	.text       start:0x80007F50 end:0x80007F7C
 	.rodata     start:0x80245010 end:0x802450B0
 
-platform/RKSystem.o:
+RKSystem.o:
 	.text       start:0x80008E84 end:0x80009BC0
 	.ctors      start:0x80244DE4 end:0x80244DE8
 	.rodata     start:0x80245938 end:0x80245A18
@@ -31,30 +34,27 @@ platform/RKSystem.o:
 	.sbss       start:0x80385FC8 end:0x80385FD0
 	.sdata2     start:0x80386FF8 end:0x80387000
 
-platform/ansi_files.c:
+ansi_files.c:
 	.text       start:0x8000C948 end:0x8000CADC
 
-platform/float.c:
+float.c:
 	.text       start:0x8000EF04 end:0x8000EFF8
 
-platform/mem.c:
+mem.c:
 	.text       start:0x8000F1F0 end:0x8000F360
 
-platform/mem_cpy.c:
+mem_cpy.c:
 	.text       start:0x8000F360 end:0x8000F630
 
-platform/qsort.c:
+qsort.c:
 	.text       start:0x80011B00 end:0x80011C70
 
-platform/rand.c:
+rand.c:
 	.text       start:0x80011C70 end:0x80011C98
 	.sdata      start:0x80384C38 end:0x80384C40
 
-platform/wchar.c:
+wchar.c:
 	.text       start:0x80017998 end:0x80017A48
-
-__mem.c:
-	.init       start:0x80005F34 end:0x80006068
 
 Runtime.PPCEABI.H/ExceptionPPC.cpp:
 	.text       start:0x80020DD8 end:0x80020E34
@@ -75,7 +75,7 @@ global_destructor_chain.o:
 	.bss        start:0x802A6978 end:0x802A6C78
 	.sbss       start:0x803860A8 end:0x803860B0
 
-eabi.o:
+eabi.c:
 	.text       start:0x8002156C end:0x80021BA8
 
 g3d_camera.o:
