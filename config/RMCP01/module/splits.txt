@@ -56,7 +56,7 @@ system/Rating.cpp:
 	.text       start:0x0001CB44 end:0x0001CEE4
 	.rodata     start:0x00000840 end:0x00000878
 
-RaceConfig.o:
+system/RaceConfig.cpp:
 	.text       start:0x0001D5B8 end:0x00021CD0
 	.rodata     start:0x00000888 end:0x00000A28
 	.data       start:0x00000690 end:0x000006E0
