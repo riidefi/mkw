@@ -373,7 +373,11 @@ config.libs = [
             Object(Matching, "system/DvdArchive.cpp"),
             Object(Matching, "system/LocalizedArchive.cpp"),
             Object(Matching, "system/MultiDvdArchive.cpp"),
+            Object(NonMatching, "system/NandUtil.cpp:"),
+            Object(Matching, "system/Rating.cpp"),
+            Object(NonMatching, "system/RaceManager.cpp"),
             Object(Matching, "system/ResourceManager.cpp"),
+            Object(Matching, "system/ResourceManagerUnk80542868.cpp"),
         ],
     },
 ]

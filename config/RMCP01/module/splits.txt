@@ -48,11 +48,11 @@ system/MultiDvdArchive.cpp:
 	.rodata     start:0x000006E0 end:0x00000708
 	.data       start:0x00000608 end:0x00000618
 
-NandUtil.o:
+system/NandUtil.cpp:
 	.text       start:0x0001AAA8 end:0x0001B9A8
 	.data       start:0x00000618 end:0x00000658
 
-Rating.o:
+system/Rating.cpp:
 	.text       start:0x0001CB44 end:0x0001CEE4
 	.rodata     start:0x00000840 end:0x00000878
 
@@ -62,7 +62,7 @@ RaceConfig.o:
 	.data       start:0x00000690 end:0x000006E0
 	.bss        start:0x00000048 end:0x00000050
 
-RaceManager.o:
+system/RaceManager.cpp:
 	.text       start:0x00021CD0 end:0x00028064
 	.rodata     start:0x00000A28 end:0x00000AF8
 	.data       start:0x000006E0 end:0x00000920
@@ -74,7 +74,7 @@ system/ResourceManager.cpp:
 	.data       start:0x00000D90 end:0x00001060
 	.bss        start:0x00000058 end:0x00000060
 
-ResourceManagerUnk80542868.o:
+system/ResourceManagerUnk80542868.cpp:
 	.text       start:0x000324B4 end:0x000324C4
 	.rodata     start:0x000015F0 end:0x00001600
 	.data       start:0x00001060 end:0x00001078

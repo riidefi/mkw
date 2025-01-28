@@ -2,8 +2,6 @@
 
 #include <rk_types.h>
 
-#include <decomp.h>
-
 namespace System {
 
 class Rating {
