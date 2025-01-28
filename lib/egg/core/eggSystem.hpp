@@ -9,6 +9,8 @@
 
 #include <decomp.h>
 
+#include <rvl/dvd.h>
+#include <rvl/sc.h>
 
 struct GXRenderModeObj;
 

@@ -68,7 +68,7 @@ RaceManager.o:
 	.data       start:0x000006E0 end:0x00000920
 	.bss        start:0x00000050 end:0x00000058
 
-ResourceManager.o:
+system/ResourceManager.cpp:
 	.text       start:0x0002F898 end:0x000324B4
 	.rodata     start:0x00000D70 end:0x000015F0
 	.data       start:0x00000D90 end:0x00001060

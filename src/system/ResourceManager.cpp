@@ -154,41 +154,6 @@ const char* EarthResourceListing = "/earth.brres.LZ";
 extern const int arr_80890AE8[];
 const int arr_80890AE8[] = {819200, 921600, 36, 48, 14, 51200};
 
-extern "C" {
-extern UNKNOWN_FUNCTION(load__Q26System10DvdArchiveFPCcUlPQ23EGG4Heap);
-extern UNKNOWN_FUNCTION(getFileCopy__Q26System10DvdArchiveFPcPQ23EGG4HeapPUlSc);
-// PAL: 0x805192cc
-extern UNKNOWN_FUNCTION(unmount__Q26System10DvdArchiveFv);
-// PAL: 0x8051bed0
-// extern UNKNOWN_FUNCTION(getGameScene);
-extern UNKNOWN_FUNCTION(
-    createMultiDvdArchive__6SystemFQ26System17ResourceChannelID);
-extern UNKNOWN_FUNCTION(__ct__Q26System16CourseDvdArchiveFv);
-// PAL: 0x8052a538
-extern UNKNOWN_FUNCTION(__ct__Q26System15MultiDvdArchiveFUs);
-// PAL: 0x8052a760
-extern UNKNOWN_FUNCTION(getFile__Q26System15MultiDvdArchiveFPCcPUl);
-extern UNKNOWN_FUNCTION(isLoaded__Q26System15MultiDvdArchiveFv);
-// PAL: 0x8052a864
-extern UNKNOWN_FUNCTION(exists__Q26System15MultiDvdArchiveFPCc);
-// PAL: 0x8052a954
-extern UNKNOWN_FUNCTION(
-    load__Q26System15MultiDvdArchiveFPCcPQ23EGG4HeapPQ23EGG4Heapi);
-// PAL: 0x8052aa88
-extern UNKNOWN_FUNCTION(unmount__Q26System15MultiDvdArchiveFv);
-// PAL: 0x8052aae8
-extern UNKNOWN_FUNCTION(
-    loadOther__Q26System15MultiDvdArchiveFPQ26System15MultiDvdArchivePQ23EGG4Heap);
-// PAL: 0x8052ab6c
-extern UNKNOWN_FUNCTION(rip__Q26System15MultiDvdArchiveFPCcPQ23EGG4Heap);
-// PAL: 0x8052ac40
-extern UNKNOWN_FUNCTION(clear__Q26System15MultiDvdArchiveFv);
-// PAL: 0x8052ae08
-extern UNKNOWN_FUNCTION(rippedArchiveCount__Q26System15MultiDvdArchiveFv);
-// PAL: 0x805553b0
-extern UNKNOWN_FUNCTION(_unresolved);
-}
-
 namespace System {
 
 // .bss

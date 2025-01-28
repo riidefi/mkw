@@ -373,6 +373,7 @@ config.libs = [
             Object(Matching, "system/DvdArchive.cpp"),
             Object(Matching, "system/LocalizedArchive.cpp"),
             Object(Matching, "system/MultiDvdArchive.cpp"),
+            Object(Matching, "system/ResourceManager.cpp"),
         ],
     },
 ]

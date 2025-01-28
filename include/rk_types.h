@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stddef.h>
 #include <macros.h>
 
 //! Describes an unknown 32 bit value
