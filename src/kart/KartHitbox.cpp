@@ -1,6 +1,6 @@
-
 #include "KartHitbox.hpp"
 
+#include <decomp.h>
 #include <math.h>
 #include <rvl/mtx/mtx.h>
 

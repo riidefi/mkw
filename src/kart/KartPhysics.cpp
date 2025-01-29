@@ -2,35 +2,7 @@
 
 #include <float.h>
 
-extern "C" {
-// Extern function references.
-// PAL: 0x8059f6b8
-extern UNKNOWN_FUNCTION(__dt__Q24Kart12KartDynamicsFv);
-// PAL: 0x8059f6f8
-extern UNKNOWN_FUNCTION(__dt__Q24Kart11KartPhysicsFv);
-// PAL: 0x805b5b64
-extern UNKNOWN_FUNCTION(forceUpright__Q24Kart12KartDynamicsFv);
-// PAL: 0x805b5b68
-extern UNKNOWN_FUNCTION(stabilize__Q24Kart12KartDynamicsFv);
-}
-
-// .data
-#pragma explicit_zero_data on
-// How to match all KartPhysics and KartDynamics vtables (two more in KartDynamics.cpp)
-// 1) match KartDynamics::calc, stabilize and forceUpright
-// 2) place stabilize and forceUpright inline in KartDynamics.hpp
-// 3) Remove WIP decomp that implements KartPhysic's dtor
-// 4) Remove the dummy vtable definitions (don't forget the ones in KartDynamics.cpp)
-// 5) Watch how all vtables are put in place perfectly
-u32 __vt__Q24Kart11KartPhysics[] = {
-    0x00000000, 0x00000000, (u32)&__dt__Q24Kart11KartPhysicsFv
-};
-extern u32 __vt__Q24Kart12KartDynamics[];
-u32 __vt__Q24Kart12KartDynamics[] = {
-    0x00000000,
-    0x00000000, (u32)&__dt__Q24Kart12KartDynamicsFv, (u32)&stabilize__Q24Kart12KartDynamicsFv, (u32)&forceUpright__Q24Kart12KartDynamicsFv
-};
-#pragma explicit_zero_data off
+extern "C" EGG::Vector3f RKSystem_ey;
 
 namespace Kart {
 KartPhysics::KartPhysics(bool isBike) {
@@ -45,24 +17,11 @@ KartPhysics::KartPhysics(bool isBike) {
   this->mpHitboxGroup = new HitboxGroup();
   this->_fc = 50.0f;
 }
-}
 
-#ifndef WIP_DECOMP
-// see "How to match all KartPhysics and KartDynamics vtables" above
-// Symbol: __dt__Q24Kart11KartPhysicsFv
-// PAL: 0x8059f6f8..0x8059f788
-MARK_BINARY_BLOB(__dt__Q24Kart11KartPhysicsFv, 0x8059f6f8, 0x8059f788);
-asm UNKNOWN_FUNCTION(__dt__Q24Kart11KartPhysicsFv) {
-  #include "asm/8059f6f8.s"
-}
-#else
-namespace Kart
-void KartPhysics::~KartPhysics() {
+KartPhysics::~KartPhysics() {
   delete mpDynamics;
   delete mpHitboxGroup;
 }
-}
-#endif
 
 #define UPDATE_AXES_INLINE {\
   float _00 = this->pose(0, 0); \
@@ -85,15 +44,6 @@ void KartPhysics::~KartPhysics() {
   this->zAxis.z = _22; \
 }
 
-// Symbol: unk_8059f788__Fv__Fv
-// PAL: 0x8059f788..0x8059f7c8
-MARK_BINARY_BLOB(unk_8059f788, 0x8059f788, 0x8059f7c8);
-asm UNKNOWN_FUNCTION(unk_8059f788) {
-  #include "asm/8059f788.s"
-}
-
-extern "C" EGG::Vector3f RKSystem_ey;
-namespace Kart {
 void KartPhysics::reset() {
   this->mpDynamics->init();
   this->mpHitboxGroup->reset();
@@ -164,26 +114,12 @@ void KartPhysics::addMainRot(const EGG::Quatf& q) {
   this->mpDynamics->mainRot = res;
 }
 
-// Symbol: setMovingRoadVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff
-// PAL: 0x805a0050..0x805a00d0
-MARK_BINARY_BLOB(setMovingRoadVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff, 0x805a0050, 0x805a00d0);
-asm void KartPhysics::setMovingRoadVel(const EGG::Vector3f& vel, f32 rate) {
-  #include "asm/805a0050.s"
-}
-
 void KartPhysics::decayMovingRoadVel(f32 normalRate, f32 airRate, bool touchingGround) {
   this->movingRoadVel.x *= touchingGround ? normalRate : airRate;
   this->movingRoadVel.y *= touchingGround ? normalRate : airRate;
   this->movingRoadVel.z *= touchingGround ? normalRate : airRate;
 
   this->mpDynamics->movingRoadVel = this->movingRoadVel;
-}
-
-// Symbol: setMovingWaterVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff
-// PAL: 0x805a014c..0x805a01cc
-MARK_BINARY_BLOB(setMovingWaterVel__Q24Kart11KartPhysicsFRCQ23EGG8Vector3ff, 0x805a014c, 0x805a01cc);
-asm void KartPhysics::setMovingWaterVel(const EGG::Vector3f& vel, f32 rate) {
-  #include "asm/805a014c.s"
 }
 
 void KartPhysics::shiftDecayMovingWaterVel(const EGG::Vector3f& amount, f32 rate) {

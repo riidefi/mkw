@@ -368,7 +368,6 @@ config.libs = [
         "progress_category": "game",
         "src_dir": "src",
         "objects": [
-            Object(Matching, "util/ModuleSymbols.cpp"),
             Object(NonMatching, "system/CourseMap.cpp"),
             Object(Matching, "system/DvdArchive.cpp"),
             Object(Matching, "system/LocalizedArchive.cpp"),
@@ -379,6 +378,12 @@ config.libs = [
             Object(NonMatching, "system/RaceManager.cpp"),
             Object(Matching, "system/ResourceManager.cpp"),
             Object(Matching, "system/ResourceManagerUnk80542868.cpp"),
+            Object(Matching, "util/ModuleSymbols.cpp"),
+            Object(NonMatching, "kart/KartWheelPhysics.cpp"),
+            Object(NonMatching, "kart/KartPhysics.cpp"),
+            Object(Matching, "kart/KartPhysicsInstance.cpp"),
+            Object(NonMatching, "kart/KartDynamics.cpp"),
+            Object(NonMatching, "kart/KartHitbox.cpp"),
         ],
     },
 ]

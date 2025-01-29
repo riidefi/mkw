@@ -2,8 +2,6 @@
 
 #include <rk_types.h>
 
-#include <decomp.h>
-
 #include <egg/math/eggVector.hpp>
 #include <egg/math/eggQuat.hpp>
 #include <egg/math/eggMatrix.hpp>

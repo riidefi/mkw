@@ -4,13 +4,6 @@
 
 #include <decomp.h>
 
-extern "C" {
-// PAL: 0x80599690..0x80599ad0
-UNKNOWN_FUNCTION(calcCollision__Q24Kart16KartWheelPhysicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
-// PAL: 0x8059a574..0x8059a9c4
-UNKNOWN_FUNCTION(WheelPhysicsHolder_applySuspensions);
-}
-
 #include "KartObjectProxy.hpp"
 #include "KartHitbox.hpp"
 #include "KartPhysicsEngine.hpp"

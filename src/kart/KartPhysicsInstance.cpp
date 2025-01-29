@@ -1,8 +1,6 @@
 
 #include "KartPhysicsInstance.hpp"
 
-#include "decomp.h"
-
 namespace Kart {
 void destroyPhysicsInstance(f32 idk) {
   _808b6a08 = idk;

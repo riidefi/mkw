@@ -1,69 +1,6 @@
 #include "KartWheelPhysics.hpp"
 
-// --- EXTERN DECLARATIONS BEGIN ---
-
-extern "C" {
-
-// Extern function references.
-// PAL: 0x8056c950
-extern UNKNOWN_FUNCTION(unk_8056c950);
-// PAL: 0x8059020c
-extern UNKNOWN_FUNCTION(getPos__Q24Kart15KartObjectProxyCFv);
-// PAL: 0x8059077c
-extern UNKNOWN_FUNCTION(kartMove__Q24Kart15KartObjectProxyFv);
-// PAL: 0x8059081c
-extern UNKNOWN_FUNCTION(bodyColInfo__Q24Kart15KartObjectProxyCFv);
-// PAL: 0x8059084c
-extern UNKNOWN_FUNCTION(kartCollide__Q24Kart15KartObjectProxyFv);
-// PAL: 0x80590874
-extern UNKNOWN_FUNCTION(kartStats__Q24Kart15KartObjectProxyCFv);
-// PAL: 0x805908b4
-extern UNKNOWN_FUNCTION(bspWheel__Q24Kart15KartObjectProxyCFl);
-// PAL: 0x80590a5c
-extern UNKNOWN_FUNCTION(getPlayerIdx__Q24Kart15KartObjectProxyCFv);
-// PAL: 0x80590c44
-extern UNKNOWN_FUNCTION(PlayerPointers_getPlayerMatCol0);
-// PAL: 0x805914bc
-extern UNKNOWN_FUNCTION(getScale__Q24Kart15KartObjectProxyFv);
-// PAL: 0x805914f4
-extern UNKNOWN_FUNCTION(inRespawn__Q24Kart15KartObjectProxyFv);
-// PAL: 0x805979ec
-extern UNKNOWN_FUNCTION(unk_805979ec);
-// PAL: 0x80599690
-extern UNKNOWN_FUNCTION(calcCollision__Q24Kart16KartWheelPhysicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
-// PAL: 0x80599ad0
-extern UNKNOWN_FUNCTION(calc__Q24Kart16KartWheelPhysicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
-// PAL: 0x8059a4f8
-extern UNKNOWN_FUNCTION(multVector33__Q23EGG9Matrix34fCFRCQ23EGG8Vector3f);
-// PAL: 0x805aeb88
-extern UNKNOWN_FUNCTION(projUnit__6RKGeomFRQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
-// PAL: 0x805b6150
-extern UNKNOWN_FUNCTION(applySuspensionWrench__Q24Kart12KartDynamicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fb);
-// PAL: 0x805b6f4c
-extern UNKNOWN_FUNCTION(unk_805b6f4c);
-// PAL: 0x805b7928
-extern UNKNOWN_FUNCTION(applySomeFloorMoment__Q24Kart11KartCollideFPQ24Kart12KartDynamicsPQ24Kart11HitboxGroupRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fffbbb);
-// PAL: 0x805b821c
-extern UNKNOWN_FUNCTION(reset__Q24Kart17KartCollisionInfoFv);
-// PAL: 0x805b8330
-extern UNKNOWN_FUNCTION(reset__Q24Kart11HitboxGroupFv);
-// PAL: 0x805b83d8
-extern UNKNOWN_FUNCTION(setHitboxScale__Q24Kart11HitboxGroupFf);
-// PAL: 0x805b875c
-extern UNKNOWN_FUNCTION(createSingleHitbox__Q24Kart11HitboxGroupFRCQ23EGG8Vector3ff);// Extern data references.
-// PAL: 0x808b6590
-extern UNKNOWN_DATA(lbl_808b6590);
-}
-
-// --- EXTERN DECLARATIONS END ---
-
 #include "KartWheel.hpp"
-
-extern "C" const u32 forwardFactor__4Kart;
-extern "C" const u32 rateForward__4Kart;
-
-DEFINE_REL_DATA(lbl_80891f68, 0x80891f68, const f32, 0.0f);
-DEFINE_REL_DATA(lbl_80891f78, 0x80891f78, const f32, 1.0f);
 
 namespace Kart {
 f32 rateForward = 0.1f;
@@ -124,23 +61,8 @@ void KartWheelPhysics::setColState(f32 dt, f32 travel, const EGG::Vector3f& colF
   this->colVel.y = factor * colForce.y;
   this->colVel.z = factor * colForce.z;
 }
-}
 
-FORCESTRIP void _orderfloat808b668c() {0.1f;1.0f;}// can be deleted if the function below matches
-
-extern "C" const f64 _80891f80;
-const f64 _80891f80 = 4503601774854144.0;
-
-#ifndef NON_MATCHING
-// Symbol: calcCollision__Q24Kart16KartWheelPhysicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f
-// PAL: 0x80599690..0x80599ad0
-MARK_BINARY_BLOB(calcCollision__Q24Kart16KartWheelPhysicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f, 0x80599690, 0x80599ad0);
-asm UNKNOWN_FUNCTION(calcCollision__Q24Kart16KartWheelPhysicsFRCQ23EGG8Vector3fRCQ23EGG8Vector3f) {
-  #include "asm/80599690.s"
-}
-#else
 // https://decomp.me/scratch/VAgkF
-namespace Kart {
 void KartWheelPhysics::calcCollision(const EGG::Vector3f& downDir, const EGG::Vector3f& suspTop) {
   KartDynamics* kartDyn = kartDynamics();
   HitboxGroup* hitboxGroup = getHitbox();
@@ -199,10 +121,7 @@ void KartWheelPhysics::calcCollision(const EGG::Vector3f& downDir, const EGG::Ve
     isAtSuspLimit = 0.0f;
   }
 }
-}
-#endif
 
-namespace Kart {
 void KartWheelPhysics::calc(const EGG::Vector3f &down, const EGG::Vector3f &movement) {
   EGG::Vector3f topmost;
   topmost.x = suspTop.x + movement.x;
@@ -298,9 +217,7 @@ void KartSusPhysics::init() {
   this->bspWheel = this->KartObjectProxy::bspWheel(this->bspWheelIdx);
   this->reset();
 }
-}
 
-namespace Kart {
 void KartSusPhysics::setInitialState() {
   EGG::Vector3f suspTop;
 #ifdef __CWCC__
@@ -387,31 +304,16 @@ void KartSusPhysics::calcCollision(const EGG::Vector3f& gravity, const EGG::Matr
     this->suspTop = suspTopWorld;
   }
 }
-}
 
-namespace EGG {
-EGG::Vector3f Matrix34f::multVector33(const EGG::Vector3f& v) const {
+EGG::Vector3f EGG::Matrix34f::multVector33(const EGG::Vector3f& v) const {
   EGG::Vector3f ret;
   ret.z = mtx[2][0] * v.x + mtx[2][1] * v.y + mtx[2][2] * v.z;
   ret.y = mtx[1][0] * v.x + mtx[1][1] * v.y + mtx[1][2] * v.z;
   ret.x = mtx[0][0] * v.x + mtx[0][1] * v.y + mtx[0][2] * v.z;
   return ret;
 }
-}
 
-extern "C" const f32 lbl_80891f94;
-const f32 lbl_80891f94 = -15.0f;
-
-#ifndef EQUIVALENT
-// Symbol: WheelPhysicsHolder_applySuspensions
-// PAL: 0x8059a574..0x8059a9c4
-MARK_BINARY_BLOB(WheelPhysicsHolder_applySuspensions, 0x8059a574, 0x8059a9c4);
-asm UNKNOWN_FUNCTION(WheelPhysicsHolder_applySuspensions) {
-  #include "asm/8059a574.s"
-}
-#else
 // https://decomp.me/scratch/H62Zm
-namespace Kart {
 void KartSusPhysics::calc(const EGG::Vector3f& forward, const EGG::Vector3f& movement) {
   EGG::Vector3f prevWhlOff = this->wheelPhysics->prevWheelOffset;
   this->wheelPhysics->calc(this->downDir, movement);
@@ -476,4 +378,3 @@ void KartSusPhysics::calc(const EGG::Vector3f& forward, const EGG::Vector3f& mov
   hasFloorCol = (hitboxGroup->getKartCollisionInfo().flags & COL_FLAG_FLOOR) != 0;
 }
 }
-#endif

@@ -114,17 +114,17 @@ KartSus.o:
 	.rodata     start:0x00002840 end:0x00002848
 	.data       start:0x000039E0 end:0x00003AB8
 
-KartWheelPhysics.o:
+kart/KartWheelPhysics.cpp:
 	.text       start:0x00089058 end:0x0008A690
 	.rodata     start:0x00002848 end:0x00002878
 	.data       start:0x00003AB8 end:0x00003AF0
 
-KartPhysics.o:
+kart/KartPhysics.cpp:
 	.text       start:0x0008F208 end:0x000900CC
 	.rodata     start:0x000028F0 end:0x00002908
 	.data       start:0x00003E18 end:0x00003E38
 
-KartPhysicsInstance.o:
+kart/KartPhysicsInstance.cpp:
 	.text       start:0x000900CC end:0x0009019C
 	.data       start:0x00003E38 end:0x00003E40
 	.bss        start:0x000042B0 end:0x000042B8
@@ -135,12 +135,12 @@ RKGeom.o:
 	.data       start:0x000042A0 end:0x000042B0
 	.bss        start:0x00004310 end:0x00004410
 
-KartDynamics.o:
+kart/KartDynamics.cpp:
 	.text       start:0x000A4744 end:0x000A6370
 	.rodata     start:0x00003030 end:0x00003068
 	.data       start:0x00004730 end:0x00004758
 
-KartHitbox.o:
+kart/KartHitbox.cpp:
 	.text       start:0x000A7B94 end:0x000A85D0
 	.rodata     start:0x00003088 end:0x000030A8
 
