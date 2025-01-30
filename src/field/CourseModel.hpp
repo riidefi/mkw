@@ -4,31 +4,6 @@
 
 #include <decomp.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// PAL: 0x8078de04..0x8078de60
-UNKNOWN_FUNCTION(unk_8078de04);
-// PAL: 0x8078de60..0x8078dfe8
-UNKNOWN_FUNCTION(unk_8078de60);
-// PAL: 0x8078e588..0x8078e694
-UNKNOWN_FUNCTION(unk_8078e588);
-// PAL: 0x8078e694..0x8078e7c4
-UNKNOWN_FUNCTION(unk_8078e694);
-// PAL: 0x8078e7c4..0x8078e8ec
-UNKNOWN_FUNCTION(unk_8078e7c4);
-// PAL: 0x80790a68..0x80790ac0
-UNKNOWN_FUNCTION(unk_80790a68);
-// PAL: 0x80790ac0..0x80790ad0
-UNKNOWN_FUNCTION(unk_80790ac0);
-// PAL: 0x80790ad0..0x80790ad8
-UNKNOWN_FUNCTION(unk_80790ad0);
-
-#ifdef __cplusplus
-}
-#endif
-
 #include "CourseColManager.hpp"
 #include "geo2/ObjDrivableManager.hpp"
 #include "system/ResourceManager.hpp"

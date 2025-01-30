@@ -3,61 +3,7 @@
 #include <math.h>
 
 #include "nw4r/math/mathTypes.hpp"
-
-// --- EXTERN DECLARATIONS BEGIN ---
-
-extern "C" {
-
-// Extern function references.
-extern UNKNOWN_FUNCTION(unk_807c01e4);
-// PAL: 0x80021450
-extern UNKNOWN_FUNCTION(__ptmf_scall);
-// PAL: 0x8002156c
-extern UNKNOWN_FUNCTION(_savegpr_14);
-// PAL: 0x80021578
-extern UNKNOWN_FUNCTION(_savegpr_17);
-// PAL: 0x8002157c
-extern UNKNOWN_FUNCTION(_savegpr_18);
-// PAL: 0x80021584
-extern UNKNOWN_FUNCTION(_savegpr_20);
-// PAL: 0x8002158c
-extern UNKNOWN_FUNCTION(_savegpr_22);
-// PAL: 0x80021594
-extern UNKNOWN_FUNCTION(_savegpr_24);
-// PAL: 0x800215a0
-extern UNKNOWN_FUNCTION(_savegpr_27);
-// PAL: 0x800215b8
-extern UNKNOWN_FUNCTION(_restgpr_14);
-// PAL: 0x800215c4
-extern UNKNOWN_FUNCTION(_restgpr_17);
-// PAL: 0x800215c8
-extern UNKNOWN_FUNCTION(_restgpr_18);
-// PAL: 0x800215d0
-extern UNKNOWN_FUNCTION(_restgpr_20);
-// PAL: 0x800215d8
-extern UNKNOWN_FUNCTION(_restgpr_22);
-// PAL: 0x800215e0
-extern UNKNOWN_FUNCTION(_restgpr_24);
-// PAL: 0x800215ec
-extern UNKNOWN_FUNCTION(_restgpr_27);
-// PAL: 0x80026050
-extern UNKNOWN_FUNCTION(VWarning);
-// PAL: 0x80085040
-extern UNKNOWN_FUNCTION(FrSqrt);
-// PAL: 0x807bdf54
-extern UNKNOWN_FUNCTION(getVertex__Q25Field8RKGndColFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f);
-// PAL: 0x807bf4c0
-extern UNKNOWN_FUNCTION(searchMultiBlockRecursiveAll__Q25Field8RKGndColFPUcUlMQ25Field8RKGndColFPCvPvPUs_vllllll);
-extern UNKNOWN_FUNCTION(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v);
-// PAL: 0x808b56d0
-extern UNKNOWN_DATA(lbl_808b56d0);
-// PAL: 0x808b56f4
-extern UNKNOWN_DATA(lbl_808b56f4);
-}
-
-// --- EXTERN DECLARATIONS END ---
-
-DEFINE_REL_DATA(lbl_808a66d8, 0x808a66d8, const f32, 0.0f)
+#include "nw4r/math/mathArithmetic.hpp"
 
 namespace Field {
 RKGndCol::RKGndCol(const KCollisionHeader& header) {
@@ -124,22 +70,8 @@ void RKGndCol::computeBbox() {
     nw4r::math::VEC3Maximize(&this->bboxHigh, &this->bboxHigh, &vtx2);
   }
 }
-}
 
-const u32 lbl_808a66e4[] = {
-    0x3f800000
-};
-
-#ifndef EQUIVALENT
-// Symbol: getVertex__Q25Field16RKGndColFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f
-// PAL: 0x807bdf54..0x807be030
-MARK_BINARY_BLOB(getVertex__Q25Field8RKGndColFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f, 0x807bdf54, 0x807be030);
-asm UNKNOWN_FUNCTION(getVertex__Q25Field8RKGndColFfRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3fRCQ23EGG8Vector3f) {
-  #include "asm/807bdf54.s"
-}
-#else
 // https://decomp.me/scratch/byfkO
-namespace Field {
 EGG::Vector3f RKGndCol::getVertex(f32 height, const EGG::Vector3f& vertex1, const EGG::Vector3f& fnrm,
     	const EGG::Vector3f& enrm3, const EGG::Vector3f& enrm) {
   EGG::Vector3f cross;
@@ -151,10 +83,7 @@ EGG::Vector3f RKGndCol::getVertex(f32 height, const EGG::Vector3f& vertex1, cons
 
   return cross += vertex1;
 }
-}
-#endif
 
-namespace Field {
 u16* RKGndCol::searchBlock(const EGG::Vector3f& point) {
   // Calculate the x, y, and z offsets of the point from the minimum
   // corner of the tree's bounding box.
@@ -273,27 +202,12 @@ void RKGndCol::searchMultiBlock(const EGG::Vector3f& point, f32 radius, PrismLis
     }
   }
 }
-}
 
-#ifndef NON_MATCHING
-// PAL: 0x807be3c4..0x807bf4c0
-MARK_BINARY_BLOB(searchMultiBlockRecursiveAll__Q25Field8RKGndColFPUcUlMQ25Field8RKGndColFPCvPvPUs_vllllll, 0x807be3c4, 0x807bf4c0);
-asm void Field::RKGndCol::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor, s32, s32, s32, s32, s32, s32) {
-  #include "asm/807be3c4.s"
-}
-// Symbol: applyFunctionForPrismsRecurse__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v
-// PAL: 0x807bf4c0..0x807c01e4
-MARK_BINARY_BLOB(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v, 0x807bf4c0, 0x807c01e4);
-asm UNKNOWN_FUNCTION(searchMultiBlockRecursive__Q25Field16KCollisionOctreeFPUcUlMQ25Field16KCollisionOctreeFPCvPvPUs_v) {
-  #include "asm/807bf4c0.s"
-}
-#else
 // searchMultiBlockRecursiveAll: nonmatching: https://decomp.me/scratch/5gxb6
 // searchMultiBlockRecursive: regswap+inswap: https://decomp.me/scratch/5gxb6
 #define MIN_EDGE_CHILD(x) (x & 0x80000000) == 0 ? x : -1
 #define MAX_EDGE_CHILD(x) (x & 0x80000000) == 0 ? x : -1
 
-namespace Field {
 void RKGndCol::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismListVisitor prismListVisitor,
         s32 xmin, s32 ymin, s32 zmin, s32 xmax, s32 ymax, s32 zmax) {
   if ((xmin | ymin | zmin) == 0 && (xmax & ymax & zmax) == 0xffffffff) {
@@ -339,7 +253,7 @@ void RKGndCol::searchMultiBlockRecursiveAll(u8* prismArray, u32 index, PrismList
   }
 }
 
-// MARK_FLOW_CHECK(0x807bf4c0); Takes too long to flow-check
+MARK_FLOW_CHECK(0x807bf4c0);
 void RKGndCol::searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVisitor prismListVisitor) {
   u32* nextBlock = (u32*)(prismArray + index);
   if ((*nextBlock & 0x80000000) != 0) {
@@ -356,26 +270,8 @@ void RKGndCol::searchMultiBlockRecursive(u8* prismArray, u32 index, PrismListVis
     searchMultiBlockRecursive(curBlock, 4*7, prismListVisitor);
   }
 }
-}
-#endif
 
-// Symbol: unk_807c01e4
-// PAL: 0x807c01e4..0x807c0884
-MARK_BINARY_BLOB(unk_807c01e4, 0x807c01e4, 0x807c0884);
-asm void unk_807c01e4() {
-  #include "asm/807c01e4.s"
-}
-
-// Symbol: checkSphereMovement__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs
-// PAL: 0x807c0884..0x807c0f00
-MARK_BINARY_BLOB(checkSphereMovement__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs, 0x807c0884, 0x807c0f00);
-asm bool Field::RKGndCol::checkSphereMovement(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
-  #include "asm/807c0884.s"
-}
-
-#ifdef NON_MATCHING
 // https://decomp.me/scratch/l1qiN
-namespace Field {
 static inline f32 cornerLenSq(const EGG::Vector3f& v1, const EGG::Vector3f& v2, f32 cos, f32 edge_dist, f32 other_dist) {
   f32 w1 = (cos * edge_dist - other_dist) / (cos * cos - 1.0f);
   f32 w2 = edge_dist - w1 * cos;
@@ -390,6 +286,7 @@ static inline f32 cornerLenSq(const EGG::Vector3f& v1, const EGG::Vector3f& v2, 
 
 bool isPositive(f32 x) { return x>= 0; }
 
+#pragma suppress_warnings on // goto warning spam
 bool RKGndCol::checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
   f32 radius = this->radius;
   EGG::Vector3f* nrm_data = this->nrm_data;
@@ -518,24 +415,8 @@ collisionTrue:
   prismArrayIt = nullptr;
   return false;
 }
-}
-#else
-// Symbol: checkSphereSingle__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs
-// PAL: 0x807c0f00..0x807c1514
-MARK_BINARY_BLOB(checkSphereSingle__Q25Field16KCollisionOctreeFlll, 0x807c0f00, 0x807c1514);
-asm bool Field::RKGndCol::checkSphereSingle(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
-  #include "asm/807c0f00.s"
-}
-#endif
+#pragma suppress_warnings off
 
-// Symbol: checkSphere__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs
-// PAL: 0x807c1514..0x807c1b0c
-MARK_BINARY_BLOB(checkSphere__Q25Field8RKGndColFPfPQ23EGG8Vector3fPUs, 0x807c1514, 0x807c1b0c);
-asm bool Field::RKGndCol::checkSphere(f32* distOut, EGG::Vector3f* fnrmOut, u16* attributeOut) {
-  #include "asm/807c1514.s"
-}
-
-namespace Field {
 void RKGndCol::lookupPoint(const EGG::Vector3f& pos, const EGG::Vector3f& prevPos, u32 typeMask) {
   this->prismArrayIt = searchBlock(pos);
   this->pos = pos;
@@ -735,15 +616,10 @@ void RKGndCol::narrowScopeLocal(const EGG::Vector3f& pos, f32 radius, u32 typeMa
   this->cachedRadius = radius;
 
   if (radius > this->sphere_radius) {
-    this->searchMultiBlock(pos, radius, RKGndCol::narrowPolygon_EachBlock);
+    this->searchMultiBlock(pos, radius, &RKGndCol::narrowPolygon_EachBlock);
   } else {
     this->narrowPolygon_EachBlock(searchBlock(pos));
   }
   *this->prismCacheTop = nullptr;
 }
 }
-
-extern const u32 lbl_808a66ec[];
-const u32 lbl_808a66ec[] = {
-    0x00000000, 0x00000000
-};

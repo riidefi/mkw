@@ -294,6 +294,11 @@ cflags_staticr = [
     "-DREL",
 ]
 
+cflags_staticr_gekko = [
+    *cflags_staticr,
+    "-DGEKKO",
+]
+
 config.linker_version = "Wii/0x4201_127"
 
 
@@ -391,6 +396,20 @@ config.libs = [
             Object(Matching, "kart/KartPhysicsInstance.cpp"),
             Object(NonMatching, "kart/KartDynamics.cpp"),
             Object(NonMatching, "kart/KartHitbox.cpp"),
+        ],
+    },
+    {
+        "lib": "KCOL",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_staticr_gekko,
+        "progress_category": "game",
+        "src_dir": "src",
+        "objects": [
+            Object(NonMatching, "field/CourseModel.cpp"),
+            Object(Matching, "field/CollisionEntries.cpp"),
+            Object(NonMatching, "field/RKGndCol.cpp"),
+            Object(Matching, "field/CourseColManager.cpp"),
+            Object(Matching, "field/ObjColManager.cpp"),
         ],
     },
 ]

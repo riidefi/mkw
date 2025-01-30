@@ -16,7 +16,7 @@ public:
    positions. Vertex1 is already known, and this function computes vertex2 if enrm is enrm2 and
    vertex 3 if enrm is enrm 1 */
   static EGG::Vector3f getVertex(f32 height, const EGG::Vector3f& vertex1, const EGG::Vector3f& fnrm,
-		  const EGG::Vector3f& enrm3, const EGG::Vector3f& enrm);
+		  const EGG::Vector3f& enrm3, const EGG::Vector3f& enrm) __attribute__((never_inline));
   // finds block that contains position
   u16* searchBlock(const EGG::Vector3f& pos);
 

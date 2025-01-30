@@ -198,30 +198,30 @@ BoxColUnit.o:
 	.text       start:0x00276B1C end:0x00276BE4
 	.rodata     start:0x000150E0 end:0x000150E8
 
-CourseModel.o:
+field/CourseModel.cpp:
 	.text       start:0x0027DA50 end:0x00280724
 	.ctors      start:0x0000017C end:0x00000180
 	.rodata     start:0x00015438 end:0x000155A0
 	.data       start:0x0001EC90 end:0x0001ECF8
 	.bss        start:0x00005860 end:0x00005868
 
-CollisionEntries.o:
+field/CollisionEntries.cpp:
 	.text       start:0x002AD5B8 end:0x002AD8A8
 	.rodata     start:0x00016FB0 end:0x00016FB8
 	.bss        start:0x000061F8 end:0x00006508
 
-RKGndCol.o:
+field/RKGndCol.cpp:
 	.text       start:0x002AD8A8 end:0x002B2218
 	.rodata     start:0x00016FB8 end:0x00016FE0
 	.data       start:0x0001FC28 end:0x0001FC38
 
-CourseColManager.o:
+field/CourseColManager.cpp:
 	.text       start:0x002B2470 end:0x002B4934
 	.rodata     start:0x00016FF0 end:0x00017000
 	.data       start:0x0001FC38 end:0x0001FDB8
 	.bss        start:0x00006530 end:0x00006538
 
-ObjColManager.o:
+field/ObjColManager.cpp:
 	.text       start:0x002B4934 end:0x002B6658
 	.rodata     start:0x00017000 end:0x00017010
 
