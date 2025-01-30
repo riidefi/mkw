@@ -304,6 +304,7 @@ void KartSusPhysics::calcCollision(const EGG::Vector3f& gravity, const EGG::Matr
     this->suspTop = suspTopWorld;
   }
 }
+}
 
 EGG::Vector3f EGG::Matrix34f::multVector33(const EGG::Vector3f& v) const {
   EGG::Vector3f ret;
@@ -313,6 +314,7 @@ EGG::Vector3f EGG::Matrix34f::multVector33(const EGG::Vector3f& v) const {
   return ret;
 }
 
+namespace Kart {
 // https://decomp.me/scratch/H62Zm
 void KartSusPhysics::calc(const EGG::Vector3f& forward, const EGG::Vector3f& movement) {
   EGG::Vector3f prevWhlOff = this->wheelPhysics->prevWheelOffset;

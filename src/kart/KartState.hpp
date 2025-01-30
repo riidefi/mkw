@@ -4,53 +4,6 @@
 
 #include <decomp.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// PAL: 0x805943b4..0x8059455c
-UNKNOWN_FUNCTION(__ct__Q24Kart9KartStateFPQ24Kart12KartSettings);
-// PAL: 0x8059455c..0x80594594
-UNKNOWN_FUNCTION(init__Q24Kart9KartStateFv);
-// PAL: 0x80594594..0x80594634
-UNKNOWN_FUNCTION(reset__Q24Kart9KartStateFv);
-// PAL: 0x80594634..0x80594644
-UNKNOWN_FUNCTION(resetOob__Q24Kart9KartStateFv);
-// PAL: 0x80594644..0x805946f4
-UNKNOWN_FUNCTION(unk_80594644);
-// PAL: 0x805946f4..0x80594704
-UNKNOWN_FUNCTION(PlayerSub1c_startOobWipe);
-// PAL: 0x80594704..0x8059474c
-UNKNOWN_FUNCTION(unk_80594704);
-// PAL: 0x8059474c..0x8059487c
-UNKNOWN_FUNCTION(PlayerSub1c_updateCollisionsAndMore);
-// PAL: 0x8059487c..0x80594bd4
-UNKNOWN_FUNCTION(PlayerSub1c_updateFromInput);
-// PAL: 0x80594bd4..0x805958ec
-UNKNOWN_FUNCTION(PlayerSub1c_updateCollisions);
-// PAL: 0x805958ec..0x805958f0
-UNKNOWN_FUNCTION(unk_805958ec);
-// PAL: 0x805958f0..0x80595918
-UNKNOWN_FUNCTION(unk_805958f0);
-// PAL: 0x80595918..0x805959d4
-UNKNOWN_FUNCTION(PlayerSub1c_updateStartBoostCharge);
-// PAL: 0x805959d4..0x80595af8
-UNKNOWN_FUNCTION(PlayerSub1c_computeStartBoost);
-// PAL: 0x80595af8..0x80595c5c
-UNKNOWN_FUNCTION(PlayerSub1c_applyStartBoost);
-// PAL: 0x80595c5c..0x80595ca4
-UNKNOWN_FUNCTION(unk_80595c5c);
-// PAL: 0x80595ca4..0x80595cb4
-UNKNOWN_FUNCTION(unk_80595ca4);
-// PAL: 0x80595cb4..0x80595cc4
-UNKNOWN_FUNCTION(unk_80595cb4);
-// PAL: 0x80595cc4..0x80595d04
-UNKNOWN_FUNCTION(PlayerSub1c_destroy);
-
-#ifdef __cplusplus
-}
-#endif
-
 #include <kart/KartObjectProxy.hpp>
 #include <system/RKBitField.hpp>
 #include <system/RaceConfig.hpp>

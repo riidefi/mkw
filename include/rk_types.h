@@ -109,7 +109,12 @@ private:
   inline NonCopyable(const NonCopyable&) {}
 };
 
-#define static_assert(cond) __static_assert(cond, #cond)
+#define STATIC_ASSERT_CONCAT(a, b) a##b
+#define STATIC_ASSERT_MAKE_NAME(line) STATIC_ASSERT_CONCAT(static_assertion_failed_at_line_, line)
+
+// Main static assert macro
+#define static_assert(cond) \
+    typedef char STATIC_ASSERT_MAKE_NAME(__LINE__)[(cond) ? 1 : -1]
 #endif // __cplusplus
 
 #define INLINE_ELSEWHERE(x)

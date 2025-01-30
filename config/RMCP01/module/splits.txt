@@ -83,33 +83,33 @@ util/ModuleSymbols.cpp:
 	.text       start:0x00044F68 end:0x000450B0
 	.rodata     start:0x00001BD0 end:0x00001C40
 
-Random.o:
+util/Random.cpp:
 	.text       start:0x000450B0 end:0x00045378
 	.rodata     start:0x00001C50 end:0x00001C60
 	.data       start:0x00001710 end:0x00001720
 
-KartCollide.o:
+kart/KartCollide.cpp:
 	.text       start:0x0005E1B8 end:0x00063C7C
 	.rodata     start:0x00002010 end:0x00002090
 	.data       start:0x00002AD8 end:0x00002AF0
 
-KartMove.o:
+kart/KartMove.cpp:
 	.text       start:0x00067C10 end:0x000794A8
 
-KartObjectProxy.o:
+kart/KartObjectProxy.cpp:
 	.text       start:0x0007FD74 end:0x00081640
 	.rodata     start:0x00002538 end:0x00002568
 	.bss        start:0x00004220 end:0x00004230
 
-KartSettings.o:
+kart/KartSettings.cpp:
 	.text       start:0x00082C0C end:0x00082CD8
 
-KartState.o:
+kart/KartState.cpp:
 	.text       start:0x00084000 end:0x00085950
 	.rodata     start:0x000027D0 end:0x000027F8
 	.data       start:0x00003918 end:0x00003970
 
-KartSus.o:
+kart/KartSus.cpp:
 	.text       start:0x00088754 end:0x00089058
 	.rodata     start:0x00002840 end:0x00002848
 	.data       start:0x000039E0 end:0x00003AB8
@@ -129,7 +129,7 @@ kart/KartPhysicsInstance.cpp:
 	.data       start:0x00003E38 end:0x00003E40
 	.bss        start:0x000042B0 end:0x000042B8
 
-RKGeom.o:
+kart/RKGeom.cpp:
 	.text       start:0x0009E400 end:0x0009EFBC
 	.rodata     start:0x00002E18 end:0x00002E38
 	.data       start:0x000042A0 end:0x000042B0
