@@ -1,20 +1,5 @@
 #include "SectionAutogens.hpp"
 
-// --- EXTERN DECLARATIONS BEGIN ---
-
-extern "C" {
-
-// Extern function references.
-// PAL: 0x80622d08
-void Section_addPage(void*, s32);
-// PAL: 0x80622da0
-void Section_addActivePage(void*, s32);
-// PAL: 0x80897d94
-extern UNKNOWN_DATA(lbl_80897d94);
-}
-
-// --- EXTERN DECLARATIONS END ---
-
 void Section_addPages(void* pSection, int sectionId) {
   switch (sectionId) {
   case 6:
@@ -2388,55 +2373,6 @@ RKSceneID Section_getSceneId(s32 sectionId) {
   }
 }
 
-// Symbol: Section_getResourceName
-// PAL: 0x80631734..0x80631a58
-MARK_BINARY_BLOB(Section_getResourceName, 0x80631734, 0x80631a58);
-asm UNKNOWN_FUNCTION(Section_getResourceName){
-#include "asm/80631734.s"
-}
-
-// Symbol: Section_hasBackModel
-// PAL: 0x80631a58..0x80631af8
-MARK_BINARY_BLOB(Section_hasBackModel, 0x80631a58, 0x80631af8);
-asm UNKNOWN_FUNCTION(Section_hasBackModel){
-#include "asm/80631a58.s"
-}
-
-// Symbol: SectionId_hasDriver
-// PAL: 0x80631af8..0x80631bf0
-MARK_BINARY_BLOB(SectionId_hasDriver, 0x80631af8, 0x80631bf0);
-asm UNKNOWN_FUNCTION(SectionId_hasDriver){
-#include "asm/80631af8.s"
-}
-
-// Symbol: SectionManager_getPageName
-// PAL: 0x80631bf0..0x80631c00
-MARK_BINARY_BLOB(SectionManager_getPageName, 0x80631bf0, 0x80631c00);
-asm UNKNOWN_FUNCTION(SectionManager_getPageName){
-#include "asm/80631bf0.s"
-}
-
-// Symbol: SectionManager_getSectionName
-// PAL: 0x80631c00..0x80631c10
-MARK_BINARY_BLOB(SectionManager_getSectionName, 0x80631c00, 0x80631c10);
-asm UNKNOWN_FUNCTION(SectionManager_getSectionName){
-#include "asm/80631c00.s"
-}
-
-// Symbol: unk_80631c10
-// PAL: 0x80631c10..0x80631c68
-MARK_BINARY_BLOB(unk_80631c10, 0x80631c10, 0x80631c68);
-asm UNKNOWN_FUNCTION(unk_80631c10){
-#include "asm/80631c10.s"
-}
-
-// Symbol: unk_80631c68
-// PAL: 0x80631c68..0x80631ef8
-MARK_BINARY_BLOB(unk_80631c68, 0x80631c68, 0x80631ef8);
-asm UNKNOWN_FUNCTION(unk_80631c68) {
-#include "asm/80631c68.s"
-}
-
 extern "C" u32 Section_getSoundType(s32 a1) {
   switch (a1) {
   case 0x0 ... 0xC:
@@ -2486,13 +2422,6 @@ extern "C" u32 Section_getSoundType(s32 a1) {
   default:
     return -1;
   }
-}
-
-// Symbol: unk_80632080
-// PAL: 0x80632080..0x806321b4
-MARK_BINARY_BLOB(unk_80632080, 0x80632080, 0x806321b4);
-asm UNKNOWN_FUNCTION(unk_80632080) {
-#include "asm/80632080.s"
 }
 
 extern "C" s32 Section_getSoundTrigger(s32 x) {

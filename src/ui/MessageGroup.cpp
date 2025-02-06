@@ -13,8 +13,6 @@ MessageGroup::MessageGroup()
 
 MessageGroup::~MessageGroup() {}
 
-// extern System::ResourceManager* sResourceManager;
-
 void MessageGroup::load(const char* filename) {
   char path[0x60];
   snprintf(path, sizeof(path) - 1, "message/%s.bmg\0", filename);

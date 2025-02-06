@@ -198,6 +198,8 @@ public:
 
   void invalidate() { mHeaderIsValid = false; }
 
+  u8 getLapCount() const { return mLapCount; }
+
 private:
   void reset();
 

@@ -373,18 +373,23 @@ config.libs = [
         "progress_category": "game",
         "src_dir": "src",
         "objects": [
+            Object(NonMatching, "system/CourseCheckpoints.cpp"),
             Object(NonMatching, "system/CourseMap.cpp"),
             Object(Matching, "system/DvdArchive.cpp"),
+            Object(NonMatching, "system/GhostFile.cpp"),
+            Object(NonMatching, "system/KPadController.cpp"),
             Object(Matching, "system/LocalizedArchive.cpp"),
             Object(Matching, "system/MultiDvdArchive.cpp"),
-            Object(NonMatching, "system/NandUtil.cpp:"),
+            Object(NonMatching, "system/NandUtil.cpp"),
             Object(Matching, "system/Rating.cpp"),
             Object(NonMatching, "system/RaceConfig.cpp"),
             Object(NonMatching, "system/RaceManager.cpp"),
             Object(Matching, "system/ResourceManager.cpp"),
             Object(Matching, "system/ResourceManagerUnk80542868.cpp"),
+
             Object(Matching, "util/Random.cpp"),
             Object(Matching, "util/ModuleSymbols.cpp"),
+
             Object(NonMatching, "kart/KartCollide.cpp"),
             Object(NonMatching, "kart/KartMove.cpp"),
             Object(NonMatching, "kart/KartObjectProxy.cpp"),
@@ -396,6 +401,13 @@ config.libs = [
             Object(Matching, "kart/KartPhysicsInstance.cpp"),
             Object(NonMatching, "kart/KartDynamics.cpp"),
             Object(NonMatching, "kart/KartHitbox.cpp"),
+
+            Object(Matching, "ui/ControlGroup.cpp"),
+            Object(Matching, "ui/MessageGroup.cpp"),
+            Object(NonMatching, "ui/SectionAutogens.cpp"),
+
+            Object(Matching, "geo/BoxColManager.cpp"),
+            Object(Matching, "geo/BoxColUnit.cpp"),
         ],
     },
     {
