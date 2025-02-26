@@ -193,19 +193,19 @@ cflags_base = [
     "-enum int",
     "-O4,p",
     "-inline auto",
-#    "-W all",
+    # "-W all",
     "-fp hardware",
     "-Cpp_exceptions off",
     "-RTTI off",
-    #'-pragma "cats off"',  # ???
+    # '-pragma "cats off"',  # ???
     # "-pragma \"aggressive_inline on\"",
     # "-pragma \"auto_inline on\"",
     "-inline auto",
-#    "-w notinlined -W noimplicitconv -w nounwanted",
+    # "-w notinlined -W noimplicitconv -w nounwanted",
     "-nostdinc",
     "-DREVOKART",
     "-func_align 4",
-    #"-sym dwarf-2",
+    # "-sym dwarf-2",
 ]
 
 # Debug flags
@@ -248,7 +248,7 @@ cflags_spy = [
 # NW4R flags
 cflags_nw4r = [
     *cflags_base,
-#    "-lang=c99", # needed?
+    # "-lang=c99", # needed?
     "-ipa file",
     "-pragma \"legacy_struct_alignment on\"",
 ]
@@ -256,7 +256,7 @@ cflags_nw4r = [
 # EGG flags
 cflags_egg = [
     *cflags_base,
-#    "-lang=c99", # needed?
+    # "-lang=c99", # needed?
     "-ipa function",
     "-rostr",
     "-use_lmw_stmw=on",
@@ -292,7 +292,7 @@ cflags_staticr = [
     "-pragma \"legacy_struct_alignment on\"",
 
     " -i lib/MSL/include "
-    " -i lib " # just for now, individual include directories for each lib is tidier
+    " -i lib "  # just for now, individual include directories for each lib is tidier
     " -i ./include -i ./src ",
 
     "-DREL",
@@ -350,7 +350,7 @@ config.libs = [
         "objects": [
             Object(NonMatching, "global_destructor_chain.c"),
             Object(NonMatching, "__init_cpp_exceptions.cpp"),
-#            Object(NonMatching, "Runtime.PPCEABI.H/ExceptionPPC.cpp"),
+            # Object(NonMatching, "Runtime.PPCEABI.H/ExceptionPPC.cpp"),
         ],
     },
     {
