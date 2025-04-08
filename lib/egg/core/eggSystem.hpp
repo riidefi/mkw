@@ -5,14 +5,18 @@
 
 #pragma once
 
-#include <rk_types.h>
+#include <egg/core/eggController.hpp>
+#include <egg/core/eggDvdFile.hpp>
+#include <egg/core/eggGraphicsFifo.hpp>
+#include <egg/core/eggXfb.hpp>
 
 #include <decomp.h>
 
 #include <rvl/dvd.h>
+#include <rvl/gx.h>
 #include <rvl/sc.h>
 
-struct GXRenderModeObj;
+extern void Exception_create(int, int, int, EGG::Heap*, int);
 
 namespace EGG {
 

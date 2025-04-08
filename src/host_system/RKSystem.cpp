@@ -1,5 +1,10 @@
 #include "RKSystem.hpp"
 
+#include <rvl/kpad/kpad.h>
+#include <rvl/vi.h>
+#include <rvl/pad/pad.h>
+
+
 #include <egg/core/eggDvdFile.hpp>
 #include <egg/core/eggExpHeap.hpp>
 
@@ -44,145 +49,31 @@ extern "C" {
 // Extern function references.
 // PAL: 0x80008c10
 extern void unk_80008c10(EGG::Heap*);
-// PAL: 0x80008e20
-extern UNKNOWN_FUNCTION(halt__Q23EGG14AsyncDvdStatusFv);
-// PAL: 0x80008e74
-extern UNKNOWN_FUNCTION(printError__Q23EGG14AsyncDvdStatusFv);
-// PAL: 0x80008e90..0x80008eb0
-extern UNKNOWN_FUNCTION(WPADAllocator__6SystemFUl);
-// PAL: 0x80008eb0..0x80008ef0
-extern UNKNOWN_FUNCTION(WPADFree__6SystemFPv);
-// PAL: 0x80009b40
-extern UNKNOWN_FUNCTION(__dt__Q23EGG8Vector3fFv);
-// PAL: 0x80009b80
-extern UNKNOWN_FUNCTION(__dt__Q23EGG8Vector2fFv);
-// PAL: 0x80009ff0
-extern UNKNOWN_FUNCTION(ModuleLinker_initStaticInstance);
 // PAL: 0x8000a06c
 extern void unk_8000a06c(void*, EGG::Heap*);
-// PAL: 0x8000a5d0
-extern UNKNOWN_FUNCTION(initStaticInstance__Q26System13SystemManagerFPQ23EGG4Heap);
-// PAL: 0x8000ac50
-extern UNKNOWN_FUNCTION(setupSystem__Q26System13SystemManagerFPQ23EGG4Heap);
-// PAL: 0x8000b26c
-extern UNKNOWN_FUNCTION(handlePowerState__Q26System13SystemManagerFv);
-// PAL: 0x8000b610
-extern UNKNOWN_FUNCTION(isPal50__Q26System13SystemManagerFv);
-// PAL: 0x80021338
-extern UNKNOWN_FUNCTION(__register_global_object);
-// PAL: 0x8015ea1c
-extern UNKNOWN_FUNCTION(DVDInit);
-// PAL: 0x80197aac
-extern UNKNOWN_FUNCTION(KPADInit);
 // PAL: 0x801a25d0
 extern void OSReport(const char*, ...);
-// PAL: 0x801af2f0
-extern UNKNOWN_FUNCTION(PADInit);
-// PAL: 0x801b0180
-extern UNKNOWN_FUNCTION(SCInit);
-// PAL: 0x801b94a4
-extern UNKNOWN_FUNCTION(VIInit);
 // PAL: 0x801bab2c
 extern void VISetBlack(int);
 // PAL: 0x801bf644
 typedef void* (*WPADAllocatorF)(u32);
 typedef u8 (*WPADFreeF)(void*);
 extern void WPADRegisterAllocator(WPADAllocatorF, WPADFreeF);
+
+void ModuleLinker_initStaticInstance();
 // PAL: 0x801bf648
 extern u32 WPADGetWorkMemorySize(void);
 // PAL: 0x80207d84
 extern void VFInitEx(void*, int);
-// PAL: 0x8020f62c
-extern UNKNOWN_FUNCTION(__ct__Q23EGG9AllocatorFPQ23EGG4Heapl);
-// PAL: 0x8020fd18
-extern UNKNOWN_FUNCTION(__ct__Q23EGG12AsyncDisplayFUc);
-// PAL: 0x8020fd8c
-extern UNKNOWN_FUNCTION(startSyncNTSC__Q23EGG12AsyncDisplayFUc);
-// PAL: 0x8021329c
-extern UNKNOWN_FUNCTION(__ct__Q23EGG14SimpleAudioMgrFv);
-// PAL: 0x802166f4
-extern UNKNOWN_FUNCTION(createStaticInstance__Q23EGG17CoreControllerMgrFv);
-// PAL: 0x8021709c
-extern UNKNOWN_FUNCTION(createStaticInstance__Q23EGG15GCControllerMgrFv);
-// PAL: 0x8022231c
-extern UNKNOWN_FUNCTION(initialize__Q23EGG7DvdFileFv);
-// PAL: 0x80226734
-extern void Exception_create(int, int, int, EGG::Heap*, int);
 // PAL: 0x802267f0
 typedef void (*ExceptionUserCallback)(void);
 extern void Exception_setUserCallBack(ExceptionUserCallback);
-// PAL: 0x80226ac8
-extern UNKNOWN_FUNCTION(create__Q23EGG7ExpHeapFUlPQ23EGG4HeapUs);
-// PAL: 0x80229540
-extern UNKNOWN_FUNCTION(create__Q23EGG12GraphicsFifoFUlPQ23EGG4Heap);
-// PAL: 0x80229d74
-extern UNKNOWN_FUNCTION(becomeCurrentHeap__Q23EGG4HeapFv);
-// PAL: 0x80229dcc
-extern UNKNOWN_FUNCTION(__nw__FUl);
-// PAL: 0x80229de0
-extern UNKNOWN_FUNCTION(__nw__FUlPQ23EGG4Heapi);
-// PAL: 0x80229e14
-extern UNKNOWN_FUNCTION(__ct__Q23EGG12ProcessMeterFb);
-// PAL: 0x8023addc
-extern UNKNOWN_FUNCTION(__ct__Q23EGG12SceneManagerFPQ23EGG12SceneCreator);
-// PAL: 0x8023ae60
-extern UNKNOWN_FUNCTION(calc__Q23EGG12SceneManagerFv);
-// PAL: 0x8023aeac
-extern UNKNOWN_FUNCTION(draw__Q23EGG12SceneManagerFv);
-// PAL: 0x8023aef8
-extern UNKNOWN_FUNCTION(reinitCurrentScene__Q23EGG12SceneManagerFv);
-// PAL: 0x8023af84
-extern UNKNOWN_FUNCTION(changeScene__Q23EGG12SceneManagerFi);
-// PAL: 0x8023afe0
-extern UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFi);
-// PAL: 0x8023afe8
-extern UNKNOWN_FUNCTION(changeSiblingSceneAfterFadeOut__Q23EGG12SceneManagerFi);
-// PAL: 0x8023b064
-extern UNKNOWN_FUNCTION(changeSiblingScene__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b0e4
-extern UNKNOWN_FUNCTION(createScene__Q23EGG12SceneManagerFiPQ23EGG5Scene);
-// PAL: 0x8023b2ac
-extern UNKNOWN_FUNCTION(destroyCurrentSceneNoIncoming__Q23EGG12SceneManagerFb);
-// PAL: 0x8023b344
-extern UNKNOWN_FUNCTION(destroyToSelectSceneID__Q23EGG12SceneManagerFi);
-// PAL: 0x8023b910
-extern UNKNOWN_FUNCTION(setupNextSceneID__Q23EGG12SceneManagerFv);
-// PAL: 0x8023b92c
-extern UNKNOWN_FUNCTION(
-  outgoingParentScene__Q23EGG12SceneManagerFPQ23EGG5Scene);
-// PAL: 0x802433ac
-extern UNKNOWN_FUNCTION(__ct__Q23EGG6ThreadFP8OSThreadi);
-// PAL: 0x802435a4
-extern UNKNOWN_FUNCTION(initialize__Q23EGG6ThreadFv);
-// PAL: 0x80243d18
-extern UNKNOWN_FUNCTION(
-  initialize__Q23EGG5VideoFPC15GXRenderModeObjPCPC15GXRenderModeObj);
-// PAL: 0x80244160
-extern UNKNOWN_FUNCTION(__ct__Q23EGG3XfbFPQ23EGG4Heap);
-// PAL: 0x80244200
-extern UNKNOWN_FUNCTION(
-  attach__Q23EGG10XfbManagerFPQ23EGG3Xfb);
+
 // Extern data references.
 // PAL: 0x80245910
 extern const GXRenderModeObj* lbl_80245910[];
-// PAL: 0x80245938
-extern UNKNOWN_DATA(lbl_80245938);
 // PAL: 0x80270bd8
 extern void lbl_80270bd8(void);
-// PAL: 0x80270bf0
-extern UNKNOWN_DATA(__vt__Q26System8RKSystem);
-// PAL: 0x80270c2c
-extern UNKNOWN_DATA(__vt__Q23EGG10BaseSystem);
-// PAL: 0x80270c68
-extern UNKNOWN_DATA(__vt__Q26System14RKSceneManager);
-// PAL: 0x80270cd0
-extern UNKNOWN_DATA(__vt__Q26System18SceneCreatorStatic);
-// PAL: 0x802a4080
-extern UNKNOWN_DATA(sInstance__Q26System8RKSystem);
-// PAL: 0x80385fc0
-extern UNKNOWN_DATA(sInstance__Q23EGG14AsyncDvdStatus);
-// PAL: 0x80385fc8
-extern UNKNOWN_DATA(spInstance__Q26System8RKSystem);
 // PAL: 0x80385fd0
 extern float lbl_80385fd0;
 extern float lbl_80385fd8;
@@ -196,18 +87,10 @@ extern char** lbl_80385fec; // argv
 extern System::SceneCreatorStatic* lbl_80385ff0;
 // PAL: 0x80385ff8
 extern void* lbl_80385ff8;
-// PAL: 0x80386000
-extern UNKNOWN_DATA(sInstance__Q26System13SystemManager);
 // PAL: 0x80386f4c
 extern int lbl_80386f4c;
 // PAL: 0x80386f5c
 extern nw4r::ut::Color lbl_80386f5c;
-// PAL: 0x80386f60
-extern UNKNOWN_DATA(sSystem__Q23EGG10BaseSystem);
-// PAL: 0x80386ff8
-extern UNKNOWN_DATA(lbl_80386ff8);
-// PAL: 0x80386ffc
-extern UNKNOWN_DATA(lbl_80386ffc);
 }
 
 extern "C" {
@@ -259,33 +142,6 @@ void RKSystem::main(int argc, char** argv) {
 } // namespace System
 
 #ifndef WIP_DECOMP
-// Symbol: main__Q26System8RKSystemFiPPc
-// PAL: 0x80008ef0..0x80008fac
-MARK_BINARY_BLOB(main__Q26System8RKSystemFiPPc, 0x80008ef0, 0x80008fac);
-asm UNKNOWN_FUNCTION(main__Q26System8RKSystemFiPPc){
-#include "asm/80008ef0.s"
-}
-
-// Symbol: getSysHeap__Q26System8RKSystemFv
-// PAL: 0x80008fac..0x80008fb4
-MARK_BINARY_BLOB(getSysHeap__Q26System8RKSystemFv, 0x80008fac, 0x80008fb4);
-asm UNKNOWN_FUNCTION(getSysHeap__Q26System8RKSystemFv){
-#include "asm/80008fac.s"
-}
-
-// Symbol: initialize__Q23EGG10BaseSystemFv
-// PAL: 0x80008fb4..0x80009190
-MARK_BINARY_BLOB(initialize__Q23EGG10BaseSystemFv, 0x80008fb4, 0x80009190);
-asm UNKNOWN_FUNCTION(initialize__Q23EGG10BaseSystemFv){
-#include "asm/80008fb4.s"
-}
-
-// Symbol: initRenderMode__Q23EGG10BaseSystemFv
-// PAL: 0x80009190..0x80009194
-MARK_BINARY_BLOB(initRenderMode__Q23EGG10BaseSystemFv, 0x80009190, 0x80009194);
-asm UNKNOWN_FUNCTION(initRenderMode__Q23EGG10BaseSystemFv){
-#include "asm/80009190.s"
-}
 #endif
 
 namespace System {
@@ -536,54 +392,6 @@ void RKSceneManager::doCalcFader() {
 } // namespace System
 
 #ifndef WIP_DECOMP
-// Symbol: getVideo__Q23EGG10BaseSystemFv
-// PAL: 0x800099ac..0x800099b4
-MARK_BINARY_BLOB(getVideo__Q23EGG10BaseSystemFv, 0x800099ac, 0x800099b4);
-asm UNKNOWN_FUNCTION(getVideo__Q23EGG10BaseSystemFv){
-#include "asm/800099ac.s"
-}
-
-// Symbol: getSysHeap__Q23EGG10BaseSystemFv
-// PAL: 0x800099b4..0x800099bc
-MARK_BINARY_BLOB(getSysHeap__Q23EGG10BaseSystemFv, 0x800099b4, 0x800099bc);
-asm UNKNOWN_FUNCTION(getSysHeap__Q23EGG10BaseSystemFv){
-#include "asm/800099b4.s"
-}
-
-// Symbol: getXfbMgr__Q23EGG10BaseSystemFv
-// PAL: 0x800099bc..0x800099c4
-MARK_BINARY_BLOB(getXfbMgr__Q23EGG10BaseSystemFv, 0x800099bc, 0x800099c4);
-asm UNKNOWN_FUNCTION(getXfbMgr__Q23EGG10BaseSystemFv){
-#include "asm/800099bc.s"
-}
-
-// Symbol: getAudioMgr__Q23EGG10BaseSystemFv
-// PAL: 0x800099c4..0x800099cc
-MARK_BINARY_BLOB(getAudioMgr__Q23EGG10BaseSystemFv, 0x800099c4, 0x800099cc);
-asm UNKNOWN_FUNCTION(getAudioMgr__Q23EGG10BaseSystemFv) {
-#include "asm/800099c4.s"
-}
-
-// Symbol: __sinit__RKSystem_cpp
-// PAL: 0x800099cc..0x80009b40
-MARK_BINARY_BLOB(__sinit__RKSystem_cpp, 0x800099cc, 0x80009b40);
-asm UNKNOWN_FUNCTION(__sinit__RKSystem_cpp) {
-#include "asm/800099cc.s"
-}
-
-// Symbol: __dt__Q23EGG8Vector3fFv
-// PAL: 0x80009b40..0x80009b80
-MARK_BINARY_BLOB(__dt__Q23EGG8Vector3fFv, 0x80009b40, 0x80009b80);
-asm UNKNOWN_FUNCTION(__dt__Q23EGG8Vector3fFv) {
-#include "asm/80009b40.s"
-}
-
-// Symbol: __dt__Q23EGG8Vector2fFv
-// PAL: 0x80009b80..0x80009bc0
-MARK_BINARY_BLOB(__dt__Q23EGG8Vector2fFv, 0x80009b80, 0x80009bc0);
-asm UNKNOWN_FUNCTION(__dt__Q23EGG8Vector2fFv) {
-#include "asm/80009b80.s"
-}
 #endif
 
 #ifdef WIP_DECOMP

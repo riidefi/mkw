@@ -2,10 +2,11 @@
 
 #include <rk_types.h>
 
-#ifdef __CWCC__
-
 #define UNKNOWN_FUNCTION(...)
 #define UNKNOWN_DATA(...)
+
+#ifdef __CWCC__
+
 
 #pragma section RW "flow_check"
 #define SECTION_FLOW_CHECK __declspec(section "flow_check")

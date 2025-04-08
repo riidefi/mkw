@@ -206,6 +206,12 @@ cflags_base = [
     "-DREVOKART",
     "-func_align 4",
     # "-sym dwarf-2",
+    
+    "-i ./include",
+    "-i ./src",
+    "-i lib/MSL/include",
+    "-i lib",  # just for now, individual include directories for each lib is tidier
+
 ]
 
 # Debug flags
@@ -219,6 +225,15 @@ else:
 cflags_runtime = [
     *cflags_base,
     "-inline auto",
+]
+
+# HostSys flags
+cflags_host_sys = [
+    *cflags_base,
+    "-ipa file",
+    "-rostr",
+    "-str noreuse",
+    "-use_lmw_stmw=on",
 ]
 
 # MSL flags
@@ -291,10 +306,6 @@ cflags_staticr = [
     "-lang=c++",
     "-pragma \"legacy_struct_alignment on\"",
 
-    " -i lib/MSL/include "
-    " -i lib "  # just for now, individual include directories for each lib is tidier
-    " -i ./include -i ./src ",
-
     "-DREL",
 ]
 
@@ -341,6 +352,17 @@ def MatchingFor(*versions):
 config.warn_missing_config = True
 config.warn_missing_source = False
 config.libs = [
+    {
+        "lib": "HostSys",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_host_sys,
+        "progress_category": "game",
+        "src_dir": "src/host_system",
+        "objects": [
+            Object(Matching, "SystemResource.cpp"),
+            Object(NonMatching, "RKSystem.cpp"),
+        ],
+    },
     {
         "lib": "Runtime.PPCEABI.H",
         "mw_version": config.linker_version,

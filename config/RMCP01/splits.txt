@@ -22,11 +22,11 @@ ppc_eabi_exception_handlers.c:
 __mem.c:
 	.init       start:0x80005F34 end:0x80006068
 
-SystemResource.o:
+SystemResource.cpp:
 	.text       start:0x80007F50 end:0x80007F7C
 	.rodata     start:0x80245010 end:0x802450B0
 
-RKSystem.o:
+RKSystem.cpp:
 	.text       start:0x80008E84 end:0x80009BC0
 	.ctors      start:0x80244DE4 end:0x80244DE8
 	.rodata     start:0x80245938 end:0x80245A18
