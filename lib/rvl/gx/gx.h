@@ -16,7 +16,7 @@ extern volatile union {
   int i;
   void* p;
   float f;
-} WGPIPE : 0xcc008000;
+} WGPIPE AT_ADDRESS(0xcc008000);
 
 typedef struct _GXColor {
   u8 r;

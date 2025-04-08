@@ -113,9 +113,13 @@ private:
 #define STATIC_ASSERT_MAKE_NAME(line) STATIC_ASSERT_CONCAT(static_assertion_failed_at_line_, line)
 
 // Main static assert macro
+#ifdef __clang__
+#define static_assert(cond) _Static_assert(cond, "assert failed :c")
+#else
 #define static_assert(cond) \
     typedef char STATIC_ASSERT_MAKE_NAME(__LINE__)[(cond) ? 1 : -1]
 #endif // __cplusplus
+#endif
 
 #define INLINE_ELSEWHERE(x)
 

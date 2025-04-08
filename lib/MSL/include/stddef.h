@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef __clang__
+#define offsetof(type, m) __builtin_offsetof(type,m)
+#else
 #define offsetof(type, m) ((size_t) & (((type*)0)->m))
+#endif
 
 #ifndef NULL
 #define NULL 0

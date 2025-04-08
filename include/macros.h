@@ -24,10 +24,16 @@
 
 #define DECLTYPE(x) __decltype__(x)
 
+// https://github.com/DarkRTA/rb3/blob/235050f88a263fec0387b7c618dda76a8bb24d2c/src/sdk/RVL_SDK/revolution/os/OSUtils.h#L13-L17
+#if defined(__MWERKS__) && !defined(__INTELLISENSE__)
+#define AT_ADDRESS(addr) : (addr)
+#else
+#define AT_ADDRESS(addr)
+#endif
+
 // For VSCode
 #ifdef __INTELLISENSE__
 #define asm
 #define __attribute__(x)
 #define __declspec(x)
 #endif
-
