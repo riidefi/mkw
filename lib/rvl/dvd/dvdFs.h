@@ -4,6 +4,8 @@
 
 #include <decomp.h>
 
+#include <rvl/dvd/dvd.h>
+
 // Credit: riidefi
 // Credit: terorie
 // Credit: kiwi515
@@ -16,7 +18,7 @@ extern "C" {
 s32 DVDConvertPathToEntrynum(const char*);
 
 int DVDOpen(const char* fileName, DVDFileInfo* fileInfo);
-int DVDFastOpen(s32, struct DVDFileInfo*);
+int DVDFastOpen(s32, DVDFileInfo*);
 
 int DVDClose(DVDFileInfo* fileInfo);
 

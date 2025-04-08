@@ -8,8 +8,11 @@
 extern "C" {
 #endif
 
-typedef void (*DVDAsyncCallback)(s32, struct DVDFileInfo*);
-typedef void (*DVDCBAsyncCallback)(s32, struct DVDCommandBlock*);
+typedef struct DVDCommandBlock DVDCommandBlock;
+typedef struct DVDFileInfo DVDFileInfo;
+
+typedef void (*DVDAsyncCallback)(s32, DVDFileInfo*);
+typedef void (*DVDCBAsyncCallback)(s32, DVDCommandBlock*);
 
 typedef struct DVDDiskID {
   char gameName[4];
@@ -117,7 +120,7 @@ void DVDReadAbsAsyncPrio();
 // PAL: 0x801629b0..0x80162a88
 void DVDInquiryAsync();
 // PAL: 0x80162a88..0x80162b50
-s32 DVDGetCommandBlockStatus(struct DVDCommandBlock*);
+s32 DVDGetCommandBlockStatus(DVDCommandBlock*);
 // PAL: 0x80162b50..0x80162bec
 void DVDGetDriveStatus();
 // PAL: 0x80162bec..0x80162bfc
@@ -127,9 +130,9 @@ void DVDPause();
 // PAL: 0x80162c38..0x80162c88
 void DVDResume();
 // PAL: 0x80162c88..0x80162fec
-u32 DVDCancelAsync(struct DVDFileInfo*, DVDCBAsyncCallback);
+u32 DVDCancelAsync(DVDFileInfo*, DVDCBAsyncCallback);
 // PAL: 0x80162fec..0x801630d0
-u32 DVDCancel(struct DVDFileInfo*);
+u32 DVDCancel(DVDFileInfo*);
 // PAL: 0x801630d0..0x8016321c
 s32 DVDCancelAll(void);
 // PAL: 0x8016321c..0x80163224
