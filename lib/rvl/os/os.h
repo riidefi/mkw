@@ -56,6 +56,13 @@ OSTime OSGetTime(void);
 OSTime OSCalendarTimeToTicks(OSCalendarTime* td);
 void OSTicksToCalendarTime(OSTime ticks, OSCalendarTime* td);
 
+void __OSFPRInit(void);
+void OSInit(void);
+void __OSPSInit(void);
+u32 __OSGetDIConfig(void);
+void OSRegisterVersion(const char* ver);
+const char* OSGetAppGamename(void);
+
 #ifdef __cplusplus
 }
 #endif

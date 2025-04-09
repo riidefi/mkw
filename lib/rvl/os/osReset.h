@@ -8,6 +8,15 @@
 extern "C" {
 #endif
 
+typedef BOOL (*OSShutdownFunction)(BOOL final, u32 event);
+
+typedef enum {
+  OS_SD_EVENT_SHUTDOWN = 2,
+  OS_SD_EVENT_RESTART = 4,
+  OS_SD_EVENT_RETURN_TO_MENU = 5,
+  OS_SD_EVENT_LAUNCH_APP = 6,
+} OSShutdownEvent;
+
 typedef struct OSShutdownFunctionInfo {
   u32 func;
   u32 priority;
@@ -15,30 +24,23 @@ typedef struct OSShutdownFunctionInfo {
   u32 prev;
 } OSShutdownFunctionInfo;
 
-// PAL: 0x801a8238..0x801a82c0
-extern void OSRegisterShutdownFunction(OSShutdownFunctionInfo* info);
-// PAL: 0x801a82c0..0x801a8370
-UNKNOWN_FUNCTION(__OSCallShutdownFunctions);
-// PAL: 0x801a8370..0x801a8500
-UNKNOWN_FUNCTION(__OSShutdownDevices);
-// PAL: 0x801a8500..0x801a856c
-UNKNOWN_FUNCTION(__OSGetDiscState);
-// PAL: 0x801a856c..0x801a8688
-UNKNOWN_FUNCTION(OSShutdownSystem);
-// PAL: 0x801a8688..0x801a8758
-UNKNOWN_FUNCTION(OSRestart);
-// PAL: 0x801a8758..0x801a8858
-UNKNOWN_FUNCTION(__OSReturnToMenu);
-// PAL: 0x801a8858..0x801a8898
-UNKNOWN_FUNCTION(OSReturnToMenu);
-// PAL: 0x801a8898..0x801a8954
-UNKNOWN_FUNCTION(OSReturnToSetting);
-// PAL: 0x801a8954..0x801a89f8
-UNKNOWN_FUNCTION(__OSReturnToMenuForError);
-// PAL: 0x801a89f8..0x801a8a50
-UNKNOWN_FUNCTION(__OSHotResetForError);
-// PAL: 0x801a8a50..0x801a8a80
-UNKNOWN_FUNCTION(OSGetResetCode);
+typedef struct OSShutdownFunctionQueue {
+  OSShutdownFunctionInfo *head;
+  OSShutdownFunctionInfo *tail;
+} OSShutdownFunctionQueue;
+
+void OSReturnToMenu(void);
+void OSRegisterShutdownFunction(OSShutdownFunctionInfo *info);
+void __OSShutdownDevices(OSShutdownEvent event);
+void __OSGetDiscState(u8 *out);
+void OSShutdownSystem(void);
+BOOL __OSCallShutdownFunctions(BOOL final, u32 event);
+void __OSReturnToMenuForError(void);
+void __OSHotResetForError(void);
+u32 OSGetResetCode(void);
+void OSResetSystem(BOOL arg0, u32 arg1, BOOL arg2);
+
+#define OSIsRestart() ((OSGetResetCode() & 0x80000000) ? TRUE : FALSE)
 
 #ifdef __cplusplus
 }

@@ -2,6 +2,7 @@
 // https://github.com/doldecomp/ogws/blob/82dbeac2267170fc5cef7e67a6d8c31c5ff45d69/src/RevoSDK/TRK/__mem.c
 // Decompiled by GibHaltmannKill.
 
+#include <rk_types.h>
 #include <string.h>
 
 // PAL: 0x80005f34

@@ -1,4 +1,5 @@
 #include "__ppc_eabi_init.h"
+#include "macros.h"
 
 #include <decomp.h>
 
@@ -10,10 +11,9 @@ extern void __OSPSInit(void);
 // PAL: 0x801a1ae4
 extern void __OSCacheInit(void);
 
-// Symbol: __init_hardware
-// PAL: 0x80006348..0x8000636c
 __declspec(section ".init") asm void __init_hardware() {
   // clang-format off
+  #ifdef __MWERKS__
   nofralloc;
   mfmsr r0;
   ori r0, r0, 0x2000;
@@ -24,14 +24,13 @@ __declspec(section ".init") asm void __init_hardware() {
   bl __OSCacheInit;
   mtlr r31;
   blr;
+  #endif
   // clang-format on
 }
 
-// Symbol: __flush_cache
-// PAL: 0x8000636c..0x800063a0
-MARK_BINARY_BLOB(__flush_cache, 0x8000636c, 0x800063a0);
 __declspec(section ".init") asm void __flush_cache() {
   // clang-format off
+  #ifdef __MWERKS__
   nofralloc;
   lis r5, 0xffff;
   ori r5, r5, 0xfff1;
@@ -47,5 +46,6 @@ lbl_80006380:
   bge lbl_80006380;
   isync;
   blr;
+  #endif
   // clang-format on
 }

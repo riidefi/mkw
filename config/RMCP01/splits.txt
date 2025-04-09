@@ -862,11 +862,11 @@ osThread.o:
 	.sdata      start:0x80385AE0 end:0x80385AE8
 	.sbss       start:0x80386918 end:0x80386928
 
-__start.o:
+__start.c:
 	.init       start:0x80006068 end:0x80006348
 	.sbss       start:0x80386950 end:0x80386958
 
-__ppc_eabi_init.o:
+__ppc_eabi_init.c:
 	.init       start:0x80006348 end:0x800063A0
 
 rvlPadClamp.o:

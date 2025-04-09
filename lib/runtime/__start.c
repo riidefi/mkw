@@ -3,39 +3,25 @@
 #include <decomp.h>
 #include <string.h>
 
-#include "__ppc_eabi_init.h"
-
-static u32 _STACK_BASE_ : 0x80399180;
-static u32 _SDA_BASE_ : 0x8038cc00;
-static u32 _SDA2_BASE_ : 0x8038efa0;
+#include <rvl/db/db.h>
+#include <rvl/db/db.h>
+#include <rvl/os/os.h>
+#include <rvl/os/osReset.h>
+#include <rvl/os/__ppc_eabi_init.h>
 
 u8 __debug_bba;
 
 // Extern function references.
-// PAL: 0x8000b6b0
 extern int main(int argc, char* argv[]);
-// PAL: 0x8001c3e4
-extern UNKNOWN_FUNCTION(InitMetroTRK_BBA);
-// PAL: 0x8015d314
-extern UNKNOWN_FUNCTION(DBInit);
-// PAL: 0x8019fc68
-extern UNKNOWN_FUNCTION(OSInit);
-// PAL: 0x801a8a80
-extern UNKNOWN_FUNCTION(OSResetSystem);
-// PAL: 0x801ae524
-extern UNKNOWN_FUNCTION(__init_user);
-// PAL: 0x801ae58c
-extern void exit(int);
+extern void InitMetroTRK_BBA(void);
 
-static u32 __OSPADButton : 0x800030e4;
-extern void* trk_section_table;
-extern void* trk_bss_entry;
+static u32 __OSPADButton AT_ADDRESS(0x800030e4);
 
 // Symbol: __check_pad3
 // PAL: 0x80006068..0x80006090
-MARK_BINARY_BLOB(__check_pad3, 0x80006068, 0x80006090);
 __declspec(section ".init") asm void __check_pad3() {
   // clang-format off
+  #ifdef __MWERKS__
   nofralloc;
   lis r3, __OSPADButton@ha;
   lhz r0, __OSPADButton@l(r3);
@@ -47,6 +33,7 @@ __declspec(section ".init") asm void __check_pad3() {
   li r5, 0;
   b OSResetSystem;
   blr;
+  #endif
   // clang-format on
 }
 
@@ -60,9 +47,9 @@ __declspec(section ".init") u8 __get_debug_bba() { return __debug_bba; }
 
 // Symbol: __start
 // PAL: 0x800060a4..0x80006210
-MARK_BINARY_BLOB(__start, 0x800060a4, 0x80006210);
 __declspec(section ".init") asm void __start() {
   // clang-format off
+  #ifdef __MWERKS__
   nofralloc;
   bl __init_registers;
   bl __init_hardware;
@@ -166,9 +153,11 @@ lbl_800061fc:
   bl main;
   b exit;
   // clang-format on
+  #endif
 }
 
 __declspec(section ".init") asm void __init_registers(void) {
+  #ifdef __MWERKS__
   li r0, 0x0;
   li r3, 0x0;
   li r4, 0x0;
@@ -198,20 +187,21 @@ __declspec(section ".init") asm void __init_registers(void) {
   li r29, 0x0;
   li r30, 0x0;
   li r31, 0x0;
-  lis r1, _STACK_BASE_ @h;
-  ori r1, r1, _STACK_BASE_ @l;
+  lis r1, _stack_addr @h;
+  ori r1, r1, _stack_addr @l;
   lis r2, _SDA2_BASE_ @h;
   ori r2, r2, _SDA2_BASE_ @l;
   lis r13, _SDA_BASE_ @h;
   ori r13, r13, _SDA_BASE_ @l;
   blr;
+  #endif
 }
 
 // Symbol: __init_data
 // PAL: 0x800062a0..0x80006348
-MARK_BINARY_BLOB(__init_data, 0x800062a0, 0x80006348);
 __declspec(section ".init") asm void __init_data() {
   // clang-format off
+  #ifdef __MWERKS__
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;
@@ -219,8 +209,8 @@ __declspec(section ".init") asm void __init_data() {
   stw r31, 0x1c(r1);
   stw r30, 0x18(r1);
   stw r29, 0x14(r1);
-  lis r29, trk_section_table@ha;
-  la r29, trk_section_table@l(r29);
+  lis r29, _rom_copy_info@ha;
+  la r29, _rom_copy_info@l(r29);
 lbl_800062c0:
   lwz r30, 8(r29);
   cmpwi r30, 0;
@@ -240,8 +230,8 @@ lbl_800062f8:
   addi r29, r29, 0xc;
   b lbl_800062c0;
 lbl_80006300:
-  lis r29, trk_bss_entry@ha;
-  la r29, trk_bss_entry@l(r29);
+  lis r29, _bss_init_info@ha;
+  la r29, _bss_init_info@l(r29);
 lbl_80006308:
   lwz r5, 4(r29);
   cmpwi r5, 0;
@@ -261,5 +251,6 @@ lbl_8000632c:
   mtlr r0;
   addi r1, r1, 0x20;
   blr;
+  #endif
   // clang-format on
 }

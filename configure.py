@@ -364,6 +364,18 @@ config.libs = [
         ],
     },
     {
+        "lib": "TRK",
+        "mw_version": "Wii/1.1", # idk which compiler 4199_60831 is supposed be
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib/runtime",
+        "objects": [
+            Object(Matching, "__mem.c"),
+            Object(Matching, "__start.c"),
+            Object(Matching, "__ppc_eabi_init.c"),
+        ],
+    },
+    {
         "lib": "Runtime.PPCEABI.H",
         "mw_version": config.linker_version,
         "cflags": cflags_runtime,

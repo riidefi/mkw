@@ -8,14 +8,11 @@
 extern "C" {
 #endif
 
-// PAL: 0x8015d314..0x8015d33c
-UNKNOWN_FUNCTION(DBInit);
-// PAL: 0x8015d33c..0x8015d384
-UNKNOWN_FUNCTION(__DBExceptionDestinationAux);
-// PAL: 0x8015d384..0x8015d394
-UNKNOWN_FUNCTION(__DBExceptionDestination);
-// PAL: 0x8015d394..0x8015d3ac
-UNKNOWN_FUNCTION(__DBIsExceptionMarked);
+void DBInit(void);
+void __DBExceptionDestinationAux(void);
+void __DBExceptionDestination(void);
+BOOL __DBIsExceptionMarked(u8 exc);
+void DBPrintf(const char* msg, ...);
 
 #ifdef __cplusplus
 }
