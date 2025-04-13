@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#ifdef __CWCC__
+
 void PSQUATMultiply(const register Quaternion* quat1,
                     const register Quaternion* quat2,
                     register Quaternion* out) {
@@ -133,6 +135,8 @@ loc1:
     psq_st      vv3, 8(inv), 1, 0;
   }
 }
+
+#endif
 
 void C_QUATMtx(Quaternion* r, const Mtx m) {
   f32 vv0, vv1;

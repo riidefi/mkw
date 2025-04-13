@@ -14,8 +14,8 @@
 #include <host_system/SystemManager.hpp>
 
 
-// Despite having a lot of decompiled functions locked behind WIP_DECOMP macros,
-// this slice is nearly fully matching. In fact, we can get everything to match
+// Despite having a lot of decompiled functions, this slice is not yet fully
+// matching. In fact, we can get everything to match
 // except __sinit, or, even more specifically, the inlined constructor of
 // RKSystem. So why not include everything but __sinit, then?
 //
@@ -34,15 +34,9 @@
 // We also had problems trying to get the Vectors' destructors to be emitted,
 // but thankfully, we figured that part out. More info at the end of this file.
 //
-// Before enabling WIP_DECOMP, two things need to be done. First, uncomment out
-// the inline definition of getSysHeap in RKSystem.hpp. Second, uncomment out
-// the RKSystem block marked for WIP_DECOMP in dol_slices.yml, and of course,
-// don't forget to comment out the block above!
+// Before marking as `Matching`, two things need to be done. First, uncomment out
+// the inline definition of getSysHeap in RKSystem.hpp. Second, clean up the file.
 
-// #define WIP_DECOMP
-
-
-// --- EXTERN DECLARATIONS BEGIN ---
 
 extern "C" {
 
@@ -102,9 +96,7 @@ extern "C" {
 namespace System {
 
 RKSystem* RKSystem::spInstance;
-#ifdef WIP_DECOMP
 RKSystem RKSystem::sInstance;
-#endif
 
 RKSystem* RKSystem::getStaticInstance() {
   return &sInstance;
@@ -119,7 +111,6 @@ u8 WPADFree(void* block) {
   return 1;
 }
 
-#ifdef WIP_DECOMP
 void RKSystem::main(int argc, char** argv) {
   RKSystem* sys = &sInstance;
 
@@ -138,13 +129,6 @@ void RKSystem::main(int argc, char** argv) {
 
   spInstance->run();
 }
-#endif
-} // namespace System
-
-#ifndef WIP_DECOMP
-#endif
-
-namespace System {
 
 void RKSystem::initialize() {
   initMemory();
@@ -391,10 +375,7 @@ void RKSceneManager::doCalcFader() {
 }
 } // namespace System
 
-#ifndef WIP_DECOMP
-#endif
 
-#ifdef WIP_DECOMP
 #include <egg/math/eggVector.hpp>
 
 namespace EGG {
@@ -422,4 +403,3 @@ const EGG::Vector2f V2F_EY(0.f, 1.f);
 //
 // const example<void> instance;
 }
-#endif

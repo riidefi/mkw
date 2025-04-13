@@ -9,6 +9,10 @@
 extern "C" {
 #endif
 
+typedef enum {
+  OS_CONTEXT_STATE_FP_SAVED = (1 << 0),
+} OSContextState;
+
 typedef struct OSContext {
   // General-purpose registers
   u32 gpr[32];
@@ -40,10 +44,6 @@ typedef struct OSContext {
 
 } OSContext;
 
-// PAL: 0x801a1c1c..0x801a1d40
-UNKNOWN_FUNCTION(__OSLoadFPUContext);
-// PAL: 0x801a1d40..0x801a1e68
-UNKNOWN_FUNCTION(__OSSaveFPUContext);
 // PAL: 0x801a1e68..0x801a1e70
 void OSLoadFPUContext(OSContext*);
 // PAL: 0x801a1e68..0x801a1e70

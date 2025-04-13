@@ -4,6 +4,8 @@
 
 static f32 Unit01[] = {0.0f, 1.0f};
 
+#ifdef __CWCC__
+
 void PSMTXIdentity(register Mtx m) {
   // sdata2 ordering
   (void)1.0f;
@@ -573,6 +575,8 @@ void PSMTXQuat(register Mtx m, const register Quaternion* quat) {
   }
 }
 
+#endif
+
 void C_MTXLookAt(Mtx m, const Vec* _pos, const Vec* _up, const Vec* _dest) {
   Vec vv0, vv1, vv2;
   vv0.x = _pos->x - _dest->x;
@@ -652,6 +656,8 @@ void C_MTXLightOrtho(Mtx m, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6,
   m[2][3] = 1.0f;
 }
 
+#ifdef __CWCC__
+
 asm void PSMTXMultVec(const register Mtx m, const register Vec* in,
                       register Vec* out) {
   nofralloc;
@@ -703,3 +709,5 @@ asm void PSMTXMultVecSR(const register Mtx m, const register Vec* in,
   psq_st fp13, 8(out), 1, 0;
   blr;
 }
+
+#endif

@@ -265,7 +265,7 @@ cflags_nw4r = [
     *cflags_base,
     # "-lang=c99", # needed?
     "-ipa file",
-    "-pragma \"legacy_struct_alignment on\"",
+    '-pragma "legacy_struct_alignment on"',
 ]
 
 # EGG flags
@@ -304,8 +304,7 @@ cflags_staticr = [
     "-str noreuse",
     "-use_lmw_stmw=on",
     "-lang=c++",
-    "-pragma \"legacy_struct_alignment on\"",
-
+    '-pragma "legacy_struct_alignment on"',
     "-DREL",
 ]
 
@@ -357,22 +356,169 @@ config.libs = [
         "mw_version": "Wii/0x4201_127",
         "cflags": cflags_host_sys,
         "progress_category": "game",
-        "src_dir": "src/host_system",
+        "src_dir": "src",
         "objects": [
-            Object(Matching, "SystemResource.cpp"),
-            Object(NonMatching, "RKSystem.cpp"),
+            Object(Matching, "host_system/SystemResource.cpp"),
+            Object(NonMatching, "host_system/RKSystem.cpp"),
         ],
     },
     {
         "lib": "TRK",
-        "mw_version": "Wii/1.1", # idk which compiler 4199_60831 is supposed be
+        "mw_version": "GC/3.0a5.2",
         "cflags": cflags_rvl,
         "progress_category": "sdk",
-        "src_dir": "lib/runtime",
+        "src_dir": "lib",
         "objects": [
-            Object(Matching, "__mem.c"),
-            Object(Matching, "__start.c"),
-            Object(Matching, "__ppc_eabi_init.c"),
+            Object(Matching, "runtime/__mem.c"),
+            Object(Matching, "runtime/__ppc_eabi_init.c"),
+            Object(Matching, "runtime/__start.c"),
+            Object(NonMatching, "runtime/eabi.c"),
+        ],
+    },
+    {
+        "lib": "arc",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "rvl/arc/rvlArchive.c"),
+        ],
+    },
+    {
+        "lib": "ax",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(NonMatching, "rvl/ax/rvlAx.c"),
+            Object(NonMatching, "rvl/ax/rvlAxAlloc.c"),
+            Object(NonMatching, "rvl/ax/rvlAxAux.c"),
+            Object(NonMatching, "rvl/ax/rvlAxCl.c"),
+            Object(Matching, "rvl/ax/rvlAxComp.c"),
+            Object(Matching, "rvl/ax/rvlAxDspCode.c"),
+            Object(NonMatching, "rvl/ax/rvlAxOut.c"),
+            Object(NonMatching, "rvl/ax/rvlAxSpb.c"),
+            Object(NonMatching, "rvl/ax/rvlAxVpb.c"),
+            Object(NonMatching, "rvl/ax/rvlAxProf.c"),
+        ],
+    },
+    {
+        "lib": "ax_fx",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(NonMatching, "rvl/axfx/rvlAxFxReverbHi.c"),
+            Object(NonMatching, "rvl/axfx/rvlAxFxReverbHiExp.c"),
+            Object(NonMatching, "rvl/axfx/rvlAxFxReverbHiExpDpl2.c"),
+            Object(NonMatching, "rvl/axfx/rvlAxFxReverbStdExp.c"),
+            Object(NonMatching, "rvl/axfx/rvlAxFx.c"),
+        ],
+    },
+    {
+        "lib": "base",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "rvl/base/ppcArch.c"),
+        ],
+    },
+    {
+        "lib": "ipc",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "rvl/ipc/ipcMain.c"),
+        ],
+    },
+    {
+        "lib": "mem",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(NonMatching, "rvl/mem/rvlMemHeap.cpp"),
+            Object(Matching, "rvl/mem/rvlMemExpHeap.c"),
+            Object(Matching, "rvl/mem/rvlMemFrmHeap.cpp"),
+            Object(Matching, "rvl/mem/rvlMemUnitHeap.cpp"),
+            Object(Matching, "rvl/mem/rvlMemAllocator.cpp"),
+            Object(Matching, "rvl/mem/rvlMemList.cpp"),
+        ],
+    },
+    {
+        "lib": "mtx",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "rvl/mtx/rvlMtx.c"),
+            Object(Matching, "rvl/mtx/rvlMtx2.c"),
+            Object(Matching, "rvl/mtx/rvlVec.c"),
+            Object(Matching, "rvl/mtx/rvlQuat.c"),
+        ],
+    },
+    {
+        "lib": "os",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "rvl/os/osAlarm.c"),
+            Object(NonMatching, "rvl/os/osCache.c"),
+            Object(NonMatching, "rvl/os/osContext.c"),
+            Object(NonMatching, "rvl/os/osInterrupt.c"),
+        ],
+    },
+    {
+        "lib": "pad",# inline noaudo
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+        Object(Matching, "rvl/pad/rvlPadClamp.c"),
+        Object(NonMatching, "rvl/pad/rvlPad.c"),
+        ],
+    },
+    {
+        "lib": "si",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+        Object(NonMatching, "rvl/si/siBios.c"),
+        ],
+    },
+    {
+        "lib": "tpl",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+        Object(Matching, "rvl/tpl/tpl.c"),
+        ],
+    },
+    {
+        "lib": "so",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+        Object(Matching, "rvl/so/soCommon.c"),
+        Object(NonMatching, "rvl/so/soBasic.c"),
         ],
     },
     {
@@ -380,11 +526,11 @@ config.libs = [
         "mw_version": config.linker_version,
         "cflags": cflags_runtime,
         "progress_category": "sdk",  # str | List[str]
-        "src_dir": "lib/Runtime.PPCEABI.H",
+        "src_dir": "lib",
         "objects": [
-            Object(NonMatching, "global_destructor_chain.c"),
-            Object(NonMatching, "__init_cpp_exceptions.cpp"),
-            # Object(NonMatching, "Runtime.PPCEABI.H/ExceptionPPC.cpp"),
+            Object(NonMatching, "Runtime.PPCEABI.H/global_destructor_chain.c"),
+            Object(NonMatching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
+            Object(NonMatching, "Runtime.PPCEABI.H/ExceptionPPC.cpp"),
         ],
     },
     {
@@ -392,16 +538,16 @@ config.libs = [
         "mw_version": "Wii/0x4201_127",
         "cflags": cflags_msl,
         "progress_category": "sdk",
-        "src_dir": "lib/MSL/src",
+        "src_dir": "lib",
         "objects": [
-            Object(NonMatching, "ansi_files.c"),
-            Object(NonMatching, "float.c"),
-            Object(NonMatching, "mem.c"),
-            Object(NonMatching, "mem_cpy.c"),
-            Object(NonMatching, "qsort.c"),
-            Object(Matching, "rand.c"),
-            Object(Matching, "wchar.c"),
-            Object(NonMatching, "va_arg.c"),
+            Object(NonMatching, "MSL/src/ansi_files.c"),
+            Object(NonMatching, "MSL/src/float.c"),
+            Object(NonMatching, "MSL/src/mem.c"),
+            Object(NonMatching, "MSL/src/mem_cpy.c"),
+            Object(NonMatching, "MSL/src/qsort.c"),
+            Object(Matching, "MSL/src/rand.c"),
+            Object(Matching, "MSL/src/wchar.c"),
+            Object(NonMatching, "MSL/src/va_arg.c"),
         ],
     },
     {

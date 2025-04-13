@@ -64,8 +64,6 @@ void PADOriginUpdateCallback(s32, u32, void*);
 void PADProbeCallback(s32, u32, void*);
 // PAL: 0x801aec80
 void PADTypeAndStatusCallback(s32, u32);
-// PAL: 0x801aefa0
-void PADReceiveCheckCallback(s32, u32);
 // PAL: 0x801af0dc
 int PADReset(u32);
 // PAL: 0x801af1e4
@@ -77,11 +75,6 @@ u32 PADRead(PADStatus*);
 // PAL: 0x801af908
 void PADControlMotor(s32, u32);
 // PAL: 0x801af9c0
-void SPEC0_MakeStatus(s32, PADStatus*, u32[2]);
-// PAL: 0x801afad8
-void SPEC1_MakeStatus(s32, PADStatus*, u32[2]);
-// PAL: 0x801afbf0
-void SPEC2_MakeStatus(s32, PADStatus*, u32[2]);
 // PAL: 0x801afffc
 int PAD_OnReset(int);
 // PAL: 0x801b00c4

@@ -172,6 +172,8 @@ void OS_Alarm_DecrementerExceptionCallback(u8, OSContext* context) {
   OSLoadContext(context);
 }
 
+#ifdef __CWCC__
+
 // Symbol: OS_Alarm_DecrementerExceptionHandler
 // PAL: 0x801a0ca8..0x801a0cf8
 asm void OS_Alarm_DecrementerExceptionHandler(u8 exception,
@@ -198,6 +200,8 @@ asm void OS_Alarm_DecrementerExceptionHandler(u8 exception,
   stwu r1, -8(r1);
   b OS_Alarm_DecrementerExceptionCallback;
 }
+
+#endif
 
 // Symbol: OSSetAlarmTag
 // PAL: 0x801a0cf8..0x801a0d00

@@ -6,8 +6,15 @@ typedef unsigned long size_t;
 #endif
 
 // Compiler intrinsic functions.
+#ifdef __CWCC__
 #define abs(x) __abs(x)
 #define labs(x) __labs(x)
+#elif defined(__clang__)
+#define abs(x) __builtin_abs(x)
+#define labs(x) __builtin_labs(x)
+#else
+#error compiler has no instrinsic abs support, please do some sit ups.
+#endif
 
 long strtol(const char* restrict nptr, char** restrict endptr, int base);
 unsigned long int strtoul(const char* str, char** endptr, int base);

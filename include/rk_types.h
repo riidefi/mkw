@@ -109,17 +109,21 @@ private:
   inline NonCopyable(const NonCopyable&) {}
 };
 
-#define STATIC_ASSERT_CONCAT(a, b) a##b
-#define STATIC_ASSERT_MAKE_NAME(line) STATIC_ASSERT_CONCAT(static_assertion_failed_at_line_, line)
 
 // Main static assert macro
-#ifdef __clang__
-#define static_assert(cond) _Static_assert(cond, "assert failed :c")
+#if defined(__INTELLISENSE__)
+  #if !__has_extension(c_static_assert)
+    #error "language server lacks `_Static_assert` support"
+  #endif
+  #define static_assert(cond) _Static_assert(cond, "assert failed :c")
 #else
-#define static_assert(cond) \
-    typedef char STATIC_ASSERT_MAKE_NAME(__LINE__)[(cond) ? 1 : -1]
-#endif // __cplusplus
+  #define STATIC_ASSERT_CONCAT(a, b) a##b
+  #define STATIC_ASSERT_MAKE_NAME(line) STATIC_ASSERT_CONCAT(static_assertion_failed_at_line_, line)
+  #define static_assert(cond) \
+      typedef char STATIC_ASSERT_MAKE_NAME(__LINE__)[(cond) ? 1 : -1]
 #endif
+
+#endif // __cplusplus
 
 #define INLINE_ELSEWHERE(x)
 

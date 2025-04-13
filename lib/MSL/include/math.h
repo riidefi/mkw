@@ -25,6 +25,11 @@ inline f32 sqrtf(f32 x) { return (f32)sqrt(x); }
 f64 acos(f64);
 inline f32 acosf(f32 x) { return (f32)acos(x); }
 
+#ifdef __INTELLISENSE__
+#define __fabsf(x) x
+#define __fabs(x) x
+#endif
+
 f32 fabsf(f32);
 inline f32 fabsf(f32 x) { return __fabsf(x); }
 f64 fabs(f64);

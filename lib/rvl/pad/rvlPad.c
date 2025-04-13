@@ -3,6 +3,8 @@
 #include <rvl/os/os.h>
 #include <rvl/os/osContext.h>
 
+#include <stdlib.h>
+
 // TODO: Move to osMisc.h
 typedef int (*OSResetFunction)(int final);
 typedef struct OSResetFunctionInfo {
@@ -15,8 +17,8 @@ typedef struct OSResetFunctionInfo {
 void OSRegisterShutdownFunction(OSResetFunctionInfo* info);
 
 // Broadway / IOS global locations: https://wiibrew.org/wiki/Memory_Map
-u8 oslow_30e3 : (0x800030e3);
-u16 oslow_30e0 : (0x800030e0);
+u8 oslow_30e3 AT_ADDRESS(0x800030e3);
+u16 oslow_30e0 AT_ADDRESS(0x800030e0);
 
 #include "rvl/si/si.h"
 
@@ -50,6 +52,10 @@ static u32 PADUnk803869a4;
 static u32 PAD_StickXResetBit = 0xf0000000;
 // PAL: 0x80385b14 @sdata
 static u32 PAD_AnalogMode = 0x00000300u;
+
+static void SPEC0_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
+static void SPEC1_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
+static void SPEC2_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
 
 // PAL: 0x803869a0
 u32 PAD_Spec;
@@ -410,8 +416,6 @@ u32 PADRead(PADStatus* status) {
     } else {
       thres = 3;
     }
-// TODO add proper stdlib.h
-#define abs __abs
     if ((abs(abs(status->stickX) - abs(PAD_AltStatus[i].stickX))) >= thres ||
         (abs(abs(status->stickY) - abs(PAD_AltStatus[i].stickY))) >= thres ||
         (abs(abs(status->substickX) - abs(PAD_AltStatus[i].substickX))) >=
@@ -635,7 +639,7 @@ inline int PADSync(void) {
   return PADResetBits == 0 && PADResetChan == 32 && !SIBusy();
 }
 
-PADSamplingCallback PADSetSamplingCallback(PADSamplingCallback);
+static PADSamplingCallback PADSetSamplingCallback(PADSamplingCallback);
 
 int PAD_OnReset(int final) {
   // PAL: 0x80386998

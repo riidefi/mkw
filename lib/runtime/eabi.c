@@ -1,3 +1,5 @@
+#ifndef __INTELLISENSE__
+
 // PAL: 0x8002156C
 extern void _savegpr_14(void);
 // PAL: 0x80021570
@@ -147,3 +149,5 @@ entry _restgpr_27
   blr;
   // clang-format on
 }
+
+#endif

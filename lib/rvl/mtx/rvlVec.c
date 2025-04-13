@@ -1,5 +1,7 @@
 #include "mtx.h"
 
+#ifdef __CWCC__
+
 asm void PSVECAdd(const register Vec* vv1, const register Vec* vv2,
                   register Vec* out) {
   nofralloc;
@@ -115,6 +117,8 @@ asm void PSVECCrossProduct(const register Vec* vec1, const register Vec* vec2,
   blr;
 }
 
+#endif
+
 void C_VECHalfAngle(const Vec* a, const Vec* b, Vec* half) {
   Vec vv1, vv2, vv3;
 
@@ -137,6 +141,8 @@ void C_VECHalfAngle(const Vec* a, const Vec* b, Vec* half) {
     *half = vv3;
 }
 
+#ifdef __CWCC__
+
 f32 PSVECSquareDistance(const register Vec* vec1, const register Vec* vec2) {
   register f32 vv1, vv2, vv3, vv4, vv5, vv6;
   register f32 out;
@@ -154,3 +160,5 @@ f32 PSVECSquareDistance(const register Vec* vec1, const register Vec* vec2) {
   }
   return out;
 }
+
+#endif
