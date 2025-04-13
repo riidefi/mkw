@@ -78,253 +78,253 @@ Runtime.PPCEABI.H/global_destructor_chain.c:
 runtime/eabi.c:
 	.text       start:0x8002156C end:0x80021BA8
 
-unconfigured/g3d_camera.o:
+nw4r/g3d/g3d_camera.cpp:
 	.text       start:0x8006A0C0 end:0x8006AFBC
 	.sdata2     start:0x80387CB0 end:0x80387CD8
 
-unconfigured/g3d_fog.o:
+nw4r/g3d/g3d_fog.cpp:
 	.text       start:0x800774D0 end:0x800775D0
 	.sdata2     start:0x80387D58 end:0x80387D60
 
-unconfigured/lyt_init.o:
+nw4r/lyt/lyt_init.cpp:
 	.text       start:0x80078920 end:0x80078974
 	.data       start:0x802733F0 end:0x80273438
 	.sdata      start:0x80384D90 end:0x80384D98
 
-unconfigured/lyt_textBox.o:
+nw4r/lyt/lyt_textBox.cpp:
 	.text       start:0x8007C670 end:0x8007C6B0
 
-unconfigured/mathTriangular.o:
+nw4r/math/mathTriangular.cpp:
 	.text       start:0x80085110 end:0x80085578
 	.rodata     start:0x80248010 end:0x80249020
 	.data       start:0x80274148 end:0x80274250
 	.sdata2     start:0x80387E80 end:0x80387EA8
 
-unconfigured/mathTypes.o:
+nw4r/math/mathTypes.cpp:
 	.text       start:0x80085600 end:0x80085938
 
-unconfigured/snd_dvdSoundArchive.o:
+nw4r/snd/snd_dvdSoundArchive.cpp:
 	.text       start:0x80090FC0 end:0x80091418
 	.data       start:0x80274318 end:0x80274338
 
-unconfigured/utList.o:
+nw4r/ut/utList.cpp:
 	.text       start:0x800AEF60 end:0x800AF210
 
-unconfigured/ut_LinkList.o:
+nw4r/ut/ut_LinkList.cpp:
 	.text       start:0x800AF210 end:0x800AF3A0
 
-unconfigured/ut_binaryFileFormat.o:
+nw4r/ut/ut_binaryFileFormat.cpp:
 	.text       start:0x800AF3A0 end:0x800AF414
 
-unconfigured/ut_CharStrmReader.o:
+nw4r/ut/ut_CharStrmReader.cpp:
 	.text       start:0x800AF420 end:0x800AF540
 
-unconfigured/ut_IOStream.o:
+nw4r/ut/ut_IOStream.cpp:
 	.text       start:0x800AFEE0 end:0x800AFEEC
 	.ctors      start:0x80244E2C end:0x80244E30
 	.sbss       start:0x80386240 end:0x80386248
 
-unconfigured/ut_fileStream.o:
+nw4r/ut/ut_fileStream.cpp:
 	.text       start:0x800AFEF0 end:0x800B006C
 	.ctors      start:0x80244E30 end:0x80244E34
 	.sbss       start:0x80386248 end:0x80386250
 
-unconfigured/ut_dvdFileStream.o:
+nw4r/ut/ut_dvdFileStream.cpp:
 	.text       start:0x800B0070 end:0x800B06AC
 	.ctors      start:0x80244E34 end:0x80244E38
 	.data       start:0x80274C40 end:0x80274CA8
 	.sbss       start:0x80386250 end:0x80386258
 
-unconfigured/ut_dvdLockedFileStream.o:
+nw4r/ut/ut_dvdLockedFileStream.cpp:
 	.text       start:0x800B06B0 end:0x800B0A9C
 	.ctors      start:0x80244E38 end:0x80244E3C
 	.data       start:0x80274CA8 end:0x80274D10
 	.bss        start:0x802F12E8 end:0x802F1300
 	.sbss       start:0x80386258 end:0x80386270
 
-unconfigured/ut_nandFileStream.o:
+nw4r/ut/ut_nandFileStream.cpp:
 	.text       start:0x800B0AA0 end:0x800B178C
 	.ctors      start:0x80244E3C end:0x80244E40
 	.data       start:0x80274D10 end:0x80274D70
 	.sbss       start:0x80386270 end:0x80386278
 
-unconfigured/ut_lockedCache.o:
+nw4r/ut/ut_lockedCache.cpp:
 	.text       start:0x800B1790 end:0x800B1968
 	.ctors      start:0x80244E40 end:0x80244E48
 	.bss        start:0x802F1300 end:0x802F1320
 
-unconfigured/ut_font.o:
+nw4r/ut/ut_font.cpp:
 	.text       start:0x800B1970 end:0x800B1A14
 	.data       start:0x80274D70 end:0x80274DA0
 
-unconfigured/ut_romFont.o:
+nw4r/ut/ut_romFont.cpp:
 	.text       start:0x800B1A20 end:0x800B1F90
 	.data       start:0x80274DA0 end:0x80274E08
 	.sdata      start:0x80384DC8 end:0x80384DD0
 
-unconfigured/ut_resFontBase.o:
+nw4r/ut/ut_resFontBase.cpp:
 	.text       start:0x800B1F90 end:0x800B2828
 	.data       start:0x80274E68 end:0x80274ED0
 
-unconfigured/ut_resFont.o:
+nw4r/ut/ut_resFont.cpp:
 	.text       start:0x800B2830 end:0x800B2B2C
 	.data       start:0x80274ED0 end:0x80274F30
 
-unconfigured/ut_charWriter.o:
+nw4r/ut/ut_charWriter.cpp:
 	.text       start:0x800B2B30 end:0x800B4374
 	.bss        start:0x802F1320 end:0x802F1330
 	.sbss       start:0x80386278 end:0x80386280
 	.sdata2     start:0x803882E0 end:0x80388300
 
-unconfigured/rfl_init.o:
+rfl/rfl_init.c:
 	extab       start:0x800064A8 end:0x800064B0
 	extabindex  start:0x80006A5C end:0x80006A68
 	.text       start:0x800BBB80 end:0x800BBF08
 	.data       start:0x80274F30 end:0x80274F78
 
-unconfigured/rfl_icon.o:
+rfl/rfl_icon.c:
 	extab       start:0x800066D0 end:0x800066D8
 	extabindex  start:0x80006D98 end:0x80006DA4
 	.text       start:0x800C4E00 end:0x800C4E74
 
-unconfigured/dwc_error.o:
+dwc/common/dwc_error.c:
 	.text       start:0x800CCB4C end:0x800CCC80
 	.data       start:0x80275700 end:0x80275758
 	.sbss       start:0x803862A8 end:0x803862B0
 
-unconfigured/darray.o:
+gamespy/darray.c:
 	.text       start:0x800EF378 end:0x800EFDCC
 
-unconfigured/hashtable.o:
+gamespy/hashtable.c:
 	.text       start:0x800EFDCC end:0x800F0264
 
-unconfigured/md5c.o:
+gamespy/md5c.c:
 	.text       start:0x800F0264 end:0x800F118C
 	.rodata     start:0x8024C6B8 end:0x8024C6D0
 	.data       start:0x8027ACA0 end:0x8027ACE0
 
-unconfigured/gsSocketRevolution.o:
+gamespy/common/revolution/gsSocketRevolution.c:
 	.text       start:0x800F118C end:0x800F164C
 	.sbss       start:0x80386350 end:0x80386358
 
-unconfigured/gsUtilRevolution.o:
+gamespy/common/revolution/gsUtilRevolution.c:
 	.text       start:0x800F1F58 end:0x800F2048
 
-unconfigured/gsAvailable.o:
+gamespy/common/gsAvailable.c:
 	.text       start:0x800F38A4 end:0x800F3A20
 	.data       start:0x8027AD58 end:0x8027AD80
 	.bss        start:0x802F2338 end:0x802F2410
 	.sbss       start:0x80386358 end:0x80386360
 
-unconfigured/gsUdpEngine.o:
+gamespy/common/gsUdpEngine.c:
 	.text       start:0x800F489C end:0x800F5A6C
 	.bss        start:0x802F2440 end:0x802F2480
 
-unconfigured/gsXML.o:
+gamespy/common/gsXML.c:
 	.text       start:0x800F5A6C end:0x800FB828
 	.data       start:0x8027AD80 end:0x8027AF18
 	.sdata      start:0x803850A0 end:0x80385108
 
-unconfigured/gp.o:
+gamespy/GP/gp.c:
 	.text       start:0x800FB828 end:0x800FC7D4
 	.data       start:0x8027AF18 end:0x8027B290
 	.sdata      start:0x80385108 end:0x80385118
 
-unconfigured/gpi.o:
+gamespy/GP/gpi.c:
 	.text       start:0x800FC7D4 end:0x800FD160
 	.data       start:0x8027B290 end:0x8027B310
 	.sdata      start:0x80385118 end:0x80385150
 
-unconfigured/gpiBuddy.o:
+gamespy/GP/gpiBuddy.c:
 	.text       start:0x800FD160 end:0x800FEE90
 	.data       start:0x8027B310 end:0x8027B458
 	.sdata      start:0x80385150 end:0x803851F0
 
-unconfigured/gpiBuffer.o:
+gamespy/GP/gpiBuffer.c:
 	.text       start:0x800FEE90 end:0x800FF8C4
 	.data       start:0x8027B458 end:0x8027B4C0
 	.sdata      start:0x803851F0 end:0x80385208
 
-unconfigured/gpiCallback.o:
+gamespy/GP/gpiCallback.c:
 	.text       start:0x800FF8C4 end:0x800FFE28
 	.data       start:0x8027B4C0 end:0x8027B4D0
 
-unconfigured/gpiConnect.o:
+gamespy/GP/gpiConnect.c:
 	.text       start:0x800FFE28 end:0x80101470
 	.data       start:0x8027B4D0 end:0x8027B878
 	.sdata      start:0x80385208 end:0x803852A0
 
-unconfigured/gpiInfo.o:
+gamespy/GP/gpiInfo.c:
 	.text       start:0x80101470 end:0x80103908
 	.data       start:0x8027B878 end:0x8027BBD0
 	.sdata      start:0x803852A0 end:0x80385358
 	.sdata2     start:0x80388470 end:0x80388478
 
-unconfigured/gpiKeys.o:
+gamespy/GP/gpiKeys.c:
 	.text       start:0x80103908 end:0x80103F70
 	.data       start:0x8027BBD0 end:0x8027BC18
 	.sdata      start:0x80385358 end:0x80385360
 
-unconfigured/gpiOperation.o:
+gamespy/GP/gpiOperation.c:
 	.text       start:0x80103F70 end:0x80104648
 	.data       start:0x8027BC18 end:0x8027BC60
 
-unconfigured/gpiPeer.o:
+gamespy/GP/gpiPeer.c:
 	.text       start:0x80104648 end:0x80105D54
 	.data       start:0x8027BC60 end:0x8027BD30
 	.sdata      start:0x80385360 end:0x803853C0
 
-unconfigured/gpiProfile.o:
+gamespy/GP/gpiProfile.c:
 	.text       start:0x80105D54 end:0x8010669C
 	.data       start:0x8027BD30 end:0x8027BEE8
 	.sdata      start:0x803853C0 end:0x803853D0
 
-unconfigured/gpiSearch.o:
+gamespy/GP/gpiSearch.c:
 	.text       start:0x8010669C end:0x80108B38
 	.data       start:0x8027BEE8 end:0x8027C208
 	.sdata      start:0x803853D0 end:0x803854C0
 
-unconfigured/gpiTransfer.o:
+gamespy/GP/gpiTransfer.c:
 	.text       start:0x80108B38 end:0x80108C20
 	.data       start:0x8027C208 end:0x8027C230
 	.sdata      start:0x803854C0 end:0x803854D0
 
-unconfigured/gpiUnique.o:
+gamespy/GP/gpiUnique.c:
 	.text       start:0x80108C20 end:0x80108E78
 	.data       start:0x8027C230 end:0x8027C270
 	.sdata      start:0x803854D0 end:0x803854E0
 
-unconfigured/gpiUtility.o:
+gamespy/GP/gpiUtility.c:
 	.text       start:0x80108E78 end:0x8010945C
 	.data       start:0x8027C270 end:0x8027C2C8
 	.sdata      start:0x803854E0 end:0x803854F8
 
-unconfigured/gt2Auth.o:
+gamespy/gt2/gt2Auth.c:
 	.text       start:0x8010945C end:0x80109820
 	.data       start:0x8027C2C8 end:0x8027C2F0
 
-unconfigured/gt2Buffer.o:
+gamespy/gt2/gt2Buffer.c:
 	.text       start:0x80109820 end:0x801099C4
 
-unconfigured/gt2Callback.o:
+gamespy/gt2/gt2Callback.c:
 	.text       start:0x801099C4 end:0x8010A244
 
-unconfigured/gt2Connection.o:
+gamespy/gt2/gt2Connection.c:
 	.text       start:0x8010A244 end:0x8010A918
 
-unconfigured/gt2Main.o:
+gamespy/gt2/gt2Main.c:
 	.text       start:0x8010A918 end:0x8010AD14
 
-unconfigured/gt2Socket.o:
+gamespy/gt2/gt2Socket.c:
 	.text       start:0x8010DE30 end:0x8010E9C0
 
-unconfigured/gt2Utility.o:
+gamespy/gt2/gt2Utility.c:
 	.text       start:0x8010E9C0 end:0x8010ECAC
 	.bss        start:0x802F3480 end:0x802F34C0
 	.sdata      start:0x80385508 end:0x80385520
 	.sbss       start:0x80386360 end:0x80386368
 
-unconfigured/qr2.o:
+gamespy/qr2/qr2.c:
 	.text       start:0x8010ECAC end:0x8011156C
 	.data       start:0x8027C2F0 end:0x8027D220
 	.bss        start:0x802F34C0 end:0x802F3620
@@ -332,90 +332,90 @@ unconfigured/qr2.o:
 	.sbss       start:0x80386368 end:0x80386370
 	.sdata2     start:0x80388478 end:0x80388480
 
-unconfigured/qr2regkeys.o:
+gamespy/qr2/qr2regkeys.c:
 	.text       start:0x8011156C end:0x801115FC
 	.data       start:0x8027D220 end:0x8027D6F8
 	.sdata      start:0x80385550 end:0x803855C8
 
-unconfigured/ghttpBuffer.o:
+gamespy/ghttp/ghttpBuffer.c:
 	.text       start:0x801115FC end:0x80111DE8
 	.sdata      start:0x803855C8 end:0x803855D8
 
-unconfigured/ghttpCallbacks.o:
+gamespy/ghttp/ghttpCallbacks.c:
 	.text       start:0x80111F0C end:0x8011202C
 
-unconfigured/ghttpCommon.o:
+gamespy/ghttp/ghttpCommon.c:
 	.text       start:0x8011202C end:0x8011248C
 	.sdata      start:0x803855D8 end:0x803855E0
 	.sbss       start:0x80386370 end:0x80386378
 
-unconfigured/ghttpConnection.o:
+gamespy/ghttp/ghttpConnection.c:
 	.text       start:0x801125C8 end:0x80112D14
 	.data       start:0x8027D6F8 end:0x8027D708
 	.sbss       start:0x80386378 end:0x80386388
 
-unconfigured/ghttpEncryption.o:
+gamespy/ghttp/ghttpEncryption.c:
 	.text       start:0x80112D14 end:0x8011312C
 	.data       start:0x8027D708 end:0x8027D718
 
-unconfigured/ghttpMain.o:
+gamespy/ghttp/ghttpMain.c:
 	.text       start:0x8011312C end:0x801139B0
 	.data       start:0x8027D718 end:0x8027D738
 	.sbss       start:0x80386388 end:0x80386390
 
-unconfigured/ghttpPost.o:
+gamespy/ghttp/ghttpPost.c:
 	.text       start:0x801139B0 end:0x80115384
 	.data       start:0x8027D738 end:0x8027D978
 	.sdata      start:0x803855E0 end:0x80385600
 	.sbss       start:0x80386390 end:0x803863A8
 	.sdata2     start:0x80388480 end:0x80388488
 
-unconfigured/ghttpProcess.o:
+gamespy/ghttp/ghttpProcess.c:
 	.text       start:0x80115384 end:0x80116DD4
 	.rodata     start:0x8024C6D0 end:0x8024C6E0
 	.data       start:0x8027D978 end:0x8027DA48
 	.sdata      start:0x80385600 end:0x80385658
 
-unconfigured/gbucket.o:
+gamespy/gstats/gbucket.c:
 	.text       start:0x80116DD4 end:0x80117F6C
 	.sbss       start:0x803863A8 end:0x803863C0
 	.sdata2     start:0x80388488 end:0x80388490
 
-unconfigured/gstats.o:
+gamespy/gstats/gstats.c:
 	.text       start:0x80117F6C end:0x8011A054
 	.data       start:0x8027DA48 end:0x8027DCA0
 	.bss        start:0x802F3820 end:0x802F3A20
 	.sdata      start:0x80385658 end:0x803856C0
 	.sbss       start:0x803863C0 end:0x803863E0
 
-unconfigured/sb_crypt.o:
+gamespy/serverbrowsing/sb_crypt.c:
 	.text       start:0x8011C10C end:0x8011C540
 
-unconfigured/sb_queryengine.o:
+gamespy/serverbrowsing/sb_queryengine.c:
 	.text       start:0x8011C540 end:0x8011D024
 	.data       start:0x8027DDC0 end:0x8027DDE8
 	.sdata      start:0x803856F0 end:0x803856F8
 
-unconfigured/sb_server.o:
+gamespy/serverbrowsing/sb_server.c:
 	.text       start:0x8011D024 end:0x8011DD04
 	.data       start:0x8027DDE8 end:0x8027DDF8
 	.sdata      start:0x803856F8 end:0x80385728
 	.sbss       start:0x80386430 end:0x80386440
 	.sdata2     start:0x80388490 end:0x80388498
 
-unconfigured/sb_serverbrowsing.o:
+gamespy/serverbrowsing/sb_serverbrowsing.c:
 	.text       start:0x8011DD04 end:0x8011E518
 	.data       start:0x8027DDF8 end:0x8027DE18
 	.sdata      start:0x80385728 end:0x80385730
 
-unconfigured/sb_serverlist.o:
+gamespy/serverbrowsing/sb_serverlist.c:
 	.text       start:0x8011E518 end:0x80121EEC
 	.data       start:0x8027DE18 end:0x8027DE48
 	.sdata      start:0x80385730 end:0x80385740
 	.sbss       start:0x80386440 end:0x80386448
 	.sdata2     start:0x80388498 end:0x803884A8
 
-unconfigured/sakeMain.o:
+gamespy/sake/sakeMain.c:
 	.text       start:0x80121EEC end:0x8012249C
 	.data       start:0x8027DE48 end:0x8027DF40
 	.bss        start:0x802F3F40 end:0x802F4040
@@ -902,74 +902,74 @@ rvl/so/soBasic.c:
 	.data       start:0x802A24F8 end:0x802A2550
 	.sdata      start:0x80385EE8 end:0x80385EF0
 
-unconfigured/eggAllocator.o:
+egg/core/eggAllocator.cpp:
 	.text       start:0x8020F62C end:0x8020F6EC
 	.data       start:0x802A2668 end:0x802A2680
 
-unconfigured/eggArchive.o:
+egg/core/eggArchive.cpp:
 	.text       start:0x8020F6EC end:0x8020FCC4
 	.data       start:0x802A2680 end:0x802A26A0
 	.bss        start:0x803832D8 end:0x803832E8
 	.sbss       start:0x80386D80 end:0x80386D88
 
-unconfigured/eggAsyncDisplay.o:
+egg/core/eggAsyncDisplay.cpp:
 	.text       start:0x8020FCD4 end:0x802104EC
 
-unconfigured/eggAudioArcPlayerMgr.o:
+egg/audio/eggAudioArcPlayerMgr.cpp:
 	.text       start:0x80210590 end:0x80211058
 
-unconfigured/eggCntFile.o:
+egg/util/eggCntFile.cpp:
 	.text       start:0x80214E68 end:0x80215168
 	.data       start:0x802A2A08 end:0x802A2A28
 	.bss        start:0x80383500 end:0x80383510
 	.sbss       start:0x80386DC8 end:0x80386DD0
 
-unconfigured/eggCompress.o:
+egg/core/eggCompress.cpp:
 	.text       start:0x802156AC end:0x80215CBC
 
-unconfigured/eggDecomp.o:
+egg/core/eggDecomp.cpp:
 	.text       start:0x80218BA4 end:0x80219E68
 	.sbss       start:0x80386DE8 end:0x80386E10
 
-unconfigured/eggDisplay.o:
+egg/core/eggDisplay.cpp:
 	.text       start:0x80219E68 end:0x8021A0F0
 	.data       start:0x802A2B28 end:0x802A2B48
 	.sdata2     start:0x80388B18 end:0x80388B40
 
-unconfigured/eggDisposer.o:
+egg/core/eggDisposer.cpp:
 	.text       start:0x8021A0F0 end:0x8021A1B8
 	.data       start:0x802A2B48 end:0x802A2B60
 
-unconfigured/eggDvdFile.o:
+egg/core/eggDvdFile.cpp:
 	.text       start:0x8022231C end:0x802226D8
 	.data       start:0x802A2DA0 end:0x802A2DC8
 	.bss        start:0x80384190 end:0x803841A0
 	.sbss       start:0x80386E18 end:0x80386E20
 
-unconfigured/eggDvdRipper.o:
+egg/core/eggDvdRipper.cpp:
 	.text       start:0x802226D8 end:0x80222CCC
 	.sdata      start:0x80385F88 end:0x80385F90
 	.sbss       start:0x80386E20 end:0x80386E28
 
-unconfigured/eggEffect.o:
+egg/util/eggEffect.cpp:
 	.text       start:0x80222CCC end:0x80224348
 	.ctors      start:0x80244E70 end:0x80244E78
 
-unconfigured/eggEffectCreator.o:
+egg/util/eggEffectCreator.cpp:
 	.text       start:0x80224348 end:0x802246EC
 	.data       start:0x802A2E50 end:0x802A2E70
 
-unconfigured/eggExpHeap.o:
+egg/core/eggExpHeap.cpp:
 	.text       start:0x802269A8 end:0x80226F04
 	.rodata     start:0x80257700 end:0x80257720
 	.data       start:0x802A2FF8 end:0x802A3028
 
-unconfigured/eggGraphicsFifo.o:
+egg/core/eggGraphicsFifo.cpp:
 	.text       start:0x80229540 end:0x802296A8
 	.data       start:0x802A30B0 end:0x802A30C0
 	.sbss       start:0x80386E90 end:0x80386EA0
 
-unconfigured/eggHeap.o:
+egg/core/eggHeap.cpp:
 	.text       start:0x802296A8 end:0x80229FAC
 	.rodata     start:0x80257740 end:0x80257828
 	.data       start:0x802A30C0 end:0x802A30F0
@@ -977,76 +977,76 @@ unconfigured/eggHeap.o:
 	.sbss       start:0x80386EA0 end:0x80386EC0
 	.sdata2     start:0x80388D68 end:0x80388D80
 
-unconfigured/eggIScnProc.o:
+egg/gfx/eggIScnProc.cpp:
 	.text       start:0x80229FAC end:0x8022A38C
 
-unconfigured/eggProcessMeter.o:
+egg/core/eggProcessMeter.cpp:
 	.text       start:0x802386DC end:0x802396C0
 	.data       start:0x802A3D48 end:0x802A3D78
 
-unconfigured/eggQuat.o:
+egg/math/eggQuat.cpp:
 	.text       start:0x80239DFC end:0x8023A884
 	.sdata2     start:0x80388FE0 end:0x80389008
 
-unconfigured/eggSaveBanner.o:
+egg/util/eggSaveBanner.cpp:
 	.text       start:0x8023A884 end:0x8023AD10
 
-unconfigured/eggScene.o:
+egg/core/eggScene.cpp:
 	.text       start:0x8023AD10 end:0x8023ADDC
 	.data       start:0x802A3DE0 end:0x802A3E08
 
-unconfigured/eggSceneManager.o:
+egg/core/eggSceneManager.cpp:
 	.text       start:0x8023ADDC end:0x8023B980
 	.data       start:0x802A3E08 end:0x802A3E30
 	.sbss       start:0x80386F00 end:0x80386F10
 	.sdata2     start:0x80389008 end:0x80389018
 
-unconfigured/eggStream.o:
+egg/util/eggStream.cpp:
 	.text       start:0x80241B60 end:0x80242498
 
-unconfigured/eggStreamDecomp.o:
+egg/core/eggStreamDecomp.cpp:
 	.text       start:0x80242498 end:0x80242504
 	.data       start:0x802A3F78 end:0x802A3F90
 
-unconfigured/eggSystem.o:
+egg/core/eggSystem.cpp:
 	.text       start:0x80242504 end:0x802428E8
 	.rodata     start:0x802582B0 end:0x802582E0
 	.sbss       start:0x80386F60 end:0x80386F68
 
-unconfigured/eggTaskThread.o:
+egg/core/eggTaskThread.cpp:
 	.text       start:0x802428E8 end:0x80242F1C
 	.data       start:0x802A3F90 end:0x802A3FA8
 
-unconfigured/eggTextureBuffer.o:
+egg/core/eggTextureBuffer.cpp:
 	.text       start:0x80242F1C end:0x802432E0
 
-unconfigured/eggThread.o:
+egg/core/eggThread.cpp:
 	.text       start:0x802432E0 end:0x80243754
 	.data       start:0x802A3FC0 end:0x802A3FD8
 	.bss        start:0x80384B60 end:0x80384B70
 
-unconfigured/eggUnitHeap.o:
+egg/core/eggUnitHeap.cpp:
 	.text       start:0x80243754 end:0x80243A00
 	.data       start:0x802A3FD8 end:0x802A4008
 
-unconfigured/eggVector.o:
+egg/math/eggVector.cpp:
 	.text       start:0x80243A00 end:0x80243D18
 	.ctors      start:0x80244E88 end:0x80244E8C
 	.bss        start:0x80384B70 end:0x80384BF4
 	.sbss       start:0x80386F78 end:0x80386F90
 	.sdata2     start:0x803890F8 end:0x80389108
 
-unconfigured/eggVideo.o:
+egg/core/eggVideo.cpp:
 	.text       start:0x80243D18 end:0x80244074
 	.rodata     start:0x802582E0 end:0x80258560
 	.sdata2     start:0x80389108 end:0x80389118
 
-unconfigured/eggViewport.o:
+egg/core/eggViewport.cpp:
 	.text       start:0x80244074 end:0x80244160
 	.sdata2     start:0x80389118 end:0x80389128
 
-core/eggXfb.cpp:
+egg/core/eggXfb.cpp:
 	.text       start:0x80244160 end:0x80244200
 
-unconfigured/eggXfbManager.o:
+egg/core/eggXfbManager.cpp:
 	.text       start:0x80244200 end:0x802443AC

@@ -30,7 +30,7 @@ GraphicsFifo::~GraphicsFifo() {
 
 GraphicsFifo::GraphicsFifo(unsigned int fifoSize, EGG::Heap* heap) {
   mBufSize = ROUND_UP(fifoSize, 32);
-  mBufBase = (void*)ROUND_UP(Heap::alloc(mBufSize + 0xA0, 32, heap), 32);
+  mBufBase = (void*)ROUND_UP((s32)Heap::alloc(mBufSize + 0xA0, 32, heap), 32);
 
   EGG_ASSERT(mBufBase, "eggGraphicsFifo.cpp", 145, "mBufBase");
 

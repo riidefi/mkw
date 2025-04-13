@@ -524,7 +524,7 @@ const GXRenderModeObj* Video::getStandardRenderModeObj(
   // Query the system configuration
   bool bProgressive = (u32)SCGetProgressiveMode() == 1u;      // r31
   bool bEuRGB60 = (u32)SCGetEuRgb60Mode() == 1u;              // r30
-  bool b4x3 = (u32)SCGetAspectRatio() == SC_ASPECT_RATIO_4x3; // r29
+  bool b4x3 = (u32)SCGetAspectRatio() == SC_ASPECT_STD; // r29
   bool bDigitalAVConnected =
       VIGetDTVStatus() == 1; // r28 is digital av (progressive) cable connected?
 

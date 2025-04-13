@@ -74,11 +74,9 @@ UNKNOWN_FUNCTION(SelectThread);
 
 void __OSReschedule(void);
 
-UNKNOWN_FUNCTION(OSYieldThread);
-
-UNKNOWN_FUNCTION(OSExitThread);
-
-UNKNOWN_FUNCTION(OSJoinThread);
+void OSYieldThread(void);
+void OSExitThread(OSThread *thread);
+BOOL OSJoinThread(OSThread *thread, void *val);
 
 s32 OSSuspendThread(OSThread*);
 void OSSleepThread(struct OSThreadQueue*);

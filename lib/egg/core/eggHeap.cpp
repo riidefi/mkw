@@ -216,7 +216,6 @@ void Heap::dispose() {
     it->~Disposer();
 }
 
-#ifdef NONMATCHING
 void Heap::dumpAll() {
   Heap* it = nullptr; // r27
   Heap* parent_it;    // r26
@@ -240,70 +239,6 @@ void Heap::dumpAll() {
   next:;
   }
 }
-#else
-extern "C" void List_GetNext__Q24nw4r2utFPCQ34nw4r2ut4ListPCv();
-asm void Heap::dumpAll() {
-  nofralloc
-      // clang-format off
-
-/* 80229CB0  94 21 FF E0 */	stwu r1, -0x20(r1)
-/* 80229CB4  7C 08 02 A6 */	mflr r0
-/* 80229CB8  90 01 00 24 */	stw r0, 0x24(r1)
-/* 80229CBC  BF 41 00 08 */	stmw r26, 8(r1)
-                li        r27, 0
-                li        r30, 0
-                li        r31, 0
-                lis       r29, sHeapList@ha
-                lis       r28, -0x7000
-                b         loc_80229D48
-loc_80229CD8:
-                cmplw     r3, r28
-                li        r26, 0
-                bge       loc_80229D04
-                lwz       r12, 0(r27)
-                mr        r3, r27
-                li        r4, 4
-                lwz       r12, 0x24(r12)
-                mtctr     r12
-                bctrl
-                add       r30, r30, r3
-                b         loc_80229D30
-loc_80229D04:
-                lwz       r12, 0(r27)
-                mr        r3, r27
-                li        r4, 4
-                lwz       r12, 0x24(r12)
-                mtctr     r12
-                bctrl
-                add       r31, r31, r3
-                b         loc_80229D30
-loc_80229D24:
-                lwz       r0, 0x18(r27)
-                cmplw     r0, r3
-                beq       loc_80229D48
-loc_80229D30:
-                mr        r4, r26
-                addi      r3, r29, sHeapList@l
-                bl        List_GetNext__Q24nw4r2utFPCQ34nw4r2ut4ListPCv
-                cmpwi     r3, 0
-                mr        r26, r3
-                bne       loc_80229D24
-loc_80229D48:
-                mr        r4, r27
-                addi      r3, r29, sHeapList@l
-                bl        List_GetNext__Q24nw4r2utFPCQ34nw4r2ut4ListPCv
-                cmpwi     r3, 0
-                mr        r27, r3
-                bne       loc_80229CD8
-/* 80229D60  BB 41 00 08 */	lmw r26, 8(r1)
-/* 80229D64  80 01 00 24 */	lwz r0, 0x24(r1)
-/* 80229D68  7C 08 03 A6 */	mtlr r0
-/* 80229D6C  38 21 00 20 */	addi r1, r1, 0x20
-/* 80229D70  4E 80 00 20 */	blr
-  // clang-format on
-}
-#pragma peephole on
-#endif
 
 Heap* Heap::becomeCurrentHeap() {
   OSLockMutex(&Heap::sRootMutex);

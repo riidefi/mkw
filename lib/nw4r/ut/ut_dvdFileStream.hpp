@@ -2,6 +2,7 @@
 
 #include <rk_types.h>
 #include <rvl/dvd/dvd.h>
+#include <rvl/dvd/dvdFs.h>
 
 #include "ut_fileStream.hpp"
 #include "utInlines.hpp"

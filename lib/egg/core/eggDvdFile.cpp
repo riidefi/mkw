@@ -1,3 +1,5 @@
+#include <rvl/dvd/dvdFs.h>
+
 #include <egg/core/eggDvdFile.hpp>
 
 #include <cstddef>

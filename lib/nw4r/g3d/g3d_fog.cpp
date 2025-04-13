@@ -43,6 +43,7 @@ void* Fog::CopyTo(void* pFog) const {
 
     if (mFogData.IsValid()) {
       asm {
+#ifdef __CWCC__
         lfd f0, 0(src);
         stfd f0, 0(dest);
         lfd f0, 8(src);
@@ -55,6 +56,7 @@ void* Fog::CopyTo(void* pFog) const {
         stfd f0, 32(dest);
         lfd f0, 40(src);
         stfd f0, 40(dest);
+#endif
       }
       return pFog;
     }

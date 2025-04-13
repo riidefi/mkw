@@ -210,6 +210,7 @@ cflags_base = [
     "-i ./include",
     "-i ./src",
     "-i lib/MSL/include",
+    "-i lib/MSL/src",
     "-i lib",  # just for now, individual include directories for each lib is tidier
 
 ]
@@ -252,7 +253,10 @@ cflags_rvl = [
 ]
 
 # RFL flags
-cflags_rfl = cflags_rvl
+cflags_rfl = [
+    *cflags_rvl, 
+    "-O4,p"
+]
 
 # SPY flags
 cflags_spy = [
@@ -265,6 +269,8 @@ cflags_nw4r = [
     *cflags_base,
     # "-lang=c99", # needed?
     "-ipa file",
+    "-inline auto",
+    "-O4,p",
     '-pragma "legacy_struct_alignment on"',
 ]
 
@@ -480,14 +486,14 @@ config.libs = [
         ],
     },
     {
-        "lib": "pad",# inline noaudo
+        "lib": "pad",
         "mw_version": "GC/3.0a5.2",
         "cflags": cflags_rvl,
         "progress_category": "sdk",
         "src_dir": "lib",
         "objects": [
         Object(Matching, "rvl/pad/rvlPadClamp.c"),
-        Object(NonMatching, "rvl/pad/rvlPad.c"),
+        Object(NonMatching, "rvl/pad/rvlPad.c", extra_cflags=["-inline on,noauto"]),
         ],
     },
     {
@@ -525,7 +531,7 @@ config.libs = [
         "lib": "Runtime.PPCEABI.H",
         "mw_version": config.linker_version,
         "cflags": cflags_runtime,
-        "progress_category": "sdk",  # str | List[str]
+        "progress_category": "sdk",
         "src_dir": "lib",
         "objects": [
             Object(NonMatching, "Runtime.PPCEABI.H/global_destructor_chain.c"),
@@ -551,13 +557,194 @@ config.libs = [
         ],
     },
     {
-        "lib": "EGG",
+        "lib": "dwc",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_rvl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "dwc/common/dwc_error.c"),
+        ],
+    },
+    {
+        "lib": "spy",
+        "mw_version": "GC/3.0a5.2",
+        "cflags": cflags_spy,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "gamespy/darray.c"),
+            Object(Matching, "gamespy/hashtable.c"),
+            Object(Matching, "gamespy/md5c.c"),
+            Object(Matching, "gamespy/common/revolution/gsSocketRevolution.c"),
+            Object(Matching, "gamespy/common/gsAvailable.c"),
+            Object(Matching, "gamespy/common/revolution/gsUtilRevolution.c"),
+            Object(Matching, "gamespy/common/gsCore.c"),
+            Object(Matching, "gamespy/common/gsUdpEngine.c"),
+            Object(Matching, "gamespy/common/gsXML.c"),
+            Object(Matching, "gamespy/GP/gp.c"),
+            Object(Matching, "gamespy/GP/gpi.c"),
+            Object(Matching, "gamespy/GP/gpiBuddy.c"),
+            Object(Matching, "gamespy/GP/gpiBuffer.c"),
+            Object(Matching, "gamespy/GP/gpiCallback.c"),
+            Object(Matching, "gamespy/GP/gpiConnect.c"),
+            Object(Matching, "gamespy/GP/gpiInfo.c"),
+            Object(Matching, "gamespy/GP/gpiKeys.c"),
+            Object(Matching, "gamespy/GP/gpiOperation.c"),
+            Object(Matching, "gamespy/GP/gpiPeer.c"),
+            Object(Matching, "gamespy/GP/gpiProfile.c"),
+            Object(Matching, "gamespy/GP/gpiSearch.c"),
+            Object(Matching, "gamespy/GP/gpiTransfer.c"),
+            Object(Matching, "gamespy/GP/gpiUnique.c"),
+            Object(Matching, "gamespy/GP/gpiUtility.c"),
+            Object(Matching, "gamespy/gt2/gt2Auth.c"),
+            Object(Matching, "gamespy/gt2/gt2Buffer.c"),
+            Object(Matching, "gamespy/gt2/gt2Callback.c"),
+            Object(Matching, "gamespy/gt2/gt2Connection.c"),
+            Object(Matching, "gamespy/gt2/gt2Main.c"),
+            Object(Matching, "gamespy/gt2/gt2Socket.c"),
+            Object(NonMatching, "gamespy/gt2/gt2Utility.c"),
+            Object(NonMatching, "gamespy/qr2/qr2.c"),
+            Object(Matching, "gamespy/qr2/qr2regkeys.c"),
+            Object(Matching, "gamespy/ghttp/ghttpBuffer.c"),
+            Object(Matching, "gamespy/ghttp/ghttpCallbacks.c"),
+            Object(Matching, "gamespy/ghttp/ghttpCommon.c"),
+            Object(Matching, "gamespy/ghttp/ghttpConnection.c"),
+            Object(Matching, "gamespy/ghttp/ghttpEncryption.c"),
+            Object(Matching, "gamespy/ghttp/ghttpMain.c"),
+            Object(Matching, "gamespy/ghttp/ghttpPost.c"),
+            Object(Matching, "gamespy/ghttp/ghttpProcess.c"),
+            Object(Matching, "gamespy/gstats/gbucket.c"),
+            Object(Matching, "gamespy/gstats/gstats.c"),
+            Object(Matching, "gamespy/serverbrowsing/sb_crypt.c"),
+            Object(Matching, "gamespy/serverbrowsing/sb_queryengine.c"),
+            Object(Matching, "gamespy/serverbrowsing/sb_server.c"),
+            Object(Matching, "gamespy/serverbrowsing/sb_serverlist.c"),
+            Object(Matching, "gamespy/serverbrowsing/sb_serverbrowsing.c"),
+            Object(Matching, "gamespy/sake/sakeMain.c"),
+        ],
+    },
+    # See https://github.com/doldecomp/ogws for more up-to-date nw4r decompilation
+    {
+        "lib": "math",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_nw4r,
+        "progress_category": "nw4r",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "nw4r/math/mathTriangular.cpp"),
+            Object(NonMatching, "nw4r/math/mathTypes.cpp"),
+        ],
+    },
+    {
+        "lib": "g3d",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_nw4r,
+        "progress_category": "nw4r",
+        "src_dir": "lib",
+        "objects": [
+            Object(NonMatching, "nw4r/g3d/g3d_camera.cpp"),
+            Object(NonMatching, "nw4r/g3d/g3d_fog.cpp"),
+        ],
+    },
+    {
+        "lib": "lyt",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_nw4r,
+        "progress_category": "nw4r",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "nw4r/lyt/lyt_init.cpp"),
+            Object(Matching, "nw4r/lyt/lyt_textBox.cpp"),
+        ],
+    },
+    {
+        "lib": "snd",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_nw4r,
+        "progress_category": "nw4r",
+        "src_dir": "lib",
+        "objects": [
+            Object(NonMatching, "nw4r/snd/snd_dvdSoundArchive.cpp"),
+        ],
+    },
+    {
+        "lib": "ut",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_nw4r,
+        "progress_category": "nw4r",
+        "src_dir": "lib",
+        "objects": [
+            Object(Matching, "nw4r/ut/utList.cpp"),
+            Object(Matching, "nw4r/ut/ut_LinkList.cpp"),
+            Object(Matching, "nw4r/ut/ut_binaryFileFormat.cpp"),
+            Object(Matching, "nw4r/ut/ut_CharStrmReader.cpp"),
+            Object(Matching, "nw4r/ut/ut_IOStream.cpp"),
+            Object(Matching, "nw4r/ut/ut_fileStream.cpp"),
+            Object(Matching, "nw4r/ut/ut_dvdFileStream.cpp"),
+            Object(Matching, "nw4r/ut/ut_dvdLockedFileStream.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_nandFileStream.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_lockedCache.cpp"),
+            Object(Matching, "nw4r/ut/ut_font.cpp"),
+            Object(Matching, "nw4r/ut/ut_romFont.cpp"),
+            Object(Matching, "nw4r/ut/ut_resFontBase.cpp"),
+            Object(Matching, "nw4r/ut/ut_resFont.cpp"),
+            Object(NonMatching, "nw4r/ut/ut_charWriter.cpp"),
+        ],
+    },
+    {
+        "lib": "rfl",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_rfl,
+        "progress_category": "sdk",
+        "src_dir": "lib",
+        "objects": [
+            Object(NonMatching, "rfl/rfl_init.c"),
+            Object(NonMatching, "rfl/rfl_icon.c"),
+        ],
+    },
+    # See https://github.com/vabold/EGG/
+    {
+        "lib": "egg",
         "mw_version": "Wii/0x4201_127",
         "cflags": cflags_egg,
         "progress_category": "egg",
-        "src_dir": "lib/egg",
+        "src_dir": "lib",
         "objects": [
-            Object(Matching, "core/eggXfb.cpp"),
+            Object(Matching, "egg/core/eggAllocator.cpp"),
+            Object(NonMatching, "egg/core/eggArchive.cpp"),
+            Object(NonMatching, "egg/core/eggAsyncDisplay.cpp"),
+            Object(NonMatching, "egg/audio/eggAudioArcPlayerMgr.cpp"),
+            Object(NonMatching, "egg/util/eggCntFile.cpp"),
+            Object(NonMatching, "egg/core/eggCompress.cpp"),
+            Object(NonMatching, "egg/core/eggDecomp.cpp"),
+            Object(NonMatching, "egg/core/eggDisplay.cpp"),
+            Object(NonMatching, "egg/core/eggDisposer.cpp"),
+            Object(Matching, "egg/core/eggDvdFile.cpp"),
+            Object(NonMatching, "egg/core/eggDvdRipper.cpp"),
+            Object(NonMatching, "egg/util/eggEffect.cpp"),
+            Object(NonMatching, "egg/util/eggEffectCreator.cpp"),
+            Object(NonMatching, "egg/core/eggExpHeap.cpp"),
+            Object(Matching, "egg/core/eggGraphicsFifo.cpp"),
+            Object(NonMatching, "egg/core/eggHeap.cpp"),
+            Object(NonMatching, "egg/gfx/eggIScnProc.cpp"),
+            Object(NonMatching, "egg/core/eggProcessMeter.cpp"),
+            Object(NonMatching, "egg/math/eggQuat.cpp"),
+            Object(NonMatching, "egg/util/eggSaveBanner.cpp"),
+            Object(NonMatching, "egg/core/eggScene.cpp"),
+            Object(NonMatching, "egg/core/eggSceneManager.cpp"),
+            Object(NonMatching, "egg/util/eggStream.cpp"),
+            Object(NonMatching, "egg/core/eggStreamDecomp.cpp"),
+            Object(NonMatching, "egg/core/eggSystem.cpp"),
+            Object(NonMatching, "egg/core/eggTaskThread.cpp"),
+            Object(NonMatching, "egg/core/eggTextureBuffer.cpp"),
+            Object(NonMatching, "egg/core/eggThread.cpp"),
+            Object(NonMatching, "egg/core/eggUnitHeap.cpp"),
+            Object(NonMatching, "egg/math/eggVector.cpp"),
+            Object(NonMatching, "egg/core/eggVideo.cpp"),
+            Object(NonMatching, "egg/core/eggViewport.cpp"),
+            Object(NonMatching, "egg/core/eggXfb.cpp"),
+            Object(NonMatching, "egg/core/eggXfbManager.cpp"),
         ],
     },
     {
@@ -646,7 +833,8 @@ def link_order_callback(module_id: int, objects: List[str]) -> List[str]:
 config.progress_categories = [
     ProgressCategory("game", "Game Code"),
     ProgressCategory("sdk", "SDK Code"),
-    ProgressCategory("egg", "EGG"),
+    ProgressCategory("nw4r", "NintendoWare Code"),
+    ProgressCategory("egg", "EGG Code"),
 ]
 config.progress_each_module = args.verbose
 

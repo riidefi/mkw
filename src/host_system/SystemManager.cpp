@@ -3,7 +3,7 @@
  * @brief System Manager implementations.
  */
 
-#include <EGG/util/eggException.hpp>
+#include <egg/util/eggException.hpp>
 #include <Static/System/SystemManager.hpp>
 
 namespace System {

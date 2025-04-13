@@ -9,8 +9,8 @@ extern "C" {
 #define OSRoundUp32B(x) (((u32)(x) + 32 - 1) & ~(32 - 1))
 #define OSRoundDown32B(x) (((u32)(x)) & ~(32 - 1))
 
-#ifdef __CWCC__
 static inline void OSInitFastCast(void) {
+#ifdef __CWCC__
   asm {
     li r3, 4
     oris r3, r3, 4
@@ -25,8 +25,8 @@ static inline void OSInitFastCast(void) {
     oris r3, r3, 7
     mtspr 0x395, r3
   }
-}
 #endif
+}
 
 void OSRegisterVersion(const char* version);
 

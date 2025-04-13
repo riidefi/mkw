@@ -208,13 +208,13 @@ bool SceneManager::destroyToSelectSceneID(int ID) {
 void SceneManager::destroyScene(Scene* pScene) {
   pScene->exit();
   GXFlush();
-  GXDraw();
+  GXDrawDone();
 
   // If we have a child scene, destroy that and so on
   if (pScene->getChildScene())
     destroyScene(pScene->getChildScene());
   GXFlush();
-  GXDraw();
+  GXDrawDone();
 
   Scene* parent = pScene->getParentScene();
   mSceneCreator->destroy(pScene->getSceneID());
@@ -251,10 +251,10 @@ void SceneManager::destroyScene(Scene* pScene) {
                            : BaseSystem::sSystem->mRootHeapMem2;
   }
   GXFlush();
-  GXDraw();
+  GXDrawDone();
   r31_second->becomeCurrentHeap();
   GXFlush();
-  GXDraw();
+  GXDrawDone();
 }
 
 void SceneManager::incomingCurrentScene() {

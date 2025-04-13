@@ -1,7 +1,7 @@
 #include "ParameterFile.hpp"
 #include <Static/System/SystemManager.hpp>
 
-#include <EGG/util/eggStream.hpp>
+#include <egg/util/eggStream.hpp>
 
 namespace System {
 

@@ -1,0 +1,7 @@
+#pragma once
+
+#include <stddef.h>
+
+namespace std {
+    using ::size_t;
+}

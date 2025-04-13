@@ -3,6 +3,7 @@
  * @brief Implementations for the EGG DVD ripper.
  */
 
+#include "rvl/dvd/dvdFs.h"
 #include <egg/core/eggDvdRipper.hpp>
 
 #include <rvl/os/osCache.h>
@@ -63,7 +64,7 @@ u8* DvdRipper::loadToMainRAM(DvdFile* dvdFile, u8* dst, Heap* heap,
 
   if (offset != 0) {
     u8 buf[64];
-    u8* buf_ptr = (u8*)ROUND_UP(&buf, 32);
+    u8* buf_ptr = (u8*)ROUND_UP((s32)&buf, 32);
     while (true) {
       s32 result = DVDRead(dvdFile->getFileInfo(), buf_ptr, 32, offset);
       if (result >= 0) {
