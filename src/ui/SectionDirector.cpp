@@ -164,7 +164,7 @@ extern UNKNOWN_DATA(lbl_809c1e38);
 // PAL: 0x809c20d8
 extern UNKNOWN_DATA(lbl_809c20d8);
 // PAL: 0x809c2144
-extern UNKNOWN_DATA(lbl_809c2144);
+extern UNKNOWN_DATA(ptr_Nwc24Manager);
 // PAL: 0x809c2898
 extern UNKNOWN_DATA(lbl_809c2898);
 // PAL: 0x809c2df0

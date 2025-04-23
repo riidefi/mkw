@@ -20,7 +20,23 @@ enum MissionObjective {
   OBJECTIVE_ROCKETSTART,
   OBJECTIVE_ITEMHIT,
   OBJECTIVE_WHEELIE,
-  OBJECTIVE_SLIPSTREAM
+  OBJECTIVE_SLIPSTREAM,
+  OBJECTIVE_DEFAULT = -1
+};
+
+// The game mode ID used specifically for competitions.
+// More info: https://wiki.tockdom.com/wiki/RKC_(File_Format)#Game_Modes
+enum CompetitionObjective {
+  COMPETITION_TIME_TRIAL,
+  COMPETITION_VS_RACE,
+  COMPETITION_ENEMYDOWN01 = 3,
+  COMPETITION_ENEMYDOWN02,
+  COMPETITION_COINGET01,
+  COMPETITION_TOGATE01,
+  COMPETITION_ROCKETSTART,
+  COMPETITION_ITEMHIT,
+  COMPETITION_LAPRUN01 = 11,
+  COMPETITION_LAPRUN02
 };
 
 struct CharacterVehicleChoice {
@@ -48,10 +64,10 @@ struct RawRKCO {
   u16 objectFiles;
   u16 score;
   u8 introSetting;
+  u8 field23_0x35;
   /* Maximum time allowed for the competition record to be uploaded to the rankings.
      See 80510ab8
   */
-  u8 field23_0x35;
   u16 maxUploadTime;
   u16 field25_0x38;
   u16 field26_0x3a;
@@ -102,7 +118,7 @@ struct CompetitionSettings {
 
   inline void cpuCombosFromFile(RawCompetitionFile* file) {
     for (u8 i = 0; i < file->getSize(); i++) {
-      this->cpuCombos[i] = file->cpuCombos[i];
+      this->cpuCombos[i] = file->rkco.cpuCombos[i];
     }
   }
 

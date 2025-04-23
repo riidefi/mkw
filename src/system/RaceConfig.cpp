@@ -8,7 +8,7 @@ extern const CourseId COURSE_ORDER[8][4];
 extern const u8 VS_POINT_DISTRIBUTION[12][12];
 extern const s32 RANK_SCORES[5];
 extern const u16 SCORES[4];
-extern const s32 lbl_808900e8[15];
+extern const s32 missionToCompetitionObjectives[15];
 extern const char lbl_80890124[][0x12];
 
 const f32 ZERO_FLOAT = 0;
@@ -471,10 +471,26 @@ void RaceConfig::Scenario::initRng() {
   mSettings.mSeed2 = mask1 | mask2 | mask | mask3;
 }
 
-const s32 lbl_808900e8[15] = {-1, -1, -1, 5, 6, 8,         9,      11,
-                              -1, -1, -1, 1, 2, 0xc030005, 0x40000};
+// This array maps mission objectives to competition objectives.
+const s32 missionToCompetitionObjectives[15] = {
+  OBJECTIVE_DEFAULT,
+  OBJECTIVE_DEFAULT,
+  OBJECTIVE_DEFAULT,
+  OBJECTIVE_ENEMYDOWN01,
+  OBJECTIVE_ENEMYDOWN02,
+  OBJECTIVE_COINGET01,
+  OBJECTIVE_TOGATE01,
+  OBJECTIVE_ITEMHIT,
+  OBJECTIVE_DEFAULT,
+  OBJECTIVE_DEFAULT,
+  OBJECTIVE_DEFAULT,
+  OBJECTIVE_LAPRUN01,
+  OBJECTIVE_LAPRUN02,
+  0xc030005,
+  0x40000
+};
 
-extern void* lbl_809c2144;
+extern void* ptr_Nwc24Manager;
 
 void RaceConfig::Scenario::initCompetitionSettings() {
   CompetitionSettings settings; // 0x28-0x98
@@ -482,30 +498,30 @@ void RaceConfig::Scenario::initCompetitionSettings() {
   CompetitionWrapper wrapper; // 0x8-0x24
   wrapper.isValid = false;
   wrapper.fileRaw = (u32) nullptr;
-  // lbl_809c2144 is ptrNwc24Manager
-  getCompetitionWrapper(lbl_809c2144, &wrapper);
+  getCompetitionWrapper(ptr_Nwc24Manager, &wrapper);
   RawCompetitionFile* file = wrapper.fileRaw;
 
-  // TODO: enum of competition type
-  if (!((s32)file->competitionType != 0 && (s32)file->competitionType != 1)) {
-    // there might have been a debug log here or something?/
+  if (!((s32)file->rkco.competitionType != COMPETITION_TIME_TRIAL
+      && (s32)file->rkco.competitionType != COMPETITION_VS_RACE)) {
+    // Time Trial and VS Race-based competitions settings are set up in another function,
+    // so we don't have to do anything for them here. See 80665cd0.
     return;
   } else {
-    settings.field1_0x2 = lbl_808900e8[file->competitionType];
-    settings.courseId = file->courseId;
-    settings.engineClass = file->engineClass;
-    settings.controllerRestriction = file->controllerRestriction;
-    settings.field7_0x30[0] = file->score;
-    settings.field7_0x30[1] = file->score;
-    settings.field7_0x30[2] = file->score;
-    settings.field7_0x30[3] = file->score;
-    settings.field7_0x30[4] = file->score;
-    settings.field7_0x30[5] = file->score;
-    settings.cameraAngle = file->cameraAngle;
-    settings.minimapObject = file->minimapObject;
-    settings.field10_0x4c = file->field13_0x20;
-    settings.field11_0x4e = file->field14_0x22;
-    settings.cannonFlag = file->cannonFlag;
+    settings.objective = missionToCompetitionObjectives[file->rkco.competitionType];
+    settings.courseId = file->rkco.courseId;
+    settings.engineClass = file->rkco.engineClass;
+    settings.controllerRestriction = file->rkco.controllerRestriction;
+    settings.scoreRequired = file->rkco.score;
+    settings.rankScores[0] = file->rkco.score;
+    settings.rankScores[1] = file->rkco.score;
+    settings.rankScores[2] = file->rkco.score;
+    settings.rankScores[3] = file->rkco.score;
+    settings.rankScores[4] = file->rkco.score;
+    settings.cameraAngle = file->rkco.cameraAngle;
+    settings.minimapObject = file->rkco.minimapObject;
+    settings.horizontalWallGlitch = file->rkco.horizontalWallGlitch;
+    settings.field11_0x4e = file->rkco.field14_0x12;
+    settings.cannonFlag = file->rkco.cannonFlag;
     settings.cpuCount = file->getSize();
 
     settings.cpuCombosFromWrapper(wrapper);
