@@ -125,6 +125,7 @@ struct CompetitionSettings {
   inline void cpuCombosFromWrapper2(const CompetitionWrapper& wrapper) {
     this->cpuCombosFromFile(wrapper.fileRaw);
   }
+  
   inline void cpuCombosFromWrapper(const CompetitionWrapper& wrapper) {
     this->cpuCombosFromWrapper2(wrapper);
   }
