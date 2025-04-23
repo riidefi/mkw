@@ -118,3 +118,5 @@ private:
 #endif // __cplusplus
 
 #define INLINE_ELSEWHERE(x)
+
+inline u32 min32(u32 a, u32 b) { return a <= b ? a : b; }
