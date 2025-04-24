@@ -72,7 +72,7 @@ void MEMInitAllocatorForUnitHeap(MEMAllocator*, MEMHeapHandle);
 MEMiHeapHead* MEMFindContainHeap(const void*);
 
 #else
-#include <revolution/mem.h>
+//#include <revolution/mem.h>
 #endif
 
 #ifdef __cplusplus
