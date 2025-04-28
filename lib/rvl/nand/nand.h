@@ -106,59 +106,7 @@ void NANDInitBanner(NANDBanner*, u32, const u16*, const u16*);
 
 s32 NANDCheck(u32, u32, u32*);
 
-// Unknown function declarations.
-UNKNOWN_FUNCTION(nandCreate);
-UNKNOWN_FUNCTION(NANDPrivateCreate);
-UNKNOWN_FUNCTION(NANDPrivateCreateAsync);
-UNKNOWN_FUNCTION(NANDPrivateDelete);
-UNKNOWN_FUNCTION(NANDPrivateDeleteAsync);
-UNKNOWN_FUNCTION(nandCreateDir);
-UNKNOWN_FUNCTION(NANDPrivateCreateDir);
-UNKNOWN_FUNCTION(NANDPrivateCreateDirAsync);
-UNKNOWN_FUNCTION(nandMove);
-UNKNOWN_FUNCTION(nandGetFileStatusAsyncCallback);
-UNKNOWN_FUNCTION(nandComposePerm);
-UNKNOWN_FUNCTION(nandSplitPerm);
-UNKNOWN_FUNCTION(nandGetStatus);
-UNKNOWN_FUNCTION(nandGetStatusCallback);
-UNKNOWN_FUNCTION(NANDPrivateGetStatus);
-UNKNOWN_FUNCTION(NANDPrivateGetStatusAsync);
-UNKNOWN_FUNCTION(nandSetStatus);
-UNKNOWN_FUNCTION(NANDPrivateSetStatus);
-UNKNOWN_FUNCTION(nandOpen);
-UNKNOWN_FUNCTION(NANDPrivateOpen);
-UNKNOWN_FUNCTION(NANDPrivateOpenAsync);
-UNKNOWN_FUNCTION(nandOpenCallback);
-UNKNOWN_FUNCTION(nandSafeOpen);
-UNKNOWN_FUNCTION(NANDPrivateSafeOpenAsync);
-UNKNOWN_FUNCTION(nandSafeOpenAsync);
-UNKNOWN_FUNCTION(nandSafeOpenCallback);
-UNKNOWN_FUNCTION(nandReadOpenCallback);
-UNKNOWN_FUNCTION(nandSafeCloseCallback);
-UNKNOWN_FUNCTION(nandReadCloseCallback);
-UNKNOWN_FUNCTION(nandCloseCallback);
-UNKNOWN_FUNCTION(nandRemoveTailToken);
-UNKNOWN_FUNCTION(nandGetHeadToken);
-UNKNOWN_FUNCTION(nandGetRelativeName);
-UNKNOWN_FUNCTION(nandConvertPath);
-UNKNOWN_FUNCTION(nandIsPrivatePath);
-UNKNOWN_FUNCTION(nandIsUnderPrivatePath);
-UNKNOWN_FUNCTION(nandIsInitialized);
-UNKNOWN_FUNCTION(nandReportErrorCode);
-UNKNOWN_FUNCTION(nandConvertErrorCode);
-UNKNOWN_FUNCTION(nandGenerateAbsPath);
-UNKNOWN_FUNCTION(nandGetParentDirectory);
-UNKNOWN_FUNCTION(nandOnShutdown);
-UNKNOWN_FUNCTION(nandCallback);
-UNKNOWN_FUNCTION(nandGetType);
-UNKNOWN_FUNCTION(NANDPrivateGetTypeAsync);
-UNKNOWN_FUNCTION(nandGetTypeCallback);
 u32 nandGetHomeDir();
-UNKNOWN_FUNCTION(NANDSecretGetUsage);
-UNKNOWN_FUNCTION(nandCalcUsage);
-UNKNOWN_FUNCTION(reserveFileDescriptor);
-UNKNOWN_FUNCTION(NANDLoggingAddMessageAsync);
-UNKNOWN_FUNCTION(asyncRoutine);
 
 #ifdef __cplusplus
 }

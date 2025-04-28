@@ -10,7 +10,6 @@ typedef struct GXFifoObj {
   u8 _00[0x80];
 } GXFifoObj;
 
-// PAL: 0x8016b850..0x8016bd54
 GXFifoObj* GXInit(void* buf, u32 size);
 
 void GXSetDrawSync(u16 token);

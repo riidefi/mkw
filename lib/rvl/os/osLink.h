@@ -48,19 +48,12 @@ typedef struct OSModuleHeader {
   u32 fixSize;
 } OSModuleHeader;
 
-// PAL: 0x801a6d30..0x801a6d34
 void OSNotifyLink(OSModuleInfo*);
-// PAL: 0x801a6d34..0x801a6d38
 void OSNotifyPreLink(OSModuleInfo*);
-// PAL: 0x801a6d38..0x801a6d3c
 void OSNotifyPostLink(OSModuleHeader*, OSModuleHeader*);
-// PAL: 0x801a6d3c..0x801a6ffc
 int Relocate(OSModuleHeader*, OSModuleHeader*);
-// PAL: 0x801a6ffc..0x801a72dc
 int Link(OSModuleInfo* info, void* bss, int fixed);
-// PAL: 0x801a72dc..0x801a72e4
 int OSLink(OSModuleInfo* info, void* bss);
-// PAL: 0x801a72e4..0x801a72fc
 void __OSModuleInit(void);
 
 #ifdef __cplusplus

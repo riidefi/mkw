@@ -187,7 +187,6 @@ _exit:
 
 
 // Symbol: OSSaveFPUContext
-// PAL: 0x801a1e68..0x801a1e70
 asm void OSSaveFPUContext(register OSContext* ctx) {
   nofralloc;
   addi r5, ctx, 0;
@@ -197,13 +196,11 @@ asm void OSSaveFPUContext(register OSContext* ctx) {
 #endif
 
 // Symbol: OSGetCurrentContext
-// PAL: 0x801a1ecc..0x801a1ed8
 OSContext* OSGetCurrentContext(void) { return (OSContext*)__OSCurrentContext; }
 
 #ifdef __CWCC__
 
 // Symbol: OSGetStackPointer
-// PAL: 0x801a2030..0x801a2038
 asm u32 OSGetStackPointer(void) {
   nofralloc;
   mr r3, r1;
@@ -213,7 +210,6 @@ asm u32 OSGetStackPointer(void) {
 #endif
 
 // Symbol: OSClearContext
-// PAL: 0x801a2098..0x801a20bc
 void OSClearContext(OSContext* context) {
   context->mode = 0;
   context->state = 0;
@@ -222,7 +218,6 @@ void OSClearContext(OSContext* context) {
 }
 
 // Symbol: OSDumpContext
-// PAL: 0x801a2178..0x801a23d8
 void OSDumpContext(OSContext* context) {
   OSReport(
       "------------------------- Context 0x%08x -------------------------\n",

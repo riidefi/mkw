@@ -24,68 +24,44 @@ u16 oslow_30e0 AT_ADDRESS(0x800030e0);
 
 #include <string.h>
 
-// PAL: 0x80385b08 @sdata (pointer)
-// PAL: 0x8029cc80 @data (string literal)
 static const char* __PAD_VERSION =
     "<< RVL_SDK - PAD \trelease build: Oct  3 2007 01:00:54 (0x4199_60831) >>";
 
-// PAL: 0x803869c0 @sbss
 static u32 PADInitialized;
-// PAL: 0x803869bc @sbss
 static u32 PADEnabledBits;
-// PAL: 0x803869b8 @sbss
 static u32 PADResetBits;
-// PAL: 0x80385b0c @sdata
 static s32 PADResetChan = 32;
-// PAL: 0x803869b4 @sbss
 static u32 PADUnk803869b4;
-// PAL: 0x803869b0 @sbss
 static u32 PADUnk803869b0;
-// PAL: 0x803869ac @sbss
 static u32 PADUnk803869ac;
-// PAL: 0x803869a8 @sbss
 static u32 PADUnk803869a8;
-// PAL: 0x803869a4 @sbss
 static u32 PADUnk803869a4;
 
-// PAL: 0x80385b10 @sdata
 static u32 PAD_StickXResetBit = 0xf0000000;
-// PAL: 0x80385b14 @sdata
 static u32 PAD_AnalogMode = 0x00000300u;
 
 static void SPEC0_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
 static void SPEC1_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
 static void SPEC2_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
 
-// PAL: 0x803869a0
 u32 PAD_Spec;
 // From rvl/si/siBios.c
 extern u32 __PADFixBits;
-// PAL: 0x80385b18 @sdata
 static u32 Spec = 5;
-// PAL: 0x80385b1c @sdata
 static void (*PAD_MakeStatus)(s32, PADStatus*, u32[2]) = SPEC2_MakeStatus;
 
-// PAL: 0x803481e0 @bss
 static u32 Type[4];
-// PAL: 0x803481b0 @bss
 static PADStatus Origin[4];
 
 static u32 unk_padding = 0;
-// PAL: 0x80385b20 @sdata
 static u32 PAD_Unk80385b20 = 0x41u << 24;
-// PAL: 0x80385b24 @sdata
 static u32 PAD_Unk80385b24 = 0x42u << 24;
-// PAL: 0x803481f0 @bss
 static u32 PAD_Unk803481f0[4];
 
-// PAL: 0x80348200 => 0x80348230 @bss
 static PADStatus PAD_AltStatus[4];
 
-// PAL: 0x8029ccc8 => 0x8029ccd8
 static OSResetFunctionInfo PAD_ResetFunctionInfo = {PAD_OnReset, 127};
 
-// PAL: 0x8038699c
 static void (*PAD_SamplingCallback)(void);
 
 void PAD_UpdateOrigin(s32 chan) {

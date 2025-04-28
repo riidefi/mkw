@@ -15,5 +15,4 @@ char* _unk_803857f8 = _unk_8027e778;
 u32 _unk_80386488;
 
 // Symbol: AXIsInit
-// PAL: 0x80124ed4..0x80124edc
 u32 AXIsInit() { return _unk_80386488; }

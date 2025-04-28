@@ -2,9 +2,6 @@
 
 #include <rk_types.h>
 
-#define UNKNOWN_FUNCTION(...)
-#define UNKNOWN_DATA(...)
-
 typedef struct ps_f32 {
   f32 f0;
   f32 f1;

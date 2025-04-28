@@ -41,6 +41,7 @@
 extern "C" {
 
 // Extern function references.
+// TODO: Use headers instead of this mess.
 // PAL: 0x80008c10
 extern void unk_80008c10(EGG::Heap*);
 // PAL: 0x8000a06c

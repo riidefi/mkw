@@ -8,39 +8,6 @@
 // https://github.com/kiwi515/ogws/blob/master/src/nw4r/ut/ut_NandFileStream.cpp
 // Credit: GibHaltmannKill
 
-extern "C" {
-
-// PAL: 0x800aff10..0x800aff80
-UNKNOWN_FUNCTION(Skip__Q44nw4r2ut10FileStream12FilePositionFl);
-// PAL: 0x800aff80..0x800affd0
-UNKNOWN_FUNCTION(Append__Q44nw4r2ut10FileStream12FilePositionFl);
-// PAL: 0x800affd0..0x800b0058
-UNKNOWN_FUNCTION(Seek__Q44nw4r2ut10FileStream12FilePositionFlUl);
-
-// PAL: 0x800b0ad0..0x800b0b40
-UNKNOWN_FUNCTION(__ct__Q34nw4r2ut14NandFileStreamFPCcUl);
-// PAL: 0x800b0b40..0x800b0bb0
-UNKNOWN_FUNCTION(__ct__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb);
-// PAL: 0x800b0bb0..0x800b0c30
-UNKNOWN_FUNCTION(__dt__Q34nw4r2ut14NandFileStreamFv);
-// PAL: 0x800b0c30..0x800b0d20
-UNKNOWN_FUNCTION(Open__Q34nw4r2ut14NandFileStreamFPCcUl);
-// PAL: 0x800b0d20..0x800b14a0
-UNKNOWN_FUNCTION(Open__Q34nw4r2ut14NandFileStreamFPC12NANDFileInfoUlb);
-// PAL: 0x800b14a0..0x800b14f0
-UNKNOWN_FUNCTION(Close__Q34nw4r2ut14NandFileStreamFv);
-// PAL: 0x800b14f0..0x800b1570
-UNKNOWN_FUNCTION(Read__Q34nw4r2ut14NandFileStreamFPvUl);
-// PAL: 0x800b1570..0x800b1620
-UNKNOWN_FUNCTION(ReadAsync__Q34nw4r2ut14NandFileStreamFPvUlUlPv);
-// PAL: 0x800b1620..0x800b16a0
-UNKNOWN_FUNCTION(Write__Q34nw4r2ut14NandFileStreamFPCvUl);
-// PAL: 0x800b16a0..0x800b1750
-UNKNOWN_FUNCTION(WriteAsync__Q34nw4r2ut14NandFileStreamFPCvUlUlPv);
-// PAL: 0x800b1750..0x800b1758
-UNKNOWN_FUNCTION(Seek__Q34nw4r2ut14NandFileStreamFlUl);
-}
-
 namespace nw4r {
 namespace ut {
 

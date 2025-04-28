@@ -48,40 +48,22 @@ typedef struct PADClampRegion {
   s8 substickRad; // 0x09
 } PADClampRegion;
 
-// PAL: 0x801ae5d8
 void PAD_ClampCircle(s8*, s8*, s8, s8);
-// PAL: 0x801ae6f4
 void PADClampCircle(PADStatus*);
-// PAL: 0x801ae7dc
 void PADClampCircle2(PADStatus*, u32);
-// PAL: 0x801ae880
 void PAD_UpdateOrigin(s32);
-// PAL: 0x801aea24
 void PADOriginCallback(s32, u32, void*);
-// PAL: 0x801aeae4
 void PADOriginUpdateCallback(s32, u32, void*);
-// PAL: 0x801aebac
 void PADProbeCallback(s32, u32, void*);
-// PAL: 0x801aec80
 void PADTypeAndStatusCallback(s32, u32);
-// PAL: 0x801af0dc
 int PADReset(u32);
-// PAL: 0x801af1e4
 int PADRecalibrate(u32);
-// PAL: 0x801af2f0
 int PADInit(void);
-// PAL: 0x801af44c
 u32 PADRead(PADStatus*);
-// PAL: 0x801af908
 void PADControlMotor(s32, u32);
-// PAL: 0x801af9c0
-// PAL: 0x801afffc
 int PAD_OnReset(int);
-// PAL: 0x801b00c4
 void PAD_SamplingHandler(s32, OSContext*);
-// PAL: 0x801b0124
 int __PADDisableRecalibration(int);
-// PAL: 0x801b0124
 // PADSetSamplingCallback
 
 void PADSetSpec(u32 model);

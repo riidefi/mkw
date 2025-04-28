@@ -22,13 +22,9 @@ typedef struct {
   u16 intrusion_offset; // 0x0A
 } MEMList;
 
-// PAL: 0x80199bf0
 MEMList* MEMInitList(MEMList*, u16);
-// PAL: 0x80199c08
 MEMList* MEMAppendListObject(MEMList*, void*);
-// PAL: 0x80199c78
 MEMList* MEMRemoveListObject(MEMList*, void*);
-// PAL: 0x80199ce4
 void* MEMGetNextListObject(MEMList*, void*);
 
 #define rvlMemListGetNode(list, obj)                                           \

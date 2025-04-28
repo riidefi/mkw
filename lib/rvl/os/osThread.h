@@ -53,24 +53,10 @@ OSSwitchFunction OSSetSwitchThreadCallback(OSSwitchFunction callable);
 
 void OSSleepTicks(OSTime ticks);
 
-UNKNOWN_FUNCTION(__OSThreadInit);
-
 void OSInitThreadQueue(struct OSThreadQueue*);
-
-UNKNOWN_FUNCTION(GetFont__Q34nw4r3lyt7TextBoxCFv);
 
 s32 OSDisableScheduler(void);
 s32 OSEnableScheduler(void);
-
-UNKNOWN_FUNCTION(UnsetRun);
-
-UNKNOWN_FUNCTION(__OSGetEffectivePriority);
-
-UNKNOWN_FUNCTION(SetEffectivePriority);
-
-UNKNOWN_FUNCTION(__OSPromoteThread);
-
-UNKNOWN_FUNCTION(SelectThread);
 
 void __OSReschedule(void);
 
@@ -81,8 +67,6 @@ BOOL OSJoinThread(OSThread *thread, void *val);
 s32 OSSuspendThread(OSThread*);
 void OSSleepThread(struct OSThreadQueue*);
 void OSWakeupThread(struct OSThreadQueue*);
-
-UNKNOWN_FUNCTION(OSSetThreadPriority);
 
 #endif
 #ifdef __cplusplus

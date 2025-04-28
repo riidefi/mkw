@@ -5,15 +5,10 @@
 #include "osReset.h"
 
 // Extern function references.
-// PAL: 0x8012e594
 extern void PPCMtdec(u32);
-// PAL: 0x80163594
 extern int __DVDTestAlarm(const OSAlarm*);
-// PAL: 0x801a9e30
 extern void __OSReschedule();
-// PAL: 0x801aad7c
 extern OSTime __OSGetSystemTime();
-// PAL: 0x801aade0
 extern OSTime __OSTimeToSystemTime(OSTime);
 
 static struct OS_AlarmQueue {
@@ -37,7 +32,6 @@ static inline void OS_AlarmSetTimer(OSAlarm* a) {
 }
 
 // Symbol: __OSInitAlarm
-// PAL: 0x801a05b8..0x801a0610
 void __OSInitAlarm() {
   if (__OSGetExceptionHandler(8) != OS_Alarm_DecrementerExceptionHandler) {
     alarmQueue.head = alarmQueue.tail = 0;
@@ -47,14 +41,12 @@ void __OSInitAlarm() {
 }
 
 // Symbol: OSCreateAlarm
-// PAL: 0x801a0610..0x801a0620
 void OSCreateAlarm(OSAlarm* a) {
   a->handler = NULL;
   a->tag = 0;
 }
 
 // Symbol: OS_Alarm_InsertAlarm
-// PAL: 0x801a0620..0x801a0870
 void OS_Alarm_InsertAlarm(OSAlarm* a, OSTime t, OSAlarmHandler handler) {
   if (0 < a->repeat) {
     OSTime now = __OSGetSystemTime();
@@ -94,7 +86,6 @@ void OS_Alarm_InsertAlarm(OSAlarm* a, OSTime t, OSAlarmHandler handler) {
 }
 
 // Symbol: OSSetAlarm
-// PAL: 0x801a0870..0x801a08e0
 void OSSetAlarm(OSAlarm* a, OSTime time, OSAlarmHandler handler) {
   int interrupts = OSDisableInterrupts();
   a->repeat = 0;
@@ -103,7 +94,6 @@ void OSSetAlarm(OSAlarm* a, OSTime time, OSAlarmHandler handler) {
 }
 
 // Symbol: OSSetPeriodicAlarm
-// PAL: 0x801a08e0..0x801a0964
 void OSSetPeriodicAlarm(OSAlarm* a, OSTime start, OSTime interval,
                         OSAlarmHandler handler) {
   int interrupts = OSDisableInterrupts();
@@ -114,7 +104,6 @@ void OSSetPeriodicAlarm(OSAlarm* a, OSTime start, OSTime interval,
 }
 
 // Symbol: OSCancelAlarm
-// PAL: 0x801a0964..0x801a0a7c
 void OSCancelAlarm(OSAlarm* a) {
   int interrupts = OSDisableInterrupts();
   if (!a->handler) {
@@ -138,7 +127,6 @@ void OSCancelAlarm(OSAlarm* a) {
 }
 
 // Symbol: OS_Alarm_DecrementerExceptionCallback
-// PAL: 0x801a0a7c..0x801a0ca8
 void OS_Alarm_DecrementerExceptionCallback(u8, OSContext* context) {
   OSTime now = __OSGetSystemTime();
   OSAlarm* a = alarmQueue.head;
@@ -175,7 +163,6 @@ void OS_Alarm_DecrementerExceptionCallback(u8, OSContext* context) {
 #ifdef __CWCC__
 
 // Symbol: OS_Alarm_DecrementerExceptionHandler
-// PAL: 0x801a0ca8..0x801a0cf8
 asm void OS_Alarm_DecrementerExceptionHandler(u8 exception,
                                               register OSContext* context) {
   nofralloc;
@@ -204,11 +191,9 @@ asm void OS_Alarm_DecrementerExceptionHandler(u8 exception,
 #endif
 
 // Symbol: OSSetAlarmTag
-// PAL: 0x801a0cf8..0x801a0d00
 void OSSetAlarmTag(OSAlarm* a, u32 tag) { a->tag = tag; }
 
 // Symbol: OS_Alarm_OnReset
-// PAL: 0x801a0d00..0x801a0d8c
 int OS_Alarm_OnReset(int arg1, u32 arg2) {
   if (arg1) {
     OSAlarm* a;
@@ -223,9 +208,7 @@ int OS_Alarm_OnReset(int arg1, u32 arg2) {
 }
 
 // Symbol: OSSetAlarmUserData
-// PAL: 0x801a0d8c..0x801a0d94
 void OSSetAlarmUserData(OSAlarm* a, void* data) { a->data = data; }
 
 // Symbol: OSGetAlarmUserData
-// PAL: 0x801a0d94..0x801a0d9c
 void* OSGetAlarmUserData(OSAlarm* a) { return a->data; }

@@ -162,43 +162,24 @@ struct SOAddrInfo {
   SOAddrInfo* next;
 };
 
-// PAL: 0x80385ee0 @sdata (pointer)
-// PAL: 0x802a2318 @data (string literal)
 extern const char* __SO_VERSION;
-// PAL: 0x80385ee8 @sdata (pointer)
-// PAL: 0x802a24f8 @data (string literal)
 extern const char* __SOCKET_VERSION;
 
-// PAL: 0x801ec088
 int SOFinish(void);
-// PAL: 0x801ec184
 int SOStartup(void);
-// PAL: 0x801ec190
 int SOStartupEx(int timeout);
-// PAL: 0x801ec5b8
 int SOCleanup(void);
-// PAL: 0x801ec768
 SOSysWork* SOiGetSysWork(void);
-// PAL: 0x801ec774
 int SOiIsBufferAddrCheck(void);
-// PAL: 0x801ec77c
 int SOiIsInitialized(void);
-// PAL: 0x801ec7cc
 void* SOiAlloc(u32, s32);
-// PAL: 0x801ec8b4
 void SOiFree(u32, void*, s32);
-// PAL: 0x801ec8e8
 int SOiPrepare(const char*, s32*);
-// PAL: 0x801ec9d0
 int SOiConclude(const char*, int);
-// PAL: 0x801eca2c
 int SOiPrepareTempRm(const char*, s32*, int*);
-// PAL: 0x801ecd04
 int SOiConcludeTempRm(const char*, int, int);
-// PAL: 0x801ecde8
 int SOiWaitForDHCPEx(int timeout);
 
-// PAL: 0x801ecf20
 int SOSocket(int, int, int);
 
 int SOSocket2(int pf, int type, int protocol);

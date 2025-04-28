@@ -8,7 +8,6 @@ static void* OS_AllocArenaStart;
 static void* OS_AllocArenaStop;
 
 // Symbol: DLInsert
-// PAL: 0x801a0d9c..0x801a0e48
 OSAllocCell* DLInsert(OSAllocCell* list, OSAllocCell* cell) {
   OSAllocCell* pred;
   OSAllocCell* succ;
@@ -60,7 +59,6 @@ static inline OSAllocCell* DLAddFront(OSAllocCell* list, OSAllocCell* cell) {
 }
 
 // Symbol: OSAllocFromHeap
-// PAL: 0x801a0e48..0x801a0f40
 void* OSAllocFromHeap(int heapIdx, u32 size) {
   OSAllocHeap* heap = &OS_AllocHeapArray[heapIdx];
   size += 0x20;
@@ -93,7 +91,6 @@ void* OSAllocFromHeap(int heapIdx, u32 size) {
 }
 
 // Symbol: OSFreeToHeap
-// PAL: 0x801a0f40..0x801a0fb8
 void OSFreeToHeap(int heapIdx, void* data) {
   OSAllocCell* cell = (OSAllocCell*)((u32)data - 0x20);
   OSAllocHeap* heap = &OS_AllocHeapArray[heapIdx];
@@ -102,7 +99,6 @@ void OSFreeToHeap(int heapIdx, void* data) {
 }
 
 // Symbol: OSSetCurrentHeap
-// PAL: 0x801a0fb8..0x801a0fc8
 int OSSetCurrentHeap(int newHeap) {
   int oldHeap = __OSCurrentHeap;
   __OSCurrentHeap = newHeap;
@@ -110,7 +106,6 @@ int OSSetCurrentHeap(int newHeap) {
 }
 
 // Symbol: OSInitAlloc
-// PAL: 0x801a0fc8..0x801a1038
 void* OSInitAlloc(void* a1, void* a2, int count) {
   u32 size = sizeof(OSAllocHeap) * count;
   OS_AllocHeapArray = a1;
@@ -129,7 +124,6 @@ void* OSInitAlloc(void* a1, void* a2, int count) {
 }
 
 // Symbol: OSCreateHeap
-// PAL: 0x801a1038..0x801a10a4
 int OSCreateHeap(void* start, void* stop) {
   start = (void*)(((u32)start + 0x1f) & 0xffffffe0);
   stop = (void*)((u32)stop & 0xffffffe0);

@@ -21,7 +21,6 @@ static u32 OSInterruptPrioTable[] = {
 #ifdef __CWCC__
 
 // Symbol: OSDisableInterrupts
-// PAL: 0x801a65ac..0x801a65c0
 asm int OSDisableInterrupts(void) {
   nofralloc;
   mfmsr r3;
@@ -32,7 +31,6 @@ asm int OSDisableInterrupts(void) {
 }
 
 // Symbol: OSEnableInterrupts
-// PAL: 0x801a65c0..0x801a65d4
 asm int OSEnableInterrupts(void) {
   nofralloc;
   mfmsr r3;
@@ -43,7 +41,6 @@ asm int OSEnableInterrupts(void) {
 }
 
 // Symbol: OSRestoreInterrupts
-// PAL: 0x801a65d4..0x801a65f8
 asm int OSRestoreInterrupts(int level) {
   nofralloc;
   cmpwi r3, 0;
@@ -62,7 +59,6 @@ _restore:
 #endif
 
 // Symbol: __OSSetInterruptHandler
-// PAL: 0x801a65f8..0x801a660c
 __OSInterruptHandler __OSSetInterruptHandler(s16 interrupt,
                                              __OSInterruptHandler handler) {
   __OSInterruptHandler old = OSInterruptHandlerTable[interrupt];
@@ -71,7 +67,6 @@ __OSInterruptHandler __OSSetInterruptHandler(s16 interrupt,
 }
 
 // Symbol: __OSGetInterruptHandler
-// PAL: 0x801a660c..0x801a661c
 __OSInterruptHandler __OSGetInterruptHandler(s16 interrupt) {
   return OSInterruptHandlerTable[interrupt];
 }
@@ -79,7 +74,6 @@ __OSInterruptHandler __OSGetInterruptHandler(s16 interrupt) {
 inline void* OSPhysicalToCached(u32 addr) { return (void*)(addr + 0x80000000); }
 
 // Symbol: __OSInterruptInit
-// PAL: 0x801a661c..0x801a66e0
 void __OSInterruptInit(void) {
   OSInterruptHandlerTable = (__OSInterruptHandler*)OSPhysicalToCached(0x3040);
   memset((void*)OSInterruptHandlerTable, 0, 32 * sizeof(__OSInterruptHandler));
@@ -94,7 +88,6 @@ void __OSInterruptInit(void) {
 /* static */ u32 SetInterruptMask(u32 type, u32 mask);
 
 // Symbol: __OSMaskInterrupts
-// PAL: 0x801a693c..0x801a69bc
 u32 __OSMaskInterrupts(u32 global) {
   int enabled;
   u32 prev;
@@ -118,7 +111,6 @@ volatile s16 __OSLastInterrupt;
 volatile u32 __OSLastInterruptSrr0;
 
 // Symbol: __OSDispatchInterrupt
-// PAL: 0x801a6a3c..0x801a6ce0
 void __OSDispatchInterrupt(u8 exception, OSContext* context) {
   u32 intsr = __PIRegs[0];
   intsr &= ~0x00010000;
@@ -228,7 +220,6 @@ void __OSDispatchInterrupt(u8 exception, OSContext* context) {
 #ifdef __CWCC__
 
 // Symbol: ExternalInterruptHandler
-// PAL: 0x801a6ce0..0x801a6d30
 static asm void ExternalInterruptHandler(register u8 exception,
                                          register OSContext* context) {
   nofralloc;

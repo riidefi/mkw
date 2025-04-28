@@ -5,17 +5,13 @@
 
 #include "rvl/os/osThread.h"
 
-// PAL: 0x80346cf0 @bss
 static MEMList MEM_RootList;
-// PAL: 0x80386838 @sbss
 static u32 MEM_RootListInitialized = false;
-// PAL: 0x80346d00 @bss
 static OSMutex MEM_GlobalLock;
 
 // MEM_FindHeap searches the heap linked list for the heap that holds the given
 // arena.
 //
-// PAL: 0x801981ec
 static MEMiHeapHead* MEM_FindHeap(MEMList* list, const void* arena) {
   MEMiHeapHead* next = NULL;
   while ((next = (MEMiHeapHead*)MEMGetNextListObject(list, next)) != NULL) {

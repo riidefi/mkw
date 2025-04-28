@@ -37,7 +37,6 @@ typedef struct _GXData {
   u32 dummy;
 } GXData;
 
-// PAL: 0x803886c8
 extern GXData* const gx;
 
 #ifdef __cplusplus

@@ -10,7 +10,6 @@
 #ifdef __CWCC__
 
 // Symbol: DCEnable
-// PAL: 0x801a15ec..0x801a1600
 asm void DCEnable(void) {
   nofralloc;
   sync;
@@ -21,7 +20,6 @@ asm void DCEnable(void) {
 }
 
 // Symbol: DCInvalidateRange
-// PAL: 0x801a1600..0x801a162c
 asm void DCInvalidateRange(register void* addr, register u32 size) {
   nofralloc;
   cmplwi size, 0;
@@ -39,7 +37,6 @@ _again:
 }
 
 // Symbol: DCFlushRange
-// PAL: 0x801a162c..0x801a165c
 asm void DCFlushRange(register void* addr, register u32 size) {
   nofralloc;
   cmplwi size, 0;
@@ -58,7 +55,6 @@ _again:
 }
 
 // Symbol: DCStoreRange
-// PAL: 0x801a165c..0x801a168c
 asm void DCStoreRange(register void* addr, register u32 size) {
   nofralloc;
   cmplwi size, 0;
@@ -77,7 +73,6 @@ _again:
 }
 
 // Symbol: DCFlushRangeNoSync
-// PAL: 0x801a168c..0x801a16b8
 asm void DCFlushRangeNoSync(register void* addr, register u32 size) {
   nofralloc;
   cmplwi size, 0;
@@ -95,7 +90,6 @@ _again:
 }
 
 // Symbol: DCStoreRangeNoSync
-// PAL: 0x801a16b8..0x801a16e4
 asm void DCStoreRangeNoSync(register void* addr, register u32 size) {
   nofralloc;
   cmplwi size, 0;
@@ -113,7 +107,6 @@ _again:
 }
 
 // Symbol: DCZeroRange
-// PAL: 0x801a16e4..0x801a1710
 asm void DCZeroRange(register void* addr, register u32 size) {
   nofralloc;
   cmplwi size, 0;
@@ -131,7 +124,6 @@ _again:
 }
 
 // Symbol: ICInvalidateRange
-// PAL: 0x801a1710..0x801a1744
 asm void ICInvalidateRange(register void* addr, register u32 size) {
   nofralloc;
   cmplwi size, 0;
@@ -151,7 +143,6 @@ _again:
 }
 
 // Symbol: ICFlashInvalidate
-// PAL: 0x801a1744..0x801a1754
 asm void ICFlashInvalidate(void) {
   nofralloc;
   mfspr r3, 0x3f0;
@@ -161,7 +152,6 @@ asm void ICFlashInvalidate(void) {
 }
 
 // Symbol: ICEnable
-// PAL: 0x801a1754..0x801a1768
 asm void ICEnable(void) {
   nofralloc;
   isync;
@@ -172,7 +162,6 @@ asm void ICEnable(void) {
 }
 
 // Symbol: __LCEnable
-// PAL: 0x801a1768..0x801a1834
 asm void __LCEnable(void) {
   nofralloc;
   mfmsr r5;
@@ -231,7 +220,6 @@ lbl_801a17f4:
 }
 
 // Symbol: LCEnable
-// PAL: 0x801a1834..0x801a186c
 void LCEnable(void) {
   int interrupts = OSDisableInterrupts();
   __LCEnable();
@@ -239,7 +227,6 @@ void LCEnable(void) {
 }
 
 // Symbol: LCDisable
-// PAL: 0x801a186c..0x801a1894
 asm void LCDisable(void) {
   nofralloc;
   lis r3, 0xe000;
@@ -256,7 +243,6 @@ _again:
 }
 
 // Symbol: LCLoadBlocks
-// PAL: 0x801a1894..0x801a18b8
 asm void LCLoadBlocks(register void* dst, register void* src,
                       register u32 num) {
   nofralloc;
@@ -272,7 +258,6 @@ asm void LCLoadBlocks(register void* dst, register void* src,
 }
 
 // Symbol: LCStoreBlocks
-// PAL: 0x801a18b8..0x801a18dc
 asm void LCStoreBlocks(register void* dst, register void* src,
                        register u32 num) {
   nofralloc;
@@ -288,7 +273,6 @@ asm void LCStoreBlocks(register void* dst, register void* src,
 }
 
 // Symbol: LCStoreData
-// PAL: 0x801a18dc..0x801a197c
 u32 LCStoreData(void* dst, void* src, u32 size) {
   u32 blocks = (size + 31) / 32;
   u32 txs = (blocks + 0x7f) >> 7;
@@ -307,7 +291,6 @@ u32 LCStoreData(void* dst, void* src, u32 size) {
 }
 
 // Symbol: LCQueueLength
-// PAL: 0x801a197c..0x801a1988
 asm u32 LCQueueLength(void) {
   nofralloc;
   mfspr r4, 0x398;
@@ -316,7 +299,6 @@ asm u32 LCQueueLength(void) {
 }
 
 // Symbol: LCQueueWait
-// PAL: 0x801a1988..0x801a199c
 asm void LCQueueWait(register u32 size) {
   nofralloc;
 _again:

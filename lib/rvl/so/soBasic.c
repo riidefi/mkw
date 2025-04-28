@@ -2,12 +2,9 @@
 
 #include <rvl/ipc/ipcclt.h>
 
-// PAL: 0x80385ee8 @sdata (pointer)
-// PAL: 0x802a24f8 @data (string literal)
 const char* __SOCKET_VERSION = "<< RVL_SDK - SOCKET \trelease build: Dec 10 "
                                "2007 10:02:35 (0x4199_60831) >>";
 
-// PAL: 0x80386d40 @sbss
 // static int SO_Initialized = 0;
 
 int SOSocket2(int pf, int type, int protocol) {
