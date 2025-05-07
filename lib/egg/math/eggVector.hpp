@@ -28,8 +28,7 @@ struct Vector2f {
   inline Vector2f(float _x, float _y) : x(_x), y(_y) {}
   inline Vector2f() {}
 
-  // For now
-  ~Vector2f();
+  inline ~Vector2f() {}
 };
 
 struct Vector3f : public nw4r::math::VEC3 {

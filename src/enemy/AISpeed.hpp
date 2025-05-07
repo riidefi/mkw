@@ -7,8 +7,8 @@ namespace Enemy {
 
     struct AIParamSpeed {
         f32 mSpeedAdvantage;
-        f32 speedBias;
-        f32 baseSpeed;
+        f32 mSpeedBias;
+        f32 mBaseSpeed;
     };
 
     struct AISpeedBase {
@@ -16,7 +16,7 @@ namespace Enemy {
         virtual void init();
         virtual void update();
         virtual void updateAfterGoal();
-        virtual void vf_0x18();
+        virtual f32 vf_0x18();
 
         AIInfo* mpInfo;
         AIParamSpeed* mpParamSpeed;

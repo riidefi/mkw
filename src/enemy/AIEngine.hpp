@@ -7,27 +7,30 @@
 #include "AITrickHandler.hpp"
 #include "AILookAt.hpp"
 #include "system/CourseMap.hpp"
-#include "system/State.hpp"
-#include <rk_types.h>
+#include "util/State.hpp"
 
 namespace Enemy {
 
-    struct AIEngine: public System::StateSequencer {
-        AIEngine();
+    struct AI;
+
+    struct AIEngine: public Util::StateSequencer<AIEngine> {
+        AIEngine(const AI&);
         virtual ~AIEngine();
+        virtual void init();
+        virtual void update(const System::MapdataEnemyPathAccessor*);
         virtual void onOutOfBounds(const System::MapdataJugemPoint&);
         void endRace();
-        void forceRecalculation(s32);
+        void forceRecalculation(bool);
 
-        System::State mStateReady;
-        System::State mStateRunCPU;
-        System::State mStateRunHuman;
-        System::State mStateGhostIdle;
-        System::State mStateAfterGoal;  // The racer will keep moving on goal
-        System::State mStateStop;       // Used in Battles and Tournaments. The racer will stop moving on goal
-        AIInfo* mpAIInfo;
-        AIControlBase* mpAIControl;
-        AISpeedBase* mpAISpeed;
+        Util::State<AIEngine> mStateReady;
+        Util::State<AIEngine> mStateRunCPU;
+        Util::State<AIEngine> mStateRunHuman;
+        Util::State<AIEngine> mStateGhostIdle;
+        Util::State<AIEngine> mStateAfterGoal;  // The racer will keep moving on goal
+        Util::State<AIEngine> mStateStop;       // Used in Battles and Tournaments. The racer will stop moving on goal
+        AIInfo* mpInfo;
+        AIControlBase* mpControl;
+        AISpeedBase* mpSpeed;
         AIItemBase* mpItem;
         System::KPadRaceInputState* mInput;
         AITrickHandler* mpTrickHandler;
@@ -39,13 +42,13 @@ namespace Enemy {
         bool mbMatchEnded;
     };
 
-    struct AIEngineKart : public AIEngine {
-        AIEngineKart();
+    struct AIEngineKart: public AIEngine {
+        AIEngineKart(const AI&);
         ~AIEngineKart();
     };
 
-    struct AIEngineBike : public AIEngine {
-        AIEngineBike();
+    struct AIEngineBike: public AIEngine {
+        AIEngineBike(const AI&);
         ~AIEngineBike();
     };
 

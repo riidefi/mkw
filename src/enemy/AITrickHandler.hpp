@@ -16,7 +16,7 @@ namespace Enemy {
 
     struct AITrickHandlerBike: public AITrickHandler {
         virtual ~AITrickHandlerBike();
-        void field_0x0C();
+        void vf_0x0C();
         void calc();
         void disableWheelie();
         virtual void update();

@@ -42,6 +42,7 @@ class KartAccessor_60;
 class KartHalfPipe;
 class KartJump;
 class KartState;
+class KartInput;
 
 struct KartAccessor {
   KartSettings* kartSettings;
@@ -156,6 +157,8 @@ public:
   bool inRespawn();
   // Unused, and the KartMove flags are not documented
   bool isSomeMoveFlagActive();
+  bool isCpu() const;
+  KartInput& getInput() const;
 
   static void InitList();
   static void SetupInList(KartAccessor* accessor);

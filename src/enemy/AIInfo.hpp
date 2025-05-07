@@ -3,11 +3,10 @@
 #include "AI.hpp"
 #include "AIPath.hpp"
 #include "system/KPadController.hpp"
-#include <rk_types.h>
-
-class AI;
 
 namespace Enemy {
+
+    class AI;
 
     struct AIInfo {
         AI* mpAI;

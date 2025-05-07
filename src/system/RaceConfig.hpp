@@ -56,6 +56,11 @@ public:
     CharacterId getCharacter();
     Mii& getMii();
     const Type getPlayerType() const;
+    // Same as above, but inlined. Needed for some functions to match
+    inline const Type getPlayerTypeInlined() const {
+      return mPlayerType;
+    }
+
     BattleTeam getTeam();
     u8 getUnkPos();
     VehicleId getVehicle();
@@ -191,6 +196,10 @@ public:
     Settings::CameraMode getCameraMode();
     const Player& getPlayer(u8 idx) const;
     Player& getPlayer(u8 idx);
+    // Same as above, but inlined. Needed for some functions to match
+    inline Player& getPlayerInlined(u8 idx) {
+      return mPlayers[idx];
+    }
 
     inline bool isOnline(Settings::GameMode mode) {
       bool ret = false;

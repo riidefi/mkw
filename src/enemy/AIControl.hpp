@@ -1,11 +1,13 @@
 #pragma once
 
-#include <rk_types.h>
+#include "util/State.hpp"
 
 namespace Enemy {
 
-    struct AIControlBase {
-        u8 field_0x00[0x60];
+    struct AIControlBase: public Util::StateSequencer<AIControlBase> {
+        AIInfo* mpInfo;
+        AIPathHandler* mpPathHandler;
+        u8 field_0x40[32];
     };
 
 }

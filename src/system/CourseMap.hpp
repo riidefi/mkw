@@ -665,6 +665,8 @@ public:
   MapdataStage* getStage() const;
   MapdataStartPoint* getStartPoint(u16 i) const;
 
+  inline MapdataEnemyPathAccessor* getEnemyPathAccessor() { return mpEnemyPath; }
+
   u16 getAreaCount() const;
   u16 getCameraCount() const;
   u16 getEnemyPointCount() const;

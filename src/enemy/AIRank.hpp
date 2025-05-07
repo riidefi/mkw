@@ -5,8 +5,8 @@
 
 namespace Enemy {
 
-    class AIRankGroupBase;
-    class AISpeedBase;
+    struct AIRankGroupBase;
+    struct AISpeedBase;
 
     struct AIRank {
         virtual ~AIRank();
@@ -17,7 +17,7 @@ namespace Enemy {
         AIRankGroupBase* mpRankGroup;
         AISpeedBase* mpSpeed;
         s32 mId;
-        s32 mHumanPalyerInitialRank;
+        s32 mHumanPlayerInitialRank;
         s32 mHumanPlayerRank;   // The position rank of the human player at the start of the match - 1
         s32 targetRank;
         f32 field_0x1C;
@@ -30,14 +30,14 @@ namespace Enemy {
         virtual void init();
         virtual s32 getGroupKind();
         virtual s32 getType();
-        virtual void addMemeber(AIRank*);
+        virtual void addMember(AIRank*);
         virtual void initChangeTargetRank();
         virtual void doChangeTargetRank();
         virtual void vf_0x24();
         virtual void vf_0x28();
         virtual void vf_0x2C();
-        virtual void vf_0x30();
-        virtual void vf_0x34();
+        virtual u32 vf_0x30();
+        virtual f32 vf_0x34();
         
         s32 mNumMembers;
         s32 mStartingRank;
@@ -53,11 +53,11 @@ namespace Enemy {
         ~AIRankGroupBottom();
         void init();
         s32 getGroupKind();
-        void field_0x24();
-        void field_0x28();
-        void field_0x2C();
-        void field_0x30();
-        void field_0x34();
+        void vf_0x24();
+        void vf_0x28();
+        void vf_0x2C();
+        u32 vf_0x30();
+        f32 vf_0x34();
     };
 
     struct AIRankGroupMiddle: public AIRankGroupBase {
@@ -66,11 +66,11 @@ namespace Enemy {
         s32 getGroupKind();
         void initChangeTargetRank();
         void doChangeTargetRank();
-        void field_0x24();
-        void field_0x28();
-        void field_0x2C();
-        void field_0x30();
-        void field_0x34();
+        void vf_0x24();
+        void vf_0x28();
+        void vf_0x2C();
+        u32 vf_0x30();
+        f32 vf_0x34();
     };
 
     struct AIRankGroupTop: public AIRankGroupBase {
@@ -80,11 +80,11 @@ namespace Enemy {
         s32 getType();
         void initChangeTargetRank();
         void doChangeTargetRank();
-        void field_0x24();
-        void field_0x28();
-        void field_0x2C();
-        void field_0x30();
-        void field_0x34();
+        void vf_0x24();
+        void vf_0x28();
+        void vf_0x2C();
+        u32 vf_0x30();
+        f32 vf_0x34();
 
         s32 mType;
 

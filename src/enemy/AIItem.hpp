@@ -1,22 +1,22 @@
 #pragma once
 
 #include "AIInfo.hpp"
-#include "system/State.hpp"
+#include "util/State.hpp"
 
 namespace Enemy {
 
-    struct AIItemBase: public System::StateSequencer {
+    struct AIItemBase: public Util::StateSequencer<AIItemBase> {
         virtual ~AIItemBase();
 
-        System::State mStateIdle;
-        System::State mStateStock;
-        System::State mStateThrowDefault;
-        System::State mStateKinoko;
-        System::State mStateThrowFront;
-        System::State mStateThrowBack;
-        System::State mStateHold;
-        System::State mStateGoal;
-        AIInfo* mpAIInfo;
+        Util::State<AIItemBase> mStateIdle;
+        Util::State<AIItemBase> mStateStock;
+        Util::State<AIItemBase> mStateThrowDefault;
+        Util::State<AIItemBase> mStateKinoko;
+        Util::State<AIItemBase> mStateThrowFront;
+        Util::State<AIItemBase> mStateThrowBack;
+        Util::State<AIItemBase> mStateHold;
+        Util::State<AIItemBase> mStateGoal;
+        AIInfo* mpInfo;
         s32 mItemHoldState;
         bool mbUseItem;
         bool mbIsTimeToHold;
@@ -30,7 +30,7 @@ namespace Enemy {
         };
     
         enum eItemThrowDirection {
-            DEFAULT = 0,
+            DEFAULT = 0,    // Throw an item with stick on neutral position
             THROW_FORWARDS = 1,
             THROW_BACKWARDS = 2
         };

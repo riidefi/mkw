@@ -106,7 +106,7 @@ struct CompetitionSettings {
   u8 field_0x2e;
   u8 controllerRestriction;
   u32 scoreRequired;  /* Score required to beat the competition */
-  u32 rankScores[5];  /* Scores required to get a rank (only used in Mission Mode) */
+  u32 rankScores[5];  /* Scores required to get a rank (only meant for Mission Mode) */
   u16 cameraAngle;
   u16 minimapObject;
   u16 horizontalWallGlitch;

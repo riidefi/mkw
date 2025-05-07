@@ -193,7 +193,8 @@ ObjTaimatsu.o:
 
 enemy/AI.cpp:
 	.text       start:0x00215C28 end:0x002161AC
-	.data       start:0x00016D08 end:0x00016D18
+	.rodata     start:0x00012C90 end:0x00012C9C
+	.data       start:0x00016CF8 end:0x00016D18
 
 geo/BoxColManager.cpp:
 	.text       start:0x00276AAC end:0x00276B1C
