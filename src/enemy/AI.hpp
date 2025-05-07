@@ -1,12 +1,14 @@
 #pragma once
 
-#include "AIEngine.hpp"
 #include "kart/KartObjectProxy.hpp"
+#include "system/CourseMap.hpp"
 #include <egg/math/eggVector.hpp>
 
 extern bool isTeamsEnabled();
 
 namespace Enemy {
+
+    struct AIEngine;
 
     struct AI: public Kart::KartObjectProxy {
         enum eFlags {

@@ -1,4 +1,7 @@
 #include "AI.hpp"
+#include "AIEngine.hpp"
+#include "AIControl.hpp"
+#include "AILookAt.hpp"
 #include "kart/KartInput.hpp"
 #include "kart/KartState.hpp"
 #include "system/RaceConfig.hpp"

@@ -19,6 +19,13 @@ class RumbleManager;
 ////////// INPUT STATE /////////////////
 
 struct KPadRaceInputState {
+  enum eTrick {
+    UP_TRICK    = 1,
+    DOWN_TRICK  = 2,
+    LEFT_TRICK  = 3,
+    RIGHT_TRICK = 4,
+  };
+
   inline KPadRaceInputState() { reset(); }
   virtual ~KPadRaceInputState() {}                // [vt+0x08]
 
@@ -29,7 +36,7 @@ struct KPadRaceInputState {
   void setStickXMirrored(u8 x);
   void setStickXUnmirrored(u8 x);
   void setStickY(u8 y);
-  void setTrick(u8 trick);
+  void setTrick(int trick);
 
   u16 mButtons;                                   // [this+0x04]
   u16 mButtonsRaw;                                // [this+0x06]

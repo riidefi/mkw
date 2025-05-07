@@ -1,12 +1,11 @@
 #pragma once
 
-#include "AI.hpp"
 #include "AIPath.hpp"
 #include "system/KPadController.hpp"
 
 namespace Enemy {
 
-    class AI;
+    struct AI;
 
     struct AIInfo {
         AI* mpAI;

@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <macros.h>
+#include <rk_common.h>
 
 //! Describes an unknown 32 bit value
 typedef int unk32;

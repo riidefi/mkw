@@ -6,6 +6,23 @@ namespace Enemy {
 
     struct PointParam {
         virtual ~PointParam();
+        virtual bool shouldEnterRouteIfHasMushroom();
+        virtual bool shouldUseMushroom();
+        virtual bool shouldWheelie();
+        virtual bool shouldEndWheelie();
+        // Only used in the N64 Bowser's Castle competition,
+        // in the ramps before the end of the ramp to ensure
+        // the CPU is able to cross it
+        virtual bool shouldHaveMinSpeedOf70();
+        virtual bool shouldEndDrift();      // Real name: `isEndDrift`
+        virtual bool shouldForbidDrift();   // Real name: `isDisableDrift`
+        virtual bool shouldForceDrift();    // Real name: `isContinueDrift`
+        virtual bool isKinokoK();
+        virtual bool vf_0x30();
+        virtual bool driftNotForbidden();   // Real name: `isAbleToMiniTurbo`
+        virtual bool isEflag2();
+        virtual bool isEflag3();
+        virtual bool isEflag4();
 
         u32 mParam1;    // From ENPT Settings
         u32 mParam2;    // From ENPT Settings
@@ -20,6 +37,7 @@ namespace Enemy {
     struct AIPathHandler {
         virtual ~AIPathHandler();
         void addOffsetRateAndRecalcTargetTrans(f32);
+        bool isSwitchingPath();
         
         bool mbIsSwitchingPath;
         PointParam* field_0x08;

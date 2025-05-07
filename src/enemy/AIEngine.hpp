@@ -1,17 +1,17 @@
 #pragma once
 
-#include "AIInfo.hpp"
-#include "AIControl.hpp"
-#include "AISpeed.hpp"
-#include "AIItem.hpp"
-#include "AITrickHandler.hpp"
-#include "AILookAt.hpp"
 #include "system/CourseMap.hpp"
+#include "system/KPadController.hpp"
 #include "util/State.hpp"
 
 namespace Enemy {
 
-    struct AI;
+    struct AIInfo;
+    struct AIControlBase;
+    struct AISpeedBase;
+    struct AIItemBase;
+    struct AILookAt;
+    struct AITrickHandler;
 
     struct AIEngine: public Util::StateSequencer<AIEngine> {
         AIEngine(const AI&);

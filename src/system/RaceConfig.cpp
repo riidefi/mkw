@@ -5,7 +5,7 @@
 namespace System {
 extern const f32 ZERO_FLOAT;
 extern const CourseId COURSE_ORDER[8][4];
-extern const u8 VS_POINT_DISTRIBUTION[12][12];
+extern const u8 VS_POINT_DISTRIBUTION[MAX_PLAYER_COUNT][MAX_PLAYER_COUNT];
 extern const s32 RANK_SCORES[5];
 extern const u16 SCORES[4];
 extern const s32 missionToCompetitionObjectives[15];
@@ -26,18 +26,18 @@ const CourseId COURSE_ORDER[8][4] = {
      N64_BOWSERS_CASTLE}};
 
 const u8 __attribute__((force_export))
-VS_POINT_DISTRIBUTION[12][12] = {{15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {15, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {15, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {15, 9, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {15, 9, 5, 2, 1, 0, 0, 0, 0, 0, 0, 0},
-                                 {15, 10, 6, 3, 1, 0, 0, 0, 0, 0, 0, 0},
-                                 {15, 10, 7, 5, 3, 1, 0, 0, 0, 0, 0, 0},
-                                 {15, 11, 8, 6, 4, 2, 1, 0, 0, 0, 0, 0},
-                                 {15, 11, 8, 6, 4, 3, 2, 1, 0, 0, 0, 0},
-                                 {15, 12, 10, 8, 6, 4, 3, 2, 1, 0, 0, 0},
-                                 {15, 12, 10, 8, 6, 5, 4, 3, 2, 1, 0, 0},
-                                 {15, 12, 10, 8, 7, 6, 5, 4, 3, 2, 1, 0}};
+VS_POINT_DISTRIBUTION[MAX_PLAYER_COUNT][MAX_PLAYER_COUNT] = {{15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                                             {15, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                                             {15, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                                             {15, 9, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+                                                             {15, 9, 5, 2, 1, 0, 0, 0, 0, 0, 0, 0},
+                                                             {15, 10, 6, 3, 1, 0, 0, 0, 0, 0, 0, 0},
+                                                             {15, 10, 7, 5, 3, 1, 0, 0, 0, 0, 0, 0},
+                                                             {15, 11, 8, 6, 4, 2, 1, 0, 0, 0, 0, 0},
+                                                             {15, 11, 8, 6, 4, 3, 2, 1, 0, 0, 0, 0},
+                                                             {15, 12, 10, 8, 6, 4, 3, 2, 1, 0, 0, 0},
+                                                             {15, 12, 10, 8, 6, 5, 4, 3, 2, 1, 0, 0},
+                                                             {15, 12, 10, 8, 7, 6, 5, 4, 3, 2, 1, 0}};
 
 const s32 RANK_SCORES[] = {1000, 700, 400, 200, 0};
 const u16 SCORES[] = {60, 52, 40, 20};

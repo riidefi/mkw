@@ -13,8 +13,6 @@
 
 #include <decomp.h>
 
-#define MAX_PLAYER_COUNT 12
-
 namespace System {
 
 enum CupId {

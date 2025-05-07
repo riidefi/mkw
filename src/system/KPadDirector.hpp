@@ -206,7 +206,7 @@ public:
 
 public:
   KPadPlayer mPlayers[4];                         // [this+0x0004]
-  KPadAI mAIs[12];                                // [this+0x03b4]
+  KPadAI mAIs[MAX_PLAYER_COUNT];                  // [this+0x03b4]
   KPad mMaster;                                   // [this+0x15b4]
   bool _168c;
   u8 _168d;

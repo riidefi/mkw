@@ -1,12 +1,13 @@
 #pragma once
 
 #include "AIInfo.hpp"
-#include "AISpeed.hpp"
+#include "util/State.hpp"
 
 namespace Enemy {
 
-    struct AIRankGroupBase;
     struct AISpeedBase;
+
+    struct AIRankGroupBase;
 
     struct AIRank {
         virtual ~AIRank();
@@ -93,6 +94,14 @@ namespace Enemy {
             NORMAL = 2,
             HARD = 3
         };
+    };
+
+    struct AIRankManager: public Util::StateSequencer<AIRankManager> {
+        AIRankManager();
+        virtual ~AIRankManager();
+        virtual void init();
+        virtual void update();
+        bool isStateSpeedAdvantage();
     };
 
 }
