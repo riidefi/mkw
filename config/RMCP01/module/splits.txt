@@ -196,6 +196,20 @@ enemy/AI.cpp:
 	.rodata     start:0x00012C90 end:0x00012C9C
 	.data       start:0x00016CF8 end:0x00016D18
 
+enemy/AIItem.cpp:
+	.text       start:0x00223014 end:0x00224EE8
+	.data       start:0x00017CA0 end:0x00017E80
+
+enemy/AITrickHandler.cpp:
+	.text       start:0x00224EE8 end:0x00225594
+	.rodata     start:0x00012FB0 end:0x00012FC8
+	.data       start:0x00017E80 end:0x00017EF0
+
+enemy/AISpeed.cpp:
+	.text       start:0x00233438 end:0x0023437C
+	.rodata     start:0x00013420 end:0x00013468
+	.data       start:0x00018928 end:0x00018A20
+
 geo/BoxColManager.cpp:
 	.text       start:0x00276AAC end:0x00276B1C
 
