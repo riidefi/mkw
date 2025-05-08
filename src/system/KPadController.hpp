@@ -36,7 +36,7 @@ struct KPadRaceInputState {
   void setStickXMirrored(u8 x);
   void setStickXUnmirrored(u8 x);
   void setStickY(u8 y);
-  void setTrick(int trick);
+  void setTrick(eTrick trick);
 
   u16 mButtons;                                   // [this+0x04]
   u16 mButtonsRaw;                                // [this+0x06]

@@ -2,6 +2,8 @@
 
 #include <rk_types.h>
 
+#include <rk_common.h>
+
 #include <decomp.h>
 
 #include <rvl/pad/pad.h>

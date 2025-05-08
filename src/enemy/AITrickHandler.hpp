@@ -21,7 +21,7 @@ namespace Enemy {
         virtual void disableWheelie();
         virtual void update();
         void avoidPow();
-        bool isStartingAirborne();
+        bool allowTricking();
         bool shouldTrick();
 
         AIInfo* mpInfo;

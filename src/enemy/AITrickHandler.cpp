@@ -5,6 +5,7 @@
 #include "AIProbability.hpp"
 #include "AIControl.hpp"
 #include "kart/KartState.hpp"
+#include <rk_common.h>
 
 namespace Enemy {
 
@@ -22,9 +23,13 @@ void AITrickHandler::avoidPow() {
     mpInfo->mpInput->setTrick(System::KPadRaceInputState::UP_TRICK);
 }
 
-bool AITrickHandler::isStartingAirborne() {
+bool AITrickHandler::allowTricking() {
     Kart::KartState* state = mpInfo->mpAI->kartState();
 
+    /**
+     * Ensure that CPUs can only request tricking when they are in the air and 
+     * not when they're on a jump pad or mushroom trampoline, or while hit with an object.
+     */
     if (state->on(Kart::KART_FLAG_AIR_START) && !state->on(Kart::KART_FLAG_JUMPPAD) && !state->on(Kart::KART_FLAG_HIT_ITEM_OR_OBJ)) {
         return true;
     }
@@ -35,7 +40,7 @@ bool AITrickHandler::isStartingAirborne() {
 bool AITrickHandler::shouldTrick() {
     AIProbabilityBase* probability = mpInfo->mpAI->mpEngine->mpControl->getAIProbability();
 
-    if (isStartingAirborne() && probability->getTrick()) {
+    if (allowTricking() && probability->getTrick()) {
         return true;
     }
     
@@ -58,12 +63,12 @@ void AITrickHandler::update() {
     if (shouldTrick()) {
         System::KPadRaceInputState* input = mpInfo->mpInput;
         
-        const int kartTricks[2] = {
+        const System::KPadRaceInputState::eTrick kartTricks[2] = {
             System::KPadRaceInputState::UP_TRICK,
             System::KPadRaceInputState::DOWN_TRICK
         };
         
-        int rand = AIManager::getInstance()->getRandU32(ARRAY_COUNT(kartTricks));
+        u32 rand = AIManager::getInstance()->getRandU32(ARRAY_COUNT(kartTricks));
         input->setTrick(kartTricks[rand]);
     }
 }
@@ -99,11 +104,11 @@ void AITrickHandlerBike::calcWheelie() {
 
         System::KPadRaceInputState* input = mpInfo->mpInput;
 
-        if (pathHandler->field_0x0C->shouldWheelie() && probability->getWheelie() && !disableWheelie) {
+        if (pathHandler->mpCurrPointParam->shouldWheelie() && probability->getWheelie() && !disableWheelie) {
             mbPerformWheelie = true;
         }
 
-        if (pathHandler->field_0x0C->shouldEndWheelie()) {
+        if (pathHandler->mpCurrPointParam->shouldEndWheelie()) {
             mbPerformWheelie = false;
             input->setTrick(System::KPadRaceInputState::DOWN_TRICK);
         }
@@ -118,14 +123,14 @@ void AITrickHandlerBike::update() {
     if (shouldTrick()) {
         System::KPadRaceInputState* input = mpInfo->mpInput;
         
-        const int bikeTricks[4] = {
+        const System::KPadRaceInputState::eTrick bikeTricks[4] = {
             System::KPadRaceInputState::UP_TRICK,
             System::KPadRaceInputState::DOWN_TRICK,
             System::KPadRaceInputState::LEFT_TRICK,
             System::KPadRaceInputState::RIGHT_TRICK,
         };
         
-        int rand = AIManager::getInstance()->getRandU32(ARRAY_COUNT(bikeTricks));
+        u32 rand = AIManager::getInstance()->getRandU32(ARRAY_COUNT(bikeTricks));
         input->setTrick(bikeTricks[rand]);
     }
 }

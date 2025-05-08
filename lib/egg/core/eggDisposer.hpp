@@ -14,7 +14,7 @@ class Heap;
 
 //! @brief Base class for garbage-collected objects.
 //!
-//! Scene-specific, heap-allocated resources in mkw are typically not explicitly
+//! Scene-specific, heap-allocated resources in Mario Kart Wii are typically not explicitly
 //! freed. This isn't a memory leak, though: when a Scene transitions, all
 //! memory allocated within it is returned in one block. However, in C++, the
 //! destructor of an object must be called when its lifetime
@@ -22,7 +22,7 @@ class Heap;
 //! use-after-free bugs.
 //!
 //! Disposer solves this issue: when a heap is destroyed,
-//! the linked list of dispoers is traversed and each destructor is called
+//! the linked list of disposers is traversed and each destructor is called
 //! in-order.
 //!
 class Disposer : private NonCopyable {

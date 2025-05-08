@@ -84,16 +84,16 @@ void KPadUIInputState::setStickY(u8 y) {
   mStick.y = rawStickToFloat(y);
 }
 
-void KPadRaceInputState::setTrick(int trick) {
+void KPadRaceInputState::setTrick(eTrick trick) {
   mTrickRaw = trick;
-  int actualTrick = trick;
+  eTrick actualTrick = trick;
   if (KPadDirector::spInstance->mIsMirror) {
     switch (trick) {
-    case 3:
-      actualTrick = 4;
+    case LEFT_TRICK:
+      actualTrick = RIGHT_TRICK;
       break;
-    case 4:
-      actualTrick = 3;
+    case RIGHT_TRICK:
+      actualTrick = LEFT_TRICK;
       break;
     default:
       break;
