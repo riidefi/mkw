@@ -34,7 +34,7 @@ void AI::init() {
     mFlags = 0;
 
     if (isTeamsEnabled()) {
-        s32 team = System::RaceConfig::spInstance->mRaceScenario.getPlayerInlined(getPlayerIdx()).mTeam;
+        s32 team = System::RaceConfig::spInstance->mRaceScenario.getPlayerTeam(getPlayerIdx());
 
         if (team == System::BATTLE_TEAM_RED) {
             mTeam = System::BATTLE_TEAM_RED;
@@ -84,15 +84,15 @@ const EGG::Vector2f& AI::getStick() const {
 }
 
 bool AI::isCPU() {
-    return System::RaceConfig::spInstance->mRaceScenario.getPlayerInlined(getPlayerIdx()).getPlayerTypeInlined() == System::RaceConfig::Player::TYPE_CPU;
+    return System::RaceConfig::spInstance->mRaceScenario.getPlayerType(getPlayerIdx()) == System::RaceConfig::Player::TYPE_CPU;
 }
 
 bool AI::isRealLocal() {
-    return System::RaceConfig::spInstance->mRaceScenario.getPlayerInlined(getPlayerIdx()).getPlayerTypeInlined() == System::RaceConfig::Player::TYPE_REAL_LOCAL;
+    return System::RaceConfig::spInstance->mRaceScenario.getPlayerType(getPlayerIdx()) == System::RaceConfig::Player::TYPE_REAL_LOCAL;
 }
 
 bool AI::isRealLocalAndCPU() {
-    if (System::RaceConfig::spInstance->mRaceScenario.getPlayerInlined(getPlayerIdx()).getPlayerTypeInlined() == System::RaceConfig::Player::TYPE_REAL_LOCAL) {
+    if (System::RaceConfig::spInstance->mRaceScenario.getPlayerType(getPlayerIdx()) == System::RaceConfig::Player::TYPE_REAL_LOCAL) {
         if (isCpu()) {
             return true;
         }
@@ -106,7 +106,7 @@ bool AI::isAICPU() {
 }
 
 bool AI::isGhost() {
-    return System::RaceConfig::spInstance->mRaceScenario.getPlayerInlined(getPlayerIdx()).getPlayerTypeInlined() == System::RaceConfig::Player::TYPE_GHOST;
+    return System::RaceConfig::spInstance->mRaceScenario.getPlayerType(getPlayerIdx()) == System::RaceConfig::Player::TYPE_GHOST;
 }
 
 bool AI::isSameTeam(const AI& other) {
