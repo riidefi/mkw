@@ -1,27 +1,27 @@
-Some Game  
+Mario Kart Wii
 [![Build Status]][actions] ![Progress] ![DOL Progress] ![RELs Progress] [![Discord Badge]][discord]
 =============
 
 <!--
 Replace with your repository's URL.
 -->
-[Build Status]: https://github.com/zeldaret/tww/actions/workflows/build.yml/badge.svg
-[actions]: https://github.com/zeldaret/tww/actions/workflows/build.yml
+[Build Status]: https://github.com/em-eight/mkw2/actions/workflows/build.yml/badge.svg
+[actions]: https://github.com/em-eight/mkw2/actions/workflows/build.yml
 <!---
 Code progress URL:
-https://progress.decomp.club/data/[project]/[version]/all/?mode=shield&measure=code
+https://progress.decomp.club/data/mkw/RMCP01/all/?mode=shield&measure=code
 URL encoded then appended to: https://img.shields.io/endpoint?label=Code&url=
 -->
 [Progress]: https://img.shields.io/endpoint?label=Code&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fall%2F%3Fmode%3Dshield%26measure%3Dcode
 <!---
 DOL progress URL:
-https://progress.decomp.club/data/[project]/[version]/dol/?mode=shield&measure=code
+https://progress.decomp.club/data/mkw/RMCP01/dol/?mode=shield&measure=code
 URL encoded then appended to: https://img.shields.io/endpoint?label=DOL&url=
 -->
 [DOL Progress]: https://img.shields.io/endpoint?label=DOL&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fdol%2F%3Fmode%3Dshield%26measure%3Dcode
 <!--
 REL progress URL:
-https://progress.decomp.club/data/[project]/[version]/modules/?mode=shield&measure=code
+https://progress.decomp.club/data/mkw/RMCP01/modules/?mode=shield&measure=code
 URL encoded then appended to: https://img.shields.io/endpoint?label=RELs&url=
 -->
 [RELs Progress]: https://img.shields.io/endpoint?label=RELs&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fmodules%2F%3Fmode%3Dshield%26measure%3Dcode
@@ -37,7 +37,7 @@ This repository does **not** contain any game assets or assembly whatsoever. An 
 
 Supported versions:
 
-- `GAMEID`: Rev 0 (USA)
+- `RMCP01`: (PAL)
 
 Dependencies
 ============
@@ -90,7 +90,7 @@ Building
   git clone https://github.com/my/repo.git
   ```
 
-- Copy your game's disc image to `orig/GAMEID`.
+- Copy your game's disc image to `orig/RMCP01`.
   - Supported formats: ISO (GCM), RVZ, WIA, WBFS, CISO, NFS, GCZ, TGC
   - After the initial build, the disc image can be deleted to save space.
 
@@ -99,8 +99,6 @@ Building
   ```sh
   python configure.py
   ```
-
-  To use a version other than `GAMEID` (USA), specify it with `--version`.
 
 - Build:
 
