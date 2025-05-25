@@ -8,7 +8,7 @@ jobs:
   build:
     # This is a *private* build container.
     # See docs/github_actions.md for more information.
-    container: ghcr.io/my/game-build:main
+    container: ghcr.io/riidefi/mkw-build:main
 
     runs-on: ubuntu-latest
     strategy:
