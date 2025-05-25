@@ -166,6 +166,7 @@ config.ldflags = [
     "-linkmode moreram",
 ]
 config.rel_strip_partial = False
+config.shift_jis = False
 if args.debug:
     config.ldflags.append("-g")  # Or -gdwarf-2 for Wii linkers
 if args.map:
