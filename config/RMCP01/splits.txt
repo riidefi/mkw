@@ -1045,7 +1045,7 @@ eggViewport.o:
 	.text       start:0x80244074 end:0x80244160
 	.sdata2     start:0x80389118 end:0x80389128
 
-eggXfb.o:
+core/eggXfb.cpp:
 	.text       start:0x80244160 end:0x80244200
 
 eggXfbManager.o:

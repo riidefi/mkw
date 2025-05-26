@@ -260,6 +260,9 @@ cflags_egg = [
     "-ipa function",
     "-rostr",
     "-use_lmw_stmw=on",
+    " -i lib/MSL/include "
+    " -i lib " # just for now, individual include directories for each lib is tidier
+    " -i ./include -i ./src ",
 ]
 
 # DOL flags
@@ -368,6 +371,16 @@ config.libs = [
         ],
     },
     {
+        "lib": "EGG",
+        "mw_version": "Wii/0x4201_127",
+        "cflags": cflags_egg,
+        "progress_category": "egg",
+        "src_dir": "lib/egg",
+        "objects": [
+            Object(Matching, "core/eggXfb.cpp"),
+        ],
+    },
+    {
         "lib": "StaticR",
         "mw_version": "Wii/0x4201_127",
         "cflags": cflags_staticr,
@@ -452,6 +465,7 @@ def link_order_callback(module_id: int, objects: List[str]) -> List[str]:
 config.progress_categories = [
     ProgressCategory("game", "Game Code"),
     ProgressCategory("sdk", "SDK Code"),
+    ProgressCategory("egg", "EGG"),
 ]
 config.progress_each_module = args.verbose
 
