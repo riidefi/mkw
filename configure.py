@@ -351,7 +351,7 @@ config.libs = [
     },
     {
         "lib": "MSL_C",
-        "mw_version": "Wii/0x4201_142",
+        "mw_version": "Wii/1.0a",
         "cflags": cflags_msl,
         "progress_category": "sdk",
         "src_dir": "lib/MSL/src",
@@ -368,7 +368,7 @@ config.libs = [
     },
     {
         "lib": "StaticR",
-        "mw_version": "Wii/0x4201_142",
+        "mw_version": "Wii/1.0a",
         "cflags": cflags_staticr,
         "progress_category": "game",
         "src_dir": "src",
@@ -414,7 +414,7 @@ config.libs = [
     },
     {
         "lib": "KCOL",
-        "mw_version": "Wii/0x4201_142",
+        "mw_version": "Wii/1.0a",
         "cflags": cflags_staticr_gekko,
         "progress_category": "game",
         "src_dir": "src",
