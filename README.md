@@ -1,33 +1,12 @@
 Mario Kart Wii
-[![Build Status]][actions] ![Progress] ![DOL Progress] ![RELs Progress] [![Discord Badge]][discord]
+[![Build Status]][actions] [![main.dol Progress]][progress] [![StaticR.rel Progress]][progress] [![Discord Badge]][discord]
 =============
 
-<!--
-Replace with your repository's URL.
--->
-[Build Status]: https://github.com/em-eight/mkw2/actions/workflows/build.yml/badge.svg
-[actions]: https://github.com/em-eight/mkw2/actions/workflows/build.yml
-<!---
-Code progress URL:
-https://progress.decomp.club/data/mkw/RMCP01/all/?mode=shield&measure=code
-URL encoded then appended to: https://img.shields.io/endpoint?label=Code&url=
--->
-[Progress]: https://img.shields.io/endpoint?label=Code&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fall%2F%3Fmode%3Dshield%26measure%3Dcode
-<!---
-DOL progress URL:
-https://progress.decomp.club/data/mkw/RMCP01/dol/?mode=shield&measure=code
-URL encoded then appended to: https://img.shields.io/endpoint?label=DOL&url=
--->
-[DOL Progress]: https://img.shields.io/endpoint?label=DOL&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fdol%2F%3Fmode%3Dshield%26measure%3Dcode
-<!--
-REL progress URL:
-https://progress.decomp.club/data/mkw/RMCP01/modules/?mode=shield&measure=code
-URL encoded then appended to: https://img.shields.io/endpoint?label=RELs&url=
--->
-[RELs Progress]: https://img.shields.io/endpoint?label=RELs&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Ftww%2FGZLE01%2Fmodules%2F%3Fmode%3Dshield%26measure%3Dcode
-<!--
-Replace with your Discord server's ID and invite URL.
--->
+[Build Status]: https://github.com/riidefi/mkw/actions/workflows/build.yml/badge.svg
+[actions]: https://github.com/riidefi/mkw/actions/workflows/build.yml
+[StaticR.rel Progress]: https://decomp.dev/riidefi/mkw.svg?category=dol&mode=shield
+[main.dol Progress]: https://decomp.dev/riidefi/mkw.svg?category=game&mode=shield
+[progress]: https://decomp.dev/riidefi/mkw
 [Discord Badge]: https://img.shields.io/discord/727908905392275526?color=%237289DA&logo=discord&logoColor=%23FFFFFF
 [discord]: https://discord.gg/hKx3FJJgrV
 
