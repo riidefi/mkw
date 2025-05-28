@@ -55,7 +55,7 @@ void AIControlDemo::initAfterManager() {
 
 void AIControlDemo::update() {
     Util::StateSequencer<AIControlBase>* state = this;
-    state->update();
+    state->calc();
 }
 
 void AIControlDemo::stateInitStart() {

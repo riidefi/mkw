@@ -45,17 +45,16 @@ namespace Enemy {
 
     struct AIControlDemo: public AIControlBase {
         AIControlDemo(const AIInfo&);
-        virtual ~AIControlDemo();
-        virtual void init();
-        virtual void update();
-        virtual void initAfterManager();
-
-        virtual void stateInitStart();
-        virtual void stateStart();
-        virtual void stateInitRun();
-        virtual void stateRun();
-        virtual void stateInitEnd();
-        virtual void stateEnd();
+        ~AIControlDemo();
+        void init();
+        void update();
+        void initAfterManager();
+        void stateInitStart();
+        void stateStart();
+        void stateInitRun();
+        void stateRun();
+        void stateInitEnd();
+        void stateEnd();
 
         Util::State<AIControlDemo> mStateInit;
         Util::State<AIControlDemo> mStateRun;

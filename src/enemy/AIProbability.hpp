@@ -11,7 +11,7 @@ namespace Enemy {
                 mStartBoostLevel = 0;
             }
             
-            virtual ~AIProbabilityBase();
+            virtual ~AIProbabilityBase() {}
             virtual void determineIfCanMiniturbo();
             virtual void getStartBoost();
             virtual void setDoTrick(bool);
