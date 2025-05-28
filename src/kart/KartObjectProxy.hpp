@@ -101,6 +101,7 @@ public:
   const KartCollisionInfo* wheelColInfo(s32 idx) const;
   KartCollide* kartCollide();
   const KartCollide* kartCollide() const;
+  void shouldVanishPlayer(bool);
 
   // dunno why this specifically is inline, but that's what it appears
   KartState* kartState() { return mAccessor->mKartState; }

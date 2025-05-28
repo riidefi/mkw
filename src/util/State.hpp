@@ -41,14 +41,15 @@ namespace Util {
                 }
             }
         
-            inline void setFunctions(StateFunction init, StateFunction update, StateFunction exit) {
+            inline void setFunctions(void* stateSequencer, StateFunction init, StateFunction update, StateFunction exit) {
+                mpStateSequencer = stateSequencer;
                 mInit = init;
                 mUpdate = update;
                 mExit = exit;
             }
 
         private:
-            StateSequencer<T>* mpStateSequencer;
+            void* mpStateSequencer;
             StateFunction mInit;
             StateFunction mUpdate;
             StateFunction mExit;
@@ -64,7 +65,7 @@ namespace Util {
         public:
             StateSequencer();
             virtual ~StateSequencer();
-            virtual void update(T* obj);
+            virtual void update();
             void reset();
             bool isState(State<T>*);
             void setNextState(State<T>*);

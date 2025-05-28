@@ -9,7 +9,7 @@
 namespace Enemy {
 
     struct AIControlBase: public Util::StateSequencer<AIControlBase> {
-        AIControlBase();
+        AIControlBase(const AIInfo&);
         virtual ~AIControlBase();
         virtual void init();
         virtual void update();
@@ -23,12 +23,44 @@ namespace Enemy {
         virtual AIRank* getAIRank();
         virtual void* getAIBlockLine();
         virtual AIProbabilityBase* getAIProbability();
+        virtual void vf_0x48();
+        virtual void setBattleType();
+        virtual void setAIRankTopOfPlayer();
+        virtual void setDoNotSelectBackward();
+        virtual void isAllStopAfterGoal();
+        virtual void doUpdate_(const DriveInfo&);
+        virtual void setBasicDriveInfo_(const DriveInfo&);
 
         AIInfo* mpInfo;
         AIPathHandler* mpPathHandler;
         void* mpStuck;
         AIProbabilityBase* mpProbability;
-        u8 field_0x44[28];
+        void* mpAutoSteer;
+        void* mpDriftDrive;
+        DriveInfo* mpDriveInfo;
+        void* field_0x154;
+        void* mpPowAvoider;
+        s32 field_0x5C;
+    };
+
+    struct AIControlDemo: public AIControlBase {
+        AIControlDemo(const AIInfo&);
+        virtual ~AIControlDemo();
+        virtual void init();
+        virtual void update();
+        virtual void initAfterManager();
+
+        virtual void stateInitStart();
+        virtual void stateStart();
+        virtual void stateInitRun();
+        virtual void stateRun();
+        virtual void stateInitEnd();
+        virtual void stateEnd();
+
+        Util::State<AIControlDemo> mStateInit;
+        Util::State<AIControlDemo> mStateRun;
+        Util::State<AIControlDemo> mStateEnd;
+        s32 mTimeUntilStateRun;
     };
 
 }

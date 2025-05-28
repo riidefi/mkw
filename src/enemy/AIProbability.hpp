@@ -6,7 +6,11 @@ namespace Enemy {
 
     class AIProbabilityBase {
         public:
-            inline AIProbabilityBase() {}
+            inline AIProbabilityBase() {
+                mGroupKind = 0;
+                mStartBoostLevel = 0;
+            }
+            
             virtual ~AIProbabilityBase();
             virtual void determineIfCanMiniturbo();
             virtual void getStartBoost();
@@ -19,7 +23,7 @@ namespace Enemy {
             virtual bool vf_0x2C();
             virtual bool isLaunchBlockLine();
 
-        private:
+        protected:
             s32 mGroupKind;
             s32 mStartBoostLevel;
     };
@@ -71,15 +75,15 @@ namespace Enemy {
     class AIProbabilityDemo: public AIProbabilityBase {
         public:
             inline AIProbabilityDemo() {}
-            ~AIProbabilityDemo();
-            void determineIfCanMiniturbo();
-            s32 getStartBoostLevel();
-            bool getDrift(bool);
-            bool getMiniturbo();
-            bool getTrick();
-            bool getWheelie();
-            bool vf_0x2C();
-            bool isLaunchBlockLine();
+            ~AIProbabilityDemo() {}
+            void determineIfCanMiniturbo() {}
+            s32 getStartBoostLevel() { return 0; }
+            bool getDrift(bool) { return true; }
+            bool getMiniturbo() { return true; }
+            bool getTrick() { return true; }
+            bool getWheelie() { return true; }
+            bool vf_0x2C() {return false; }
+            bool isLaunchBlockLine() { return true; }
     };
 
 }

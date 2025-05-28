@@ -17,20 +17,36 @@ namespace Enemy {
         // in the ramps before the end of the ramp to ensure
         // the CPU is able to cross it
         virtual bool shouldHaveMinSpeedOf70();
-        virtual bool shouldEndDrift();      // Real name: `isEndDrift`
-        virtual bool shouldForbidDrift();   // Real name: `isDisableDrift`
-        virtual bool shouldForceDrift();    // Real name: `isContinueDrift`
+        virtual bool shouldEndDrift();      // MK7 name: `isEndDrift`
+        virtual bool shouldForbidDrift();   // MK7 name: `isDisableDrift`
+        virtual bool shouldForceDrift();    // MK7 name: `isContinueDrift`
         virtual bool isKinokoK();
         virtual bool vf_0x30();
-        virtual bool driftNotForbidden();   // Real name: `isAbleToMiniTurbo`
-        virtual bool isEflag2();
-        virtual bool isEflag3();
-        virtual bool isEflag4();
+        virtual bool driftNotForbidden();   // MK7 name: `isAbleToMiniTurbo`
+        virtual bool isEflag2() { return false; }
+        virtual bool isEflag3() { return false; }
+        virtual bool isEflag4() { return false; }
 
-        u32 mParam1;    // From ENPT Settings
-        u32 mParam2;    // From ENPT Settings
-        u32 mEflags;    // From ENPT Settings
+        s32 mParam1;    // From ENPT Settings
+        s32 mParam2;    // From ENPT Settings
+        s32 mEflags;    // From ENPT Settings
         f32 field_0x10;
+    };
+
+    struct DriveInfo {
+        EGG::Vector3f field_0x00;
+        f32 field_0x0C;
+        f32 field_0x10;
+        f32 field_0x14;
+        f32 field_0x18;
+        f32 field_0x1C;
+        f32 field_0x20;
+        bool mbShouldStartDrift;
+        bool mbShouldEndDrift;
+        bool mbShouldReleaseMiniturbo;
+        u8 field_0x27;
+        bool field_0x28;
+        u8 field_0x29[3];
     };
 
     struct AIPathPointInfo {
@@ -55,7 +71,18 @@ namespace Enemy {
     };
 
     struct AIPathHandler {
+        struct InitArg {
+            f32 field_0x00;
+            f32 field_0x04;
+            f32 field_0x08;
+            s32 field_0x0C;
+            s32 field_0x10;
+            u8 field_0x14;
+            bool field_0x15;
+        };
+
         virtual ~AIPathHandler();
+        virtual void init(const InitArg&);
         void addOffsetRateAndRecalcTargetTrans(f32);
         bool isSwitchingPath();
         
@@ -66,7 +93,7 @@ namespace Enemy {
         AIPathPoint* mpPathPoint;
         s32 field_0x18;
         bool field_0x1C;
-        bool field_0x20;
+        bool mbRacalcTargetTrans;
         bool field_0x21;
         bool mbInBullet;
         s32 field_0x24;
