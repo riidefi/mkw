@@ -84,6 +84,8 @@ namespace Enemy {
         virtual ~AIPathHandler();
         virtual void init(const InitArg&);
         void addOffsetRateAndRecalcTargetTrans(f32);
+        // Returns `true` the moment a CPU goes from
+        // one CPU point to the next one.
         bool isSwitchingPath();
         
         bool mbIsSwitchingPath;

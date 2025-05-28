@@ -53,11 +53,13 @@ void AIControlDemo::initAfterManager() {
 }
 
 void AIControlDemo::update() {
-    Util::StateSequencer<AIControlBase>* state = this;
-    state->calc();
+    calc();
 }
 
 void AIControlDemo::stateInitStart() {
+    // When the cutscene starts, the previous CPU point's `mParam1` specifies
+    // a small delay time before the CPU starts moving, assuming that the
+    // current CPU point has a previous point.
     mTimeUntilStateRun = mpInfo->mpPathHandler->mpPrevPointParam->mParam1 * 30;
     mpInfo->mpAI->shouldVanishPlayer(true);
 }
@@ -98,18 +100,27 @@ void AIControlDemo::stateRun() {
 
     setBasicDriveInfo_(*mpDriveInfo);
     doUpdate_(*mpDriveInfo);
+
+    // The next CPU point's `mParam1` specifies the speed at which the CPU should move.
     ai->kartMove()->setSpeed(pathHandler->mpNextPointParam->mParam1);
 
+    // When the current CPU point's `Eflag2` is set, the CPU will play a win animation
+    // (used in the Awards Ceremony cutscene).
     if (pathHandler->mpCurrPointParam->isEflag2()) {
         ai->mFlags |= AI::AI_FLAG_PLAY_WIN_ANIMATION_DURING_CUTSCENE;
     }
 
+    // When the current CPU point's `Eflag3` is set, then the moment the CPU goes to the
+    // next CPU point, it will throw an item forwards
+    // (unused in the final game)
     if (pathHandler->isSwitchingPath() && pathHandler->mpCurrPointParam->isEflag3()) {
         AIItemBase* item = ai->mpEngine->mpItem;
         item->mbUseItem = true;
         item->mItemThrowDirection = AIItemBase::THROW_FORWARDS;
     }
 
+    // When the current CPU point's `Eflag4` is set, then the CPU will disappear
+    // (used at the end of the Awards Ceremony cutscene).
     if (pathHandler->isSwitchingPath() && pathHandler->mpCurrPointParam->isEflag4()) {
         setNextState(reinterpret_cast<Util::State<AIControlBase>*>(&mStateEnd));
     }
