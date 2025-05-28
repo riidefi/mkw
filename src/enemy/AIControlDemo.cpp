@@ -24,8 +24,7 @@ void AIControlDemo::init() {
     AIControlBase::init();
     field_0x5C = 0;
 
-    AIProbabilityDemo* probability = static_cast<AIProbabilityDemo*>(mpProbability);
-    probability->determineIfCanMiniturbo();
+    mpProbability->determineIfCanMiniturbo();
    
     // Ensure that we're currently on a cutscene environment.
     if (FUN_80739880() ||

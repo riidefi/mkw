@@ -198,7 +198,7 @@ enemy/AI.cpp:
 
 enemy/AIControlDemo.cpp:
 	.text       start:0x0021DC1C end:0x0021E42C
-	.rodata     start:0x00012F0C end:0x00012F20
+	.rodata     start:0x00012F10 end:0x00012F20
 	.data       start:0x00017660 end:0x000177C0
 
 enemy/AIItem.cpp:

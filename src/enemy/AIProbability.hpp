@@ -10,23 +10,25 @@ namespace Enemy {
                 mGroupKind = 0;
                 mStartBoostLevel = 0;
             }
-            
-            virtual ~AIProbabilityBase() {}
-            virtual void determineIfCanMiniturbo();
+
+            virtual ~AIProbabilityBase() = 0;
+            virtual void determineIfCanMiniturbo() = 0;
             virtual void getStartBoost();
             virtual void setDoTrick(bool);
             virtual s32 getStartBoostLevel();
-            virtual bool getDrift(bool);
-            virtual bool getMiniturbo();
-            virtual bool getTrick();
-            virtual bool getWheelie();
-            virtual bool vf_0x2C();
-            virtual bool isLaunchBlockLine();
+            virtual bool getDrift(bool) = 0;
+            virtual bool getMiniturbo() = 0;
+            virtual bool getTrick() = 0;
+            virtual bool getWheelie() = 0;
+            virtual bool vf_0x2C() = 0;
+            virtual bool isLaunchBlockLine() = 0;
 
         protected:
             s32 mGroupKind;
             s32 mStartBoostLevel;
     };
+
+    inline AIProbabilityBase::~AIProbabilityBase() {}
 
     class AIProbabilityRace: public AIProbabilityBase {
         public:
@@ -82,7 +84,7 @@ namespace Enemy {
             bool getMiniturbo() { return true; }
             bool getTrick() { return true; }
             bool getWheelie() { return true; }
-            bool vf_0x2C() {return false; }
+            bool vf_0x2C() { return false; }
             bool isLaunchBlockLine() { return true; }
     };
 
