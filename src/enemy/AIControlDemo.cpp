@@ -30,8 +30,8 @@ void AIControlDemo::init() {
     if (FUN_80739880() ||
         System::RaceConfig::spInstance->mRaceScenario.mSettings.mCameraMode == System::RaceConfig::Settings::CAMERA_MODE_GRAND_PRIX_WIN ||
         System::RaceConfig::spInstance->mRaceScenario.mSettings.mGameMode == System::RaceConfig::Settings::GAMEMODE_CREDITS) {
-            initAfterManager();
-            setNextState(reinterpret_cast<Util::State<AIControlBase>*>(&mStateInit));
+        initAfterManager();
+        setNextState(reinterpret_cast<Util::State<AIControlBase>*>(&mStateInit));
     }
     else {
         reset();
@@ -84,9 +84,7 @@ void AIControlDemo::stateRun() {
     AI* ai = info->mpAI;
     AIPathHandler* pathHandler = info->mpPathHandler;
     
-    driveInfo->field_0x00.z = 0.0f;
-    driveInfo->field_0x00.y = 0.0f;
-    driveInfo->field_0x00.x = 0.0f;
+    driveInfo->field_0x00.setZero();
     driveInfo->field_0x0C = 0.0f;
     driveInfo->field_0x10 = 0.0f;
     driveInfo->field_0x14 = 1.0f;
