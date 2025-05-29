@@ -10,7 +10,7 @@ Mario Kart Wii
 [Discord Badge]: https://img.shields.io/discord/727908905392275526?color=%237289DA&logo=discord&logoColor=%23FFFFFF
 [discord]: https://discord.gg/hKx3FJJgrV
 
-A work-in-progress decompilation of Some Game.
+A work-in-progress decompilation of Mario Kart Wii.
 
 This repository does **not** contain any game assets or assembly whatsoever. An existing copy of the game is required.
 
@@ -66,7 +66,7 @@ Building
 - Clone the repository:
 
   ```sh
-  git clone https://github.com/my/repo.git
+  git clone https://github.com/riidefi/mkw.git
   ```
 
 - Copy your game's disc image to `orig/RMCP01`.
