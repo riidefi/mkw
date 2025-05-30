@@ -8,6 +8,37 @@
 
 namespace Enemy {
 
+    // This struct tracks the current airtime of a CPU
+    // and it also starts a small countdown everytime the CPU
+    // lands on the ground after being airborne for 20 frames.
+    // While this runs in the background during matches, the game
+    // doesn't seem to use it for anything.
+    struct AIAirtimeTracker {
+        inline AIAirtimeTracker(const AIInfo&);
+        virtual ~AIAirtimeTracker();
+        virtual void init(s32);
+        virtual void update();
+        bool isCurrentGroundStartTimerZero();
+
+        AIInfo* mpInfo;
+        s32 mInitialGroundStartTimer;   // Initial countdown time set when landing.
+        s32 mAirtime;
+        s32 mCurrentGroundStartTimer;   // Current countdown time.
+    };
+
+    // This struct manages the probability of a CPU avoiding the POW block,
+    // and is also in charge of avoiding it when said probability passes.
+    struct AIPowAvoider {
+        inline AIPowAvoider(const AIInfo&);
+        virtual ~AIPowAvoider();
+        virtual void init();
+        virtual void update();
+        inline bool isSameTeam(s32);
+
+        AIInfo* mpInfo;
+        s32 mAvoidChance;   // How likely the CPU is going to avoid the POW block.
+    };
+
     struct AIControlBase: public Util::StateSequencer<AIControlBase> {
         AIControlBase(const AIInfo&);
         virtual ~AIControlBase();
@@ -38,8 +69,8 @@ namespace Enemy {
         void* mpAutoSteer;
         void* mpDriftDrive;
         DriveInfo* mpDriveInfo;
-        void* field_0x154;
-        void* mpPowAvoider;
+        AIAirtimeTracker* mpAirtimeTracker;
+        AIPowAvoider* mpPowAvoider;
         s32 field_0x5C;
     };
 
