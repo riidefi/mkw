@@ -788,6 +788,7 @@ config.libs = [
             Object(NonMatching, "ui/SectionAutogens.cpp"),
 
             Object(Equivalent, "enemy/AI.cpp"),
+            Object(NonMatching, "enemy/AIControlDemo.cpp"),
             Object(Equivalent, "enemy/AITrickHandler.cpp"),
 
             Object(Matching, "geo/BoxColManager.cpp"),

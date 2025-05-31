@@ -112,6 +112,9 @@ u8 spInstance__Q26System11RaceManager[8];
 
 
 namespace System {
+
+// Returns a pointer to the file `/Race/Common.szs/ranktimeGP.krt`.
+// More info: https://wiki.tockdom.com/wiki/KRT_(File_Format)
 KrtFile** RaceManager::getKrtFile() {
     KrtFile** files;
 
@@ -119,7 +122,7 @@ KrtFile** RaceManager::getKrtFile() {
         return nullptr;
     }
     else {
-        RaceModeGrandPrix* raceModeGP = (RaceModeGrandPrix*) raceMode;
+        RaceModeGrandPrix* raceModeGP = static_cast<RaceModeGrandPrix*>(raceMode);
         files = raceModeGP->krtFile;
         return (files[0] != nullptr) ? files : nullptr;
     }
@@ -129,56 +132,65 @@ KrtFile** RaceManager::getKrtFile() {
 // needs KartObjectManager definitions
 #ifdef WIP_DECOMP
 namespace System {
+
+// This function calculates the hidden score for the current race, which will be used for calculating the star rank later.
+// It is called at the end of each Grand Prix race, right before showing the results.
 void RaceManagerPlayer::updateGpRankScore() {
     s32 raceStarRankScore = 0;
     s32 krtTime = 0;
     KrtFile** krtFile = nullptr;
     
-    // Get ranktimeGP.krt
+    // Get `ranktimeGP.krt` (`krtFile[0]`).
     krtFile = RaceManager::spInstance->getKrtFile();
 
     if ((krtFile == nullptr) || (RaceConfig::spInstance->mRaceScenario.getPlayer(idx).getPlayerType() != RaceConfig::Player::TYPE_REAL_LOCAL)) {
         unk34 = 7;
     }
+    // If the player is human and `ranktimeGP.krt` was loaded...
     else {
-        // Get course time limit from ranktimeGP
+        // Get course time limit from `ranktimeGP`.
         s32 engineClass = RaceConfig::spInstance->mRaceScenario.mSettings.getEngineClass();
         s32 courseId = RaceConfig::spInstance->mRaceScenario.mSettings.getCourseId();
-        krtTime = (*krtFile != nullptr) ? (*krtFile)->entries[courseId][RaceConfig::spInstance->mRaceScenario.mSettings.getEngineClass()] : 0;
+        krtTime = (krtFile[0] != nullptr) ? krtFile[0]->entries[courseId][RaceConfig::spInstance->mRaceScenario.mSettings.getEngineClass()] : 0;
 
         // Calculate time bonus
-        // s32 raceStarRankScore = 0;
-         raceStarRankScore += 1000.0f * (krtTime - frameCounter) / krtTime;
-        // Calculate time bonus corresponding to the time spent in 1st place
-        s32 firstPlaceTimeBonus = framesInFirstPlace * 150 / krtTime;
-        // Add time bonus
-        raceStarRankScore += firstPlaceTimeBonus;
+        raceStarRankScore += 1000.0f * (krtTime - frameCounter) / krtTime;
+        // Calculate time bonus corresponding to the time spent in 1st place.
+        raceStarRankScore += framesInFirstPlace * 150 / krtTime;
 
-        // Add bonus for successfull rocket start
+        // Apply bonus for successfull rocket start.
         if (Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->gpStats->startBoostSuccessful) {
             raceStarRankScore += 25;
         }
         
+        // Apply bonus for number of miniturbos performed.
         u16 miniturbos = Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->gpStats->miniturbos;
         raceStarRankScore += (miniturbos * 2);
         
+        // Apply bonus for number of times the player hits a CPU with items.
         u16 hitOthersWithItemsCount = Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->raceStats->hitOthersWithItemsCount;
         raceStarRankScore += (hitOthersWithItemsCount * 5);
         
+        // Apply penalty for the time spent offroad.
         raceStarRankScore -= (Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->gpStats->offroad / 3);
         
+        // Apply penalty for number of times the player hits a wall.
+        // Note that `numWallCollision` only increases when the wall "bonk" sound effect is played,
+        // which happens when the player hits a wall at or above a certain speed.
         u16 numWallCollision = Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->gpStats->numWallCollision;
         raceStarRankScore -= (numWallCollision * 20);
         
+        // Apply penalty for number of times the player gets damaged by a course object.
         u16 numObjectCollision = Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->gpStats->numObjectCollision;
         raceStarRankScore -= (numObjectCollision * 30);
         
+        // Apply penalty for number of times the player had to be respawned by Lakitu.
         u16 outOfBounds = Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->gpStats->outOfBounds;
         raceStarRankScore -= (outOfBounds * 70);
 
         s8 playerInputIdx = RaceConfig::spInstance->mRaceScenario.getPlayer(idx).getPlayerInputIdx();
         
-        // Add bonus for playing using the Wii Wheel
+        // Apply bonus for playing using the Wii Wheel.
         if (playerInputIdx != -1) {
             Controller* controller = InputManager::spInstance->playerInputs[(u8) playerInputIdx].raceController;
 
@@ -188,7 +200,7 @@ void RaceManagerPlayer::updateGpRankScore() {
             }
         }
 
-        // Add bonus for using Automatic drift
+        // Apply bonus for using Automatic drift
         if (playerInputIdx != -1) {
             Controller* controller = InputManager::spInstance->playerInputs[(u8) playerInputIdx].raceController;
 
@@ -198,11 +210,14 @@ void RaceManagerPlayer::updateGpRankScore() {
             }
         }
 
-        // Add unknown bonus
-        u16 field_0x18 = Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->gpStats->field_0x18;
-        raceStarRankScore += field_0x18;
+        // Apply `AIRankManager` bonus.
+        // This bonus is semi-random and timer-based, usually increasing some time after the 
+        // race starts.
+        // This is bonus is not applied in 50cc.
+        u16 aiRankBonus = Kart::KartObjectManager::spInstance->getObject(idx)->mAccessor->settings->gpStats->aiRankBonus;
+        raceStarRankScore += aiRankBonus;
 
-        // Clamp the start rank score
+        // Clamp the start rank score for this race between [-50, 250]
         if (raceStarRankScore < -50) {
             raceStarRankScore = -50;
         }
