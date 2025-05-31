@@ -13,7 +13,7 @@ extern void __OSCacheInit(void);
 
 __declspec(section ".init") asm void __init_hardware() {
   // clang-format off
-  #ifdef __MWERKS__
+  #ifdef __CWCC__
   nofralloc;
   mfmsr r0;
   ori r0, r0, 0x2000;
@@ -30,7 +30,7 @@ __declspec(section ".init") asm void __init_hardware() {
 
 __declspec(section ".init") asm void __flush_cache() {
   // clang-format off
-  #ifdef __MWERKS__
+  #ifdef __CWCC__
   nofralloc;
   lis r5, 0xffff;
   ori r5, r5, 0xfff1;
