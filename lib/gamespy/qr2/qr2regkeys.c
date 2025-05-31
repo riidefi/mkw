@@ -4,7 +4,7 @@
 #include "../common/gsDebug.h"
 #include "../common/gsStringUtil.h"
 
-#ifdef __MWERKS__ // CodeWarrior requires prototypes
+#ifdef __CWCC__ // CodeWarrior requires prototypes
 void qr2_register_keyW(int keyid, const unsigned short* key);
 void qr2_register_keyA(int keyid, const char* key);
 #endif
