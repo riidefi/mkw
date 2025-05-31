@@ -1,4 +1,4 @@
-Mario Kart Wii
+Mario Kart Wii  
 [![Build Status]][actions] [![main.dol Progress]][progress] [![StaticR.rel Progress]][progress] [![Discord Badge]][discord]
 =============
 
