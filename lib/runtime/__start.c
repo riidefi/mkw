@@ -21,7 +21,7 @@ static u32 __OSPADButton AT_ADDRESS(0x800030e4);
 // PAL: 0x80006068..0x80006090
 __declspec(section ".init") asm void __check_pad3() {
   // clang-format off
-  #ifdef __MWERKS__
+  #ifdef __CWCC__
   nofralloc;
   lis r3, __OSPADButton@ha;
   lhz r0, __OSPADButton@l(r3);
@@ -49,7 +49,7 @@ __declspec(section ".init") u8 __get_debug_bba() { return __debug_bba; }
 // PAL: 0x800060a4..0x80006210
 __declspec(section ".init") asm void __start() {
   // clang-format off
-  #ifdef __MWERKS__
+  #ifdef __CWCC__
   nofralloc;
   bl __init_registers;
   bl __init_hardware;
@@ -157,7 +157,7 @@ lbl_800061fc:
 }
 
 __declspec(section ".init") asm void __init_registers(void) {
-  #ifdef __MWERKS__
+  #ifdef __CWCC__
   li r0, 0x0;
   li r3, 0x0;
   li r4, 0x0;
@@ -201,7 +201,7 @@ __declspec(section ".init") asm void __init_registers(void) {
 // PAL: 0x800062a0..0x80006348
 __declspec(section ".init") asm void __init_data() {
   // clang-format off
-  #ifdef __MWERKS__
+  #ifdef __CWCC__
   nofralloc;
   stwu r1, -0x20(r1);
   mflr r0;

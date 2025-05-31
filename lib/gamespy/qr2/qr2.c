@@ -11,7 +11,7 @@ INCLUDES
 extern "C" {
 #endif
 
-#ifdef __MWERKS__ // Codewarrior requires function prototypes
+#ifdef __CWCC__ // Codewarrior requires function prototypes
 qr2_error_t qr2_initW(/*[out]*/ qr2_t* qrec, const unsigned short* ip,
                       int baseport, const unsigned short* gamename,
                       const unsigned short* secret_key, int ispublic,

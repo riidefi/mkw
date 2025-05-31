@@ -1,4 +1,4 @@
-#ifndef __INTELLISENSE__
+#ifdef __CWCC__
 
 // PAL: 0x8002156C
 extern void _savegpr_14(void);

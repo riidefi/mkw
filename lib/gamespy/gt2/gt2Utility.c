@@ -230,7 +230,7 @@ unsigned int** gt2StringToIPs(const char* string) {
 ** INTERNAL FUNCTIONS **
 ***********************/
 
-#ifdef __MWERKS__ // CodeWarrior will warn if not prototyped
+#ifdef __CWCC__ // CodeWarrior will warn if not prototyped
 void gti2MessageCheck(const GT2Byte** message, int* len);
 #endif
 
