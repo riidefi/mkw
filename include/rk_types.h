@@ -111,7 +111,7 @@ private:
 
 
 // Main static assert macro
-#if defined(__INTELLISENSE__)
+#ifdef __EDITOR_CHECKING__
   #if !__has_extension(c_static_assert)
     #error "language server lacks `_Static_assert` support"
   #endif
