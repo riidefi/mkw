@@ -24,16 +24,21 @@
 
 #define DECLTYPE(x) __decltype__(x)
 
-// https://github.com/DarkRTA/rb3/blob/235050f88a263fec0387b7c618dda76a8bb24d2c/src/sdk/RVL_SDK/revolution/os/OSUtils.h#L13-L17
-#if defined(__CWCC__) && !defined(__INTELLISENSE__)
-#define AT_ADDRESS(addr) : (addr)
-#else
-#define AT_ADDRESS(addr)
+#if defined(__INTELLISENSE__) || defined(__CLANGD__)
+// TODO(KooShnoo): are we happy with this name?
+#define __EDITOR_CHECKING__
 #endif
 
-// For VSCode
-#ifdef __INTELLISENSE__
+#ifdef __CWCC__
+// codewarrior-specific syntax
+#define AT_ADDRESS(addr) : (addr)
+#elif defined(__EDITOR_CHECKING__)
+// dummy implementations for editor tooling
+#define AT_ADDRESS(addr)
 #define asm
 #define __attribute__(x)
 #define __declspec(x)
+#else
+// building with a non-codewarrior compiler is not supported yet
+#error "workarounds for codewarrior's language extensions unimplemented"
 #endif
