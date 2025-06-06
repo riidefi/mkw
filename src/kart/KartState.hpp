@@ -48,6 +48,7 @@ enum KartFlags {
   KART_FLAG_GHOST = 0x86,
   KART_FLAG_SET_SPEED_ZERO = 0x89,
   KART_FLAG_DEMO_LOSS = 0x8b,
+  KART_FLAG_HAS_STOPPED = 0x8c
 };
 
 class KartState {

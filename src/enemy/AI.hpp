@@ -5,6 +5,7 @@
 #include <egg/math/eggVector.hpp>
 
 extern bool isTeamsEnabled();
+extern bool FUN_80739880();     // Cutscene-related. Always returns `false` in the final game.
 
 namespace Enemy {
 
