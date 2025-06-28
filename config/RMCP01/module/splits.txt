@@ -164,6 +164,12 @@ ui/SectionAutogens.cpp:
 SectionDirector.o:
 	.text       start:0x001247CC end:0x00125B04
 
+net/NetManager.cpp:
+	.text       start:0x00145770 end:0x00149E98
+	.rodata     start:0x0000AA74 end:0x0000ABA0
+	.data       start:0x0000DD90 end:0x0000DDC8
+	.bss        start:0x000049F8 end:0x00004A00
+
 ObjKoopaFigure64.o:
 	.text       start:0x001CA560 end:0x001CADD0
 
