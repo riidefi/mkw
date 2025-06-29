@@ -166,9 +166,16 @@ SectionDirector.o:
 
 net/NetManager.cpp:
 	.text       start:0x00145770 end:0x00149E98
-	.rodata     start:0x0000AA74 end:0x0000ABA0
 	.data       start:0x0000DD90 end:0x0000DDC8
 	.bss        start:0x000049F8 end:0x00004A00
+
+net/packets/ROOM.cpp:
+	.text       start:0x0014A6D4 end:0x0014AFA0
+	.bss        start:0x00004A00 end:0x00004A10
+
+net/packets/RACEHEADER1.cpp:
+	.text       start:0x001536F0 end:0x00155184
+	.bss        start:0x00004A38 end:0x00004A40
 
 ObjKoopaFigure64.o:
 	.text       start:0x001CA560 end:0x001CADD0

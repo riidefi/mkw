@@ -17,7 +17,7 @@ int DWC_GetLastError(int* errorCode) {
   return stDwcLastError;
 }
 
-int DWC_GetLastErrorEx(int* errorCode, int* errorType) {
+s32 DWC_GetLastErrorEx(s32* errorCode, u32* errorType) {
   if (errorCode)
     *errorCode = stDwcErrorCode;
   if (errorType) {

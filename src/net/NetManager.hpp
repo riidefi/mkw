@@ -5,14 +5,12 @@
 
 #pragma once
 
+#include <rk_types.h>
+
 #include "net/DisconnectInfo.hpp"
 #include "net/packets/RACEPacketHolder.hpp"
 
-#include <rk_types.h>
-
-#include <egg/core/eggExpHeap.hpp>
 #include <egg/core/eggTaskThread.hpp>
-#include <rvl/os/osMutex.h>
 
 namespace Net {
 
@@ -32,15 +30,15 @@ public:
   };
 
   enum RoomType {
-    ROOMTYPE_NONE = 0x0,
-    ROOMTYPE_VS_WW = 0x1,
-    ROOMTYPE_VS_REGIONAL = 0x2,
-    ROOMTYPE_BT_WW = 0x3,
-    ROOMTYPE_BT_REGIONAL = 0x4,
-    ROOMTYPE_HOST_PRIVATE = 0x5,
-    ROOMTYPE_NONHOST_PRIVATE = 0x6,
-    ROOMTYPE_JOINING_FRIEND_WW = 0x7,
-    ROOMTYPE_JOINING_FRIEND_REGIONAL = 0x8,
+    ROOM_TYPE_NONE = 0x0,
+    ROOM_TYPE_VS_WW = 0x1,
+    ROOM_TYPE_VS_REGIONAL = 0x2,
+    ROOM_TYPE_BT_WW = 0x3,
+    ROOM_TYPE_BT_REGIONAL = 0x4,
+    ROOM_TYPE_HOST_PRIVATE = 0x5,
+    ROOM_TYPE_NONHOST_PRIVATE = 0x6,
+    ROOM_TYPE_JOINING_FRIEND_WW = 0x7,
+    ROOM_TYPE_JOINING_FRIEND_REGIONAL = 0x8,
   };
 
   // Certainly suspending MM related, but unsure about last two values
@@ -50,6 +48,36 @@ public:
     MM_SUSPENSION_UNK2 = 0x2,  // set when matchingSuspended is true
     MM_SUSPENSION_UNK3 = 0x3,  // set when matchingSuspended is false
   };
+
+  void scheduleShutdown();
+
+  void startWWVSSearch(u8 localPlayerCount);
+
+  void startRegionalVSSearch(u8 localPlayerCount);
+
+  void startWWBattleSearch(u8 localPlayerCount);
+
+  void startRegionalBattleSearch(u8 localPlayerCount);
+
+  void joinFriendRoom(u32 friendRosterId, u8 localPlayerCount);
+
+  void createFriendRoom(u8 localPlayerCount);
+
+  void resetRH1andROOM();
+
+  void setDisconnectInfo(DisconnectType dcType, s32 errorCode);
+
+  void setToMMSuspensionUnk2();
+
+  void setToMMSuspensionUnk3();
+
+  DisconnectInfo getDisconnectInfo();
+
+  void resetDisconnectInfo();
+
+  s32 getTimeDiff();
+
+  void initMMInfos();
 
 private:
   struct MatchMakingInfo {
@@ -108,7 +136,7 @@ private:
   u32 m_lastSendIdx[12]; // idx of m_sendRACEPackets last sent per aid
   // idx of m_recvRACEPackets last recvieved per packet per aid
   u32 m_lastRecvIdx[12][8];
-  s32 m_currentMMInfo; // Current MM info used
+  s32 m_currMMInfo; // Current MM info used
   u8 m_playerIdToAidMapping[12];
   u32 m_disconnectedAids;      // disconnected if 1 << aid is 1
   u32 m_disconnectedPlayerIds; // disconnected if 1 << pid is 1

@@ -10,7 +10,20 @@ struct RACEHEADER1Packet {
 static_assert(sizeof(RACEHEADER1Packet) == 0x28);
 
 class RACEHEADER1Handler {
-  u8 _000[0x260 - 0x000];
+public: 
+  static RACEHEADER1Handler *getInstance() {
+    return spInstance;
+  }
+
+  void setPrepared();
+
+  void reset();
+
+private:
+  bool m_prepared;
+  u8 _004[0x260 - 0x001];
+
+  static RACEHEADER1Handler *spInstance;
 };
 static_assert(sizeof(RACEHEADER1Handler) == 0x260);
 
