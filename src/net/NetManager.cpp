@@ -11,7 +11,7 @@ void NetManager::scheduleShutdown() { m_shutdownScheduled = true; }
 void NetManager::startWWVSSearch(u8 localPlayerCount) {
   DisconnectInfo dcInfo;
   s32 code;
-  
+
   // we just care about the ec
   DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
 
@@ -132,6 +132,7 @@ void NetManager::createFriendRoom(u8 localPlayerCount) {
 
   ConnectionState connState;
 
+  // check for 4xxxx and 98xxx
   if ((code / 10000) == 4 || (code / 1000) == 98) {
     connState = CONNECTION_STATE_SAKE_ERROR;
   } else {
@@ -216,13 +217,157 @@ void NetManager::resetDisconnectInfo() {
 }
 
 s32 NetManager::getTimeDiff() {
+  s32 time = m_matchMakingInfos[m_currMMInfo].m_MMStartTime;
 
-  u32 time = (s32)(m_matchMakingInfos[m_currMMInfo].m_timeOfMatchMaking);
-  if (m_matchMakingInfos[m_currMMInfo].m_timeOfMatchMaking == 0) {
+  // has to do u64 comparison
+  if (m_matchMakingInfos[m_currMMInfo].m_MMStartTime == 0) {
     return 0;
+  }
+
+  OSTime currTime = OSGetTime();
+  return ((s32)currTime - time) / (__OSBusClock / 4);
+}
+
+bool NetManager::isConnectionStateIdleOrInMM() {
+  DisconnectInfo dcInfo;
+  s32 code;
+  bool idleOrMM = false;
+  ConnectionState connState;
+
+  // we only care about the errorCode
+  DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
+
+  // check for 4xxxx or 98xxx
+  if ((code / 10000) == 4 || (code / 1000) == 98) {
+    connState = CONNECTION_STATE_SAKE_ERROR;
   } else {
-    OSTime currTime = OSGetTime();
-    return ((s32)currTime - time) / (__OSBusClock / 4);
+    connState = m_connectionState;
+  }
+
+  // had to write it slightly weird to match
+  if (connState >= CONNECTION_STATE_IDLE &&
+      CONNECTION_STATE_IN_MM >= connState) {
+    idleOrMM = true;
+  }
+  return idleOrMM;
+}
+
+bool NetManager::isTaskExist() {
+  // checks if we've requested mainNetworkLoop
+  return m_taskThread->isTaskExist() ? false : true;
+}
+
+bool NetManager::isConnectionStateIdle() {
+  DisconnectInfo dcInfo;
+  s32 code;
+  DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
+
+  ConnectionState connState;
+
+  // 4xxxx and 98xxx are sake erorrs, otherwise set connectionState
+  if ((code / 10000) == 4 || (code / 1000) == 98) {
+    connState = CONNECTION_STATE_SAKE_ERROR;
+  } else {
+    connState = m_connectionState;
+  }
+
+  return connState == CONNECTION_STATE_IDLE;
+}
+
+bool NetManager::hasFoundMatch() {
+  bool inMatch = false;
+
+  bool isMyAidInMatch = ((1 << m_matchMakingInfos[m_currMMInfo].m_myAid) &
+                         m_matchMakingInfos[m_currMMInfo].m_fullAidBitmap);
+  // were in a match if my aid is in the room and we have connected to another
+  // console
+  if (isMyAidInMatch &&
+      m_matchMakingInfos[m_currMMInfo].m_numConnectedConsoles > 1) {
+    inMatch = true;
+  }
+  return inMatch;
+}
+
+void NetManager::setConnectionStateIdle() {
+  m_connectionState = CONNECTION_STATE_IDLE;
+}
+
+void NetManager::setConnectionState(ConnectionState connState) {
+  m_connectionState = connState;
+}
+
+NetManager::ConnectionState NetManager::getConnectionState() {
+  s32 code;
+  u32 type;
+  DWC_GetLastErrorEx(&code, &type);
+
+  ConnectionState connState;
+
+  // 4xxxx and 98xxx are sake erorrs, otherwise set connectionState
+  if ((code / 10000) == 4 || (code / 1000) == 98) {
+    connState = CONNECTION_STATE_SAKE_ERROR;
+  } else {
+    connState = m_connectionState;
+  }
+
+  return connState;
+}
+
+void* NetManager::alloc(u32 size, s32 alignment) {
+  void* block = nullptr;
+  if (size != 0) {
+    OSLockMutex(&m_mutex);
+    block = m_heap->alloc(size, alignment);
+    OSUnlockMutex(&m_mutex);
+  }
+  return block;
+}
+
+void NetManager::free(void* block) {
+  if (block != nullptr) {
+    OSLockMutex(&m_mutex);
+    m_heap->free(block);
+    OSUnlockMutex(&m_mutex);
+  }
+}
+
+void* NetManager::SOAlloc(u32 unk, u32 size) {
+  void* block = nullptr;
+  NetManager* netManager = spInstance;
+  if (size != 0) {
+    OSLockMutex(&netManager->m_mutex);
+    block = netManager->m_heap->alloc(size, 0x20);
+    OSUnlockMutex(&netManager->m_mutex);
+  }
+  return block;
+}
+
+void NetManager::SOFree(u32 unk, void* block) {
+  NetManager* netManager = spInstance;
+  if (block != nullptr) {
+    OSLockMutex(&netManager->m_mutex);
+    netManager->m_heap->free(block);
+    OSUnlockMutex(&netManager->m_mutex);
+  }
+}
+
+void* NetManager::DWCAlloc(u32 unk, u32 size, s32 alignment) {
+  void* block = nullptr;
+  NetManager* netManager = spInstance;
+  if (size != 0) {
+    OSLockMutex(&netManager->m_mutex);
+    block = netManager->m_heap->alloc(size, alignment);
+    OSUnlockMutex(&netManager->m_mutex);
+  }
+  return block;
+}
+
+void NetManager::DWCFree(u32 unk, void* block) {
+  NetManager* netManager = spInstance;
+  if (block != nullptr) {
+    OSLockMutex(&netManager->m_mutex);
+    netManager->m_heap->free(block);
+    OSUnlockMutex(&netManager->m_mutex);
   }
 }
 

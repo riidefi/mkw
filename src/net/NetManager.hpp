@@ -1,5 +1,5 @@
-// Credits: Melg and CLF, used as reference for names. See bottom of file for
-// the licenses
+// Credits: Melg and CLF, used as reference for names.
+// See bottom of file for the licenses
 // https://github.com/MelgMKW/Pulsar/blob/main/GameSource/MarioKartWii/RKNet/RKNetController.hpp
 // https://github.com/CLF78/OpenPayload/blob/master/payload/game/net/RKNetController.hpp
 
@@ -10,6 +10,7 @@
 #include "net/DisconnectInfo.hpp"
 #include "net/packets/RACEPacketHolder.hpp"
 
+#include <egg/core/eggExpHeap.hpp>
 #include <egg/core/eggTaskThread.hpp>
 
 namespace Net {
@@ -79,9 +80,36 @@ public:
 
   void initMMInfos();
 
+  bool isConnectionStateIdleOrInMM();
+
+  bool isTaskExist();
+
+  bool isConnectionStateIdle();
+
+  bool hasFoundMatch();
+
+  void setConnectionStateIdle();
+
+  void setConnectionState(ConnectionState connState);
+
+  ConnectionState getConnectionState();
+
+  void* alloc(u32 size, s32 alignment);
+
+  void free(void* block);
+
+  // namesake of the alloc/free functions is the lib they're called by
+  static void* SOAlloc(u32 unk, u32 size);
+
+  static void SOFree(u32 unk, void* block);
+
+  static void* DWCAlloc(u32 unk, u32 size, s32 alignment);
+
+  static void DWCFree(u32 unk, void* block);
+
 private:
   struct MatchMakingInfo {
-    u64 m_timeOfMatchMaking;    // gets set upon match making
+    u64 m_MMStartTime;          // gets set upon match making
     u32 m_numConnectedConsoles; // number of non guest players
     u32 m_playerCount;          // players in room (includes guests)
     u32 m_fullAidBitmap;        // # bits is equal to num consoles, all 1
@@ -102,7 +130,7 @@ private:
   void* m_vtable2; // unk dtor at 0xc, also present in FriendManager vtable
   OSMutex m_mutex;
   EGG::ExpHeap* m_heap;
-  EGG::TaskThread* m_taskThread;
+  EGG::TaskThread* m_taskThread; // runs the mainLoop
   ConnectionState m_connectionState;
   DisconnectInfo m_disconnectInfo;
   u8 _0034[0x0038 - 0x0034]; // padding?

@@ -173,6 +173,10 @@ net/packets/ROOM.cpp:
 	.text       start:0x0014A6D4 end:0x0014AFA0
 	.bss        start:0x00004A00 end:0x00004A10
 
+net/packets/USER.cpp:
+	.text       start:0x001523C4 end:0x00152DE0
+	.bss        start:0x00004A28 end:0x00004A30
+
 net/packets/RACEHEADER1.cpp:
 	.text       start:0x001536F0 end:0x00155184
 	.bss        start:0x00004A38 end:0x00004A40

@@ -10,7 +10,18 @@ struct USERPacket {
 static_assert(sizeof(USERPacket) == 0xc0);
 
 class USERHandler {
+public:
+  static USERHandler *getInstance() {
+    return spInstance;
+  }
+
+  void update(); 
+
+private:
+
   u8 _000[0x9f0 - 0x000];
+
+  static USERHandler *spInstance;
 };
 static_assert(sizeof(USERHandler) == 0x9f0);
 
