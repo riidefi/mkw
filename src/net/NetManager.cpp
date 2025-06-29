@@ -9,20 +9,7 @@ namespace Net {
 void NetManager::scheduleShutdown() { m_shutdownScheduled = true; }
 
 void NetManager::startWWVSSearch(u8 localPlayerCount) {
-  DisconnectInfo dcInfo;
-  s32 code;
-
-  // we just care about the ec
-  DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
-
-  ConnectionState connState;
-
-  // check for 4xxxx and 98xxx (sake errors)
-  if ((code / 10000) == 4 || (code / 1000) == 98) {
-    connState = CONNECTION_STATE_SAKE_ERROR;
-  } else {
-    connState = m_connectionState;
-  }
+  ConnectionState connState = getConnectionState();
 
   // were online, start search/mm
   if (connState == CONNECTION_STATE_IDLE) {
@@ -36,17 +23,7 @@ void NetManager::startWWVSSearch(u8 localPlayerCount) {
 }
 
 void NetManager::startRegionalVSSearch(u8 localPlayerCount) {
-  DisconnectInfo dcInfo;
-  s32 code;
-  DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
-
-  ConnectionState connState;
-
-  if ((code / 10000) == 4 || (code / 1000) == 98) {
-    connState = CONNECTION_STATE_SAKE_ERROR;
-  } else {
-    connState = m_connectionState;
-  }
+  ConnectionState connState = getConnectionState();
 
   if (connState == CONNECTION_STATE_IDLE) {
     initMMInfos();
@@ -58,17 +35,7 @@ void NetManager::startRegionalVSSearch(u8 localPlayerCount) {
 }
 
 void NetManager::startWWBattleSearch(u8 localPlayerCount) {
-  DisconnectInfo dcInfo;
-  s32 code;
-  DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
-
-  ConnectionState connState;
-
-  if ((code / 10000) == 4 || (code / 1000) == 98) {
-    connState = CONNECTION_STATE_SAKE_ERROR;
-  } else {
-    connState = m_connectionState;
-  }
+  ConnectionState connState = getConnectionState();
 
   if (connState == CONNECTION_STATE_IDLE) {
     initMMInfos();
@@ -80,17 +47,7 @@ void NetManager::startWWBattleSearch(u8 localPlayerCount) {
 }
 
 void NetManager::startRegionalBattleSearch(u8 localPlayerCount) {
-  DisconnectInfo dcInfo;
-  s32 code;
-  DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
-
-  ConnectionState connState;
-
-  if ((code / 10000) == 4 || (code / 1000) == 98) {
-    connState = CONNECTION_STATE_SAKE_ERROR;
-  } else {
-    connState = m_connectionState;
-  }
+  ConnectionState connState = getConnectionState();
 
   if (connState == CONNECTION_STATE_IDLE) {
     initMMInfos();
@@ -102,17 +59,7 @@ void NetManager::startRegionalBattleSearch(u8 localPlayerCount) {
 }
 
 void NetManager::joinFriendRoom(u32 friendRosterId, u8 localPlayerCount) {
-  u32 type;
-  s32 code;
-  DWC_GetLastErrorEx(&code, &type);
-
-  ConnectionState connState;
-
-  if ((code / 10000) == 4 || (code / 1000) == 98) {
-    connState = CONNECTION_STATE_SAKE_ERROR;
-  } else {
-    connState = m_connectionState;
-  }
+  ConnectionState connState = getConnectionState();
 
   if (connState == CONNECTION_STATE_IDLE) {
     initMMInfos();
@@ -126,18 +73,7 @@ void NetManager::joinFriendRoom(u32 friendRosterId, u8 localPlayerCount) {
 }
 
 void NetManager::createFriendRoom(u8 localPlayerCount) {
-  u32 type;
-  s32 code;
-  DWC_GetLastErrorEx(&code, &type);
-
-  ConnectionState connState;
-
-  // check for 4xxxx and 98xxx
-  if ((code / 10000) == 4 || (code / 1000) == 98) {
-    connState = CONNECTION_STATE_SAKE_ERROR;
-  } else {
-    connState = m_connectionState;
-  }
+  ConnectionState connState = getConnectionState();
 
   if (connState == CONNECTION_STATE_IDLE) {
     initMMInfos();
@@ -225,24 +161,14 @@ s32 NetManager::getTimeDiff() {
   }
 
   OSTime currTime = OSGetTime();
-  return ((s32)currTime - time) / (__OSBusClock / 4);
+  return ((s32)currTime - time) / OS_TIMER_CLOCK;
 }
 
 bool NetManager::isConnectionStateIdleOrInMM() {
-  DisconnectInfo dcInfo;
-  s32 code;
   bool idleOrMM = false;
-  ConnectionState connState;
+  ConnectionState connState = getConnectionState();
 
   // we only care about the errorCode
-  DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
-
-  // check for 4xxxx or 98xxx
-  if ((code / 10000) == 4 || (code / 1000) == 98) {
-    connState = CONNECTION_STATE_SAKE_ERROR;
-  } else {
-    connState = m_connectionState;
-  }
 
   // had to write it slightly weird to match
   if (connState >= CONNECTION_STATE_IDLE &&
@@ -258,20 +184,7 @@ bool NetManager::isTaskExist() {
 }
 
 bool NetManager::isConnectionStateIdle() {
-  DisconnectInfo dcInfo;
-  s32 code;
-  DWC_GetLastErrorEx(&code, reinterpret_cast<u32*>(&dcInfo.type));
-
-  ConnectionState connState;
-
-  // 4xxxx and 98xxx are sake erorrs, otherwise set connectionState
-  if ((code / 10000) == 4 || (code / 1000) == 98) {
-    connState = CONNECTION_STATE_SAKE_ERROR;
-  } else {
-    connState = m_connectionState;
-  }
-
-  return connState == CONNECTION_STATE_IDLE;
+  return getConnectionState() == CONNECTION_STATE_IDLE;
 }
 
 bool NetManager::hasFoundMatch() {

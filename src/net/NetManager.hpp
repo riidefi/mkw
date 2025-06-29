@@ -92,7 +92,7 @@ public:
 
   void setConnectionState(ConnectionState connState);
 
-  ConnectionState getConnectionState();
+  inline ConnectionState getConnectionState();
 
   void* alloc(u32 size, s32 alignment);
 
