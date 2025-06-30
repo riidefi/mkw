@@ -11,14 +11,13 @@ static_assert(sizeof(RACEHEADER1Packet) == 0x28);
 
 class RACEHEADER1Handler {
 public: 
-  static RACEHEADER1Handler *getInstance() {
-    return spInstance;
-  }
-
   void setPrepared();
 
   void reset();
 
+  static RACEHEADER1Handler *getInstance() {
+    return spInstance;
+  }
 private:
   bool m_prepared;
   u8 _004[0x260 - 0x001];

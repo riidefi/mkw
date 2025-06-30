@@ -76,23 +76,23 @@ public:
 
   void resetDisconnectInfo();
 
-  s32 getTimeDiff();
+  s32 matchMakingElapsedSeconds();
 
   void initMMInfos();
 
-  bool isConnectionStateIdleOrInMM();
+  bool isConnectionStateIdleOrInMM() const;
 
-  bool isTaskExist();
+  bool isTaskThreadIdle();
 
-  bool isConnectionStateIdle();
+  bool isConnectionStateIdle() const;
 
-  bool hasFoundMatch();
+  bool hasFoundMatch() const;
 
   void setConnectionStateIdle();
 
   void setConnectionState(ConnectionState connState);
 
-  inline ConnectionState getConnectionState();
+  inline ConnectionState getConnectionState() const;
 
   void* alloc(u32 size, s32 alignment);
 

@@ -155,7 +155,7 @@ void NetManager::resetDisconnectInfo() {
   OSUnlockMutex(&m_mutex);
 }
 
-s32 NetManager::getTimeDiff() {
+s32 NetManager::matchMakingElapsedSeconds() {
   s32 time = m_matchMakingInfos[m_currMMInfo].m_MMStartTime;
 
   // has to do u64 comparison
@@ -164,10 +164,10 @@ s32 NetManager::getTimeDiff() {
   }
 
   OSTime currTime = OSGetTime();
-  return ((s32)currTime - time) / OS_TIMER_CLOCK;
+  return OSTicksToSeconds((s32)currTime - time);
 }
 
-bool NetManager::isConnectionStateIdleOrInMM() {
+bool NetManager::isConnectionStateIdleOrInMM() const {
   bool idleOrMM = false;
 
   switch (getConnectionState()) {
@@ -180,16 +180,13 @@ bool NetManager::isConnectionStateIdleOrInMM() {
   return idleOrMM;
 }
 
-bool NetManager::isTaskExist() {
-  // checks if we've requested mainNetworkLoop
-  return m_taskThread->isTaskExist() ? false : true;
-}
+bool NetManager::isTaskThreadIdle() { return !m_taskThread->isTaskExist(); }
 
-bool NetManager::isConnectionStateIdle() {
+bool NetManager::isConnectionStateIdle() const {
   return getConnectionState() == CONNECTION_STATE_IDLE;
 }
 
-bool NetManager::hasFoundMatch() {
+bool NetManager::hasFoundMatch() const {
   bool inMatch = false;
 
   bool isMyAidInMatch = (1 << m_matchMakingInfos[m_currMMInfo].m_myAid) &
@@ -211,7 +208,7 @@ void NetManager::setConnectionState(ConnectionState connState) {
   m_connectionState = connState;
 }
 
-NetManager::ConnectionState NetManager::getConnectionState() {
+NetManager::ConnectionState NetManager::getConnectionState() const {
   s32 code;
   u32 type;
   DWC_GetLastErrorEx(&code, &type);
