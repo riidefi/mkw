@@ -127,10 +127,10 @@ void NetManager::setDisconnectInfo(DisconnectType dcType, s32 errorCode) {
   OSUnlockMutex(&m_mutex);
 }
 
-DisconnectInfo NetManager::getDisconnectInfo() const {
+DisconnectInfo NetManager::getDisconnectInfo() {
   DisconnectInfo dcInfo;
 
-  OSLockMutex(const_cast<OSMutex*>(&m_mutex));
+  OSLockMutex(&m_mutex);
 
   if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR &&
       m_hasEjectedDisk) {
@@ -141,7 +141,7 @@ DisconnectInfo NetManager::getDisconnectInfo() const {
     dcInfo.type = m_disconnectInfo.type;
     dcInfo.code = m_disconnectInfo.code;
   }
-  OSUnlockMutex(const_cast<OSMutex*>(&m_mutex));
+  OSUnlockMutex(&m_mutex);
   return dcInfo;
 }
 
