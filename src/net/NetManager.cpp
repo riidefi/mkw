@@ -127,10 +127,10 @@ void NetManager::setDisconnectInfo(DisconnectType dcType, s32 errorCode) {
   OSUnlockMutex(&m_mutex);
 }
 
-DisconnectInfo NetManager::getDisconnectInfo() {
+DisconnectInfo NetManager::getDisconnectInfo() const {
   DisconnectInfo dcInfo;
 
-  OSLockMutex(&m_mutex);
+  OSLockMutex(const_cast<OSMutex*>(&m_mutex));
 
   if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR &&
       m_hasEjectedDisk) {
@@ -141,7 +141,7 @@ DisconnectInfo NetManager::getDisconnectInfo() {
     dcInfo.type = m_disconnectInfo.type;
     dcInfo.code = m_disconnectInfo.code;
   }
-  OSUnlockMutex(&m_mutex);
+  OSUnlockMutex(const_cast<OSMutex*>(&m_mutex));
   return dcInfo;
 }
 
@@ -167,7 +167,7 @@ s32 NetManager::getLatency() {
   return OSTicksToSeconds((s32)currTime - time);
 }
 
-bool NetManager::isConnectionStateIdleOrInMM() {
+bool NetManager::isConnectionStateIdleOrInMM() const {
   bool idleOrMM = false;
 
   switch (getConnectionState()) {
@@ -180,15 +180,13 @@ bool NetManager::isConnectionStateIdleOrInMM() {
   return idleOrMM;
 }
 
-bool NetManager::isTaskThreadIdle() {
-  return m_taskThread->isTaskExist() ? false : true;
-}
+bool NetManager::isTaskThreadIdle() { return !m_taskThread->isTaskExist(); }
 
-bool NetManager::isConnectionStateIdle() {
+bool NetManager::isConnectionStateIdle() const {
   return getConnectionState() == CONNECTION_STATE_IDLE;
 }
 
-bool NetManager::hasFoundMatch() {
+bool NetManager::hasFoundMatch() const {
   bool inMatch = false;
 
   bool isMyAidInMatch = (1 << m_matchMakingInfos[m_currMMInfo].m_myAid) &
@@ -210,7 +208,7 @@ void NetManager::setConnectionState(ConnectionState connState) {
   m_connectionState = connState;
 }
 
-NetManager::ConnectionState NetManager::getConnectionState() {
+NetManager::ConnectionState NetManager::getConnectionState() const {
   s32 code;
   u32 type;
   DWC_GetLastErrorEx(&code, &type);

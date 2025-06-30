@@ -35,7 +35,6 @@ public:
   static ROOMHandler *getInstance() {
     return spInstance;
   }
-
 private:
   u8 _00[0x80 - 0x00];
 
