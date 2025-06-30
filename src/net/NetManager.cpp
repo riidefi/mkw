@@ -116,9 +116,12 @@ void NetManager::setDisconnectInfo(DisconnectType dcType, s32 errorCode) {
   } else if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR) {
     m_disconnectInfo.type = dcType;
     m_disconnectInfo.code = errorCode;
-    if (static_cast<u32>(dcType - 1) <= DISCONNECT_TYPE_ERROR_CODE ||
-        dcType == DISCONNECT_TYPE_UNRECOVERABLE_ERROR) {
+    switch (dcType) {
+    case DISCONNECT_TYPE_ERROR_CODE:
+    case DISCONNECT_TYPE_BAD_MII_NAME:
+    case DISCONNECT_TYPE_UNRECOVERABLE_ERROR:
       m_connectionState = CONNECTION_STATE_ERROR;
+      break;
     }
   }
   OSUnlockMutex(&m_mutex);
@@ -167,8 +170,6 @@ s32 NetManager::getTimeDiff() {
 bool NetManager::isConnectionStateIdleOrInMM() {
   bool idleOrMM = false;
   ConnectionState connState = getConnectionState();
-
-  // we only care about the errorCode
 
   // had to write it slightly weird to match
   if (connState >= CONNECTION_STATE_IDLE &&
