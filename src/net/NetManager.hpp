@@ -72,7 +72,7 @@ public:
 
   void setToMMSuspensionUnk3();
 
-  DisconnectInfo getDisconnectInfo() const;
+  DisconnectInfo getDisconnectInfo();
 
   void resetDisconnectInfo();
 
