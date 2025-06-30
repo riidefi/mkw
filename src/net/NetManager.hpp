@@ -76,13 +76,13 @@ public:
 
   void resetDisconnectInfo();
 
-  s32 getTimeDiff();
+  s32 getLatency();
 
   void initMMInfos();
 
   bool isConnectionStateIdleOrInMM();
 
-  bool isTaskExist();
+  bool isTaskThreadIdle();
 
   bool isConnectionStateIdle();
 

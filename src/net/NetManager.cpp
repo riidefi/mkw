@@ -155,7 +155,7 @@ void NetManager::resetDisconnectInfo() {
   OSUnlockMutex(&m_mutex);
 }
 
-s32 NetManager::getTimeDiff() {
+s32 NetManager::getLatency() {
   s32 time = m_matchMakingInfos[m_currMMInfo].m_MMStartTime;
 
   // has to do u64 comparison
@@ -164,7 +164,7 @@ s32 NetManager::getTimeDiff() {
   }
 
   OSTime currTime = OSGetTime();
-  return ((s32)currTime - time) / OS_TIMER_CLOCK;
+  return OSTicksToSeconds((s32)currTime - time);
 }
 
 bool NetManager::isConnectionStateIdleOrInMM() {
@@ -180,8 +180,7 @@ bool NetManager::isConnectionStateIdleOrInMM() {
   return idleOrMM;
 }
 
-bool NetManager::isTaskExist() {
-  // checks if we've requested mainNetworkLoop
+bool NetManager::isTaskThreadIdle() {
   return m_taskThread->isTaskExist() ? false : true;
 }
 
