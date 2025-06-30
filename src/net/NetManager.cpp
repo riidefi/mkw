@@ -169,13 +169,14 @@ s32 NetManager::getTimeDiff() {
 
 bool NetManager::isConnectionStateIdleOrInMM() {
   bool idleOrMM = false;
-  ConnectionState connState = getConnectionState();
 
-  // had to write it slightly weird to match
-  if (connState >= CONNECTION_STATE_IDLE &&
-      CONNECTION_STATE_IN_MM >= connState) {
+  switch (getConnectionState()) {
+  case CONNECTION_STATE_IDLE:
+  case CONNECTION_STATE_IN_MM:
     idleOrMM = true;
+    break;
   }
+
   return idleOrMM;
 }
 
@@ -191,8 +192,8 @@ bool NetManager::isConnectionStateIdle() {
 bool NetManager::hasFoundMatch() {
   bool inMatch = false;
 
-  bool isMyAidInMatch = ((1 << m_matchMakingInfos[m_currMMInfo].m_myAid) &
-                         m_matchMakingInfos[m_currMMInfo].m_fullAidBitmap);
+  bool isMyAidInMatch = (1 << m_matchMakingInfos[m_currMMInfo].m_myAid) &
+                        m_matchMakingInfos[m_currMMInfo].m_fullAidBitmap;
   // were in a match if my aid is in the room and we have connected to another
   // console
   if (isMyAidInMatch &&
