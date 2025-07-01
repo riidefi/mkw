@@ -6,23 +6,29 @@ namespace Enemy {
 
     class AIProbabilityBase {
         public:
-            inline AIProbabilityBase() {}
-            virtual ~AIProbabilityBase();
-            virtual void determineIfCanMiniturbo();
+            inline AIProbabilityBase() {
+                mGroupKind = 0;
+                mStartBoostLevel = 0;
+            }
+
+            virtual ~AIProbabilityBase() = 0;
+            virtual void determineIfCanMiniturbo() = 0;
             virtual void getStartBoost();
             virtual void setDoTrick(bool);
             virtual s32 getStartBoostLevel();
-            virtual bool getDrift(bool);
-            virtual bool getMiniturbo();
-            virtual bool getTrick();
-            virtual bool getWheelie();
-            virtual bool vf_0x2C();
-            virtual bool isLaunchBlockLine();
+            virtual bool getDrift(bool) = 0;
+            virtual bool getMiniturbo() = 0;
+            virtual bool getTrick() = 0;
+            virtual bool getWheelie() = 0;
+            virtual bool vf_0x2C() = 0;
+            virtual bool isLaunchBlockLine() = 0;
 
-        private:
+        protected:
             s32 mGroupKind;
             s32 mStartBoostLevel;
     };
+
+    inline AIProbabilityBase::~AIProbabilityBase() {}
 
     class AIProbabilityRace: public AIProbabilityBase {
         public:
@@ -71,15 +77,15 @@ namespace Enemy {
     class AIProbabilityDemo: public AIProbabilityBase {
         public:
             inline AIProbabilityDemo() {}
-            ~AIProbabilityDemo();
-            void determineIfCanMiniturbo();
-            s32 getStartBoostLevel();
-            bool getDrift(bool);
-            bool getMiniturbo();
-            bool getTrick();
-            bool getWheelie();
-            bool vf_0x2C();
-            bool isLaunchBlockLine();
+            ~AIProbabilityDemo() {}
+            void determineIfCanMiniturbo() {}
+            s32 getStartBoostLevel() { return 0; }
+            bool getDrift(bool) { return true; }
+            bool getMiniturbo() { return true; }
+            bool getTrick() { return true; }
+            bool getWheelie() { return true; }
+            bool vf_0x2C() { return false; }
+            bool isLaunchBlockLine() { return true; }
     };
 
 }
