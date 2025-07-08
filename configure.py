@@ -793,10 +793,14 @@ config.libs = [
             Object(Matching, "geo/BoxColManager.cpp"),
             Object(Matching, "geo/BoxColUnit.cpp"),
 
+            Object(NonMatching, "net/MiscPacketHandler.cpp"),
             Object(NonMatching, "net/NetManager.cpp"),
+            Object(NonMatching, "net/packets/ROOM.cpp"),
+            Object(NonMatching, "net/packets/EVENT.cpp"),
+            Object(NonMatching, "net/packets/ITEM.cpp"),
+            Object(NonMatching, "net/packets/SELECT.cpp"),
             Object(NonMatching, "net/packets/USER.cpp"),
             Object(NonMatching, "net/packets/RACEHEADER1.cpp"),
-            Object(NonMatching, "net/packets/ROOM.cpp"),
         ],
     },
     {

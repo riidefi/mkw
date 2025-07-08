@@ -164,14 +164,30 @@ ui/SectionAutogens.cpp:
 SectionDirector.o:
 	.text       start:0x001247CC end:0x00125B04
 
+net/MiscPacketHandler.cpp:
+	.text       start:0x00142E54 end:0x00145484
+	.bss        start:0x00004870 end:0x00004878
+
 net/NetManager.cpp:
 	.text       start:0x00145770 end:0x00149E98
 	.data       start:0x0000DD90 end:0x0000DDC8
-	.bss        start:0x000049F8 end:0x00004A00
+	.bss        start:0x00004878 end:0x00004A00
 
 net/packets/ROOM.cpp:
 	.text       start:0x0014A6D4 end:0x0014AFA0
 	.bss        start:0x00004A00 end:0x00004A10
+
+net/packets/EVENT.cpp:
+	.text       start:0x0014B134 end:0x0014BD38
+	.bss        start:0x00004A10 end:0x00004A18
+
+net/packets/ITEM.cpp:
+	.text       start:0x0014BD38 end:0x0014FAD8
+	.bss        start:0x00004A18 end:0x00004A20
+
+net/packets/SELECT.cpp:
+	.text       start:0x0014FAD8 end:0x001523C4
+	.bss        start:0x00004A20 end:0x00004A28
 
 net/packets/USER.cpp:
 	.text       start:0x001523C4 end:0x00152DE0

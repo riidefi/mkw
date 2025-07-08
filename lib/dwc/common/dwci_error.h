@@ -4,7 +4,17 @@
 extern "C" {
 #endif
 
-enum dwcError { DWCErrorNone = 0, DWCErrorFatal = 9 };
+typedef enum {
+  DWC_ERROR_NONE = 0,
+  DWC_ERROR_TYPE_1 = 1,
+  DWC_ERROR_TYPE_2 = 2,
+  DWC_ERROR_TYPE_3 = 3,
+  DWC_ERROR_TYPE_4 = 4,
+  DWC_ERROR_TYPE_5 = 5,
+  DWC_ERROR_TYPE_6 = 6,
+  DWC_ERROR_TYPE_7 = 7,
+  DWC_ERROR_FATAL = 9,
+} DWCErrorType;
 
 //! @brief @return Return if there is an error.
 //!
