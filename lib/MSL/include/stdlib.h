@@ -1,5 +1,7 @@
 #pragma once
 
+#include "macros.h"
+
 #ifndef SIZE_T_DEFINE
 #define SIZE_T_DEFINE
 typedef unsigned long size_t;
@@ -9,11 +11,10 @@ typedef unsigned long size_t;
 #ifdef __CWCC__
 #define abs(x) __abs(x)
 #define labs(x) __labs(x)
-#elif defined(__clang__)
-#define abs(x) __builtin_abs(x)
-#define labs(x) __builtin_labs(x)
-#else
-#error compiler has no instrinsic abs support, please do some sit ups.
+#elif defined(__EDITOR_CHECKING__)
+// dummy implementation for editor tooling
+#define abs(x) (x)
+#define labs(x) (x)
 #endif
 
 long strtol(const char* restrict nptr, char** restrict endptr, int base);

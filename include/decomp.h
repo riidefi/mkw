@@ -25,7 +25,8 @@ typedef struct ps_f32 {
   SECTION_GARBAGE static void __garbage_ordering_hints(void)
 #define order_hint_access(var) (void)(var)
 
-#elif defined (__INTELLISENSE__)
+#elif defined (__EDITOR_CHECKING__)
+// dummy implementations for editor tooling
 
 #define sdata_ps_f32 ps_f32
 #define sdata2_ps_f32 ps_f32
@@ -35,9 +36,7 @@ typedef struct ps_f32 {
 #define SECTION_GARBAGE
 #define static_order_hints
 #define order_hint_access(var) (void)(var)
-
-#endif
-
-#ifdef __clang__
-#define __cntlzw(x) __builtin_clz(x)
+// TODO(KooShnoo): is builtin preferred?
+#define __cntlzw(x) (x)
+// #define __cntlzw(x) __builtin_clz(x)
 #endif
