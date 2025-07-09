@@ -22,9 +22,6 @@ struct RACEHEADER1Data {
 };
 static_assert(sizeof(RACEHEADER1Data) == 0x30);
 
-/**
- * @brief RACEHEADER1Handler 
- */
 class RACEHEADER1Handler {
 public: 
   void setPrepared();

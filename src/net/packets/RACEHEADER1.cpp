@@ -7,6 +7,7 @@
 namespace Net {
 
 void RACEHEADER1Handler::setPrepared() {
+  // setting this to true allows the main logic of this class's calc() to run()
   m_prepared = true;
 }
 
@@ -38,6 +39,7 @@ s32 RACEHEADER1Handler::getCourseId() const {
   return -1;
 }
 
+// https://decomp.me/scratch/zMnhg
 bool RACEHEADER1Handler::courseValid() const {
   bool result;
   s32 adjustedCourseId;

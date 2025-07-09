@@ -17,22 +17,21 @@ enum FriendStatus {
   FRIEND_STATUS_FROOM_BATTLE_NON_HOST = 0xE,
 };
 
-// The enums here are a little confusing
-// FriendJoinableStatus is SearchType in other repos.
-// This particular enum determines the message you see when a friend is online
-// The values of FriendStatus line up with this one, its just that this makes a
-// distinction between regional rooms, whether you can join them or not
+// The enums here are a little confusing and deserve some explanation
+// Whereas FriendStatus only makes a destinction between public and private
+// rooms, FriendJoinableStatus goes a bit further in whether you can join the
+// public room or not.
 enum FriendJoinableStatus {
-  STATUS_ONLINE_0 = 0x0, // ???
-  STATUS_OFLINE = 0x1,
+  STATUS_NONE = 0x0,
+  STATUS_OFFLINE = 0x1,
   STATUS_ONLINE = 0x2,
   STATUS_OPEN_ROOM = 0x3,
   STATUS_PLAYING_WITH_FRIEND = 0x4,
   STATUS_WW_VS = 0x5,
-  STATUS_REGIONAL_VS = 0x6,
+  STATUS_JOINABLE_REGIONAL_VS = 0x6,
   STATUS_UNJOINABLE_REGIONAL_VS = 0x7,
   STATUS_WW_BT = 0x8,
-  STATUS_REGIONAL_BT = 0x9,
+  STATUS_JOINABLE_REGIONAL_BT = 0x9,
   STATUS_UNJOINABLE_REGIONAL_BT = 0xA,
   STATUS_HOSTING_GP = 0xB,
   STATUS_HOSTING_BT = 0xC,

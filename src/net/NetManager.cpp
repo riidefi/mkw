@@ -72,7 +72,7 @@ void NetManager::joinFriendPublicVS(u32 friendIdx, u8 localPlayerCount) {
     case STATUS_WW_VS:
       m_roomType = ROOM_TYPE_JOINING_FRIEND_VS_WW;
       break;
-    case STATUS_REGIONAL_VS:
+    case STATUS_JOINABLE_REGIONAL_VS:
       m_roomType = ROOM_TYPE_JOINING_FRIEND_VS_REGIONAL;
       break;
     default:
@@ -102,10 +102,9 @@ void NetManager::joinFriendPublicBT(u32 friendIdx, u8 localPlayerCount) {
     FriendJoinableStatus status = getFriendJoinableStatus(friendIdx);
     switch (status) {
     case STATUS_WW_BT:
-      // hmm
       m_roomType = ROOM_TYPE_JOINING_FRIEND_BT_WW;
       break;
-    case STATUS_REGIONAL_BT:
+    case STATUS_JOINABLE_REGIONAL_BT:
       m_roomType = ROOM_TYPE_JOINING_FRIEND_BT_REGIONAL;
       break;
     default:
@@ -311,27 +310,29 @@ void NetManager::handleError() {
 
   if (DWC_GetLastErrorEx(&code, &type)) {
     // this is functionally equal to code = -code; but this was need to match
+    // dwc error codes are negative values, but mkw uses positive error codes.
+    // we just need to negate code
     code = code - (code << 1);
-    if ((code / 10000) == 4 || (code / 1000) == 98) {
 
+    if ((code / 10000) == 4 || (code / 1000) == 98) {
+      // return early for sake errors
       return;
     }
+
     DWC_ClearError();
 
-    u32 errorCode;
+    u32 errorCode; // this variable was needed for matching purposes
 
     switch (type) {
     case DWC_ERROR_TYPE_1:
     case DWC_ERROR_TYPE_2:
 
-      errorCode = code;
+      errorCode = code; // this is used for matching purposes
       OSLockMutex(&m_mutex);
       if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR) {
         m_disconnectInfo.type = DISCONNECT_TYPE_CANT_JOIN_FRIEND;
-        // code getting set here is somewhat interesting since cant join
-        // friend errors dont bring you to the error code screen in game
-        // since the connection state isn't set, the user wont disconnect from
-        // wfc
+        // code getting set here is somewhat interesting since errors
+        // when joining friends dont bring you to the error code screen in game
         m_disconnectInfo.code = errorCode;
       }
       OSUnlockMutex(&m_mutex);
@@ -422,8 +423,8 @@ void NetManager::DWCFree(u32 unk, void* block) {
   }
 }
 
-void NetManager::setFriendStatusUpdatingCallback2(u32 r3, u32 r4,
-                                                  NetManager* netManager) {
+void NetManager::updateDWCServersAsyncCallback(u32 r3, u32 r4,
+                                               NetManager* netManager) {
   if (r3 != 0)
     return;
   if (r4 == 0)
@@ -431,8 +432,7 @@ void NetManager::setFriendStatusUpdatingCallback2(u32 r3, u32 r4,
   netManager->m_friendStatusChanged = true;
 }
 
-void NetManager::setFriendStatusUpdatingCallback(u32 r3,
-                                                 NetManager* netManager) {
+void NetManager::DWCSetBuddyFriendCallback(u32 r3, NetManager* netManager) {
   netManager->m_friendStatusChanged = true;
 }
 
@@ -445,8 +445,8 @@ void NetManager::initMMInfos() {
     m_matchMakingInfos[i].m_directConnectedAidBitmap = 0;
     m_matchMakingInfos[i].m_roomId = 0;
     m_matchMakingInfos[i].m_hostFriendId = -1;
-    m_matchMakingInfos[i].m_myAid = 0xFF;
-    m_matchMakingInfos[i].m_hostAid = 0xFF;
+    m_matchMakingInfos[i].m_myAid = -1;
+    m_matchMakingInfos[i].m_hostAid = -1;
     m_matchMakingInfos[i].m_matchingSuspended = false;
     for (u32 j = 0; j < MAX_PLAYER_COUNT; j++) {
       memset(&m_matchMakingInfos[i].m_localPlayerCounts[j], 0, 4);
@@ -459,9 +459,9 @@ void NetManager::resetFriends() {
     resetFriendData(i);
 }
 
-void NetManager::resetPidToAidMap() {
+void NetManager::resetPlayerIdToAidMap() {
   for (u32 i = 0; i < MAX_PLAYER_COUNT; i++)
-    m_playerIdToAidMapping[i] = 0xFF;
+    m_playerIdToAidMapping[i] = -1;
 }
 
 void NetManager::updateAidMapping() {
@@ -479,7 +479,7 @@ void NetManager::updateAidMapping() {
     for (u32 i = 0; i < MAX_PLAYER_COUNT; i++)
       m_playerIdToAidMapping[i] = selectAidMapping[i];
   } else {
-    resetPidToAidMap();
+    resetPlayerIdToAidMap();
   }
 }
 
@@ -496,14 +496,10 @@ s32 NetManager::getLocalId(u32 hudId) const {
   return -1;
 }
 
-u32 NetManager::myAidIdx() const {
-  return 1 << m_matchMakingInfos[m_currMMInfo].m_myAid;
-}
-
 bool NetManager::myAidInRoom() const {
   u32 fullMap = m_matchMakingInfos[m_currMMInfo].m_fullAidBitmap;
   u8 myAid = m_matchMakingInfos[m_currMMInfo].m_myAid;
-  return (1 << myAid & fullMap) != 0;
+  return (1 << myAid & fullMap);
 }
 
 s32 NetManager::getLocalPlayerId(u32 hudId) const {
@@ -531,54 +527,68 @@ s32 NetManager::getLocalPlayerId(u32 hudId) const {
 
     return -1;
   }
-  u32 myAid = m_matchMakingInfos[m_currMMInfo].m_myAid;
+
   if (myAidInRoom()) {
     return getLocalId(hudId);
   }
   return -1;
 }
 
+// https://decomp.me/scratch/l8u6Q
 FriendJoinableStatus NetManager::getFriendJoinableStatus(u32 friendIdx) const {
   if (!m_friends[friendIdx].addedBack ||
       m_friends[friendIdx].dwcFriendStatus == 0) {
-    return STATUS_OFLINE;
+    return STATUS_OFFLINE;
   }
 
   FriendStatus friendStatus =
       static_cast<FriendStatus>(m_friends[friendIdx].statusData.status);
+  s8 regionId;
 
+  // if the friend isn't online but not doing anything
   if (friendStatus != FRIEND_STATUS_IDLE) {
     switch (friendStatus) {
+
+    // maybe the following two cases are an inlined function? its quite
+    // repetitive
     case FRIEND_STATUS_PUBLIC_VS:
-      // maybe this is an inlined function? its quite repetitive
       if (m_disconnectPenalty != 0) {
+        // if im penalized for dc-ing too much show my status as online for
+        // others
         return STATUS_ONLINE;
       }
-      if (m_friends[friendIdx].statusData.regionId != -1) {
-        s32 regionId = m_friends[friendIdx].statusData.regionId;
 
-        s32 matchingArea = System::SystemManager::sInstance->mMatchingArea;
-        if (regionId == matchingArea) {
-          return STATUS_REGIONAL_VS;
+      regionId = m_friends[friendIdx].statusData.regionId;
+
+      if (regionId != -1) {
+        // i have the same region as my friend, so i can join their regional
+        // room
+        if (regionId ==
+            static_cast<s32>(System::SystemManager::sInstance->mMatchingArea)) {
+          return STATUS_JOINABLE_REGIONAL_VS;
         }
+        // otherwise i cant
         return STATUS_UNJOINABLE_REGIONAL_VS;
       }
       return STATUS_WW_VS;
+
     case FRIEND_STATUS_PUBLIC_BT:
       if (m_disconnectPenalty != 0) {
         return STATUS_ONLINE;
       }
 
-      if (m_friends[friendIdx].statusData.regionId != -1) {
-        s32 regionId = m_friends[friendIdx].statusData.regionId;
-        s32 matchingArea = System::SystemManager::sInstance->mMatchingArea;
-        if (regionId == matchingArea) {
-          return STATUS_REGIONAL_BT;
+      regionId = m_friends[friendIdx].statusData.regionId;
+
+      if (regionId != -1) {
+        if (regionId ==
+            static_cast<s32>(System::SystemManager::sInstance->mMatchingArea)) {
+          return STATUS_JOINABLE_REGIONAL_BT;
         }
         return STATUS_UNJOINABLE_REGIONAL_BT;
       }
       return STATUS_WW_BT;
 
+    // just return the friendStatus for all other cases
     case FRIEND_STATUS_FROOM_VS_HOST:
     case FRIEND_STATUS_FROOM_BATTLE_HOST:
     case FRIEND_STATUS_FROOM_VS_NON_HOST:

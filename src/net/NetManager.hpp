@@ -117,10 +117,10 @@ public:
 
   static void DWCFree(u32 unk, void* block);
 
-  static void setFriendStatusUpdatingCallback2(u32 r3, u32 r4,
-                                               NetManager* netManager);
+  static void updateDWCServersAsyncCallback(u32 r3, u32 r4,
+                                            NetManager* netManager);
 
-  static void setFriendStatusUpdatingCallback(u32 r3, NetManager* netManager);
+  static void DWCSetBuddyFriendCallback(u32 r3, NetManager* netManager);
 
   void initMMInfos();
 
@@ -128,11 +128,9 @@ public:
 
   void updateAidMapping();
 
-  void resetPidToAidMap();
+  void resetPlayerIdToAidMap();
 
   inline s32 getLocalId(u32 hudId) const;
-
-  inline u32 myAidIdx() const;
 
   inline bool myAidInRoom() const;
 
@@ -204,7 +202,7 @@ public:
   bool m_hasEjectedDisk;           // triggers a dc screen 0x2757
   u8 _2759[0x275c - 0x2759];
   s32 m_badWordsNum; // number of bad words found in the profanity check
-  s32 m_disconnectPenalty;
+  u32 m_disconnectPenalty;
   s32 m_vr;
   s32 m_br;
   u32 m_lastSendIdx[MAX_PLAYER_COUNT]; // idx of m_sendRACEPackets last sent per
