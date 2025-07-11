@@ -1,4 +1,11 @@
 #include "KartObjectProxy.hpp"
+#include "egg/math/eggMatrix.hpp"
+#include "host_system/SystemManager.hpp"
+#include "kart/KartPart.hpp"
+#include "kart/KartPhysics.hpp"
+#include "kart/KartState.hpp"
+#include "system/KPadController.hpp"
+#include "system/RaceManager.hpp"
 #include <stddef.h>
 
 #include <kart/KartMove.hpp>
@@ -30,6 +37,73 @@ KartObjectProxy::KartObjectProxy() : mAccessor(nullptr) {
 
 const EGG::Vector3f& KartObjectProxy::getPos() const { return kartDynamics()->pos; }
 
+const EGG::Vector3f& KartObjectProxy::getPrevPos() const { return kartPhysics()->pos; }
+
+void KartObjectProxy::setPos(EGG::Vector3f *pos) { 
+  float z,y,x;
+  KartDynamics* dynamics;
+  x = pos->x;
+  y = pos->y;
+  z = pos->z;
+  dynamics = kartDynamics();
+  dynamics->pos.x = x;
+  dynamics->pos.y = y;
+  dynamics->pos.z = z;
+
+  return; 
+}
+
+const EGG::Matrix34f& KartObjectProxy::getPose() const { return kartPhysics()->pose; }
+
+const EGG::Matrix34f& KartObjectProxy::getBodyRot() const { return kartBody()->pose; }
+
+void KartObjectProxy::setRot(EGG::Quatf rot) {
+  KartDynamics* dynamics;
+  float w, x, y, z;
+  x = rot.x;
+  y = rot.y;
+  z = rot.z;
+  w = rot.w;
+  dynamics = kartDynamics();
+  dynamics->fullRot.x = x;
+  dynamics->fullRot.y = y;
+  dynamics->fullRot.z = z;
+  dynamics->fullRot.w = w;
+  dynamics->mainRot.x = x;
+  dynamics->mainRot.y = y;
+  dynamics->mainRot.z = z;
+  dynamics->mainRot.w = w;
+}
+
+u16 KartObjectProxy::getSuspCount() { return kartSettings()->susCount; }
+u16 KartObjectProxy::getWheelCount() { return kartSettings()->wheelCount; }
+float KartObjectProxy::getWheelCountRecip() { return kartSettings()->wheelCountRecip; }
+float KartObjectProxy::getWheelCountPlusOneRecip() { return kartSettings()->wheelCountPlusOneRecip; }
+
+const EGG::Vector3f& KartObjectProxy::getWheelPos(u32 wheelIdx) {
+  return kartWheel(wheelIdx)->getPhysics()->wheelPos;
+}
+
+bool KartObjectProxy::wheelIdxHasFloorCollision(u32 wheelIdx) {
+  return kartWheel(wheelIdx)->getPhysics()->hasFloorCollision();
+}
+
+void KartObjectProxy::setBodyAngle(f32 angle) {
+  // TODO
+  //kartBody()->setAngle(angle);
+}
+
+void KartObjectProxy::setStartBoostIdx(s32 idx) {
+  kartState()->setStartBoostIdx(idx);
+}
+
+const EGG::Vector3f& KartObjectProxy::getWheelEdgePos(u32 wheelIdx) {
+  return kartWheel(wheelIdx)->getPhysics()->wheelEdgePos;
+}
+
+KartSettings* KartObjectProxy::kartSettings() { return mAccessor->kartSettings; }
+
+const KartSettings* KartObjectProxy::kartSettings() const { return mAccessor->kartSettings; }
 KartPhysics* KartObjectProxy::kartPhysics() { return mAccessor->mBody->getPhysics(); }
 
 const KartPhysics* KartObjectProxy::kartPhysics() const { return mAccessor->mBody->getPhysics(); }
@@ -37,6 +111,22 @@ const KartPhysics* KartObjectProxy::kartPhysics() const { return mAccessor->mBod
 KartDynamics* KartObjectProxy::kartDynamics() { return mAccessor->mBody->getPhysics()->mpDynamics; }
 
 const KartDynamics* KartObjectProxy::kartDynamics() const { return mAccessor->mBody->getPhysics()->mpDynamics; }
+
+System::KPad* KartObjectProxy::getInput() {
+  return System::RaceManager::spInstance->players[kartSettings()->playerIdx]->kpadPlayer;
+}
+
+bool KartObjectProxy::isLocal() {
+  return kartState()->on(KART_FLAG_LOCAL);
+}
+
+bool KartObjectProxy::isCpu() {
+  return kartState()->on(KART_FLAG_CPU);
+}
+
+bool KartObjectProxy::isGhost() {
+  return kartState()->on(KART_FLAG_GHOST);
+}
 
 KartBody* KartObjectProxy::kartBody() { return mAccessor->mBody; }
 
@@ -53,6 +143,19 @@ KartWheel* KartObjectProxy::kartWheel(s32 idx) { return mAccessor->mWheels[idx];
 const KartWheel* KartObjectProxy::kartWheel(s32 idx) const {
   return mAccessor->mWheels[idx];
 }
+
+KartSusPhysics* KartObjectProxy::kartSusPhysics(s32 idx) { return kartSus(idx)->getPhysics(); }
+
+const KartSusPhysics* KartObjectProxy::kartSusPhysics(s32 idx) const {
+  return kartSus(idx)->getPhysics();
+}
+
+KartWheelPhysics* KartObjectProxy::kartWheelPhysics(s32 idx) { return mAccessor->mWheels[idx]->getPhysics(); }
+
+const KartWheelPhysics* KartObjectProxy::kartWheelPhysics(s32 idx) const {
+  return mAccessor->mWheels[idx]->getPhysics();
+}
+
 
 KartPhysicsEngine* KartObjectProxy::kartPhysicsEngine() { return mAccessor->mPhysicsEngine; }
 
