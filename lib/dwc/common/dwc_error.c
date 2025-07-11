@@ -1,7 +1,5 @@
 #include "dwc_error.h"
 
-#include "dwci_error.h"
-
 //! @brief The last error code encountered.
 //!
 int stDwcErrorCode;
@@ -17,7 +15,7 @@ int DWC_GetLastError(int* errorCode) {
   return stDwcLastError;
 }
 
-s32 DWC_GetLastErrorEx(s32* errorCode, u32* errorType) {
+s32 DWC_GetLastErrorEx(s32* errorCode, DWCErrorType* errorType) {
   if (errorCode)
     *errorCode = stDwcErrorCode;
   if (errorType) {
@@ -45,7 +43,7 @@ s32 DWC_GetLastErrorEx(s32* errorCode, u32* errorType) {
       *errorType = 1;
       break;
     case 1:
-    case DWCErrorFatal:
+    case DWC_ERROR_FATAL:
       *errorType = 7;
       break;
 
@@ -74,21 +72,21 @@ s32 DWC_GetLastErrorEx(s32* errorCode, u32* errorType) {
 }
 
 void DWC_ClearError() {
-  if (stDwcLastError != DWCErrorFatal) {
-    stDwcLastError = DWCErrorNone;
+  if (stDwcLastError != DWC_ERROR_FATAL) {
+    stDwcLastError = DWC_ERROR_NONE;
     stDwcErrorCode = 0;
   }
 }
 
-int DWCi_IsError() { return stDwcLastError != DWCErrorNone; }
+int DWCi_IsError() { return stDwcLastError != DWC_ERROR_NONE; }
 
 void DWCi_SetError(int lastError, int errorCode) {
-  if (stDwcLastError != DWCErrorFatal) {
+  if (stDwcLastError != DWC_ERROR_FATAL) {
     stDwcLastError = lastError;
     stDwcErrorCode = errorCode;
   }
 #ifdef DEBUG
-  if (stDwcLastError == DWCErrorFatal)
+  if (stDwcLastError == DWC_ERROR_FATAL)
     DWC_Printf(-1, "FATALERROR_SET\n");
 #endif
 }

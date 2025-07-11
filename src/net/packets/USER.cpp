@@ -1,5 +1,3 @@
 #include "USER.hpp"
 
-namespace Net {
-
-}
+namespace Net {}

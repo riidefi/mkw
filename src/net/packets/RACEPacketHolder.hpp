@@ -17,14 +17,14 @@ namespace Net {
 class RACEPacketHolder {
 private:
   // Maybe this is an array?
-  PacketHolder<HEADERPacket> *m_headerPacket;
-  PacketHolder<RACEHEADER1Packet> *m_raceHeader1Packet;
-  PacketHolder<RACEHEADER2Packet> *m_raceHeader2Packet;
-  PacketHolder<SELECTPacket> *m_selectPacket;
-  PacketHolder<RACEDATAPacket> *m_raceDataPacket;
-  PacketHolder<USERPacket> *m_userPacket;
-  PacketHolder<ITEMPacket> *m_itemPacket;
-  PacketHolder<EVENTPacket> *m_eventPacket;
+  PacketHolder<HEADERPacket>* m_headerPacket;
+  PacketHolder<RACEHEADER1Packet>* m_raceHeader1Packet;
+  PacketHolder<RACEHEADER2Packet>* m_raceHeader2Packet;
+  PacketHolder<SELECTPacket>* m_selectPacket;
+  PacketHolder<RACEDATAPacket>* m_raceDataPacket;
+  PacketHolder<USERPacket>* m_userPacket;
+  PacketHolder<ITEMPacket>* m_itemPacket;
+  PacketHolder<EVENTPacket>* m_eventPacket;
 
   // 0x8065a3dc
   RACEPacketHolder();
@@ -33,4 +33,4 @@ private:
 };
 static_assert(sizeof(RACEPacketHolder) == 0x20);
 
-}
+} // namespace Net

@@ -9,4 +9,4 @@ class RACEDATAPacket {
 };
 static_assert(sizeof(RACEDATAPacket) == 0x40);
 
-}
+} // namespace Net

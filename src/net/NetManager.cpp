@@ -1,8 +1,13 @@
 #include "NetManager.hpp"
 
+#include "net/MiscPacketHandler.hpp"
 #include "net/packets/ROOM.hpp"
 
+#include "host_system/SystemManager.hpp"
+#include "system/RaceConfig.hpp"
+
 #include <dwc/common/dwc_error.h>
+#include <dwc/common/dwc_init.h>
 
 namespace Net {
 
@@ -58,13 +63,77 @@ void NetManager::startRegionalBattleSearch(u8 localPlayerCount) {
   }
 }
 
-void NetManager::joinFriendRoom(u32 friendRosterId, u8 localPlayerCount) {
+void NetManager::joinFriendPublicVS(u32 friendIdx, u8 localPlayerCount) {
+  ConnectionState connState = getConnectionState();
+
+  if (connState == CONNECTION_STATE_IDLE) {
+    FriendJoinableStatus status = getFriendJoinableStatus(friendIdx);
+    switch (status) {
+    case STATUS_WW_VS:
+      m_roomType = ROOM_TYPE_JOINING_FRIEND_VS_WW;
+      break;
+    case STATUS_JOINABLE_REGIONAL_VS:
+      m_roomType = ROOM_TYPE_JOINING_FRIEND_VS_REGIONAL;
+      break;
+    default:
+      OSLockMutex(&m_mutex);
+
+      if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR) {
+        m_disconnectInfo.type = DISCONNECT_TYPE_CANT_JOIN_FRIEND;
+        m_disconnectInfo.code = 0;
+      }
+
+      OSUnlockMutex(&m_mutex);
+      return;
+    }
+    initMMInfos();
+    m_matchMakingInfos[0].m_hostFriendId = friendIdx;
+    m_matchMakingInfos[1].m_hostFriendId = friendIdx;
+    m_matchMakingInfos[0].m_localPlayerCount = localPlayerCount;
+    m_matchMakingInfos[1].m_localPlayerCount = localPlayerCount;
+    RACEHEADER1Handler::getInstance()->setPrepared();
+  }
+}
+
+void NetManager::joinFriendPublicBT(u32 friendIdx, u8 localPlayerCount) {
+  ConnectionState connState = getConnectionState();
+
+  if (connState == CONNECTION_STATE_IDLE) {
+    FriendJoinableStatus status = getFriendJoinableStatus(friendIdx);
+    switch (status) {
+    case STATUS_WW_BT:
+      m_roomType = ROOM_TYPE_JOINING_FRIEND_BT_WW;
+      break;
+    case STATUS_JOINABLE_REGIONAL_BT:
+      m_roomType = ROOM_TYPE_JOINING_FRIEND_BT_REGIONAL;
+      break;
+    default:
+      OSLockMutex(&m_mutex);
+
+      if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR) {
+        m_disconnectInfo.type = DISCONNECT_TYPE_CANT_JOIN_FRIEND;
+        m_disconnectInfo.code = 0;
+      }
+
+      OSUnlockMutex(&m_mutex);
+      return;
+    }
+    initMMInfos();
+    m_matchMakingInfos[0].m_hostFriendId = friendIdx;
+    m_matchMakingInfos[1].m_hostFriendId = friendIdx;
+    m_matchMakingInfos[0].m_localPlayerCount = localPlayerCount;
+    m_matchMakingInfos[1].m_localPlayerCount = localPlayerCount;
+    RACEHEADER1Handler::getInstance()->setPrepared();
+  }
+}
+
+void NetManager::joinFriendRoom(u32 friendIdx, u8 localPlayerCount) {
   ConnectionState connState = getConnectionState();
 
   if (connState == CONNECTION_STATE_IDLE) {
     initMMInfos();
-    m_matchMakingInfos[0].m_hostFriendId = friendRosterId;
-    m_matchMakingInfos[1].m_hostFriendId = friendRosterId;
+    m_matchMakingInfos[0].m_hostFriendId = friendIdx;
+    m_matchMakingInfos[1].m_hostFriendId = friendIdx;
     m_roomType = ROOM_TYPE_NONHOST_PRIVATE;
     m_matchMakingInfos[0].m_localPlayerCount = localPlayerCount;
     m_matchMakingInfos[1].m_localPlayerCount = localPlayerCount;
@@ -167,6 +236,16 @@ s32 NetManager::matchMakingElapsedSeconds() {
   return OSTicksToSeconds((s32)currTime - time);
 }
 
+void NetManager::resetFriendData(u32 friendIdx) {
+  m_friends[friendIdx].statusData.roomId = 0;
+  m_friends[friendIdx].statusData.regionId = 0;
+  m_friends[friendIdx].statusData.status = 0;
+  m_friends[friendIdx].statusData.playerCount = 0;
+  m_friends[friendIdx].statusData.currRace = 0;
+  m_friends[friendIdx].dwcFriendStatus = 0;
+  m_friends[friendIdx].addedBack = true;
+}
+
 bool NetManager::isConnectionStateIdleOrInMM() const {
   bool idleOrMM = false;
 
@@ -210,7 +289,7 @@ void NetManager::setConnectionState(ConnectionState connState) {
 
 NetManager::ConnectionState NetManager::getConnectionState() const {
   s32 code;
-  u32 type;
+  DWCErrorType type;
   DWC_GetLastErrorEx(&code, &type);
 
   ConnectionState connState;
@@ -223,6 +302,67 @@ NetManager::ConnectionState NetManager::getConnectionState() const {
   }
 
   return connState;
+}
+
+void NetManager::handleError() {
+  s32 code;
+  DWCErrorType type;
+
+  if (DWC_GetLastErrorEx(&code, &type)) {
+    // this is functionally equal to code = -code; but this was need to match
+    // dwc error codes are negative values, but mkw uses positive error codes.
+    // we just need to negate code
+    code = code - (code << 1);
+
+    if ((code / 10000) == 4 || (code / 1000) == 98) {
+      // return early for sake errors
+      return;
+    }
+
+    DWC_ClearError();
+
+    u32 errorCode; // this variable was needed for matching purposes
+
+    switch (type) {
+    case DWC_ERROR_TYPE_1:
+    case DWC_ERROR_TYPE_2:
+
+      errorCode = code; // this is used for matching purposes
+      OSLockMutex(&m_mutex);
+      if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR) {
+        m_disconnectInfo.type = DISCONNECT_TYPE_CANT_JOIN_FRIEND;
+        // code getting set here is somewhat interesting since errors
+        // when joining friends dont bring you to the error code screen in game
+        m_disconnectInfo.code = errorCode;
+      }
+      OSUnlockMutex(&m_mutex);
+      break;
+
+    case DWC_ERROR_TYPE_3:
+    case DWC_ERROR_TYPE_4:
+    case DWC_ERROR_TYPE_5:
+    case DWC_ERROR_TYPE_6:
+      errorCode = code;
+      OSLockMutex(&m_mutex);
+      if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR) {
+        m_disconnectInfo.type = DISCONNECT_TYPE_ERROR_CODE;
+        m_disconnectInfo.code = errorCode;
+        m_connectionState = CONNECTION_STATE_ERROR;
+      }
+      OSUnlockMutex(&m_mutex);
+      break;
+
+    case DWC_ERROR_TYPE_7:
+      OSLockMutex(&m_mutex);
+      if (m_disconnectInfo.type != DISCONNECT_TYPE_UNRECOVERABLE_ERROR) {
+        m_disconnectInfo.type = DISCONNECT_TYPE_UNRECOVERABLE_ERROR;
+        m_disconnectInfo.code = 0;
+        m_connectionState = CONNECTION_STATE_ERROR;
+      }
+      OSUnlockMutex(&m_mutex);
+      break;
+    }
+  }
 }
 
 void* NetManager::alloc(u32 size, s32 alignment) {
@@ -281,6 +421,189 @@ void NetManager::DWCFree(u32 unk, void* block) {
     netManager->m_heap->free(block);
     OSUnlockMutex(&netManager->m_mutex);
   }
+}
+
+void NetManager::updateDWCServersAsyncCallback(u32 r3, u32 r4,
+                                               NetManager* netManager) {
+  if (r3 != 0)
+    return;
+  if (r4 == 0)
+    return;
+  netManager->m_friendStatusChanged = true;
+}
+
+void NetManager::DWCSetBuddyFriendCallback(u32 r3, NetManager* netManager) {
+  netManager->m_friendStatusChanged = true;
+}
+
+void NetManager::initMMInfos() {
+  for (u32 i = 0; i < ARRAY_SIZE(m_matchMakingInfos); i++) {
+    m_matchMakingInfos[i].m_MMStartTime = 0;
+    m_matchMakingInfos[i].m_numConnectedConsoles = 0;
+    m_matchMakingInfos[i].m_playerCount = 0;
+    m_matchMakingInfos[i].m_fullAidBitmap = 0;
+    m_matchMakingInfos[i].m_directConnectedAidBitmap = 0;
+    m_matchMakingInfos[i].m_roomId = 0;
+    m_matchMakingInfos[i].m_hostFriendId = -1;
+    m_matchMakingInfos[i].m_myAid = -1;
+    m_matchMakingInfos[i].m_hostAid = -1;
+    m_matchMakingInfos[i].m_matchingSuspended = false;
+    for (u32 j = 0; j < MAX_PLAYER_COUNT; j++) {
+      memset(&m_matchMakingInfos[i].m_localPlayerCounts[j], 0, 4);
+    }
+  }
+}
+
+void NetManager::resetFriends() {
+  for (u32 i = 0; i < ARRAY_SIZE(m_friends); i++) {
+    resetFriendData(i);
+  }
+}
+
+void NetManager::resetPlayerIdToAidMap() {
+  for (u32 i = 0; i < ARRAY_SIZE(m_playerIdToAidMapping); i++)
+    m_playerIdToAidMapping[i] = -1;
+}
+
+void NetManager::updateAidMapping() {
+  m_disconnectedPlayerIds = 0;
+  m_disconnectedAids = 0;
+
+  if (RACEHEADER1Handler::getInstance()) {
+    const u8* RH1AidMapping =
+        RACEHEADER1Handler::getInstance()->getPlayerIdToAidMapping();
+    for (u32 i = 0; i < ARRAY_SIZE(m_playerIdToAidMapping); i++)
+      m_playerIdToAidMapping[i] = RH1AidMapping[i];
+  } else if (SELECTHandler::getInstance()) {
+    const u8* selectAidMapping =
+        SELECTHandler::getInstance()->getPlayerIdToAidMapping();
+    for (u32 i = 0; i < ARRAY_SIZE(m_playerIdToAidMapping); i++)
+      m_playerIdToAidMapping[i] = selectAidMapping[i];
+  } else {
+    resetPlayerIdToAidMap();
+  }
+}
+
+s32 NetManager::getLocalId(u32 hudId) const {
+  u8 myAid = m_matchMakingInfos[m_currMMInfo].m_myAid;
+  s32 count = -1;
+  for (s32 i = 0; i < ARRAY_SIZE(m_playerIdToAidMapping); i++) {
+    if (m_playerIdToAidMapping[i] == myAid) {
+      count++;
+      if (count == hudId)
+        return i;
+    }
+  }
+  return -1;
+}
+
+bool NetManager::myAidInRoom() const {
+  u32 fullMap = m_matchMakingInfos[m_currMMInfo].m_fullAidBitmap;
+  u8 myAid = m_matchMakingInfos[m_currMMInfo].m_myAid;
+  return (1 << myAid & fullMap);
+}
+
+s32 NetManager::getLocalPlayerId(u32 hudId) const {
+  if (MiscPacketHandler::spInstance) {
+    System::RaceConfig::Player* players =
+        System::RaceConfig::spInstance->mRaceScenario.mPlayers;
+    s32 count = 0;
+    // this currently just exists to prevent regswaps
+    u8 playerId = 0;
+    // loop thru player ids, check if player[i] is local
+    for (s32 i = 0; i < MAX_PLAYER_COUNT; i++) {
+
+      if (players[playerId].mPlayerType ==
+          System::RaceConfig::Player::TYPE_REAL_LOCAL) {
+
+        // there can be at most two local players for online and the guest's
+        // player id will be higher than player 1's.
+        if (count == hudId) {
+          return i;
+        }
+        count++;
+      }
+      playerId++;
+    }
+
+    return -1;
+  }
+
+  if (myAidInRoom()) {
+    return getLocalId(hudId);
+  }
+  return -1;
+}
+
+// https://decomp.me/scratch/l8u6Q
+FriendJoinableStatus NetManager::getFriendJoinableStatus(u32 friendIdx) const {
+  if (!m_friends[friendIdx].addedBack ||
+      m_friends[friendIdx].dwcFriendStatus == 0) {
+    return STATUS_OFFLINE;
+  }
+
+  FriendStatus friendStatus =
+      static_cast<FriendStatus>(m_friends[friendIdx].statusData.status);
+  s8 regionId;
+
+  // if the friend isn't online but not doing anything
+  if (friendStatus != FRIEND_STATUS_IDLE) {
+    switch (friendStatus) {
+
+    // maybe the following two cases are an inlined function? its quite
+    // repetitive
+    case FRIEND_STATUS_PUBLIC_VS:
+      if (m_disconnectPenalty != 0) {
+        // if im penalized for dc-ing too much show my status as online for
+        // others
+        return STATUS_ONLINE;
+      }
+
+      regionId = m_friends[friendIdx].statusData.regionId;
+
+      if (regionId != -1) {
+        // i have the same region as my friend, so i can join their regional
+        // room
+        if (regionId ==
+            static_cast<s32>(System::SystemManager::sInstance->mMatchingArea)) {
+          return STATUS_JOINABLE_REGIONAL_VS;
+        }
+        // otherwise i cant
+        return STATUS_UNJOINABLE_REGIONAL_VS;
+      }
+      return STATUS_WW_VS;
+
+    case FRIEND_STATUS_PUBLIC_BT:
+      if (m_disconnectPenalty != 0) {
+        return STATUS_ONLINE;
+      }
+
+      regionId = m_friends[friendIdx].statusData.regionId;
+
+      if (regionId != -1) {
+        if (regionId ==
+            static_cast<s32>(System::SystemManager::sInstance->mMatchingArea)) {
+          return STATUS_JOINABLE_REGIONAL_BT;
+        }
+        return STATUS_UNJOINABLE_REGIONAL_BT;
+      }
+      return STATUS_WW_BT;
+
+    // just return the friendStatus for all other cases
+    case FRIEND_STATUS_FROOM_VS_HOST:
+    case FRIEND_STATUS_FROOM_BATTLE_HOST:
+    case FRIEND_STATUS_FROOM_VS_NON_HOST:
+    case FRIEND_STATUS_FROOM_BATTLE_NON_HOST:
+    case FRIEND_STATUS_ONLINE:
+    case FRIEND_STATUS_OPEN_ROOM:
+    case FRIEND_STATUS_PLAYING_WITH_FRIENDS:
+      return static_cast<FriendJoinableStatus>(friendStatus);
+      break;
+    default:
+      return static_cast<FriendJoinableStatus>(friendStatus);
+    }
+  }
+  return STATUS_ONLINE;
 }
 
 } // namespace Net

@@ -9,4 +9,4 @@ struct HEADERPacket {
 };
 static_assert(sizeof(HEADERPacket) == 0x10);
 
-}
+} // namespace Net
