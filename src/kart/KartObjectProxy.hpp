@@ -10,6 +10,11 @@
 
 #include "KartSettings.hpp"
 #include "KartHitbox.hpp"
+#include "egg/math/eggMatrix.hpp"
+#include "egg/math/eggQuat.hpp"
+#include "kart/KartWheel.hpp"
+#include "kart/KartSus.hpp"
+#include "system/KPadController.hpp"
 
 namespace Kart {
 
@@ -18,6 +23,8 @@ class KartPhysics;
 class KartDynamics;
 class KartSus;
 class KartWheel;
+class KartSusPhysics;
+class KartWheelPhysics;
 class KartPhysicsEngine;
 class KartMove;
 class KartSnd;
@@ -77,6 +84,8 @@ class KartObjectProxy {
 public:
   KartObjectProxy();
 
+  KartSettings* kartSettings();
+  const KartSettings* kartSettings() const;
   KartPhysics* kartPhysics();
   const KartPhysics* kartPhysics() const;
   KartDynamics* kartDynamics();
@@ -87,6 +96,10 @@ public:
   const KartSus* kartSus(s32 idx) const;
   KartWheel* kartWheel(s32 idx);
   const KartWheel* kartWheel(s32 idx) const;
+  KartSusPhysics* kartSusPhysics(s32 idx);
+  const KartSusPhysics* kartSusPhysics(s32 idx) const;
+  KartWheelPhysics* kartWheelPhysics(s32 idx);
+  const KartWheelPhysics* kartWheelPhysics(s32 idx) const;
   KartPhysicsEngine* kartPhysicsEngine();
   const KartPhysicsEngine* kartPhysicsEngine() const;
   KartMove* kartMove();
@@ -135,6 +148,24 @@ public:
   const KartJump* kartJump();
 
   const EGG::Vector3f& getPos() const;
+  const EGG::Vector3f& getPrevPos() const;
+  void setPos(const EGG::Vector3f &pos);
+  const EGG::Matrix34f& getPose() const;
+  const EGG::Matrix34f& getBodyRot() const;
+  void setRot(const EGG::Quatf& rot);
+  u16 getSuspCount();
+  u16 getWheelCount();
+  float getWheelCountRecip();
+  float getWheelCountPlusOneRecip();
+  const EGG::Vector3f& getWheelPos(u32 wheelIdx);
+  bool wheelIdxHasFloorCollision(u32 wheelIdx);
+  void setBodyAngle(f32 angle);
+  void setStartBoostIdx(s32 idx);
+  const EGG::Vector3f& getWheelEdgePos(u32 wheelIdx);
+  System::KPad* getInput();
+  bool isLocal();
+  bool isCpu();
+  bool isGhost();
   void getBodyForward(EGG::Vector3f& out);
   s32 getHopStickX();
   s32 getAppliedHopStickX();

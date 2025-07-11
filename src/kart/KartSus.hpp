@@ -5,9 +5,17 @@
 #include <decomp.h>
 
 #include "KartPart.hpp"
+#include "kart/KartObjectProxy.hpp"
 
 namespace Kart {
-class KartSus {
+class KartSusPhysics;
 
+class KartSus: KartPart {
+public:
+  inline const KartSusPhysics* getPhysics() const { return susPhysics; }
+  inline KartSusPhysics* getPhysics() { return susPhysics; }
+
+private:
+  KartSusPhysics* susPhysics;
 };
 }
