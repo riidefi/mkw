@@ -778,6 +778,7 @@ config.libs = [
             Object(NonMatching, "kart/KartState.cpp"),
             Object(NonMatching, "kart/KartSus.cpp"),
             Object(NonMatching, "kart/KartWheelPhysics.cpp"),
+            Object(NonMatching, "kart/KartSusPhysics.cpp"),
             Object(NonMatching, "kart/KartPhysics.cpp"),
             Object(Matching, "kart/KartPhysicsInstance.cpp"),
             Object(NonMatching, "kart/KartDynamics.cpp"),
@@ -786,6 +787,8 @@ config.libs = [
             Object(Matching, "ui/ControlGroup.cpp"),
             Object(Matching, "ui/MessageGroup.cpp"),
             Object(NonMatching, "ui/SectionAutogens.cpp"),
+            Object(NonMatching, "ui/SectionManager.cpp"),
+            Object(NonMatching, "ui/Page.cpp"),
 
             Object(Equivalent, "enemy/AI.cpp"),
             Object(Equivalent, "enemy/AITrickHandler.cpp"),
