@@ -22,7 +22,6 @@ public:
 private:
   u8 _000;
   bool m_unk1;
-  u8 _[0x003 - 0x001]; // padding, probably
   u32 m_unkBitfield_4;
   u32 m_unkBitfield_8;
   u32 m_unkBitfield_C;

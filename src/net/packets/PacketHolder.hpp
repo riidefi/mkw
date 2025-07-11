@@ -4,21 +4,19 @@
 
 namespace Net {
 
-template <typename T>
-class PacketHolder {
+template <typename T> class PacketHolder {
 public:
   PacketHolder(u32 bufferSize);
   ~PacketHolder();
 
   void reset();
-  void copy(T *src, u32 len);
-  void append(T *src, u32 len);
+  void copy(T* src, u32 len);
+  void append(T* src, u32 len);
 
 private:
-  T *packet;
+  T* packet;
   u32 bufferSize;
   u32 packetSize;
-
 };
 
-}
+} // namespace Net

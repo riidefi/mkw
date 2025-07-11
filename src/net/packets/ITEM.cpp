@@ -1,5 +1,3 @@
 #include "ITEM.hpp"
 
-namespace Net {
-    
-}
+namespace Net {}

@@ -437,7 +437,7 @@ void NetManager::DWCSetBuddyFriendCallback(u32 r3, NetManager* netManager) {
 }
 
 void NetManager::initMMInfos() {
-  for (u32 i = 0; i < 2; i++) {
+  for (u32 i = 0; i < ARRAY_SIZE(m_matchMakingInfos); i++) {
     m_matchMakingInfos[i].m_MMStartTime = 0;
     m_matchMakingInfos[i].m_numConnectedConsoles = 0;
     m_matchMakingInfos[i].m_playerCount = 0;
@@ -455,12 +455,13 @@ void NetManager::initMMInfos() {
 }
 
 void NetManager::resetFriends() {
-  for (u32 i = 0; i < MAX_FRIEND_COUNT; i++)
+  for (u32 i = 0; i < ARRAY_SIZE(m_friends); i++) {
     resetFriendData(i);
+  }
 }
 
 void NetManager::resetPlayerIdToAidMap() {
-  for (u32 i = 0; i < MAX_PLAYER_COUNT; i++)
+  for (u32 i = 0; i < ARRAY_SIZE(m_playerIdToAidMapping); i++)
     m_playerIdToAidMapping[i] = -1;
 }
 
@@ -471,12 +472,12 @@ void NetManager::updateAidMapping() {
   if (RACEHEADER1Handler::getInstance()) {
     const u8* RH1AidMapping =
         RACEHEADER1Handler::getInstance()->getPlayerIdToAidMapping();
-    for (u32 i = 0; i < MAX_PLAYER_COUNT; i++)
+    for (u32 i = 0; i < ARRAY_SIZE(m_playerIdToAidMapping); i++)
       m_playerIdToAidMapping[i] = RH1AidMapping[i];
   } else if (SELECTHandler::getInstance()) {
     const u8* selectAidMapping =
         SELECTHandler::getInstance()->getPlayerIdToAidMapping();
-    for (u32 i = 0; i < MAX_PLAYER_COUNT; i++)
+    for (u32 i = 0; i < ARRAY_SIZE(m_playerIdToAidMapping); i++)
       m_playerIdToAidMapping[i] = selectAidMapping[i];
   } else {
     resetPlayerIdToAidMap();
@@ -486,7 +487,7 @@ void NetManager::updateAidMapping() {
 s32 NetManager::getLocalId(u32 hudId) const {
   u8 myAid = m_matchMakingInfos[m_currMMInfo].m_myAid;
   s32 count = -1;
-  for (s32 i = 0; i < MAX_PLAYER_COUNT; i++) {
+  for (s32 i = 0; i < ARRAY_SIZE(m_playerIdToAidMapping); i++) {
     if (m_playerIdToAidMapping[i] == myAid) {
       count++;
       if (count == hudId)

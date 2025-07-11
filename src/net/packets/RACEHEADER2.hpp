@@ -9,4 +9,4 @@ struct RACEHEADER2Packet {
 };
 static_assert(sizeof(RACEHEADER2Packet) == 0x28);
 
-}
+} // namespace Net

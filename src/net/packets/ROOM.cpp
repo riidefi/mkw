@@ -1,5 +1,3 @@
 #include "ROOM.hpp"
 
-namespace Net {
-
-}
+namespace Net {}

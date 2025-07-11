@@ -13,11 +13,9 @@ static_assert(sizeof(SELECTPacket) == 0x38);
 
 class SELECTHandler {
 public:
-  const u8 *getPlayerIdToAidMapping() const;
+  const u8* getPlayerIdToAidMapping() const;
 
-  static SELECTHandler *getInstance() {
-    return spInstance;
-  }
+  static SELECTHandler* getInstance() { return spInstance; }
 
 private:
   u8 _000[0x008 - 0x000];
@@ -25,8 +23,8 @@ private:
   SELECTPacket m_recvPackets[12];
   u8 _2e0[0x3f8 - 0x2e0];
 
-  static SELECTHandler *spInstance;
+  static SELECTHandler* spInstance;
 };
 static_assert(sizeof(SELECTHandler) == 0x3f8);
 
-}
+} // namespace Net

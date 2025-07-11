@@ -1,5 +1,3 @@
 #include "EVENT.hpp"
 
-namespace Net {
-
-}
+namespace Net {}
