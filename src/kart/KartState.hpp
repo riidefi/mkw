@@ -71,6 +71,7 @@ public:
   void setBoostRampType(s32 type) { mBoostRampType = type; }
   void setJumpPadType(s32 type) { mJumpPadType = type; }
   void setHalfpipeInvisibilityTimer(s32 timer) { mHalfpipeInvisibilityTimer = timer; }
+  void setStartBoostIdx(s32 idx) { mStartBoostIdx = idx; }
 
 private:
   RKBitField<160> mFlags;

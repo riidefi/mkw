@@ -151,18 +151,20 @@ ui/MessageGroup.cpp:
 	.text       start:0x000E8780 end:0x000E89A8
 	.rodata     start:0x00006A28 end:0x00006A38
 
-Page.o:
+ui/Page.cpp:
 	.text       start:0x000F15C8 end:0x000F2978
+	.data       start:0x000079F0 end:0x00007A54
 
-Section.o:
+ui/Section.o:
 	.text       start:0x00111958 end:0x001142DC
 
 ui/SectionAutogens.cpp:
 	.text       start:0x0011BFF0 end:0x00122058
 	.data       start:0x00009C40 end:0x0000A400
 
-SectionDirector.o:
+ui/SectionManager.cpp:
 	.text       start:0x001247CC end:0x00125B04
+	.bss        start:0x00004758 end:0x00004760
 
 net/MiscPacketHandler.cpp:
 	.text       start:0x00142E54 end:0x00145484
