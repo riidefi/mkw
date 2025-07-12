@@ -8,7 +8,8 @@
 #include "kart/KartObjectProxy.hpp"
 
 namespace Kart {
-  class KartSusPhysics;
+class KartSusPhysics;
+
 class KartSus: KartPart {
 public:
   inline const KartSusPhysics* getPhysics() const { return susPhysics; }
