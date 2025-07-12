@@ -149,10 +149,10 @@ public:
 
   const EGG::Vector3f& getPos() const;
   const EGG::Vector3f& getPrevPos() const;
-  void setPos(EGG::Vector3f* pos);
+  void setPos(const EGG::Vector3f &pos);
   const EGG::Matrix34f& getPose() const;
   const EGG::Matrix34f& getBodyRot() const;
-  void setRot(EGG::Quatf rot);
+  void setRot(const EGG::Quatf& rot);
   u16 getSuspCount();
   u16 getWheelCount();
   float getWheelCountRecip();

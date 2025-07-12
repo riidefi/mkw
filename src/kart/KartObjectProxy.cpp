@@ -39,40 +39,18 @@ const EGG::Vector3f& KartObjectProxy::getPos() const { return kartDynamics()->po
 
 const EGG::Vector3f& KartObjectProxy::getPrevPos() const { return kartPhysics()->pos; }
 
-void KartObjectProxy::setPos(EGG::Vector3f *pos) { 
-  float z,y,x;
-  KartDynamics* dynamics;
-  x = pos->x;
-  y = pos->y;
-  z = pos->z;
-  dynamics = kartDynamics();
-  dynamics->pos.x = x;
-  dynamics->pos.y = y;
-  dynamics->pos.z = z;
-
-  return; 
+void KartObjectProxy::setPos(const EGG::Vector3f &pos) { 
+  kartDynamics()->pos = pos;
 }
 
 const EGG::Matrix34f& KartObjectProxy::getPose() const { return kartPhysics()->pose; }
 
 const EGG::Matrix34f& KartObjectProxy::getBodyRot() const { return kartBody()->pose; }
 
-void KartObjectProxy::setRot(EGG::Quatf rot) {
-  KartDynamics* dynamics;
-  float w, x, y, z;
-  x = rot.x;
-  y = rot.y;
-  z = rot.z;
-  w = rot.w;
-  dynamics = kartDynamics();
-  dynamics->fullRot.x = x;
-  dynamics->fullRot.y = y;
-  dynamics->fullRot.z = z;
-  dynamics->fullRot.w = w;
-  dynamics->mainRot.x = x;
-  dynamics->mainRot.y = y;
-  dynamics->mainRot.z = z;
-  dynamics->mainRot.w = w;
+void KartObjectProxy::setRot(const EGG::Quatf &rot) {
+  KartDynamics* dynamics =kartDynamics();
+  dynamics->fullRot = rot;
+  dynamics->mainRot = rot;
 }
 
 u16 KartObjectProxy::getSuspCount() { return kartSettings()->susCount; }
