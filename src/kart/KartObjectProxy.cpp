@@ -48,7 +48,7 @@ const EGG::Matrix34f& KartObjectProxy::getPose() const { return kartPhysics()->p
 const EGG::Matrix34f& KartObjectProxy::getBodyRot() const { return kartBody()->pose; }
 
 void KartObjectProxy::setRot(const EGG::Quatf &rot) {
-  KartDynamics* dynamics =kartDynamics();
+  KartDynamics* dynamics = kartDynamics();
   dynamics->fullRot = rot;
   dynamics->mainRot = rot;
 }
