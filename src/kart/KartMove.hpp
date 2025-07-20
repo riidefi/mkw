@@ -50,6 +50,7 @@ public:
 
   f32 baseSpeed() const { return mBaseSpeed; }
   f32 speed() const { return mSpeed; }
+  void setSpeed(f32 speed) { mSpeed = speed; }
   const EGG::Vector3f& dir() const { return mDir; }
   f32 speedRatioCapped() const { return mSpeedRatioCapped; }
   f32 speedRatio() const { return mSpeedRatio; }

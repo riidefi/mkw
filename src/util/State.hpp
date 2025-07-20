@@ -10,10 +10,10 @@ namespace Util {
     template<typename T>
     class StateBase {
         public:
-            virtual ~StateBase() = 0;
-            virtual void enter(T* obj) = 0;
-            virtual void calc(T* obj) = 0;
-            virtual void leave(T* obj) = 0;
+            virtual ~StateBase() {}
+            virtual void enter() = 0;
+            virtual void calc() = 0;
+            virtual void leave() = 0;
     };
     
     template<typename T>
@@ -25,30 +25,31 @@ namespace Util {
             
             virtual ~State() {}
             
-            void enter(T* obj) {
+            void enter() {
                 if (mInit) {
-                    (obj->*mInit)();
+                    (mpStateSequencer->*mInit)();
                 }
             }
             
-            void calc(T* obj) {
-                (obj->*mUpdate)();
+            void calc() {
+                (mpStateSequencer->*mUpdate)();
             }
             
-            void leave(T* obj) {
+            void leave() {
                 if (mExit) {
-                    (obj->*mExit)();
+                    (mpStateSequencer->*mExit)();
                 }
             }
         
-            inline void setFunctions(StateFunction init, StateFunction update, StateFunction exit) {
+            inline void setFunctions(T* stateSequencer, StateFunction init, StateFunction update, StateFunction exit) {
+                mpStateSequencer = stateSequencer;
                 mInit = init;
                 mUpdate = update;
                 mExit = exit;
             }
 
         private:
-            StateSequencer<T>* mpStateSequencer;
+            T* mpStateSequencer;
             StateFunction mInit;
             StateFunction mUpdate;
             StateFunction mExit;
@@ -64,7 +65,7 @@ namespace Util {
         public:
             StateSequencer();
             virtual ~StateSequencer();
-            virtual void update(T* obj);
+            virtual void calc();
             void reset();
             bool isState(State<T>*);
             void setNextState(State<T>*);
