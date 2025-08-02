@@ -21,11 +21,10 @@ src_dir = os.path.join(root_dir, "src")
 include_dirs: List[str] = []  # Set with -I flag
 
 include_pattern = re.compile(r'^#\s*include\s*[<"](.+?)[>"]')
-guard_pattern = re.compile(r"^#\s*ifndef\s+(.*)$")
-once_pattern = re.compile(r"^#\s*pragma\s+once$")
 
 defines = set()
 deps = []
+failed_includes = False
 
 
 def import_h_file(in_file: str, r_path: str) -> str:
@@ -38,6 +37,8 @@ def import_h_file(in_file: str, r_path: str) -> str:
             return import_c_file(inc_path)
     else:
         print("Failed to locate", in_file)
+        global failed_includes
+        failed_includes = True
         return ""
 
 
@@ -56,21 +57,13 @@ def import_c_file(in_file: str) -> str:
 
 
 def process_file(in_file: str, lines: List[str]) -> str:
+    if in_file in defines:
+        return ""
+    defines.add(in_file)
+    print(f"Processing {in_file}")
+    
     out_text = ""
-    for idx, line in enumerate(lines):
-        if idx == 0:
-            guard_match = guard_pattern.match(line.strip())
-            if guard_match:
-                if guard_match[1] in defines:
-                    break
-                defines.add(guard_match[1])
-            else:
-                once_match = once_pattern.match(line.strip())
-                if once_match:
-                    if in_file in defines:
-                        break
-                    defines.add(in_file)
-            print("Processing file", in_file)
+    for idx, line in enumerate(lines):           
         include_match = include_pattern.match(line.strip())
         if include_match and not include_match[1].endswith(".s"):
             out_text += f'/* "{in_file}" line {idx} "{include_match[1]}" */\n'
@@ -119,8 +112,14 @@ def main():
     include_dirs = args.include
     output = import_c_file(args.c_file)
 
+    if failed_includes:
+        print(f"Unable to generate {args.output}. Please verify includes are correct.")
+        exit(1)
+
     with open(os.path.join(root_dir, args.output), "w", encoding="utf-8") as f:
         f.write(output)
+
+    print(f"Successfully created {args.output}")
 
     if args.depfile:
         with open(os.path.join(root_dir, args.depfile), "w", encoding="utf-8") as f:
