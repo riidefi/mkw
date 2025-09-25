@@ -453,9 +453,11 @@ private:
   MapdataAreaBase** byPriority;
 };
 static_assert(sizeof(MapdataAreaAccessor) == 0x14);
+#ifndef __EDITOR_CHECKING__
 // Ensure the vtable does not exist at offset 0x0
 // (It should exist at offset 0x8)
 static_assert(offsetof(MapdataAreaAccessor, entries) == 0x0);
+#endif
 
 class MapdataCameraAccessor
     : public MapdataAccessorBase<MapdataCamera, MapdataCamera::SData> {

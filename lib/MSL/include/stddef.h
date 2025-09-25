@@ -1,6 +1,8 @@
 #pragma once
 
-#ifdef __INTELLISENSE__
+#include "macros.h"
+
+#ifdef __EDITOR_CHECKING__
 #define offsetof(type, m) __builtin_offsetof(type,m)
 #else
 #define offsetof(type, m) ((size_t) & (((type*)0)->m))

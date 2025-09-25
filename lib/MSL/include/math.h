@@ -25,9 +25,12 @@ inline f32 sqrtf(f32 x) { return (f32)sqrt(x); }
 f64 acos(f64);
 inline f32 acosf(f32 x) { return (f32)acos(x); }
 
-#ifdef __INTELLISENSE__
-#define __fabsf(x) x
-#define __fabs(x) x
+#ifdef __CWCC__
+// when using the codewarrior compiler, __fabs and __fabsf are builtin intrinsics.
+#elif defined(__EDITOR_CHECKING__)
+// dummy implementation for editor tooling
+#define __fabsf(x) (x)
+#define __fabs(x) (x)
 #endif
 
 f32 fabsf(f32);
