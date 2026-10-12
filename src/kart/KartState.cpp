@@ -385,7 +385,7 @@ void KartState::updateCollisions() {
             } else if (battleType == 1) {
               ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, (u8)playerIdx);
             }
-          } else if ((gameMode - 9) == 0 || (gameMode - 10) == 0) {
+          } else if (!(gameMode != 9 && gameMode != 10)) {
             s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
             if (battleType == 0) {
               ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, (u8)playerIdx);
