@@ -90,7 +90,7 @@ public:
   const EGG::Vector3f& getMovement() const { return movement; }
   f32 get1c() const { return _1c; }
 
-private:
+public:
   KartCollideArea* kartCollideArea;
   f32 boundingRadius;
   /// Collision between two players can't occur more often than every 10 frames, counted by this timer

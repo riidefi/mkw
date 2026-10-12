@@ -66,6 +66,7 @@ public:
   void setCollisionFlag();
   void clearCollisionFlag();
   void applyStartBoost(s32 idx);
+  void updateCollisions();
 
   bool on(size_t n) const {
     return mFlags.on(n);
@@ -87,7 +88,7 @@ private:
   u8 _20[0x24 - 0x20];
   f32 _24;
   EGG::Vector3f mUp;
-  u8 _34[0x40 - 0x34];
+  EGG::Vector3f _34;
   EGG::Vector3f _40;
   EGG::Vector3f _4c;
   u32 _58;
