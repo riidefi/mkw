@@ -540,7 +540,8 @@ void KartState::updateCollisions() {
     }
     if ((field(1) & 0x40) && (*(s16*)((u8*)(*pproxy)->kartJump() + 0x38) <= 0)) {
       PlayerSub10_endTrick((*pproxy)->kartMove());
-      (*pproxy)->kartDynamics()->_forceUpright = 1;
+      KartDynamics* kdyn = (*pproxy)->kartDynamics();
+      kdyn->_forceUpright = 1;
       PlayerTrick_end(*(void**)((u8*)(*pproxy)->kartMove() + 0x258));
     }
     mAirtime = 0;
