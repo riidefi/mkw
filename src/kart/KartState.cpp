@@ -208,10 +208,11 @@ void KartState::updateCollisions() {
   using namespace System;
   f32* const pe = lbl_1_data_3918;
   KartObjectProxy* proxy = mProxy;
+  KartObjectProxy** pproxy = &proxy;
   HitboxGroup** hgp;
   s32 var_r27_2;
 
-  volatile u32* pf0 = &proxy->kartState()->field(0);
+  volatile u32* pf0 = &(*pproxy)->kartState()->field(0);
   u32 flags0 = *pf0;
   s32 var_r28 = (flags0 >> 18) & 1;
   u32 tmp = *pf0;
@@ -234,11 +235,12 @@ void KartState::updateCollisions() {
   mTop.x = 0.0f;
   s32 var_r24 = 0;
 
-  KartCollide* collide = proxy->kartCollide();
-  if (collide->someSoftWallTimer > 0) {
-    if (collide->someNonSoftWallTimer > 0) {
-      if ((collide->suspBottomHeightSoftWall / (f32)collide->someSoftWallTimer) -
-              (collide->suspBottomHeightNonSoftWall / (f32)collide->someNonSoftWallTimer) <
+  KartCollide* collide = (*pproxy)->kartCollide();
+  KartCollide** pcollide = &collide;
+  if ((*pcollide)->someSoftWallTimer > 0) {
+    if ((*pcollide)->someNonSoftWallTimer > 0) {
+      if (((*pcollide)->suspBottomHeightSoftWall / (f32)(*pcollide)->someSoftWallTimer) -
+              ((*pcollide)->suspBottomHeightNonSoftWall / (f32)(*pcollide)->someNonSoftWallTimer) <
           pe[18]) {
         var_r24 = 1;
       } else {
@@ -256,8 +258,8 @@ void KartState::updateCollisions() {
   s32 var_r19 = 0;
   accum.y = 0.0f;
   accum.x = 0.0f;
-  while (var_r19 < (s32)proxy->getWheelCount()) {
-    KartWheelPhysics* wheel = proxy->kartWheel(var_r19)->getPhysics();
+  while (var_r19 < (s32)(*pproxy)->getWheelCount()) {
+    KartWheelPhysics* wheel = (*pproxy)->kartWheel(var_r19)->getPhysics();
     const KartCollisionInfo* colInfo = &wheel->getKartCollisionInfo();
     if (wheel->hasFloorCollision()) {
       mTop.x += colInfo->floorNrm.x;
@@ -278,24 +280,24 @@ void KartState::updateCollisions() {
   }
 
   if (var_r23 > 0) {
-    proxy->kartState()->field(0) |= 0x800;
-    if (var_r23 == (s32)proxy->getWheelCount()) {
-      proxy->kartState()->field(0) |= 0x1000;
+    (*pproxy)->kartState()->field(0) |= 0x800;
+    if (var_r23 == (s32)(*pproxy)->getWheelCount()) {
+      (*pproxy)->kartState()->field(0) |= 0x1000;
     }
   }
 
-  hgp = &proxy->kartPhysics()->mpHitboxGroup;
+  hgp = &(*pproxy)->kartPhysics()->mpHitboxGroup;
   KartCollisionInfo& ci = (*hgp)->getKartCollisionInfo();
   if (ci.flags & 1) {
-    proxy->kartState()->field(0) |= 0x400;
+    (*pproxy)->kartState()->field(0) |= 0x400;
     mTop.x += ci.floorNrm.x;
     mTop.y += ci.floorNrm.y;
     mTop.z += ci.floorNrm.z;
     if (var_r25 == 0) {
       var_r25 = (ci.flags >> 3) & 1;
     }
-    if (proxy->kartState()->field(1) & 0x400) {
-      PlayerZipper_end(proxy->kartHalfPipe(), 1);
+    if ((*pproxy)->kartState()->field(1) & 0x400) {
+      PlayerZipper_end((*pproxy)->kartHalfPipe(), 1);
     }
   }
 
@@ -325,13 +327,13 @@ void KartState::updateCollisions() {
   s32 var_r21 = 0;
   if ((f & 0x42) && var_r4 == 0) {
     if (f & 2) {
-      proxy->kartState()->field(0) |= 0x40;
+      (*pproxy)->kartState()->field(0) |= 0x40;
     }
     if (ci.flags & 0x40) {
-      proxy->kartState()->field(0) |= 0x20;
+      (*pproxy)->kartState()->field(0) |= 0x20;
     }
     if (!var_r27) {
-      proxy->kartState()->field(0) |= 0x4000;
+      (*pproxy)->kartState()->field(0) |= 0x4000;
       if ((fn_1_80DF4(proxy) == 0x1E) && (fn_1_80E0C(proxy) == 0)) {
         s32 var_r0 = 1;
         s32 var_r7 = 1;
@@ -339,22 +341,22 @@ void KartState::updateCollisions() {
         s32 var_r9 = 1;
         s32 var_r10 = 1;
         s32 var_r5;
-        u32 f8 = proxy->kartState()->field(1);
+        u32 f8 = (*pproxy)->kartState()->field(1);
         var_r5 = f8 & 0x102;
         if (var_r5 == 0) {
-          var_r5 = proxy->kartState()->field(2) & 0x020C6000;
+          var_r5 = (*pproxy)->kartState()->field(2) & 0x020C6000;
           if (var_r5 == 0) {
             var_r10 = 0;
           }
         }
         if (var_r10 == 0) {
-          var_r5 = proxy->kartState()->field(0) & 0x10;
+          var_r5 = (*pproxy)->kartState()->field(0) & 0x10;
           if (var_r5 == 0) {
             var_r9 = 0;
           }
         }
         if (var_r9 == 0) {
-          var_r5 = proxy->kartState()->field(4) & 0x80;
+          var_r5 = (*pproxy)->kartState()->field(4) & 0x80;
           if (var_r5 == 0) {
             var_r8 = 0;
           }
@@ -366,14 +368,14 @@ void KartState::updateCollisions() {
           }
         }
         if (var_r7 == 0) {
-          var_r5 = proxy->kartState()->field(2);
+          var_r5 = (*pproxy)->kartState()->field(2);
           if (!(var_r5 & 0x0A008000)) {
             var_r0 = 0;
           }
         }
-        if ((var_r0 == 0) && !(proxy->kartState()->field(4) & 8)) {
+        if ((var_r0 == 0) && !((*pproxy)->kartState()->field(4) & 8)) {
           fn_1_809A8(proxy, 1);
-          s32 playerIdx = proxy->getPlayerIdx();
+          s32 playerIdx = (*pproxy)->getPlayerIdx();
           RaceConfig* rc = RaceConfig::spInstance;
           RaceManager* rm = RaceManager::spInstance;
           s32 gameMode = rc->mRaceScenario.mSettings.mGameMode;
@@ -392,7 +394,7 @@ void KartState::updateCollisions() {
               ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, (u8)playerIdx);
             }
           }
-          void* r4_6 = proxy->kartSettings()->gpStats;
+          void* r4_6 = (*pproxy)->kartSettings()->gpStats;
           if (r4_6 != NULL) {
             *(s32*)((u8*)r4_6 + 0x10) += 1;
           }
@@ -409,7 +411,7 @@ void KartState::updateCollisions() {
       _a8.z = _34.z;
     }
     if (!(*(u32*)((u8*)lbl_1_bss_4218 + 0x28) & 0x20) && (mHwgTimer == 0) &&
-        !(proxy->kartCollide()->surfaceFlags & 0x2000) &&
+        !((*pproxy)->kartCollide()->surfaceFlags & 0x2000) &&
         (ci.movement.y > 1.0f)) {
       EGG::Vector3f sp20 = ci.movement;
       sp20.normalise();
@@ -418,7 +420,7 @@ void KartState::updateCollisions() {
             ((RKSystem_ey.x * ci.wallNrm.x) + (RKSystem_ey.y * ci.wallNrm.y))) >
            0.85f) &&
           ((EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20)) < 0.0f) ||
-           (proxy->kartCollide()->_68 == 1.0f))) {
+           ((*pproxy)->kartCollide()->_68 == 1.0f))) {
         ci.wallNrm.y = 0.0f;
         ci.wallNrm.normalise();
         _a8.x = ci.wallNrm.x;
@@ -440,8 +442,8 @@ void KartState::updateCollisions() {
   }
 
   if ((ci.flags & 4) && (field(1) & 0x200) &&
-      !(proxy->kartCollide()->surfaceFlags & 0x10000)) {
-    proxy->kartState()->field(1) |= 0x1000;
+      !((*pproxy)->kartCollide()->surfaceFlags & 0x10000)) {
+    (*pproxy)->kartState()->field(1) |= 0x1000;
   }
 
   if ((var_r22 > 0) || (var_r21 != 0)) {
@@ -486,23 +488,23 @@ void KartState::updateCollisions() {
     _4c.z = mTop.z;
     field(0) = f0;
     field(3) = f3;
-    if (!(proxy->kartState()->field(1) & 1)) {
+    if (!((*pproxy)->kartState()->field(1) & 1)) {
       field(3) = f3 & ~0x880;
     }
     if (Raceinfo_isAtLeastStage(RaceManager::spInstance, 2) != 0) {
-      if (!(proxy->kartCollide()->surfaceFlags & 0x20) &&
-          (proxy->kartCollide()->surfaceFlags & 0x40)) {
+      if (!((*pproxy)->kartCollide()->surfaceFlags & 0x20) &&
+          ((*pproxy)->kartCollide()->surfaceFlags & 0x40)) {
         fn_1_80068(proxy, 8, 1, 1.0f);
       }
-      if (!(proxy->kartCollide()->surfaceFlags & 0x80) &&
-          (proxy->kartCollide()->surfaceFlags & 0x100)) {
+      if (!((*pproxy)->kartCollide()->surfaceFlags & 0x80) &&
+          ((*pproxy)->kartCollide()->surfaceFlags & 0x100)) {
         fn_1_80068(proxy, 4, 1, 1.0f);
       }
     }
-    if ((proxy->kartState()->field(1) & 0x400) && !(proxy->kartState()->field(2) & 0x800000)) {
-      PlayerZipper_end(proxy->kartHalfPipe(), 1);
-      if (!(proxy->kartState()->field(0) & 0x10)) {
-        proxy->kartState()->field(2) |= 0x80000000;
+    if (((*pproxy)->kartState()->field(1) & 0x400) && !((*pproxy)->kartState()->field(2) & 0x800000)) {
+      PlayerZipper_end((*pproxy)->kartHalfPipe(), 1);
+      if (!((*pproxy)->kartState()->field(0) & 0x10)) {
+        (*pproxy)->kartState()->field(2) |= 0x80000000;
       }
     }
     if (var_r25 != 0) {
@@ -513,24 +515,24 @@ void KartState::updateCollisions() {
     } else {
       field(1) &= 0xBFFFFFFF;
     }
-    if (!(proxy->kartState()->field(0) & 0x40000000)) {
+    if (!((*pproxy)->kartState()->field(0) & 0x40000000)) {
       field(1) &= 0xFFFFF7FF;
     }
     if (var_r28 == 0) {
-      proxy->kartState()->field(0) |= 0x200;
+      (*pproxy)->kartState()->field(0) |= 0x200;
       EGG::Vector3f* speed = playerPointers_getSpeed(proxy);
       f32 temp_f31 = (mTop.z * speed->z) + ((mTop.x * speed->x) + (mTop.y * speed->y));
       if (temp_f31 < -22.0f) {
-        proxy->kartState()->field(2) |= 0x40000000;
+        (*pproxy)->kartState()->field(2) |= 0x40000000;
         f32 var_f1 = fabsf(temp_f31 * pe[3]);
         if (1.0f < var_f1) {
           var_f1 = 1.0f;
         }
         fn_1_80068(proxy, 2, 1, var_f1);
       }
-      if (!(proxy->kartState()->field(0) & 0x10)) {
+      if (!((*pproxy)->kartState()->field(0) & 0x10)) {
         if (temp_f31 < -7.0f) {
-          proxy->kartState()->field(2) |= 0x80000000;
+          (*pproxy)->kartState()->field(2) |= 0x80000000;
         }
         fn_1_354D84(fn_1_803EC(proxy));
         if (mAirtime > 0x3C) {
@@ -538,20 +540,20 @@ void KartState::updateCollisions() {
         }
       }
     }
-    if ((field(1) & 0x40) && (*(s16*)((u8*)proxy->kartJump() + 0x38) <= 0)) {
-      PlayerSub10_endTrick(proxy->kartMove());
-      proxy->kartDynamics()->_forceUpright = 1;
-      PlayerTrick_end(*(void**)((u8*)proxy->kartMove() + 0x258));
+    if ((field(1) & 0x40) && (*(s16*)((u8*)(*pproxy)->kartJump() + 0x38) <= 0)) {
+      PlayerSub10_endTrick((*pproxy)->kartMove());
+      (*pproxy)->kartDynamics()->_forceUpright = 1;
+      PlayerTrick_end(*(void**)((u8*)(*pproxy)->kartMove() + 0x258));
     }
     mAirtime = 0;
   } else {
     if (var_r28 != 0) {
-      proxy->kartState()->field(0) |= 0x800000;
+      (*pproxy)->kartState()->field(0) |= 0x800000;
     }
     u32 temp_r0_7 = mAirtime + 1;
     mAirtime = temp_r0_7;
     if (temp_r0_7 > 0x14) {
-      proxy->kartState()->field(0) |= 0x8000;
+      (*pproxy)->kartState()->field(0) |= 0x8000;
       if (mAirtime == 0x14) {
         fn_1_80C90(proxy, 5, 0, 1);
       }
@@ -563,8 +565,8 @@ void KartState::updateCollisions() {
     }
   }
 
-  proxy->kartWheelPhysics(0);
-  proxy->getPos();
+  (*pproxy)->kartWheelPhysics(0);
+  (*pproxy)->getPos();
 }
 
 KartState::~KartState() {}
