@@ -235,9 +235,11 @@ void KartState::updateCollisions() {
   KartCollide** pcollide = &collide;
   if ((*pcollide)->someSoftWallTimer > 0) {
     if ((*pcollide)->someNonSoftWallTimer > 0) {
-      if (((*pcollide)->suspBottomHeightSoftWall / (f32)(*pcollide)->someSoftWallTimer) -
-              ((*pcollide)->suspBottomHeightNonSoftWall / (f32)(*pcollide)->someNonSoftWallTimer) <
-          pe[18]) {
+      f32 softRatio = (*pcollide)->suspBottomHeightSoftWall;
+      f32 softTimer = (f32)(*pcollide)->someSoftWallTimer;
+      f32 nonSoftRatio = (*pcollide)->suspBottomHeightNonSoftWall;
+      f32 nonSoftTimer = (f32)(*pcollide)->someNonSoftWallTimer;
+      if ((softRatio / softTimer) - (nonSoftRatio / nonSoftTimer) < pe[18]) {
         var_r24 = 1;
       } else {
         field(3) &= 0xFFFFFFEF;
