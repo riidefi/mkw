@@ -61,6 +61,10 @@ public:
   void updateWipe();
   void startWipe(int wipeState);
   void resetCollisionFlags();
+  void empty();
+  void resetGroundFlags();
+  void setCollisionFlag();
+  void clearCollisionFlag();
 
   bool on(size_t n) const {
     return mFlags.on(n);

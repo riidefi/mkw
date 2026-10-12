@@ -122,4 +122,19 @@ void KartState::resetCollisionFlags() {
   mStick.y = 0.0f;
   mStick.x = 0.0f;
 }
+
+void KartState::empty() {}
+
+void KartState::resetGroundFlags() {
+  field(1) &= 0xF7F7FDFF;
+  field(2) &= 0xFFFFFBF7;
+}
+
+void KartState::setCollisionFlag() {
+  field(4) |= 0x20;
+}
+
+void KartState::clearCollisionFlag() {
+  field(4) &= ~0x20;
+}
 }
