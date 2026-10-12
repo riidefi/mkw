@@ -456,9 +456,10 @@ void KartState::updateCollisions() {
     }
     if ((var_r24_2 != 0) || (var_r21 != 0) || (var_r27_2 != 0)) {
       field(3) |= 8;
-      mHwgTimer = *(s32*)(pe + 17);
+      s32 hwg = *((s32*)(pe + 17));
+      mHwgTimer = hwg;
       if (var_r21 != 0) {
-        mHwgTimer = *(s32*)(pe + 17) * 2;
+        mHwgTimer = hwg * 2;
       }
     }
   }
@@ -472,14 +473,15 @@ void KartState::updateCollisions() {
 
   if ((var_r23 > 0) || (ci.flags & 1)) {
     mTop.normalise();
-    u32 temp_r4_7 = field(3) & 0xFFFFFFBF;
+    u32 f0 = field(0) | 0x40000;
+    u32 f3 = field(3) & 0xFFFFFFBF;
     _4c.x = mTop.x;
     _4c.y = mTop.y;
     _4c.z = mTop.z;
-    field(0) |= 0x40000;
-    field(3) = temp_r4_7;
+    field(0) = f0;
+    field(3) = f3;
     if (!(proxy->kartState()->field(1) & 1)) {
-      field(3) = temp_r4_7 & ~0x880;
+      field(3) = f3 & ~0x880;
     }
     if (Raceinfo_isAtLeastStage(RaceManager::spInstance, 2) != 0) {
       if (!(proxy->kartCollide()->surfaceFlags & 0x20) &&
