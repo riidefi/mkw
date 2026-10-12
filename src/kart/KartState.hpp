@@ -93,7 +93,7 @@ private:
   s32 mJumpPadType;
   f32 _7c;
   u32 mCannonPointId;
-  u8 _84[0x86 - 0x84];
+  u16 _84;
   s16 mHalfpipeInvisibilityTimer;
   EGG::Vector2f mStick;
   int mWipeState;

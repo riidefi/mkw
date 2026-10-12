@@ -3,6 +3,8 @@
 
 #include "KartState.hpp"
 
+extern EGG::Vector3f lbl_802A4100;
+
 //https://decomp.me/scratch/7prZZ
 namespace Kart {
 extern bool isPlayerOnlineLocal;
@@ -55,6 +57,36 @@ KartState::KartState(KartSettings* settings) {
     set(KART_FLAG_SET_SPEED_ZERO);
     set(KART_FLAG_DEMO_LOSS);
   }
+}
+
+void KartState::init() {
+  reset();
+  mWipeState = -1;
+  mWipeFrame = -1;
+}
+
+void KartState::reset() {
+  mFlags.field(3) = 0;
+  mFlags.field(2) = 0;
+  mFlags.field(1) = 0;
+  mFlags.field(0) = 0;
+  mAirtime = 0;
+  _24 = 0.0f;
+  mUp.setZero();
+  _40.setZero();
+  _58 = 0;
+  _5c = 0;
+  mHwgTimer = 0;
+  m_70 = 0;
+  mBoostRampType = -1;
+  mJumpPadType = -1;
+  _84 = 0;
+  mStartBoostCharge = 0.0f;
+  mStick.y = 0.0f;
+  mStick.x = 0.0f;
+  _a4 = 0;
+  _4c = m_a8 = lbl_802A4100;
+  _a6 = 0;
 }
 
 void KartState::resetOob() {
