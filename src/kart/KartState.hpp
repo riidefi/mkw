@@ -58,6 +58,7 @@ public:
   void init();
   void reset();
   void resetOob();
+  void updateWipe();
   void startWipe(int wipeState);
   void resetCollisionFlags();
 
@@ -98,7 +99,8 @@ private:
   EGG::Vector2f mStick;
   int mWipeState;
   s16 mWipeFrame;
-  u8 _96[0x9c - 0x96];
+  u8 _96[2];
+  f32 _98;
   f32 mStartBoostCharge;
   s32 mStartBoostIdx;
   u16 _a4;

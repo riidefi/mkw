@@ -4,6 +4,7 @@
 #include "KartState.hpp"
 
 extern EGG::Vector3f lbl_802A4100;
+extern "C" s16 lbl_1_data_3958[6] = {0x00B4, 0x0000, 0x0000, 0x000A, 0x4220, 0x0000};
 
 //https://decomp.me/scratch/7prZZ
 namespace Kart {
@@ -92,5 +93,20 @@ void KartState::reset() {
 void KartState::resetOob() {
   mWipeState = -1;
   mWipeFrame = -1;
+}
+
+void KartState::updateWipe() {
+  if (mWipeState == -1) {
+    return;
+  }
+  mWipeFrame++;
+  f32 ratio = (f32)mWipeFrame / (f32)lbl_1_data_3958[mWipeState];
+  _98 = ratio;
+  if (1.0f < ratio) {
+    _98 = 1.0f;
+  }
+  if (mWipeFrame > lbl_1_data_3958[mWipeState]) {
+    mWipeState = -1;
+  }
 }
 }
