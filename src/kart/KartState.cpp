@@ -279,13 +279,14 @@ void KartState::updateCollisions() {
   }
 
   HitboxGroup* hg = proxy->kartPhysics()->mpHitboxGroup;
-  if (hg->getKartCollisionInfo().flags & 1) {
+  KartCollisionInfo& ci = hg->getKartCollisionInfo();
+  if (ci.flags & 1) {
     proxy->kartState()->field(0) |= 0x400;
-    mTop.x += hg->getKartCollisionInfo().floorNrm.x;
-    mTop.y += hg->getKartCollisionInfo().floorNrm.y;
-    mTop.z += hg->getKartCollisionInfo().floorNrm.z;
+    mTop.x += ci.floorNrm.x;
+    mTop.y += ci.floorNrm.y;
+    mTop.z += ci.floorNrm.z;
     if (var_r25 == 0) {
-      var_r25 = (hg->getKartCollisionInfo().flags >> 3) & 1;
+      var_r25 = (ci.flags >> 3) & 1;
     }
     if (proxy->kartState()->field(1) & 0x400) {
       PlayerZipper_end(proxy->kartHalfPipe(), 1);
@@ -293,16 +294,16 @@ void KartState::updateCollisions() {
   }
 
   s32 var_r24_2 = 0;
-  if (var_r24 != 0 && (hg->getKartCollisionInfo().flags & 0x200)) {
+  if (var_r24 != 0 && (ci.flags & 0x200)) {
     var_r24_2 = 1;
     var_r22++;
-    accum.x += hg->getKartCollisionInfo().wallNrm.x;
-    accum.y += hg->getKartCollisionInfo().wallNrm.y;
-    accum.z += hg->getKartCollisionInfo().wallNrm.z;
+    accum.x += ci.wallNrm.x;
+    accum.y += ci.wallNrm.y;
+    accum.z += ci.wallNrm.z;
   }
 
   s32 var_r4 = 0;
-  if ((hg->getKartCollisionInfo().flags & 0x80) && (mHalfpipeInvisibilityTimer > 0)) {
+  if ((ci.flags & 0x80) && (mHalfpipeInvisibilityTimer > 0)) {
     var_r4 = 1;
   }
   mHalfpipeInvisibilityTimer -= 1;
@@ -314,13 +315,13 @@ void KartState::updateCollisions() {
     _a4 = 0;
   }
 
-  u32 f = hg->getKartCollisionInfo().flags;
+  u32 f = ci.flags;
   s32 var_r21 = 0;
   if ((f & 0x42) && var_r4 == 0) {
     if (f & 2) {
       proxy->kartState()->field(0) |= 0x40;
     }
-    if (hg->getKartCollisionInfo().flags & 0x40) {
+    if (ci.flags & 0x40) {
       proxy->kartState()->field(0) |= 0x20;
     }
     if (!var_r27) {
@@ -393,9 +394,9 @@ void KartState::updateCollisions() {
       }
     }
     _a4 = 2;
-    _a8.x = hg->getKartCollisionInfo().wallNrm.x;
-    _a8.y = hg->getKartCollisionInfo().wallNrm.y;
-    _a8.z = hg->getKartCollisionInfo().wallNrm.z;
+    _a8.x = ci.wallNrm.x;
+    _a8.y = ci.wallNrm.y;
+    _a8.z = ci.wallNrm.z;
     if (field(3) & 0x20) {
       _a8.x = _34.x;
       _a8.y = _34.y;
@@ -403,22 +404,22 @@ void KartState::updateCollisions() {
     }
     if (!(*(u32*)((u8*)lbl_1_bss_4218 + 0x28) & 0x20) && (mHwgTimer == 0) &&
         !(proxy->kartCollide()->surfaceFlags & 0x2000) &&
-        (hg->getKartCollisionInfo().movement.y > 1.0f)) {
-      EGG::Vector3f sp20 = hg->getKartCollisionInfo().movement;
+        (ci.movement.y > 1.0f)) {
+      EGG::Vector3f sp20 = ci.movement;
       sp20.normalise();
       if ((((sp20.z * RKSystem_ey.z) + ((sp20.x * RKSystem_ey.x) + (sp20.y * RKSystem_ey.y))) > 0.8f) &&
-          (((RKSystem_ey.z * hg->getKartCollisionInfo().wallNrm.z) +
-            ((RKSystem_ey.x * hg->getKartCollisionInfo().wallNrm.x) + (RKSystem_ey.y * hg->getKartCollisionInfo().wallNrm.y))) >
+          (((RKSystem_ey.z * ci.wallNrm.z) +
+            ((RKSystem_ey.x * ci.wallNrm.x) + (RKSystem_ey.y * ci.wallNrm.y))) >
            0.85f) &&
-          ((EGG::Vector3f::dot(zeroY(sp20), zeroY(hg->getKartCollisionInfo().wallNrm)) < 0.0f) ||
+          ((EGG::Vector3f::dot(zeroY(sp20), zeroY(ci.wallNrm)) < 0.0f) ||
            (proxy->kartCollide()->_68 == 1.0f))) {
-        hg->getKartCollisionInfo().wallNrm.y = 0.0f;
-        hg->getKartCollisionInfo().wallNrm.normalise();
-        _a8.x = hg->getKartCollisionInfo().wallNrm.x;
-        _a8.y = hg->getKartCollisionInfo().wallNrm.y;
-        _a8.z = hg->getKartCollisionInfo().wallNrm.z;
-        f32 temp_f5 = hg->getKartCollisionInfo().wallNrm.x;
-        f32 temp_f4 = hg->getKartCollisionInfo().wallNrm.z;
+        ci.wallNrm.y = 0.0f;
+        ci.wallNrm.normalise();
+        _a8.x = ci.wallNrm.x;
+        _a8.y = ci.wallNrm.y;
+        _a8.z = ci.wallNrm.z;
+        f32 temp_f5 = ci.wallNrm.x;
+        f32 temp_f4 = ci.wallNrm.z;
         accum.x = temp_f5;
         accum.z = temp_f4;
         accum.y = 0.0f;
@@ -432,7 +433,7 @@ void KartState::updateCollisions() {
     }
   }
 
-  if ((hg->getKartCollisionInfo().flags & 4) && (field(1) & 0x200) &&
+  if ((ci.flags & 4) && (field(1) & 0x200) &&
       !(proxy->kartCollide()->surfaceFlags & 0x10000)) {
     proxy->kartState()->field(1) |= 0x1000;
   }
@@ -469,7 +470,7 @@ void KartState::updateCollisions() {
     _a6 = 0;
   }
 
-  if ((var_r23 > 0) || (hg->getKartCollisionInfo().flags & 1)) {
+  if ((var_r23 > 0) || (ci.flags & 1)) {
     mTop.normalise();
     u32 temp_r4_7 = field(3) & 0xFFFFFFBF;
     _4c.x = mTop.x;
