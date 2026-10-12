@@ -179,6 +179,8 @@ s32 KartObjectProxy::getAppliedHopStickX() {
 
 KartModel* KartObjectProxy::kartModel() { return mAccessor->mModel; }
 
+u8 KartObjectProxy::getPlayerIdx() const { return mAccessor->kartSettings->playerIdx; }
+
 f32 KartObjectProxy::getVehicleSpeed() { return kartMove()->speed(); }
 
 KartAction* KartObjectProxy::kartAction() { return mAccessor->mAction; }
