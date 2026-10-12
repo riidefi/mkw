@@ -137,4 +137,6 @@ void KartState::setCollisionFlag() {
 void KartState::clearCollisionFlag() {
   field(4) &= ~0x20;
 }
+
+KartState::~KartState() {}
 }
