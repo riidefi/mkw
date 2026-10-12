@@ -89,8 +89,12 @@ void AITrickHandlerBike::disableWheelie() {
 }
 
 void AITrickHandlerBike::calcWheelie() {
-    AIProbabilityBase* probability = mpInfo->mpAI->mpEngine->mpControl->getAIProbability();
-    AIPathHandler* pathHandler = mpInfo->mpPathHandler;
+    AIPathHandler* pathHandler;
+    System::KPadRaceInputState* input;
+    AIProbabilityBase* probability;
+
+    probability = mpInfo->mpAI->mpEngine->mpControl->getAIProbability();
+    pathHandler = mpInfo->mpPathHandler;
 
     if (pathHandler->isSwitchingPath()) {
         bool disableWheelie = false;
@@ -102,7 +106,7 @@ void AITrickHandlerBike::calcWheelie() {
             }
         }
 
-        System::KPadRaceInputState* input = mpInfo->mpInput;
+        input = mpInfo->mpInput;
 
         if (pathHandler->mpCurrPointParam->shouldWheelie() && probability->getWheelie() && !disableWheelie) {
             mbPerformWheelie = true;

@@ -17,23 +17,22 @@ void Hitbox::reset() {
   this->relPos.setZero();
 }
 
-MARK_FLOW_CHECK(0x805b7fbc);
 void Hitbox::update(const EGG::Vector3f& scale, const EGG::Quatf& rot, const EGG::Vector3f& pos, f32 totalScale, f32 hitboxElevation) {
   f32 postScaleHitboxElevation = 0.0f;
   if (scale.y < totalScale) {
-    float dist = totalScale - scale.y;
-    postScaleHitboxElevation = (dist) * this->bsp->radius;
+    f32 dist = totalScale - scale.y;
+    f32 radius = this->bsp->radius;
+    postScaleHitboxElevation = dist * radius;
   }
 
   EGG::Vector3f scaledPos = this->bsp->pos;
-
   scaledPos.x *= scale.x;
+  scaledPos.y += hitboxElevation;
   scaledPos.z *= scale.z;
-  float sum = (scaledPos.y + hitboxElevation);
-  float summult = sum * scale.y;
-  scaledPos.y = (summult) + postScaleHitboxElevation;
+  scaledPos.y *= scale.y;
+  scaledPos.y += postScaleHitboxElevation;
   const_cast<EGG::Quatf&>(rot).rotateVector(scaledPos, this->relPos);
-    
+
   this->pos.x = this->relPos.x + pos.x;
   this->pos.y = this->relPos.y + pos.y;
   this->pos.z = this->relPos.z + pos.z;

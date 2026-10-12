@@ -101,4 +101,8 @@ void KPadRaceInputState::setTrick(eTrick trick) {
   }
   mTrick = actualTrick;
 }
+
+void KPadController::setDriftIsAuto(bool isAuto) {
+  mDriftIsAuto = isAuto;
+}
 } // namespace System

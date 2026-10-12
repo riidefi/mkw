@@ -418,6 +418,29 @@ MapdataAreaBox::MapdataAreaBox(const SData* data) : MapdataAreaBase(data) {
 #endif
 
 namespace System {
+bool MapdataAreaBox::isInsideShape(const EGG::Vector3f& pos) const {
+  EGG::Vector3f relativePos(pos.x - mpData->position.x,
+                            pos.y - mpData->position.y,
+                            pos.z - mpData->position.z);
+
+  f32 y = relativePos.dot(mYAxis);
+  if (y > mDims.y || y < 0.0f) {
+    return false;
+  }
+
+  f32 x = relativePos.dot(mXAxis);
+  if (x > mDims.x || x < -mDims.x) {
+    return false;
+  }
+
+  f32 z = relativePos.dot(mZAxis);
+  if (z > mDims.z || z < -mDims.z) {
+    return false;
+  }
+
+  return true;
+}
+
 MapdataAreaBase* CourseMap::getArea(u16 i) const {
   u16 count = mpArea ? mpArea->size() : 0;
   return i < count ? mpArea->get(i) : 0;
