@@ -19,7 +19,6 @@ static inline EGG::Vector3f zeroY(const EGG::Vector3f& v) {
   return r;
 }
 extern "C" void* lbl_1_bss_4218;
-extern "C" s16 lbl_1_data_3958[6] = {0x00B4, 0x0000, 0x0000, 0x000A, 0x4220, 0x0000};
 extern "C" f32 lbl_1_data_3918[4] = {0.02f, 0.002f, 0.96f, 0.02f};
 
 struct StartBoostEntry {
@@ -31,6 +30,7 @@ extern "C" StartBoostEntry lbl_1_data_3928[6] = {
     {0.85f, 0, 0},  {0.88f, 10, 0}, {0.905f, 20, 0},
     {0.925f, 30, 0}, {0.94f, 45, 0}, {0.95f, 70, 0},
 };
+extern "C" s16 lbl_1_data_3958[6] = {0x00B4, 0x0000, 0x0000, 0x000A, 0x4220, 0x0000};
 extern "C" void PlayerSub10_applyStartBoost(void*, s16);
 extern "C" {
 void fn_1_80068(Kart::KartObjectProxy*, s32, s32, f32);
