@@ -211,13 +211,10 @@ void KartState::updateCollisions() {
   HitboxGroup** hgp;
   s32 var_r27_2;
 
-  volatile u32* pf0 = &(*pproxy)->kartState()->field(0);
-  u32 flags0 = *pf0;
+  u32 flags0 = (*pproxy)->kartState()->field(0);
   s32 var_r28 = (flags0 >> 18) & 1;
-  u32 tmp = *pf0;
-  tmp &= 0xFFFBE39F;
-  *pf0 = tmp;
   bool var_r27 = (flags0 & 0x60) != 0;
+  (*pproxy)->kartStateReload()->field(0) &= 0xFFFBE39F;
 
   if (mHwgTimer != 0) {
     mHwgTimer -= 1;

@@ -119,6 +119,9 @@ public:
   // dunno why this specifically is inline, but that's what it appears
   KartState* kartState() { return mAccessor->mKartState; }
   const KartState* kartState() const { return mAccessor->mKartState; }
+  KartState* kartStateReload() {
+    return *(KartState* volatile*)&mAccessor->mKartState;
+  }
 
   KartParam* kartParam() const;
   KartStats* kartStats() const;
