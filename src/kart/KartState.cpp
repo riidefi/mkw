@@ -500,7 +500,7 @@ void KartState::updateCollisions() {
     if (((*pproxy)->kartState()->field(1) & 0x400) && !((*pproxy)->kartState()->field(2) & 0x800000)) {
       PlayerZipper_end((*pproxy)->kartHalfPipe(), 1);
       if (!((*pproxy)->kartState()->field(0) & 0x10)) {
-        (*pproxy)->kartState()->field(2) |= 0x80000000;
+        (*pproxy)->kartStateReload()->field(2) |= 0x80000000;
       }
     }
     if (var_r25 != 0) {
@@ -528,7 +528,7 @@ void KartState::updateCollisions() {
       }
       if (!((*pproxy)->kartState()->field(0) & 0x10)) {
         if (temp_f31 < -7.0f) {
-          (*pproxy)->kartState()->field(2) |= 0x80000000;
+          (*pproxy)->kartStateReload()->field(2) |= 0x80000000;
         }
         fn_1_354D84(fn_1_803EC(proxy));
         if (mAirtime > 0x3C) {
