@@ -205,8 +205,8 @@ void KartState::calcStartBoost() {
 
 void KartState::updateCollisions() {
   using namespace System;
-  KartObjectProxy* proxy = mProxy;
   f32* const pe = lbl_1_data_3918;
+  KartObjectProxy* proxy = mProxy;
 
   u32 flags0 = proxy->kartState()->field(0);
   s32 var_r28 = (flags0 >> 18) & 1;
