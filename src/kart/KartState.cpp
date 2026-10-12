@@ -199,7 +199,6 @@ void KartState::calcStartBoost() {
     mStartBoostCharge = 1.0f;
   }
 
-  (double)0;
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
