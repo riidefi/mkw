@@ -367,7 +367,7 @@ void KartState::updateCollisions() {
         }
         if ((var_r0 == 0) && !(proxy->kartState()->field(4) & 8)) {
           fn_1_809A8(proxy, 1);
-          u8 playerIdx = proxy->getPlayerIdx();
+          s32 playerIdx = proxy->getPlayerIdx();
           RaceConfig* rc = RaceConfig::spInstance;
           RaceManager* rm = RaceManager::spInstance;
           s32 gameMode = rc->mRaceScenario.mSettings.mGameMode;
