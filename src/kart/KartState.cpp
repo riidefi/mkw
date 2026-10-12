@@ -207,6 +207,7 @@ void KartState::updateCollisions() {
   using namespace System;
   f32* const pe = lbl_1_data_3918;
   KartObjectProxy* proxy = mProxy;
+  HitboxGroup* hg;
 
   u32 flags0 = proxy->kartState()->field(0);
   s32 var_r28 = (flags0 >> 18) & 1;
@@ -278,7 +279,7 @@ void KartState::updateCollisions() {
     }
   }
 
-  HitboxGroup* hg = proxy->kartPhysics()->mpHitboxGroup;
+  hg = proxy->kartPhysics()->mpHitboxGroup;
   KartCollisionInfo& ci = hg->getKartCollisionInfo();
   if (ci.flags & 1) {
     proxy->kartState()->field(0) |= 0x400;
