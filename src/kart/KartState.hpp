@@ -88,7 +88,7 @@ private:
   u32 mAirtime;
   u8 _20[0x24 - 0x20];
   f32 _24;
-  EGG::Vector3f mUp;
+  EGG::Vector3f mTop;
   EGG::Vector3f _34;
   EGG::Vector3f _40;
   EGG::Vector3f _4c;
@@ -96,7 +96,7 @@ private:
   u32 _5c;
   u8 _60[0x6c - 0x60];
   u32 mHwgTimer;
-  u32 m_70;
+  u32 _70;
   s32 mBoostRampType;
   s32 mJumpPadType;
   f32 _7c;
@@ -112,7 +112,7 @@ private:
   s32 mStartBoostIdx;
   s16 _a4;
   s16 _a6;
-  EGG::Vector3f m_a8;
+  EGG::Vector3f _a8;
   u8 _b4[0xc0 - 0xb4];
 };
 static_assert(sizeof(KartState) == 0xc0);

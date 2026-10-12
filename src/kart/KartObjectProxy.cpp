@@ -79,9 +79,6 @@ const EGG::Vector3f& KartObjectProxy::getWheelEdgePos(u32 wheelIdx) {
   return kartWheel(wheelIdx)->getPhysics()->wheelEdgePos;
 }
 
-KartSettings* KartObjectProxy::kartSettings() { return mAccessor->kartSettings; }
-
-const KartSettings* KartObjectProxy::kartSettings() const { return mAccessor->kartSettings; }
 KartPhysics* KartObjectProxy::kartPhysics() { return mAccessor->mBody->getPhysics(); }
 
 const KartPhysics* KartObjectProxy::kartPhysics() const { return mAccessor->mBody->getPhysics(); }
