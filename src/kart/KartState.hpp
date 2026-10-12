@@ -66,6 +66,7 @@ public:
   void setCollisionFlag();
   void clearCollisionFlag();
   void applyStartBoost(s32 idx);
+  void calcStartBoost();
   void updateCollisions();
 
   bool on(size_t n) const {

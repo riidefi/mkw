@@ -178,6 +178,25 @@ void KartState::applyStartBoost(s32 idx) {
   PlayerSub10_applyStartBoost(mProxy->kartMove(), lbl_1_data_3928[idx].count);
 }
 
+void KartState::calcStartBoost() {
+  if (on(104)) {
+    f32 delta = lbl_1_data_3918[0] - lbl_1_data_3918[1];
+    delta *= mStartBoostCharge;
+    mStartBoostCharge += lbl_1_data_3918[0] - delta;
+  } else {
+    mStartBoostCharge *= lbl_1_data_3918[2];
+  }
+
+  if (0.0f > mStartBoostCharge) {
+    mStartBoostCharge = 0.0f;
+  } else if (1.0f < mStartBoostCharge) {
+    mStartBoostCharge = 1.0f;
+  }
+
+  (double)0;
+  *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
+}
+
 void KartState::updateCollisions() {
   using namespace System;
   KartObjectProxy* proxy = mProxy;
