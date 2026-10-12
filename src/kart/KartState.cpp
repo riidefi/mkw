@@ -374,16 +374,16 @@ void KartState::updateCollisions() {
           if (gameMode == 3) {
             s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
             if (battleType == 0) {
-              ((void (*)(void*, s32))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, playerIdx);
+              ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, (u8)playerIdx);
             } else if (battleType == 1) {
-              ((void (*)(void*, s32))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, playerIdx);
+              ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, (u8)playerIdx);
             }
           } else if (gameMode == 9 || gameMode == 10) {
             s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
             if (battleType == 0) {
-              ((void (*)(void*, s32))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, playerIdx);
+              ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, (u8)playerIdx);
             } else if (battleType == 1) {
-              ((void (*)(void*, s32))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, playerIdx);
+              ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, (u8)playerIdx);
             }
           }
           void* r4_6 = proxy->kartSettings()->gpStats;
