@@ -379,7 +379,7 @@ void KartState::updateCollisions() {
           RaceConfig* rc = RaceConfig::spInstance;
           RaceManager* rm = RaceManager::spInstance;
           s32 gameMode = rc->mRaceScenario.mSettings.mGameMode;
-          if (gameMode == 3) {
+          if (gameMode - 3 == 0) {
             s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
             if (battleType == 0) {
               ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, (u8)playerIdx);
@@ -420,7 +420,7 @@ void KartState::updateCollisions() {
             ((RKSystem_ey.x * ci.wallNrm.x) + (RKSystem_ey.y * ci.wallNrm.y))) >
            0.85f) &&
           ((EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20)) < 0.0f) ||
-           ((*pproxy)->kartCollide()->_68 == 1.0f))) {
+           ((*pproxy)->kartCollide()->_68 >= 1.0f))) {
         ci.wallNrm.y = 0.0f;
         ci.wallNrm.normalise();
         _a8.x = ci.wallNrm.x;
