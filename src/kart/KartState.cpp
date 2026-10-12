@@ -114,4 +114,12 @@ void KartState::startWipe(int wipeState) {
   mWipeState = wipeState;
   mWipeFrame = 0;
 }
+
+void KartState::resetCollisionFlags() {
+  field(0) &= 0xFE7F9C78;
+  field(1) &= 0xFFFFEFFF;
+  field(2) &= 0x3FBFEFFF;
+  mStick.y = 0.0f;
+  mStick.x = 0.0f;
+}
 }
