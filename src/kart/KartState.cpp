@@ -208,6 +208,7 @@ void KartState::updateCollisions() {
   f32* const pe = lbl_1_data_3918;
   KartObjectProxy* proxy = mProxy;
   HitboxGroup* hg;
+  s32 var_r27_2;
 
   u32 flags0 = proxy->kartState()->field(0);
   s32 var_r28 = (flags0 >> 18) & 1;
@@ -445,7 +446,7 @@ void KartState::updateCollisions() {
     _34.y = accum.y;
     _34.z = accum.z;
     _34.normalise();
-    s32 var_r27_2 = 0;
+    var_r27_2 = 0;
     if ((var_r22 > 0) && (PlayerPointers_isBike(proxy) == 1)) {
       var_r27_2 = 1;
     }
