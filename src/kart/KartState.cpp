@@ -206,10 +206,11 @@ void KartState::calcStartBoost() {
 void KartState::updateCollisions() {
   using namespace System;
   KartObjectProxy* proxy = mProxy;
+  f32* const pe = lbl_1_data_3918;
 
   u32 flags0 = proxy->kartState()->field(0);
   s32 var_r28 = (flags0 >> 18) & 1;
-  proxy->kartState()->field(0) = flags0 & 0xFFFBE39F;
+  proxy->kartState()->field(0) &= 0xFFFBE39F;
   bool var_r27 = (flags0 & 0x60) != 0;
 
   if (mHwgTimer != 0) {
@@ -232,7 +233,7 @@ void KartState::updateCollisions() {
     if (collide->someNonSoftWallTimer > 0) {
       if ((collide->suspBottomHeightSoftWall / (f32)collide->someSoftWallTimer) -
               (collide->suspBottomHeightNonSoftWall / (f32)collide->someNonSoftWallTimer) <
-          ((f32*)lbl_1_data_3918)[18]) {
+          pe[18]) {
         var_r24 = 1;
       } else {
         field(3) &= 0xFFFFFFEF;
@@ -454,9 +455,9 @@ void KartState::updateCollisions() {
     }
     if ((var_r24_2 != 0) || (var_r21 != 0) || (var_r27_2 != 0)) {
       field(3) |= 8;
-      mHwgTimer = ((s32*)lbl_1_data_3918)[17];
+      mHwgTimer = *(s32*)(pe + 17);
       if (var_r21 != 0) {
-        mHwgTimer = ((s32*)lbl_1_data_3918)[17] * 2;
+        mHwgTimer = *(s32*)(pe + 17) * 2;
       }
     }
   }
@@ -512,7 +513,7 @@ void KartState::updateCollisions() {
       f32 temp_f31 = (mTop.z * speed->z) + ((mTop.x * speed->x) + (mTop.y * speed->y));
       if (temp_f31 < -22.0f) {
         proxy->kartState()->field(2) |= 0x40000000;
-        f32 var_f1 = fabsf(temp_f31 * ((f32*)lbl_1_data_3918)[3]);
+        f32 var_f1 = fabsf(temp_f31 * pe[3]);
         if (1.0f < var_f1) {
           var_f1 = 1.0f;
         }
