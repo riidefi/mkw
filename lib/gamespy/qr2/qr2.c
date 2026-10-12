@@ -134,7 +134,7 @@ static void send_heartbeat(qr2_t qrec, int statechanged);
 static void send_keepalive(qr2_t qrec);
 static int get_sockaddrin(const char* host, int port, struct sockaddr_in* saddr,
                           struct hostent** savehent);
-static void qr2_check_queries(qr2_t qrec);
+void qr2_check_queries(qr2_t qrec);
 static void qr2_check_send_heartbeat(qr2_t qrec);
 static void enum_local_ips();
 static void qr2_expire_ip_verify(qr2_t qrec);
@@ -468,9 +468,17 @@ void qr2_check_queries(qr2_t qrec) {
         (int)recvfrom(qrec->hbsock, qr2_check_queries_indata, (INBUF_LEN - 1),
                       0, (struct sockaddr*)&saddr, &saddrlen);
     if (gsiSocketIsNotError(error)) {
+      gsDebugFormat(GSIDebugCat_QR2, GSIDebugType_Network, GSIDebugLevel_Comment,
+                    "Received %d bytes on query socket\r\n", error);
       qr2_check_queries_indata[error] = '\0';
       qr2_parse_queryA(qrec, qr2_check_queries_indata, error,
                        (struct sockaddr*)&saddr);
+    } else if (error == 0) {
+      gsDebugFormat(GSIDebugCat_QR2, GSIDebugType_Network, GSIDebugLevel_Comment,
+                    "CanReceiveOnSocket() returned true, but recvfrom return 0!\r\n");
+    } else {
+      gsDebugFormat(GSIDebugCat_QR2, GSIDebugType_Network, GSIDebugLevel_Comment,
+                    "CanReceiveOnSocket() returned true, but recvfrom failed!\r\n");
     }
   }
 }
@@ -494,14 +502,13 @@ asm void qr2_check_queries(qr2_t qrec) {
 loc1:
   b       loc7
 loc2:
-  // Not relocatable :(
-  lis     r29, 0x802f
+  lis     r29, qr2_check_queries_indata@ha
   li      r30, 0x0
-  addi    r31, r29, 0x3520
+  addi    r31, r29, qr2_check_queries_indata@l
   b       loc6
 loc3:
   lwz     r3, 0(r28)
-  addi    r4, r29, 0x3520
+  addi    r4, r29, qr2_check_queries_indata@l
   addi    r7, r1, 0x10
   addi    r8, r1, 0x8
   li      r5, 0xff

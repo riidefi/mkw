@@ -3,15 +3,12 @@
  * @brief TODO
  */
 
+#include <float.h>
 #include <decomp.h>
 #define VEC3_DTOR_INLINE
 #include <egg/math/eggQuat.hpp>
 
 namespace EGG {
-
-using EGG::Mathf::cos;
-using EGG::Mathf::sin;
-using EGG::Mathf::sqrt;
 
 #undef FLT_EPSILON
 #define FLT_EPSILON 1.192092896e-07F
@@ -61,9 +58,52 @@ void Quatf::setRPY(float x, float y, float z) {
   this->setRPY(vec);
 }
 
+void Quatf::setAxisRotation(const Vector3f &axis, f32 rot) {
+  const f32 half_angle = rot * 0.5f;
+  const f32 cos = Math<f32>::cos(half_angle);
+  const f32 sin = Math<f32>::sin(half_angle);
+  set(cos, sin * axis.x, sin * axis.y, sin * axis.z);
+}
 
-float Quatf::squareNorm() {
+
+float Quatf::squareNorm() const {
   return axisSquareNorm() + w*w;
+}
+
+void Quatf::normalise() {
+  f32 sqNorm = squareNorm();
+  if (sqNorm > FLT_EPSILON) {
+    f32 mag = Math<f32>::sqrt(sqNorm);
+    if (mag > 0.0f) {
+        multScalar(Math<f32>::inv(mag));
+    }
+  }
+}
+
+void Quatf::inverse(Quatf& out) const {
+  f32 sqNorm = squareNorm();
+  if (sqNorm > 0.0f) {
+    f32 sqNormInv = 1.0f / sqNorm;
+    out.x = sqNormInv * -x;
+    out.y = sqNormInv * -y;
+    out.z = sqNormInv * -z;
+    out.w = sqNormInv * w;
+  } else {
+    out.w = w;
+    out.x = -x;
+    out.y = -y;
+    out.z = -z;
+  }
+}
+
+void Quatf::rotateVector(const Vector3f& vec, Vector3f& ret) const {
+  Quatf conj = conjugate();
+  Quatf res;
+  vecMul(*this, vec, res);
+
+  ret.x = (res.y * conj.z + (res.x * conj.w + res.w * conj.x)) - res.z * conj.y;
+  ret.y = (res.z * conj.x + (res.y * conj.w + res.w * conj.y)) - res.x * conj.z;
+  ret.z = (res.x * conj.y + (res.z * conj.w + res.w * conj.z)) - res.y * conj.x;
 }
 
 void Quatf::slerpTo(const EGG::Quatf &q1, f32 t, EGG::Quatf &dst) const {
@@ -103,6 +143,10 @@ void Quatf::slerpTo(const EGG::Quatf &q1, f32 t, EGG::Quatf &dst) const {
   dst.y = s * y + recip * q1.y;
   dst.z = s * z + recip * q1.z;
   dst.w = s * w + recip * q1.w;
+}
+
+void Quatf::makeVectorRotation(const Vector3f& v0, const Vector3f& v1) {
+
 }
 
 } // namespace EGG
