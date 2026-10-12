@@ -284,9 +284,8 @@ void KartState::updateCollisions() {
   if (mHalfpipeInvisibilityTimer < 0) {
     mHalfpipeInvisibilityTimer = 0;
   }
-  s16 a4 = (s16)(_a4 - 1);
-  _a4 = (u16)a4;
-  if (a4 < 0) {
+  _a4 -= 1;
+  if (_a4 < 0) {
     _a4 = 0;
   }
 
@@ -343,14 +342,22 @@ void KartState::updateCollisions() {
         if ((var_r0 == 0) && !(proxy->kartState()->field(5) & 8)) {
           fn_1_809A8(proxy, 1);
           u8 playerIdx = proxy->getPlayerIdx();
-          u32 gameMode = RaceConfig::spInstance->mRaceScenario.mSettings.mGameMode;
-          u32 battleType = RaceConfig::spInstance->mRaceScenario.mSettings.mBattleType;
-          if (gameMode == 3 || gameMode == 9 || gameMode == 10) {
-            void* raceMode = RaceManager::spInstance->raceMode;
+          RaceConfig* rc = RaceConfig::spInstance;
+          RaceManager* rm = RaceManager::spInstance;
+          s32 gameMode = rc->mRaceScenario.mSettings.mGameMode;
+          if (gameMode == 3) {
+            s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
             if (battleType == 0) {
-              ((void (*)(void*, s32))(*(void***)raceMode)[0x38 / 4])(raceMode, playerIdx);
+              ((void (*)(void*, s32))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, playerIdx);
             } else if (battleType == 1) {
-              ((void (*)(void*, s32))(*(void***)raceMode)[0x34 / 4])(raceMode, playerIdx);
+              ((void (*)(void*, s32))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, playerIdx);
+            }
+          } else if (gameMode == 9 || gameMode == 10) {
+            s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
+            if (battleType == 0) {
+              ((void (*)(void*, s32))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, playerIdx);
+            } else if (battleType == 1) {
+              ((void (*)(void*, s32))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, playerIdx);
             }
           }
           void* r4_6 = proxy->kartSettings()->gpStats;
@@ -372,10 +379,7 @@ void KartState::updateCollisions() {
     if (!(*(u32*)((u8*)lbl_1_bss_4218 + 0x28) & 0x20) && (mHwgTimer == 0) &&
         !(proxy->kartCollide()->surfaceFlags & 0x2000) &&
         (hg->getKartCollisionInfo().movement.y > ((f32*)lbl_1_data_3918)[17])) {
-      EGG::Vector3f sp20;
-      sp20.y = hg->getKartCollisionInfo().movement.y;
-      sp20.x = hg->getKartCollisionInfo().movement.x;
-      sp20.z = hg->getKartCollisionInfo().movement.z;
+      EGG::Vector3f sp20 = hg->getKartCollisionInfo().movement;
       sp20.normalise();
       if ((((sp20.z * RKSystem_ey.z) + ((sp20.x * RKSystem_ey.x) + (sp20.y * RKSystem_ey.y))) > 0.8f) &&
           (((RKSystem_ey.z * hg->getKartCollisionInfo().wallNrm.z) +
@@ -434,11 +438,10 @@ void KartState::updateCollisions() {
     }
   }
 
-  s16 a6 = (s16)(_a6 - 1);
   field(0) &= 0xFFFF7FFF;
   field(1) &= 0xFFFFFFFB;
-  _a6 = (u16)a6;
-  if (a6 < 0) {
+  _a6 -= 1;
+  if (_a6 < 0) {
     _a6 = 0;
   }
 

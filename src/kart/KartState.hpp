@@ -109,8 +109,8 @@ private:
   f32 _98;
   f32 mStartBoostCharge;
   s32 mStartBoostIdx;
-  u16 _a4;
-  u16 _a6;
+  s16 _a4;
+  s16 _a6;
   EGG::Vector3f m_a8;
   u8 _b4[0xc0 - 0xb4];
 };
