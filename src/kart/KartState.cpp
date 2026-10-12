@@ -210,9 +210,10 @@ void KartState::updateCollisions() {
   HitboxGroup* hg;
   s32 var_r27_2;
 
-  u32 flags0 = proxy->kartState()->field(0);
+  volatile u32* pf0 = &proxy->kartState()->field(0);
+  u32 flags0 = *pf0;
   s32 var_r28 = (flags0 >> 18) & 1;
-  proxy->kartState()->field(0) &= 0xFFFBE39F;
+  *pf0 &= 0xFFFBE39F;
   bool var_r27 = (flags0 & 0x60) != 0;
 
   if (mHwgTimer != 0) {
@@ -413,7 +414,7 @@ void KartState::updateCollisions() {
           (((RKSystem_ey.z * ci.wallNrm.z) +
             ((RKSystem_ey.x * ci.wallNrm.x) + (RKSystem_ey.y * ci.wallNrm.y))) >
            0.85f) &&
-          ((EGG::Vector3f::dot(zeroY(sp20), zeroY(ci.wallNrm)) < 0.0f) ||
+          ((EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20)) < 0.0f) ||
            (proxy->kartCollide()->_68 == 1.0f))) {
         ci.wallNrm.y = 0.0f;
         ci.wallNrm.normalise();
