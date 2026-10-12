@@ -262,7 +262,6 @@ void KartState::updateCollisions() {
       var_r25 = (hg->getKartCollisionInfo().flags >> 3) & 1;
     }
     if (proxy->kartState()->field(1) & 0x400) {
-      proxy->kartHalfPipe();
       PlayerZipper_end(proxy->kartHalfPipe(), 1);
     }
   }
@@ -467,7 +466,6 @@ void KartState::updateCollisions() {
       }
     }
     if ((proxy->kartState()->field(2) & 0x400) && !(proxy->kartState()->field(3) & 0x800000)) {
-      proxy->kartHalfPipe();
       PlayerZipper_end(proxy->kartHalfPipe(), 1);
       if (!(proxy->kartState()->field(1) & 0x10)) {
         proxy->kartState()->field(3) |= 0x80000000;
