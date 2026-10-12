@@ -202,7 +202,7 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (82.7%): https://decomp.me/scratch/0ThH7
+// nonmatching (87.0%): https://decomp.me/scratch/hbr0m
 void KartState::updateCollisions() {
   using namespace System;
   f32* const pe = lbl_1_data_3918;
