@@ -3,6 +3,20 @@
 
 #include "KartState.hpp"
 
+extern EGG::Vector3f lbl_802A4100;
+extern "C" s16 lbl_1_data_3958[6] = {0x00B4, 0x0000, 0x0000, 0x000A, 0x4220, 0x0000};
+
+struct StartBoostEntry {
+  f32 threshold;
+  s16 count;
+  s16 _pad;
+};
+extern "C" StartBoostEntry lbl_1_data_3928[6] = {
+    {0.85f, 0, 0},  {0.88f, 10, 0}, {0.905f, 20, 0},
+    {0.925f, 30, 0}, {0.94f, 45, 0}, {0.95f, 70, 0},
+};
+extern "C" void PlayerSub10_applyStartBoost(void*, s16);
+
 //https://decomp.me/scratch/7prZZ
 namespace Kart {
 extern bool isPlayerOnlineLocal;
@@ -56,4 +70,88 @@ KartState::KartState(KartSettings* settings) {
     set(KART_FLAG_DEMO_LOSS);
   }
 }
+
+void KartState::init() {
+  reset();
+  mWipeState = -1;
+  mWipeFrame = -1;
+}
+
+void KartState::reset() {
+  mFlags.field(3) = 0;
+  mFlags.field(2) = 0;
+  mFlags.field(1) = 0;
+  mFlags.field(0) = 0;
+  mAirtime = 0;
+  _24 = 0.0f;
+  mUp.setZero();
+  _40.setZero();
+  _58 = 0;
+  _5c = 0;
+  mHwgTimer = 0;
+  m_70 = 0;
+  mBoostRampType = -1;
+  mJumpPadType = -1;
+  _84 = 0;
+  mStartBoostCharge = 0.0f;
+  mStick.y = 0.0f;
+  mStick.x = 0.0f;
+  _a4 = 0;
+  _4c = m_a8 = lbl_802A4100;
+  _a6 = 0;
+}
+
+void KartState::resetOob() {
+  mWipeState = -1;
+  mWipeFrame = -1;
+}
+
+void KartState::updateWipe() {
+  if (mWipeState == -1) {
+    return;
+  }
+  mWipeFrame++;
+  f32 ratio = (f32)mWipeFrame / (f32)lbl_1_data_3958[mWipeState];
+  _98 = ratio;
+  if (1.0f < ratio) {
+    _98 = 1.0f;
+  }
+  if (mWipeFrame > lbl_1_data_3958[mWipeState]) {
+    mWipeState = -1;
+  }
+}
+
+void KartState::startWipe(int wipeState) {
+  mWipeState = wipeState;
+  mWipeFrame = 0;
+}
+
+void KartState::resetCollisionFlags() {
+  field(0) &= 0xFE7F9C78;
+  field(1) &= 0xFFFFEFFF;
+  field(2) &= 0x3FBFEFFF;
+  mStick.y = 0.0f;
+  mStick.x = 0.0f;
+}
+
+void KartState::empty() {}
+
+void KartState::resetGroundFlags() {
+  field(1) &= 0xF7F7FDFF;
+  field(2) &= 0xFFFFFBF7;
+}
+
+void KartState::setCollisionFlag() {
+  field(4) |= 0x20;
+}
+
+void KartState::clearCollisionFlag() {
+  field(4) &= ~0x20;
+}
+
+void KartState::applyStartBoost(s32 idx) {
+  PlayerSub10_applyStartBoost(mProxy->kartMove(), lbl_1_data_3928[idx].count);
+}
+
+KartState::~KartState() {}
 }

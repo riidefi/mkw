@@ -58,8 +58,14 @@ public:
   void init();
   void reset();
   void resetOob();
+  void updateWipe();
   void startWipe(int wipeState);
   void resetCollisionFlags();
+  void empty();
+  void resetGroundFlags();
+  void setCollisionFlag();
+  void clearCollisionFlag();
+  void applyStartBoost(s32 idx);
 
   bool on(size_t n) const {
     return mFlags.on(n);
@@ -93,12 +99,13 @@ private:
   s32 mJumpPadType;
   f32 _7c;
   u32 mCannonPointId;
-  u8 _84[0x86 - 0x84];
+  u16 _84;
   s16 mHalfpipeInvisibilityTimer;
   EGG::Vector2f mStick;
   int mWipeState;
   s16 mWipeFrame;
-  u8 _96[0x9c - 0x96];
+  u8 _96[2];
+  f32 _98;
   f32 mStartBoostCharge;
   s32 mStartBoostIdx;
   u16 _a4;
