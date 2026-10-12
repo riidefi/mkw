@@ -430,7 +430,7 @@ void KartState::updateCollisions() {
         accum.x = temp_f5;
         accum.z = temp_f4;
         accum.y = 0.0f;
-        if (EGG::Mathf::sqrt((temp_f4 * temp_f4) + ((temp_f5 * temp_f5) + (0.0f * 0.0f))) < 0.05f) {
+        if (EGG::Mathf::sqrt((temp_f4 * temp_f4) + ((temp_f5 * temp_f5) + (accum.y * accum.y))) < 0.05f) {
           accum.x = sp20.x;
           accum.z = sp20.z;
           accum.y = 0.0f;
