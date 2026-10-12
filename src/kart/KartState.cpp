@@ -109,4 +109,9 @@ void KartState::updateWipe() {
     mWipeState = -1;
   }
 }
+
+void KartState::startWipe(int wipeState) {
+  mWipeState = wipeState;
+  mWipeFrame = 0;
+}
 }
