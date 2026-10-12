@@ -65,6 +65,7 @@ public:
   void resetGroundFlags();
   void setCollisionFlag();
   void clearCollisionFlag();
+  void applyStartBoost(s32 idx);
 
   bool on(size_t n) const {
     return mFlags.on(n);

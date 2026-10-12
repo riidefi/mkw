@@ -6,6 +6,17 @@
 extern EGG::Vector3f lbl_802A4100;
 extern "C" s16 lbl_1_data_3958[6] = {0x00B4, 0x0000, 0x0000, 0x000A, 0x4220, 0x0000};
 
+struct StartBoostEntry {
+  f32 threshold;
+  s16 count;
+  s16 _pad;
+};
+extern "C" StartBoostEntry lbl_1_data_3928[6] = {
+    {0.85f, 0, 0},  {0.88f, 10, 0}, {0.905f, 20, 0},
+    {0.925f, 30, 0}, {0.94f, 45, 0}, {0.95f, 70, 0},
+};
+extern "C" void PlayerSub10_applyStartBoost(void*, s16);
+
 //https://decomp.me/scratch/7prZZ
 namespace Kart {
 extern bool isPlayerOnlineLocal;
@@ -136,6 +147,10 @@ void KartState::setCollisionFlag() {
 
 void KartState::clearCollisionFlag() {
   field(4) &= ~0x20;
+}
+
+void KartState::applyStartBoost(s32 idx) {
+  PlayerSub10_applyStartBoost(mProxy->kartMove(), lbl_1_data_3928[idx].count);
 }
 
 KartState::~KartState() {}
