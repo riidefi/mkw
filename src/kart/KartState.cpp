@@ -377,16 +377,17 @@ void KartState::updateCollisions() {
     }
     if (!(*(u32*)((u8*)lbl_1_bss_4218 + 0x28) & 0x20) && (mHwgTimer == 0) &&
         !(proxy->kartCollide()->surfaceFlags & 0x2000) &&
-        (hg->getKartCollisionInfo().movement.y > ((f32*)lbl_1_data_3918)[17])) {
+        (hg->getKartCollisionInfo().movement.y > 1.0f)) {
       EGG::Vector3f sp20 = hg->getKartCollisionInfo().movement;
       sp20.normalise();
       if ((((sp20.z * RKSystem_ey.z) + ((sp20.x * RKSystem_ey.x) + (sp20.y * RKSystem_ey.y))) > 0.8f) &&
           (((RKSystem_ey.z * hg->getKartCollisionInfo().wallNrm.z) +
             ((RKSystem_ey.x * hg->getKartCollisionInfo().wallNrm.x) + (RKSystem_ey.y * hg->getKartCollisionInfo().wallNrm.y))) >
-           ((f32*)lbl_1_data_3918)[18]) &&
-          (((sp20.z * hg->getKartCollisionInfo().wallNrm.z) +
-            ((sp20.x * hg->getKartCollisionInfo().wallNrm.x) + (0.0f * 0.0f))) < 0.0f ||
-           (proxy->kartCollide()->_68 == ((f32*)lbl_1_data_3918)[17]))) {
+           0.85f) &&
+          ((EGG::Vector3f::dot(EGG::Vector3f(sp20.x, 0.0f, sp20.z),
+                               EGG::Vector3f(hg->getKartCollisionInfo().wallNrm.x, 0.0f,
+                                             hg->getKartCollisionInfo().wallNrm.z)) < 0.0f) ||
+           (proxy->kartCollide()->_68 == 1.0f))) {
         hg->getKartCollisionInfo().wallNrm.y = 0.0f;
         hg->getKartCollisionInfo().wallNrm.normalise();
         m_a8.x = hg->getKartCollisionInfo().wallNrm.x;
