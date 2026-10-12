@@ -214,7 +214,9 @@ void KartState::updateCollisions() {
   volatile u32* pf0 = &proxy->kartState()->field(0);
   u32 flags0 = *pf0;
   s32 var_r28 = (flags0 >> 18) & 1;
-  *pf0 &= 0xFFFBE39F;
+  u32 tmp = *pf0;
+  tmp &= 0xFFFBE39F;
+  *pf0 = tmp;
   bool var_r27 = (flags0 & 0x60) != 0;
 
   if (mHwgTimer != 0) {
