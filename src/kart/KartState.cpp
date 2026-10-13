@@ -202,9 +202,27 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (95.94%): colouring matches retail (pe=r30 via a sub-address temp)
-// and the playerIdx/gameMode block matches (s8 playerIdx defeats the cast CSE ->
-// 4x clrlwi + cmpwi, 838 insns). https://decomp.me/scratch/hbr0m
+// nonmatching (97.02%): colouring matches retail (pe=r30 via a sub-address temp);
+// the playerIdx/gameMode block matches (4x clrlwi + cmpwi, 838 insns) and the two
+// vtable dispatch arms use real virtual calls. https://decomp.me/scratch/hbr0m
+struct __KMVT {
+  virtual void f0(u8);
+  virtual void f1(u8);
+  virtual void f2(u8);
+  virtual void f3(u8);
+  virtual void f4(u8);
+  virtual void f5(u8);
+  virtual void f6(u8);
+  virtual void f7(u8);
+  virtual void f8(u8);
+  virtual void f9(u8);
+  virtual void f10(u8);
+  virtual void f11(u8);
+  virtual void f12(u8);
+  virtual void f13(u8);
+  virtual void f14(u8);
+};
+
 void KartState::updateCollisions() {
   using namespace System;
   bool var_r28;
@@ -379,23 +397,23 @@ void KartState::updateCollisions() {
         }
         if ((var_r0 == 0) && !(proxyF->kartState()->field(4) & 8)) {
           fn_1_809A8(proxy, 1);
-          s8 playerIdx = proxyF->getPlayerIdx();
+          u8 playerIdx = proxyF->getPlayerIdx();
           RaceManager* rm = RaceManager::spInstance;
           RaceConfig* rc = RaceConfig::spInstance;
           s32 gameMode = rc->mRaceScenario.mSettings.mGameMode;
           if (gameMode == 3) {
             s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
             if (battleType == 0) {
-              ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, (u8)playerIdx);
+              ((__KMVT*)rm->raceMode)->f12((u8)playerIdx);
             } else if (battleType == 1) {
-              ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, (u8)playerIdx);
+              ((__KMVT*)rm->raceMode)->f11((u8)playerIdx);
             }
           } else if (!(gameMode != 9 && gameMode != 10)) {
             s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
             if (battleType == 0) {
-              ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, (u8)playerIdx);
+              ((__KMVT*)rm->raceMode)->f12((u8)playerIdx);
             } else if (battleType == 1) {
-              ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x34 / 4])(rm->raceMode, (u8)playerIdx);
+              ((__KMVT*)rm->raceMode)->f11((u8)playerIdx);
             }
           }
           void* r4_6 = proxyF->kartSettings()->gpStats;
