@@ -282,6 +282,15 @@ AGENTS = [
      ("HY", "HY10", "10 hypotheses (H1-H10) from the full findings/proofs read", "general (deepseek-flash)", "completed", 97.7327, 0,
       "H1 data-table decl, H2 +0x24 read, H3 opt_* pragma sweep, H4 updateWipe interproc, H5 manufacture FPR interference, H6 manufacture GPR interference, H7 type-flip combos, H8 header accessor redefine, H9 global-optimizer view, H10 PCode-scored search.",
       "ALL 10 REFUTED; none beat 97.7327 (~2,000 candidates). New mechanisms recorded in findings."),
+     ("S1", "S", "SCALE: token-level exhaustive sweep", "general (deepseek-flash)", "completed", 98.0930, 1,
+      "Every single-token edit across the function (type/operator/literal/adjacency).",
+      "WIN 98.0930: `(flags0 & 0x60) != 0` -> `!= 1` (semantically identical; mask only 0/0x20/0x40/0x60). Found in the first ~2k of 15.7k."),
+     ("S10", "S", "SCALE: byte/instruction-distance hill-climb", "general (deepseek-flash)", "completed", 98.4487, 1,
+      "A smoother distance (mnemonic+operand-field mismatch) than objdiff%.",
+      "WIN 98.4487: swap the flags-block accessors (read via kartStateReload, write via kartState) -> fixes the r5/r6 tie FROM SOURCE."),
+     ("S-rest", "S", "SCALE: block perms / edit-pool cross / evolution / type-matrix / flag-cross / pragma-cross / differential-oracle / grammar search", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "8 scale searches (S2-S9): ~2k-48k candidates each.",
+      "None beat 97.7327 individually, BUT the set proves the space is NOT exhausted (S1/S10 found wins) and the two wins are in the flags block."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -358,6 +367,8 @@ TRIALS = [
     ("T1", "t-typed-vcall", "structure", "(*(void***)rm->raceMode)[0x38/4]...) call", "((__KMVT*)rm->raceMode)->f12((u8)playerIdx)", 97.0167, 95.9427, "r30/r28/r26/r29", 838, "vtable temp r12; +1.0740"),
     ("T1", "t-u8-pidx", "type", "s8 playerIdx", "u8 playerIdx", 97.0167, 95.9427, "r30/r28/r26/r29", 838, "removes the leftover extsb; keeps 4x clrlwi"),
     ("U2", "u-dotzy-helper", "structure", "EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20))", "dotZY(ci.wallNrm, sp20) via an inline helper", 97.7327, 97.0167, "r30/r28/r26/r29", 838, "zeroY temps lay out retail order; +0.7160"),
+    ("S10", "s10-accessor-swap", "structure", "flags0 = kartState()->field(0); reload &= mask;", "flags0 = kartStateReload()->field(0); kartState() &= mask;", 98.4487, 97.7327, "r30/r28/r26/r29", 838, "fixes the r5/r6 prologue tie FROM SOURCE; +0.7160"),
+    ("S1", "s1-token-ne1", "expression", "var_r27 = (flags0 & 0x60) != 0;", "var_r27 = (flags0 & 0x60) != 1;", 98.0930, 97.7327, "r30/r28/r26/r29", 838, "token-level sweep win; does not combine with S10"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -448,7 +459,8 @@ FINDINGS = [
     ("AS", "consequence", "SCHEDULER residual is NOT allocator/register-addressable: the last 7 mismatches (idx ~458-472) are a load-store SCHEDULE rotation + an fmuls operand order. The alias-predicate levers are dead (forcing _may_alias true -> 80.7, false -> 78.8; forcing the _nbytes extra-dependency -> unchanged 97.7327); the 12-model scheduler sweep was already dead. A fix would need a scheduler-side priority/tie-break cave at RVA 0x1b6ad0, gated by the same clean gate - unproven, and the time-boxed SCH agent did not find it. So with the gated compiler the ceiling is 99.1647; 100% needs the schedule, which is a list-scheduling tie-break.", "SCH (time-boxed) + AS/FPR2."),
     ("CCBUILD", "consequence", "The 'different MWCC 4.2 BUILD' lead is DEAD: the machine has only the 28 known compilers (all distinct VERSIONS; Wii/1.0a is byte-size-identical to 0x4201_127), and re-sweeping them on the NEW 97.7327 source gives 0x4201_127 best (97.7327), 1.0a/1.0RC1 97.2554, the rest <= 91.9. Decisively, F4 established retail MKW was built with CodeWarrior Wii 0x4201_127 - so a different build would not be retail's toolchain (non-principled anyway). Therefore the residual is SOURCE, not a compiler-build difference (consistent with X2's pass-order analysis).", "cc_resweep.py re-sweep at 97.7327 + F4."),
     ("FOCUS", "consequence", "FOCUSED reconstruction of the dot/sqrt schedule block (idx ~453-504, ~190 candidates + the PCode internal dump): nothing beat 97.7327, and the retail temp ordering is NOT expressible via the `dot(zeroY(a), zeroY(b))` construct - MWCC always materialises the FIRST syntactic argument's `zeroY` temp second, so `p1` lands in the 0x8 slot; the target is the off-diagonal {sp20@0x14, p1=sp20}, unreachable from this construct. Confirmed against the compiler: build/mwcc-debug/dumps/backend-44-after-peephole.txt shows the pre-schedule order for block B102 already differs from retail, and the (deterministic) list scheduler then swaps the z-pair and hoists the constant. Named zeroY locals, member-wise zeroY, precomputed copies, long-lived sp20/wall temps, temp-decl reorder all tie or regress.", "focused sub6 agent; backend-44/45 dumps."),
-    ("HY", "consequence", "ALL 10 grounded hypotheses (H1-H10) REFUTED; none beat 97.7327 (~2,000 candidates). New mechanisms learned: (H1) the declared extent/type of lbl_1_data_3918 is CODEGEN-INVISIBLE (extent 4/8/16/18/19/union/u8-view all byte-identical; rewriting pe[17]/pe[18] to the real lbl_1_data_3958 symbol HURTS to 96.44 -> the target genuinely uses the wrong-extent base, our source is correct). (H2) the +0x7a8 `lfs f0,0x24(r31)` read is ALREADY emitted correctly; no missing read. (H3) MWCC's `opt_*` pragma state is PER-FUNCTION sampled at the closing brace (sub-function scoping inert); only 5 of ~20 passes affect codegen and every deviation is worse. (H4) the updateWipe lever is real but PRECEDING-ONLY and float/pool-triggered; base is the local max. (H5) the f2/f5 is a colour TIE-BREAK not pressure - a live float can't be manufactured (names fold; reordering cascades). (H6) a dead-but-live probe CAN flip the reload ptr to r5 (no new spill) but the mask also lands r5 (they stop interfering after the schedule rotation) + costs instructions. (H7) type flips are additive/neutral. (H8) accessor DEFINITION changes are as inert as use-forms (only semantics/aliasing changes degrade). (H9) -ipa/-inline/pragma/proxy sweep all inert. (H10) the pre-schedule PCode block B102 is insensitive to source rewrites (130+ edits keep dist=12) and its distance does not track objdiff. Conclusion: 97.7327 is a hard allocator/scheduler fixed point under 0x4201_127.", "round HY1-HY10; sub1-10."),
+    ("HY", "consequence", "ALL 10 grounded hypotheses (H1-H10) REFUTED; none beat 97.7327 (~2,000 candidates).", "round HY1-HY10; sub1-10."),
+    ("S", "result", "SCALE round (10 searches) BROKE the 97.7327 plateau TWICE: S10's byte-distance hill-climb -> 98.4487 by SWAPPING the flags-block accessors (`flags0 = (*pproxy)->kartStateReload()->field(0)` and `(*pproxy)->kartState()->field(0) &= 0xFFFBE39F`), which fixes the r5/r6 prologue colour tie FROM SOURCE (the non-standard compiler patch previously had to force it - and hits the same 98.4487); and S1's token-level sweep -> 98.0930 with `(flags0 & 0x60) != 1` (semantically identical). The two do NOT combine (S1 on the S10 base drops to 98.0930). Key lesson: the residual space was NOT exhausted - hand-picked shapes plateaued, but mechanical token/byte searches found wins in the flags block; ~48k type-matrix + ~13k grammar + ~12.7k edit-pool-cross + ~4k pragma/flags-cross + ~2k block perms found nothing, so the win came specifically from *broad cheap token/byte* search.", "round S1-S10; verified on the real source 98.4487, 838 insns."),
 ]
 
 
@@ -887,8 +899,10 @@ ARTIFACTS = [
      97.0167, "Typed virtual call -> vtable temp r12 (MWCC's standard virtual-call sequence)."),
     ("W4", "winning-source", "artifacts/wins/04_97.7327_dotZY_final.cpp", "U2",
      97.7327, "Inline dotZY boundary -> fixes the zeroY stack-slot order. The current best."),
+    ("W5", "winning-source", "artifacts/wins/05_98.4487_accessor_swap.cpp", "S10",
+     98.4487, "Swap the flags-block accessors: read flags0 via kartStateReload()->field(0), write the clear-mask via kartState()->field(0). Fixes the r5/r6 prologue tie FROM SOURCE (the compiler patch previously had to force it)."),
     ("WF", "winning-source", "artifacts/wins/final_KartState.cpp", "-",
-     97.7327, "The authoritative committed src/kart/KartState.cpp at 97.7327 (a snapshot copy)."),
+     98.4487, "The authoritative committed src/kart/KartState.cpp at 98.4487 (a snapshot copy)."),
     ("C1", "compiler-patch", "artifacts/compiler-patch/FINAL_patch.json", "AS5/FPR2",
      99.1647, "The cleanly-gated compiler patch (hook 0x1b4420 + 156-byte cave 0x26c6fa; gate _copts[0x6D] via -pragma report_heap_info on). NON-STANDARD; not landed."),
     ("C2", "compiler-patch", "artifacts/compiler-patch/final_patch.py", "AS1",

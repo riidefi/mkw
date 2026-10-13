@@ -206,8 +206,9 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (97.73%): colouring + playerIdx/gameMode/vtable blocks match retail;
-// see SUBAGENT_FIELD_NOTES_updateCollisions.md. https://decomp.me/scratch/hbr0m
+// nonmatching (98.45%): colouring/playerIdx/gameMode/vtable blocks match retail;
+// the flags-block read/write accessors are swapped (kartStateReload for the read,
+// kartState for the clear-mask write). See SUBAGENT_FIELD_NOTES_updateCollisions.md.
 struct __KMVT {
   virtual void f0(u8);
   virtual void f1(u8);
@@ -237,10 +238,10 @@ void KartState::updateCollisions() {
   HitboxGroup** hgp;
   s32 var_r27_2;
 
-  u32 flags0 = (*pproxy)->kartState()->field(0);
+  u32 flags0 = (*pproxy)->kartStateReload()->field(0);
   var_r28 = (flags0 & 0x40000) != 0;
   var_r27 = (flags0 & 0x60) != 0;
-  (*pproxy)->kartStateReload()->field(0) &= 0xFFFBE39F;
+  (*pproxy)->kartState()->field(0) &= 0xFFFBE39F;
   KartObjectProxy* proxyF = proxy;
 
   if (mHwgTimer != 0) {
