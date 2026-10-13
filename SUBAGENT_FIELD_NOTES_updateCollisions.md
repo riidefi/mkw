@@ -439,6 +439,17 @@ Three searches (~34k candidates), all inline-boundary / temp-lifetime / interfer
 
 Net: ~100k+ candidates across rounds SH..Y moved `updateCollisions` **93.4368 -> 97.7327** (four source shapes) and nothing since. The last 19 instructions are a **hard local optimum** for source under MWCC `0x4201_127`.
 
+## Five new attack classes (round Z) — all plateaued
+| idea | result |
+|---|---|
+| **Z1** allocator steer via inline asm / barriers | MWCC emits the asm, so any register-mentioning barrier adds a mismatching instruction (`asm{mr r5,r5}` → 61.7); `#pragma gcc_extensions on` makes gcc-style clobber/operand constraints *compile but do nothing*; `register` / `asm("r5")` are ignored. **No steer possible.** |
+| **Z2** `this`/self-form rewriting | ~525 variants; every `self`/`this` alias copy-propagates and coalesces to **v32** — `.text` byte-identical. |
+| **Z3** accessor / field-access forms | ~200 variants (raw offsets, refs, widths, private-header `field()`): allocation-locked. |
+| **Z4** whole-TU perturbation | ~300 variants; dummy code is neutral, but any new float literal shifts the shared pool (`lfs` offsets, worse) — the current layout is already optimal. |
+| **Z5** compile-context change | ~560 variants (`-inline`/`-ipa`/`-O`/pragmas/separate TU/`noinline`): all identical or worse. **New datum:** the allocation depends on the preceding **emitted** function `updateWipe` (removing/moving it drops to 97.0167) — but the base arrangement is already the high state. |
+
+None beat 97.7327. Together with rounds SH…Y (four wins from 93.4368, then a hard plateau), this closes every attack class tried: text/AST/hill-climb/exhaustive splits, compiler+flags, 8 external repos, compiler internals (allocation *and* scheduling), four shape mechanisms, and now asm barriers / self-aliasing / accessor IR / TU perturbation / compile context. **`updateCollisions` is a hard local optimum at 97.7327.**
+
 
 
 

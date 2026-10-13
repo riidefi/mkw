@@ -231,6 +231,21 @@ AGENTS = [
      ("Y3", "Y", "source shapes: broad interference-graph fuzz", "general (deepseek-flash)", "completed", 97.7327, 0,
       "~21,600 candidates: helpers everywhere + combinations.",
       "Nothing beat 97.7327; helpers move the saved band, not the volatile band."),
+     ("Z1", "Z", "idea: allocator steer via asm/barriers", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "MWCC inline-asm forms / clobber constraints / register keywords.",
+      "Register-mentioning asm emits instructions (mismatch); gcc-style clobbers are accepted but INERT; register/asm(\"r5\") ignored."),
+     ("Z2", "Z", "idea: this/self-form rewriting", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~525 candidates routing field accesses through self/this aliases.",
+      "Self aliases coalesce to v32; byte-identical."),
+     ("Z3", "Z", "idea: accessor / field-access forms", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~200 candidates: raw offsets, refs, widths, private header variants.",
+      "Allocation-locked; nothing beat 97.7327."),
+     ("Z4", "Z", "idea: whole-TU perturbation", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~300 candidates: dummy globals/functions, function moves, pool shifts.",
+      "New float literals shift lfs offsets (worse); base layout already optimal."),
+     ("Z5", "Z", "idea: compile-context change", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~560 candidates: -inline/-ipa/-O/pragmas/separate TU/noinline.",
+      "All identical or worse; found the allocation depends on the preceding emitted function updateWipe (base is the high state)."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -391,6 +406,7 @@ FINDINGS = [
     ("W1", "gotcha", "CORRECTION: the earlier V2 claim that wrapping C1 as `EGG::Vector3f::dot(v, RKSystem_ey)` 'fixes all 13 dot/FPR mismatches' is an objdiff INDEX-ALIGNMENT illusion (the wrap inserts 4 instructions, shifting slot indices). Keyed by target instruction address, the wrap fixes ZERO and breaks 17; the C1 expression already matches retail. Do not pursue it.", "W1 address-keyed diff (sub8/best_sub8_c1wrap_95.2438.cpp)."),
     ("X2", "consequence", "The residual is SOURCE-side, not toolchain: register allocation (`_colorinstructions` 0x1b3fa0) runs BEFORE the scheduler (`_scheduleinstructions` 0x1b6ad0, called at 0x6b325/0x6b3d4); the FPR f5/f2 pick is an interference-graph difference (temp_f5 got f2 because f2 was free there); the FPR sort is inert ([0x74f339]==0). Sweeping all 11 scheduler pipeline models, the colour tie-break byte, and the FPR sort left the score at 97.7327 or worse. So the residual (prologue r5/r6 GPR tie + dot/sqrt schedule + f5/f2) must be closed by a SOURCE shape that changes the PCode/interference graph, not the compiler. (A function-gated scratch-reg swap patch was tried and rejected: non-standard, source-build specific, and it does not reach the 13 either.)", "X on a compiler copy (ccpatch2); determinism + pass-order + model-sweep evidence."),
     ("Y", "consequence", "PLATEAU re-confirmed at 97.7327 after ~34k more source-shape candidates (Y1 dot/sqrt ~2.1k, Y2 prologue ~10.6k, Y3 broad ~21.6k), all inline-boundary/temp-lifetime/interference-graph oriented. New datum: the prologue r5/r6 tie IS an interference-graph artifact and IS movable - but only by materialising the reload pointer (`KartState* volatile rl`), which forces a 2-instruction stack spill (840 insns) and drops to 91.3%. Non-volatile shapes do not flip it. Mechanism-4 inline helpers move the SAVED-register band (r28/r30), not the volatile band; the dot/sqrt schedule + FPR f5/f2 are invariant under every shape tried. Net: ~100k+ candidates across rounds SH..Y moved updateCollisions 93.4368 -> 97.7327 and nothing since; the last 19 instructions are a hard local optimum.", "rounds Y1/Y2/Y3; sub8/9/10."),
+    ("Z", "consequence", "All five NEW attack classes plateaued at 97.7327 (~1,900 candidates): Z1 - MWCC inline asm that mentions a register EMITS that instruction (a mismatch), and gcc_extensions clobber/operand constraints are accepted but INERT; `register`/`asm(\"r5\")` are ignored. Z2 - `this`/self aliases coalesce to v32 (byte-identical). Z3 - accessor IR shape is allocation-locked. Z4 - adding float literals shifts the shared pool (lfs offsets, worse); the current layout is already optimal. Z5 - every compile context (-inline/-ipa/-O/pragmas/separate TU/noinline) is identical or worse. Z5 did find that updateCollisions' allocation depends on the preceding EMITTED function `updateWipe` (removing/moving it drops to 97.0167), but the base arrangement is already the high state. Conclusion: the last 19 instructions are not reachable from source under MWCC 0x4201_127.", "round Z1-Z5; sub1-5."),
 ]
 
 
