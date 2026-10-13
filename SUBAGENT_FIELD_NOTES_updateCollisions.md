@@ -5,12 +5,19 @@ Function: `KartState::updateCollisions` in `src/kart/KartState.cpp`.
 Target: `build/RMCP01/StaticR/obj/kart/KartState.o` (`updateCollisions__Q24Kart9KartStateFv`).
 
 ## Result in one line
-20 subagents (3 rounds of 5 + 1 meta round of 5) took the function **86.993% → 93.437%** by
-de-cycling `proxy` (a lifetime split), then **proved** the remaining ~6.6% is a frontend
-vreg-numbering artefact — not a missing source lever.
+`KartState::updateCollisions` = **97.7327%** (838/838 instructions, target size) with the stock
+compiler `Wii/0x4201_127`, up from **86.993%**. Four source *shapes* (not leaf edits) did it:
+1. `pe` via a sub-address temp (`f32* const p3 = lbl+3; f32* const pe = p3-3;`) so `pe` becomes a
+   compiler temp and out-ranks the rodata pool → **r30** (94.3914);
+2. `s8`/`u8 playerIdx` → defeats the frontend CSE of the `(u8)` call casts → 4× `clrlwi` + 838 insns (95.9427);
+3. a typed virtual call → the vtable temp becomes **r12** (97.0167);
+4. an inline `dotZY` boundary → fixes the `zeroY` stack-slot order (97.7327).
 
-Score ladder: `86.9928` (baseline) → `89.7375` (proxy2 split) → **`93.4368`** (proxyF split +
-`var_r28` mask form). Nothing in ~150k+ candidates beat `93.4368`.
+Score ladder: `86.9928` → `89.7375` → `93.4368` → `94.3914` → `95.9427` → `97.0167` → **`97.7327`**.
+The last **19 instructions** are allocator/scheduler-locked under `0x4201_127` (see the AS / FOCUS
+sections); ~150k+ candidates across ~20 search rounds, plus a full reverse-engineering of the
+compiler's allocator *and* scheduler, found nothing more from source. A (non-standard) cleanly-gated
+compiler patch reaches **99.1647**, but is answer-encoding and is not landed.
 
 Harness used by every agent (fast, safe — compiles in `%TEMP%`, does not edit the repo):
 ```
@@ -471,6 +478,27 @@ The user asked for dedicated allocator/scheduler agents. Result: **a cleanly-gat
 - **SCH** — time-boxed; the **7 remaining** (a load-store schedule rotation + an `fmuls` operand order) are **not** allocator/register-addressable. Alias-predicate levers are dead (forcing `_may_alias` true → 80.7, false → 78.8; forcing the `_nbytes` extra-dependency → unchanged); a fix would need a scheduler-side priority/tie-break cave at RVA `0x1b6ad0`, which was not found.
 
 **Net:** `updateCollisions` = **97.7327** (stock compiler) / **99.1647** (cleanly-gated compiler, non-reproducible with the stock toolchain). The last 7 are a list-scheduling tie-break.
+
+## Conclusion / current state
+- **Committed source = 97.7327%** on `sync-doldecomp`, stock compiler `Wii/0x4201_127`, reproducible
+  (`ninja build/RMCP01/src/kart/KartState.o` → objdiff). 838/838 instructions; the four winning shapes
+  are inline in `src/kart/KartState.cpp` (the `__KMVT` typed-virtual-call placeholder, the `p3/pe`
+  sub-address temp, `u8 playerIdx`, and the `dotZY` helper). `Object(NonMatching, "kart/KartState.cpp")`.
+- **Residual = 19 instructions**, all allocator/scheduler-locked: 6 GPR prologue colour tie, 3 FPR
+  names, 10 dot/sqrt schedule. Exhausted: ~150k+ candidates (text/AST/hill-climb, exhaustive splits,
+  decl/type/qualifier permutations, neutral-edit combinations, fine near-miss cross-products, idiom
+  mining, block reconstruction, live-range shaping, macros, asm barriers, self-aliasing, accessor IR,
+  TU perturbation, compile contexts), 28 compilers × ~80 flags, 8 external repos, and a full RE of the
+  compiler's **allocator + scheduler** (rounds CC/AS/SCH). No source shape moves the residual.
+- **Not a compiler-build difference**: retail used `0x4201_127`; re-sweeping every local build on the
+  97.7327 source leaves `0x4201_127` best.
+- **Do not** land the patched/gated compiler (99.1647): it is answer-encoding, unverifiable, and not
+  reproducible with the stock toolchain. It was kept only as instrumentation and then removed.
+- **Data**: `subagent_data/subagents.db` (agents/trials/findings/rules/proofs/…) is the queryable
+  record; the early `no-path`/`UNSAT`/`measurement-invariance` proofs were **falsified** by the
+  sub-address escape and are marked as such.
+- **Honest bottom line**: the source is right (save 19 allocator/scheduler instructions) and this is a
+  hard local optimum for source under `0x4201_127`. Treat it as landed at 97.7327.
 
 
 
