@@ -1,0 +1,176 @@
+{
+  "current": [
+    "r28",
+    "r30",
+    "r26",
+    "r29"
+  ],
+  "target": [
+    "r30",
+    "r28",
+    "r26",
+    "r29"
+  ],
+  "candidates": [
+    {
+      "name": "peF-split-tail",
+      "intent": "make pe a non-rematerializable second web for the tail (peF/&peF)",
+      "move": "pe r28->r30 ; var_r28 r30->r28",
+      "edits": [
+        [
+          "  KartObjectProxy* proxyF = proxy;\n",
+          "  KartObjectProxy* proxyF = proxy;\n  f32* peF = pe;\n  f32** ppeF = &peF;\n"
+        ],
+        [
+          "(pe + 17)",
+          "(*ppeF + 17)"
+        ],
+        [
+          "pe[3]",
+          "(*ppeF)[3]"
+        ]
+      ]
+    },
+    {
+      "name": "pe-addr-all",
+      "intent": "address-take pe across every use (reliable barrier, known ~70%)",
+      "move": "pe -> r30 (destructive)",
+      "edits": [
+        [
+          "  f32* const pe = lbl_1_data_3918;\n",
+          "  f32* const pe = lbl_1_data_3918;\n  f32* const* ppe = &pe;\n"
+        ],
+        [
+          "pe[18]",
+          "(*ppe)[18]"
+        ],
+        [
+          "*((s32*)(pe + 17))",
+          "*((s32*)(*ppe + 17))"
+        ],
+        [
+          "pe[3]",
+          "(*ppe)[3]"
+        ]
+      ]
+    },
+    {
+      "name": "pe-late-copy",
+      "intent": "create pe's second web late, address-taken, around the tail use only",
+      "move": "pe r28->r30 ; var_r28 r30->r28",
+      "edits": [
+        [
+          "    if (var_r28 == 0) {\n",
+          "    if (var_r28 == 0) {\n      f32* peLate = pe;\n      f32** ppeLate = &peLate;\n"
+        ],
+        [
+          "fabsf(temp_f31 * pe[3])",
+          "fabsf(temp_f31 * (*ppeLate)[3])"
+        ]
+      ]
+    },
+    {
+      "name": "v28shift+peF-split",
+      "intent": "combine the var_r28 shift form with a peF/&peF split",
+      "move": "pe r28->r30 ; var_r28 r30->r28",
+      "edits": [
+        [
+          "  s32 var_r28 = (flags0 & 0x40000) != 0;\n",
+          "  s32 var_r28 = (flags0 >> 18) & 1;\n"
+        ],
+        [
+          "  KartObjectProxy* proxyF = proxy;\n",
+          "  KartObjectProxy* proxyF = proxy;\n  f32* peF = pe;\n  f32** ppeF = &peF;\n"
+        ],
+        [
+          "(pe + 17)",
+          "(*ppeF + 17)"
+        ],
+        [
+          "pe[3]",
+          "(*ppeF)[3]"
+        ]
+      ]
+    },
+    {
+      "name": "pe-nonconst-addr-tail",
+      "intent": "drop const on pe and take its address for the tail region",
+      "move": "pe r28->r30 ; var_r28 r30->r28",
+      "edits": [
+        [
+          "  f32* const pe = lbl_1_data_3918;\n",
+          "  f32* pe = lbl_1_data_3918;\n  f32** ppe = &pe;\n"
+        ],
+        [
+          "(pe + 17)",
+          "(*ppe + 17)"
+        ],
+        [
+          "pe[3]",
+          "(*ppe)[3]"
+        ]
+      ]
+    },
+    {
+      "name": "var-r28-localize",
+      "intent": "hoist var_r28 into the declared-local block so it can rank below pe",
+      "move": "var_r28 r30->r28",
+      "edits": [
+        [
+          "  s32 var_r28 = (flags0 & 0x40000) != 0;\n",
+          "  s32 var_r28 = 0;\n"
+        ],
+        [
+          "  bool var_r27 = (flags0 & 0x60) != 0;\n",
+          "  bool var_r27 = (flags0 & 0x60) != 0;\n  var_r28 = (flags0 & 0x40000) != 0;\n"
+        ]
+      ]
+    },
+    {
+      "name": "pe-addr + var-r28-localize",
+      "intent": "address-take pe AND localise var_r28 together (both required moves)",
+      "move": "pe r28->r30 ; var_r28 r30->r28",
+      "edits": [
+        [
+          "  f32* const pe = lbl_1_data_3918;\n",
+          "  f32* pe = lbl_1_data_3918;\n  f32** ppe = &pe;\n"
+        ],
+        [
+          "(pe + 17)",
+          "(*ppe + 17)"
+        ],
+        [
+          "pe[3]",
+          "(*ppe)[3]"
+        ],
+        [
+          "  s32 var_r28 = (flags0 & 0x40000) != 0;\n",
+          "  s32 var_r28 = 0;\n"
+        ],
+        [
+          "  bool var_r27 = (flags0 & 0x60) != 0;\n",
+          "  bool var_r27 = (flags0 & 0x60) != 0;\n  var_r28 = (flags0 & 0x40000) != 0;\n"
+        ]
+      ]
+    },
+    {
+      "name": "pe-escapes-slot",
+      "intent": "let &pe escape into a stack slot, reloading the value late",
+      "move": "pe r28->r30 ; var_r28 r30->r28",
+      "edits": [
+        [
+          "  f32* const pe = lbl_1_data_3918;\n",
+          "  f32* const pe = lbl_1_data_3918;\n  f32* const* peSlot = &pe;\n"
+        ],
+        [
+          "(pe + 17)",
+          "(*peSlot + 17)"
+        ],
+        [
+          "pe[3]",
+          "(*peSlot)[3]"
+        ]
+      ]
+    }
+  ]
+}

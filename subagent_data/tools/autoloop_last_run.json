@@ -1,0 +1,113 @@
+{
+  "agent_id": "AUTOLOOP",
+  "base": 93.4368,
+  "rounds": [
+    {
+      "round": 1,
+      "tested": 20,
+      "new_trials": 20,
+      "new_regalloc": 86,
+      "best": 93.4368,
+      "beat": false,
+      "refine": {
+        "target_reachable": false,
+        "target_indeg": 0,
+        "nodes": 21,
+        "edges": 77,
+        "bfs_path_hops": null,
+        "solver_status": "unsat",
+        "unsat_core": [
+          "R-SPLIT:recolour_needs_nonremat_pe",
+          "R-VREG-BLOCKS:local_under_top_pe",
+          "R-VREG-BLOCKS:temp_over_floor_pool",
+          "fact_origin_local_pe",
+          "fact_remat_pe",
+          "pool_is_temp",
+          "promote_requires_split_pe"
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "tested": 20,
+      "new_trials": 20,
+      "new_regalloc": 68,
+      "best": 93.4368,
+      "beat": false,
+      "refine": {
+        "target_reachable": false,
+        "target_indeg": 0,
+        "nodes": 21,
+        "edges": 101,
+        "bfs_path_hops": null,
+        "solver_status": "unsat",
+        "unsat_core": [
+          "R-SPLIT:recolour_needs_nonremat_pe",
+          "R-VREG-BLOCKS:local_under_top_pe",
+          "R-VREG-BLOCKS:temp_over_floor_pool",
+          "fact_origin_local_pe",
+          "fact_remat_pe",
+          "pool_is_temp",
+          "promote_requires_split_pe"
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "tested": 20,
+      "new_trials": 16,
+      "new_regalloc": 86,
+      "best": 93.4368,
+      "beat": false,
+      "refine": {
+        "target_reachable": false,
+        "target_indeg": 0,
+        "nodes": 27,
+        "edges": 122,
+        "bfs_path_hops": null,
+        "solver_status": "unsat",
+        "unsat_core": [
+          "R-SPLIT:recolour_needs_nonremat_pe",
+          "R-VREG-BLOCKS:local_under_top_pe",
+          "R-VREG-BLOCKS:temp_over_floor_pool",
+          "fact_origin_local_pe",
+          "fact_remat_pe",
+          "pool_is_temp",
+          "promote_requires_split_pe"
+        ]
+      }
+    },
+    {
+      "round": 4,
+      "tested": 20,
+      "new_trials": 13,
+      "new_regalloc": 86,
+      "best": 93.4368,
+      "beat": false,
+      "refine": {
+        "target_reachable": false,
+        "target_indeg": 0,
+        "nodes": 27,
+        "edges": 140,
+        "bfs_path_hops": null,
+        "solver_status": "unsat",
+        "unsat_core": [
+          "R-SPLIT:recolour_needs_nonremat_pe",
+          "R-VREG-BLOCKS:local_under_top_pe",
+          "R-VREG-BLOCKS:temp_over_floor_pool",
+          "fact_origin_local_pe",
+          "fact_remat_pe",
+          "pool_is_temp",
+          "promote_requires_split_pe"
+        ]
+      }
+    }
+  ],
+  "new_trials": 69,
+  "new_regalloc": 326,
+  "best_score": 93.4368,
+  "beat_base": false,
+  "summary": "AUTOLOOP: 4 rounds, 80 candidates, 69 new trials, 326 regalloc rows, best=93.4368, beat=no",
+  "elapsed_s": 35.2,
+  "src_unchanged": true
+}

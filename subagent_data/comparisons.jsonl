@@ -1,0 +1,23 @@
+{"cmp_id": 1, "a": "P-MATCH-LOOP", "b": "P-PERMUTER", "relationship": "subsumes", "note": "the manual loop is the general case; the permuter automates it but (C-only) could not run on this C++ TU"}
+{"cmp_id": 2, "a": "P-ENGINE-TEXT", "b": "P-ENGINE-TS", "relationship": "complements", "note": "text-level vs AST-level mutation; both are candidate generators for P-MATCH-LOOP; neither beat the wall alone"}
+{"cmp_id": 3, "a": "P-CC-SWEEP", "b": "P-FLAG-SWEEP", "relationship": "complements", "note": "compiler-identity vs compiler-flags; both orthogonal to source edits; both confirmed the optimum"}
+{"cmp_id": 4, "a": "P-DBG-PCODE", "b": "P-DBG-REGALLOC", "relationship": "complements", "note": "PCode = instruction/frontend trace; regalloc = colouring output; together they explained the coalescing and the vreg rule"}
+{"cmp_id": 5, "a": "P-DBG-REGALLOC", "b": "P-RENUMBER", "relationship": "supersedes", "note": "the raw regalloc dump is data; the renumbering analysis turned it into the R-VREG-BLOCKS rule"}
+{"cmp_id": 6, "a": "P-DEGREE", "b": "P-DBG-REGALLOC", "relationship": "contrasts-with", "note": "degree-priority (naive) vs vreg-index priority (actual): the degree model is FALSIFIED by the regalloc dump"}
+{"cmp_id": 7, "a": "P-RELOC", "b": "P-CAPSTONE", "relationship": "complements", "note": "relocs show symbol references; capstone shows register operands; together they bound the residual to registers+one block"}
+{"cmp_id": 8, "a": "P-OBJDIFF", "b": "P-CAPSTONE", "relationship": "complements", "note": "objdiff = the score; capstone = the human-readable diff; the score alone hides which registers differ"}
+{"cmp_id": 9, "a": "P-DTK", "b": "P-DOL-DIFF-REMAP", "relationship": "subsumes", "note": "dtk is the toolkit; the remap tool is a specific fix built on its dol diff output"}
+{"cmp_id": 10, "a": "P-PERMUTER", "b": "P-ENGINE-TS", "relationship": "complements", "note": "both search source space; the permuter is C-only and could not run here, the AST engine handled C++ but was weaker at breadth"}
+{"cmp_id": 11, "a": "P-SYNC-DOLDECOMP", "b": "P-KB", "relationship": "complements", "note": "upstream code/PRs vs the knowledge base; both are dissemination routes"}
+{"cmp_id": 12, "a": "P-SWARM", "b": "P-DB", "relationship": "complements", "note": "the swarm produced the data; the DB made it queryable; neither alone is enough"}
+{"cmp_id": 13, "a": "P-DB", "b": "P-TOOLS5", "relationship": "complements", "note": "the DB is the substrate; the 5 tools consume it (analytics/graph/retrieval/solver/ETL)"}
+{"cmp_id": 14, "a": "P-TOOLS5", "b": "P-PROOF-NOPATH", "relationship": "subsumes", "note": "the graph tool P-PROOF-NOPATH is one of the five paradigms"}
+{"cmp_id": 15, "a": "P-PROOF-NOPATH", "b": "P-PROOF-UNSAT", "relationship": "complements", "note": "empirical (graph reachability) vs deductive (z3) proofs of the same unreachability; independent, agreeing"}
+{"cmp_id": 16, "a": "P-PROOF-UNSAT", "b": "P-PROOF-UNSAT-EXT", "relationship": "supersedes", "note": "the extended model adds the structural slots and closes the pool-as-local escape the basic model left open"}
+{"cmp_id": 17, "a": "P-PROOF-INVARIANCE", "b": "P-PROOF-UNSAT", "relationship": "complements", "note": "measurement across the whole tool space vs a formal model; both bound the ceiling at 93.4368"}
+{"cmp_id": 18, "a": "P-AUTOLOOP", "b": "P-TOOLS5", "relationship": "subsumes", "note": "autoloop chains the five tools into a self-driving loop"}
+{"cmp_id": 19, "a": "P-SWARM", "b": "P-AUTOLOOP", "relationship": "contrasts-with", "note": "human-in-the-loop parallel agents (broad, interpretable) vs an automated deterministic loop (narrow, reproducible)"}
+{"cmp_id": 20, "a": "P-DBG-SETUP", "b": "P-DBG-REGALLOC", "relationship": "subsumes", "note": "the setup (row derivation, breakpoint fix) was the prerequisite for any regalloc dump"}
+{"cmp_id": 21, "a": "P-MATCH-LOOP", "b": "P-REGPARTS", "relationship": "subsumes", "note": "enumeration is an automated form of the manual loop (edit->build->score)"}
+{"cmp_id": 22, "a": "P-PR13", "b": "P-PR14", "relationship": "complements", "note": "PR13 = the tooling fix; PR14 = the function itself; to the same repo"}
+{"cmp_id": 23, "a": "P-PR14", "b": "P-PR275", "relationship": "complements", "note": "the function contribution (doldecomp) vs the reusable technique note (universal-modder KB)"}

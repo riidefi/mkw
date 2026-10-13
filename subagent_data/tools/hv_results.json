@@ -1,0 +1,281 @@
+{
+  "base": 93.4368,
+  "best": 93.4368,
+  "best_candidate": "A1-pe-register",
+  "beat": false,
+  "candidates": [
+    {
+      "name": "A1-pe-register",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A2-pe-nonconst",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A3-pe-arrayref",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A4-pe-amp0",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A5-pe-plus0",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A7-v28-register",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A9-v28-u32",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A10-v28-freshtemp",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A11-v28-cast",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A12-v28-adjacent-pe",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A13-pad-before-pe",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A15-v28-decl-then-assign",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A16-pe-typed-char",
+      "score": 93.4368,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "D1-zero-via-pe",
+      "score": 93.4368,
+      "gap": "G3 pool-temp",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "D2-accum-zero-order",
+      "score": 93.4368,
+      "gap": "G3 pool-temp",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "C1-extra-global-before",
+      "score": 93.4368,
+      "gap": "G3 data-order/pool",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "C2-array-after-struct",
+      "score": 93.4368,
+      "gap": "G3 data-order/pool",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "C3-static-array",
+      "score": 93.4368,
+      "gap": "G3 data-order/pool",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "C9-two-extra-globals",
+      "score": 93.4368,
+      "gap": "G3 data-order/pool",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "D3-tu-const-fold",
+      "score": 93.4368,
+      "gap": "G3 pool-temp",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "D5-noop-after-data",
+      "score": 93.4368,
+      "gap": "G3 pool-temp",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "E1-split-pe18-only",
+      "score": 93.4368,
+      "gap": "G6 split(per-expr)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "E2-split-pe17-only",
+      "score": 93.4368,
+      "gap": "G6 split(per-expr)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "E3-split-pe3-only",
+      "score": 93.4368,
+      "gap": "G6 split(per-expr)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "E4-split-v28-at-uses",
+      "score": 93.4368,
+      "gap": "G6 split(per-expr)",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "B2-pe17-symref",
+      "score": 93.1981,
+      "gap": "G2 reloc(per-expr)",
+      "tuple": "r29/r3",
+      "note": ""
+    },
+    {
+      "name": "A6-pe-last-decl",
+      "score": 92.8401,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/r27",
+      "note": ""
+    },
+    {
+      "name": "B3-pe3-symref",
+      "score": 92.7208,
+      "gap": "G2 reloc(per-expr)",
+      "tuple": "r29/r3",
+      "note": ""
+    },
+    {
+      "name": "B1-pe18-symref",
+      "score": 92.1241,
+      "gap": "G2 reloc(per-expr)",
+      "tuple": "r29/r4",
+      "note": ""
+    },
+    {
+      "name": "C4-name-pool",
+      "score": 91.2888,
+      "gap": "G3 data-order/pool",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "C8-pool-before-array",
+      "score": 91.2888,
+      "gap": "G3 data-order/pool",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "D4-name-zero",
+      "score": 91.2888,
+      "gap": "G3 pool-temp",
+      "tuple": "r29/r28",
+      "note": ""
+    },
+    {
+      "name": "A8-v28-bool",
+      "score": 90.4535,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r30/r29",
+      "note": ""
+    },
+    {
+      "name": "E5-v28-bool-plus-pad",
+      "score": 90.4535,
+      "gap": "G6 split(per-expr)",
+      "tuple": "r30/r29",
+      "note": ""
+    },
+    {
+      "name": "B4-all-pe-reads-symref",
+      "score": 64.6778,
+      "gap": "G2 reloc(per-expr)",
+      "tuple": "r29/r3",
+      "note": ""
+    },
+    {
+      "name": "A14-pe-static",
+      "score": 63.7232,
+      "gap": "G1 renumber(per-var)",
+      "tuple": "r29/None",
+      "note": ""
+    },
+    {
+      "name": "C5-array-as-s32",
+      "score": null,
+      "gap": "G3 data-order/pool",
+      "tuple": "None/None",
+      "note": "Errors caused tool to abort."
+    },
+    {
+      "name": "C6-array-as-u32",
+      "score": null,
+      "gap": "G3 data-order/pool",
+      "tuple": "None/None",
+      "note": "Errors caused tool to abort."
+    },
+    {
+      "name": "C7-const-array",
+      "score": null,
+      "gap": "G3 data-order/pool",
+      "tuple": "None/None",
+      "note": "Errors caused tool to abort."
+    }
+  ]
+}
