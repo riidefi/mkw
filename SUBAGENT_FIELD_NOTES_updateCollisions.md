@@ -335,6 +335,21 @@ Target **838** vs ours **834**; of 71 differing sites ~40 are branch displacemen
 
 Net: Kinoko closes nothing; the `pe`/`var_r28` swap and the `clrlwi` hoist are frontend-canonicalised in `0x4201_127` — the only route left is the MWCC frontend vreg path (or an asm/runtime patch). Rows merged (`agents` L1, `findings` ×7).
 
+## Compiler-patch route (round CC — x86 RE of `mwcceppc.exe`)
+The user asked to patch the compiler's frontend so a **clean-C** build emits the retail colouring (no asm, no source hack). Two agents reverse-engineered the 4.17 MB x86 PE (it ships a CodeView symtab, `NB11` / 5708 names — so it is far from opaque), and I ran a controlled patch experiment on a **copy** of the compiler.
+
+### What the compiler actually does
+- **Vreg numbering** — one monotonic per-class counter `_used_virtual_registers[4]` (RVA `0x358358`, seeded to 32 = the 32 physical GPRs). Declared locals are minted in one early pass (`_CodeGen_Generator` → `0x6D8A0` → `_assign_register_by_type` `0x190CB0` → `_assign_register_to_variable` `0x1B17C0`) walking `_arguments` then `_locals`; the first-declared local gets the highest local number (`pe`=`v69`). Every temp is minted from the **same** counter after `_open_temp_registers` (`0x1B14B0`), so it is necessarily above (`pool`=`v88`). **No constant separates a local base from a temp base** — the split is pure pass ordering.
+- **Colouring** — class 4 = GPR, saved regs 14..31. `_init_target_registers` (`0x191290`) builds the nonvolatile list descending (`r31..r14`) from the threshold table at RVA `0x2db87e`; `_obtain_nonvolatile_register` (`0x1b14f0`) hands them out in processing order via `_colorinstructions`'s retry block (`0x1b43bf..0x1b4446`). `_machine_specific_sort_graph` (`0x18e5d0`) sorts on `node+0x1a`, which is **never written** → the sort is a no-op (order = list order, descending vreg).
+
+### Why no patch works
+- Bumping a local's number is a **no-op** (the next temp mints above it from the same counter) or **OOB memory corruption** (a vreg indexes dense `used`-sized arrays in `_buildinterferencegraph` `0x2386F0` / `_set_vr_reg_flags` `0x6B660`). Deferring the local = the R3-A rematerialisation (64.68%).
+- The colouring-order levers are **global** (class index / target option byte / function pointer) with no per-function gate short of a code-cave, and the global candidates don't reproduce retail anyway.
+- Empirically, flipping the colour tie-break (`0x1b4634` `jne`→`je`) on a compiler copy had **no effect** (93.4368).
+
+This independently reproduces the project's `P-PROOF-UNSAT` / measurement-invariance result from the compiler's own internals. **Both routes are now closed** (asm was declined; the compiler patch is proven infeasible), so the clean-C ceiling stands at **93.4368**. Rows merged (`agents` CC-RE, `findings` ×3).
+
+
 
 
 
