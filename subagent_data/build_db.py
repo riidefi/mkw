@@ -294,6 +294,12 @@ AGENTS = [
      ("S2", "S", "follow-up 3-step: full token sweep + 3 hill-climb restarts", "general (deepseek-flash)", "completed", 98.4487, 0,
       "(1) complete the 15.5k token sweep; (2) steepest-descent byte-distance hill-climb; (3) simulated-annealing restarts; (4) dot-block distance search.",
       "Nothing beat 98.4487 (~45k candidates). 98.4487 is the new plateau; the distance metric proved imperfect (lower-distance variants scored LOWER objdiff)."),
+     ("D4", "D", "RE-RUN SR2 (float/zeroY/spill) at the new 98.4487 base", "general (deepseek-flash)", "completed", 98.6873, 1,
+      "~553 candidates re-running the SR2 dot/sqrt space at the new base.",
+      "WIN 98.6873: dotZY body with named locals (`zb=b, za=a; za.y=0; zb.y=0; dot(za,zb)`) flips the zeroY temp-copy order to retail."),
+     ("D", "D", "RE-RUN 10 attempted techniques at the 98.4487 base (D1-D10)", "general (deepseek-flash)", "completed", 98.6873, 1,
+      "D1 equivalence-swap dot region, D2 sub-address dot temps, D3 FPR interference, D4 SR2 relaunch, D5 Y1 relaunch, D6 V2 relaunch, D7 updateWipe relaunch, D8 flag/pragma x dot-shape, D9 differential oracle, D10 PCode search.",
+      "D4 WON (98.6873); the other 9 plateaued at 98.4487. Lesson: RE-RUNNING an old search at the NEW base works - the SR2 float search failed at 94.39 and won at 98.4487."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -372,6 +378,7 @@ TRIALS = [
     ("U2", "u-dotzy-helper", "structure", "EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20))", "dotZY(ci.wallNrm, sp20) via an inline helper", 97.7327, 97.0167, "r30/r28/r26/r29", 838, "zeroY temps lay out retail order; +0.7160"),
     ("S10", "s10-accessor-swap", "structure", "flags0 = kartState()->field(0); reload &= mask;", "flags0 = kartStateReload()->field(0); kartState() &= mask;", 98.4487, 97.7327, "r30/r28/r26/r29", 838, "fixes the r5/r6 prologue tie FROM SOURCE; +0.7160"),
     ("S1", "s1-token-ne1", "expression", "var_r27 = (flags0 & 0x60) != 0;", "var_r27 = (flags0 & 0x60) != 1;", 98.0930, 97.7327, "r30/r28/r26/r29", 838, "token-level sweep win; does not combine with S10"),
+    ("D4", "d4-dotzy-named-locals", "structure", "dotZY: return EGG::Vector3f::dot(zeroY(a), zeroY(b));", "dotZY: zb=b, za=a; za.y=0; zb.y=0; return EGG::Vector3f::dot(za, zb);", 98.6873, 98.4487, "r30/r28/r26/r29", 838, "flips the zeroY temp-copy order to retail; +0.2386"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -465,6 +472,7 @@ FINDINGS = [
     ("HY", "consequence", "ALL 10 grounded hypotheses (H1-H10) REFUTED; none beat 97.7327 (~2,000 candidates).", "round HY1-HY10; sub1-10."),
     ("S", "result", "SCALE round (10 searches) BROKE the 97.7327 plateau TWICE: S10's byte-distance hill-climb -> 98.4487 by SWAPPING the flags-block accessors (`flags0 = (*pproxy)->kartStateReload()->field(0)` and `(*pproxy)->kartState()->field(0) &= 0xFFFBE39F`), which fixes the r5/r6 prologue colour tie FROM SOURCE (the non-standard compiler patch previously had to force it - and hits the same 98.4487); and S1's token-level sweep -> 98.0930 with `(flags0 & 0x60) != 1` (semantically identical). The two do NOT combine (S1 on the S10 base drops to 98.0930). Key lesson: the residual space was NOT exhausted - hand-picked shapes plateaued, but mechanical token/byte searches found wins in the flags block; ~48k type-matrix + ~13k grammar + ~12.7k edit-pool-cross + ~4k pragma/flags-cross + ~2k block perms found nothing, so the win came specifically from *broad cheap token/byte* search.", "round S1-S10; verified on the real source 98.4487, 838 insns."),
     ("S2", "consequence", "3-STEP follow-up (the productive levers re-run from 98.4487) found NOTHING: (1) the FULL 15,505-token single-edit sweep -> 0 wins, 2,234 ties; (2) a ~14,600-eval steepest-descent byte-distance hill-climb (1,016-lever library); (3) a ~15,000-eval simulated-annealing search (24 anneals, 7 seeds, accessor-swap-biased); (4) a dot/sqrt-block distance search. 98.4487 is the new plateau. IMPORTANT: the distance metric is imperfect - T4 found variants with LOWER distance but LOWER objdiff (dist=22 @ 97.49, dist=32 @ 97.73 vs base dist=36 @ 98.45), so distance-guided search can be misled once the schedule/FPR clusters dominate. Cumulative since the round started: ~150k+ -> 98.4487.", "round S2 follow-up; sub1-4."),
+    ("D", "result", "Round D (RE-RUNNING 10 attempted techniques at the new 98.4487 base) found ONE win: **D4 -> 98.6873**. The edit rewrites the `dotZY` helper body with NAMED LOCALS (`EGG::Vector3f zb = b, za = a; za.y = 0.0f; zb.y = 0.0f; return EGG::Vector3f::dot(za, zb);`) instead of `return EGG::Vector3f::dot(zeroY(a), zeroY(b));` - declaring `zb` first flips the temporary-copy order to match retail. The other 9 all plateaued at 98.4487 (D1 equivalence-swap dot region, D2 sub-address on dot temps, D3 FPR manufacture, D5 Y1 relaunch, D6 V2 relaunch, D7 updateWipe relaunch, D8 flag/pragma x dot-shape, D9 differential oracle, D10 PCode search). KEY LESSON: the SAME search can fail at one base and win at another - SR2's float/zeroY search plateaued at 94.39 and WON at 98.4487 - so re-running old searches after each new win is productive.", "round D1-D10; verified on the real source 98.6873, 838 insns."),
 ]
 
 
@@ -905,8 +913,10 @@ ARTIFACTS = [
      97.7327, "Inline dotZY boundary -> fixes the zeroY stack-slot order. The current best."),
     ("W5", "winning-source", "artifacts/wins/05_98.4487_accessor_swap.cpp", "S10",
      98.4487, "Swap the flags-block accessors: read flags0 via kartStateReload()->field(0), write the clear-mask via kartState()->field(0). Fixes the r5/r6 prologue tie FROM SOURCE (the compiler patch previously had to force it)."),
+    ("W6", "winning-source", "artifacts/wins/06_98.6873_dotZY_named_locals.cpp", "D4",
+     98.6873, "Rewrite the dotZY body with named locals (`EGG::Vector3f zb = b, za = a; za.y=0; zb.y=0; return dot(za,zb);`) instead of `dot(zeroY(a),zeroY(b))` -> flips the zeroY temp-copy order to retail. Found by re-running the SR2 float search at the 98.4487 base."),
     ("WF", "winning-source", "artifacts/wins/final_KartState.cpp", "-",
-     98.4487, "The authoritative committed src/kart/KartState.cpp at 98.4487 (a snapshot copy)."),
+     98.6873, "The authoritative committed src/kart/KartState.cpp at 98.6873 (a snapshot copy)."),
     ("C1", "compiler-patch", "artifacts/compiler-patch/FINAL_patch.json", "AS5/FPR2",
      99.1647, "The cleanly-gated compiler patch (hook 0x1b4420 + 156-byte cave 0x26c6fa; gate _copts[0x6D] via -pragma report_heap_info on). NON-STANDARD; not landed."),
     ("C2", "compiler-patch", "artifacts/compiler-patch/final_patch.py", "AS1",
