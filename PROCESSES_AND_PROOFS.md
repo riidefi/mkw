@@ -1,5 +1,11 @@
 # Processes & proofs — complete log (Mario Kart Wii `updateCollisions`)
 
+> **STATUS (read first).** This log was written while the function sat at **93.4368%**. It was
+> later taken to **97.7327%** (838/838 instructions) by four source *shapes*, which **falsified**
+> the `no-path` / `UNSAT` / `measurement-invariance` proofs recorded below. The definitive, current
+> account — including the compiler reverse-engineering and every later round — is
+> `SUBAGENT_FIELD_NOTES_updateCollisions.md`. Treat the 93.4368-era numbers/proofs here as history.
+
 Every **process** this project ran and every **proof** it reached, logged whole and then
 compared / contrasted. Machine-readable copies live in `subagent_data/subagents.db`
 (tables `processes`, `comparisons`, `proofs`) + `processes.jsonl` / `comparisons.jsonl`.

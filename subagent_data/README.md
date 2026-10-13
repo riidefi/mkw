@@ -1,9 +1,13 @@
 # subagent_data — structured dataset of the `updateCollisions` subagent runs
 
-Machine-readable record of the 26 agent runs, every discriminative experiment, **every
+Machine-readable record of the ~96 agent runs, every discriminative experiment, **every
 data-harvesting method used across the whole project**, the **tools built over the data**,
-and the **formal proofs** reached. Built for **tooling**, not prose: fixed columns,
+and the **formal results** reached. Built for **tooling**, not prose: fixed columns,
 normalized categories, numeric `score`/`delta`, a comparable `registers` tuple, and **FTS5**.
+
+**Outcome:** `KartState::updateCollisions` went **86.9928 → 97.7327** (838/838 instructions)
+on the stock compiler via four source *shapes*, then plateaued; the last 19 instructions are
+allocator/scheduler-locked (see `../SUBAGENT_FIELD_NOTES_updateCollisions.md`).
 
 ## Files
 | file | what |
@@ -33,7 +37,7 @@ proofs(proof_id, kind, statement, method, evidence)
 processes(process_id, name, category, purpose, steps, tools, result, agents)
 comparisons(cmp_id, a, b, relationship, note)   # relationship: subsumes|supersedes|complements|contrasts-with
 ```
-- See `../PROCESSES_AND_PROOFS.md` for the prose log of all 39 processes + 23 comparisons + 4 proofs.
+- See `../PROCESSES_AND_PROOFS.md` for the prose log of the processes + comparisons + proofs.
 - `trials.category` ∈ {reference, declaration, lifetime-split, coalescing, type, expression,
   structure, loop, flag, tu-context}. `registers` = `"pe/var_r28/proxy/pool"` (`-` unmeasured).
 - `harvest_methods.category` ∈ {measure, disasm, symbols, reloc, data, compiler, permuter,
@@ -51,13 +55,16 @@ comparisons(cmp_id, a, b, relationship, note)   # relationship: subsumes|superse
 | `hypotheses_uc.py` | runner | the retrieval-driven hypothesis test batch |
 
 ## Formal results (table `proofs`)
-- **no-path** (from `regstate_graph.py`): no recorded/newly-tested edit moves the colour state
-  `{pe=r28,var_r28=r30,proxy=r26,pool=r29}` → `{pe=r30,var_r28=r28,…}`; the target node has 0 in-edges.
-- **infeasibility (UNSAT)** (from `colour_solver.py`): `pe=r30` needs `v(pe)>v(pool)`; a local has
-  `v ≤ local_top < v(pool)` (R-VREG-BLOCKS); a split copy folds because `pe` is a rematerializable
-  constant address (R-SPLIT) ⇒ the source-realizable target colouring is **unsatisfiable**.
-- **measurement-invariance**: no compiler (28 builds) / flag (~70 combos) / declaration / type /
-  structure / loop / TU-context edit beats 93.4368.
+- **counterexample(escape) [SUPERSEDES the proofs below]**: the target colour state IS reachable —
+  **93.4368 → 94.3914** with `pe=r30` via a sub-address temp (`p3 = lbl+3; pe = p3-3`) plus
+  declaring `var_r28`/`var_r27` first. The proofs below all *assumed* `pe` stayed a declared local.
+- **no-path [FALSIFIED]**, **infeasibility(UNSAT) [FALSIFIED]**,
+  **measurement-invariance [FALSIFIED]**: each was premise-limited (a declared local `pe`); the
+  sub-address escape makes `pe` a compiler temp. Kept for the record; do not rely on them.
+- **infeasibility(UNSAT, extended/full) [superseded]**: same caveat.
+- The real, surviving result is empirical: the **last 19 instructions** (GPR prologue colour tie +
+  FPR names + dot/sqrt schedule) are allocator/scheduler-locked under `0x4201_127` — ~150k+
+  candidates and a full compiler RE (allocator *and* scheduler) found no source shape.
 
 ## Query examples (SQL)
 ```sql
@@ -89,7 +96,9 @@ SELECT name,vreg,degree,reg,flags FROM regalloc WHERE build_id='base93' ORDER BY
 5. `harvest_methods` + `tools_built` are the catalogue of how this dataset was produced and consumed.
 
 ## Coverage / status
-- `agents` = 26 (25 rounds R1/R2/META/R3/R4 + 1 ETL); base ladder `86.9928 → 89.7375 → 93.4368`.
+- `agents` ≈ 96 across ~22 rounds (R1–R4, META, D, E, F, G, H, I, J, K, L, CC, SH, SR, T, U, V,
+  W, X, Y, Z, AY, AS). Score ladder: `86.9928 → 89.7375 → 93.4368 → 94.3914 → 95.9427 → 97.0167 → 97.7327`.
 - `trials` = representative discriminative set (not all ~150k candidates); full corpus pointers in
   `../SUBAGENT_FIELD_NOTES_updateCollisions.md`.
-- Nothing here is a fakematch; the three `rules` + three `proofs` are the reusable deliverables.
+- Nothing here is a fakematch; the committed source is at **97.7327** with the stock compiler. The
+  non-standard gated-compiler build (99.1647) is deliberately **not** landed.
