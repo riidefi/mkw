@@ -1301,7 +1301,7 @@ def generate_build_ninja(
         n.comment("Check for mismatching symbols")
         n.rule(
             name="dol_diff",
-            command=f"{dtk} -L error dol diff $in",
+            command=f"$python tools/remap_elf_symbols.py {dol_elf_path} {dol_elf_path}.remapped && {dtk} -L error dol diff {config.config_path} {dol_elf_path}.remapped",
             description=f"DIFF {dol_elf_path}",
         )
         n.build(

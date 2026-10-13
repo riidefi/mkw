@@ -56,7 +56,7 @@ static void Decode PROTO_LIST((UINT4*, unsigned char*, unsigned int));
 static void MD5_memcpy PROTO_LIST((POINTER, POINTER, unsigned int));
 static void MD5_memset PROTO_LIST((POINTER, int, unsigned int));
 
-static unsigned char MD5_PADDING[64] = {
+unsigned char MD5_PADDING[64] = {
     0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -313,13 +313,14 @@ static void MD5_memset(POINTER output, int value, unsigned int len) {
      ((char *)output)[i] = (char)value; */
 }
 
+const char lbl_8024C6B8[0x18] = "0123456789abcdef";
+
 inline void MD5Print(unsigned char digest[16], char output[33]) {
-  static const char hex_digits[] = "0123456789abcdef";
   unsigned int i;
 
   for (i = 0; i < 16; i++) {
-    output[i * 2] = hex_digits[digest[i] / 16];
-    output[i * 2 + 1] = hex_digits[digest[i] % 16];
+    output[i * 2] = lbl_8024C6B8[digest[i] / 16];
+    output[i * 2 + 1] = lbl_8024C6B8[digest[i] % 16];
   }
   output[32] = '\0';
 }
