@@ -305,6 +305,19 @@ Net: both refuse; the wall stands at **93.4368**. Rows merged (`agents` I1–I2,
 
 Net: both refuse; the wall stands at **93.4368**. Rows merged (`agents` J1–J2, `findings` ×12).
 
+## External-repo survey, part 4 (round K, 1 agent)
+| repo | what it is | result |
+|---|---|---|
+| `stblr/Hanachan` | stblr's Rust reimplementation of the MKW physics engine (abandoned; its README points to `riidefi/mkw` / `mkw-sp`) | no codegen/MWCC tooling; PAL runtime probes (`rkrd/*.s`) independently pin the Player/PlayerSub10/PlayerSub1c offset map and the collision masks (`0x20e80fff`, `0x2000`, `0x100`, `0x1f`) — confirms semantics, no lever |
+
+The agent also re-derived the wall independently from the objects + `backend-30-after-peephole.txt`: it is a **two-class flip** — target wants `pe` in MWCC's *compiler-temp* class (vreg above the pool) and `var_r28` in the *local* class; ours is inverted (`pe`=local v69→r28, pool=temp v88→r29, boolean temp `v94`→r30). It then ran ~50 targeted edits (decl permutations, `&var_r28`/`volatile`/reference, `const`/`static`/anon-namespace, `?:`/comma/casts, inline at 3 sites, `do{}while(0)`, real-loop LCM triggers, array-size changes) — **all ≤ 93.4368**.
+
+### Hypothesis tested (refuted)
+- **H-K1** — pool the `pe` *address* via a `const` alias object: `extern "C" const f32* const lbl_1_data_3918_addr = lbl_1_data_3918; … pe = (f32*)lbl_1_data_3918_addr;` → **90.9308** (extra load). A `const f32* const` local is byte-identical (**93.4368**); making the array itself `const` moves the symbol (**91.1694** = K1's own 91.17); a `static` address alias is **92.9594**.
+
+Net: H-K1 refuted; the class boundary (local `v69` vs temp `v88`) is **not source-reachable** — the only remaining avenue is patching MWCC's frontend vreg numbering via `mwcc-debugger`.
+
+
 
 
 

@@ -228,6 +228,9 @@ TRIALS = [
     ("J-test", "j2-opt_propagation-off", "flag", "(default passes)", "#pragma opt_propagation off", 83.8902, 93.4368, "-", 834, "hurts"),
     ("J-test", "j2-global_optimizer-off", "flag", "(default passes)", "#pragma global_optimizer off", 49.1803, 93.4368, "-", 834, "hurts"),
     ("J-test", "j2-opt_lifetimes-off", "flag", "(default passes)", "#pragma opt_lifetimes off", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "no effect"),
+    ("K-test", "k1-pooled-alias", "structure", "f32* const pe = lbl_1_data_3918;", "extern const f32* const lbl_1_data_3918_addr = ...; pe=(f32*)addr", 90.9308, 93.4368, "-", 834, "extra load; H-K1 refuted"),
+    ("K-test", "k1-const-ptr", "declaration", "f32* const pe = lbl_1_data_3918;", "const f32* const pe = lbl_1_data_3918;", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "byte-identical"),
+    ("K-test", "k1-const-array", "declaration", "f32 lbl_1_data_3918[4] = ...;", "const f32 lbl_1_data_3918[4] = ...;", 91.1694, 93.4368, "-", 834, "symbol moves to rodata"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -291,6 +294,7 @@ FINDINGS = [
     ("H6-test", "consequence", "H6's lever is REFUTED: making pe a body-level address temp by dropping the local and referencing lbl_1_data_3918 directly rematerialises it to a caller-saved register (64.6778, = the old R3-A result); every form that keeps a local (&lbl_1_data_3918[0], non-const, casts, addrof) is byte-identical to the base (93.4368); volatile regresses to 59.43. No source form changes the pe/var_r28 colouring, so H4's live-range variant collapses into the same wall.", "probe_h6.py: 12 forms; direct/castptr/ptrarith=64.6778, addrof0/nonconst/castc/addrof0cast=93.4368, volatile=59.4272."),
     ("I-test", "consequence", "I1 and I2 hypotheses REFUTED with faithful implementations: I1 (declare pe inside a nested scope opened after the kartStateReload line, so its vreg is issued after those temps) scores 92.8401; I2 (one aggregate `struct Ctx{f32* pe; KartObjectProxy* proxy;} ctx={lbl_1_data_3918,proxy}; Ctx* pctx=&ctx;` with all uses via pctx->) compiles and scores 53.9813 - taking the aggregate's address destroys codegen, exactly as R-SPLIT predicts. Declaring pe later (after proxyF) is 86.40. No form moves the pe/var_r28 colouring.", "probe_i.py (I1 nested block, compiles) + i2build.py/i2score.py (I2 aggregate, compiles) : 92.8401 / 53.9813; probe_h6b.py: 86.3962."),
     ("J-test", "consequence", "J1 and J2 hypotheses REFUTED: J1 (scoped alias of pe at the last use only, to force a memory-reference-rewrite temp with a confined stack home) scores 92.7208; J2 (#pragma opt_* off around updateCollisions) gives opt_common_subs off=57.9572 (identical to -opt nocse), opt_propagation off=83.8902, global_optimizer off=49.1803, and opt_lifetimes/opt_usedef_mem_limit off=93.4368 (pragma accepted, no effect). No lever moves the colouring.", "probe_j.py: J1-scoped-peS=92.7208; J2 pragmas 93.4368/93.4368/83.8902/57.9572/49.1803."),
+    ("K-test", "consequence", "H-K1 (pool the pe ADDRESS via a const alias object) REFUTED: the pooled-alias form scores 90.9308 (extra load), a const pointer-to-const local is byte-identical (93.4368), making the array itself const moves the symbol (91.1694 = K1's own 91.17), a static address alias is 92.9594. Nothing promotes pe into the compiler-temp class.", "probe_k.py: K1-pooled-alias=90.9308, K1-const-ptr=93.4368, K1-const-array=91.1694, K1-static-alias=92.9594."),
 ]
 
 RULES = [
