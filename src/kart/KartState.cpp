@@ -202,8 +202,9 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (94.39%): pe/var_r28 colouring now matches retail (pe=r30 via a
-// sub-address temp; var_r28/var_r27 first-declared). https://decomp.me/scratch/hbr0m
+// nonmatching (95.94%): colouring matches retail (pe=r30 via a sub-address temp)
+// and the playerIdx/gameMode block matches (s8 playerIdx defeats the cast CSE ->
+// 4x clrlwi + cmpwi, 838 insns). https://decomp.me/scratch/hbr0m
 void KartState::updateCollisions() {
   using namespace System;
   bool var_r28;
@@ -378,11 +379,11 @@ void KartState::updateCollisions() {
         }
         if ((var_r0 == 0) && !(proxyF->kartState()->field(4) & 8)) {
           fn_1_809A8(proxy, 1);
-          s32 playerIdx = proxyF->getPlayerIdx();
-          RaceConfig* rc = RaceConfig::spInstance;
+          s8 playerIdx = proxyF->getPlayerIdx();
           RaceManager* rm = RaceManager::spInstance;
+          RaceConfig* rc = RaceConfig::spInstance;
           s32 gameMode = rc->mRaceScenario.mSettings.mGameMode;
-          if (gameMode - 3 == 0) {
+          if (gameMode == 3) {
             s32 battleType = rc->mRaceScenario.mSettings.mBattleType;
             if (battleType == 0) {
               ((void (*)(void*, u8))(*(void***)rm->raceMode)[0x38 / 4])(rm->raceMode, (u8)playerIdx);
