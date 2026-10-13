@@ -417,6 +417,15 @@ static inline f32 dotZY(const EGG::Vector3f& a, const EGG::Vector3f& b) {
 
 **Remaining ~2.3%:** the prologue flags-block `r5`/`r6` colour tie (allocation-robust: survived ~12.4k + 9.8k candidates), the dot-block store/load schedule, and FPR `f5`↔`f2` naming. Progression: **93.4368 → 94.3914 → 95.9427 → 97.0167 → 97.7327**.
 
+## Plateau at 97.7327 (rounds V/W)
+Five further parallel searches — V1/V2/V3 (~22k) and W1/W2 (~4.5k) — found **nothing**. The last **19 mismatched instructions** are allocator/scheduler-locked:
+- **6 × prologue flags-block `r5`/`r6` colour tie** (reload-ptr temp vs `flags0 & 0x60` mask temp) — invariant under inline helpers, named `KartState*` temps, `u32*/u32&` sub-address temps, width flips, statement order, constant algebra;
+- **13 × dot-block store/load schedule + FPR `f5`/`f2` naming** — every eager/`volatile`/helper form either reproduces the base or breaks more than it fixes.
+
+W1 also **corrected a false lead**: the claim that wrapping `C1` as `EGG::Vector3f::dot(v, RKSystem_ey)` "fixes all 13" is an objdiff **index-alignment illusion** (the wrap inserts 4 instructions and shifts slot indices). Keyed by target *address*, it fixes **zero** and breaks 17 — the C1 expression already matches retail.
+
+So **97.7327 is a hard local optimum** for source under MWCC `0x4201_127`; ~60k+ candidates across 7 rounds moved it from 93.4368 to 97.7327 and then stopped. The last 2.27% would need a compiler-allocator/scheduler change, not a source shape.
+
 
 
 
