@@ -293,5 +293,18 @@ Rows: `agents` H1–H6, `findings` ×36 merged into `subagent_data`. Nothing bea
 
 Net: both refuse; the wall stands at **93.4368**. Rows merged (`agents` I1–I2, `findings` ×13).
 
+## External-repo survey, part 3 (round J, 2 agents; `mkw-spc` skipped = H6)
+| repo | what it is | result |
+|---|---|---|
+| `VIPTankz/Wii-RL` | RL harness (ICML'25) driving RMCP01 inside Felk's Dolphin Python fork | no codegen/MWCC content; runtime RAM pointer chains; confirms the RMCP01 MD5 `e7b1ff1fabb0789482ce2cb0661d986e` |
+| `kinnay/Nintendo-File-Formats` | mdBook of modern (3DS/WiiU/Switch) runtime formats | no DOL/REL/symbol/MWCC/object/content docs — zero build relevance |
+
+### Hypotheses tested with faithful implementations (both refuted)
+- **J1** — scoped alias of `pe` at its last use only (`f32* peS = lbl_1_data_3918; f32** ppeS = &peS; … fabsf(temp_f31 * (*ppeS)[3])`), so the rewrite temp exists but the stack home is confined: **92.7208**.
+- **J2** — `#pragma opt_* off` around `updateCollisions`: `opt_common_subs off` **57.9572** (= the flag sweep's `-opt nocse`), `opt_propagation off` **83.8902**, `global_optimizer off` **49.1803**, `opt_lifetimes`/`opt_usedef_mem_limit off` **93.4368** (pragma accepted, no effect).
+
+Net: both refuse; the wall stands at **93.4368**. Rows merged (`agents` J1–J2, `findings` ×12).
+
+
 
 

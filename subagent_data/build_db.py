@@ -223,6 +223,11 @@ TRIALS = [
     ("I-test", "i1-nested-block", "declaration", "pe declared at top", "pe inside a nested scope opened after the reload line", 92.8401, 93.4368, "r28/r30/r26/r29", 834, "faithful I1; compiles; worse"),
     ("I-test", "i2-pebox", "structure", "f32* const pe = lbl_1_data_3918;", "struct PeBox{f32* v;} peBox + &peBox", 69.2124, 93.4368, "-", 834, "address-take route; destructive"),
     ("I-test", "i2-ctx", "structure", "pe + proxy separate", "struct Ctx{f32* pe; KartObjectProxy* proxy;} ctx + Ctx* pctx=&ctx", 53.9813, 93.4368, "-", 834, "faithful I2; compiles; destroys codegen"),
+    ("J-test", "j1-scoped-peS", "structure", "pe[3] (last use)", "scoped f32* peS + f32** ppeS = &peS around the last use", 92.7208, 93.4368, "r28/r30/r26/r29", 834, "rewrite temp but confined; worse"),
+    ("J-test", "j2-opt_common_subs-off", "flag", "(default passes)", "#pragma opt_common_subs off around the function", 57.9572, 93.4368, "-", 834, "= -opt nocse; hurts"),
+    ("J-test", "j2-opt_propagation-off", "flag", "(default passes)", "#pragma opt_propagation off", 83.8902, 93.4368, "-", 834, "hurts"),
+    ("J-test", "j2-global_optimizer-off", "flag", "(default passes)", "#pragma global_optimizer off", 49.1803, 93.4368, "-", 834, "hurts"),
+    ("J-test", "j2-opt_lifetimes-off", "flag", "(default passes)", "#pragma opt_lifetimes off", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "no effect"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -285,6 +290,7 @@ FINDINGS = [
     ("G10", "result", "Parallel autoloop redo: ~969 chained candidates; private DB grew 123->733 trials / 37->71 findings (~6x); refine_db still reports {target_reachable: false, solver_status: 'unsat'}; nothing beat 93.4368.", "G10 private-sub10 db.sqlite + refine_db."),
     ("H6-test", "consequence", "H6's lever is REFUTED: making pe a body-level address temp by dropping the local and referencing lbl_1_data_3918 directly rematerialises it to a caller-saved register (64.6778, = the old R3-A result); every form that keeps a local (&lbl_1_data_3918[0], non-const, casts, addrof) is byte-identical to the base (93.4368); volatile regresses to 59.43. No source form changes the pe/var_r28 colouring, so H4's live-range variant collapses into the same wall.", "probe_h6.py: 12 forms; direct/castptr/ptrarith=64.6778, addrof0/nonconst/castc/addrof0cast=93.4368, volatile=59.4272."),
     ("I-test", "consequence", "I1 and I2 hypotheses REFUTED with faithful implementations: I1 (declare pe inside a nested scope opened after the kartStateReload line, so its vreg is issued after those temps) scores 92.8401; I2 (one aggregate `struct Ctx{f32* pe; KartObjectProxy* proxy;} ctx={lbl_1_data_3918,proxy}; Ctx* pctx=&ctx;` with all uses via pctx->) compiles and scores 53.9813 - taking the aggregate's address destroys codegen, exactly as R-SPLIT predicts. Declaring pe later (after proxyF) is 86.40. No form moves the pe/var_r28 colouring.", "probe_i.py (I1 nested block, compiles) + i2build.py/i2score.py (I2 aggregate, compiles) : 92.8401 / 53.9813; probe_h6b.py: 86.3962."),
+    ("J-test", "consequence", "J1 and J2 hypotheses REFUTED: J1 (scoped alias of pe at the last use only, to force a memory-reference-rewrite temp with a confined stack home) scores 92.7208; J2 (#pragma opt_* off around updateCollisions) gives opt_common_subs off=57.9572 (identical to -opt nocse), opt_propagation off=83.8902, global_optimizer off=49.1803, and opt_lifetimes/opt_usedef_mem_limit off=93.4368 (pragma accepted, no effect). No lever moves the colouring.", "probe_j.py: J1-scoped-peS=92.7208; J2 pragmas 93.4368/93.4368/83.8902/57.9572/49.1803."),
 ]
 
 RULES = [
