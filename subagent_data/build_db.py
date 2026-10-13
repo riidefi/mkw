@@ -303,6 +303,21 @@ AGENTS = [
      ("E", "E", "10 more collision searches at the 98.6873 base (E1-E10)", "general (deepseek-flash)", "completed", 98.6873, 0,
       "token sweep, hill-climb, SA, dot/zeroY exhaustive, combination search, equivalence/sub-address, FPR push, block reconstruction, grammar+edit-pool, whole-function structural.",
       "NO legitimate win. E1 found a FAKEMATCH (98.6889, behaviour-changing); E2-E10 all plateaued at 98.6873 (~55k candidates)."),
+     ("F1", "F", "token sweep with equivalence gate", "general (deepseek-flash)", "completed", 98.6873, 0,
+      "~34.5k single-token + whole-function edits at 98.6873.",
+      "3 above-base hits, ALL fakematches (changed cmp constant / added cast / changed memory effect) - all rejected by the gate."),
+     ("F2", "F", "byte-distance hill-climb", "general (deepseek-flash)", "completed", 98.6873, 0,
+      "~6.4k evals, steepest descent + restarts (dist 22 at base).",
+      "Nothing beat 98.6873."),
+     ("F3", "F", "named-local generalisation (D4 mechanism)", "general (deepseek-flash)", "cancelled", None, 0,
+      "Generalise the D4 named-local pattern across the function.",
+      "CANCELLED (too long)."),
+     ("F4", "F", "exhaustive dotZY body + call site", "general (deepseek-flash)", "completed", 98.6873, 0,
+      "~1,320 candidates.",
+      "Nothing beat 98.6873; body saturated (all winning forms semantically identical)."),
+     ("F5", "F", "FPR f5/f2 push", "general (deepseek-flash)", "completed", 98.6873, 0,
+      "~2,650 candidates + one fresh FPR dump.",
+      "temp_f5 stays f2; the only shape reaching f5/f4 is a by-value Vector3f copy that costs ~8 insns (91-92%)."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -477,6 +492,7 @@ FINDINGS = [
     ("S2", "consequence", "3-STEP follow-up (the productive levers re-run from 98.4487) found NOTHING: (1) the FULL 15,505-token single-edit sweep -> 0 wins, 2,234 ties; (2) a ~14,600-eval steepest-descent byte-distance hill-climb (1,016-lever library); (3) a ~15,000-eval simulated-annealing search (24 anneals, 7 seeds, accessor-swap-biased); (4) a dot/sqrt-block distance search. 98.4487 is the new plateau. IMPORTANT: the distance metric is imperfect - T4 found variants with LOWER distance but LOWER objdiff (dist=22 @ 97.49, dist=32 @ 97.73 vs base dist=36 @ 98.45), so distance-guided search can be misled once the schedule/FPR clusters dominate. Cumulative since the round started: ~150k+ -> 98.4487.", "round S2 follow-up; sub1-4."),
     ("D", "result", "Round D (RE-RUNNING 10 attempted techniques at the new 98.4487 base) found ONE win: **D4 -> 98.6873**. The edit rewrites the `dotZY` helper body with NAMED LOCALS (`EGG::Vector3f zb = b, za = a; za.y = 0.0f; zb.y = 0.0f; return EGG::Vector3f::dot(za, zb);`) instead of `return EGG::Vector3f::dot(zeroY(a), zeroY(b));` - declaring `zb` first flips the temporary-copy order to match retail. The other 9 all plateaued at 98.4487 (D1 equivalence-swap dot region, D2 sub-address on dot temps, D3 FPR manufacture, D5 Y1 relaunch, D6 V2 relaunch, D7 updateWipe relaunch, D8 flag/pragma x dot-shape, D9 differential oracle, D10 PCode search). KEY LESSON: the SAME search can fail at one base and win at another - SR2's float/zeroY search plateaued at 94.39 and WON at 98.4487 - so re-running old searches after each new win is productive.", "round D1-D10; verified on the real source 98.6873, 838 insns."),
     ("E", "gotcha", "INTEGRITY / FAKEMATCH WARNING. The mechanical token/value sweeps can find FAKEMATCHES - edits that score higher by CHANGING BEHAVIOUR. Round E1's only 'win' (98.6889) changes `if (var_r5 == 0)` to `if (var_r5 == 1)` where `var_r5 = f8 & 0x102` (values {0,0x2,0x100,0x102}, never 1) -> the branch becomes never-taken. The earlier S1 'win' (98.0930) changes `(flags0 & 0x60) != 0` to `!= 1`; at mask==0 those differ (`0!=0`=false vs `0!=1`=true). BOTH ARE SEMANTIC CHANGES and are REJECTED (never landed). RULE: a source edit that changes a comparison's truth value on ANY input is a fakematch, even if it scores higher - the retail bytes encode the true behaviour. The two landed wins ARE semantic-preserving (S10 accessor swap: kartStateReload/kartState return the same object; D4 named locals == the same dot). Always check equivalence, not just the score.", "rounds S1/E1; flag for all future token/value sweeps."),
+    ("F", "consequence", "Round F (10 more searches at 98.6873, ~45k candidates) found NO legitimate win. F1's token sweep produced 3 above-base hits - round E1's cmp-constant fakematch, an added `(s16)` cast, and a changed memory operand - ALL rejected by the mandatory equivalence gate (gate working as intended). F2 (hill-climb ~6.4k, base dist 22), F4 (dotZY body exhaustive ~1.3k - saturated), F5 (FPR ~2.6k - temp_f5 stays f2; the only shape reaching f5/f4 costs ~8 insns) all plateau at 98.6873. F3 cancelled (too long). Conclusion: 98.6873 holds; the residual ~11 instructions are allocator/scheduler-locked (the inlined dotZY stack-slot/interleave order + the FPR f5/f2 pick), invariant under every semantic-preserving source shape tried across rounds S..F.", "rounds F1-F5; sub1-5."),
 ]
 
 
