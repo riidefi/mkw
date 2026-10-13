@@ -317,6 +317,25 @@ The agent also re-derived the wall independently from the objects + `backend-30-
 
 Net: H-K1 refuted; the class boundary (local `v69` vs temp `v88`) is **not source-reachable** — the only remaining avenue is patching MWCC's frontend vreg numbering via `mwcc-debugger`.
 
+## Kinoko deep-dive (round L, 1 agent — structure-focused second pass)
+Kinoko is a clean semantic **reimplementation** and it **omits the playerIdx/gameMode block entirely** (models the wall-collision-start action as `action()->start(UNK_1)`, `source/game/kart/KartState.cc:240-246`), so it supplies nothing for the two structural slots. Every collision-loop construct it does have matches ours, and where Kinoko *rewrites* (e.g. `trickable = trickable || …` always-eval) the **target asm agrees with ours**. Zero regalloc/vreg annotations.
+
+### The residual, restated precisely
+Target **838** vs ours **834**; of 71 differing sites ~40 are branch displacements. Four clusters with **one coupled cause**: our hoisted `clrlwi r4,r3,24` consumes r3→r4, cascading `rc`→r6, `gameMode`→r0, `battleType`→r4, vtable→r5; the target re-truncates per call → `rc`=r4, `gameMode`=r5, `battleType`=r4, raw `playerIdx`=r0, vtable=**r12**.
+
+### Edits measured (E1–E5), all ≤ 93.4368
+| edit | score |
+|---|---|
+| `gameMode == 3` (gives `cmpwi`, but gameMode→r0) | 93.0788 |
+| drop `(u8)` cast at the 4 calls | 93.4368 (byte-identical) |
+| per-branch `u8 p8` locals | 93.4368 (folded) |
+| `u8 playerIdx` (only 4×`clrlwi` form) | 91.7955 (+4 insns) |
+| decl reorder `rc; rm; playerIdx` | 91.6468 |
+| `gameMode==9 \|\| ==10` | 85.9189 |
+
+Net: Kinoko closes nothing; the `pe`/`var_r28` swap and the `clrlwi` hoist are frontend-canonicalised in `0x4201_127` — the only route left is the MWCC frontend vreg path (or an asm/runtime patch). Rows merged (`agents` L1, `findings` ×7).
+
+
 
 
 
