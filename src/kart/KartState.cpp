@@ -13,11 +13,6 @@
 extern EGG::Vector3f lbl_802A4100;
 extern EGG::Vector3f RKSystem_ey;
 
-static inline EGG::Vector3f zeroY(const EGG::Vector3f& v) {
-  EGG::Vector3f r = v;
-  r.y = 0.0f;
-  return r;
-}
 static inline f32 dotZY(const EGG::Vector3f& a, const EGG::Vector3f& b) {
   EGG::Vector3f zb = b, za = a;
   za.y = 0.0f;
