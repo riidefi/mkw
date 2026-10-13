@@ -253,3 +253,28 @@ Logged into `subagent_data/subagents.db` (`agents` G1–G10, `trials` ×7, `find
 `measurement-invariance` proof was widened to include 2,829 splits + the parallel redo. Nothing
 beat **93.4368**; the wall is unchanged.
 
+## External-repo survey (round H, 6 agents)
+Six user-supplied MKW-related repos, one agent each (clone → deep-read → DB rows → hypothesis).
+**None contains a reference `updateCollisions` source** — the blocker stays compiler-internal.
+
+| repo | what it is | result |
+|---|---|---|
+| `aplumafreak500/DisMKW` | pret-style **asm** disassembly of NTSC-U (RMCE01) | StaticR `.text` is one `.incbin`; no KartState/updateCollisions; devkitPPC/as, not MWCC |
+| `SeekyCt/mkw-structures` | pseudo-C++ docs of the **old** `Player*` hierarchy | no `Kart*` symbols, **but** proves `PlayerSub1c == our KartState` (`__ct` `0x805943b4`, `PlayerSub1c::updateCollisions` `0x80594bd4`) and finds **zero** field type/width/offset differences in every collision struct |
+| `riidefi/mkwutil` | 404 — it was the in-repo buildsystem, removed (`a0645548`), superseded by dtk | only unique tool = TU detection; no regalloc content |
+| `snailspeed3/mkw` | the **canonical** MKW decomp (`riidefi`'s account renamed, `fork:false`) | behind our tree; `updateCollisions` still unimplemented (our PR #309) |
+| `mkw-sp/mkw-sp` | runtime source-port (binary patches) | no source; hooks `KartState_calcCollisions+0x7a8` |
+| `GnomedDev/mkw-spc` | runtime source-port (binary patches) | no source; same `+0x7a8` hook |
+
+### New hard facts
+- **External symbol confirmation**: `KartState_calcCollisions = 0x80594bd4` (both `mkw-sp{s,s,c}` `symbols.txt`) = our `updateCollisions` (`__ct` `0x805943b4` + `0x820`); cross-checked on `KartCollide_checkItem`.
+- **Target bytes re-confirmed**: both patches preserve the retail instruction at `+0x7a8` = `lfs f0, 0x24(r31)` → `stfs f0, 0xa8(r20)` (`_a8.x = *(r31+0x24)`, `r20=this`) — byte-identical to our `build/RMCP01/StaticR/asm/kart/KartState.s` at `0x8509C`. Our target asm is right there.
+- `KartState` (0xc0) layout cross-validated by three independent projects.
+- Header nits (not `updateCollisions`): `KartMove.hpp` `+0x10` is `float speedMultiplier` upstream (we keep padding); 3 `KartState.hpp` enum labels disagree.
+
+### Best hypothesis (H6)
+In the target prologue `pe` and the rodata pool are **sibling** `lis+addi` callee-saved temps (`r30`/`r29`) — i.e. retail `pe` was a *frontend address temp created alongside the pool*, **not** a first-declared local (`v69`). The untested lever is a source form that makes MWCC emit `pe` as a body-level loop-invariant address temp instead of hoisting `f32* pe = lbl_1_data_3918;` at the top. NB the naive version (inline the global at each use) was already tested (R3-A → 64.68, rematerialised). H5's "we never read `+0x24`" is a misread — that is `ci.wallNrm.x`.
+
+Rows: `agents` H1–H6, `findings` ×36 merged into `subagent_data`. Nothing beat **93.4368**.
+
+
