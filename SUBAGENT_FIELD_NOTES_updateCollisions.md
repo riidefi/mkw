@@ -287,9 +287,9 @@ Rows: `agents` H1–H6, `findings` ×36 merged into `subagent_data`. Nothing bea
 - Kinoko `Status.hh`: our clear masks are all correct (`0xFFFBE39F`={5,6,10,11,12,18}, `0xFFFF7FFF`={15}, `~0x880`={103,107}); labels to fix — bit3=`DriftManual` (we: `HOPPING`), bit12=`AllWheelsCollision`, bit15=`AirtimeOver20` (we: `ALL_WHEELS_COLLISION`), bit19=`Hop` (we: `AUTO_DRIFT`), bit28=`DriftAuto` (we: `IN_BULLET`), bit32=`InAction` (we: `HIT_ITEM_OR_OBJ`). Player-type band also off-by-one.
 - Kinoko's own regalloc dump reaches the target shape via anonymous backend temps (`r98→r30`, `r145→r31` above the float pool `r88→r29`).
 
-### Hypotheses tested (both refuted)
-- **I1** (scope-late `pe` decl, so its vreg is issued after the reload temps): after the reload line → **92.84**; after `proxyF` → **86.40**. Worse.
-- **I2** (aggregate `pe`+`proxy`, take `&ctx`): `struct PeBox{f32* v;} peBox = {…}; PeBox* peb = &peBox;` → **69.21** — taking `pe`'s address is destructive, exactly as `R-SPLIT` predicts.
+### Hypotheses tested, faithfully implemented (both refuted)
+- **I1** — declare `pe` inside a nested scope opened *after* the `kartStateReload` line (so its vreg is issued after those temps): compiles, **92.8401**. Declaring it after `proxyF` instead: **86.40**.
+- **I2** — one aggregate `struct Ctx{f32* pe; KartObjectProxy* proxy;} ctx = {lbl_1_data_3918, proxy}; Ctx* pctx = &ctx;` with every use via `pctx->`: compiles, **53.9813** — taking the aggregate's address destroys codegen, exactly as `R-SPLIT` predicts.
 
 Net: both refuse; the wall stands at **93.4368**. Rows merged (`agents` I1–I2, `findings` ×13).
 

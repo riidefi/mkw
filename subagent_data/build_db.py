@@ -220,7 +220,9 @@ TRIALS = [
     ("H6-test", "h6-pe-direct", "structure", "f32* const pe = lbl_1_data_3918;", "reference lbl_1_data_3918 directly (no local)", 64.6778, 93.4368, "r4/r30/r26/-", 834, "rematerialised to caller-saved; H6 refuted"),
     ("H6-test", "h6-pe-addrof0", "declaration", "f32* const pe = lbl_1_data_3918;", "f32* const pe = &lbl_1_data_3918[0];", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "byte-identical"),
     ("I-test", "i1-late-after-reload", "declaration", "pe declared at top", "pe declared after the kartStateReload line", 92.8401, 93.4368, "r28/r30/r26/r29", 834, "worse (I1 refuted)"),
+    ("I-test", "i1-nested-block", "declaration", "pe declared at top", "pe inside a nested scope opened after the reload line", 92.8401, 93.4368, "r28/r30/r26/r29", 834, "faithful I1; compiles; worse"),
     ("I-test", "i2-pebox", "structure", "f32* const pe = lbl_1_data_3918;", "struct PeBox{f32* v;} peBox + &peBox", 69.2124, 93.4368, "-", 834, "address-take route; destructive"),
+    ("I-test", "i2-ctx", "structure", "pe + proxy separate", "struct Ctx{f32* pe; KartObjectProxy* proxy;} ctx + Ctx* pctx=&ctx", 53.9813, 93.4368, "-", 834, "faithful I2; compiles; destroys codegen"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -282,7 +284,7 @@ FINDINGS = [
     ("G6", "result", "Exhaustive lifetime-split enumeration (2,829 combos: every long-lived value x every statement boundary, plus merge/reverse variants) recolours nothing; every split folds or ties. Consistent with R-SPLIT (pe is rematerializable) + R-VREG-BLOCKS (pe pinned below the pool).", "G6 private-sub6 exhaustive enumeration."),
     ("G10", "result", "Parallel autoloop redo: ~969 chained candidates; private DB grew 123->733 trials / 37->71 findings (~6x); refine_db still reports {target_reachable: false, solver_status: 'unsat'}; nothing beat 93.4368.", "G10 private-sub10 db.sqlite + refine_db."),
     ("H6-test", "consequence", "H6's lever is REFUTED: making pe a body-level address temp by dropping the local and referencing lbl_1_data_3918 directly rematerialises it to a caller-saved register (64.6778, = the old R3-A result); every form that keeps a local (&lbl_1_data_3918[0], non-const, casts, addrof) is byte-identical to the base (93.4368); volatile regresses to 59.43. No source form changes the pe/var_r28 colouring, so H4's live-range variant collapses into the same wall.", "probe_h6.py: 12 forms; direct/castptr/ptrarith=64.6778, addrof0/nonconst/castc/addrof0cast=93.4368, volatile=59.4272."),
-    ("I-test", "consequence", "I1 and I2 hypotheses REFUTED: moving pe's declaration later (after the kartStateReload line / after proxyF) scores 92.84/86.40 (worse), and homing pe in a local aggregate and taking its address (I2) scores 69.21 (the known destructive address-take route). No source form moves the pe/var_r28 colouring.", "probe_h6b.py: I1-late-after-reload=92.8401, I1-late-after-proxyF=86.3962, I2-pebox=69.2124."),
+    ("I-test", "consequence", "I1 and I2 hypotheses REFUTED with faithful implementations: I1 (declare pe inside a nested scope opened after the kartStateReload line, so its vreg is issued after those temps) scores 92.8401; I2 (one aggregate `struct Ctx{f32* pe; KartObjectProxy* proxy;} ctx={lbl_1_data_3918,proxy}; Ctx* pctx=&ctx;` with all uses via pctx->) compiles and scores 53.9813 - taking the aggregate's address destroys codegen, exactly as R-SPLIT predicts. Declaring pe later (after proxyF) is 86.40. No form moves the pe/var_r28 colouring.", "probe_i.py (I1 nested block, compiles) + i2build.py/i2score.py (I2 aggregate, compiles) : 92.8401 / 53.9813; probe_h6b.py: 86.3962."),
 ]
 
 RULES = [
