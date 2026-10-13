@@ -371,6 +371,25 @@ A fresh **structural** shape search (leaf edits were exhausted). Three shape cla
 
 **This falsifies the project's `no-path` / `UNSAT` / `measurement-invariance` proofs** — every one assumed `pe` stayed a declared local (`R-VREG-BLOCKS`); the sub-address escape makes `pe` a temp. The remaining residual (~5.6%) is now purely the structural slots (the `gameMode`/`playerIdx` `clrlwi` hoist, the `sp20` schedule, branch displacements). This is the one axis worth attacking next.
 
+## Residual-structure search, seeded from 94.3914 (round SR)
+Three parallel searches. SR2 (float/zeroY/spill, ~2.2k) and SR3 (generalise the sub-address trick + combos, ~18.5k) found nothing — both confirmed hard plateaus. **SR1 (the `playerIdx`/`gameMode` block, ~3.6k) found a second win: 94.3914 → 95.9427** (committed `5127521`).
+
+**The winning edit:**
+```diff
+           fn_1_809A8(proxy, 1);
+-          s32 playerIdx = proxyF->getPlayerIdx();
++          s8 playerIdx = proxyF->getPlayerIdx();
++          RaceManager* rm = RaceManager::spInstance;
+           RaceConfig* rc = RaceConfig::spInstance;
+-          RaceManager* rm = RaceManager::spInstance;
+           s32 gameMode = rc->mRaceScenario.mSettings.mGameMode;
+-          if (gameMode - 3 == 0) {
++          if (gameMode == 3) {
+```
+**Why `s8` works where every `s32` spelling failed:** a signed-char local forces MWCC to keep a sign-extension at each conversion, so the `(u8)` truncation can no longer be hoisted/CSE'd into a single `clrlwi` — reproducing retail's **4× `clrlwi r4,r0,24`** with the raw `playerIdx` in `r0`, `cmpwi r5,3`, and `rc`→r4. Instruction count is now **838 = target**, colouring still `pe=r30`/`pool=r29`/`var_r28=r28`. (It costs `extsb r0,r3` where retail has `mr r0,r3`.)
+
+**Residual (~4%) is now two diffs:** that `extsb`-vs-`mr`, and the vtable temp (`lwz r5,0(r3); lwz r12,0x38(r5)` vs retail `lwz r12,0(r3); lwz r12,0x38(r12)`).
+
 
 
 

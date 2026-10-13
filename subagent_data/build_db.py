@@ -180,6 +180,15 @@ AGENTS = [
      ("SH3", "SH", "new source shapes: control-flow/loop/block", "general (deepseek-flash)", "completed", 93.4368, 0,
       "~13,400 candidates: loop forms, nesting/reordering, pragmas.",
       "Nothing beat 93.4368."),
+     ("SR1", "SR", "residual structure: playerIdx/gameMode block", "general (deepseek-flash)", "completed", 95.9427, 1,
+      "~3,600 candidates on the gameMode/playerIdx block, seeded from 94.3914.",
+      "95.9427: s8 playerIdx defeats the cast CSE -> 4x clrlwi + cmpwi + 838 insns (target); + rm before rc."),
+     ("SR2", "SR", "residual structure: float/zeroY/spill block", "general (deepseek-flash)", "completed", 94.3914, 0,
+      "~2,238 candidates on zeroY/dot/sqrt/spill.",
+      "Nothing beat 94.3914."),
+     ("SR3", "SR", "residual structure: generalize the winner + combos", "general (deepseek-flash)", "completed", 94.3914, 0,
+      "~18,500 candidates generalizing the sub-address trick + combos.",
+      "Nothing beat 94.3914."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -251,6 +260,8 @@ TRIALS = [
     ("L1", "l1-else-if-eq", "expression", "!(gameMode!=9 && gameMode!=10)", "gameMode==9 || gameMode==10", 85.9189, 93.4368, "-", 834, "keep the !(...) form"),
     ("COMBO", "combo-neutral-sweep", "combination", "6 neutral primitives", "all 63 subsets", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "no subset beats the base; neutral edits are confluent"),
     ("SH2", "sh-subaddr-temp", "declaration", "f32* const pe = lbl_1_data_3918; (first local)", "var_r28/var_r27 before pe + pe = (lbl+3)-3", 94.3914, 93.4368, "r30/r28/r26/r29", 834, "BREAKTHROUGH: pe=r30 (target) via sub-address temp; +0.9546"),
+    ("SR1", "sr-s8-pidx", "type", "s32 playerIdx = proxyF->getPlayerIdx();", "s8 playerIdx = proxyF->getPlayerIdx();", 95.9427, 94.3914, "r30/r28/r26/r29", 838, "4x clrlwi + cmpwi + 838 insns; colouring kept; +1.5513"),
+    ("SR1", "sr-rm-before-rc", "declaration", "rc; rm", "rm; rc", 95.9427, 94.3914, "r30/r28/r26/r29", 838, "required with s8"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -323,6 +334,10 @@ FINDINGS = [
     ("COMBO", "consequence", "User hypothesis (combine individually-neutral edits) tested exhaustively: all 63 subsets of 6 distinct neutral primitives (pe = &lbl_1_data_3918[0], drop (u8) casts, #pragma opt_lifetimes off, #pragma opt_usedef_mem_limit off, pe-split at pe[3], gameMode == 3) were compiled. Every subset WITHOUT the gameMode edit = 93.4368 (byte-neutral); every subset WITH it = 93.0788. No combination beats the base. Theoretical reason: if compile(E(S))==compile(S) the frontend has already reduced E(S) to the same IR, so neutral edits are confluent and cannot compose to a change.", "combo_neutral.py (63 combos + baseline) against the same SB baseline; consistent with the 72 already-recorded neutral/combination trials."),
     ("SH2", "result", "BREAKTHROUGH 93.4368 -> 94.3914 (+0.95): the pe/var_r28 colouring now MATCHES retail exactly (pe=r30, pool=r29, var_r28=r28, var_r27=r27; target was pe=r30/var_r28=r28). Winning shape: declare var_r28/var_r27 BEFORE pe (so they are the first-declared locals and mint the high local vregs -> r28/r27), and derive the data address through a sub-address temp `f32* const p3 = lbl_1_data_3918 + 3; f32* const pe = p3 - 3;`, assigning var_r28/var_r27 from flags0 AFTER their declarations.", "sub7/best_94_3914.cpp; verified on the real source: objdiff 94.3914; prologue lis r30 (pe), lis r29 (pool), rlwinm r28 (var_r28)."),
     ("SH2", "mechanism", "Why the sub-address works: `p3 = lbl + 3; pe = p3 - 3` keeps ONE live web (no rematerialisation) while making `pe` a compiler-generated TEMP rather than a declared local, so it is numbered above the rodata pool and out-ranks it for r30. This is precisely the escape the compiler RE (CC) and the no-path/UNSAT proofs had ruled out — they all assumed `pe` stayed a declared local (R-VREG-BLOCKS). Declaring var_r28/var_r27 first additionally re-numbers the locals so var_r28 lands on r28.", "sub7 mechanism + CC-RE counterexample; the 'locals are always below temps' premise was breakable by making pe not a local."),
+    ("SR1", "result", "SECOND WIN 94.3914 -> 95.9427 (+1.55): `s8 playerIdx` (signed char, was s32) prevents the frontend CSE of the (u8) cast, so MWCC emits the retail **4x `clrlwi r4,r0,24` per call** with the raw playerIdx in r0, uses **`cmpwi r5,3`**, frees r4 for RaceConfig*, and reaches **838 instructions (= target)** while KEEPING the pe=r30 colouring. Also: declare `RaceManager* rm` before `RaceConfig* rc`.", "sub6/best_7_s8_pirmrcgm.cpp; real-source objdiff 95.9427, 838 insns, lis r30=pe."),
+    ("SR1", "mechanism", "Why s8 works where every s32 spelling failed: forcing a signed-char local makes MWCC keep a sign-extension at each conversion, so the (u8) truncation cannot be hoisted/CSE'd into one `clrlwi` — reproducing retail's per-call truncations. (It costs `extsb r0,r3` where retail has `mr r0,r3`.) This is the first time the frontend CSE was defeated from source.", "sub6 type sweep ~2,600 candidates; only s8/char forms change the clrlwi count."),
+    ("SR2", "consequence", "The float/zeroY/spill block is unreachable from the probed source space: no expression/temporary/reference/ctor/paren/cast/decl reordering produces the retail signature (wallNrm->sp8, sp20->sp14 with sp20 evaluated first); the 'first-evaluated temp gets the lower slot' coupling held in every form tried. Best stayed 94.3914.", "sub7 ~2,238 candidates."),
+    ("SR3", "consequence", "Generalizing the sub-address trick is score-neutral: p3 offsets 1-32, pe distances 0-32, derivation chains (len 1-9), alternate bases/casts, and the temp-class pattern on proxy/proxyF/flags0/collide/hgp/kdyn/rc/rm/playerIdx/gameMode/battleType all fold back to the same materialised addresses (94.3914). The residual is one coupled cascade.", "sub8 ~18,500 candidates."),
 ]
 
 RULES = [
