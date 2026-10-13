@@ -18,6 +18,10 @@ static inline EGG::Vector3f zeroY(const EGG::Vector3f& v) {
   r.y = 0.0f;
   return r;
 }
+static inline f32 dotZY(const EGG::Vector3f& a, const EGG::Vector3f& b) {
+  return EGG::Vector3f::dot(zeroY(a), zeroY(b));
+}
+
 extern "C" void* lbl_1_bss_4218;
 extern "C" f32 lbl_1_data_3918[4] = {0.02f, 0.002f, 0.96f, 0.02f};
 
@@ -202,9 +206,8 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (97.02%): colouring matches retail (pe=r30 via a sub-address temp);
-// the playerIdx/gameMode block matches (4x clrlwi + cmpwi, 838 insns) and the two
-// vtable dispatch arms use real virtual calls. https://decomp.me/scratch/hbr0m
+// nonmatching (97.73%): colouring + playerIdx/gameMode/vtable blocks match retail;
+// see SUBAGENT_FIELD_NOTES_updateCollisions.md. https://decomp.me/scratch/hbr0m
 struct __KMVT {
   virtual void f0(u8);
   virtual void f1(u8);
@@ -441,7 +444,7 @@ void KartState::updateCollisions() {
           (((RKSystem_ey.z * ci.wallNrm.z) +
             ((RKSystem_ey.x * ci.wallNrm.x) + (RKSystem_ey.y * ci.wallNrm.y))) >
            0.85f) &&
-          ((EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20)) < 0.0f) ||
+          ((dotZY(ci.wallNrm, sp20) < 0.0f) ||
            (proxyF->kartCollide()->_68 >= 1.0f))) {
         ci.wallNrm.y = 0.0f;
         ci.wallNrm.normalise();
