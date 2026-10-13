@@ -195,6 +195,15 @@ AGENTS = [
      ("T2", "T", "final-push: broad fuzz on the winner", "general (deepseek-flash)", "completed", 97.0167, 1,
       "~22,300 candidates fuzzing decls/types/calls.",
       "Independently reached 97.0167 (mangled extern C redecl + fake vtable class)."),
+     ("U1", "U", "final-push: prologue flags block (r5/r6)", "general (deepseek-flash)", "completed", 97.0167, 0,
+      "~12,360 candidates on the flags0/reload block.",
+      "Nothing beat 97.0167; the r5/r6 tie is allocation-robust."),
+     ("U2", "U", "final-push: float/zeroY/spill (inline boundary)", "general (deepseek-flash)", "completed", 97.7327, 1,
+      "Rewrote the zeroY dot via an inline helper.",
+      "97.7327: inline dotZY helper fixes the two zeroY temps' stack-slot order."),
+     ("U3", "U", "final-push: generalize winners + fuzz", "general (deepseek-flash)", "completed", 97.0167, 0,
+      "~9,800 candidates generalizing all three winners.",
+      "Nothing beat 97.0167."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -270,6 +279,7 @@ TRIALS = [
     ("SR1", "sr-rm-before-rc", "declaration", "rc; rm", "rm; rc", 95.9427, 94.3914, "r30/r28/r26/r29", 838, "required with s8"),
     ("T1", "t-typed-vcall", "structure", "(*(void***)rm->raceMode)[0x38/4]...) call", "((__KMVT*)rm->raceMode)->f12((u8)playerIdx)", 97.0167, 95.9427, "r30/r28/r26/r29", 838, "vtable temp r12; +1.0740"),
     ("T1", "t-u8-pidx", "type", "s8 playerIdx", "u8 playerIdx", 97.0167, 95.9427, "r30/r28/r26/r29", 838, "removes the leftover extsb; keeps 4x clrlwi"),
+    ("U2", "u-dotzy-helper", "structure", "EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20))", "dotZY(ci.wallNrm, sp20) via an inline helper", 97.7327, 97.0167, "r30/r28/r26/r29", 838, "zeroY temps lay out retail order; +0.7160"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -348,6 +358,8 @@ FINDINGS = [
     ("SR3", "consequence", "Generalizing the sub-address trick is score-neutral: p3 offsets 1-32, pe distances 0-32, derivation chains (len 1-9), alternate bases/casts, and the temp-class pattern on proxy/proxyF/flags0/collide/hgp/kdyn/rc/rm/playerIdx/gameMode/battleType all fold back to the same materialised addresses (94.3914). The residual is one coupled cascade.", "sub8 ~18,500 candidates."),
     ("T1", "result", "THIRD WIN 95.9427 -> 97.0167 (+1.07): the two residual diffs were ONE cause — the manual vtable indexing `(*(void***)rm->raceMode)[0x38/4]` lowers to a plain array load using r5, whereas retail's `lwz r12,0(r3); lwz r12,off(r12)` is MWCC's standard VIRTUAL-CALL sequence. Rewriting both arms as real virtual calls (a typed class with the right slots: f12=0x38, f11=0x34) makes the vtable temp r12. Combined with `u8 playerIdx` (drops the leftover extsb while keeping the 4x clrlwi) -> 97.0167, 838 insns.", "sub9/best_97_0167.cpp; real-source objdiff 97.0167, 838 insns."),
     ("T1", "mechanism", "Lever: `*(void***)` vtable indexing allocates a scratch GPR (r5); a real virtual call uses r12. (T2 independently reached the same 97.0167 via an extern \"C\" mangled redecl + a fake vtable class.) Remaining ~3%: r5/r6 swaps in the flags block + sp20/sqrt stack-slot scheduling + FPR naming.", "sub9 + sub10 winners (identical score)."),
+    ("U2", "result", "FOURTH WIN 97.0167 -> 97.7327 (+0.72): wrapping the `EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20))` call in an inline helper `static inline f32 dotZY(const Vector3f& a, const Vector3f& b){ return Vector3f::dot(zeroY(a), zeroY(b)); }` and calling `dotZY(ci.wallNrm, sp20)` changes MWCC's temp allocation so the two by-value `zeroY` results lay out in retail order (wallNrm->0x8, sp20->0x14) instead of swapped — fixing 6 instructions. Verified 97.7327.", "sub9/best_97_7327.cpp; real-source objdiff 97.7327, 838 insns."),
+    ("U1", "consequence", "The prologue flags-block r5/r6 colour tie (retail `lwz r5,4(r5)`/`rlwinm r6,r7` vs ours `lwz r6,4(r5)`/`rlwinm r5,r7`) is allocation-robust: it survived ~12,360 candidates (statement order, named `KartState*` temps, `u32*/u32&` sub-address temps, proxy/proxyF/*pproxy forms, all bool spellings). U3's ~9,800 further candidates reproduced the same. The residual (~2.3%) is a register-colour tie + a dot-block schedule + FPR f5/f2 naming.", "sub8 + sub10 (U1/U3)."),
 ]
 
 RULES = [

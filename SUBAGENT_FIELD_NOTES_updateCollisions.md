@@ -401,6 +401,22 @@ Verified on the real source: objdiff **97.0167**, 838 instructions. (sub10 reach
 
 Progression: **93.4368 → 94.3914 → 95.9427 → 97.0167**.
 
+## Final-push search, seeded from 97.0167 (round U)
+Three searches. U1 (prologue flags block, ~12.4k) and U3 (generalise the winners, ~9.8k) found nothing. **U2 found a fourth win: 97.0167 → 97.7327** (`e09fa9e`).
+
+**The winning edit:**
+```cpp
+static inline f32 dotZY(const EGG::Vector3f& a, const EGG::Vector3f& b) {
+  return EGG::Vector3f::dot(zeroY(a), zeroY(b));
+}
+...
+- ((EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20)) < 0.0f) ||
++ ((dotZY(ci.wallNrm, sp20) < 0.0f) ||
+```
+**Why it works:** the inline boundary changes MWCC's temp allocation so the two by-value `zeroY` results lay out in retail order (`wallNrm`→0x8, `sp20`→0x14) instead of swapped — 6 instructions fixed.
+
+**Remaining ~2.3%:** the prologue flags-block `r5`/`r6` colour tie (allocation-robust: survived ~12.4k + 9.8k candidates), the dot-block store/load schedule, and FPR `f5`↔`f2` naming. Progression: **93.4368 → 94.3914 → 95.9427 → 97.0167 → 97.7327**.
+
 
 
 
