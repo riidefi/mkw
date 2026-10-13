@@ -390,6 +390,17 @@ Three parallel searches. SR2 (float/zeroY/spill, ~2.2k) and SR3 (generalise the 
 
 **Residual (~4%) is now two diffs:** that `extsb`-vs-`mr`, and the vtable temp (`lwz r5,0(r3); lwz r12,0x38(r5)` vs retail `lwz r12,0(r3); lwz r12,0x38(r12)`).
 
+## Final-push search, seeded from 95.9427 (round T)
+Two searches (sub9, sub10) independently reached **97.0167** (`5127521`→`6bf31d5`). The two residual diffs were one cause:
+- The manual vtable indexing `(*(void***)rm->raceMode)[0x38 / 4]` lowers to a plain array load using `r5`; retail's `lwz r12,0(r3); lwz r12,off(r12)` is MWCC's **standard virtual-call sequence**. Rewriting both arms as **real virtual calls** (a typed class with `f12`=0x38, `f11`=0x34) makes the vtable temp `r12`.
+- `u8 playerIdx` (was `s8`) removes the leftover `extsb` while keeping the **4× `clrlwi`**.
+
+Verified on the real source: objdiff **97.0167**, 838 instructions. (sub10 reached the same score via an `extern "C"` mangled redecl to change the return type + a fake vtable class.)
+
+**Remaining ~3%:** the `r5`/`r6` swaps in the `flags0`/`var_r28`/`var_r27` block (indices 17-26), the `sp20 = ci.movement; sp20.normalise()` + `RKSystem_ey`/`sqrt` stack-slot schedule (454-504), and FPR naming (`f5`↔`f2`). These resisted the type/decl/`pragma`/`register`/`static`/`volatile`/`zeroY`/`sp20` fuzzing in both searches.
+
+Progression: **93.4368 → 94.3914 → 95.9427 → 97.0167**.
+
 
 
 
