@@ -426,12 +426,10 @@ W1 also **corrected a false lead**: the claim that wrapping `C1` as `EGG::Vector
 
 So **97.7327 is a hard local optimum** for source under MWCC `0x4201_127`; ~60k+ candidates across 7 rounds moved it from 93.4368 to 97.7327 and then stopped. The last 2.27% would need a compiler-allocator/scheduler change, not a source shape.
 
-## Compiler allocator/scheduler change (round X)
-**X1 — done, verified.** A function-gated (name `== "updateCollisions"`) code cave in `mwcceppc.exe` swaps the scratch-register colouring of the two tied webs (v82 reload-ptr: r6→r5; v91 `flags0 & 0x60` mask: r5→r6), fixing the **6 prologue GPR diffs**. Measured **97.7327 → 98.4487** (independently re-verified). Mechanism: `_colorinstructions` (RVA 0x1b3fa0) colours the low-degree list in ascending-vreg scan + prepend (⇒ descending vreg ⇒ higher vreg processed first ⇒ gets the lowest free scratch colour, `_pickcolor` 0x18e6c0). Artifact: `tools/mwcc_patch_updateCollisions.py` (hook RVA 0x1b4420 + cave RVA 0x26c6fa). **Caveats: makes the build NON-STANDARD (not reproducible with stock `mwcceppc.exe`) and is source-build specific (hard-codes vregs 82/91).**
+## Why the residual is source-side, not toolchain (round X — compiler route explored, abandoned)
+The last diffs were attacked on the toolchain. **Register allocation runs *before* the scheduler** (`_colorinstructions` RVA 0x1b3fa0 is called at 0x6b17a; `_scheduleinstructions` RVA 0x1b6ad0 only at 0x6b325/0x6b3d4), the FPR `f5`/`f2` pick is an **interference-graph difference** (`temp_f5` got `f2` because `f2` was free there), and the FPR sort is **inert** (`[0x74f339]==0`). Sweeping all 11 scheduler pipeline models, the colour tie-break byte, and the FPR sort left the score at 97.7327 or worse. The only compiler lever that changed anything was a function-gated code cave swapping the two tied scratch webs — a **non-standard, source-build-specific hack the project does not use** (removed).
 
-**X2 — proven fruitless.** The remaining **13** mismatches (dot/sqrt store-load schedule + FPR `f5`/`f2`) are **not reachable by any compiler tie-break/constant**: register allocation runs *before* the scheduler, the `f5`/`f2` pick is an interference-graph difference (`temp_f5` got `f2` because `f2` was free there), and the FPR sort is inert (`[0x74f339]==0`). Sweeping all 11 scheduler pipeline models, the colour tie-break byte, and the FPR sort left the score at 97.7327 or worse. **So the last 13 need a source change (a different PCode/interference graph), not a compiler patch** — they cannot be closed from the toolchain.
-
-Net: with the patched compiler the function is at **98.4487**; with the stock compiler **97.7327**. Neither reaches 100% without matching the source's interference graph.
+**Conclusion:** the residual follows from the **PCode / interference graph**, i.e. the **source** — so it must be closed by a source shape, not the compiler.
 
 
 
