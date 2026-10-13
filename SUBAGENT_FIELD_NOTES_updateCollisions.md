@@ -5,19 +5,21 @@ Function: `KartState::updateCollisions` in `src/kart/KartState.cpp`.
 Target: `build/RMCP01/StaticR/obj/kart/KartState.o` (`updateCollisions__Q24Kart9KartStateFv`).
 
 ## Result in one line
-`KartState::updateCollisions` = **97.7327%** (838/838 instructions, target size) with the stock
-compiler `Wii/0x4201_127`, up from **86.993%**. Four source *shapes* (not leaf edits) did it:
+`KartState::updateCollisions` = **98.6873%** (838/838 instructions, target size) with the stock
+compiler `Wii/0x4201_127`, up from **86.993%**. Six source *shapes* (not leaf edits) did it:
 1. `pe` via a sub-address temp (`f32* const p3 = lbl+3; f32* const pe = p3-3;`) so `pe` becomes a
    compiler temp and out-ranks the rodata pool → **r30** (94.3914);
 2. `s8`/`u8 playerIdx` → defeats the frontend CSE of the `(u8)` call casts → 4× `clrlwi` + 838 insns (95.9427);
 3. a typed virtual call → the vtable temp becomes **r12** (97.0167);
-4. an inline `dotZY` boundary → fixes the `zeroY` stack-slot order (97.7327).
+4. an inline `dotZY` boundary → fixes the `zeroY` stack-slot order (97.7327);
+5. swapped flags-block accessors (`kartStateReload` for the read / `kartState` for the write) → fixes the r5/r6 tie (98.4487);
+6. a `dotZY` **named-locals** body (`zb=b, za=a; za.y=0; zb.y=0; dot(za,zb)`) → flips the temp-copy order (98.6873).
 
-Score ladder: `86.9928` → `89.7375` → `93.4368` → `94.3914` → `95.9427` → `97.0167` → **`97.7327`**.
-The last **19 instructions** are allocator/scheduler-locked under `0x4201_127` (see the AS / FOCUS
-sections); ~150k+ candidates across ~20 search rounds, plus a full reverse-engineering of the
-compiler's allocator *and* scheduler, found nothing more from source. A (non-standard) cleanly-gated
-compiler patch reaches **99.1647**, but is answer-encoding and is not landed.
+Score ladder: `86.9928` → `89.7375` → `93.4368` → `94.3914` → `95.9427` → `97.0167` → `97.7327` → `98.4487` → **`98.6873`**.
+The last **~11 instructions** are TWO compiler-internal ties: the inlined `dotZY` two-temp
+stack-slot/schedule interleave (8 insns) and the FPR pick `temp_f5`→f2 where retail is `f5` (3 insns).
+A cleanly-gated compiler patch fixes the FPR tie (**99.0453**) but is answer-encoding and is NOT landed.
+**98.6873 is the landable ceiling** (rounds S..CT; see below).
 
 Harness used by every agent (fast, safe — compiles in `%TEMP%`, does not edit the repo):
 ```
@@ -479,26 +481,35 @@ The user asked for dedicated allocator/scheduler agents. Result: **a cleanly-gat
 
 **Net:** `updateCollisions` = **97.7327** (stock compiler) / **99.1647** (cleanly-gated compiler, non-reproducible with the stock toolchain). The last 7 are a list-scheduling tie-break.
 
+## Rounds S..CT — from 97.7327 to 98.6873, then the compiler ties
+### S — scale searches (10 agents, fast harness)
+Two wins. **S10** (a byte-distance hill-climb, found in ~540 evals) **swapped the flags-block accessors** — read `flags0` via `kartStateReload()->field(0)`, write the clear-mask via `kartState()->field(0)` — fixing the `r5`/`r6` prologue tie **from source** → 98.4487. **S1** (token sweep) found `(flags0 & 0x60) != 0` → `!= 1` → 98.0930 — **later judged a FAKEMATCH** (see below). The other 8 plateaued. Lesson: broad cheap token/byte search finds wins hand-picked shapes miss.
+
+### D — re-run old searches at the new base (10 agents)
+**D4** relaunched the old **SR2 float/`zeroY` search** (which had plateaued at 94.39) at the 98.4487 base and **won**: the `dotZY` body with **named locals** (`EGG::Vector3f zb = b, za = a; za.y = 0.0f; zb.y = 0.0f; return EGG::Vector3f::dot(za, zb);`) flips the temporary-copy order to retail → **98.6873**. Key lesson: the same search can fail at one base and win at another — re-run old searches after every new win.
+
+### E/F — more searches, and the FAKEMATCH integrity rule
+Rounds E/F (~100k candidates) found no legitimate win, but surfaced the rule that matters: a token/value sweep can score higher by **changing behaviour**. E1's "98.6889" changes `if (var_r5 == 0)` → `== 1` where `var_r5 = f8 & 0x102` (never 1 → the branch becomes never-taken); S1's "98.0930" changes `(flags0 & 0x60) != 0` → `!= 1` (differs at mask 0). **Both are semantic changes and were rejected.** From then on every agent ran an **equivalence gate**: an edit above the base must be semantically identical, not just higher-scoring. The two landed wins pass it (the accessor swap returns the same object; the named-locals dot is the same dot).
+
+### G — property-reclaim hypotheses (10 agents)
+Each reclaimed a "target property that a regressed shape had hit". All plateaued, with a decisive result: **the base already satisfies the reclaimed properties** — the `playerIdx`/`gameMode` block is **byte-identical to retail** (`cmpwi r5,3`, `rc=r4`, `gameMode=r5`, `battleType=r4`, raw `playerIdx=r0`, vtable=`r12`), and the GPR half of the compiler patch is already reproduced natively.
+
+### CT — compiler ties only (10 agents, on compiler copies)
+Pinned the last ~11 instructions to **two compiler-internal ties** and produced a whole-TU-clean gated fix:
+- **FPR tie:** `temp_f5` (vreg 36) gets `f2` because only `{f0,f1,f3,f4}` are forbidden; retail is `f5`. A function-gated, **node-keyed** colour override at the `_colorinstructions` commit site (hook RVA `0x1b4420` + cave `0x26c6fa`) → **99.0453** (+0.358). No general `_pickcolor`/order/vreg-renumber change is safe (lowest-free, order-independent).
+- **dotZY slot/schedule (8 insns):** the two by-value temp slots are assigned by `_assign_local_memory` (RVA `0x1a6430`, `object+0x48`) and a **model-4 list-scheduler** rotation (`_scheduleinstructions` RVA `0x1b6ad0`, table RVA `0x33dc11`, selector `0x1b6e60`). A slot swap alone **regresses** (98.4487) and no single scheduler entry reproduces the rotation.
+- **Clean composable gate:** `_copts[0x6D]` (VA `0x74F395`) as a **bitmask** via `-pragma "report_heap_info <mask>"` + a function-name check; byte-identical to stock when unset.
+- **No principled option exists:** ~430 option/pragma/flag configurations tested; the toolchain and flags are **proven the original** (12/16 functions + all 4 `.data` already 100%).
+
+Progression: `93.4368 → 94.3914 → 95.9427 → 97.0167 → 97.7327 → 98.4487 → 98.6873` (stock) → `99.0453` (gated compiler patch, not landed).
+
 ## Conclusion / current state
-- **Committed source = 97.7327%** on `sync-doldecomp`, stock compiler `Wii/0x4201_127`, reproducible
-  (`ninja build/RMCP01/src/kart/KartState.o` → objdiff). 838/838 instructions; the four winning shapes
-  are inline in `src/kart/KartState.cpp` (the `__KMVT` typed-virtual-call placeholder, the `p3/pe`
-  sub-address temp, `u8 playerIdx`, and the `dotZY` helper). `Object(NonMatching, "kart/KartState.cpp")`.
-- **Residual = 19 instructions**, all allocator/scheduler-locked: 6 GPR prologue colour tie, 3 FPR
-  names, 10 dot/sqrt schedule. Exhausted: ~150k+ candidates (text/AST/hill-climb, exhaustive splits,
-  decl/type/qualifier permutations, neutral-edit combinations, fine near-miss cross-products, idiom
-  mining, block reconstruction, live-range shaping, macros, asm barriers, self-aliasing, accessor IR,
-  TU perturbation, compile contexts), 28 compilers × ~80 flags, 8 external repos, and a full RE of the
-  compiler's **allocator + scheduler** (rounds CC/AS/SCH). No source shape moves the residual.
-- **Not a compiler-build difference**: retail used `0x4201_127`; re-sweeping every local build on the
-  97.7327 source leaves `0x4201_127` best.
-- **Do not** land the patched/gated compiler (99.1647): it is answer-encoding, unverifiable, and not
-  reproducible with the stock toolchain. It was kept only as instrumentation and then removed.
-- **Data**: `subagent_data/subagents.db` (agents/trials/findings/rules/proofs/…) is the queryable
-  record; the early `no-path`/`UNSAT`/`measurement-invariance` proofs were **falsified** by the
-  sub-address escape and are marked as such.
-- **Honest bottom line**: the source is right (save 19 allocator/scheduler instructions) and this is a
-  hard local optimum for source under `0x4201_127`. Treat it as landed at 97.7327.
+- **Committed source = 98.6873%** on `sync-doldecomp`, stock compiler `Wii/0x4201_127`, reproducible (objdiff). 838/838 instructions; six winning shapes inline in `src/kart/KartState.cpp` (sub-address `p3/pe`, `u8 playerIdx`, `__KMVT` typed vcall, `dotZY` inline boundary, the flags-accessor swap, the `dotZY` named-locals body). `Object(NonMatching, "kart/KartState.cpp")`.
+- **Residual = ~11 instructions = two compiler ties**: the inlined `dotZY` two-temp stack-slot/schedule interleave (8) and the FPR pick `temp_f5`→f2 (retail f5) (3).
+- **Do not land the gated compiler patch (99.0453):** it is answer-encoding, unverifiable, and not reproducible with the stock toolchain — kept only as instrumentation.
+- **No principled toolchain fix:** the residual is a lowest-free interference-graph + list-schedule outcome; retail used the same `0x4201_127`, so it is not a flags/build difference.
+- **Data**: `subagent_data/subagents.db` (agents/trials/findings/rules/proofs/artifacts) + `subagent_data/artifacts/` (`wins/00..06`, the compiler patch, the harness). The early `no-path`/`UNSAT`/`measurement-invariance` proofs were **falsified** by the sub-address escape and are marked as such.
+- **Honest bottom line: 98.6873 is the landable ceiling** — the source is right except for two compiler ties that no source shape and no legitimate toolchain option closes.
 
 
 
