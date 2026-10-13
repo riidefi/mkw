@@ -217,6 +217,8 @@ TRIALS = [
     ("G8", "g8-struct-238", "structure", "u8/volatile playerIdx", "838-insn structural probes", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "structural slots reproduced but colour decoupled (E4)"),
     ("G9", "g9-reloc-identity", "harvest", "target relocs", "our relocs (63/63 identical)", 93.4368, 93.4368, "-", 834, "only +0x10 shift; symbol escape refuted"),
     ("G10", "g10-autoloop-redo", "structure", "expanded pool", "969 candidates (parallel sub10)", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "private DB 123->733 trials; solver UNSAT"),
+    ("H6-test", "h6-pe-direct", "structure", "f32* const pe = lbl_1_data_3918;", "reference lbl_1_data_3918 directly (no local)", 64.6778, 93.4368, "r4/r30/r26/-", 834, "rematerialised to caller-saved; H6 refuted"),
+    ("H6-test", "h6-pe-addrof0", "declaration", "f32* const pe = lbl_1_data_3918;", "f32* const pe = &lbl_1_data_3918[0];", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "byte-identical"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -277,6 +279,7 @@ FINDINGS = [
     ("G9", "result", "updateCollisions relocations are identical (63/63, same type/symbol/addend); the only deviation is a constant +0x10 offset shift from the 4 extra instructions. .rodata/.data byte-identical. The 'target references a different symbol/data object' escape is dead.", "G9 instruction-grain reloc/symbol/section comparison."),
     ("G6", "result", "Exhaustive lifetime-split enumeration (2,829 combos: every long-lived value x every statement boundary, plus merge/reverse variants) recolours nothing; every split folds or ties. Consistent with R-SPLIT (pe is rematerializable) + R-VREG-BLOCKS (pe pinned below the pool).", "G6 private-sub6 exhaustive enumeration."),
     ("G10", "result", "Parallel autoloop redo: ~969 chained candidates; private DB grew 123->733 trials / 37->71 findings (~6x); refine_db still reports {target_reachable: false, solver_status: 'unsat'}; nothing beat 93.4368.", "G10 private-sub10 db.sqlite + refine_db."),
+    ("H6-test", "consequence", "H6's lever is REFUTED: making pe a body-level address temp by dropping the local and referencing lbl_1_data_3918 directly rematerialises it to a caller-saved register (64.6778, = the old R3-A result); every form that keeps a local (&lbl_1_data_3918[0], non-const, casts, addrof) is byte-identical to the base (93.4368); volatile regresses to 59.43. No source form changes the pe/var_r28 colouring, so H4's live-range variant collapses into the same wall.", "probe_h6.py: 12 forms; direct/castptr/ptrarith=64.6778, addrof0/nonconst/castc/addrof0cast=93.4368, volatile=59.4272."),
 ]
 
 RULES = [
