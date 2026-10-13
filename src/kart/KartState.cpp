@@ -202,18 +202,22 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (87.0%): https://decomp.me/scratch/hbr0m
+// nonmatching (94.39%): pe/var_r28 colouring now matches retail (pe=r30 via a
+// sub-address temp; var_r28/var_r27 first-declared). https://decomp.me/scratch/hbr0m
 void KartState::updateCollisions() {
   using namespace System;
-  f32* const pe = lbl_1_data_3918;
+  bool var_r28;
+  bool var_r27;
+  f32* const p3 = lbl_1_data_3918 + 3;
+  f32* const pe = p3 - 3;
   KartObjectProxy* proxy = mProxy;
   KartObjectProxy** pproxy = &proxy;
   HitboxGroup** hgp;
   s32 var_r27_2;
 
   u32 flags0 = (*pproxy)->kartState()->field(0);
-  s32 var_r28 = (flags0 & 0x40000) != 0;
-  bool var_r27 = (flags0 & 0x60) != 0;
+  var_r28 = (flags0 & 0x40000) != 0;
+  var_r27 = (flags0 & 0x60) != 0;
   (*pproxy)->kartStateReload()->field(0) &= 0xFFFBE39F;
   KartObjectProxy* proxyF = proxy;
 
