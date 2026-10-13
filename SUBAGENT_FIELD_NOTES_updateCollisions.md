@@ -461,6 +461,17 @@ None beat 97.7327. Together with rounds SH…Y (four wins from 93.4368, then a h
 
 **Cumulative:** ~150k+ candidates across rounds SH…AY moved `updateCollisions` **93.4368 → 97.7327** (four source shapes) and nothing since. The last 19 instructions are a hard allocator/scheduler outcome under `0x4201_127`.
 
+## Allocator/Scheduler round (AS) — allocation solved, schedule not
+The user asked for dedicated allocator/scheduler agents. Result: **a cleanly-gated compiler patch solves the register allocation** (verified **99.1647**); only a 7-instruction scheduler residual remains.
+- **AS1** — force `v91→r6` so `v82→r5` (the GPR scratch tie) → 98.4487.
+- **AS3** — force the `temp_f5` node `f36→f5` → 98.0907 (found why `f2`: only `{f0,f1,f3,f4}` forbidden ⇒ lowest free).
+- **AS4** — the "graph must change" hypothesis is **falsified** (no missing edge; order reversal → 44.5); combined GPR+FPR remap → 98.8067.
+- **AS5** — built a **clean gate**: `_copts[0x6D]` (VA `0x74F395`) set by `-pragma "report_heap_info on"`, function-scoped via `_gFunction`; re-tested all global candidates — none beats the remap.
+- **FPR2** — force the last FPR web `v132→f3` (cascades to fix both remaining FPR names) → **99.1647** (hook RVA 0x1b4420 + 156-byte cave RVA 0x26c6fa; whole-TU clean; independently re-verified).
+- **SCH** — time-boxed; the **7 remaining** (a load-store schedule rotation + an `fmuls` operand order) are **not** allocator/register-addressable. Alias-predicate levers are dead (forcing `_may_alias` true → 80.7, false → 78.8; forcing the `_nbytes` extra-dependency → unchanged); a fix would need a scheduler-side priority/tie-break cave at RVA `0x1b6ad0`, which was not found.
+
+**Net:** `updateCollisions` = **97.7327** (stock compiler) / **99.1647** (cleanly-gated compiler, non-reproducible with the stock toolchain). The last 7 are a list-scheduling tie-break.
+
 
 
 

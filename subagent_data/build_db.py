@@ -261,6 +261,24 @@ AGENTS = [
      ("AY5", "AY", "fine cross-product of near-miss edits", "general (deepseek-flash)", "completed", 97.7327, 0,
       "~28,000 combos harvested from the DB/probes (pairs->quads).",
       "No interactions; every combo <= 97.7327."),
+     ("AS1", "AS", "allocator: scratch-colour order patch", "general (deepseek-flash)", "completed", 98.4487, 1,
+      "Function-gated cave forcing v91->r6 so v82->r5 (the r5/r6 tie).",
+      "98.4487; whole TU: only updateCollisions changes."),
+     ("AS3", "AS", "allocator: FPR colouring patch", "general (deepseek-flash)", "completed", 98.0907, 1,
+      "Gated cave forcing temp_f5's node f36->f5.",
+      "98.0907; found why f2 was chosen (only {f0,f1,f3,f4} forbidden)."),
+     ("AS4", "AS", "allocator: interference graph RE", "general (deepseek-flash)", "completed", 98.8067, 1,
+      "Prove/falsify the 'graph must change' hypothesis; per-web remap.",
+      "Graph change FALSIFIED (no missing edge; order reversal -> 44.5). Combined GPR+FPR remap -> 98.8067."),
+     ("AS5", "AS", "allocator: clean gate + global retest", "general (deepseek-flash)", "completed", 98.8067, 1,
+      "Build a clean per-function gate; re-test all global candidates under it.",
+      "Clean gate = _copts[0x6D] via -pragma \"report_heap_info on\"; best 98.8067; globals don't beat it."),
+     ("SCH", "AS", "scheduler deep-dive (patched compiler)", "general (deepseek-flash)", "completed", 99.1647, 1,
+      "Time-boxed RE of the load-store schedule rotation.",
+      "No scheduler patch found; alias/model levers proven dead; the 7-insn rotation is a list-scheduling tie-break."),
+     ("FPR2", "AS", "the two remaining FPR names", "general (deepseek-flash)", "completed", 99.1647, 1,
+      "Force the remaining FPR web colours (v132->f3 fixes both names).",
+      "99.1647 (gated); only 7 scheduler instructions remain."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -423,6 +441,8 @@ FINDINGS = [
     ("Y", "consequence", "PLATEAU re-confirmed at 97.7327 after ~34k more source-shape candidates (Y1 dot/sqrt ~2.1k, Y2 prologue ~10.6k, Y3 broad ~21.6k), all inline-boundary/temp-lifetime/interference-graph oriented. New datum: the prologue r5/r6 tie IS an interference-graph artifact and IS movable - but only by materialising the reload pointer (`KartState* volatile rl`), which forces a 2-instruction stack spill (840 insns) and drops to 91.3%. Non-volatile shapes do not flip it. Mechanism-4 inline helpers move the SAVED-register band (r28/r30), not the volatile band; the dot/sqrt schedule + FPR f5/f2 are invariant under every shape tried. Net: ~100k+ candidates across rounds SH..Y moved updateCollisions 93.4368 -> 97.7327 and nothing since; the last 19 instructions are a hard local optimum.", "rounds Y1/Y2/Y3; sub8/9/10."),
     ("Z", "consequence", "All five NEW attack classes plateaued at 97.7327 (~1,900 candidates): Z1 - MWCC inline asm that mentions a register EMITS that instruction (a mismatch), and gcc_extensions clobber/operand constraints are accepted but INERT; `register`/`asm(\"r5\")` are ignored. Z2 - `this`/self aliases coalesce to v32 (byte-identical). Z3 - accessor IR shape is allocation-locked. Z4 - adding float literals shifts the shared pool (lfs offsets, worse); the current layout is already optimal. Z5 - every compile context (-inline/-ipa/-O/pragmas/separate TU/noinline) is identical or worse. Z5 did find that updateCollisions' allocation depends on the preceding EMITTED function `updateWipe` (removing/moving it drops to 97.0167), but the base arrangement is already the high state. Conclusion: the last 19 instructions are not reachable from source under MWCC 0x4201_127.", "round Z1-Z5; sub1-5."),
     ("AY", "consequence", "Five more NEW classes plateaued at 97.7327 (~30k candidates): AY1 idiom-mining from the repo's 100%-matched functions (the residual is an allocator tie, not an idiom gap); AY2 per-cluster reconstruction from the retail asm (exact causes identified - GPR r5/r6 tie, FPR f5/f2 tie, a 2-slot zeroY/dot schedule - but no source shape flips them); AY3 live-range/pressure shaping (~880 junk/dead-value candidates); AY4 macro/preprocessor shapes (collapse to the same token stream; byte-identical); AY5 fine cross-product of ~58-362 harvested near-miss edits (pairs->quads; no interactions). Cumulative: ~150k+ candidates across rounds SH..AY moved updateCollisions 93.4368 -> 97.7327 (four source shapes) and nothing since.", "round AY1-AY5; sub6-10."),
+    ("AS", "result", "ALLOCATOR SOLVED with a cleanly-gated compiler patch -> 99.1647 (verified). Chain: AS1 fixes the GPR scratch tie (v91->r6 forces v82->r5) -> 98.4487; AS3 fixes the FPR temp_f5 pick (node f36->f5) -> 98.0907; AS4 falsifies the 'graph must change' hypothesis (no missing edge; order reversal -> 44.5) and combines GPR+FPR -> 98.8067; AS5 builds a CLEAN gate - `_copts[0x6D]` (VA 0x74F395) set by `-pragma \"report_heap_info on\"`, function-scoped via `_gFunction` 0x751e44 - and FPR2 forces the last FPR web (v132->f3, which cascades to fix both remaining FPR names) -> 99.1647. Hook RVA 0x1b4420 + 156-byte cave RVA 0x26c6fa; whole-TU clean (only updateCollisions changes); independently re-verified. CAVEAT: non-standard compiler (not reproducible with stock mwcceppc.exe).", "rounds AS1/AS3/AS4/AS5/FPR2; verified by vfpr.py (99.1647)."),
+    ("AS", "consequence", "SCHEDULER residual is NOT allocator/register-addressable: the last 7 mismatches (idx ~458-472) are a load-store SCHEDULE rotation + an fmuls operand order. The alias-predicate levers are dead (forcing _may_alias true -> 80.7, false -> 78.8; forcing the _nbytes extra-dependency -> unchanged 97.7327); the 12-model scheduler sweep was already dead. A fix would need a scheduler-side priority/tie-break cave at RVA 0x1b6ad0, gated by the same clean gate - unproven, and the time-boxed SCH agent did not find it. So with the gated compiler the ceiling is 99.1647; 100% needs the schedule, which is a list-scheduling tie-break.", "SCH (time-boxed) + AS/FPR2."),
 ]
 
 
