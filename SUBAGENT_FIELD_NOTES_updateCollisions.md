@@ -431,6 +431,14 @@ The last diffs were attacked on the toolchain. **Register allocation runs *befor
 
 **Conclusion:** the residual follows from the **PCode / interference graph**, i.e. the **source** — so it must be closed by a source shape, not the compiler.
 
+## Source-shape hunt for the last 19 (round Y)
+Three searches (~34k candidates), all inline-boundary / temp-lifetime / interference-graph oriented (Y1 dot/sqrt ~2.1k, Y2 prologue ~10.6k, Y3 broad ~21.6k). **Nothing beat 97.7327.**
+- The prologue `r5`/`r6` tie **is** an interference-graph artifact and **is** movable, but only by materialising the reload pointer (`KartState* volatile rl`), which forces a 2-instruction stack spill (840 insns) and drops to **91.3%**. No non-volatile shape flips it.
+- Inline-helper boundaries move the **saved**-register band (`r28`/`r30`), not the volatile band.
+- The dot/sqrt store-load schedule and FPR `f5`/`f2` naming are invariant under every expression grouping, declaration order, extra temp and helper boundary tried.
+
+Net: ~100k+ candidates across rounds SH..Y moved `updateCollisions` **93.4368 -> 97.7327** (four source shapes) and nothing since. The last 19 instructions are a **hard local optimum** for source under MWCC `0x4201_127`.
+
 
 
 
