@@ -204,6 +204,21 @@ AGENTS = [
      ("U3", "U", "final-push: generalize winners + fuzz", "general (deepseek-flash)", "completed", 97.0167, 0,
       "~9,800 candidates generalizing all three winners.",
       "Nothing beat 97.0167."),
+     ("V1", "V", "final-push: flags block via inline helpers", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~7,260 candidates: inline-helper boundaries around the flags chain.",
+      "Nothing beat 97.7327; r5/r6 tie immutable."),
+     ("V2", "V", "final-push: dot/FPR via inline helpers", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~1,030 candidates on the dot-block schedule + FPR naming.",
+      "Nothing beat 97.7327."),
+     ("V3", "V", "final-push: all four mechanisms + fuzz", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~13,800 candidates combining every known mechanism.",
+      "Nothing beat 97.7327."),
+     ("W1", "W", "compensate the C1 dot-wrap", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~3,400 candidates; reproduce the C1-wrap and compensate its regressions.",
+      "The 'C1-wrap fixes 13' claim was an objdiff index-alignment ILLUSION: it fixes 0 and breaks 17; no gain to compensate."),
+     ("W2", "W", "r5/r6 tie via long-lived temp", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~1,086 candidates: sub-address/type tricks on the reload-ptr + mask webs.",
+      "Nothing beat 97.7327; the distance-cancel trick does not transpose here."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -360,6 +375,8 @@ FINDINGS = [
     ("T1", "mechanism", "Lever: `*(void***)` vtable indexing allocates a scratch GPR (r5); a real virtual call uses r12. (T2 independently reached the same 97.0167 via an extern \"C\" mangled redecl + a fake vtable class.) Remaining ~3%: r5/r6 swaps in the flags block + sp20/sqrt stack-slot scheduling + FPR naming.", "sub9 + sub10 winners (identical score)."),
     ("U2", "result", "FOURTH WIN 97.0167 -> 97.7327 (+0.72): wrapping the `EGG::Vector3f::dot(zeroY(ci.wallNrm), zeroY(sp20))` call in an inline helper `static inline f32 dotZY(const Vector3f& a, const Vector3f& b){ return Vector3f::dot(zeroY(a), zeroY(b)); }` and calling `dotZY(ci.wallNrm, sp20)` changes MWCC's temp allocation so the two by-value `zeroY` results lay out in retail order (wallNrm->0x8, sp20->0x14) instead of swapped — fixing 6 instructions. Verified 97.7327.", "sub9/best_97_7327.cpp; real-source objdiff 97.7327, 838 insns."),
     ("U1", "consequence", "The prologue flags-block r5/r6 colour tie (retail `lwz r5,4(r5)`/`rlwinm r6,r7` vs ours `lwz r6,4(r5)`/`rlwinm r5,r7`) is allocation-robust: it survived ~12,360 candidates (statement order, named `KartState*` temps, `u32*/u32&` sub-address temps, proxy/proxyF/*pproxy forms, all bool spellings). U3's ~9,800 further candidates reproduced the same. The residual (~2.3%) is a register-colour tie + a dot-block schedule + FPR f5/f2 naming.", "sub8 + sub10 (U1/U3)."),
+    ("W1", "consequence", "PLATEAU at 97.7327 (hard local optimum): 5 further parallel searches (V1/V2/V3 ~22k, W1 ~3.4k, W2 ~1.1k) found nothing. The last 19 mismatched instructions are allocator/scheduler artifacts — the prologue flags-block r5/r6 colour tie, the dot-block store/load schedule, and FPR f5/f2 naming — invariant under every source perturbation tried (inline helpers, sub-address temps, type flips, statement/volatile order, constant algebra). ~60k+ candidates across 7 rounds since 93.4368 moved it 93.4368->94.3914->95.9427->97.0167->97.7327 and then stopped.", "rounds SH/SR/T/U/V/W; sub8/9/10."),
+    ("W1", "gotcha", "CORRECTION: the earlier V2 claim that wrapping C1 as `EGG::Vector3f::dot(v, RKSystem_ey)` 'fixes all 13 dot/FPR mismatches' is an objdiff INDEX-ALIGNMENT illusion (the wrap inserts 4 instructions, shifting slot indices). Keyed by target instruction address, the wrap fixes ZERO and breaks 17; the C1 expression already matches retail. Do not pursue it.", "W1 address-keyed diff (sub8/best_sub8_c1wrap_95.2438.cpp)."),
 ]
 
 RULES = [
