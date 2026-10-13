@@ -246,6 +246,21 @@ AGENTS = [
      ("Z5", "Z", "idea: compile-context change", "general (deepseek-flash)", "completed", 97.7327, 0,
       "~560 candidates: -inline/-ipa/-O/pragmas/separate TU/noinline.",
       "All identical or worse; found the allocation depends on the preceding emitted function updateWipe (base is the high state)."),
+     ("AY1", "AY", "idiom mining from matched functions", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "Mirror the author's idioms from the repo's 100%-matched functions.",
+      "Nothing beat 97.7327; the residual is an allocator tie, not an idiom gap."),
+     ("AY2", "AY", "per-block reconstruction from target asm", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "Rebuild each residual cluster from the retail disassembly, then merge.",
+      "Exact cluster causes identified (see finding); nothing beat 97.7327."),
+     ("AY3", "AY", "live-range / pressure shaping", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~880 candidates: junk/dead live-range injection + removal.",
+      "Nothing beat 97.7327; perturbations move the piece only by breaking matches."),
+     ("AY4", "AY", "macro / preprocessor shapes", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~71 candidates: macros for the residual constructs.",
+      "Macro-expanded variants collapse to the same token stream; byte-identical."),
+     ("AY5", "AY", "fine cross-product of near-miss edits", "general (deepseek-flash)", "completed", 97.7327, 0,
+      "~28,000 combos harvested from the DB/probes (pairs->quads).",
+      "No interactions; every combo <= 97.7327."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -407,6 +422,7 @@ FINDINGS = [
     ("X2", "consequence", "The residual is SOURCE-side, not toolchain: register allocation (`_colorinstructions` 0x1b3fa0) runs BEFORE the scheduler (`_scheduleinstructions` 0x1b6ad0, called at 0x6b325/0x6b3d4); the FPR f5/f2 pick is an interference-graph difference (temp_f5 got f2 because f2 was free there); the FPR sort is inert ([0x74f339]==0). Sweeping all 11 scheduler pipeline models, the colour tie-break byte, and the FPR sort left the score at 97.7327 or worse. So the residual (prologue r5/r6 GPR tie + dot/sqrt schedule + f5/f2) must be closed by a SOURCE shape that changes the PCode/interference graph, not the compiler. (A function-gated scratch-reg swap patch was tried and rejected: non-standard, source-build specific, and it does not reach the 13 either.)", "X on a compiler copy (ccpatch2); determinism + pass-order + model-sweep evidence."),
     ("Y", "consequence", "PLATEAU re-confirmed at 97.7327 after ~34k more source-shape candidates (Y1 dot/sqrt ~2.1k, Y2 prologue ~10.6k, Y3 broad ~21.6k), all inline-boundary/temp-lifetime/interference-graph oriented. New datum: the prologue r5/r6 tie IS an interference-graph artifact and IS movable - but only by materialising the reload pointer (`KartState* volatile rl`), which forces a 2-instruction stack spill (840 insns) and drops to 91.3%. Non-volatile shapes do not flip it. Mechanism-4 inline helpers move the SAVED-register band (r28/r30), not the volatile band; the dot/sqrt schedule + FPR f5/f2 are invariant under every shape tried. Net: ~100k+ candidates across rounds SH..Y moved updateCollisions 93.4368 -> 97.7327 and nothing since; the last 19 instructions are a hard local optimum.", "rounds Y1/Y2/Y3; sub8/9/10."),
     ("Z", "consequence", "All five NEW attack classes plateaued at 97.7327 (~1,900 candidates): Z1 - MWCC inline asm that mentions a register EMITS that instruction (a mismatch), and gcc_extensions clobber/operand constraints are accepted but INERT; `register`/`asm(\"r5\")` are ignored. Z2 - `this`/self aliases coalesce to v32 (byte-identical). Z3 - accessor IR shape is allocation-locked. Z4 - adding float literals shifts the shared pool (lfs offsets, worse); the current layout is already optimal. Z5 - every compile context (-inline/-ipa/-O/pragmas/separate TU/noinline) is identical or worse. Z5 did find that updateCollisions' allocation depends on the preceding EMITTED function `updateWipe` (removing/moving it drops to 97.0167), but the base arrangement is already the high state. Conclusion: the last 19 instructions are not reachable from source under MWCC 0x4201_127.", "round Z1-Z5; sub1-5."),
+    ("AY", "consequence", "Five more NEW classes plateaued at 97.7327 (~30k candidates): AY1 idiom-mining from the repo's 100%-matched functions (the residual is an allocator tie, not an idiom gap); AY2 per-cluster reconstruction from the retail asm (exact causes identified - GPR r5/r6 tie, FPR f5/f2 tie, a 2-slot zeroY/dot schedule - but no source shape flips them); AY3 live-range/pressure shaping (~880 junk/dead-value candidates); AY4 macro/preprocessor shapes (collapse to the same token stream; byte-identical); AY5 fine cross-product of ~58-362 harvested near-miss edits (pairs->quads; no interactions). Cumulative: ~150k+ candidates across rounds SH..AY moved updateCollisions 93.4368 -> 97.7327 (four source shapes) and nothing since.", "round AY1-AY5; sub6-10."),
 ]
 
 

@@ -450,6 +450,17 @@ Net: ~100k+ candidates across rounds SH..Y moved `updateCollisions` **93.4368 ->
 
 None beat 97.7327. Together with rounds SH…Y (four wins from 93.4368, then a hard plateau), this closes every attack class tried: text/AST/hill-climb/exhaustive splits, compiler+flags, 8 external repos, compiler internals (allocation *and* scheduling), four shape mechanisms, and now asm barriers / self-aliasing / accessor IR / TU perturbation / compile context. **`updateCollisions` is a hard local optimum at 97.7327.**
 
+## Five more classes (round AY) — all plateaued (~30k candidates)
+| idea | result |
+|---|---|
+| **AY1** idiom mining from 100%-matched functions | residual is an allocator tie, not an idiom gap |
+| **AY2** per-cluster reconstruction from the retail asm | exact causes identified — GPR `r5`/`r6` tie, FPR `f5`/`f2` tie, a 2-slot `zeroY`/dot schedule — but no source shape flips them |
+| **AY3** live-range / pressure shaping (~880) | perturbations move the piece only by breaking matches |
+| **AY4** macro / preprocessor shapes (~71) | macro-expanded forms collapse to the same token stream → byte-identical |
+| **AY5** fine cross-product of ~58-362 near-miss edits (~28k, pairs→quads) | zero interactions; every combo ≤ 97.7327 |
+
+**Cumulative:** ~150k+ candidates across rounds SH…AY moved `updateCollisions` **93.4368 → 97.7327** (four source shapes) and nothing since. The last 19 instructions are a hard allocator/scheduler outcome under `0x4201_127`.
+
 
 
 
