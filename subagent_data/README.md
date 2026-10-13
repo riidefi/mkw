@@ -18,6 +18,7 @@ allocator/scheduler-locked (see `../SUBAGENT_FIELD_NOTES_updateCollisions.md`).
 | `harvest_methods.jsonl` `tools_built.jsonl` `proofs.jsonl` | mirrors |
 | `extra_*.jsonl` | rows appended by tools (merged on rebuild) |
 | `tools/` | the DB-driven tools (see below) |
+| `artifacts/` | the durable artefact collection (winning sources, compiler patch, harness, decomp.me) — see `artifacts/README.md` |
 | `build_db.py` | regenerates everything (merges `extra_*.jsonl`) |
 | `README.md` | this file |
 
@@ -36,6 +37,7 @@ tools_built(tool_id, name, paradigm, path, purpose, key_output)
 proofs(proof_id, kind, statement, method, evidence)
 processes(process_id, name, category, purpose, steps, tools, result, agents)
 comparisons(cmp_id, a, b, relationship, note)   # relationship: subsumes|supersedes|complements|contrasts-with
+artifacts(artifact_id, kind, path, round, score, description)   # the durable files under artifacts/
 ```
 - See `../PROCESSES_AND_PROOFS.md` for the prose log of the processes + comparisons + proofs.
 - `trials.category` ∈ {reference, declaration, lifetime-split, coalescing, type, expression,
@@ -79,6 +81,9 @@ SELECT category,tool,collects,used_for FROM harvest_methods ORDER BY category;
 
 -- the tools + their headline outputs
 SELECT name,paradigm,key_output FROM tools_built;
+
+-- the durable artefact collection (winning sources / compiler patch / harness)
+SELECT artifact_id,kind,score,path FROM artifacts ORDER BY artifact_id;
 
 -- FTS + join
 SELECT t.label,t.score,t.registers FROM fts_trials f JOIN trials t ON t.trial_id=f.rowid

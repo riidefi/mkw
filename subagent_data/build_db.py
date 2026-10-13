@@ -873,6 +873,40 @@ COMPARISONS = [
      "the function contribution (doldecomp) vs the reusable technique note (universal-modder KB)"),
 ]
 
+# ---------------------------------------------------------------- artifacts
+# The durable artefact collection (files under subagent_data/artifacts/).
+# (artifact_id, kind, path, round, score, description)
+ARTIFACTS = [
+    ("W0", "winning-source", "artifacts/wins/00_86.9928_proxyF_split.cpp", "R1",
+     86.9928, "The proxyF lifetime split + var_r28 mask form: the first win (86.99)."),
+    ("W1", "winning-source", "artifacts/wins/01_94.3914_subaddr_temp.cpp", "SH2",
+     94.3914, "Sub-address temp (p3 = lbl+3; pe = p3-3) -> pe becomes a compiler temp -> r30; var_r28/var_r27 declared first."),
+    ("W2", "winning-source", "artifacts/wins/02_95.9427_s8_playerIdx.cpp", "SR1",
+     95.9427, "s8/u8 playerIdx defeats the (u8)-cast CSE -> 4x clrlwi + cmpwi + 838 insns; rm before rc."),
+    ("W3", "winning-source", "artifacts/wins/03_97.0167_typed_vcall.cpp", "T1",
+     97.0167, "Typed virtual call -> vtable temp r12 (MWCC's standard virtual-call sequence)."),
+    ("W4", "winning-source", "artifacts/wins/04_97.7327_dotZY_final.cpp", "U2",
+     97.7327, "Inline dotZY boundary -> fixes the zeroY stack-slot order. The current best."),
+    ("WF", "winning-source", "artifacts/wins/final_KartState.cpp", "-",
+     97.7327, "The authoritative committed src/kart/KartState.cpp at 97.7327 (a snapshot copy)."),
+    ("C1", "compiler-patch", "artifacts/compiler-patch/FINAL_patch.json", "AS5/FPR2",
+     99.1647, "The cleanly-gated compiler patch (hook 0x1b4420 + 156-byte cave 0x26c6fa; gate _copts[0x6D] via -pragma report_heap_info on). NON-STANDARD; not landed."),
+    ("C2", "compiler-patch", "artifacts/compiler-patch/final_patch.py", "AS1",
+     98.4487, "AS1's per-byte patcher for the scratch-colour (r5/r6) swap."),
+    ("C3", "compiler-patch", "artifacts/compiler-patch/RESULTS.md", "AS5",
+     None, "AS5's clean-gate survey + the global-candidate re-test table."),
+    ("C4", "compiler-patch", "artifacts/compiler-patch/as4_REPORT.md", "AS4",
+     None, "AS4's interference-graph RE report (the 'graph must change' falsification)."),
+    ("H1", "harness", "artifacts/harness/h.py", "-", None,
+     "The candidate-scoring harness (compiles a source string with MWCC Wii/0x4201_127 and reports objdiff match%)."),
+    ("H2", "harness", "artifacts/harness/make_ws.py", "-", None,
+     "Builds the private trusted workspaces sub1..subN (snapshot + repointed h.py/probe.py + baseline check)."),
+    ("H3", "harness", "artifacts/harness/probe.py", "-", None,
+     "The PRE/BODY/POST probe harness."),
+    ("D1", "decompme", "artifacts/decompme/hbr0m.zip", "R1", 86.9928,
+     "The decomp.me scratch bundle (scratch hbr0m) with ctx.cpp + the WIP source."),
+]
+
 # ---------------------------------------------------------------- build
 def build():
     db = os.path.join(HERE, "subagents.db")
@@ -915,6 +949,9 @@ def build():
         CREATE TABLE comparisons(
           cmp_id INTEGER PRIMARY KEY AUTOINCREMENT,
           a TEXT, b TEXT, relationship TEXT, note TEXT);
+        CREATE TABLE artifacts(
+          artifact_id TEXT PRIMARY KEY, kind TEXT, path TEXT, round TEXT,
+          score REAL, description TEXT);
         """
     )
     for a in AGENTS:
@@ -943,6 +980,8 @@ def build():
         con.execute("INSERT INTO processes VALUES(?,?,?,?,?,?,?,?)", p)
     for c in COMPARISONS:
         con.execute("INSERT INTO comparisons(a,b,relationship,note) VALUES(?,?,?,?)", c)
+    for a in ARTIFACTS:
+        con.execute("INSERT INTO artifacts VALUES(?,?,?,?,?,?)", a)
 
     # --- speed: indexes on the hot filter/join columns (the auto PKs are not enough) ---
     con.executescript(
@@ -957,6 +996,7 @@ def build():
         CREATE INDEX idx_processes_cat  ON processes(category);
         CREATE INDEX idx_comparisons_a  ON comparisons(a);
         CREATE INDEX idx_comparisons_b  ON comparisons(b);
+        CREATE INDEX idx_artifacts_kind ON artifacts(kind);
         """
     )
     # --- normalized colour state: "pe/var_r28/proxy/pool" -> 4 indexable columns ---
