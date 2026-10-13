@@ -277,4 +277,21 @@ In the target prologue `pe` and the rodata pool are **sibling** `lis+addi` calle
 
 Rows: `agents` H1–H6, `findings` ×36 merged into `subagent_data`. Nothing beat **93.4368**.
 
+## External-repo survey, part 2 (round I, 2 agents)
+| repo | what it is | result |
+|---|---|---|
+| `SwareJonge/MKW-Dolphin-Speedometer` | C# overlay that `ReadProcessMemory`s Dolphin | no code/asm/MWCC content; only runtime RAM offsets (RMCP01 player-base `0x9C18F8`, input `0x42E324`, airtime `@+0x21A`) that match no decomp symbol |
+| `vabold/Kinoko` | C++23 reimplementation of MKW physics, annotated with retail addresses | no usable C source, **but** `KartState::calcCollisions @addr{0x80594BD4}` = our function, and `Status.hh` confirms our flag *numbering* exactly while showing several enum *labels* are wrong |
+
+### New facts
+- Kinoko `Status.hh`: our clear masks are all correct (`0xFFFBE39F`={5,6,10,11,12,18}, `0xFFFF7FFF`={15}, `~0x880`={103,107}); labels to fix — bit3=`DriftManual` (we: `HOPPING`), bit12=`AllWheelsCollision`, bit15=`AirtimeOver20` (we: `ALL_WHEELS_COLLISION`), bit19=`Hop` (we: `AUTO_DRIFT`), bit28=`DriftAuto` (we: `IN_BULLET`), bit32=`InAction` (we: `HIT_ITEM_OR_OBJ`). Player-type band also off-by-one.
+- Kinoko's own regalloc dump reaches the target shape via anonymous backend temps (`r98→r30`, `r145→r31` above the float pool `r88→r29`).
+
+### Hypotheses tested (both refuted)
+- **I1** (scope-late `pe` decl, so its vreg is issued after the reload temps): after the reload line → **92.84**; after `proxyF` → **86.40**. Worse.
+- **I2** (aggregate `pe`+`proxy`, take `&ctx`): `struct PeBox{f32* v;} peBox = {…}; PeBox* peb = &peBox;` → **69.21** — taking `pe`'s address is destructive, exactly as `R-SPLIT` predicts.
+
+Net: both refuse; the wall stands at **93.4368**. Rows merged (`agents` I1–I2, `findings` ×13).
+
+
 
