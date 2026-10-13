@@ -347,7 +347,10 @@ The user asked to patch the compiler's frontend so a **clean-C** build emits the
 - The colouring-order levers are **global** (class index / target option byte / function pointer) with no per-function gate short of a code-cave, and the global candidates don't reproduce retail anyway.
 - Empirically, flipping the colour tie-break (`0x1b4634` `jne`→`je`) on a compiler copy had **no effect** (93.4368).
 
-This independently reproduces the project's `P-PROOF-UNSAT` / measurement-invariance result from the compiler's own internals. **Both routes are now closed** (asm was declined; the compiler patch is proven infeasible), so the clean-C ceiling stands at **93.4368**. Rows merged (`agents` CC-RE, `findings` ×3).
+This independently reproduces the project's `P-PROOF-UNSAT` / measurement-invariance result from the compiler's own internals. **Both bypass routes are closed** (asm is not a recompilation — it is the original bytes; a patched compiler is not the standard toolchain), so `updateCollisions` remains a `NonMatching` WIP at **93.4368**, its current best — not a decision, just its state. Rows merged (`agents` CC-RE, `findings` ×3).
+
+## Combining neutral edits (user hypothesis)
+Could edits that are *individually* canonicalised away change codegen *jointly*? Tested exhaustively: all **63 subsets** of 6 distinct neutral primitives (`pe = &lbl_1_data_3918[0]`, dropping the `(u8)` casts, `#pragma opt_lifetimes off`, `#pragma opt_usedef_mem_limit off`, splitting `pe` at `pe[3]`, and `gameMode == 3`) were compiled. Every subset **without** the `gameMode` edit stayed at **93.4368** (byte-neutral); every subset **with** it sat at **93.0788**. No subset beat the base. This matches the 72 neutral/combination trials already in the DB. Reason: if `compile(E(S)) == compile(S)`, the frontend has already reduced `E(S)` to the same IR, so neutral edits are confluent and cannot compose into a change.
 
 
 
