@@ -19,7 +19,10 @@ static inline EGG::Vector3f zeroY(const EGG::Vector3f& v) {
   return r;
 }
 static inline f32 dotZY(const EGG::Vector3f& a, const EGG::Vector3f& b) {
-  return EGG::Vector3f::dot(zeroY(a), zeroY(b));
+  EGG::Vector3f zb = b, za = a;
+  za.y = 0.0f;
+  zb.y = 0.0f;
+  return EGG::Vector3f::dot(za, zb);
 }
 
 extern "C" void* lbl_1_bss_4218;
@@ -206,9 +209,9 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (98.45%): colouring/playerIdx/gameMode/vtable blocks match retail;
-// the flags-block read/write accessors are swapped (kartStateReload for the read,
-// kartState for the clear-mask write). See SUBAGENT_FIELD_NOTES_updateCollisions.md.
+// nonmatching (98.69%): colouring/playerIdx/gameMode/vtable/flags-accessor blocks
+// match retail; the dotZY helper uses named locals (not zeroY) to fix the temp-copy
+// order. See SUBAGENT_FIELD_NOTES_updateCollisions.md.
 struct __KMVT {
   virtual void f0(u8);
   virtual void f1(u8);
