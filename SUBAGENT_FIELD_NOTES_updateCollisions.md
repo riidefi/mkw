@@ -352,6 +352,25 @@ This independently reproduces the project's `P-PROOF-UNSAT` / measurement-invari
 ## Combining neutral edits (user hypothesis)
 Could edits that are *individually* canonicalised away change codegen *jointly*? Tested exhaustively: all **63 subsets** of 6 distinct neutral primitives (`pe = &lbl_1_data_3918[0]`, dropping the `(u8)` casts, `#pragma opt_lifetimes off`, `#pragma opt_usedef_mem_limit off`, splitting `pe` at `pe[3]`, and `gameMode == 3`) were compiled. Every subset **without** the `gameMode` edit stayed at **93.4368** (byte-neutral); every subset **with** it sat at **93.0788**. No subset beat the base. This matches the 72 neutral/combination trials already in the DB. Reason: if `compile(E(S)) == compile(S)`, the frontend has already reduced `E(S)` to the same IR, so neutral edits are confluent and cannot compose into a change.
 
+## BREAKTHROUGH — new source shapes (round SH: 93.4368 → 94.3914)
+A fresh **structural** shape search (leaf edits were exhausted). Three shape classes ran in parallel: SH1 abstraction/inlining (~3,360 cands) and SH3 control-flow/loop/block (~13,400 cands) found **nothing**, but **SH2 (data-address class) broke the wall** and it is verified on the real source (committed `fe02982`).
+
+**The winning shape:**
+```cpp
+  using namespace System;
+  bool var_r28;
+  bool var_r27;
+  f32* const p3 = lbl_1_data_3918 + 3;   // NEW: sub-address temp
+  f32* const pe = p3 - 3;                // was: f32* const pe = lbl_1_data_3918;
+  ...
+  u32 flags0 = (*pproxy)->kartState()->field(0);
+  var_r28 = (flags0 & 0x40000) != 0;      // assigned after its declaration
+  var_r27 = (flags0 & 0x60) != 0;
+```
+**Why it works:** deriving the address through `p3` keeps **one** live web (nothing rematerialises) while making `pe` a *compiler-generated temp* rather than a declared local, so it is numbered **above** the rodata pool and out-ranks it for **r30**. Declaring `var_r28`/`var_r27` first makes them the first-declared locals (v69/v68 → **r28**/**r27**). On the real source: objdiff **94.3914** (was 93.4368), prologue `lis r30`=pe / `lis r29`=pool / `rlwinm r28`=var_r28 — **exactly the retail colouring**.
+
+**This falsifies the project's `no-path` / `UNSAT` / `measurement-invariance` proofs** — every one assumed `pe` stayed a declared local (`R-VREG-BLOCKS`); the sub-address escape makes `pe` a temp. The remaining residual (~5.6%) is now purely the structural slots (the `gameMode`/`playerIdx` `clrlwi` hoist, the `sp20` schedule, branch displacements). This is the one axis worth attacking next.
+
 
 
 

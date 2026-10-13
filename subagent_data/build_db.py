@@ -171,6 +171,15 @@ AGENTS = [
      ("CC-RE", "CC", "reverse-engineer mwcceppc.exe vreg numbering + coloring", "general (deepseek-flash)", "completed", 93.4368, 0,
       "Two-agent x86 RE of the compiler to find a patch that reproduces the retail colouring.",
       "No safe minimal patch exists: vreg = one monotonic counter (dense array index); coloring levers are global-only; global candidates don't reproduce retail."),
+     ("SH2", "SH", "new source shapes: data-address class (sub-address temp)", "general (deepseek-flash)", "completed", 94.3914, 1,
+      "Structural shape search: force the data-table address into a compiler temp instead of a hoisted local.",
+      "BROKE THE WALL: 93.4368 -> 94.3914; pe=r30 (target). pe via sub-address temp p3; var_r28/var_r27 first-declared."),
+     ("SH1", "SH", "new source shapes: abstraction/inlining", "general (deepseek-flash)", "completed", 93.4368, 0,
+      "~3,360 candidates: inline helpers/lambdas/accessors/structs.",
+      "Nothing beat 93.4368."),
+     ("SH3", "SH", "new source shapes: control-flow/loop/block", "general (deepseek-flash)", "completed", 93.4368, 0,
+      "~13,400 candidates: loop forms, nesting/reordering, pragmas.",
+      "Nothing beat 93.4368."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -241,6 +250,7 @@ TRIALS = [
     ("L1", "l1-decl-reorder", "declaration", "playerIdx; rc; rm", "rc; rm; playerIdx", 91.6468, 93.4368, "-", 834, "destructive"),
     ("L1", "l1-else-if-eq", "expression", "!(gameMode!=9 && gameMode!=10)", "gameMode==9 || gameMode==10", 85.9189, 93.4368, "-", 834, "keep the !(...) form"),
     ("COMBO", "combo-neutral-sweep", "combination", "6 neutral primitives", "all 63 subsets", 93.4368, 93.4368, "r28/r30/r26/r29", 834, "no subset beats the base; neutral edits are confluent"),
+    ("SH2", "sh-subaddr-temp", "declaration", "f32* const pe = lbl_1_data_3918; (first local)", "var_r28/var_r27 before pe + pe = (lbl+3)-3", 94.3914, 93.4368, "r30/r28/r26/r29", 834, "BREAKTHROUGH: pe=r30 (target) via sub-address temp; +0.9546"),
 ]
 
 # ---------------------------------------------------------------- regalloc
@@ -311,6 +321,8 @@ FINDINGS = [
     ("CC-RE", "mechanism", "mwcceppc.exe saved-register coloring (x86 RE): class 4=GPR, saved regs 14..31. `_init_target_registers` (0x191290) builds the nonvolatile list in DESCENDING order from the threshold table at RVA 0x2db87e (GPR=0x1f); `_obtain_nonvolatile_register` (0x1b14f0) hands them out in that order via `_colorinstructions`'s retry block (0x1b43bf..0x1b4446), so successive webs needing a saved reg get r31,r30,r29,r28... in *processing order*. `_machine_specific_sort_graph` (0x18e5d0) sorts on `node+0x1a`, which is never written -> the sort is a no-op, so order = list order (descending vreg) with the spill-cost heuristic degenerating to ties.", "RE of mwcceppc.exe colorinstructions/Registers; validated vs build/mwcc-debug/dumps/regalloc-gpr-pass-1-all.txt."),
     ("CC-RE", "consequence", "NO safe minimal binary patch reproduces the retail colouring: (a) bumping a local's vreg is a no-op (the next temp mints above it from the same counter) or OOB (vreg indexes dense `used`-sized arrays in `_buildinterferencegraph` 0x2386F0 / `_set_vr_reg_flags` 0x6B660); (b) deferring the local = the R3-A rematerialisation (64.68); (c) the coloring order levers are global (class index / target option byte / function ptr), with no per-function gate short of a code-cave; (d) empirically, the colour tie-break flip (RVA 0x1b4634 jne->je) had NO effect (93.4368). This independently reproduces the project's P-PROOF-UNSAT / measurement-invariance result from the compiler's own internals.", "Two-agent x86 RE + patch_and_test.py on a COPY of the compiler."),
     ("COMBO", "consequence", "User hypothesis (combine individually-neutral edits) tested exhaustively: all 63 subsets of 6 distinct neutral primitives (pe = &lbl_1_data_3918[0], drop (u8) casts, #pragma opt_lifetimes off, #pragma opt_usedef_mem_limit off, pe-split at pe[3], gameMode == 3) were compiled. Every subset WITHOUT the gameMode edit = 93.4368 (byte-neutral); every subset WITH it = 93.0788. No combination beats the base. Theoretical reason: if compile(E(S))==compile(S) the frontend has already reduced E(S) to the same IR, so neutral edits are confluent and cannot compose to a change.", "combo_neutral.py (63 combos + baseline) against the same SB baseline; consistent with the 72 already-recorded neutral/combination trials."),
+    ("SH2", "result", "BREAKTHROUGH 93.4368 -> 94.3914 (+0.95): the pe/var_r28 colouring now MATCHES retail exactly (pe=r30, pool=r29, var_r28=r28, var_r27=r27; target was pe=r30/var_r28=r28). Winning shape: declare var_r28/var_r27 BEFORE pe (so they are the first-declared locals and mint the high local vregs -> r28/r27), and derive the data address through a sub-address temp `f32* const p3 = lbl_1_data_3918 + 3; f32* const pe = p3 - 3;`, assigning var_r28/var_r27 from flags0 AFTER their declarations.", "sub7/best_94_3914.cpp; verified on the real source: objdiff 94.3914; prologue lis r30 (pe), lis r29 (pool), rlwinm r28 (var_r28)."),
+    ("SH2", "mechanism", "Why the sub-address works: `p3 = lbl + 3; pe = p3 - 3` keeps ONE live web (no rematerialisation) while making `pe` a compiler-generated TEMP rather than a declared local, so it is numbered above the rodata pool and out-ranks it for r30. This is precisely the escape the compiler RE (CC) and the no-path/UNSAT proofs had ruled out — they all assumed `pe` stayed a declared local (R-VREG-BLOCKS). Declaring var_r28/var_r27 first additionally re-numbers the locals so var_r28 lands on r28.", "sub7 mechanism + CC-RE counterexample; the 'locals are always below temps' premise was breakable by making pe not a local."),
 ]
 
 RULES = [
@@ -567,7 +579,12 @@ TOOLS_BUILT = [
 # ---------------------------------------------------------------- proofs
 # (kind, statement, method, evidence)
 PROOFS = [
-    ("no-path", "No recorded or newly-tested source edit moves the colour state from "
+    ("counterexample(escape) [SUPERSEDES no-path/UNSAT/invariance]", "The target colour state IS reachable: the project went 93.4368 -> 94.3914 with pe=r30 "
+     "via a sub-address temp (`f32* const p3 = lbl_1_data_3918 + 3; f32* const pe = p3 - 3;`) plus declaring var_r28/var_r27 before pe. "
+     "The earlier no-path/UNSAT/measurement-invariance proofs all ASSUMED `pe` remained a declared local (R-VREG-BLOCKS); the escape makes pe a compiler temp, so those proofs were premise-limited, not global.",
+     "sub7/best_94_3914.cpp + real-source objdiff 94.3914 (prologue `lis r30`=pe, `lis r29`=pool, `rlwinm r28`=var_r28)",
+     "corrects the earlier 'target unreachable' claim; the residual that remains is purely the structural slots"),
+    ("no-path [FALSIFIED by CC/SH2]", "No recorded or newly-tested source edit moves the colour state from "
      "current {pe=r28,var_r28=r30,proxy=r26,pool=r29} to target {pe=r30,var_r28=r28,proxy=r26,pool=r29}.",
      "regstate_graph.py (BFS + Dijkstra over 12 nodes / 32 edges)",
      "target node has 0 measured in-edges; no node is distance 1; required move is a simultaneous r28<->r30 swap"),
