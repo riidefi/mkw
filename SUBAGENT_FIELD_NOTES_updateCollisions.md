@@ -5,21 +5,20 @@ Function: `KartState::updateCollisions` in `src/kart/KartState.cpp`.
 Target: `build/RMCP01/StaticR/obj/kart/KartState.o` (`updateCollisions__Q24Kart9KartStateFv`).
 
 ## Result in one line
-`KartState::updateCollisions` = **98.6873%** (838/838 instructions, target size) with the stock
-compiler `Wii/0x4201_127`, up from **86.993%**. Six source *shapes* (not leaf edits) did it:
-1. `pe` via a sub-address temp (`f32* const p3 = lbl+3; f32* const pe = p3-3;`) so `pe` becomes a
-   compiler temp and out-ranks the rodata pool → **r30** (94.3914);
-2. `s8`/`u8 playerIdx` → defeats the frontend CSE of the `(u8)` call casts → 4× `clrlwi` + 838 insns (95.9427);
-3. a typed virtual call → the vtable temp becomes **r12** (97.0167);
-4. an inline `dotZY` boundary → fixes the `zeroY` stack-slot order (97.7327);
-5. swapped flags-block accessors (`kartStateReload` for the read / `kartState` for the write) → fixes the r5/r6 tie (98.4487);
-6. a `dotZY` **named-locals** body (`zb=b, za=a; za.y=0; zb.y=0; dot(za,zb)`) → flips the temp-copy order (98.6873).
+`KartState::updateCollisions` = **99.642%** (838/838 instructions, target size) with the stock
+compiler `Wii/0x4201_127`, up from **86.993%**. Seven source *shapes* did it:
+1. `pe` via a sub-address temp (`p3 = lbl+3; pe = p3-3;`) → **r30** (94.3914);
+2. `s8`/`u8 playerIdx` → defeats the `(u8)`-cast CSE → 4× `clrlwi` + 838 insns (95.9427);
+3. a typed virtual call → vtable temp **r12** (97.0167);
+4. an inline `dotZY` boundary (97.7327);
+5. swapped flags-block accessors → fixes the r5/r6 tie (98.4487);
+6. `dotZY` named-locals body (98.6873);
+7. **inline wall-dot**: hoisted zeroed copies `za=sp20; zb=ci.wallNrm` + a manual sp20-first dot (99.642).
 
-Score ladder: `86.9928` → `89.7375` → `93.4368` → `94.3914` → `95.9427` → `97.0167` → `97.7327` → `98.4487` → **`98.6873`**.
-The last **~11 instructions** are TWO compiler-internal ties: the inlined `dotZY` two-temp
-stack-slot/schedule interleave (8 insns) and the FPR pick `temp_f5`→f2 where retail is `f5` (3 insns).
-A cleanly-gated compiler patch fixes the FPR tie (**99.0453**) but is answer-encoding and is NOT landed.
-**98.6873 is the landable ceiling** (rounds S..CT; see below).
+Ladder: `86.9928 → 89.7375 → 93.4368 → 94.3914 → 95.9427 → 97.0167 → 97.7327 → 98.4487 → 98.6873 → **99.642**`.
+The last **3 instructions** are ONE FPR colour tie (`temp_f5` f2 vs retail f5), proven
+scheduler-locked (unreachable from source; the needed interference edge never forms). A gated
+compiler patch verifies **100.0000** but is answer-encoding and is NOT landed.
 
 Harness used by every agent (fast, safe — compiles in `%TEMP%`, does not edit the repo):
 ```
@@ -503,13 +502,18 @@ Pinned the last ~11 instructions to **two compiler-internal ties** and produced 
 
 Progression: `93.4368 → 94.3914 → 95.9427 → 97.0167 → 97.7327 → 98.4487 → 98.6873` (stock) → `99.0453` (gated compiler patch, not landed).
 
+## Rounds M/F — 99.642, then the verified 100%
+### M — the one-decision wall breaks (98.6873 → 99.642)
+The audit reduced the dotZY residual to ONE decision (the temp slot order). Three subagents independently found the fix; the landed form (`0c9acb6`) writes the wall-dot **inline**: after the `0.85f` check, hoist `EGG::Vector3f za = sp20; EGG::Vector3f zb = ci.wallNrm; za.y = 0.0f; zb.y = 0.0f;`, then an inner `if (((za.z * zb.z) + ((za.x * zb.x) + (za.y * zb.y)) < 0.0f) || (_68 >= 1.0f))`. Semantically identical, fixes all 6 slot/copy/role slots → **99.642** (838/838).
+
+### F — the last 3 FPR instructions
+~12k candidates prove `temp_f5` f2→f5 is **scheduler-locked**: the needed edge `temp_f5 ↔ temp_f4²` never forms (the pre-regalloc scheduler always stores `accum.x` before the `f4²` mul). Two gated compiler patches verify **100.0000** (whole-TU clean, gate OFF byte-identical): F5 (colour override `v36→f5`) and F6 (`makeinterfere(36,149)+(36,4)`). F7 showed the overlap alone flips to f4 — the tie lives in the production allocator's ordering.
+
 ## Conclusion / current state
-- **Committed source = 98.6873%** on `sync-doldecomp`, stock compiler `Wii/0x4201_127`, reproducible (objdiff). 838/838 instructions; six winning shapes inline in `src/kart/KartState.cpp` (sub-address `p3/pe`, `u8 playerIdx`, `__KMVT` typed vcall, `dotZY` inline boundary, the flags-accessor swap, the `dotZY` named-locals body). `Object(NonMatching, "kart/KartState.cpp")`.
-- **Residual = ~11 instructions = two compiler ties**: the inlined `dotZY` two-temp stack-slot/schedule interleave (8) and the FPR pick `temp_f5`→f2 (retail f5) (3).
-- **Do not land the gated compiler patch (99.0453):** it is answer-encoding, unverifiable, and not reproducible with the stock toolchain — kept only as instrumentation.
-- **No principled toolchain fix:** the residual is a lowest-free interference-graph + list-schedule outcome; retail used the same `0x4201_127`, so it is not a flags/build difference.
-- **Data**: `subagent_data/subagents.db` (agents/trials/findings/rules/proofs/artifacts) + `subagent_data/artifacts/` (`wins/00..06`, the compiler patch, the harness). The early `no-path`/`UNSAT`/`measurement-invariance` proofs were **falsified** by the sub-address escape and are marked as such.
-- **Honest bottom line: 98.6873 is the landable ceiling** — the source is right except for two compiler ties that no source shape and no legitimate toolchain option closes.
+- **Committed source = 99.642%** on `sync-doldecomp`, stock compiler, reproducible. Seven shapes inline; the last 3 instructions are one FPR colour tie.
+- **100% is verified reachable only via the non-standard gated compiler patch** — answer-encoding, deliberately not landed.
+- **Data**: `subagent_data/subagents.db` (agents/trials/findings/rules/proofs/artifacts) + `subagent_data/artifacts/wins/00..07`.
+- **Honest bottom line: 99.642 is the landable ceiling.**
 
 
 
