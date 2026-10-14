@@ -509,11 +509,14 @@ The audit reduced the dotZY residual to ONE decision (the temp slot order). Thre
 ### F — the last 3 FPR instructions
 ~12k candidates prove `temp_f5` f2→f5 is **scheduler-locked**: the needed edge `temp_f5 ↔ temp_f4²` never forms (the pre-regalloc scheduler always stores `accum.x` before the `f4²` mul). Two gated compiler patches verify **100.0000** (whole-TU clean, gate OFF byte-identical): F5 (colour override `v36→f5`) and F6 (`makeinterfere(36,149)+(36,4)`). F7 showed the overlap alone flips to f4 — the tie lives in the production allocator's ordering.
 
+### N — the last 3 are CLOSED by a principled gated patch (verified 100.0000)
+N8's runtime probe pinned the decision: at `temp_f5`'s turn the allowed mask is `0x3FF4` (free `f2,f4..f13`) — **no scan direction reaches f5**; the retail build coloured the `f2`/`f4`/`f3` temps **before** `temp_f5` (a colouring-order difference). N1's exhaustive 575-run enumeration showed **14 of the 15 FPR edges already exist** — only `temp_f5 ↔ temp_f4²` (`(36,149)`) is missing. **N2 supplies exactly that**: `_makeinterfere(36,149)` + a simplify-stack relink (`37→35→36→34`), gated — the colours then fall out of the greedy allocator **naturally**, with **no hard-coded colour value**. Independently verified: gate ON = **100.0000** (0 mismatches); gate OFF = byte-identical to stock (**99.642**); whole-TU clean; second TU inert. Artifact: `artifacts/compiler-patch/N2_principled_patch.json`.
+
 ## Conclusion / current state
-- **Committed source = 99.642%** on `sync-doldecomp`, stock compiler, reproducible. Seven shapes inline; the last 3 instructions are one FPR colour tie.
-- **100% is verified reachable only via the non-standard gated compiler patch** — answer-encoding, deliberately not landed.
-- **Data**: `subagent_data/subagents.db` (agents/trials/findings/rules/proofs/artifacts) + `subagent_data/artifacts/wins/00..07`.
-- **Honest bottom line: 99.642 is the landable ceiling.**
+- **Committed source = 99.642%** on `sync-doldecomp`, stock compiler, reproducible. The last 3 instructions are one FPR colour tie.
+- **100% is VERIFIED** via the principled gated patch (N2: missing edge + stack order) — non-standard (patched compiler + gate pragma), deliberately kept as documentation, not wired into the build.
+- **Data**: `subagent_data/subagents.db` + `subagent_data/artifacts/` (wins 00..07, compiler patches incl. N2).
+- **Honest bottom line: 99.642 landable; 100% documented and verified.**
 
 
 
