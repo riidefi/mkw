@@ -13,18 +13,6 @@
 extern EGG::Vector3f lbl_802A4100;
 extern EGG::Vector3f RKSystem_ey;
 
-static inline EGG::Vector3f zeroY(const EGG::Vector3f& v) {
-  EGG::Vector3f r = v;
-  r.y = 0.0f;
-  return r;
-}
-static inline f32 dotZY(const EGG::Vector3f& a, const EGG::Vector3f& b) {
-  EGG::Vector3f zb = b, za = a;
-  za.y = 0.0f;
-  zb.y = 0.0f;
-  return EGG::Vector3f::dot(za, zb);
-}
-
 extern "C" void* lbl_1_bss_4218;
 extern "C" f32 lbl_1_data_3918[4] = {0.02f, 0.002f, 0.96f, 0.02f};
 
@@ -209,9 +197,10 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (98.69%): colouring/playerIdx/gameMode/vtable/flags-accessor blocks
-// match retail; the dotZY helper uses named locals (not zeroY) to fix the temp-copy
-// order. See SUBAGENT_FIELD_NOTES_updateCollisions.md.
+// nonmatching (99.64%): all colouring/structural blocks match retail; the wall-dot
+// is written inline (hoisted zeroed copies za=sp20/zb=wallNrm + a manual sp20-first
+// dot) instead of a dotZY helper. Residual = 3 FPR instructions (temp_f5 f2 vs f5).
+// See SUBAGENT_FIELD_NOTES_updateCollisions.md.
 struct __KMVT {
   virtual void f0(u8);
   virtual void f1(u8);
@@ -447,25 +436,30 @@ void KartState::updateCollisions() {
       if ((((sp20.z * RKSystem_ey.z) + ((sp20.x * RKSystem_ey.x) + (sp20.y * RKSystem_ey.y))) > 0.8f) &&
           (((RKSystem_ey.z * ci.wallNrm.z) +
             ((RKSystem_ey.x * ci.wallNrm.x) + (RKSystem_ey.y * ci.wallNrm.y))) >
-           0.85f) &&
-          ((dotZY(ci.wallNrm, sp20) < 0.0f) ||
-           (proxyF->kartCollide()->_68 >= 1.0f))) {
-        ci.wallNrm.y = 0.0f;
-        ci.wallNrm.normalise();
-        _a8.x = ci.wallNrm.x;
-        _a8.y = ci.wallNrm.y;
-        _a8.z = ci.wallNrm.z;
-        f32 temp_f5 = ci.wallNrm.x;
-        f32 temp_f4 = ci.wallNrm.z;
-        accum.x = temp_f5;
-        accum.z = temp_f4;
-        accum.y = 0.0f;
-        if (EGG::Mathf::sqrt((temp_f4 * temp_f4) + ((temp_f5 * temp_f5) + (accum.y * accum.y))) < 0.05f) {
-          accum.x = sp20.x;
-          accum.z = sp20.z;
+           0.85f)) {
+        EGG::Vector3f za = sp20;
+        EGG::Vector3f zb = ci.wallNrm;
+        za.y = 0.0f;
+        zb.y = 0.0f;
+        if (((za.z * zb.z) + ((za.x * zb.x) + (za.y * zb.y)) < 0.0f) ||
+            (proxyF->kartCollide()->_68 >= 1.0f)) {
+          ci.wallNrm.y = 0.0f;
+          ci.wallNrm.normalise();
+          _a8.x = ci.wallNrm.x;
+          _a8.y = ci.wallNrm.y;
+          _a8.z = ci.wallNrm.z;
+          f32 temp_f5 = ci.wallNrm.x;
+          f32 temp_f4 = ci.wallNrm.z;
+          accum.x = temp_f5;
+          accum.z = temp_f4;
           accum.y = 0.0f;
+          if (EGG::Mathf::sqrt((temp_f4 * temp_f4) + ((temp_f5 * temp_f5) + (accum.y * accum.y))) < 0.05f) {
+            accum.x = sp20.x;
+            accum.z = sp20.z;
+            accum.y = 0.0f;
+          }
+          var_r21 = 1;
         }
-        var_r21 = 1;
       }
     }
   }
