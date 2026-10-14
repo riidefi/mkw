@@ -1,0 +1,11 @@
+[New Thread 41944.0x5870 (id 2)]
+[New Thread 41944.0x7a48 (id 3)]
+[New Thread 41944.0x18a4 (id 4)]
+PASS enter
+PASS enter
+[Thread 41944.0x18a4 (id 4) exited with code 0]
+[Thread 41944.0x7a48 (id 3) exited with code 0]
+[Thread 41944.0x5870 (id 2) exited with code 0]
+[Inferior 1 (process 41944) exited normally]
+C:/Users/nnnn/AppData/Local/Temp/opencode/n6b2.gdb:44: Error in sourced command file:
+No registers.

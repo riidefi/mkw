@@ -1,0 +1,23 @@
+{
+  "name": "N2 principled gated patch - updateCollisions FPR tie (100%)",
+  "compiler": "Wii/0x4201_127 mwcceppc.exe",
+  "gate": "_copts[0x6D] (VA 0x74F395) set via `-pragma \"report_heap_info on\"` AND _gFunction (VA 0x751E44 -> [+0x0C] -> name at +0x0A) == \"updateCollisions\" AND _coloring_class (VA 0x76C395) == 3 (FPR)",
+  "hook": {
+    "rva": "0x1B40C9",
+    "file_offset": "0x1B34C9",
+    "old": "5931dbe89f030000",
+    "new": "e92c860b00909090"
+  },
+  "cave": {
+    "rva": "0x26C6FA",
+    "file_offset": "0x26BAFA",
+    "bytes": "803d95f37400000f84b50000008b0d441e750085c90f84a70000008b490c85c90f849c00000081790a757064610f858f00000081790e7465436f0f85820000008179126c6c69737579817916696f6e73757080791a00756a803d95c3760003756168950000006a24e879d0fcff83c4085931dbe8fe7cf4ff89c385db743c66837b102474048b1bebf18b3385f6742b66837e102375248b1639c3741889c785ff74188b0f85c9741239d9740489cfebee8937eb0289f08913891e31db50e91679f4ff5931dbe8ac7cf4ff50e90879f4ff"
+  },
+  "effect": "For updateCollisions, class 3 (FPR): calls _makeinterfere(36,149) (adds the missing temp_f5 <-> temp_f4^2 interference edge) and relinks the simplify stack 37->35->36->34 (reproduces the production allocator's pop order), then restores `xor ebx,ebx` (0x1B40CA invariant). The colours then fall out of the greedy allocator NATURALLY: temp_f4->f4, temp_f5->f5 - NO hard-coded colour value.",
+  "measurements": {
+    "stock_source_99.642": "gate OFF -> 99.642 (object byte-identical to stock compiler)",
+    "gate_ON": "objdiff updateCollisions = 100.0000, 0 mismatches; whole-TU (31 fns): only updateCollisions changes; second TU inert",
+    "verification": "verify_n2.py, independently reproduced"
+  },
+  "note": "NON-STANDARD: requires the patched compiler + `-pragma \"report_heap_info on\"` - not reproducible with the stock toolchain. Kept as documentation of the exact allocator mechanism; not wired into configure.py."
+}

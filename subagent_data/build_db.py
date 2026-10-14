@@ -390,6 +390,18 @@ AGENTS = [
      ("FFrest", "F", "F1 overlap hunt, F2 stores x grouping, F3 named squares, F4 decl/scope/const, F8 accum-based sqrt, F9 flow reconstruction, F10 cross-all", "general (deepseek-flash)", "completed", 99.642, 0,
       "F1 ~490, F2 ~400, F3 ~10.6k, F4 ~111, F8 accum forms; F9 returned empty, F10 cancelled.",
       "No source shape moves temp_f5 f2->f5 (~12k candidates): the needed interference edge is SCHEDULER-LOCKED (the pre-regalloc scheduler always puts the accum.x store before the f4^2 mul)."),
+     ("N2", "N", "SMALLNESS: production allocator FPR order (principled gated patch)", "general (deepseek-flash)", "completed", 100.0, 1,
+      "Add the missing interference edge (36,149) + relink the simplify stack 37->35->36->34, gated.",
+      "100.0000 VERIFIED (no hard-coded colour - f4/f5 fall out of the greedy allocator naturally); gate OFF byte-identical to stock (99.642). THE PRINCIPLED FINISH."),
+     ("N1", "N", "SMALLNESS: minimal gated patch enumeration", "general (deepseek-flash)", "completed", 100.0, 1,
+      "All interference-edge subsets among the 6 FPR webs (575 runs).",
+      "14 of 15 edges already exist; only (36,149) missing; minimal = (36,149)+(36,X) 2-edge set -> 100.0. Pure colour override also 100.0 (smaller but hard-coded)."),
+     ("N8", "N", "SMALLNESS: _pickcolor scan-direction variants", "general (deepseek-flash)", "completed", 99.642, 0,
+      "Gated highest/second-top/skip-f2 scan sweeps + a runtime probe of the allowed mask.",
+      "REFUTED: allowed mask = 0x3FF4 (free f2,f4..f13) - no scan direction reaches f5. KEY INSIGHT: retail colours the f2/f4/f3 temps BEFORE temp_f5 - a COLOURING-ORDER difference, which N2's stack relink implements."),
+     ("Nrest", "N", "N3 scheduler-table vs 3-slot diff, N4 token edits vs exact slots, N5 simplest free-mask patch, N6 gated liveness+1, N7 exhaustive stock-vs-gated differential", "general (deepseek-flash)", "cancelled", 99.642, 0,
+      "N3-N7.",
+      "CANCELLED (superseded by N1/N2)."),
 ]
 
 # ---------------------------------------------------------------- trials
@@ -573,6 +585,7 @@ FINDINGS = [
     ("M", "result", "ROUND M BROKE THE ONE-DECISION WALL: three subagents independently found **99.642** (+0.955 over 98.6873), and the cleanest form is LANDED (0c9acb6): remove the dotZY helper and write the wall-dot INLINE - after the 0.85f check, hoist the zeroed copies (`EGG::Vector3f za = sp20; EGG::Vector3f zb = ci.wallNrm; za.y = 0.0f; zb.y = 0.0f;`) into the outer if, then an inner `if (((za.z * zb.z) + ((za.x * zb.x) + (za.y * zb.y)) < 0.0f) || (_68 >= 1.0f))` with a MANUAL sp20-first dot. Semantically identical (pure copies + a commutative dot over the same values) and it fixes ALL 6 dotZY slot/copy/role mismatches. M1 found the equivalent via u32 byte-copy statements; M8 via a by-value dotRY wrapper. Residual = **3 FPR instructions** (temp_f5 f2 vs retail f5) - the last compiler-internal tie. M6 re-confirmed 100% needs the gated compiler patches (list-swap + FPR) + a source form; no pure-source lever for the FPR exists.", "rounds M1-M10; landed source verified 99.642, 838 insns."),
     ("F", "result", "Round F (the LAST 3 FPR insns) is CLOSED: no source shape moves `temp_f5` f2->f5 (~12k candidates: live-range extensions, accum-store orders, named squares, decl/scope/const, accum-based sqrt, regroupings). The needed interference edge `temp_f5 <-> temp_f4*temp_f4` is SCHEDULER-LOCKED: the pre-regalloc scheduler always places the `accum.x` store before the `f4^2` mul (the pre-scheduling PCode has the mul first, but pass-28 reorders it by operand readiness), and the store-order forms that force the edge regress. F5 (gated FPR colour override `v36->f5`) and F6 (gated `makeinterfere(36,149)+(36,4)`) BOTH verify **100.0000**, whole-TU clean, gate OFF byte-identical. F7 proved the overlap alone flips to f4, not f5 - the tie lives in the production allocator's ordering. FINAL: **99.642 is the source ceiling on the stock compiler**; 100% exists only via the non-standard gated compiler patch (answer-encoding, deliberately not landed).", "rounds F1-F10; F5/F6 verified 100.0 on compiler copies."),
     ("FBF", "result", "FULL CARTESIAN BRUTE-FORCE of the sqrt block (the definitive answer to 'why not brute-force it'): 5 decl forms x 12 accum-store orders x 12 sqrt associations x 2 comparison directions (~1,700 forms, exhaustive, not sampled) -> **0 forms above 99.642**; every form either ties or regresses (best regressions 98.33). The FPR colour is decided by the interference graph (f2 = the lowest free FPR at temp_f5's turn), and no source spelling changes the interference - so source brute-force is COMPLETE and negative. The compiler-side brute-force was also done (F5/F6): the gated patches give 100%, but they are answer-encoding.", "brute_sqrt.py exhaustive enumeration."),
+    ("N", "result", "ROUND N FINISHED IT - the last 3 FPR insns are closed by a PRINCIPLED gated compiler patch, verified 100.0000 (N2). Mechanism (from N8's runtime probe + N1's exhaustive 575-run edge-subset enumeration): at temp_f5's colouring turn the allowed mask is 0x3FF4 (free f2,f4..f13) - no scan direction reaches f5; the retail build coloured the f2/f4/f3 temps BEFORE temp_f5 (a COLOURING-ORDER difference), and 14 of the 15 possible FPR edges already exist - only the temp_f5 <-> temp_f4^2 edge (36,149) is missing. N2's patch supplies exactly that: it adds _makeinterfere(36,149) AND relinks the simplify stack 37->35->36->34 so the production allocator's pop order is reproduced - f4/f5 then fall out of the GREEDY ALLOCATOR NATURALLY (no hard-coded colour). Verified independently: gate ON = 100.0000 (0 mismatches), gate OFF = byte-identical to stock (99.642), whole-TU clean, second TU inert. Artifact: artifacts/compiler-patch/N2_principled_patch.json. CAVEAT unchanged: requires the patched compiler + the gate pragma - non-standard, so the LANDED source remains 99.642 and the patch is kept as documentation of the exact allocator mechanism.", "N1/N2/N8 + verify_n2.py (100.0 / 99.642)."),
 ]
 
 
@@ -1027,6 +1040,8 @@ ARTIFACTS = [
      None, "AS5's clean-gate survey + the global-candidate re-test table."),
     ("C4", "compiler-patch", "artifacts/compiler-patch/as4_REPORT.md", "AS4",
      None, "AS4's interference-graph RE report (the 'graph must change' falsification)."),
+    ("C5", "compiler-patch", "artifacts/compiler-patch/N2_principled_patch.json", "N2",
+     100.0, "The PRINCIPLED gated patch: _makeinterfere(36,149) + simplify-stack relink 37->35->36->34 - no hard-coded colour. Gate: -pragma \"report_heap_info on\" + function name + class 3. Verified 100.0000 (gate OFF = stock 99.642)."),
     ("H1", "harness", "artifacts/harness/h.py", "-", None,
      "The candidate-scoring harness (compiles a source string with MWCC Wii/0x4201_127 and reports objdiff match%)."),
     ("H2", "harness", "artifacts/harness/make_ws.py", "-", None,

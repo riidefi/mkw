@@ -1,0 +1,9 @@
+[New Thread 40708.0x5d08 (id 2)]
+[New Thread 40708.0xe08 (id 3)]
+[New Thread 40708.0x4cf8 (id 4)]
+PASS enter
+PASS enter
+[Thread 40708.0xe08 (id 3) exited with code 0]
+[Thread 40708.0x5d08 (id 2) exited with code 0]
+[Thread 40708.0x4cf8 (id 4) exited with code 0]
+[Inferior 1 (process 40708) exited normally]
