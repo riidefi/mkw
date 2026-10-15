@@ -512,9 +512,23 @@ The audit reduced the dotZY residual to ONE decision (the temp slot order). Thre
 ### N — the last 3 are CLOSED by a principled gated patch (verified 100.0000)
 N8's runtime probe pinned the decision: at `temp_f5`'s turn the allowed mask is `0x3FF4` (free `f2,f4..f13`) — **no scan direction reaches f5**; the retail build coloured the `f2`/`f4`/`f3` temps **before** `temp_f5` (a colouring-order difference). N1's exhaustive 575-run enumeration showed **14 of the 15 FPR edges already exist** — only `temp_f5 ↔ temp_f4²` (`(36,149)`) is missing. **N2 supplies exactly that**: `_makeinterfere(36,149)` + a simplify-stack relink (`37→35→36→34`), gated — the colours then fall out of the greedy allocator **naturally**, with **no hard-coded colour value**. Independently verified: gate ON = **100.0000** (0 mismatches); gate OFF = byte-identical to stock (**99.642**); whole-TU clean; second TU inert. Artifact: `artifacts/compiler-patch/N2_principled_patch.json`.
 
+## Rounds LAT/Q — the latency mechanism, then the 535-form space sweep (2026-10-15)
+### LAT — a source construct that flips temp_f5 to f5 DOES exist
+`accum.x = temp_f5 + (temp_f4 - temp_f4);` makes the stock compiler colour the `temp_f5` load **f5**: the store's source becomes an `fadds` (latency 2), so the first scheduling pass emits the `temp_f4²` mul before the `accum.x` store → the missing `(36,149)` edge forms → f5. The wrinkle: the identity creates a second web (the `fadds` result), so the *store* uses `f3` — split web, net 98.8095. Decl-level identities (`temp_f5 = x - (z-z)`) regress to 98.2–98.6. This proved the register CAN move to f5 from source, via latency/dependency shaping rather than ordering alone.
+
+### Q — exhaustive sweep: no inventory-preserving form reaches f5 (535 forms)
+- **matrix (192)**: decl order × 6 store orders × 4 sqrt trees × named-ysq × named-t4sq → best = plain base 99.642, **0 f5**; registers seen: f0/f1/f2/f3/f31/split.
+- **hoist (288)**: {none,t4,t5,t4t5,t4t5y,y} × decl × store × tree → *every* hoisted form scores below base (vreg numbering shifts colour but never to f5, and the final order degrades); top-20 all "none".
+- **bool/len/sum (6)**: condition before the stores without FPR vregs → `bool under` costs 96.45 (bool materialization), `len2` 96.79, `sum2` 99.16 (split web). Never f5.
+- **comma (40)**: `accum.x = temp_f5` embedded as a comma sub-expression in the sqrt condition (evaluation-order control, zero new FPR vregs) → web moves to f3/f4/split but never f5; best 99.16. Control form reproduced 99.642 exactly.
+- **Inventory invariant**: every f5-producing form (latency identities) adds ≥1 instruction; with an 838-insn target that caps it at ≤98.81 < 99.642. Every zero-inventory-change form never reaches f5. **100% on stock requires edge (36,149) with zero inventory change — not found in 535 forms.**
+- **Build-tree anatomy** (disproved a "stale object" worry): `build/RMCP01/StaticR/obj/kart/KartState.o` = retail TARGET (f5, fixed input); `build/RMCP01/src/kart/KartState.o` = our compile (f2, ninja-fresh); retail vs ours differ by exactly the 3 known insns (`KartState.s:1139-1148`).
+- Harness note: detect the `temp_f5` web with `fmuls R,R,R` immediately followed by `stfs R,44(r1)` — earlier `stfs f?,44(r1)` (function-entry accum init) and the `_a8.x` `lfs ?,36(r31)` are decoys.
+
 ## Conclusion / current state
 - **Committed source = 99.642%** on `sync-doldecomp`, stock compiler, reproducible. The last 3 instructions are one FPR colour tie.
 - **100% is VERIFIED** via the principled gated patch (N2: missing edge + stack order) — non-standard (patched compiler + gate pragma), deliberately kept as documentation, not wired into the build.
+- **2026-10-15 sweep**: 535 further source forms — none beat 99.642, none reach f5 without adding instructions. The stock plateau is robust across the enumerable ordering/numbering/latency space; the remaining routes are (a) pass-1 schedule introspection with mwcc-debugger to target the edge precisely, or (b) accept 99.642 landable / 100% documented.
 - **Data**: `subagent_data/subagents.db` + `subagent_data/artifacts/` (wins 00..07, compiler patches incl. N2).
 - **Honest bottom line: 99.642 landable; 100% documented and verified.**
 
