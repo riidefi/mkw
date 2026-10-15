@@ -607,10 +607,30 @@ So under `0x4201_127`'s **greedy lowest-free** allocator: honest f2 form = **3 u
 ### Adopted
 `src/kart/KartState.cpp` now carries `R_d45_a8z_xzy`. `vwin2.py` on the real source: **('win', 99.7613, '')**, **838 insns** (no inflation); `diffkind` units = 498 INSERT / 503 DELETE; residual comment updated (99.64 → 99.76). Kept: `f5batch24–30.py`, `verprobe.py`, `oobin.py`, `verprobe/v_*.o`, `tu_*`/`dumps_*`.
 
+## Round V (10 subagents) — independent vectors confirm the 2-unit ceiling (2026-10-15)
+Ten parallel agents, each with a distinct attack vector grounded in the Round U mechanism, ran on an isolated harness (`build/mwcc-debug/agentkit.py`: per-agent scratch + a cross-process lock serialising the gdb dumps; agents never touch `src/`). **None beat 99.7613; every vector re-derived the same wall.** Combined ≈25,000+ scored variants.
+| ag | vector | n | best |
+|---|---|---|---|
+| A1 | z-mul operand spellings × placements (mixed operands delay the mul) | 210 | 99.7613 (mixed → mul@502 but pair f2 → 3 units) |
+| A2 | alternative f2-neighbour over temp_f5's range | ~500 dumps | 99.7613 (any live-across f2 node is the early z-mul, or a pair load → ≥3) |
+| A3 | full cartesian grid of the role-swap design | **10,368** | 99.7613 (0 above; per-axis bests saturate) |
+| A4 | retail-source reconstruction / principled rewrites | ~7,000 | 99.7613 (new equivalent: accum-stores + `_a8.z²` tree) |
+| A5 | named sub-results / comma-sequencing at the new base | ~200 | 99.7613 (named low-vreg forms still die) |
+| A6 | critical-path / association & depth steering | 264 | 99.7613 (12 binary trees; the ready mul hoists to 498 in every shape) |
+| A7 | old stalled families crossed with the role-swap | 621 | 99.7613 |
+| A8 | objdiff alignment rule + unit arithmetic | ~1,200 | 99.7613; **rule derived** |
+| A9 | source-visible micro-levers (spelling, literals, casts, parens) | ~1,000 | 99.7613 (all neutral) |
+| A10 | role-swap × repositioning carriers (comma / `*0.0f`) | ~890 | 99.7613 |
+### The alignment rule (A8, from objdiff `diff/code.rs`)
+objdiff aligns the two streams **by opcode** (Patience/LCS) and computes `match% = 1 − (#rows with diff_kind)/max(len_target, len_ours)`. Every row costs 1; a **moved** instruction is INSERT+DELETE = **2**. Our block = retail's stream with `t4sq(fmuls f2,f4,f4)@502` removed and `z-mul(fmuls f2,f1,f1)@498` inserted → exactly 2 units. A 1-unit form needs retail order with temp_f5=f5; temp_f5 needs an f2 value live across its def, and every mechanism costs 2 rows (pair recolour, or the INSERT+DELETE move).
+- **Instruction-adding "climb" (rejected):** keeping the pair→z-mul AND retail's t4sq (an extra `fmuls`) yields a 839-insn block scoring `1−1/839 = 99.8808` — but the function is then 1 instruction longer than retail, i.e. a fake match that fails the insn-count invariant and can never reach the build's 100%-exact criterion. Recorded for completeness; not adopted.
+### The mechanism, closed (A1/A2/A3/A6)
+`pair = f1` requires the z-mul to read **only** the early `_a8.z` (pair-forward f147, ready at 496) — but the list scheduler then hoists that mul to 498 (INSERT+DELETE). Moving it to retail's 502 requires reading the late `temp_f4` load, which **extends the `_a8.z` web across t5sq** → the pair's greedy colour drops to **f2** (its lfs+stfs recolour = 2 units); or, honest, `temp_f4²` becomes temp4's only use → temp_f5 collapses to **f2** (HEAD deadlock, 3 units). The only free f2-neighbour that keeps everything else retail-exact is the early z-mul **result** — exactly the 2-unit role-swap. So **99.7613 is the 838-insn source ceiling**; 0 units needs retail's non-greedy colour decision (the N2 patch).
+
 ## Conclusion / current state
-- **Committed source = 99.7613%** on `sync-doldecomp` (role-swap sqrt block), stock compiler `0x4201_127`, 838 insns, reproducible. The last 2 instructions are ONE early-scheduled `fmuls` (position-only).
+- **Committed source = 99.7613%** on `sync-doldecomp` (role-swap sqrt block), stock compiler `0x4201_127`, 838 insns, reproducible. The last 2 instructions are ONE early-scheduled `fmuls` (position-only; INSERT@498 + DELETE@503 under objdiff's opcode-alignment).
 - **100% is VERIFIED** via the principled gated patch (N2: missing edge + stack order) — non-standard (patched compiler + gate pragma), deliberately kept as documentation, not wired into the build.
-- **2026-10-15 sweeps**: 535 source forms (round Q) + rounds R/S/T/U RA-graph/gap/batch11–30 (~2000 candidates). Round T proved both old floors allocator-forced (honest = 3 units; any store-forward = ≥4); **round U broke the honest floor** with the role-swap (tree-forward instead of store-forward): the early z-mul's result becomes temp5's f2-neighbour while the pair stays short → 99.7613 (2 units). The residual is the single hoisted `fmuls`; delaying it re-collapses to the HEAD deadlock, and closing it needs retail's non-greedy colour choice (= N2).
+- **2026-10-15 sweeps**: 535 source forms (round Q) + rounds R/S/T/U RA-graph/gap/batch11–30 (~2000 candidates). Round T proved both old floors allocator-forced (honest = 3 units; any store-forward = ≥4); **round U broke the honest floor** with the role-swap (tree-forward instead of store-forward): the early z-mul's result becomes temp5's f2-neighbour while the pair stays short → 99.7613 (2 units). The residual is the single hoisted `fmuls`; delaying it re-collapses to the HEAD deadlock, and closing it needs retail's non-greedy colour choice (= N2). **Round V's 10 independent agents (~25,000 variants, incl. a 10,368-form cartesian grid) found 0 forms above 99.7613**.
 - **Data**: `subagent_data/subagents.db` + `subagent_data/artifacts/` (wins 00..07, compiler patches incl. N2).
 - **Honest bottom line: 99.7613 landable; 100% documented and verified (N2).**
 
