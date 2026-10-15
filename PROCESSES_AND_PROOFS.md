@@ -5,6 +5,10 @@
 > the `no-path` / `UNSAT` / `measurement-invariance` proofs recorded below. The definitive, current
 > account — including the compiler reverse-engineering and every later round — is
 > `SUBAGENT_FIELD_NOTES_updateCollisions.md`. Treat the 93.4368-era numbers/proofs here as history.
+>
+> **Current state (2026-10-15): 99.7613% landed.** The authoritative consolidated proof set,
+> exhausted-vector list, artifact index and 10 open hypotheses now live in
+> **`CONSOLIDATED_PROOFS_updateCollisions.md`** — read that before any new search.
 
 Every **process** this project ran and every **proof** it reached, logged whole and then
 compared / contrasted. Machine-readable copies live in `subagent_data/subagents.db`

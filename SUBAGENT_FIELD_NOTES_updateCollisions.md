@@ -1,5 +1,10 @@
 # Field notes — `KartState::updateCollisions` register-wall subagent log
 
+> **STATUS: 99.7613% landed (`sync-doldecomp`, role-swap sqrt block, 838 insns, 2 objdiff units).**
+> For the current consolidated state, the measurement rule, the exhausted-vector list, the artifact
+> index and the 10 open hypotheses, read **`CONSOLIDATED_PROOFS_updateCollisions.md` first**. This file
+> is the chronological round log (A…W).
+
 Repo: `C:\Users\nnnn\Documents\mkwii` (Mario Kart Wii matching decomp, PowerPC, MWCC `Wii/0x4201_127`).
 Function: `KartState::updateCollisions` in `src/kart/KartState.cpp`.
 Target: `build/RMCP01/StaticR/obj/kart/KartState.o` (`updateCollisions__Q24Kart9KartStateFv`).
