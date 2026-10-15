@@ -93,6 +93,22 @@ Notation: `temp_f5` = the value the source stores into `accum.x` and squares in 
 > **Searchable space = 2 states; both are resolved; nothing remains to brute-force.**
 > Any new candidate can be classified by that one boolean without compiling, and its score is 99.642 (false) or 99.7613 (true). Breaking above 99.7613 requires an extra instruction (fake match) or a different compiler binary (the N2 mechanism).
 
+## 3d. Rebuttal-proof — no copy/coalescing-only IR perturbation can mint a 5th neighbour
+
+The only escape from §3b/§3c would be a source that keeps retail's emitted code but perturbs the *interference graph* through IR-only values (copies, CSE, coalescing) that never appear as instructions — giving `temp_f5` a 5th neighbour. This section rules that out.
+
+**Definitions.** An FPR **web** = a maximal set of copy-related vregs sharing one register; the allocator's graph nodes are webs, edges = overlapping live ranges. A web is **materialized** if it holds its value across ≥1 instruction (spills included).
+
+- **Lemma A (nodes ↔ emitted live-ranges).** Every graph node is a register live-range of the *emitted* code. A vreg that is not materialized is either deleted (DCE) or coalesced into a materialized web; neither yields an extra node. *(Only non-measured step; backed by the round-CC RE of `_colorinstructions` + the regalloc dumps, which show nodes = scheduled web live-ranges.)*
+- **Lemma B (no phantom neighbours).** By A, `temp_f5`'s neighbours are exactly the register live-ranges overlapping `temp_f5`'s span **in the emitted code**. There is no way to hold a value live across `temp_f5` that is not visible as an emitted register live-range.
+- **Lemma C (the window).** In retail's emitted code, the ranges overlapping `temp_f5`'s span are exactly `{const, y², t5sq, temp_f4}` (enumerated from the bytes; re-derived by hand). ⇒ 4 neighbours.
+- **Lemma D (perturbation dichotomy).** Any source differing from the honest form changes the emitted code only by: *(i)* reordering/relocating instructions → opcode sequence ≠ retail's → LCS ≤ 16 → **≥2 units** (§3b-B); *(ii)* adding/removing instructions → ≠838 → **fake match**; or *(iii)* a source-only change (copies, spellings, guards, decl shapes, TU context) → **byte-identical** object → identical graph. *(iii) measured directly: the honest, `squaredLength()`, `lenSq()`, `accum`-sourced and `const`-decl forms all hash to the same `updateCollisions` bytes (`sha1 80317656cfe5…`, 838 insns); only the role-swap differs.*
+
+**Theorem.** Under `0x4201_127`'s lowest-free allocator, `temp_f5 = f2` in every 838-instruction, retail-ordered form.
+*Proof.* For `temp_f5 = f5` it needs ≥5 neighbours (§3c-L2), i.e. its register must stay live across a 5th value's range. By B, that value is an emitted register live-range; by C retail has only 4; to add a 5th one must change the emitted sequence — which by D is either ≥2 units (i) or not 838 (ii). Source-only changes don't move the graph (iii). Hence no case-A source gives f5; the ceiling is **2 units = 99.7613**. ∎
+
+**Corollary (why this implicates the toolchain).** Retail's own emitted code has the *same* 4-neighbour window (C), so our allocator would assign `f2` to it as well — yet retail's binary has `f5`. Same graph, different answer ⇒ the *rule*, not the input, differs ⇒ the original allocator build differed (the N2 mechanism). The only alternative — a source that adds a 5th neighbour without touching the emitted code — is exactly what this proof excludes.
+
 ## 4. Proven floors (every source family)
 
 | family | units | score | note |
