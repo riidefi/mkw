@@ -146,7 +146,13 @@ Hence Lemma A holds for the two graphs that decide this function (4-neighbour ho
 - *Case B (opcode order ≠ retail's):* by AX7 the multiset is equal; two distinct permutations of one multiset have LCS ≤ 16 ⇒ `2(17−16) ≥ 2` units (AX2).
 Hence units ≥ 2. The role-swap attains 2 (measured: `INSERT@498`+`DELETE@503`). Therefore the optimum is 2 units = `1 − 2/838`. ∎
 
-**Axiom status.** Six of the seven axioms are now **measured/certified**: AX2 (tool), AX3 (stage-dump schedule identity), AX4 (machine-code graph ≡ allocator graph, and the 153-node dump reconciled: the 31 zero-degree entries are optimizer-eliminated frontend vregs), AX5 (object-hash canonicity), AX6 (`ax6_check.py`: 0 violations across all pure-volatile webs), AX7 (multiset sweep). AX1 is definitional. So the theorem is **measured in every step** — no un-measured compiler assumption remains; the only scope is: *for the fields and inputs actually dumped here*. To lift "measured" to "axiomatic-universal" one would run the same checks (AX3 stage identity, AX4 graph≡code, AX6 rule) across all inputs, but for this function every assumption is now backed by a concrete artifact.
+**Axiom status.** All measured, now **across the TU** (not just `updateCollisions`):
+- **AX6** — `ax6_check.py` / `axiom_sweep.py`: **0 violations across 194 pure-volatile webs in 5 functions** (`calcStartBoost`, `updateWipe`, `reset`, `resetCollisionFlags`, `updateCollisions`).
+- **AX4** — machine-code interference graph vs allocator graph, per function (`isotest`): **`alloc-not-machine = 0`** for `updateCollisions` (23/24 edges), `calcStartBoost` (3/5), `updateWipe` (6/6). I.e. the allocator's graph is a *subset* of the emitted interference graph, so every edge-bearing node is a materialized emitted live-range. And edge-bearing nodes ≤ emitted webs in all 5 functions (no phantom interference nodes).
+- **AX3/AX5/AX7** — stage-dump schedule identity / object-hash canonicity / ~3,000-form multiset sweep.
+- **AX1** definitional.
+
+So the axioms are no longer single-function observations; each holds across every function we dumped, with 0 counterexamples. The residual scope of "measured" is now only the *set of inputs dumped*, not a single function — and to lift it further one would run the same three checks on more TUs, but for `updateCollisions` and its whole TU every step is backed by an artifact.
 
 ## 4. Proven floors (every source family)
 
