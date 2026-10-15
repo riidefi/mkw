@@ -571,12 +571,48 @@ Pass 1 colours in descending vreg order, smallest free colour. The chain is *for
 ### State at end of round
 Tree at HEAD, re-verified via `diffkind.py baseline`: **99.642, units 498/500/501** (retail `lfs/fmuls/stfs f5` vs ours f2), only field-notes modified. Kept: `f5batch19/20/22/23.py`, `blockdump.py`, fixed `cmpalloc.py`, `pairdump.py`, `tu_*`/`dumps_*` artifacts.
 
+## Round U (verprobe + f5batch24–30) — the role-swap family, and the first source form ABOVE 99.642 (2026-10-15)
+### Compiler axis closed (verprobe.py + oobin.py)
+Probed the HEAD source under all 9 MWCC versions on hand. Only **0x4201_127 = 99.642**; **1.0RC1 / 1.0a = 99.1647** (sqrt block byte-for-byte identical to HEAD — verified by `oobin.py` on `v_1_0a.o` — temp5 still f2, plus 4 prologue/epilogue units); the other six = 92.9594. Retail's f5 is a **build-specific RA artifact** of the original toolchain, absent from every shipped version. Axis closed; `0x4201_127` stays.
+
+### batch24 — sqrt tree shapes × {d54,d45} × xzy (LIFO hypothesis)
+12 left-deep tree shapes. The cross `((t4sq + t5sq) + y2)` (`T_d45_h_abp_c`) produces the t4sq-cross + const = f3 but the cascade rotates (temp5 → f0). No f5.
+
+### batch25 (U1–U6) — store orders, comma-X/comma-XZ, compare-RHS carriers
+temp5 reached f0/f4, never f5. **Master rule:** whichever store (or comma item) is **first in IR** is hoisted into the `t5sq`↔`t4sq` window by the scheduler, shortening that value's range and rotating the whole cascade.
+
+### batch26 (V1–V4) — all three stores in the comma condition
+`V4_m0_x_z_y` = **first f5 hit** (temp5 = f5, temp4 = f4) via `... + (accum.x = temp_f5) * 0.0f + (accum.z = temp_f4) * 0.0f` — `*0.0f` folds to `0.0f` with no instruction, but the carrier's stores land at the carrier-add position → order damaged → 98.4524 (12 units).
+
+### batch27 (P1–P4) — d45 + zero-inventory f5
+`P4_d45_xzy` = f5 + **retail-exact instruction order, zero inventory**, 99.5227 (4 units; `_a8.z` pair = f4 vs retail f1, temp4 = f2 vs f4, t4sq operands). Confirms the z-forward family's 4-unit floor.
+
+### batch28 (Q1–Q5) — d45, no z-forward, X-carrier
+`Q1_yz` / `Q5_yz` = **temp5 = f5 AND temp4 = f4**, 99.5232 (4 units): X-store arg (X late), Y-store arg (Y early), fadds arg cascade, and one DIFF_INSERT (the carrier's `+0.0f`; only `*0.0f` folds). Q2_yz 98.6889; Q1_zy temp5 = f4. The X-carrier pulls X late enough to cover t4sq → temp4 = f4, but displaces both X and Y.
+
+### batch29 (R) — THE ROLE SWAP: tree squares `_a8.z`, z-store keeps `temp_f4`
+Move the forward from the **store** into the **tree**: `sqrt((_a8.z * _a8.z) + ((temp_f5*temp_f5) + (accum.y*accum.y)))` with the ordinary `accum.z = temp_f4` and d45 decls (a8zc = cross tree, ci = control). All 6 store orders × {a8z} → **12/12 f5 + f4 hits**.
+- **`R_d45_a8z_xzy` = 99.7613 (2 units) — the first source form ABOVE 99.642.**
+  Emission: pair 496/497 (f147 = **f1**, retail-exact), **z-mul `fmuls f2,f1,f1` @498**, temp5/temp4 loads 499/500, t5sq 501 (f1), X 502 (**f5**), Z 503 (**f4**), fadds1 504, Y 505 (**f3**), fadds2 506. Units = `DIFF_INSERT` @498 + `DIFF_DELETE` @503 (retail `fmuls f2,f4,f4`) — i.e. **only the z-mul's position/operands**; every colour is retail-exact.
+  Mechanism: the early z-mul's *result* is live across `temp_f5`'s def, so it is `temp_f5`'s **f2-neighbour** — exactly what retail's `t4sq = f2` is (there, X precedes t4sq). temp5 nbrs = {z-mul=f2, y2=f0, const=f3, t5sq=f1, temp4=f4} → **f5**; temp4 = f4; the pair stays short [496..498] → **f1** (unlike the J z-forward family, where the long pair forces f2/f4).
+- `R_d45_a8z_xyz` (retail store order) = 99.5227 — Y before the mul costs Y/fadds units; `_xzy` wins because Y is scheduled after fadds1.
+
+### batch30 (S) — mixed-operand z-mul `(_a8.z * temp_f4)`
+Semantically identical (`_a8.z == temp_f4 == wallNrm.z`), but the mul now needs the late temp4 load → schedules at the correct slot 502. 16/36 f5 + f4 hits; best **`S_d45_az_xzy` / `S_d45_za_xzy` = 99.642** (3 units: pair 496/497 = f2 vs f1 — the mul reads f147, extending the pair into the long-range domain — plus 502 operands `f2,f4` vs `f4,f4`). Ties HEAD; does not beat R.
+
+### The pair-range ↔ mul-position tension (why R's last 2 units are the floor)
+R's residual = the z-mul's *position*: it reads `_a8.z` (forward of the pair's f147, ready at the 496 load) so the scheduler hoists it to 498. Every attempt to *delay* the mul instead makes it read the live `temp_f4` → `temp_f4²` becomes temp4's only use → **temp4 = f2** = HEAD's deadlock. Empirically: relocating the `_a8.z` assign inside the region (`R_movepair`) still hoists the pair load and the tree's `_a8.z` CSEs with `temp_f4` → collapses to HEAD (temp5 = f2); `zb.z` is unsafe (pre-`normalise()` copy ≠ `wallNrm.z`); a volatile reload adds an `lfs` (INSERT) without removing the 2 units.
+So under `0x4201_127`'s **greedy lowest-free** allocator: honest f2 form = **3 units (99.642)**; store-forward form = **≥4 units (≤99.5232)**; the **role-swap = exactly 2 units (99.7613)**, whose single residual is one early-scheduled `fmuls`. Retail's own block (`t4sq = f2` **and** temp4 = f4 simultaneously) needs a non-greedy colour decision — the **same N2 gap** (round N), now re-derived as the reason the last 2 units cannot be closed from source.
+
+### Adopted
+`src/kart/KartState.cpp` now carries `R_d45_a8z_xzy`. `vwin2.py` on the real source: **('win', 99.7613, '')**, **838 insns** (no inflation); `diffkind` units = 498 INSERT / 503 DELETE; residual comment updated (99.64 → 99.76). Kept: `f5batch24–30.py`, `verprobe.py`, `oobin.py`, `verprobe/v_*.o`, `tu_*`/`dumps_*`.
+
 ## Conclusion / current state
-- **Committed source = 99.642%** on `sync-doldecomp`, stock compiler, reproducible. The last 3 instructions are one FPR colour tie.
+- **Committed source = 99.7613%** on `sync-doldecomp` (role-swap sqrt block), stock compiler `0x4201_127`, 838 insns, reproducible. The last 2 instructions are ONE early-scheduled `fmuls` (position-only).
 - **100% is VERIFIED** via the principled gated patch (N2: missing edge + stack order) — non-standard (patched compiler + gate pragma), deliberately kept as documentation, not wired into the build.
-- **2026-10-15 sweeps**: 535 source forms (round Q) + rounds R/S/T RA-graph/gap/batch11–23 (~700 candidates) — none beat 99.642. The best f5 forms tie at ~99.52 (`co_zyx` 99.5232 @839; round T's zero-inventory `J_zxy`/`J_xzy` 99.5227 @838, refuting the old "f5 ⇒ extra lfs" claim); round T's greedy-model proof shows both floors are allocator-forced: honest form = exactly 3 units (temp5 colour f2), any-forward form ≥4 units (`_a8.z`-forward colour forced to f2 or f4, each dragging either the x/z store positions or temp_f4's colour). Route (a) is now **executed and closed**: pass-1 introspection explains every f5 form (edge + reverse-decl vreg order), the gap/zlf/batch23 (config L) batches show no late-load design can place the edge while keeping the const, and the units count shows f5 is arithmetically incompatible with HEAD's 99.642; route (b) — 99.642 landable / 100% documented (N2) — is the honest end state.
+- **2026-10-15 sweeps**: 535 source forms (round Q) + rounds R/S/T/U RA-graph/gap/batch11–30 (~2000 candidates). Round T proved both old floors allocator-forced (honest = 3 units; any store-forward = ≥4); **round U broke the honest floor** with the role-swap (tree-forward instead of store-forward): the early z-mul's result becomes temp5's f2-neighbour while the pair stays short → 99.7613 (2 units). The residual is the single hoisted `fmuls`; delaying it re-collapses to the HEAD deadlock, and closing it needs retail's non-greedy colour choice (= N2).
 - **Data**: `subagent_data/subagents.db` + `subagent_data/artifacts/` (wins 00..07, compiler patches incl. N2).
-- **Honest bottom line: 99.642 landable; 100% documented and verified.**
+- **Honest bottom line: 99.7613 landable; 100% documented and verified (N2).**
 
 
 

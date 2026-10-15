@@ -197,9 +197,12 @@ void KartState::calcStartBoost() {
   *(f32*)((u8*)mProxy->kartMove() + 0x224) = mStartBoostCharge * 10.0f;
 }
 
-// nonmatching (99.64%): all colouring/structural blocks match retail; the wall-dot
+// nonmatching (99.76%): all colouring/structural blocks match retail; the wall-dot
 // is written inline (hoisted zeroed copies za=sp20/zb=wallNrm + a manual sp20-first
-// dot) instead of a dotZY helper. Residual = 3 FPR instructions (temp_f5 f2 vs f5).
+// dot) instead of a dotZY helper. The sqrt z-term squares _a8.z (the pre-region
+// copy of wallNrm.z) instead of a fresh temp_f4 load, which gives temp_f5 the
+// retail f5 colour and temp_f4 f4. Residual = 2 FPR instructions (the z-mul is
+// hoisted next to its early pair-load operand, INSERT 498/DELETE 503).
 // See SUBAGENT_FIELD_NOTES_updateCollisions.md.
 struct __KMVT {
   virtual void f0(u8);
@@ -448,12 +451,12 @@ void KartState::updateCollisions() {
           _a8.x = ci.wallNrm.x;
           _a8.y = ci.wallNrm.y;
           _a8.z = ci.wallNrm.z;
-          f32 temp_f5 = ci.wallNrm.x;
           f32 temp_f4 = ci.wallNrm.z;
+          f32 temp_f5 = ci.wallNrm.x;
           accum.x = temp_f5;
           accum.z = temp_f4;
           accum.y = 0.0f;
-          if (EGG::Mathf::sqrt((temp_f4 * temp_f4) + ((temp_f5 * temp_f5) + (accum.y * accum.y))) < 0.05f) {
+          if (EGG::Mathf::sqrt(((_a8.z * _a8.z) + ((temp_f5 * temp_f5) + (accum.y * accum.y)))) < 0.05f) {
             accum.x = sp20.x;
             accum.z = sp20.z;
             accum.y = 0.0f;
