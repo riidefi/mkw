@@ -79,6 +79,7 @@ Its emitted stream: pair 496/497 (f1) → **`fmuls f2,f1,f1` @498** → temp5/te
 | U | tree shapes, comma/carriers, role-swap, mixed operand | ~150 | **99.7613** |
 | **V** | tree/assoc/store/decl grids, named+comma, micro-levers, carriers, alignment | **~25,000** | 99.7613 |
 | **W** | split position vs colour (5+5 agents) | ~18,000 | 99.7613 |
+| **X** | H1–H10: TU ordering, function pragmas, role-swap×9 compilers, THEN-block, full prologue, inlining, compile context, build-config, alignment REPLACE, outer block | ~1,500 | 99.7613 |
 | Z | asm barriers, self-aliasing, accessors, TU perturbation, compile context | ~2,500 | — |
 | AY/AS/CT | idiom/live-range/macro/config + compiler internals | ~30,000 | — |
 
@@ -97,29 +98,24 @@ Covered within those: all tree associations; all 6 store orders; 2 decl orders; 
 
 **Object/asm oracle**: `build/RMCP01/StaticR/asm/kart/KartState.s:1110-1156`; target object `build/RMCP01/StaticR/obj/kart/KartState.o`.
 
-## 8. The 10 NEW hypotheses (not covered by §6)
+## 8. Hypotheses H1–H10 — ALL TESTED (round X) — ALL REFUTED
 
-Each is **measurable** (`K.score_region`/`K.dump`) and **independent** of the exhausted grids. Ordered by expected yield.
+Each ran independently (isolated `agentkit` ids h1–h10); none beat 99.7613 and none reduced the 2 units. **Now part of §6 — do not re-run.** Key datum per hypothesis:
 
-**H1 — TU function ordering.** The greedy dealivergence depends on the surrounding *emitted* code (round Z5: removing `updateWipe` changes the allocation). Re-test at the 99.7613 base by moving `updateCollisions` relative to its neighbours, or lightly perturbing the preceding emitted function, to flip the f2/f5 choice. *Why new:* only lightly probed pre-role-swap. *Measure:* score of the role-swap block across neighbour permutations. *Anti-waste:* only permutation, not new trees.
+| # | hypothesis | result / new datum |
+|---|---|---|
+| H1 | TU function ordering / neighbour permutation | ~25 arrangements: `temp_f5=f5`, units **invariant**. The round-Z5 "removing `updateWipe` changes allocation" signal is a **rodata/literal-pool offset artifact**, not an allocator change — the dummy function was confirmed emitted before the block yet changed nothing |
+| H2 | function-scoped `#pragma` families | ~490 variants: every codegen-changing pragma (`scheduling off`, `global_optimizer off`, `opt_* off`, `optimize_for_size`) **worsens**; all defaults + region `on…off` → byte-identical |
+| H3 | role-swap source × 9 MWCC versions | `0x4201_127` unique best (2 u, 839 total); `1.0RC1`/`1.0a` = 99.2840 **but 841 insns** (not a match); rest 93.1981. No version reaches 1/0 units |
+| H4 | THEN-block (sp20 re-store) perturbation | all semantic forms normalise to identical codegen; the then-body does **not** participate in the multiply's fate |
+| H5 | full-prologue permutation (custom base) | 204 variants; only byte-identical forms tie; prologue renumbering cannot create the live f2 neighbour |
+| H6 | inlining boundary | ~60 helper forms all inline to the byte-identical 838-insn body |
+| H7 | compile-context / sibling perturbation | only shifts the shared float pool (adds `ARG_MISMATCH` rows); colours + unit slots invariant |
+| H8 | build-config (`-O`/`-schedule`/`-ipa`/`-fp`/…) sweep | 143 configs; base flags optimal; every ABI-intact config reproduces the 2-unit block; FMA / `-O4,s` / scheduler-off / higher sdata degrade |
+| H9 | alignment: turn INSERT+DELETE into one REPLACE | a **moved** instruction is always INSERT+DELETE (2); a same-slot opcode substitution gives REPLACE (1) but the block's opcode multiset is fixed by the computation → **1 unit is unreachable from source** |
+| H10 | outer-block (za/zb + outer `if`) restructuring | ~40 variants; byte-identical or worse; the outer block does not move the multiply or recolour temp_f5 |
 
-**H2 — Function-scoped `#pragma`.** MWCC honours per-function pragmas (`#pragma scheduling`, `#pragma global_optimizer`, `#pragma peephole`, `#pragma opt_common_subs`, push/pop) that may alter the list-scheduler/allocator for the block. Enumerate around the function (gate OFF must stay byte-identical). *Why new:* round Z tested global flags, not function-scoped pragma families at this base.
-
-**H3 — Role-swap source × all 9 compiler versions.** Round U probed only the *HEAD* source across builds. Re-run the *role-swap* block under `1.0RC1`/`1.0a` (whose allocator may be non-greedy like retail) — they reproduced HEAD's block structure exactly, so the role-swap may reach 1/0 units there. *Why new:* never tested the winning source on other builds. *Cheap.*
-
-**H4 — THEN-block perturbation.** The `sp20` re-store body (inside the replaceable region) sets accum.x/z/y after the branch. Permute/rewrite those three stores (order, operand, `*(f32*)&`) to change post-block liveness and the FPR cascade. *Why new:* the THEN block was always held fixed.
-
-**H5 — Full-prologue permutation (custom base).** The region currently starts at the first temp decl; `ci.wallNrm.normalise(); _a8.{x,y,z} = ci.wallNrm.{x,y,z};` sit *before* it and were never permuted. Build a custom base that moves those lines into the region and permute their order/interleaving with the temps. *Why new:* the one prologue segment never searched.
-
-**H6 — Inlining boundary at the new base.** Wrap the sum in a `static inline`/force-inlined helper (or an `EGG` vector helper) so the FPR web is built differently but inlines to 17 insns. Round Y tested helpers at 97.7 for the saved-register band; retest on the role-swap base for an FPR recolour. *Why new:* not retested post-role-swap.
-
-**H7 — Compile-context / sibling-function perturbation.** Perturb other functions in the TU (dummy float code, extra literals, reordered float pools) to shift the shared FPR scratch pool / rodata and the colouring. *Why new:* Z4/Z5 ran pre-role-swap; the rodata pool and neighbours changed since.
-
-**H8 — Legitimate build-config sweep at the new base.** Re-test `-O` sub-options, `-schedule`, `-ipa` levels, `-inline` levels *on the adopted source* (per-file), looking for a config where the retail schedule falls out. *Why new:* flags were "proven original" at 97.7; re-confirm at 99.7613 and check sub-options.
-
-**H9 — Alignment: turn INSERT+DELETE into a single REPLACE (1 unit).** Under the §0 rule, if our **slot 498** held an opcode retail also has there (a load), the moved multiply could align as one `REPLACE` (1 unit) instead of `INSERT`+`DELETE` (2). Search 17-insn opcode permutations where our 498 is a load and the multiply sits where retail has an `fmuls`. *Why new:* §V only examined the two candidate forms, not the alignment-optimal opcode ordering. *Measure:* unit kinds + score.
-
-**H10 — Outer-block restructuring.** The sqrt block is nested inside `if ((za.z*zb.z + …) < 0.0f || _68 >= 1.0f)`. The `za`/`zb` wall-dot locals and that outer condition pin FPRs. Restructure the outer `if` (or the wall-dot expression) — semantically identical — to free/reassign a register feeding the sqrt cascade. *Why new:* only the sqrt interior was ever searched; the enclosing block was fixed.
+**Two older claims corrected here:** the round-Z4/Z5 "compile-context changes the allocation" reading is **refuted** (H1/H7) — it was literal-pool drift; and the alignment "climb" (H9) is **formally** closed (moves cost 2 units; only substitutions cost 1, and the opcode multiset is fixed). Net: every remaining source/compiler/config/context/alignment lever is exhausted; **99.7613 / 2 units is the ceiling** and 100% needs the N2 gated compiler patch (§5).
 
 ## 9. Anti-waste rules for subagents
 

@@ -646,6 +646,15 @@ The 2-unit residual is one relocated `fmuls` (our early z-square @498 vs retail'
 ### Net
 Both halves hit the same greedy-allocator wall: `temp_f5=f5` needs an f2 value live across its def; the only free one is the early z-square result, which forces the mul to 498 (the 2-unit role-swap). Retail's simultaneous `temp_f5=f5 ∧ t4sq=f2 ∧ pair=f1` is the non-greedy choice (N2). Confirmed with new measured rules (scheduler readiness rule; pair-vs-temp_f4 f4-degree competition). **99.7613 remains the 838-insn source ceiling.**
 
+## Round X (H1–H10) — ten new vectors, all refuted (2026-10-15)
+Ten agents, each a distinct hypothesis derived from the consolidated proofs. **None beat 99.7613; none reduced the 2 units.** Full table in `CONSOLIDATED_PROOFS_updateCollisions.md` §8.
+- **H1 TU ordering** (~25 arrangements) and **H7 compile-context** (~130 variants): `temp_f5=f5` and the 2-unit signature are **invariant**; the only effect is the shared rodata/literal-pool offset (adding `ARG_MISMATCH` rows elsewhere). This **refutes the round-Z4/Z5 reading** that the surrounding emitted code changes the FPR allocation — it was pool drift.
+- **H2 function pragmas** (~490) / **H8 build-config** (143 flag sets): base is optimal; every ABI-intact config reproduces the byte-identical 2-unit block; codegen-changing options only degrade.
+- **H3 role-swap × 9 compilers:** `0x4201_127` unique best (2 u); `1.0RC1`/`1.0a` reach 99.2840 **but emit 841 insns** (not a match); rest 93.20.
+- **H4 THEN-block**, **H5 full-prologue (204)**, **H6 inlining (~60)**, **H10 outer-block (~40):** all normalise to byte-identical codegen or regress; none moves the multiply.
+- **H9 alignment (formal close):** a **moved** instruction is always `INSERT`+`DELETE` = 2 units; a same-slot opcode substitution gives `REPLACE` = 1, but the block's opcode multiset is fixed by the computation → **1 unit is unreachable from source**.
+**Net:** every source, compiler, config, context and alignment lever is exhausted. 99.7613 / 2 units is the ceiling; 100% needs the N2 gated patch.
+
 ## Conclusion / current state
 - **Committed source = 99.7613%** on `sync-doldecomp` (role-swap sqrt block), stock compiler `0x4201_127`, 838 insns, reproducible. The last 2 instructions are ONE early-scheduled `fmuls` (position-only; INSERT@498 + DELETE@503 under objdiff's opcode-alignment).
 - **100% is VERIFIED** via the principled gated patch (N2: missing edge + stack order) — non-standard (patched compiler + gate pragma), deliberately kept as documentation, not wired into the build.
