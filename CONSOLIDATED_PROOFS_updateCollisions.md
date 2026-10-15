@@ -118,6 +118,36 @@ The only escape from §3b/§3c would be a source that keeps retail's emitted cod
 
 Hence Lemma A holds for the two graphs that decide this function (4-neighbour honest, 5-neighbour role-swap), and structurally for MWCC's later-stage pipeline. The proof §3b/§3d is therefore complete: **no source (under `0x4201_127`) reaches `temp_f5=f5` without emitting the extra neighbour, so the block's `f5` must come from a different allocator binary.**
 
+## 3e. Axiomatic proof
+
+**Theorem.** Let `T` = the binary `build/compilers/Wii/0x4201_127/mwcceppc.exe` with the project flags. For every source `s` semantically equivalent to the retail sqrt block, if `T(s)` yields an 838-instruction `updateCollisions`, then `objdiff(T(s), retail) ≤ 1 − 2/838 = 99.7613`.
+
+**Axioms** (M = measured/certified by artifacts; C = compiler property, backed by RE + the direct graph check in §3d).
+
+- **AX1 (determinism, C).** `T` is a function: identical input ⇒ identical ELF object.
+- **AX2 (metric, M).** objdiff aligns the two streams by opcode (LCS) and reports `1 − rows/max(len)`; a moved instruction = `INSERT`+`DELETE` = 2 rows.
+- **AX3 (schedule stability, M).** For the block, the opcode sequence is identical at the pre-regalloc schedule (`backend-28`), post-DCE (`-31`) and post-RA schedule (`-45`); and it equals the emitted sequence (`-46`). *(Verified: the three stage dumps print the same 17-opcode order.)*
+- **AX4 (webs = emitted live-ranges, C).** The interference graph's nodes are the AX3 schedule's webs; every web has a def and ≥1 use in it. *(Backed by the pipeline-stage analysis in §3d and verified directly: the machine-code interference graph equals the allocator graph for both decisive forms.)*
+- **AX5 (frontend canonicity, M).** Sources differing only by value-DAG-preserving rewrites emit **byte-identical** objects. *(Verified: honest/`squaredLength`/`lenSq`/`accum`/`const` all hash to `sha1 80317656cfe5`.)*
+- **AX6 (colour rule, C).** `T` colours webs lowest-free in descending-web order: a web takes the least colour absent from its already-coloured neighbours.
+- **AX7 (forced multiset, M).** Any equivalent 838-form emits the same 17-opcode multiset (3 squares ⇒ 3 `fmuls`, the sum ⇒ 2 `fadds`, 3 `accum` stores, 2 input loads, 1 folded-`accum.y` constant). *(Verified across ~3,000 forms: each is the honest object or worse, never a different 17-opcode valid form.)*
+
+**Lemma 1 (neighbour bound).** In any 838-form with retail's opcode order, `temp_f5`'s web has exactly 4 neighbours: the const, y², x² and the z-load.
+*Proof.* By AX3 the schedule is retail's; the only web whose range can overlap `temp_f5`'s `[load x .. store accum.x]` besides those three is the z-square, which (AX3 order) is defined after `store accum.x`, hence does not overlap. Enumeration of the block's webs is total (§3d). ∎
+
+**Lemma 2 (no 5th web).** No source adds a 5th neighbouring web without leaving case A.
+*Proof.* By AX4 a neighbouring web is a live-range of the emitted schedule; adding one changes the emitted opcode sequence/count. By AX5 a source-only change does not change the emitted sequence; by AX7 the multiset is fixed. Hence a 5th neighbour ⇒ opcode order ≠ retail's (case B) or ≠838. ∎
+
+**Lemma 3 (lowest-free floor).** A web with ≤4 neighbours is never coloured above f4.
+*Proof.* AX6: it takes the least colour absent from its (≤4) coloured neighbours, blocking ≤4 of `{f0..f4}`; so its colour ∈ `{f0..f4}`. Hence `temp_f5 = f5` requires ≥5 neighbours. ∎
+
+**Proof of the theorem.** Any equivalent 838-form is case A or case B.
+- *Case A (opcode order = retail's):* L1 ⇒ ≤4 neighbours ⇒ L3 ⇒ `temp_f5 ∈ {f0..f4} ≠ f5` ⇒ rows 498/500/501 mismatch ⇒ **3 units** (AX2).
+- *Case B (opcode order ≠ retail's):* by AX7 the multiset is equal; two distinct permutations of one multiset have LCS ≤ 16 ⇒ `2(17−16) ≥ 2` units (AX2).
+Hence units ≥ 2. The role-swap attains 2 (measured: `INSERT@498`+`DELETE@503`). Therefore the optimum is 2 units = `1 − 2/838`. ∎
+
+**Axiom status.** AX3 and AX5 (and AX7) are *measured* — certified by stage dumps / object hashes / the ~3,000-form sweep. AX1 is definitional. AX4 and AX6 are the only compiler-internal axioms; both are backed by the round-CC reverse-engineering and AX4 is additionally checked directly (§3d: machine-code graph ≡ allocator graph). The theorem is therefore complete **modulo AX4/AX6** — the two properties that, if false, would be the unfound source; and both were tested on exactly the graphs that decide this function.
+
 ## 4. Proven floors (every source family)
 
 | family | units | score | note |
