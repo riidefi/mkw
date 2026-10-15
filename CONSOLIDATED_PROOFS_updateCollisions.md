@@ -72,6 +72,27 @@ Therefore units ≥ 2, with equality in (B) — attained by the role-swap (which
 
 The only escape from (A) toward 100% would be a source that both keeps retail's opcode order **and** supplies temp_f5 an f2 neighbour — impossible, since that needs a 5th live value = an extra instruction. This is the N2 gap, now as a lower bound.
 
+## 3c. Closure lemmas — the residual is ONE boolean (so the searchable space is 2, not open-ended)
+
+The point of these is to make any future attempt *decidable without compiling*: every source axis except one is provably inert, and the one live axis has exactly two values, both already resolved.
+
+Notation: `temp_f5` = the value the source stores into `accum.x` and squares in the x-term (retail: the `wallNrm.x` load); `z2` = the z-term square `fmuls` (retail: `fmuls f2,f4,f4`). Block = indices 490–506.
+
+- **L0 (forced value DAG).** The opcode **multiset** is forced by the computation: three squares ⇒ 3 `fmuls`, the sum ⇒ 2 `fadds`, `accum.x/.z/.y = ` ⇒ 3 `stfs`, the two `wallNrm` inputs ⇒ 2 `lfs`, the folded `accum.y` ⇒ 1 `lfs`/`li` constant, the `_a8.z` copy ⇒ 1 `lfs`+1 `stfs`. Any equivalent source that keeps the function at 838 instructions emits this multiset. The value DAG is then forced (three squares x²,y²,z²; adds x²+y² then z²+·; three stores; two input loads; one constant). *Empirical closure:* ~3,000 syntactic variants (operand spellings, `squaredLength()`/`lenSq()`/`dot`, guards, decl shapes, store orders, associations, TU context) each land on **2 units or worse** — none reaches a different 17-opcode arrangement above 99.7613.
+- **L1 (neighbour count is 4).** In any stream equal to retail's, `temp_f5` lives `[load wallNrm.x .. store accum.x]`; exactly four values overlap it — the constant, y², x², and `temp_f4` (wallNrm.z). (Live-range analysis of the retail bytes; re-derived by hand.)
+- **L2 (4 neighbours can never force f5).** Lowest-free colouring gives a vertex the least colour absent from its already-coloured neighbours. With ≤4 neighbours, at most 4 of {f0..f4} are blocked ⇒ the chosen colour is in {f0..f4}, never f5. **So `temp_f5 = f5` ⟺ it has ≥5 neighbours.**
+- **L3 (only z² can be the 5th).** The only block value that can be an extra neighbour of `temp_f5` is `z2` (every other value is one of L1's four, or defined after `temp_f5` dies).
+- **L4 (z² is a neighbour ⟺ it is defined early).** `z2`'s operand is a copy of `wallNrm.z`; the copies exist at the `_a8.z` store (footprint ready ~496) and the temp load (499). `z2`'s def = operand-ready + mul latency. It overlaps `temp_f5` **iff** it reads the *early* copy (def ≤ `store accum.x`); reading the late `temp_f4` copy puts it at 502 > 501 → not a neighbour.
+- **L5 (the two cases — both measured).**
+  - *z² reads the late copy (`temp_f4`/`accum.z`/`ci.wallNrm.z` loaded late)* → opcode order = retail's, `temp_f5 = f2` (L2) → **3 units** (rows 498/500/501). This is the honest form and every natural idiom.
+  - *z² reads the early copy (`_a8.z`, forwarded)* → `temp_f5 = f5`, but the `fmuls` sits at 498 ≠ retail's 502 → one relocation ⇒ LCS 16 ⇒ **2 units**. This is the committed role-swap.
+- **L6 (exhaustive).** L4's operand is either the late temp load or an early wallNrm.z copy; no third value exists (L3), and inventing one adds an instruction (fails the 838 match).
+
+**Corollary (closure).** The *entire* remaining degree of freedom is the single boolean **“does `z2` read the early `wallNrm.z` copy?”** → *false* ⇒ 3 units, *true* ⇒ 2 units. Every other axis (x-source, y-source, operand spelling, declaration form, store order, association, spacing, guards, EGG API vs inline, TU/neighbour context, ABI-preserving flags, compiler version) is proven or measured **inert** (it folds to the same IR / object, or only perturbs the rodata pool / worsens). Therefore:
+
+> **Searchable space = 2 states; both are resolved; nothing remains to brute-force.**
+> Any new candidate can be classified by that one boolean without compiling, and its score is 99.642 (false) or 99.7613 (true). Breaking above 99.7613 requires an extra instruction (fake match) or a different compiler binary (the N2 mechanism).
+
 ## 4. Proven floors (every source family)
 
 | family | units | score | note |
