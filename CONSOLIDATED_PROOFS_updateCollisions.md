@@ -109,15 +109,14 @@ The only escape from §3b/§3c would be a source that keeps retail's emitted cod
 
 **Corollary (why this implicates the toolchain).** Retail's own emitted code has the *same* 4-neighbour window (C), so our allocator would assign `f2` to it as well — yet retail's binary has `f5`. Same graph, different answer ⇒ the *rule*, not the input, differs ⇒ the original allocator build differed (the N2 mechanism). The only alternative — a source that adds a 5th neighbour without touching the emitted code — is exactly what this proof excludes.
 
-**Verification of Lemma A (checked, not assumed).** Dumped the allocator's graph (`agentkit.dump` → `dumps_*/regalloc-fpr-pass-1-all.txt`), block node set vs the emitted register live-ranges:
-```
-HONEST      f35 -> f2   neighbors: 4 (f36 f148 f150 f153)     # {temp_f4, const, t5sq, y2}
-            f36 -> f4 (temp_f4)   f148 -> f3 (const)   f150 -> f1 (t5sq)   f153 -> f0 (y2)
-            f149 -> f2 (t4sq)  <- defined after f35 dies, so NOT a neighbour
-ROLE-SWAP   f35 -> f5   neighbors: 5 (f36 f148 f151 f152 f155)
-            f151 -> f2 (the early z-square result)  <- the 5th neighbour = the relocated fmuls
-```
-Every neighbour is an emitted register live-range; no phantom node overlaps `f35`; and in the role-swap the 5th neighbour **is** the relocated `fmuls f2,f1,f1` (@498). So Lemma A holds for this block, and the extra neighbour can only be bought by emitting it.
+**Verification of Lemma A (checked, not assumed).** Two independent checks:
+1. *Emitted-code graph ⇒ allocator graph.* `build/mwcc-debug/verify_lemmaA.py` rebuilds the block's FPR live-ranges and interference **directly from the machine code** and compares to the allocator dump:
+   - honest form: `temp_f5 = f2 [498..501]`, neighbours **4** = `{f0@495(y2), f1@500(t5sq), f3@492(const), f4@499(temp4)}` — identical to `f35 -> f2, neighbors: 4 (f36 f148 f150 f153)`.
+   - role-swap: `temp_f5 = f5 [499..502]`, neighbours **5** = `{f0@495, f1@501, f2@498(z-mul), f3@492, f4@500}` — identical to `f35 -> f5, neighbors: 5 (f36 f148 f151 f152 f155)`, and the 5th neighbour `f2@498` **is** the relocated `fmuls`.
+   The block's web set is a bijection with the allocator node set (11 nodes ↔ 11 emitted webs); no phantom node overlaps `temp_f5`.
+2. *Structural.* The graph is built at `backend-32-after-interference-graph` from the scheduled + DCE'd code (`backend-28`/`-31`); DCE guarantees every surviving vreg is used, i.e. materialized; every later pass (`peephole`, `copy-propagation`) only *merges or removes* vregs and never mints one. So node set = emitted live-ranges, in general — not just for this block.
+
+Hence Lemma A holds for the two graphs that decide this function (4-neighbour honest, 5-neighbour role-swap), and structurally for MWCC's later-stage pipeline. The proof §3b/§3d is therefore complete: **no source (under `0x4201_127`) reaches `temp_f5=f5` without emitting the extra neighbour, so the block's `f5` must come from a different allocator binary.**
 
 ## 4. Proven floors (every source family)
 
