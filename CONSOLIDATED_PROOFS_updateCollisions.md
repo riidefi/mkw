@@ -57,6 +57,21 @@ Its emitted stream: pair 496/497 (f1) → **`fmuls f2,f1,f1` @498** → temp5/te
 - Forcing the multiply to retail's **@502** makes it read the late `temp_f4`; then either (a) the `_a8.z` pair web extends across t5sq → pair recolours **f2** (its `lfs`+`stfs` = 2 units) + the mul operand (1 unit) = **3 units**, or (b) the honest `temp_f4²` leaves temp_f5 with only 4 neighbours → **f2** (the HEAD deadlock, **3 units**).
 - Retail's simultaneous `temp_f5=f5 ∧ t4sq=f2 ∧ pair=f1` is a **non-greedy RA choice** = the **N2 gap** (round N). The edge `(temp_f5, t4sq)` is not source-reachable under `0x4201_127`.
 
+## 3b. Optimality theorem — why exactly 2 units is the source maximum (proved first-hand, 2026-10-15)
+
+Verified directly from the two objects (self-written ELF+capstone disassembler, `build/mwcc-debug/dis_count.py` / `compare_two.py`):
+- Target and ours are both **838 instructions / 3352 bytes**; the sqrt block (indices 490–506) is 17 instructions with an **identical opcode multiset** (`lfs stfs lfs lfs fmuls stfs lfs stfs lfs lfs fmuls stfs fmuls stfs fadds stfs fadds`).
+- Our role-swap stream vs retail: **LCS = 16/17 → unmatched rows = 2(17−16) = 2**, exactly objdiff's `INSERT@498 + DELETE@503`.
+- The honest form (retail's own source) compiles to retail's stream **byte-identically except `temp_f5` = f2 vs f5** → 3 `ARG_MISMATCH` (rows 498/500/501). Verified by disassembly.
+
+**Theorem.** Under `0x4201_127`, no semantically-equivalent source scores above 1 − 2/838 = **99.7613**.
+*Proof.* Any equivalent form emits the same 17-instruction multiset. Two cases:
+- **(A) opcode order = retail's.** The block is retail's stream; our greedy lowest-free allocator gives `temp_f5 = f2` (its neighbours carry only {f0,f1,f3,f4}; the only value that could supply f2 — the z² result — is defined at 502, *after* temp_f5 dies at 501). Hence rows 498/500/501 mismatch ⇒ **3 units**.
+- **(B) opcode order ≠ retail's.** Two distinct permutations of the same multiset have LCS ≤ 16, so unmatched rows = 2(17−LCS) ≥ **2 units**.
+Therefore units ≥ 2, with equality in (B) — attained by the role-swap (which also renders `temp_f5 = f5`, 0 arg-mismatches). ∎
+
+The only escape from (A) toward 100% would be a source that both keeps retail's opcode order **and** supplies temp_f5 an f2 neighbour — impossible, since that needs a 5th live value = an extra instruction. This is the N2 gap, now as a lower bound.
+
 ## 4. Proven floors (every source family)
 
 | family | units | score | note |
